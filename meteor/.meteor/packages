@@ -24,3 +24,4 @@ johanbrook:publication-collector  # Test a Meteor publication by collecting its 
 mdg:validated-method
 aldeed:simple-schema
 accounts-password
+mixmax:smart-disconnect
