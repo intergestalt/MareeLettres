@@ -5,7 +5,7 @@ import styles from './styles';
 
 const ChallengesList = () =>
   <View style={styles.container}>
-    <Text>Challenges</Text>
+    <Text>List of Challenges (NUIT-6)</Text>
   </View>;
 
 export default ChallengesList;

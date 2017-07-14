@@ -1,6 +1,8 @@
 import React from 'react';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
+import Navigator from './config/routes.js';
+
 import Home from './screens/Home';
 import Challenges from './screens/Challenges';
 
@@ -10,4 +12,4 @@ EStyleSheet.build({
 });
 
 // export default () => <Home />;
-export default () => <Challenges />;
+export default () => <Navigator />;

@@ -3,4 +3,4 @@
 import '../../api/locations/methods';
 import '../../api/locations/server/publications';
 
-import '../../api/activity/server/publications';
+import '../../api/challenges/server/publications';

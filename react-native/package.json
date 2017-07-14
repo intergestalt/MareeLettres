@@ -32,12 +32,14 @@
     "@expo/vector-icons": "^4.0.0",
     "color": "^1.0.3",
     "expo": "^18.0.3",
+    "hoist-non-react-statics": "1.2.0",
     "moment": "^2.18.1",
     "prop-types": "^15.5.10",
     "react": "16.0.0-alpha.12",
     "react-native": "^0.45.1",
     "react-native-extended-stylesheet": "^0.4.0",
     "react-native-meteor": "^1.0.5",
-    "react-native-platform-stylesheet": "^0.0.6"
+    "react-native-platform-stylesheet": "^0.0.6",
+    "react-navigation": "^1.0.0-beta.11"
   }
 }

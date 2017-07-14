@@ -1,8 +1,8 @@
 import { Mongo } from 'meteor/mongo';
 
-export const Activity = new Mongo.Collection('activity');
+export const Challenges = new Mongo.Collection('chellenges');
 
-Activity.allow({
+Challenges.allow({
   insert: () => false,
   update: () => false,
   remove: () => false,

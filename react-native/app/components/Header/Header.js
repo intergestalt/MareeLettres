@@ -3,14 +3,11 @@ import { View, Text, TouchableOpacity } from 'react-native';
 
 import styles from './styles';
 
-const Header = () => (
+const Header = props =>
   <View style={styles.container}>
-    <TouchableOpacity style={styles.button}>
-      <Text>
-        MENU
-      </Text>
+    <TouchableOpacity style={styles.button} onPress={props.onPress}>
+      <Text>MENU</Text>
     </TouchableOpacity>
-  </View>
-);
+  </View>;
 
 export default Header;
