@@ -1,6 +1,7 @@
 # MareeLettres
 
 https://expo.io/@retani/mareelettres
+
 http://maree.herokuapp.com
 
 ## get started
@@ -23,11 +24,14 @@ set meteor server ip address in react-native/app/config/config.js
 `ws://maree.herokuapp.com/websocket` to use live-test meteor
 
 ### setup meteor
+```
 cd meteor
 meteor npm install
 meteor
-
+```
 ### setup mobile app
+```
 cd react-native
 yarn install
 npm start
+```
