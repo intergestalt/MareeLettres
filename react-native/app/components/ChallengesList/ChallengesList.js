@@ -1,11 +1,24 @@
-import React from 'react';
-import { View, Text } from 'react-native';
+import React, { Component } from 'react';
+import { View, Text, FlatList } from 'react-native';
 
 import styles from './styles';
 
-const ChallengesList = () =>
-  <View style={styles.container}>
-    <Text>List of Challenges (NUIT-6)</Text>
-  </View>;
+class ChallengesList extends Component {
 
+  render() {
+  console.log("chall2",this.props.challenges);
+    return (
+      <View style={styles.container}>
+        <Text>
+          List of Challenges (NUIT-6) 
+        </Text>
+        <FlatList 
+          data={this.props.challenges}
+          renderItem={({item}) => <Text>{item.title}</Text>}
+          keyExtractor={(item)=>item._id}
+        />
+      </View>
+    );
+  }
+}
 export default ChallengesList;

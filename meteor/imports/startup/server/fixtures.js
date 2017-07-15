@@ -8,7 +8,9 @@ Meteor.startup(() => {
   if (Challenges.find().count() === 0) {
     console.log('Seeding Challenges');
     Challenges.insert({
-      title: 'First Question?',
+      title: 'First Question!',
+      votes: 0,
+      score: 0,
     });
   }
 });

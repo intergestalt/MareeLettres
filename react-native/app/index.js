@@ -1,10 +1,11 @@
 import React from 'react';
 import EStyleSheet from 'react-native-extended-stylesheet';
+import Meteor from 'react-native-meteor';
 
+import config from './config/config';
 import Navigator from './config/routes.js';
 
-import Home from './screens/Home';
-import Challenges from './screens/Challenges';
+Meteor.connect(config.SERVER_URL);
 
 EStyleSheet.build({
   $backgroundColor: '#0ee',
