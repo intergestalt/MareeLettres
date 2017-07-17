@@ -2,14 +2,16 @@ import { StackNavigator } from 'react-navigation';
 
 import Home from '../screens/Home';
 import Challenges from '../screens/Challenges';
+import MapOverview from '../screens/MapOverview';
 
 export default StackNavigator({
   Home: {
     screen: Home,
-    title: 'Home',
   },
   Challenges: {
     screen: Challenges,
-    title: 'Challenges',
+  },
+  MapOverview: {
+    screen: MapOverview,
   },
 });

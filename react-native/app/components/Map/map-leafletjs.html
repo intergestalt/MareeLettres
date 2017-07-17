@@ -1,0 +1,21 @@
+<html>
+  <head>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.2/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.0.2/dist/leaflet.js"></script>
+  </head>
+  <body>
+    hey there
+    <div id="map" style="height: 100%;">
+    </div>
+    <script>
+        var osmUrl = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+        osmAttrib = '&copy; <a href="http://openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+        osm = L.tileLayer(osmUrl, {
+              maxZoom: 18,
+              attribution: osmAttrib
+            });
+        var map = L.map('map').setView([19.04469, 72.9258], 12);
+        map.addLayer(osm);
+    </script>
+  </body>
+</html>

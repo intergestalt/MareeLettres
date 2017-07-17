@@ -6,7 +6,6 @@ import styles from './styles';
 class ChallengesList extends Component {
 
   render() {
-  console.log("chall2",this.props.challenges);
     return (
       <View style={styles.container}>
         <Text>

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, StatusBar } from 'react-native';
+import { StatusBar } from 'react-native';
 
 import { Container } from '../components/Container';
 import { HomeIntro } from '../components/HomeIntro';
@@ -20,7 +20,7 @@ class Home extends Component {
   };
 
   handleMapPress = () => {
-    console.log('map pressed');
+    this.props.navigation.navigate('MapOverview');
   };
 
   render() {

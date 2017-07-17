@@ -12,11 +12,9 @@ class Challenges extends Component {
   };
 
   render() {
-    console.log("chall",this.props.challenges);
     return (
       <Container>
         <StatusBar />
-        <Header />
         <ChallengesList challenges={this.props.challenges} />
       </Container>
     );
