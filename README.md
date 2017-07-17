@@ -6,7 +6,7 @@ http://maree.herokuapp.com
 
 ## get started
 
-`git clone ...`
+`git clone https://github.com/intergestalt/MareeLettres.git`
 
 some of the used tools / requirements:
 - node
