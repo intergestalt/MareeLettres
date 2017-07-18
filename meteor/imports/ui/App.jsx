@@ -3,8 +3,20 @@ import { createContainer } from 'react-meteor-data';
 import { Meteor } from 'meteor/meteor';
 
 import { Challenges } from '../api/challenges/challenges';
+import { Proposals } from '../api/proposals/proposals';
 
 class App extends Component {
+
+  renderProposals() {
+    let proposals = this.props.proposals;
+    return proposals.map((proposal) => {
+      return (
+        <li key={proposal._id}>
+          { proposal.text }
+        </li>
+      );
+    });
+  }
 
   renderChallenges() {
     let challenges = this.props.challenges;
@@ -12,6 +24,9 @@ class App extends Component {
       return (
         <li key={challenge._id}>
           { challenge.title }
+          <ul>
+            {this.renderProposals()}
+          </ul>
         </li>
       );
     });
@@ -33,9 +48,11 @@ class App extends Component {
 
 export default createContainer(() => {
   Meteor.subscribe('Challenges.pub.list');
+  Meteor.subscribe('Proposals.pub.list');
 
   return {
     challenges: Challenges.find().fetch(),
+    proposals: Proposals.find().fetch(),
   };
 }, App);
 
