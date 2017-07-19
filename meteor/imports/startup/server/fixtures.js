@@ -16,7 +16,7 @@ Meteor.startup(() => {
       }, (err, id) => {
         if (id != undefined) {
           console.log('Seeding Proposals');
-          for (let i = 1; i <= 24; i++) {
+          for (let i = 1; i <= 200; i++) {
             Proposals.insert({
               text: shuffleString('ABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRS          '),
               challenge_id: id,
@@ -33,5 +33,5 @@ let shuffleString = function (str) {
 };
 
 Meteor.setInterval(() => {
-  console.log(Object.keys(Meteor.server.sessions).length);
+  console.log("# of sessions: " + Object.keys(Meteor.server.sessions).length);
 }, 5000);
