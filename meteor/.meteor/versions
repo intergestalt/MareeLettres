@@ -78,6 +78,8 @@ retry@1.0.9
 routepolicy@1.0.12
 service-configuration@1.0.11
 sha@1.0.9
+simple:json-routes@2.1.0
+simple:rest@1.1.1
 spacebars@1.0.15
 spacebars-compiler@1.1.2
 srp@1.0.10
