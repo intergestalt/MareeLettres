@@ -6,7 +6,6 @@ import { Challenges } from '../../api/challenges/challenges';
 import { Proposals } from '../../api/proposals/proposals';
 
 Meteor.startup(() => {
-
   if (Challenges.find().count() === 0) {
     console.log('Seeding Challenges');
     for (let i = 1; i <= 24; i++) {
@@ -14,24 +13,25 @@ Meteor.startup(() => {
         title: `Question #${i}`,
         votes: 0,
         score: 0,
-      }, (err,id) => {
+      }, (err, id) => {
         if (id != undefined) {
-
           console.log('Seeding Proposals');
           for (let i = 1; i <= 24; i++) {
             Proposals.insert({
-              text: shuffleString("ABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRS          "),
+              text: shuffleString('ABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRS          '),
               challenge_id: id,
             });
           }
-
         }
       });
     }
   }
-
 });
 
 let shuffleString = function (str) {
-  return str.split('').sort(function(){return 0.5-Math.random()}).join('');  
-}
+  return str.split('').sort(function () { return 0.5 - Math.random(); }).join('');
+};
+
+Meteor.setInterval(() => {
+  console.log(Object.keys(Meteor.server.sessions).length);
+}, 5000);
