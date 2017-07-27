@@ -49,8 +49,8 @@ class App extends Component {
 }
 
 export default createContainer(() => {
-  Meteor.subscribe('Challenges.pub.list');
-  Meteor.subscribe('Proposals.pub.list');
+  Meteor.subscribe('get.challenges');
+  Meteor.subscribe('get.proposals');
 
   const proposalsCounts = {};
 
