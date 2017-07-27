@@ -31,7 +31,3 @@ Meteor.startup(() => {
 let shuffleString = function (str) {
   return str.split('').sort(function () { return 0.5 - Math.random(); }).join('');
 };
-
-Meteor.setInterval(() => {
-  console.log("# of sessions: " + Object.keys(Meteor.server.sessions).length);
-}, 5000);

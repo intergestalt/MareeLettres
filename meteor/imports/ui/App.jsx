@@ -8,30 +8,32 @@ import { Proposals } from '../api/proposals/proposals';
 class App extends Component {
 
   renderProposals() {
-    let proposals = this.props.proposals;
-    return proposals.map((proposal) => {
-      return (
+    const proposals = this.props.proposals;
+    return proposals.map((proposal) => (
         <li key={proposal._id}>
           { proposal.text }
         </li>
-      );
-    });
+      ));
   }
 
   renderChallenges() {
-    let challenges = this.props.challenges;
-    return challenges.map((challenge) => {
-      return (
+    const challenges = this.props.challenges;
+    const proposalsCounts = this.props.proposalsCounts;
+    return challenges.map((challenge) => (
         <li key={challenge._id}>
           { challenge.title }
-          <ul>
-            {this.renderProposals()}
-          </ul>
+
+           ( { proposalsCounts[challenge._id] } )
         </li>
-      );
-    });
+      ));
   }
 
+  /*
+  <ul>
+    {this.renderProposals()}
+  </ul>
+  */
+  
   render() {
     console.log(this.props.challenges);
     return (
@@ -50,9 +52,16 @@ export default createContainer(() => {
   Meteor.subscribe('Challenges.pub.list');
   Meteor.subscribe('Proposals.pub.list');
 
+  const proposalsCounts = {};
+
+  Challenges.find().forEach((doc) => {
+    proposalsCounts[doc._id] = Proposals.find({ challenge_id: doc._id }).count();
+  });
+
   return {
-    challenges: Challenges.find().fetch(),
-    proposals: Proposals.find().fetch(),
+    challenges: Challenges.find(),
+    proposals: Proposals.find(),
+    proposalsCounts,
   };
 }, App);
 

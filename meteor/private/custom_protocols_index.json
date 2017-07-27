@@ -1,0 +1,10 @@
+{
+    "JsonProtocol": {
+        "id": 1,
+        "package": "omega:custom-protocol"
+    },
+    "TransferRateProtocol": {
+        "id": 2,
+        "package": "omega:transfer-rate-monitor"
+    }
+}
