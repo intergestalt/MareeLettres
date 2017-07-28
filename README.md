@@ -27,7 +27,7 @@ set meteor server ip address in react-native/app/config/config.js
 ```
 cd meteor
 meteor npm install
-meteor
+npm start
 ```
 ### setup mobile app
 ```

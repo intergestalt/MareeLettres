@@ -2,11 +2,11 @@
 
 meteorDown.init(function (Meteor) {
   Meteor.subscribe('Challenges.pub.list', function () {
-    //Meteor.subscribe('Proposals.pub.list', function () {
+    Meteor.subscribe('Proposals.pub.list', function () {
       //console.log('Subscription is ready');
       //console.log(Meteor.collections.challenges);
-      //Meteor.kill();
-    //});
+      Meteor.kill();
+    });
   });
 });
 
