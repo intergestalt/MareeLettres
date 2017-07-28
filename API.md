@@ -2,19 +2,17 @@
 
 ## implementation
 
-ALL REQUESTS PREFIXED WITH `api/`
-
 ### BIG letters
 
-GET challenges/
+GET api/challenges/
 
-GET challenges/:id/
+GET api/challenges/:id/
 
-GET challenges/:id/proposals/
+GET api/challenges/:id/proposals/
 
-GET challenges/:id/proposals/limit/:limit (note -> may change to ?limit=:limit)
+GET api/challenges/:id/proposals/limit/:limit (note -> may change to ?limit=:limit)
 
-GET proposals/
+GET api/proposals/
 
 ### gps
 
