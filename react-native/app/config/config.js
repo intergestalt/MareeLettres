@@ -14,5 +14,6 @@ console.log(`- Server Address: ${server_address}`);
 
 export default {
   SERVER_ADDRESS: server_address,
-  SERVER_URL: `ws://${server_address}/websocket`,
+  SERVER_URL: `http://${server_address}/`,
+  API_PREFIX: `http://${server_address}/api/`,
 };

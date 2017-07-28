@@ -1,15 +1,25 @@
 import React, { Component } from 'react';
 import { View, StatusBar } from 'react-native';
-import Meteor, { createContainer } from 'react-native-meteor';
 
 import { Container } from '../components/Container';
 import { ChallengesList } from '../components/ChallengesList';
 import { Header } from '../components/Header';
 
+import config from '../config/config';
+
 class Challenges extends Component {
   static navigationOptions = {
     title: 'Questions',
   };
+
+  // TODO: fix the fetch!
+  componentDidMount() {
+    fetch(config.API_PREFIX + "challenges/") 
+      .then(function(response) {
+        console.log(response.json())
+    })
+  }
+ 
 
   render() {
     return (
@@ -21,13 +31,6 @@ class Challenges extends Component {
   }
 }
 
-const ConnectedChallenges = createContainer((params) => {
-  Meteor.subscribe('Challenges.pub.list', {});
-  return {
-    challenges: Meteor.collection('challenges').find(),
-  };
-}, Challenges);
-
-export default ConnectedChallenges;
+export default Challenges;
 
 // export default Challenges;
