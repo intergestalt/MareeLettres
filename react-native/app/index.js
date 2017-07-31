@@ -4,7 +4,7 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 import Navigator from './config/routes.js';
 
 EStyleSheet.build({
-  $backgroundColor: '#0ee',
+  $backgroundColor: '#DDDDDD',
   outline: 0, // set to 1 to see the elements boundaries
 });
 
