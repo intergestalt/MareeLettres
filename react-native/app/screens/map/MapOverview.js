@@ -5,19 +5,22 @@ import { Container } from '../../components/general/Container';
 import { NativeMap } from '../../components/Map';
 import { Header } from '../../components/general/Header';
 import { TabBar } from '../../components/general/TabBar';
-import { TABS } from '../../consts/tab';
+import TABS from '../../consts/tab';
 
 class MapOverview extends Component {
   static navigationOptions = {
     title: 'Map',
   };
+
   static propTypes = {
     navigation: PropTypes.object,
   };
+
   render() {
     return (
       <Container backgroundColor={'#00aaaa'}>
         <StatusBar />
+        <Header title={'Map the Map'} navigation={this.props.navigation} />
         <Header />
         <NativeMap />
         <TabBar selectedTab={TABS.BECOME_TAB} navigation={this.props.navigation} />

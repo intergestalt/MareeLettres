@@ -1,8 +1,9 @@
 import React, { Component, PropTypes } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
-import { TABS } from '../../../consts/tab';
-import styles from './styles';
 import { NavigationActions } from 'react-navigation';
+
+import TABS from '../../../consts/tab';
+import styles from './styles';
 
 class TabBar extends Component {
   static propTypes = {

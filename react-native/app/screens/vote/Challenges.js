@@ -5,7 +5,7 @@ import { Container } from '../../components/general/Container';
 // import { ChallengesList } from '../../components/ChallengesList';
 import { TabBar } from '../../components/general/TabBar';
 import { Header } from '../../components/general/Header';
-import { TABS } from '../../consts/tab';
+import TABS from '../../consts/tab';
 import config from '../../config/config';
 
 class Challenges extends Component {
@@ -15,7 +15,7 @@ class Challenges extends Component {
 
   static propTypes = {
     navigation: PropTypes.object,
-    challenges: PropTypes.object,
+    //   challenges: PropTypes.object,
   };
 
   // TODO: fix the fetch!

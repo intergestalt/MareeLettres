@@ -3,7 +3,7 @@ import { Text, TouchableOpacity, StatusBar } from 'react-native';
 
 import { TabBar } from '../../components/general/TabBar';
 import { Header } from '../../components/general/Header';
-import { TABS } from '../../consts/tab';
+import TABS from '../../consts/tab';
 import { Container } from '../../components/general/Container';
 
 class Dummy1 extends Component {

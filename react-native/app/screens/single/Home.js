@@ -3,9 +3,6 @@ import { StatusBar } from 'react-native';
 
 import { Container } from '../../components/general/Container';
 import { HomeIntro } from '../../components/HomeIntro';
-import { Header } from '../../components/general/Header';
-import { TabBar } from '../../components/general/TabBar';
-import { TABS } from '../../consts/tab';
 
 class Home extends Component {
   static propTypes = {

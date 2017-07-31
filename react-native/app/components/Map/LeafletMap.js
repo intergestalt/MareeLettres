@@ -1,18 +1,11 @@
-import React, { Component } from 'react';
-import { View, Text, WebView } from 'react-native';
-import MapView from 'react-native-maps';
+import React from 'react';
+import { View, WebView } from 'react-native';
 
 import styles from './styles';
 
-
-class ExampleMap extends Component {
-  render() {
-    return (
-      <View style={styles.container}>
-        <WebView style={{flex:1}} javaScriptEnabled={true} source={require('./map-leafletjs.html')}/>
-      </View>
-    );
-  }
-}
+const ExampleMap = () =>
+  <View style={styles.container}>
+    <WebView style={{ flex: 1 }} javaScriptEnabled source={require('./map-leafletjs.html')} />
+  </View>;
 
 export default ExampleMap;

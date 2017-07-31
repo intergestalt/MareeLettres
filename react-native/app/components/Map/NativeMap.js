@@ -1,13 +1,12 @@
-import React, { Component } from 'react';
-import { View, Text, WebView } from 'react-native';
+import React from 'react';
+import { View, Text } from 'react-native';
 import MapView from 'react-native-maps';
 
 import styles from './styles';
 
-
 // https://www.npmjs.com/package/react-native-maps
 // Note: It's possible to use a different map tile provider for better look
-const NativeMap = props =>
+const NativeMap = () =>
   <View style={styles.container}>
     <Text>You are the A</Text>
     <MapView
