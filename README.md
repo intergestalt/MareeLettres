@@ -16,6 +16,10 @@ some of the used tools / requirements:
 - react-native
 - meteor
 
+### aditional packages
+yarn add ex-react-native-i18n
+npm install --save react-redux@5.0.4 redux@3.6.0 redux-logger@3.0.1
+
 ### config server
 
 set meteor server ip address in react-native/app/config/config.js

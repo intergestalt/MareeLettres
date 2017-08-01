@@ -15,7 +15,6 @@ class TabBar extends Component {
     super(props);
 
     this.selectedTab = props.selectedTab;
-    console.log(this.selectedTab);
   }
   resetScreen(dest) {
     const resetScreen = () =>
@@ -48,8 +47,6 @@ class TabBar extends Component {
     let voteSelected = false;
     let becomeSelected = false;
     let streamSelected = false;
-
-    console.log(this.selectedTab);
 
     if (this.selectedTab === TABS.VOTE_TAB) {
       voteSelected = true;

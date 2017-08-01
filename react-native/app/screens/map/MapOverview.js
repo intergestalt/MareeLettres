@@ -2,7 +2,7 @@ import React, { PropTypes, Component } from 'react';
 import { StatusBar } from 'react-native';
 
 import { Container } from '../../components/general/Container';
-import { NativeMap } from '../../components/Map';
+import { NativeMap } from '../../components/map/Map';
 import { Header } from '../../components/general/Header';
 import { TabBar } from '../../components/general/TabBar';
 import TABS from '../../consts/tab';

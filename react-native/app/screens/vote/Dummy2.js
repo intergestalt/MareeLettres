@@ -9,7 +9,7 @@ import { Container } from '../../components/general/Container';
 const Dummy2 = props =>
   <Container backgroundColor="#0480aa">
     <StatusBar />
-    <Header title={'Dummy 2'} navigation={this.props.navigation} />
+    <Header title={'Dummy 2'} navigation={props.navigation} />
     <Text>DUMMY2 DUMMY</Text>
     <TabBar selectedTab={TABS.VOTE_TAB} navigation={props.navigation} />
   </Container>;

@@ -2,7 +2,8 @@ import React, { Component, PropTypes } from 'react';
 import { StatusBar } from 'react-native';
 
 import { Container } from '../../components/general/Container';
-import { HomeIntro } from '../../components/HomeIntro';
+import { HomeIntro } from '../../components/text/HomeIntro';
+import { LanguageSelector } from '../../components/general/LanguageSelector';
 
 class Home extends Component {
   static propTypes = {
@@ -37,6 +38,7 @@ class Home extends Component {
     return (
       <Container backgroundColor="#ff8844">
         <StatusBar />
+        <LanguageSelector />
         <HomeIntro
           onVotePress={this.handleVotePress}
           onMapPress={this.handleMapPress}
