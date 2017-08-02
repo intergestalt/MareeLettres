@@ -3,7 +3,7 @@ import { View, Text } from 'react-native';
 
 import styles from './styles';
 
-import config from '../../config/config';
+import config from '../../../config/config';
 
 const DebugInfo = () =>
   <View style={styles.container}>

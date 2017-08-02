@@ -3,7 +3,7 @@ import { View, Text, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 
 import styles from './styles';
-import { swapLanguage } from '../../../actions/general/language';
+import { swapLanguage } from '../../../actions/general';
 
 class LanguageSelector extends Component {
   static propTypes = {

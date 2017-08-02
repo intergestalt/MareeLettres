@@ -24,7 +24,6 @@ class Dummy1 extends Component {
         <TouchableOpacity onPress={this.handlePressDummy2}>
           <Text>To: Dummy2</Text>
         </TouchableOpacity>
-        <TabBar selectedTab={TABS.VOTE_TAB} navigation={this.props.navigation} />
       </Container>
     );
   }

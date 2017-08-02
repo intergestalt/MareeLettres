@@ -1,4 +1,6 @@
+import React from 'react';
 import { TabNavigator, StackNavigator } from 'react-navigation';
+import { View } from 'react-native';
 
 import Home from '../screens/single/Home';
 import Stream from '../screens/single/Stream';
@@ -8,6 +10,7 @@ import Dummy2 from '../screens/vote/Dummy2';
 import MapOverview from '../screens/map/MapOverview';
 import How from '../screens/single/How';
 import About from '../screens/single/About';
+import { TabBar } from '../components/general/TabBar';
 
 const VoteStack = StackNavigator(
   {
@@ -48,9 +51,13 @@ export default TabNavigator(
     },
   },
   {
+    tabBarComponent: TabBar,
     navigationOptions: {
-      tabBarVisible: false,
+      tabBarVisible: true,
     },
+    lazy: true,
+    //    tabBarPosition: 'bottom',
+    // swipeEnabled: true,
     // Change this to start on a different tab
     initialRouteName: 'Home',
   },

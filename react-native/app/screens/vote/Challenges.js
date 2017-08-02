@@ -1,27 +1,25 @@
 import React, { Component, PropTypes } from 'react';
 import { StatusBar, TouchableOpacity, Text } from 'react-native';
+import { connect } from 'react-redux';
 
 import { Container } from '../../components/general/Container';
 // import { ChallengesList } from '../../components/ChallengesList';
-import { TabBar } from '../../components/general/TabBar';
 import { Header } from '../../components/general/Header';
-import TABS from '../../consts/tab';
 import config from '../../config/config';
 
 class Challenges extends Component {
   static navigationOptions = {
-    title: 'Questions',
+    tabBarVisible: false,
   };
 
   static propTypes = {
     navigation: PropTypes.object,
-    //   challenges: PropTypes.object,
   };
 
   // TODO: fix the fetch!
   componentDidMount() {
-    fetch(`${config.API_PREFIX}challenges/`).then((response) => {
-      console.log(response.json());
+    fetch(`${config.API_PREFIX}challenges/`).then(response => response.json()).then((res) => {
+      console.log(res);
     });
   }
 
@@ -40,13 +38,17 @@ class Challenges extends Component {
         <TouchableOpacity onPress={this.handlePressDummy1}>
           <Text>To: Dummy1</Text>
         </TouchableOpacity>
-        <TabBar selectedTab={TABS.VOTE_TAB} navigation={this.props.navigation} />
-
       </Container>
     );
   }
 }
+const mapStateToProps = (state) => {
+  const showTabBar = state.globals.showTabBar;
 
-export default Challenges;
+  return {
+    showTabBar,
+  };
+};
+export default connect(mapStateToProps)(Challenges);
 
 // export default Challenges;
