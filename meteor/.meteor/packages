@@ -25,6 +25,8 @@ aldeed:simple-schema
 accounts-password@1.4.0
 react-meteor-data
 dynamic-import
-simple:rest
 omega:transfer-rate-monitor
 mixmax:smart-disconnect
+matb33:collection-hooks
+aldeed:collection2-core
+simple:rest
