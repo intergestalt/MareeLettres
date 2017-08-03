@@ -39,22 +39,22 @@ class TabBar extends Component {
 
   render() {
     const tabIndex = this.props.navigation.state.index;
-    let stackIndex = -1;
+    /* let stackIndex = -1;
     if (tabIndex) {
       const tab = this.props.navigation.state.routes[tabIndex];
       if (tab.routes) {
         stackIndex = tab.index;
       }
-    }
+    }*/
     let voteSelected = false;
     let becomeSelected = false;
     let streamSelected = false;
     let showTabBar = true;
     if (tabIndex === 1) {
       voteSelected = true;
-      if (stackIndex === 1) {
+      /* if (stackIndex === 1) {
         showTabBar = false;
-      }
+      }*/
     } else if (tabIndex === 2) {
       becomeSelected = true;
     } else if (tabIndex === 3) {
@@ -64,7 +64,7 @@ class TabBar extends Component {
     }
     if (showTabBar) {
       return (
-        <View style={styles.container} navigation={this.props.navigation}>
+        <View style={styles.container}>
           {!voteSelected
             ? <TouchableOpacity onPress={this.handleVotePress}>
               <Text style={styles.text}>Vote</Text>

@@ -2,15 +2,24 @@ import React, { Component, PropTypes } from 'react';
 import { View, FlatList, Text } from 'react-native';
 import { connect } from 'react-redux';
 
+import Separator from './Separator';
+import ChallengesListItem from './ChallengesListItem';
 import styles from './styles';
 
 class ChallengesList extends Component {
   static propTypes = {
+    navigation: PropTypes.object,
     isError: PropTypes.bool,
     isLoading: PropTypes.bool,
     time: PropTypes.number,
     language: PropTypes.string,
     challenges: PropTypes.array,
+  };
+  handlePress = (item) => {
+    console.log('PRESS ROW');
+    console.log(item);
+
+    this.props.navigation.navigate('ChallengeSelector', { id: item._id });
   };
 
   render() {
@@ -21,38 +30,39 @@ class ChallengesList extends Component {
     const isLoading = this.props.isLoading;
     const isError = this.props.isError;
 
-    const rows = [];
     if (!isLoading && !isError) {
-      rows.push(
-        <FlatList
-          key="0"
-          data={this.props.challenges}
-          renderItem={({ item }) =>
-            <Text key="1">
-              {item.title}
-            </Text>}
-          keyExtractor={item => item._id}
-        />,
+      return (
+        <View style={styles.container}>
+          <Text style={styles.headline}>List of Challenges (NUIT-6) </Text>
+          <FlatList
+            data={this.props.challenges}
+            renderItem={({ item }) =>
+              <ChallengesListItem data={item} onPress={() => this.handlePress(item)} />}
+            keyExtractor={item => item._id}
+            ItemSeparatorComponent={Separator}
+          />
+        </View>
       );
     }
     if (isLoading) {
-      rows.push(<Text key="2">Loading...</Text>);
+      return (
+        <View style={styles.container}>
+          <Text style={styles.headline}>List of Challenges (NUIT-6) </Text>
+          <Text>Loading...</Text>
+        </View>
+      );
     }
-    if (isError) {
-      rows.push(<Text key="3">ERROR!</Text>);
-    }
-
+    // Else: isError==true
     return (
       <View style={styles.container}>
         <Text style={styles.headline}>List of Challenges (NUIT-6) </Text>
-        {rows}
+        <Text>ERROR!</Text>
       </View>
     );
   }
 }
 
 const mapStateToProps = (state) => {
-  console.log(state);
   const challenges = state.challenges.challenges;
   const isLoading = state.challenges.isLoading;
   const isError = state.challenges.isError;

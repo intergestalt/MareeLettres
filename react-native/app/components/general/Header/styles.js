@@ -14,7 +14,7 @@ const styles = EStyleSheet.create({
       paddingTop: StatusBar.currentHeight, // android only
     },
     paddingHorizontal: 20,
-    height: 60,
+    height: '10%',
     justifyContent: 'space-between',
     alignItems: 'center',
     backgroundColor: '#aaaaaa',

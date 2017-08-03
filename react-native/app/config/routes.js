@@ -5,8 +5,7 @@ import { View } from 'react-native';
 import Home from '../screens/single/Home';
 import Stream from '../screens/single/Stream';
 import Challenges from '../screens/vote/Challenges';
-import Dummy1 from '../screens/vote/Dummy1';
-import Dummy2 from '../screens/vote/Dummy2';
+import ChallengeSelector from '../screens/vote/ChallengeSelector';
 import MapOverview from '../screens/map/MapOverview';
 import How from '../screens/single/How';
 import About from '../screens/single/About';
@@ -17,11 +16,8 @@ const VoteStack = StackNavigator(
     Challenges: {
       screen: Challenges,
     },
-    Dummy1: {
-      screen: Dummy1,
-    },
-    Dummy2: {
-      screen: Dummy2,
+    ChallengeSelector: {
+      screen: ChallengeSelector,
     },
   },
   {
