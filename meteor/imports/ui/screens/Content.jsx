@@ -2,11 +2,9 @@ import React, { Component } from 'react';
 import { createContainer } from 'react-meteor-data';
 import { Meteor } from 'meteor/meteor';
 import SimpleSchema from 'simpl-schema';
-import { Form, Field } from 'simple-react-form';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import { RaisedButton } from 'material-ui';
 
-import { Content } from '../../api/content/content';
+import AutoForm from 'uniforms-unstyled/AutoForm';
+import { Content, ContentSchema } from '../../api/content/content';
 
 import Menu from '../components/menu';
 
@@ -14,14 +12,6 @@ class ContentPage extends Component {
   constructor(props) {
     super(props);
     this.state = {};
-    this.state.form = {};
-  }
-
-  handleChange(event) {
-    const newState = {};
-    newState[event.target.name] = event.target.value;
-    this.setState(newState);
-    console.log(this.state);
   }
 
   handleSubmit(event) {
@@ -39,29 +29,21 @@ class ContentPage extends Component {
 */
   }
 
+  save(doc) {
+    console.log(doc);
+    Content.update(doc._id, {
+      $set: {
+        en: doc.en,
+        fr: doc.fr,
+      },
+    });
+  }
+
   renderContents() {
     const contents = this.props.contents;
     return contents.map(content =>
       <li key={content._id}>
-        <textarea value={content.en} onChange={this.handleChange.bind(this)} />
-        <textarea value={content.fr} onChange={this.handleChange.bind(this)} />
-      </li>,
-    );
-  }
-
-  renderContents2() {
-    const contents = this.props.contents;
-    return contents.map(content =>
-      <li key={content._id}>
-        <MuiThemeProvider>
-          <div>
-            <Form collection={Content} type="update" ref="form" doc={content}>
-              <Field fieldName="en" />
-              <Field fieldName="fr" />
-            </Form>
-            <RaisedButton primary label="Save" onClick={() => this.refs.form.submit()} />
-          </div>
-        </MuiThemeProvider>
+        <AutoForm schema={ContentSchema} onSubmit={doc => this.save(doc)} model={content} />
       </li>,
     );
   }
@@ -71,22 +53,8 @@ class ContentPage extends Component {
       <div>
         <Menu />
         <ul>
-          {this.renderContents2()}
+          {this.renderContents()}
         </ul>
-      </div>
-    );
-  }
-
-  render0() {
-    return (
-      <div>
-        <Menu />
-        <form onSubmit={this.handleSubmit.bind(this)}>
-          <ul>
-            {this.renderContents()}
-          </ul>
-          <input type="submit" onChange={this.handleChange.bind(this)} />
-        </form>
       </div>
     );
   }
