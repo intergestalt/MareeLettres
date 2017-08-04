@@ -6,6 +6,7 @@ import SimpleSchema from 'simpl-schema';
 import AutoForm from 'uniforms-unstyled/AutoForm';
 import { Content, ContentSchema } from '../../api/content/content';
 
+import ApiInfo from '../components/ApiInfo';
 import Menu from '../components/menu';
 
 class ContentPage extends Component {
@@ -58,12 +59,7 @@ class ContentPage extends Component {
         <ul>
           {this.renderContents()}
         </ul>
-        <p>
-          API:&nbsp;
-          <a href="/api/content/" target="_blank">
-            /api/content/
-          </a>
-        </p>
+        <ApiInfo path="content" />
       </div>
     );
   }
