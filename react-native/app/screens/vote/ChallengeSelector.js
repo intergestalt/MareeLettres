@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { StatusBar, Text } from 'react-native';
 import { connect } from 'react-redux';
 
-import { Container, Screen } from '../../components/general/Container';
+import { Screen } from '../../components/general/Container';
 import { Header } from '../../components/general/Header';
 import { loadChallenges } from '../../actions/services/challenges';
 import { SwipeContainer, FooterMenu } from '../../components/vote/ChallengeSelector';
@@ -47,12 +47,10 @@ class ChallengeSelector extends Component {
 
   renderLoading() {
     return (
-      <Screen>
-        <Container backgroundColor="#88ff44">
-          <StatusBar />
-          <Header title={'Challenges'} navigation={this.props.navigation} />
-          <Text>Loading...</Text>
-        </Container>
+      <Screen backgroundColor="#88ff44">
+        <StatusBar />
+        <Header title={'Challenges'} navigation={this.props.navigation} />
+        <Text>Loading...</Text>
       </Screen>
     );
   }

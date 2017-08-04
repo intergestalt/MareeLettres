@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { StatusBar } from 'react-native';
 
-import { Container, Screen } from '../../components/general/Container';
+import { Screen } from '../../components/general/Container';
 import { HomeIntro } from '../../components/text/HomeIntro';
 import { LanguageSelector } from '../../components/general/LanguageSelector';
 
@@ -36,18 +36,16 @@ class Home extends Component {
 
   render() {
     return (
-      <Screen>
-        <Container backgroundColor="#ff8844">
-          <StatusBar />
-          <LanguageSelector />
-          <HomeIntro
-            onVotePress={this.handleVotePress}
-            onMapPress={this.handleMapPress}
-            onStreamPress={this.handleStreamPress}
-            onHowPress={this.handleHowPress}
-            onAboutPress={this.handleAboutPress}
-          />
-        </Container>
+      <Screen backgroundColor="#ff8844">
+        <StatusBar />
+        <LanguageSelector />
+        <HomeIntro
+          onVotePress={this.handleVotePress}
+          onMapPress={this.handleMapPress}
+          onStreamPress={this.handleStreamPress}
+          onHowPress={this.handleHowPress}
+          onAboutPress={this.handleAboutPress}
+        />
       </Screen>
     );
   }
