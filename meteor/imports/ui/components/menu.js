@@ -2,9 +2,7 @@ import React, { Component } from 'react';
 import { createContainer } from 'react-meteor-data';
 import { Meteor } from 'meteor/meteor';
 import { Link } from 'react-router';
-
-import { Challenges } from '../../api/challenges/challenges';
-import { Proposals } from '../../api/proposals/proposals';
+import ConnectionStatus from 'meteor-react-status';
 
 class Menu extends Component {
   constructor(props) {
@@ -25,7 +23,11 @@ class Menu extends Component {
           <li>
             <Link to="/admin/content">Content</Link>
           </li>
+          <li>
+            <Link to="/admin/status">Status</Link>
+          </li>          
         </ul>
+        <ConnectionStatus fullWidth={true} />
       </div>
     );
   }

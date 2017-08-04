@@ -1,0 +1,28 @@
+table {
+  border-collapse: collapse;
+}
+
+th,
+td {
+  border: solid 0px black;
+  padding: 0.5ex 0.5em;
+}
+
+tbody tr:first-child td {
+  padding-top: 1ex;
+}
+
+thead tr:last-child th {
+  padding-bottom: 1ex;
+}
+
+th:not(:last-child),
+td:not(:last-child) {
+  border-right-width: 1px;
+}
+
+th {
+  text-align: left;
+  text-transform: capitalize;
+  border-bottom-width: 1px;
+}

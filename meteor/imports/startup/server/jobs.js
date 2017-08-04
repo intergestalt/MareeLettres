@@ -1,14 +1,17 @@
 import { Meteor } from 'meteor/meteor';
 import { Status } from '../../api/status/status';
+import ip from 'ip';
+
+const machineKey = ip.address() + (process.env.DYNO ? `/${process.env.DYNO}` : '');
 
 Meteor.setInterval(() => {
   Status.update(
     {
-      key: 'number_of_connections',
+      machine_key: machineKey,
     },
     {
       $set: {
-        value: Object.keys(Meteor.server.sessions).length,
+        'items.number_of_connections': Object.keys(Meteor.server.sessions).length,
       },
     },
     {

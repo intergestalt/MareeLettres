@@ -78,6 +78,6 @@ export default createContainer(() => {
   Meteor.subscribe('get.challenges');
 
   return {
-    challenges: Challenges.find().fetch(),
+    challenges: Challenges.find({}, { sort: { start_date: 1 } }).fetch(),
   };
 }, ChallengesIndex);
