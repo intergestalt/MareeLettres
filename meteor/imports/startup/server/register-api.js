@@ -14,8 +14,10 @@ SimpleRest.configure({
   collections: ['proposals', 'challenges', 'content'],
 });
 
-if (typeof(Meteor.settings.public.api_prefix) == "undefined" ) {
-  console.log("Start with: npm start")
+if (typeof Meteor.settings.public.api_prefix === 'undefined') {
+  console.log('Start with: npm start');
 }
+
+console.log(Meteor.settings);
 
 console.log(`api prefix: ${Meteor.settings.public.api_prefix}`);

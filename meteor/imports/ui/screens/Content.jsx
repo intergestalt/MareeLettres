@@ -58,6 +58,12 @@ class ContentPage extends Component {
         <ul>
           {this.renderContents()}
         </ul>
+        <p>
+          API:&nbsp;
+          <a href="/api/content/" target="_blank">
+            /api/content/
+          </a>
+        </p>
       </div>
     );
   }
