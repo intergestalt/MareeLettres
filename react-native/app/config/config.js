@@ -17,6 +17,6 @@ console.log(`- Server Address: ${serverAddress}`);
 
 export default {
   SERVER_ADDRESS: serverAddress,
-  SERVER_URL: `http://${serverAddress}/`,
-  API_PREFIX: `http://${serverAddress}/api/`,
+  SERVER_URL: `https://${serverAddress}/`,
+  API_PREFIX: `https://${serverAddress}/api/`,
 };

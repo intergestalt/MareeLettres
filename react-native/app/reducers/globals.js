@@ -1,4 +1,4 @@
-import { SWAP_LANGUAGE } from '../actions/general/language';
+import { SWAP_LANGUAGE } from '../actions/general';
 import initialState from '../config/initialState';
 import I18n from '../i18n/i18n';
 

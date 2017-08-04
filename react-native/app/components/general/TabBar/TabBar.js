@@ -1,23 +1,17 @@
 import React, { Component, PropTypes } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
-import { NavigationActions } from 'react-navigation';
+// import { NavigationActions } from 'react-navigation';
+import { connect } from 'react-redux';
 
-import TABS from '../../../consts/tab';
 import styles from './styles';
 
 class TabBar extends Component {
   static propTypes = {
-    selectedTab: PropTypes.string,
     navigation: PropTypes.object,
   };
 
-  constructor(props) {
-    super(props);
-
-    this.selectedTab = props.selectedTab;
-  }
-  resetScreen(dest) {
-    const resetScreen = () =>
+  resetScreen(dest, props) {
+    /* const resetScreen = () =>
       new Promise((resolve) => {
         const resetAction = NavigationActions.reset({
           index: 0,
@@ -26,9 +20,9 @@ class TabBar extends Component {
         this.props.navigation.dispatch(resetAction);
         resolve();
       });
-    resetScreen().then(() => {
-      this.props.navigation.navigate(dest);
-    });
+    resetScreen().then(() => {*/
+    this.props.navigation.navigate(dest);
+    // });
   }
 
   handleVotePress = () => {
@@ -44,41 +38,62 @@ class TabBar extends Component {
   };
 
   render() {
+    const tabIndex = this.props.navigation.state.index;
+    /* let stackIndex = -1;
+    if (tabIndex) {
+      const tab = this.props.navigation.state.routes[tabIndex];
+      if (tab.routes) {
+        stackIndex = tab.index;
+      }
+    }*/
     let voteSelected = false;
     let becomeSelected = false;
     let streamSelected = false;
-
-    if (this.selectedTab === TABS.VOTE_TAB) {
+    let showTabBar = true;
+    if (tabIndex === 1) {
       voteSelected = true;
-    }
-    if (this.selectedTab === TABS.BECOME_TAB) {
+      /* if (stackIndex === 1) {
+        showTabBar = false;
+      }*/
+    } else if (tabIndex === 2) {
       becomeSelected = true;
-    }
-    if (this.selectedTab === TABS.STREAM_TAB) {
+    } else if (tabIndex === 3) {
       streamSelected = true;
+    } else {
+      showTabBar = false;
     }
-    return (
-      <View style={styles.container}>
-        {!voteSelected
-          ? <TouchableOpacity onPress={this.handleVotePress}>
-            <Text style={styles.text}>Vote</Text>
-          </TouchableOpacity>
-          : <Text style={styles.textHigh}>Vote</Text>}
+    if (showTabBar) {
+      return (
+        <View style={styles.container}>
+          {!voteSelected
+            ? <TouchableOpacity onPress={this.handleVotePress}>
+              <Text style={styles.text}>Vote</Text>
+            </TouchableOpacity>
+            : <Text style={styles.textHigh}>Vote</Text>}
 
-        {!becomeSelected
-          ? <TouchableOpacity onPress={this.handleBecomePress}>
-            <Text style={styles.text}>Become</Text>
-          </TouchableOpacity>
-          : <Text style={styles.textHigh}>Become</Text>}
+          {!becomeSelected
+            ? <TouchableOpacity onPress={this.handleBecomePress}>
+              <Text style={styles.text}>Become</Text>
+            </TouchableOpacity>
+            : <Text style={styles.textHigh}>Become</Text>}
 
-        {!streamSelected
-          ? <TouchableOpacity onPress={this.handleStreamPress}>
-            <Text style={styles.text}>Stream</Text>
-          </TouchableOpacity>
-          : <Text style={styles.textHigh}>Stream</Text>}
-      </View>
-    );
+          {!streamSelected
+            ? <TouchableOpacity onPress={this.handleStreamPress}>
+              <Text style={styles.text}>Stream</Text>
+            </TouchableOpacity>
+            : <Text style={styles.textHigh}>Stream</Text>}
+        </View>
+      );
+    }
+    return <View />;
   }
 }
 
-export default TabBar;
+const mapStateToProps = (state) => {
+  const showTabBar = state.globals.showTabBar;
+
+  return {
+    showTabBar,
+  };
+};
+export default connect(mapStateToProps)(TabBar);

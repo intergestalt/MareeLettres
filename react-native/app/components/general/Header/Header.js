@@ -11,7 +11,7 @@ class Header extends Component {
   };
 
   handleHomePress = () => {
-    const resetScreen = () =>
+    /* const resetScreen = () =>
       new Promise((resolve) => {
         const resetAction = NavigationActions.reset({
           index: 0,
@@ -20,9 +20,9 @@ class Header extends Component {
         this.props.navigation.dispatch(resetAction);
         resolve();
       });
-    resetScreen().then(() => {
-      this.props.navigation.navigate('Home');
-    });
+    resetScreen().then(() => {*/
+    this.props.navigation.navigate('Home');
+    // });
 
     //    this.props.navigation.goBack('Challenges');
   };

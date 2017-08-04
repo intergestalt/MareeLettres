@@ -1,4 +1,5 @@
 import Container from './Container';
+import Screen from './Screen';
 import styles from './styles';
 
-export { Container, styles };
+export { Screen, Container, styles };
