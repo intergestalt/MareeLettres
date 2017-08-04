@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { StatusBar, Text } from 'react-native';
 import { connect } from 'react-redux';
 
-import { Container, Screen } from '../../components/general/Container';
+import { Screen } from '../../components/general/Container';
 import { Header } from '../../components/general/Header';
 import { loadChallenges } from '../../actions/services/challenges';
 import { SwipeContainer, FooterMenu } from '../../components/vote/ChallengeSelector';
@@ -25,6 +25,10 @@ class ChallengeSelector extends Component {
       isFinished: false,
       isTinder: true,
     };
+
+    this.handleSharePress = this.handleSharePress.bind(this);
+    this.handleTinderPress = this.handleTinderPress.bind(this);
+    this.handleListPress = this.handleListPress.bind(this);
   }
 
   componentDidMount() {
@@ -47,24 +51,20 @@ class ChallengeSelector extends Component {
 
   renderLoading() {
     return (
-      <Screen>
-        <Container backgroundColor="#88ff44">
-          <StatusBar />
-          <Header title={'Challenges'} navigation={this.props.navigation} />
-          <Text>Loading...</Text>
-        </Container>
+      <Screen backgroundColor="#88ff44">
+        <StatusBar />
+        <Header title={'Challenges'} navigation={this.props.navigation} />
+        <Text>Loading...</Text>
       </Screen>
     );
   }
 
   renderError() {
     return (
-      <Screen>
-        <Container backgroundColor="#88ff44">
-          <StatusBar />
-          <Header title={'Challenges'} navigation={this.props.navigation} />
-          <Text>ERROR!</Text>
-        </Container>
+      <Screen backgroundColor="#88ff44">
+        <StatusBar />
+        <Header title={'Challenges'} navigation={this.props.navigation} />
+        <Text>ERROR!</Text>
       </Screen>
     );
   }
@@ -80,9 +80,9 @@ class ChallengeSelector extends Component {
           isFinished={this.state.isFinished}
         />
         <FooterMenu
-          handleListPress={this.handleListPress.bind(this)}
-          handleTinderPress={this.handleTinderPress.bind(this)}
-          handleSharePress={this.handleSharePress.bind(this)}
+          handleListPress={this.handleListPress}
+          handleTinderPress={this.handleTinderPress}
+          handleSharePress={this.handleSharePress}
           isFinished={this.state.isFinished}
           isTinder={this.state.isTinder}
         />

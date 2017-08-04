@@ -1,8 +1,8 @@
 import React, { Component, PropTypes } from 'react';
-import { StatusBar, TouchableOpacity, Text } from 'react-native';
+import { StatusBar } from 'react-native';
 import { connect } from 'react-redux';
 
-import { Container, Screen } from '../../components/general/Container';
+import { Screen } from '../../components/general/Container';
 import { ChallengesList } from '../../components/vote/ChallengesList';
 import { Header } from '../../components/general/Header';
 import { loadChallenges } from '../../actions/services/challenges';
@@ -20,12 +20,10 @@ class Challenges extends Component {
 
   render() {
     return (
-      <Screen>
-        <Container backgroundColor="#88ff44">
-          <StatusBar />
-          <Header title={'Challenges'} navigation={this.props.navigation} />
-          {<ChallengesList navigation={this.props.navigation} />}
-        </Container>
+      <Screen centerContent backgroundColor="#88ff44">
+        <StatusBar />
+        <Header title={'Challenges'} navigation={this.props.navigation} />
+        {<ChallengesList navigation={this.props.navigation} />}
       </Screen>
     );
   }

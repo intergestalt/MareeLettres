@@ -35,11 +35,13 @@ class HowTo extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <ScrollView showsVerticalScrollIndicator={false}>
-          <Markdown styles={markdownStyles}>
-            {I18n.t('text_how')}
-          </Markdown>
-        </ScrollView>
+        <View style={styles.how}>
+          <ScrollView showsVerticalScrollIndicator={false}>
+            <Markdown styles={markdownStyles}>
+              {I18n.t('text_how')}
+            </Markdown>
+          </ScrollView>
+        </View>
       </View>
     );
   }
