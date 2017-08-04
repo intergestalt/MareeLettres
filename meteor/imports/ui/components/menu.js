@@ -16,7 +16,7 @@ class Menu extends Component {
     return (
       <div>
         <h1>
-          <Link to="/">Maree des Lettres</Link>
+          <Link to="/admin">Maree des Lettres</Link>
         </h1>
         <ul>
           <li>

@@ -7,15 +7,17 @@ import ChallengesIndex from '../../ui/screens/Challenges.jsx';
 import Challenge from '../../ui/screens/Challenge.jsx';
 import ContentPage from '../../ui/screens/Content.jsx';
 
-export const renderRoutes = () =>
+const renderRoutes = () =>
   <Router history={browserHistory}>
     <Redirect from="/" to="admin" />
     <Route path="admin">
       <IndexRoute component={Home} />
-      <Route path="challenges" component={ChallengesIndex} />
-      <Route path="challenges/:challenge_id" component={Challenge} />
-      <Route path="content" component={ContentPage} />
+      <Route name="challenges.index" path="challenges" component={ChallengesIndex} />
+      <Route name="challenges.show" path="challenges/:challenge_id" component={Challenge} />
+      <Route name="content.edit" path="content" component={ContentPage} />
     </Route>
   </Router>;
+
+export default renderRoutes;
 
 //       <Route path="lists/:id" component={ListPageContainer}/>

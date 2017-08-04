@@ -43,6 +43,9 @@ class ContentPage extends Component {
     const contents = this.props.contents;
     return contents.map(content =>
       <li key={content._id}>
+        <h2>
+          {content._id}
+        </h2>
         <AutoForm schema={ContentSchema} onSubmit={doc => this.save(doc)} model={content} />
       </li>,
     );

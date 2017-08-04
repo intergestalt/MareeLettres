@@ -9,37 +9,34 @@ import { Proposals } from '../../api/proposals/proposals';
 import Menu from '../components/menu';
 
 class ChallengesIndex extends Component {
-  
   constructor(props) {
-    super(props)
-    this.state = {}
+    super(props);
+    this.state = {};
   }
 
   renderProposals() {
     const proposals = this.props.proposals;
-    return proposals.map((proposal) => (
+    return proposals.map(proposal =>
       <li key={proposal._id}>
-        { proposal.text }          
-      </li>
-    ));
+        {proposal.text}
+      </li>,
+    );
   }
 
   renderChallenges() {
     const challenges = this.props.challenges;
-    return challenges.map((challenge) => (
+    return challenges.map(challenge =>
       <li key={challenge._id}>
-        <Link to={'challenges/'+challenge._id}>
-          { challenge.title }
-        </Link>
-          &nbsp;({ challenge.proposals_amount })
-      </li>
-    ));
+        <Link to={`/admin/challenges/${challenge._id}`}>{challenge.title}</Link>
+        &nbsp;({challenge.proposals_amount})
+      </li>,
+    );
   }
 
   render() {
     return (
       <div>
-        <Menu/>
+        <Menu />
         <ul>
           {this.renderChallenges()}
         </ul>
@@ -55,4 +52,3 @@ export default createContainer(() => {
     challenges: Challenges.find().fetch(),
   };
 }, ChallengesIndex);
-
