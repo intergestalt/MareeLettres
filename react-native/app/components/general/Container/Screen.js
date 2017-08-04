@@ -13,7 +13,6 @@ const Screen = ({ centerContent, customStyle, children, backgroundColor }) => {
   };
 
   const containerStyles = [styles.screen];
-  console.log(customStyle);
   if (backgroundColor) {
     containerStyles.push({ backgroundColor });
     containerStyles.push(customStyle);
