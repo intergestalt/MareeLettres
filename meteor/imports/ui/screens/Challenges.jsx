@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { createContainer } from 'react-meteor-data';
 import { Meteor } from 'meteor/meteor';
 import { Link } from 'react-router';
-import moment from 'moment';
+import Moment from 'react-moment';
 
 import { Challenges } from '../../api/challenges/challenges';
 import { Proposals } from '../../api/proposals/proposals';
@@ -38,10 +38,14 @@ class ChallengesIndex extends Component {
           {challenge.proposals_amount}
         </td>
         <td>
-          {moment(challenge.start_date).fromNow()}
+          <Moment fromNow>
+            {challenge.start_date}
+          </Moment>
         </td>
         <td>
-          {moment(challenge.end_date).fromNow()}
+          <Moment fromNow>
+            {challenge.end_date}
+          </Moment>
         </td>
       </tr>,
     );
