@@ -2,17 +2,21 @@
 
 ## implementation
 
+### general
+
+GET api/content
+
 ### BIG letters
 
-GET api/challenges/
+GET api/challenges
 
-GET api/challenges/:id/
+GET api/challenges/:id
 
-GET api/challenges/:id/proposals/
+GET api/challenges/:id/proposals
 
 GET api/challenges/:id/proposals/limit/:limit (note -> may change to ?limit=:limit)
 
-GET api/proposals/
+GET api/proposals
 
 ### gps
 

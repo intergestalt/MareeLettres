@@ -1,6 +1,7 @@
 import { Meteor } from 'meteor/meteor';
-import { Status } from '../../api/status/status';
 import ip from 'ip';
+
+import { Status } from '../../api/status/status';
 
 const machineKey = ip.address() + (process.env.DYNO ? `/${process.env.DYNO}` : '');
 
