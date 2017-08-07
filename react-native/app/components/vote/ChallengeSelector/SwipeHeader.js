@@ -8,7 +8,7 @@ class SwipeHeader extends Component {
     challenge: PropTypes.object,
     layoutCallback: PropTypes.func,
     offsetX: PropTypes.object,
-    style: PropTypes.object,
+    customStyle: PropTypes.number,
   };
 
   render() {
@@ -16,7 +16,7 @@ class SwipeHeader extends Component {
       return (
         <Animated.View
           onLayout={this.props.layoutCallback}
-          style={[{ left: this.props.offsetX }, this.props.style]}
+          style={[{ left: this.props.offsetX }, this.props.customStyle]}
         >
           <Text style={styles.swipeDummyText}>
             {this.props.challenge.title}
@@ -27,7 +27,7 @@ class SwipeHeader extends Component {
     return (
       <Animated.View
         onLayout={this.props.layoutCallback}
-        style={[{ left: this.props.offsetX, backgroundColor: '#000000' }, this.props.style]}
+        style={[{ left: this.props.offsetX, backgroundColor: '#000000' }, this.props.customStyle]}
       >
         <Text style={styles.swipeDummyText}>HHHHAAAHHHAAAHHHAAA</Text>
       </Animated.View>

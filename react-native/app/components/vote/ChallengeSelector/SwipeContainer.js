@@ -154,14 +154,14 @@ class SwipeContainer extends Component {
         <View style={styles.swipeHeaderContainer}>
           <View style={styles.headerContainerLeft}>
             <SwipeHeader
-              style={styles.headerLeft}
+              customStyle={styles.headerLeft}
               offsetX={this.props.headerSwipeOffsetX}
               challenge={this.props.challengeLeft}
             />
           </View>
           <View style={styles.headerContainerCenter}>
             <SwipeHeader
-              style={styles.headerCenter}
+              customStyle={styles.headerCenter}
               layoutCallback={this.setChallengeHeaderLayout}
               offsetX={this.props.headerSwipeOffsetX}
               challenge={this.props.challenge}
@@ -169,7 +169,7 @@ class SwipeContainer extends Component {
           </View>
           <View style={styles.headerContainerRight}>
             <SwipeHeader
-              style={styles.headerRight}
+              customStyle={styles.headerRight}
               offsetX={this.props.headerSwipeOffsetX}
               challenge={this.props.challengeRight}
             />
