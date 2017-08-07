@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { createContainer } from 'react-meteor-data';
 import { Meteor } from 'meteor/meteor';
-import SimpleSchema from 'simpl-schema';
 
 import AutoForm from 'uniforms-unstyled/AutoForm';
 import { Content, ContentSchema } from '../../api/content/content';
