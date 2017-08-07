@@ -6,7 +6,7 @@
 
 GET api/content
 
-### BIG letters
+### ABC (Voting Game)
 
 GET api/challenges
 
@@ -18,15 +18,11 @@ GET api/challenges/:id/proposals/limit/:limit (note -> may change to ?limit=:lim
 
 GET api/proposals
 
-### gps
+### MAP (Map Game)
 
--
+--
 
-## (discussion)
-
-GET challenges
-
-GET challenges/challenge_id
+## (discussion / to do)
 
 GET proposals (challenge, limit, order)
 
@@ -40,6 +36,4 @@ GET tinderProposals (challenge_id, amount, user_id)
 
 POST votes
 
-
-
-GET letters (coordinates)
+GET letters (center, width, height)
