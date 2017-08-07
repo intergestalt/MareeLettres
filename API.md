@@ -14,7 +14,9 @@ GET api/challenges/:id
 
 GET api/challenges/:id/proposals
 
-GET api/challenges/:id/proposals/limit/:limit (note -> may change to ?limit=:limit)
+GET api/challenges/:id/proposals?limit=:limit
+
+deprecated: GET api/challenges/:id/proposals/limit/:limit (-> change to ?limit=:limit)
 
 GET api/proposals
 
