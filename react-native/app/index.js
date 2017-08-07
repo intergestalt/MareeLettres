@@ -10,8 +10,13 @@ EStyleSheet.build({
   outline: 0, // set to 1 to see the elements boundaries
 });
 
+const configureScene = () => ({
+  ...Navigator.SceneConfigs.FloatFromBottom,
+  gestures: null, // or null
+});
+
 // export default () => <Home />;
 export default () =>
   <Provider store={store}>
-    <Navigator />
+    <Navigator configureScene={configureScene} />
   </Provider>;

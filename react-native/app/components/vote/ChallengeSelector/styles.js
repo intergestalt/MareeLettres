@@ -1,31 +1,71 @@
 import EStyleSheet from 'react-native-extended-stylesheet';
+import Dimensions from 'Dimensions';
 
 const styles = EStyleSheet.create({
+  $swipeWidth: Dimensions.get('window').width,
+
   swipeContainer: {
     backgroundColor: '#7700FF',
-    top: 60,
+    top: '10%',
     width: '100%',
     height: '70%',
   },
-  swipeHeader: {
-    flex: 0.2,
-    alignItems: 'center',
-    justifyContent: 'center',
+
+  swipeHeaderContainer: {
+    flexDirection: 'row',
     backgroundColor: '#dd0000',
-    width: '100%',
+    flex: 0.2,
+  },
+  headerContainerLeft: {
+    position: 'absolute',
+    width: '$swipeWidth',
+    left: '$swipeWidth * -1',
+    top: 0,
+    bottom: 0,
+  },
+  headerContainerCenter: {
+    position: 'absolute',
+    width: '$swipeWidth',
+    left: 0,
+    top: 0,
+    bottom: 0,
+  },
+  headerContainerRight: {
+    position: 'absolute',
+    width: '$swipeWidth',
+    left: '$swipeWidth',
+    top: 0,
+    bottom: 0,
   },
 
-  swipeContent: {
+  headerLeft: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    flex: 1,
+  },
+  headerCenter: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    flex: 1,
+  },
+  headerRight: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    flex: 1,
+  },
+
+  swipeContentContainer: {
     flex: 0.8,
+    backgroundColor: '#440044',
+    width: '100%',
+  },
+  swipeContent: {
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: '#440000',
-    width: '100%',
+    flex: 1,
   },
-  swipeDummyText: {
-    color: '#aa0000',
-    fontSize: 24,
-  },
+
   // Footer Menu
   footerMenu: {
     flexDirection: 'row',
