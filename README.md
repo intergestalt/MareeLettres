@@ -11,7 +11,7 @@ http://maree.herokuapp.com
 some of the used tools / requirements:
 - node
 - npm
-- yarn (optional)
+- yarn
 - expo
 - react-native
 - meteor
@@ -37,5 +37,5 @@ npm start
 ```
 cd react-native
 yarn install
-npm start
+yarn start
 ```
