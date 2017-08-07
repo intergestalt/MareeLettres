@@ -1,6 +1,6 @@
 import NativeMap from './NativeMap';
 import LeafletMap from './LeafletMap';
 
-import styles from './styles';
+import { styles, mapstyles } from './styles';
 
-export { LeafletMap, NativeMap, styles };
+export { LeafletMap, NativeMap, styles, mapstyles };
