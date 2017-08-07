@@ -2,27 +2,29 @@
 
 ## implementation
 
-### BIG letters
+### general
 
-GET api/challenges/
+GET api/content
 
-GET api/challenges/:id/
+### ABC (Voting Game)
 
-GET api/challenges/:id/proposals/
+GET api/challenges
 
-GET api/challenges/:id/proposals/limit/:limit (note -> may change to ?limit=:limit)
+GET api/challenges/:id
 
-GET api/proposals/
+GET api/challenges/:id/proposals
 
-### gps
+GET api/challenges/:id/proposals?limit=:limit
 
--
+deprecated: GET api/challenges/:id/proposals/limit/:limit (-> change to ?limit=:limit)
 
-## (discussion)
+GET api/proposals
 
-GET challenges
+### MAP (Map Game)
 
-GET challenges/challenge_id
+--
+
+## (discussion / to do)
 
 GET proposals (challenge, limit, order)
 
@@ -36,6 +38,4 @@ GET tinderProposals (challenge_id, amount, user_id)
 
 POST votes
 
-
-
-GET letters (coordinates)
+GET letters (center, width, height)

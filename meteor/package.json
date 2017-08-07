@@ -1,19 +1,35 @@
 {
-  "name": "ESMeteor",
+  "name": "MareedesLettres-Server",
   "private": true,
   "scripts": {
     "start": "meteor --settings settings.json",
     "lint": "eslint .",
-    "lint:fix": "eslint . --fix"
+    "lint:fix": "eslint . --fix",
+    "postinstall": "# INFO: Don't worry about the graphql peer dependency. It's not required.",
+    "reset": "meteor reset"
   },
   "dependencies": {
     "babel-runtime": "^6.18.0",
     "bcrypt": "^1.0.2",
+    "history": "^3.3.0",
+    "ip": "^1.1.5",
+    "maree-lettres-shared": "file:../shared",
     "meteor-node-stubs": "~0.2.3",
+    "meteor-react-status": "0.0.3",
+    "moment": "^2.18.1",
+    "moment-timezone": "^0.5.13",
+    "prop-types": "^15.5.10",
     "react": "^15.4.2",
     "react-addons-pure-render-mixin": "^15.4.2",
     "react-dom": "^15.4.2",
-    "react-meteor-data": "^0.2.10"
+    "react-meteor-data": "^0.2.10",
+    "react-moment": "^0.6.1",
+    "react-router": "^3.0.5",
+    "react-router-dom": "^4.1.2",
+    "react-router-named-routes": "0.0.15",
+    "simpl-schema": "^0.3.1",
+    "uniforms": "^1.19.1",
+    "uniforms-unstyled": "^1.19.1"
   },
   "devDependencies": {
     "babel-eslint": "^7.1.1",
