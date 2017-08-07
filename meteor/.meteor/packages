@@ -29,5 +29,6 @@ omega:transfer-rate-monitor
 mixmax:smart-disconnect
 matb33:collection-hooks
 aldeed:collection2-core
-simple:rest
 shell-server
+simple:json-routes
+simple:rest-json-error-handler

@@ -10,8 +10,11 @@ import '../../api/status/server/status';
 
 import '../../api/content/server/content';
 
-SimpleRest.configure({
-  collections: ['proposals', 'challenges', 'content'],
+JsonRoutes.ErrorMiddleware.use(RestMiddleware.handleErrorAsJson);
+
+JsonRoutes.setResponseHeaders({
+  'Cache-Control': 'no-store',
+  Pragma: 'no-cache',
 });
 
 if (Object.keys(Meteor.settings).length <= 1 && Object.keys(Meteor.settings.public).length <= 0) {
