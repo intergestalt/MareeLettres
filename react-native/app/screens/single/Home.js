@@ -1,9 +1,11 @@
 import React, { Component, PropTypes } from 'react';
 import { StatusBar } from 'react-native';
+import { connect } from 'react-redux';
 
 import { Screen } from '../../components/general/Container';
 import { HomeIntro } from '../../components/text/HomeIntro';
 import { LanguageSelector } from '../../components/general/LanguageSelector';
+import { navigateToHowTo, navigateToAbout } from '../../actions/navigation';
 
 class Home extends Component {
   static propTypes = {
@@ -27,11 +29,11 @@ class Home extends Component {
   };
 
   handleHowPress = () => {
-    this.props.navigation.navigate('How');
+    navigateToHowTo(this.props);
   };
 
   handleAboutPress = () => {
-    this.props.navigation.navigate('About');
+    navigateToAbout(this.props);
   };
 
   render() {
@@ -50,5 +52,10 @@ class Home extends Component {
     );
   }
 }
-
-export default Home;
+const mapStateToProps = (state) => {
+  const content = state.content;
+  return {
+    content,
+  };
+};
+export default connect(mapStateToProps)(Home);

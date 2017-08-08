@@ -8,4 +8,12 @@ export default {
     time: null,
     challenges: [],
   },
+  content: {
+    isLoading: false,
+    isLoaded: false,
+    isError: false,
+    time: null,
+    content: [],
+  },
+  proposals: {},
 };
