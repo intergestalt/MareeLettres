@@ -7,7 +7,7 @@ import styles from './styles';
 
 import markdownStyles from '../../../config/markdown';
 
-class HowTo extends Component {
+class AboutApp extends Component {
   static propTypes = {
     language: PropTypes.string,
     isError: PropTypes.bool,
@@ -25,7 +25,7 @@ class HowTo extends Component {
     }
     return (
       <View style={styles.container}>
-        <View style={styles.how}>
+        <View style={styles.about}>
           {this.props.isLoaded
             ? <ScrollView showsVerticalScrollIndicator={false}>
               <Markdown styles={markdownStyles}>
@@ -46,7 +46,7 @@ const mapStateToProps = state => ({
   isError: state.content.isError,
   isLoaded: state.content.isLoaded,
   isLoading: state.content.isLoading,
-  text: state.content.content.howto,
+  text: state.content.content.about,
 });
 
-export default connect(mapStateToProps)(HowTo);
+export default connect(mapStateToProps)(AboutApp);

@@ -1,6 +1,6 @@
 import {
   LOAD_CHALLENGES,
-  NETWORK_ERROR,
+  NETWORK_ERROR_LOAD_CHALLENGES,
   CHALLENGES_LOADED,
 } from '../../actions/services/challenges';
 
@@ -35,7 +35,7 @@ export default (state = initialState.challenges, action) => {
         ...action.result,
       };
     }
-    case NETWORK_ERROR: {
+    case NETWORK_ERROR_LOAD_CHALLENGES: {
       console.log('NETWORK ERROR 1');
       const now = new Date();
       return {

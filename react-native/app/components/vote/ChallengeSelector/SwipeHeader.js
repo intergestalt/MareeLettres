@@ -28,9 +28,7 @@ class SwipeHeader extends Component {
       <Animated.View
         onLayout={this.props.layoutCallback}
         style={[{ left: this.props.offsetX, backgroundColor: '#000000' }, this.props.customStyle]}
-      >
-        <Text style={styles.swipeDummyText}>HHHHAAAHHHAAAHHHAAA</Text>
-      </Animated.View>
+      />
     );
   }
 }
