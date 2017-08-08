@@ -25,9 +25,12 @@ class Menu extends Component {
           </li>
           <li>
             <Link to="/admin/status">Status</Link>
-          </li>          
+          </li>
+          <li>
+            <Link to="/admin/letters">Letters</Link>
+          </li>
         </ul>
-        <ConnectionStatus fullWidth={true} />
+        <ConnectionStatus fullWidth />
       </div>
     );
   }

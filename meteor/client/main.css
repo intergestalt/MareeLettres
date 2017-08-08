@@ -30,3 +30,14 @@ th {
 body {
   padding-bottom: 30px;
 }
+
+.map-container {
+  width: 100%;
+  height: 800px;
+  max-height: 80vh;
+}
+
+.leaflet-container {
+  width: 100%;
+  height: 100%;
+}

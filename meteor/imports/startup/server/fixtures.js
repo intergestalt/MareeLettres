@@ -7,6 +7,7 @@ import moment from 'moment';
 import { Challenges } from '../../api/challenges/challenges';
 import { Proposals } from '../../api/proposals/proposals';
 import { Content } from '../../api/content/content';
+import { Letters } from '../../api/letters/letters';
 
 const contents = ['howto', 'about'];
 
@@ -46,6 +47,19 @@ Meteor.startup(() => {
           }
         },
       );
+    }
+  }
+
+  if (Letters.find().count() === 0) {
+    console.log('Seeding Letters');
+    for (let i = 1; i <= 150; i++) {
+      Letters.insert({
+        character: shuffleString('ABCDEFGHIJKLMNOPQRSTUVWXYZ').charAt(0),
+        coords: {
+          lat: 52.46 + Math.random() * 0.06, // Berlin
+          lng: 13.38 + Math.random() * 0.1, // Berlin
+        },
+      });
     }
   }
 });

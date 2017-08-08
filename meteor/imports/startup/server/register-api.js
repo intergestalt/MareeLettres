@@ -10,6 +10,8 @@ import '../../api/status/server/status';
 
 import '../../api/content/server/content';
 
+import '../../api/letters/server/letters';
+
 JsonRoutes.ErrorMiddleware.use(RestMiddleware.handleErrorAsJson);
 
 JsonRoutes.setResponseHeaders({
