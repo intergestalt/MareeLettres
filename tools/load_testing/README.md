@@ -6,7 +6,7 @@ https://github.com/alexfernandez/loadtest
 
 ### 200 proposals by challenge, 7. August
 
-loadtest -c 10 --rps 200 http://maree.herokuapp.com/api/challenges/98Auwp5wakBTLjeCe/proposals
+`loadtest -c 10 --rps 200 http://maree.herokuapp.com/api/challenges/98Auwp5wakBTLjeCe/proposals`
 
 #### with simple:rest
 
@@ -42,7 +42,29 @@ loadtest -c 10 --rps 200 http://maree.herokuapp.com/api/challenges/98Auwp5wakBTL
 
 #### with simple:json-routes
 
+[Mon Aug 07 2017 16:21:21 GMT+0200 (CEST)] INFO Requests: 0, requests per second: 0, mean latency: 0 ms
+[Mon Aug 07 2017 16:21:26 GMT+0200 (CEST)] INFO Requests: 220, requests per second: 44, mean latency: 188.9 ms
+[Mon Aug 07 2017 16:21:31 GMT+0200 (CEST)] INFO Requests: 470, requests per second: 50, mean latency: 183.7 ms
+[Mon Aug 07 2017 16:21:36 GMT+0200 (CEST)] INFO Requests: 720, requests per second: 50, mean latency: 189.2 ms
+[Mon Aug 07 2017 16:21:36 GMT+0200 (CEST)] INFO Errors: 1, accumulated errors: 1, 0.1% of total requests
+[Mon Aug 07 2017 16:21:41 GMT+0200 (CEST)] INFO Requests: 970, requests per second: 50, mean latency: 185.7 ms
+[Mon Aug 07 2017 16:21:41 GMT+0200 (CEST)] INFO Errors: 0, accumulated errors: 1, 0.1% of total requests
+[Mon Aug 07 2017 16:21:46 GMT+0200 (CEST)] INFO Requests: 1220, requests per second: 50, mean latency: 186.1 ms
+[Mon Aug 07 2017 16:21:46 GMT+0200 (CEST)] INFO Errors: 0, accumulated errors: 1, 0.1% of total requests
+[Mon Aug 07 2017 16:21:51 GMT+0200 (CEST)] INFO Requests: 1470, requests per second: 50, mean latency: 191.4 ms
+[Mon Aug 07 2017 16:21:51 GMT+0200 (CEST)] INFO Errors: 0, accumulated errors: 1, 0.1% of total requests
+[Mon Aug 07 2017 16:21:56 GMT+0200 (CEST)] INFO Requests: 1719, requests per second: 50, mean latency: 191.8 ms
+[Mon Aug 07 2017 16:21:56 GMT+0200 (CEST)] INFO Errors: 0, accumulated errors: 1, 0.1% of total requests
+[Mon Aug 07 2017 16:22:01 GMT+0200 (CEST)] INFO Requests: 1963, requests per second: 49, mean latency: 192.4 ms
+[Mon Aug 07 2017 16:22:01 GMT+0200 (CEST)] INFO Errors: 0, accumulated errors: 1, 0.1% of total requests
+[Mon Aug 07 2017 16:22:06 GMT+0200 (CEST)] INFO Requests: 2220, requests per second: 51, mean latency: 191.7 ms
+[Mon Aug 07 2017 16:22:06 GMT+0200 (CEST)] INFO Errors: 0, accumulated errors: 1, 0% of total requests
+[Mon Aug 07 2017 16:22:11 GMT+0200 (CEST)] INFO Requests: 2468, requests per second: 50, mean latency: 189.4 ms
+[Mon Aug 07 2017 16:22:11 GMT+0200 (CEST)] INFO Errors: 0, accumulated errors: 1, 0% of total requests
 
+-> much better!!!
+
+Assuming all players refreshing every 5 seconds and 50 rps is the limit -> 250 simultaneous users (per hobby dyno) 
 
 ## meteor_down
 
