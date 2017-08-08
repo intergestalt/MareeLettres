@@ -7,6 +7,7 @@ import SwipeContent from './SwipeContent';
 
 class SwipeContainer extends Component {
   static propTypes = {
+    language: PropTypes.string,
     challenge: PropTypes.object,
     challengeRight: PropTypes.object,
     challengeLeft: PropTypes.object,
@@ -143,6 +144,7 @@ class SwipeContainer extends Component {
       }, // Step 4
     });
   }
+
   // Render
   render() {
     return (
@@ -154,6 +156,7 @@ class SwipeContainer extends Component {
         <View style={styles.swipeHeaderContainer}>
           <View style={styles.headerContainerLeft}>
             <SwipeHeader
+              language={this.props.language}
               customStyle={styles.headerLeft}
               offsetX={this.props.headerSwipeOffsetX}
               challenge={this.props.challengeLeft}
@@ -161,6 +164,7 @@ class SwipeContainer extends Component {
           </View>
           <View style={styles.headerContainerCenter}>
             <SwipeHeader
+              language={this.props.language}
               customStyle={styles.headerCenter}
               layoutCallback={this.setChallengeHeaderLayout}
               offsetX={this.props.headerSwipeOffsetX}
@@ -169,6 +173,7 @@ class SwipeContainer extends Component {
           </View>
           <View style={styles.headerContainerRight}>
             <SwipeHeader
+              language={this.props.language}
               customStyle={styles.headerRight}
               offsetX={this.props.headerSwipeOffsetX}
               challenge={this.props.challengeRight}

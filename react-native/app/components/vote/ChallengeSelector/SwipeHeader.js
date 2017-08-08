@@ -2,17 +2,52 @@ import React, { Component, PropTypes } from 'react';
 import { Animated, Text } from 'react-native';
 
 import styles from './styles';
+import { getDateStrings } from '../../../helper/dateFunctions';
 
 class SwipeHeader extends Component {
   static propTypes = {
+    language: PropTypes.string,
     challenge: PropTypes.object,
     layoutCallback: PropTypes.func,
     offsetX: PropTypes.object,
     customStyle: PropTypes.number,
   };
 
+  constructor(props) {
+    super(props);
+    this.timerID = null;
+    // const endUTC = new Date(this.props.challenge.end_date);
+    this.dateStrings = { tickerString: '', endString: '' };
+    this.state = {
+      getTickerData: true,
+    };
+    // const keyDateWinterString = '2018-08-09T20:46:00.000Z';
+    // const endUTC = new Date(keyDateWinterString);
+
+    console.log(this.state);
+  }
+
+  componentDidMount() {
+    this.timerID = setInterval(() => {
+      this.tick();
+    }, 1000);
+  }
+  componentWillUnmount() {
+    clearInterval(this.timerID);
+  }
+
+  tick() {
+    // const endUTC = new Date(this.props.challenge.end_date);
+    // const dateStrings = getDateStrings(endUTC, this.props.language);
+    this.setState({ getTickerData: true });
+  }
+
   render() {
     if (this.props.challenge) {
+      if (this.state.getTickerData) {
+        const endUTC = new Date(this.props.challenge.end_date);
+        this.dateStrings = getDateStrings(endUTC, this.props.language);
+      }
       return (
         <Animated.View
           onLayout={this.props.layoutCallback}
@@ -20,6 +55,12 @@ class SwipeHeader extends Component {
         >
           <Text style={styles.swipeDummyText}>
             {this.props.challenge.title}
+          </Text>
+          <Text style={styles.swipeDummyText}>
+            {this.dateStrings.endString}
+          </Text>
+          <Text style={styles.swipeDummyText}>
+            {this.dateStrings.tickerString}
           </Text>
         </Animated.View>
       );

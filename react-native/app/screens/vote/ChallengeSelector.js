@@ -20,7 +20,6 @@ class ChallengeSelector extends Component {
   };
   constructor(props) {
     super(props);
-
     this.state = {
       isFinished: true,
       isTinder: true,
@@ -43,7 +42,7 @@ class ChallengeSelector extends Component {
     let index = -1;
     for (let i = 0; i < this.props.challenges.length; i += 1) {
       const challenge = this.props.challenges[i];
-      if (challenge._id === this.state.selectedChallengeId) {
+      if (challenge.id === this.state.selectedChallengeId) {
         index = i;
       }
     }
@@ -71,7 +70,7 @@ class ChallengeSelector extends Component {
   navigate() {
     const challenge = this.props.challenges[this.selectedChallengeIndex];
     if (challenge == null) return;
-    const newId = challenge._id;
+    const newId = challenge.id;
     this.state.headerSwipeOffsetX.setValue(0);
 
     this.setState({ selectedChallengeId: newId });
@@ -115,6 +114,7 @@ class ChallengeSelector extends Component {
         <StatusBar />
         <Header title={'Challenges'} navigation={this.props.navigation} />
         <SwipeContainer
+          language={this.props.language}
           challengeLeft={this.props.challenges[this.selectedChallengeIndex - 1]}
           challenge={this.props.challenges[this.selectedChallengeIndex]}
           challengeRight={this.props.challenges[this.selectedChallengeIndex + 1]}

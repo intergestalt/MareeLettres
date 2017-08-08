@@ -27,12 +27,22 @@ export default (state = initialState.challenges, action) => {
     case CHALLENGES_LOADED: {
       console.log('CHALLENGES_LOADED 1');
       const now = new Date();
+      const challenges = [];
 
+      for (let i = 0; i < action.result.challenges.length; i += 1) {
+        const entry = action.result.challenges[i];
+        console.log(entry.end_date);
+        const endDate = new Date(entry.end_date);
+
+        console.log(`OUR DATE: ${endDate.getTime()}`);
+        const newEntry = { id: entry._id, title: entry.title, end_date: entry.end_date };
+        challenges.push(newEntry);
+      }
       return {
         isLoading: false,
         isError: false,
         time: now.getTime(),
-        ...action.result,
+        challenges,
       };
     }
     case NETWORK_ERROR_LOAD_CHALLENGES: {

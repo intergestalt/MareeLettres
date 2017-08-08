@@ -19,7 +19,7 @@ class ChallengesList extends Component {
     console.log('PRESS ROW');
     console.log(item);
 
-    this.props.navigation.navigate('ChallengeSelector', { id: item._id });
+    this.props.navigation.navigate('ChallengeSelector', { id: item.id });
   };
 
   render() {
@@ -37,8 +37,12 @@ class ChallengesList extends Component {
           <FlatList
             data={this.props.challenges}
             renderItem={({ item }) =>
-              <ChallengesListItem data={item} onPress={() => this.handlePress(item)} />}
-            keyExtractor={item => item._id}
+              <ChallengesListItem
+                language={this.props.language}
+                data={item}
+                onPress={() => this.handlePress(item)}
+              />}
+            keyExtractor={item => item.id}
             ItemSeparatorComponent={Separator}
           />
         </View>
