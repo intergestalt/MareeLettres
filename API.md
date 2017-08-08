@@ -22,7 +22,7 @@ GET api/proposals
 
 ### MAP (Map Game)
 
---
+GET api/letters
 
 ## (discussion / to do)
 
