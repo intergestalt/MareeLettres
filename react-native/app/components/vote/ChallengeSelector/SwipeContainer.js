@@ -16,6 +16,7 @@ class SwipeContainer extends Component {
     headerSwipeOffsetX: PropTypes.object,
     navigateUp: PropTypes.func,
     navigateDown: PropTypes.func,
+    callBackItemFinished: PropTypes.func,
   };
   constructor(props) {
     super(props);
@@ -160,6 +161,7 @@ class SwipeContainer extends Component {
               customStyle={styles.headerLeft}
               offsetX={this.props.headerSwipeOffsetX}
               challenge={this.props.challengeLeft}
+              callBackItemFinished={this.props.callBackItemFinished}
             />
           </View>
           <View style={styles.headerContainerCenter}>
@@ -169,6 +171,7 @@ class SwipeContainer extends Component {
               layoutCallback={this.setChallengeHeaderLayout}
               offsetX={this.props.headerSwipeOffsetX}
               challenge={this.props.challenge}
+              callBackItemFinished={this.props.callBackItemFinished}
             />
           </View>
           <View style={styles.headerContainerRight}>
@@ -177,6 +180,7 @@ class SwipeContainer extends Component {
               customStyle={styles.headerRight}
               offsetX={this.props.headerSwipeOffsetX}
               challenge={this.props.challengeRight}
+              callBackItemFinished={this.props.callBackItemFinished}
             />
           </View>
         </View>

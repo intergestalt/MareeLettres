@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { Animated, Text } from 'react-native';
 
 import styles from './styles';
-import { getDateData } from '../../../helper/dateFunctions';
+import { getDateData, isFinished } from '../../../helper/dateFunctions';
 
 class SwipeHeader extends Component {
   static propTypes = {
@@ -11,26 +11,30 @@ class SwipeHeader extends Component {
     layoutCallback: PropTypes.func,
     offsetX: PropTypes.object,
     customStyle: PropTypes.number,
+    callBackItemFinished: PropTypes.func,
   };
 
   constructor(props) {
     super(props);
     this.timerID = null;
-    // const endUTC = new Date(this.props.challenge.end_date);
-    this.dateStrings = { tickerString: '', endString: '' };
-    this.state = {
-      getTickerData: true,
-    };
-    // const keyDateWinterString = '2018-08-09T20:46:00.000Z';
-    // const endUTC = new Date(keyDateWinterString);
-
-    console.log(this.state);
+    if (this.props.challenge) {
+      this.dateStrings = { tickerString: '', endString: '' };
+      this.state = {
+        getTickerData: true,
+      };
+      /* if (this.props.challenge._id === 'phmvzfwNtWyXWx7hd') {
+        const customDate = '2017-08-09T14:46:20.000Z';
+        this.props.challenge.end_date = new Date(customDate);
+      }*/
+    }
   }
 
   componentDidMount() {
-    this.timerID = setInterval(() => {
-      this.tick();
-    }, 1000);
+    if (this.props.challenge) {
+      this.timerID = setInterval(() => {
+        this.tick();
+      }, 1000);
+    }
   }
   componentWillUnmount() {
     clearInterval(this.timerID);
@@ -38,6 +42,19 @@ class SwipeHeader extends Component {
 
   tick() {
     this.setState({ getTickerData: true });
+    // Check if item is now finished, but was not
+    if (this.props.challenge) {
+      if (!this.props.challenge.isFinished) {
+        const endUTC = new Date(this.props.challenge.end_date);
+        /* if (this.endUTCCustom) {
+        endUTC = this.endUTCCustom;
+      }*/
+        const finish = isFinished(endUTC);
+        if (finish) {
+          this.props.callBackItemFinished(this.props.challenge._id);
+        }
+      }
+    }
   }
 
   render() {

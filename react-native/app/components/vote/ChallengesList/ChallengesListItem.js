@@ -21,11 +21,11 @@ class ChallengesListItem extends Component {
       getTickerData: true,
       isFinished: false,
     };
-    this.endUTCCustom = null;
+    /* this.endUTCCustom = null;
     if (this.props.data.id === 'RaALpmeE8vBjdH54K') {
       const customDate = '2017-08-09T13:56:00.000Z';
       this.endUTCCustom = new Date(customDate);
-    }
+    }*/
   }
   componentDidMount() {
     this.timerID = setInterval(() => {
@@ -37,27 +37,28 @@ class ChallengesListItem extends Component {
   }
 
   tick() {
+    // console.log('TICK');
     this.setState({ getTickerData: true });
 
     // Check if item is now finished, but was not
     if (!this.props.data.isFinished) {
-      let endUTC = new Date(this.props.data.end_date);
-      if (this.endUTCCustom) {
+      const endUTC = new Date(this.props.data.end_date);
+      /* if (this.endUTCCustom) {
         endUTC = this.endUTCCustom;
-      }
+      }*/
       const finish = isFinished(endUTC);
       if (finish) {
-        this.props.callBackItemFinished(this.props.data.id);
+        this.props.callBackItemFinished(this.props.data._id);
       }
     }
   }
 
   render() {
     if (this.state.getTickerData) {
-      let endUTC = new Date(this.props.data.end_date);
-      if (this.endUTCCustom) {
+      const endUTC = new Date(this.props.data.end_date);
+      /* if (this.endUTCCustom) {
         endUTC = this.endUTCCustom;
-      }
+      }*/
       this.dateStrings = getDateData(endUTC, this.props.language);
     }
     return (
