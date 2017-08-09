@@ -103,8 +103,8 @@ JsonRoutes.add(
       },
     ).fetch();
 
-    console.log(challenge_id);
-    console.log(proposals_list);
+    // console.log(challenge_id);
+    // console.log(proposals_list);
 
     const proposals_list_by_votes = Proposals.find(
       { challenge_id },
@@ -130,8 +130,8 @@ JsonRoutes.add(
       },
     ).fetch();
 
-    console.log('by votes', proposals_list_by_votes);
-    console.log('by score', proposals_list_by_score);
+    // console.log('by votes', proposals_list_by_votes);
+    // console.log('by score', proposals_list_by_score);
 
     let proposals_list_by_proximity = [];
     const max_index = proposals_list_by_score.length - 1;
@@ -152,7 +152,7 @@ JsonRoutes.add(
       (a, b) => b.proximity - a.proximity,
     );
 
-    console.log(proposals_list_by_proximity);
+    // console.log(proposals_list_by_proximity);
 
     /*
     const partial_limit = Math.floor(limit / 3)
@@ -175,7 +175,7 @@ JsonRoutes.add(
       })
       .sort((a, b) => b.tinderscore - a.tinderscore);
 
-    console.log(proposals_list_by_tinderscore);
+    // console.log(proposals_list_by_tinderscore);
 
     // TODO: add randomness: shuffle 10% of the tinderscores
 
