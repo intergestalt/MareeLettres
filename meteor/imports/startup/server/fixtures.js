@@ -29,8 +29,7 @@ Meteor.startup(() => {
       Challenges.insert(
         {
           title: `Question #${i}`,
-          votes: 0,
-          score: 0,
+          votes_amount: 0,
           proposals_amount: 0,
           start_date: moment().add(i - 2, 'days').toDate(),
           end_date: moment().add(i - 1, 'days').toDate(),
@@ -42,6 +41,9 @@ Meteor.startup(() => {
               Proposals.insert({
                 text: shuffleString('ABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRS          '),
                 challenge_id: id,
+                score: parseInt(10 * Math.random()),
+                votes_amount: parseInt(10 * Math.random()),
+                score_trending: 0,
               });
             }
           }

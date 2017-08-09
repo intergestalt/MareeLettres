@@ -31,4 +31,3 @@ matb33:collection-hooks
 aldeed:collection2-core
 shell-server
 simple:json-routes
-simple:rest-json-error-handler
