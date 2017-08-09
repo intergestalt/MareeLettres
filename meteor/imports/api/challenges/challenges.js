@@ -18,11 +18,11 @@ const ChallengesSchema = new SimpleSchema({
   },
   end_date: {
     type: Date,
-  } /*
+  },
   winningProposal: {
     type: Object, // TODO: Add ProposalsSchama here
     optional: true,
-  }, */,
+  },
 });
 
 export { Challenges, ChallengesSchema };

@@ -17,15 +17,6 @@ class ChallengesIndex extends Component {
     this.state = {};
   }
 
-  renderProposals() {
-    const proposals = this.props.proposals;
-    return proposals.map(proposal =>
-      <li key={proposal._id}>
-        {proposal.text}
-      </li>,
-    );
-  }
-
   renderChallenges() {
     const challenges = this.props.challenges;
     return challenges.map(challenge =>
@@ -56,6 +47,9 @@ class ChallengesIndex extends Component {
               )
             </span>}
         </td>
+        <td>
+          {challenge.winningProposal ? challenge.winningProposal.text : '-'}
+        </td>
       </tr>,
     );
   }
@@ -71,6 +65,7 @@ class ChallengesIndex extends Component {
               <th># proposals</th>
               <th>start</th>
               <th>end</th>
+              <th>winningProposal</th>
             </tr>
           </thead>
           <tbody>
