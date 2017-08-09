@@ -2,13 +2,14 @@ import React, { Component, PropTypes } from 'react';
 import { View, Text, TouchableHighlight } from 'react-native';
 
 import styles from './styles';
-import { getDateStrings } from '../../../helper/dateFunctions';
+import { getDateData, isFinished } from '../../../helper/dateFunctions';
 
 class ChallengesListItem extends Component {
   static propTypes = {
     data: PropTypes.object,
     onPress: PropTypes.func,
     language: PropTypes.string,
+    callBackItemFinished: PropTypes.func,
   };
 
   constructor(props) {
@@ -18,9 +19,13 @@ class ChallengesListItem extends Component {
     this.dateStrings = { tickerString: '', endString: '' };
     this.state = {
       getTickerData: true,
+      isFinished: false,
     };
-    // const keyDateWinterString = '2018-08-09T20:46:00.000Z';
-    // const endUTC = new Date(keyDateWinterString);
+    this.endUTCCustom = null;
+    if (this.props.data.id === 'RaALpmeE8vBjdH54K') {
+      const customDate = '2017-08-09T13:56:00.000Z';
+      this.endUTCCustom = new Date(customDate);
+    }
   }
   componentDidMount() {
     this.timerID = setInterval(() => {
@@ -32,30 +37,66 @@ class ChallengesListItem extends Component {
   }
 
   tick() {
-    // const endUTC = new Date(this.props.challenge.end_date);
-    // const dateStrings = getDateStrings(endUTC, this.props.language);
     this.setState({ getTickerData: true });
+
+    // Check if item is now finished, but was not
+    if (!this.props.data.isFinished) {
+      let endUTC = new Date(this.props.data.end_date);
+      if (this.endUTCCustom) {
+        endUTC = this.endUTCCustom;
+      }
+      const finish = isFinished(endUTC);
+      if (finish) {
+        this.props.callBackItemFinished(this.props.data.id);
+      }
+    }
   }
+
   render() {
     if (this.state.getTickerData) {
-      const endUTC = new Date(this.props.data.end_date);
-      this.dateStrings = getDateStrings(endUTC, this.props.language);
+      let endUTC = new Date(this.props.data.end_date);
+      if (this.endUTCCustom) {
+        endUTC = this.endUTCCustom;
+      }
+      this.dateStrings = getDateData(endUTC, this.props.language);
     }
     return (
       <View style={styles.itemContainer}>
-        <TouchableHighlight onPress={this.props.onPress}>
-          <View style={styles.row}>
-            <Text style={styles.title}>
-              {this.props.data.title}
-            </Text>
-            <Text style={styles.title}>
-              {this.dateStrings.endString}
-            </Text>
-            <Text style={styles.title}>
-              {this.dateStrings.tickerString}
-            </Text>
-          </View>
-        </TouchableHighlight>
+        {!this.props.data.isLoading
+          ? <TouchableHighlight onPress={this.props.onPress}>
+            {!this.props.data.isFinished
+                ? <View style={styles.row}>
+                  <Text style={styles.title}>
+                      VOTE #{this.props.data.voteNum}
+                  </Text>
+                  <Text style={styles.title}>
+                    {this.dateStrings.endString}
+                  </Text>
+                  <Text style={styles.title}>
+                    {this.dateStrings.tickerString}
+                  </Text>
+                  <Text style={styles.title}>
+                    {this.props.data.title}
+                  </Text>
+                </View>
+                : <View style={styles.row}>
+                  <Text style={styles.title}>
+                      VOTE #{this.props.data.voteNum} FINSHED
+                    </Text>
+                  <Text style={styles.title}>
+                    {this.dateStrings.endString}
+                  </Text>
+                  <Text style={styles.title}>
+                    {this.dateStrings.tickerString}
+                  </Text>
+                  <Text style={styles.title}>
+                    {this.props.data.title}
+                  </Text>
+                </View>}
+          </TouchableHighlight>
+          : <View style={styles.row}>
+            <Text style={styles.title}>RELOAD ITEM</Text>
+          </View>}
       </View>
     );
   }

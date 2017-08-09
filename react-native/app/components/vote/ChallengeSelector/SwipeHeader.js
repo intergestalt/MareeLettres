@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { Animated, Text } from 'react-native';
 
 import styles from './styles';
-import { getDateStrings } from '../../../helper/dateFunctions';
+import { getDateData } from '../../../helper/dateFunctions';
 
 class SwipeHeader extends Component {
   static propTypes = {
@@ -37,8 +37,6 @@ class SwipeHeader extends Component {
   }
 
   tick() {
-    // const endUTC = new Date(this.props.challenge.end_date);
-    // const dateStrings = getDateStrings(endUTC, this.props.language);
     this.setState({ getTickerData: true });
   }
 
@@ -46,7 +44,7 @@ class SwipeHeader extends Component {
     if (this.props.challenge) {
       if (this.state.getTickerData) {
         const endUTC = new Date(this.props.challenge.end_date);
-        this.dateStrings = getDateStrings(endUTC, this.props.language);
+        this.dateStrings = getDateData(endUTC, this.props.language);
       }
       return (
         <Animated.View
