@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import { createContainer } from 'react-meteor-data';
 import { Meteor } from 'meteor/meteor';
+import AutoField from 'uniforms-unstyled/AutoField';
 import AutoForm from 'uniforms-unstyled/AutoForm';
+import SubmitField from 'uniforms-unstyled/SubmitField';
 
 import { Challenges, ChallengesSchema } from '../../api/challenges/challenges';
 import { Proposals } from '../../api/proposals/proposals';
@@ -32,7 +34,12 @@ class Challenge extends Component {
         schema={ChallengesSchema}
         onSubmit={doc => this.save(doc)}
         model={this.props.challenge}
-      />
+      >
+        <AutoField name="title" />
+        <AutoField name="start_date" />
+        <AutoField name="end_date" />
+        <SubmitField />
+      </AutoForm>
     );
   }
 

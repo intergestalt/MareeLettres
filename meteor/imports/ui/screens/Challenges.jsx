@@ -47,7 +47,7 @@ class ChallengesIndex extends Component {
               )
             </span>}
         </td>
-        <td>
+        <td className="impact">
           {challenge.winningProposal ? challenge.winningProposal.text : '-'}
         </td>
       </tr>,
