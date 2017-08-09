@@ -12,7 +12,7 @@ import '../../api/content/server/content';
 
 import '../../api/letters/server/letters';
 
-JsonRoutes.ErrorMiddleware.use(RestMiddleware.handleErrorAsJson);
+// JsonRoutes.ErrorMiddleware.use(RestMiddleware.handleErrorAsJson);
 
 JsonRoutes.setResponseHeaders({
   'Cache-Control': 'no-store',
