@@ -1,6 +1,5 @@
 import React, { Component, PropTypes } from 'react';
 import { Animated, Text, TouchableOpacity, View } from 'react-native';
-import { NavigationActions } from 'react-navigation';
 
 import styles from './styles';
 import { getDateData, isFinished } from '../../../helper/dateFunctions';
@@ -24,8 +23,8 @@ class SwipeHeader extends Component {
       this.state = {
         getTickerData: true,
       };
-      /* if (this.props.challenge._id === 'phmvzfwNtWyXWx7hd') {
-        const customDate = '2017-08-09T14:46:20.000Z';
+      /* if (this.props.challenge._id === 'RaALpmeE8vBjdH54K') {
+        const customDate = '2017-08-10T13:58:40.000Z';
         this.props.challenge.end_date = new Date(customDate);
       }*/
     }

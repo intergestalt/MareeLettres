@@ -4,6 +4,7 @@ import { View, Animated, PanResponder } from 'react-native';
 import styles from './styles';
 import SwipeHeader from './SwipeHeader';
 import SwipeContent from './SwipeContent';
+import { navigateToVote } from '../../../helper/navigationProxy';
 
 class SwipeContainer extends Component {
   static propTypes = {
@@ -16,7 +17,6 @@ class SwipeContainer extends Component {
     headerSwipeOffsetX: PropTypes.object,
     navigateUp: PropTypes.func,
     navigateDown: PropTypes.func,
-    navigation: PropTypes.object,
     callBackItemFinished: PropTypes.func,
   };
   constructor(props) {
@@ -45,7 +45,10 @@ class SwipeContainer extends Component {
 
   setPanOffset(event) {
     this.setState({
-      panOffset: { x: event.nativeEvent.layout.x, y: event.nativeEvent.layout.y },
+      panOffset: {
+        x: event.nativeEvent.layout.x,
+        y: event.nativeEvent.layout.y,
+      },
     });
   }
 
@@ -148,9 +151,7 @@ class SwipeContainer extends Component {
   }
 
   handleHeaderPressed = () => {
-    console.log('PROPS');
-    console.log(this.props.navigation);
-    this.props.navigation.navigate('Challenges');
+    navigateToVote(this.props);
   };
 
   // Render

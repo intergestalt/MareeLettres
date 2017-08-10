@@ -108,11 +108,15 @@ export default (state = initialState.challenges, action) => {
           } else {
             console.log('NOT FOUND -> DELETE');
             myChallenges.splice(i, 1);
+            for (let j = 0; j < myChallenges.length; j += 1) {
+              myChallenges[j].voteNum = j + 1;
+            }
           }
           const newState = {
             ...state,
             challenges: myChallenges,
           };
+
           return newState;
         }
       }

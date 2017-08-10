@@ -5,35 +5,31 @@ import { connect } from 'react-redux';
 import Separator from './Separator';
 import ChallengesListItem from './ChallengesListItem';
 import styles from './styles';
-import { loadChallenge } from '../../../actions/services/challenges';
+import { navigateToChallengeSelector } from '../../../helper/navigationProxy';
+import { loadChallengeServiceProxy } from '../../../helper/apiProxy';
 
 class ChallengesList extends Component {
   static propTypes = {
-    navigation: PropTypes.object,
     isError: PropTypes.bool,
     isLoading: PropTypes.bool,
     time: PropTypes.number,
     language: PropTypes.string,
-    challenges: PropTypes.array,
-    dispatch: PropTypes.func,
+    challenges: PropTypes.array
   };
 
   constructor(props) {
     super(props);
     this.callBackItemFinished = this.callBackItemFinished.bind(this);
   }
-  handlePress = (item) => {
-    console.log('PRESS ROW');
-    console.log(item);
-
-    this.props.navigation.navigate('ChallengeSelector', { id: item._id });
+  handlePressRow = item => {
+    navigateToChallengeSelector(this.props, item);
   };
 
   callBackItemFinished(challengeId) {
     for (let i = 0; i < this.props.challenges.length; i += 1) {
       const challenge = this.props.challenges[i];
       if (challenge._id === challengeId) {
-        this.props.dispatch(loadChallenge(challengeId));
+        loadChallengeServiceProxy(this.props, challengeId);
       }
     }
   }
@@ -52,7 +48,7 @@ class ChallengesList extends Component {
                 callBackItemFinished={this.callBackItemFinished}
                 language={this.props.language}
                 data={item}
-                onPress={() => this.handlePress(item)}
+                onPress={() => this.handlePressRow(item)}
               />}
             keyExtractor={item => item._id}
             ItemSeparatorComponent={Separator}
@@ -78,7 +74,7 @@ class ChallengesList extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   const challenges = state.challenges.challenges;
   const isLoading = state.challenges.isLoading;
   const isError = state.challenges.isError;
@@ -90,7 +86,7 @@ const mapStateToProps = (state) => {
     isLoading,
     isError,
     time,
-    language,
+    language
   };
 };
 export default connect(mapStateToProps)(ChallengesList);

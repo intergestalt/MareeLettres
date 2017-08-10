@@ -1,31 +1,33 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import { StatusBar } from 'react-native';
 import { connect } from 'react-redux';
 
 import { Screen } from '../../components/general/Container';
 import { HomeIntro } from '../../components/text/HomeIntro';
 import { LanguageSelector } from '../../components/general/LanguageSelector';
-import { navigateToHowTo, navigateToAbout } from '../../actions/navigation';
+import {
+  navigateToHowTo,
+  navigateToAbout,
+  navigateToVote,
+  navigateToBecome,
+  navigateToStream,
+} from '../../helper/navigationProxy';
 
 class Home extends Component {
-  static propTypes = {
-    navigation: PropTypes.object,
-  };
-
   static navigationOptions = {
     title: 'Maree des Lettres',
   };
 
   handleVotePress = () => {
-    this.props.navigation.navigate('Vote');
+    navigateToVote(this.props);
   };
 
   handleMapPress = () => {
-    this.props.navigation.navigate('Become');
+    navigateToBecome(this.props);
   };
 
   handleStreamPress = () => {
-    this.props.navigation.navigate('Stream');
+    navigateToStream(this.props);
   };
 
   handleHowPress = () => {

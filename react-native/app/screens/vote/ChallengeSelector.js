@@ -3,13 +3,12 @@ import { StatusBar, Text, Animated } from 'react-native';
 import { connect } from 'react-redux';
 
 import { Screen } from '../../components/general/Container';
-import { loadChallenges, loadChallenge } from '../../actions/services/challenges';
 import { SwipeContainer, FooterMenu } from '../../components/vote/ChallengeSelector';
+import { loadChallengesServiceProxy, loadChallengeServiceProxy } from '../../helper/apiProxy';
 
 class ChallengeSelector extends Component {
   static propTypes = {
     navigation: PropTypes.object,
-    dispatch: PropTypes.func,
     //    id: PropTypes.string,
     isErrorLoadingChallenges: PropTypes.bool,
     isLoadingChallenges: PropTypes.bool,
@@ -36,7 +35,7 @@ class ChallengeSelector extends Component {
   }
 
   componentDidMount() {
-    this.props.dispatch(loadChallenges());
+    loadChallengesServiceProxy(this.props);
   }
 
   getIndexFromId() {
@@ -54,7 +53,7 @@ class ChallengeSelector extends Component {
     for (let i = 0; i < this.props.challenges.length; i += 1) {
       const challenge = this.props.challenges[i];
       if (challenge._id === challengeId) {
-        this.props.dispatch(loadChallenge(challengeId));
+        loadChallengeServiceProxy(this.props, challengeId);
       }
     }
   }
@@ -165,7 +164,6 @@ const mapStateToProps = (state) => {
   const isErrorLoadingChallenges = state.challenges.isError;
   const timeLoadChallenges = state.challenges.time;
   const language = state.globals.language;
-
   return {
     challenges,
     isLoadingChallenges,
