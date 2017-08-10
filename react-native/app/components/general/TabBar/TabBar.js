@@ -31,7 +31,6 @@ class TabBar extends Component {
   }*/
 
   handleVotePress = () => {
-    this.resetScreen('Vote');
     navigateToVote(this.props);
   };
 
