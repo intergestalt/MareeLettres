@@ -4,7 +4,7 @@ import {
   CHALLENGES_LOADED,
   LOAD_CHALLENGE,
   NETWORK_ERROR_LOAD_CHALLENGE,
-  CHALLENGE_LOADED,
+  CHALLENGE_LOADED
 } from '../../actions/services/challenges';
 
 import initialState from '../../config/initialState';
@@ -15,7 +15,7 @@ const resetAllChallenges = () => {
     isLoading: true,
     isError: false,
     time: null,
-    challenges: [],
+    challenges: []
   };
   return res;
 };
@@ -43,7 +43,7 @@ export default (state = initialState.challenges, action) => {
           ...entry,
           isFinished: finish,
           isLoading: false,
-          voteNum: i + 1,
+          voteNum: i + 1
         };
         challenges.push(newEntry);
       }
@@ -52,7 +52,7 @@ export default (state = initialState.challenges, action) => {
         isLoading: false,
         isError: false,
         time: now.getTime(),
-        challenges,
+        challenges
       };
     }
     case NETWORK_ERROR_LOAD_CHALLENGES: {
@@ -63,7 +63,7 @@ export default (state = initialState.challenges, action) => {
         isError: true,
         time: now.getTime(),
         challenges: [],
-        error: action.error,
+        error: action.error
       };
     }
     case LOAD_CHALLENGE: {
@@ -74,13 +74,13 @@ export default (state = initialState.challenges, action) => {
           const newChallenge = {
             ...myChallenge,
             isLoading: true,
-            isFinished: true,
+            isFinished: true
           };
           const myChallenges = Array.from(state.challenges);
           myChallenges[i] = newChallenge;
           const newState = {
             ...state,
-            challenges: myChallenges,
+            challenges: myChallenges
           };
           return newState;
         }
@@ -102,17 +102,21 @@ export default (state = initialState.challenges, action) => {
               ...action.result.challenges[0],
               isFinished: finish,
               voteNum: i + 1,
-              isLoading: false,
+              isLoading: false
             };
             myChallenges[i] = newChallenge;
           } else {
             console.log('NOT FOUND -> DELETE');
             myChallenges.splice(i, 1);
+            for (let j = 0; j < myChallenges.length; j += 1) {
+              myChallenges[j].voteNum = j + 1;
+            }
           }
           const newState = {
             ...state,
-            challenges: myChallenges,
+            challenges: myChallenges
           };
+
           return newState;
         }
       }

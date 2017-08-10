@@ -9,7 +9,7 @@ class ChallengesListItem extends Component {
     data: PropTypes.object,
     onPress: PropTypes.func,
     language: PropTypes.string,
-    callBackItemFinished: PropTypes.func,
+    callBackItemFinished: PropTypes.func
   };
 
   constructor(props) {
@@ -19,12 +19,11 @@ class ChallengesListItem extends Component {
     this.dateStrings = { tickerString: '', endString: '' };
     this.state = {
       getTickerData: true,
-      isFinished: false,
+      isFinished: false
     };
-    /* this.endUTCCustom = null;
-    if (this.props.data.id === 'RaALpmeE8vBjdH54K') {
-      const customDate = '2017-08-09T13:56:00.000Z';
-      this.endUTCCustom = new Date(customDate);
+    /*    if (this.props.data._id === 'RaALpmeE8vBjdH54K') {
+      const customDate = '2017-08-10T13:04:00.000Z';
+      this.props.data.end_date = new Date(customDate);
     }*/
   }
   componentDidMount() {
@@ -43,11 +42,10 @@ class ChallengesListItem extends Component {
     // Check if item is now finished, but was not
     if (!this.props.data.isFinished) {
       const endUTC = new Date(this.props.data.end_date);
-      /* if (this.endUTCCustom) {
-        endUTC = this.endUTCCustom;
-      }*/
+
       const finish = isFinished(endUTC);
       if (finish) {
+        console.log('OKAY!');
         this.props.callBackItemFinished(this.props.data._id);
       }
     }
@@ -56,48 +54,46 @@ class ChallengesListItem extends Component {
   render() {
     if (this.state.getTickerData) {
       const endUTC = new Date(this.props.data.end_date);
-      /* if (this.endUTCCustom) {
-        endUTC = this.endUTCCustom;
-      }*/
+
       this.dateStrings = getDateData(endUTC, this.props.language);
     }
     return (
       <View style={styles.itemContainer}>
         {!this.props.data.isLoading
           ? <TouchableHighlight onPress={this.props.onPress}>
-            {!this.props.data.isFinished
+              {!this.props.data.isFinished
                 ? <View style={styles.row}>
-                  <Text style={styles.title}>
+                    <Text style={styles.title}>
                       VOTE #{this.props.data.voteNum}
-                  </Text>
-                  <Text style={styles.title}>
-                    {this.dateStrings.endString}
-                  </Text>
-                  <Text style={styles.title}>
-                    {this.dateStrings.tickerString}
-                  </Text>
-                  <Text style={styles.title}>
-                    {this.props.data.title}
-                  </Text>
-                </View>
+                    </Text>
+                    <Text style={styles.title}>
+                      {this.dateStrings.endString}
+                    </Text>
+                    <Text style={styles.title}>
+                      {this.dateStrings.tickerString}
+                    </Text>
+                    <Text style={styles.title}>
+                      {this.props.data.title}
+                    </Text>
+                  </View>
                 : <View style={styles.row}>
-                  <Text style={styles.title}>
+                    <Text style={styles.title}>
                       VOTE #{this.props.data.voteNum} FINSHED
                     </Text>
-                  <Text style={styles.title}>
-                    {this.dateStrings.endString}
-                  </Text>
-                  <Text style={styles.title}>
-                    {this.dateStrings.tickerString}
-                  </Text>
-                  <Text style={styles.title}>
-                    {this.props.data.title}
-                  </Text>
-                </View>}
-          </TouchableHighlight>
+                    <Text style={styles.title}>
+                      {this.dateStrings.endString}
+                    </Text>
+                    <Text style={styles.title}>
+                      {this.dateStrings.tickerString}
+                    </Text>
+                    <Text style={styles.title}>
+                      {this.props.data.title}
+                    </Text>
+                  </View>}
+            </TouchableHighlight>
           : <View style={styles.row}>
-            <Text style={styles.title}>RELOAD ITEM</Text>
-          </View>}
+              <Text style={styles.title}>RELOAD ITEM</Text>
+            </View>}
       </View>
     );
   }

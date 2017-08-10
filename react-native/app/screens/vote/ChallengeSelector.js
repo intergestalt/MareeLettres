@@ -4,8 +4,14 @@ import { connect } from 'react-redux';
 
 import { Screen } from '../../components/general/Container';
 import { Header } from '../../components/general/Header';
-import { SwipeContainer, FooterMenu } from '../../components/vote/ChallengeSelector';
-import { loadChallengesServiceProxy, loadChallengeServiceProxy } from '../../helper/apiProxy';
+import {
+  SwipeContainer,
+  FooterMenu
+} from '../../components/vote/ChallengeSelector';
+import {
+  loadChallengesServiceProxy,
+  loadChallengeServiceProxy
+} from '../../helper/apiProxy';
 
 class ChallengeSelector extends Component {
   static propTypes = {
@@ -15,7 +21,7 @@ class ChallengeSelector extends Component {
     isLoadingChallenges: PropTypes.bool,
     timeLoadChallenges: PropTypes.number,
     language: PropTypes.string,
-    challenges: PropTypes.array,
+    challenges: PropTypes.array
   };
   constructor(props) {
     super(props);
@@ -23,7 +29,7 @@ class ChallengeSelector extends Component {
       isFinished: true,
       isTinder: true,
       selectedChallengeId: this.props.navigation.state.params.id,
-      headerSwipeOffsetX: new Animated.Value(),
+      headerSwipeOffsetX: new Animated.Value()
     };
 
     this.selectedChallengeIndex = -1;
@@ -127,7 +133,9 @@ class ChallengeSelector extends Component {
           language={this.props.language}
           challengeLeft={this.props.challenges[this.selectedChallengeIndex - 1]}
           challenge={this.props.challenges[this.selectedChallengeIndex]}
-          challengeRight={this.props.challenges[this.selectedChallengeIndex + 1]}
+          challengeRight={
+            this.props.challenges[this.selectedChallengeIndex + 1]
+          }
           isTinder={this.state.isTinder}
           isFinished={this.state.isFinished}
           headerSwipeOffsetX={this.state.headerSwipeOffsetX}
@@ -162,19 +170,18 @@ class ChallengeSelector extends Component {
     return this.renderScreen(this.selectedChallengeIndex);
   }
 }
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   const challenges = state.challenges.challenges;
   const isLoadingChallenges = state.challenges.isLoading;
   const isErrorLoadingChallenges = state.challenges.isError;
   const timeLoadChallenges = state.challenges.time;
   const language = state.globals.language;
-
   return {
     challenges,
     isLoadingChallenges,
     isErrorLoadingChallenges,
     timeLoadChallenges,
-    language,
+    language
   };
 };
 export default connect(mapStateToProps)(ChallengeSelector);

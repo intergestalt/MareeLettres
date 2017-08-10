@@ -12,6 +12,7 @@
         "extensions": [".js", ".jsx"]
       }
     ],
+    "no-underscore-dangle": ["error", { "allowed": ["_id"] }],
     "react/forbid-prop-types": [0],
     "react/require-default-props": [0],
     "global-require": [0],

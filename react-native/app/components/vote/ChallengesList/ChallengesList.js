@@ -10,20 +10,18 @@ import { loadChallengeServiceProxy } from '../../../helper/apiProxy';
 
 class ChallengesList extends Component {
   static propTypes = {
-    navigation: PropTypes.object,
     isError: PropTypes.bool,
     isLoading: PropTypes.bool,
     time: PropTypes.number,
     language: PropTypes.string,
-    challenges: PropTypes.array,
-    dispatch: PropTypes.func,
+    challenges: PropTypes.array
   };
 
   constructor(props) {
     super(props);
     this.callBackItemFinished = this.callBackItemFinished.bind(this);
   }
-  handlePressRow = (item) => {
+  handlePressRow = item => {
     navigateToChallengeSelector(this.props, item);
   };
 
@@ -76,7 +74,7 @@ class ChallengesList extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   const challenges = state.challenges.challenges;
   const isLoading = state.challenges.isLoading;
   const isError = state.challenges.isError;
@@ -88,7 +86,7 @@ const mapStateToProps = (state) => {
     isLoading,
     isError,
     time,
-    language,
+    language
   };
 };
 export default connect(mapStateToProps)(ChallengesList);
