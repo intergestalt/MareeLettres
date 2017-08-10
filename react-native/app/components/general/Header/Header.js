@@ -1,6 +1,5 @@
 import React, { Component, PropTypes } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
-import { NavigationActions } from 'react-navigation';
 
 import styles from './styles';
 

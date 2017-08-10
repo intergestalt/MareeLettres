@@ -5,17 +5,16 @@ import { connect } from 'react-redux';
 import { Screen } from '../../components/general/Container';
 import { ChallengesList } from '../../components/vote/ChallengesList';
 import { Header } from '../../components/general/Header';
-import { loadChallenges } from '../../actions/services/challenges';
+import { loadChallengesServiceProxy } from '../../helper/apiProxy';
 
 class Challenges extends Component {
   static propTypes = {
     navigation: PropTypes.object,
-    dispatch: PropTypes.func,
   };
 
   // TODO: fix the fetch!
   componentDidMount() {
-    this.props.dispatch(loadChallenges());
+    loadChallengesServiceProxy(this.props);
   }
 
   render() {

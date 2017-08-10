@@ -5,7 +5,8 @@ import { connect } from 'react-redux';
 import Separator from './Separator';
 import ChallengesListItem from './ChallengesListItem';
 import styles from './styles';
-import { loadChallenge } from '../../../actions/services/challenges';
+import { navigateToChallengeSelector } from '../../../helper/navigationProxy';
+import { loadChallengeServiceProxy } from '../../../helper/apiProxy';
 
 class ChallengesList extends Component {
   static propTypes = {
@@ -22,18 +23,15 @@ class ChallengesList extends Component {
     super(props);
     this.callBackItemFinished = this.callBackItemFinished.bind(this);
   }
-  handlePress = (item) => {
-    console.log('PRESS ROW');
-    console.log(item);
-
-    this.props.navigation.navigate('ChallengeSelector', { id: item._id });
+  handlePressRow = (item) => {
+    navigateToChallengeSelector(this.props, item);
   };
 
   callBackItemFinished(challengeId) {
     for (let i = 0; i < this.props.challenges.length; i += 1) {
       const challenge = this.props.challenges[i];
       if (challenge._id === challengeId) {
-        this.props.dispatch(loadChallenge(challengeId));
+        loadChallengeServiceProxy(this.props, challengeId);
       }
     }
   }
@@ -52,7 +50,7 @@ class ChallengesList extends Component {
                 callBackItemFinished={this.callBackItemFinished}
                 language={this.props.language}
                 data={item}
-                onPress={() => this.handlePress(item)}
+                onPress={() => this.handlePressRow(item)}
               />}
             keyExtractor={item => item._id}
             ItemSeparatorComponent={Separator}

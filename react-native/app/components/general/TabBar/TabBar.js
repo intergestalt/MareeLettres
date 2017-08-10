@@ -2,6 +2,11 @@ import React, { Component, PropTypes } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 // import { NavigationActions } from 'react-navigation';
 import { connect } from 'react-redux';
+import {
+  navigateToVote,
+  navigateToBecome,
+  navigateToStream,
+} from '../../../helper/navigationProxy';
 
 import styles from './styles';
 
@@ -10,8 +15,8 @@ class TabBar extends Component {
     navigation: PropTypes.object,
   };
 
-  resetScreen(dest, props) {
-    /* const resetScreen = () =>
+  /*  resetScreen(dest, props) {
+     const resetScreen = () =>
       new Promise((resolve) => {
         const resetAction = NavigationActions.reset({
           index: 0,
@@ -20,21 +25,22 @@ class TabBar extends Component {
         this.props.navigation.dispatch(resetAction);
         resolve();
       });
-    resetScreen().then(() => {*/
+    resetScreen().then(() => {
     this.props.navigation.navigate(dest);
-    // });
-  }
+     });
+  }*/
 
   handleVotePress = () => {
     this.resetScreen('Vote');
+    navigateToVote(this.props);
   };
 
   handleBecomePress = () => {
-    this.resetScreen('Become');
+    navigateToBecome(this.props);
   };
 
   handleStreamPress = () => {
-    this.resetScreen('Stream');
+    navigateToStream(this.props);
   };
 
   render() {
