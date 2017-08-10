@@ -6,7 +6,6 @@ const styles = EStyleSheet.create({
 
   swipeContainer: {
     backgroundColor: '#7700FF',
-    top: '10%',
     width: '100%',
     height: '70%',
   },

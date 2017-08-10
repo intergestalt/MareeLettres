@@ -3,7 +3,6 @@ import { StatusBar, Text, Animated } from 'react-native';
 import { connect } from 'react-redux';
 
 import { Screen } from '../../components/general/Container';
-import { Header } from '../../components/general/Header';
 import { loadChallenges, loadChallenge } from '../../actions/services/challenges';
 import { SwipeContainer, FooterMenu } from '../../components/vote/ChallengeSelector';
 
@@ -103,7 +102,6 @@ class ChallengeSelector extends Component {
     return (
       <Screen backgroundColor="#88ff44">
         <StatusBar />
-        <Header title={'Challenges'} navigation={this.props.navigation} />
         <Text>Loading...</Text>
       </Screen>
     );
@@ -113,7 +111,6 @@ class ChallengeSelector extends Component {
     return (
       <Screen backgroundColor="#88ff44">
         <StatusBar />
-        <Header title={'Challenges'} navigation={this.props.navigation} />
         <Text>ERROR!</Text>
       </Screen>
     );
@@ -123,7 +120,6 @@ class ChallengeSelector extends Component {
     return (
       <Screen>
         <StatusBar />
-        <Header title={'Challenges'} navigation={this.props.navigation} />
         <SwipeContainer
           language={this.props.language}
           challengeLeft={this.props.challenges[this.selectedChallengeIndex - 1]}
