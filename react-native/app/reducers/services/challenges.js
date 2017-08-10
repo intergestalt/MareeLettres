@@ -35,22 +35,18 @@ export default (state = initialState.challenges, action) => {
 
       for (let i = 0; i < action.result.challenges.length; i += 1) {
         const entry = action.result.challenges[i];
-        console.log(entry.end_date);
         const endDate = new Date(entry.end_date);
 
         const finish = isFinished(endDate);
 
         const newEntry = {
-          id: entry._id,
-          title: entry.title,
-          end_date: entry.end_date,
+          ...entry,
           isFinished: finish,
           isLoading: false,
           voteNum: i + 1,
         };
         challenges.push(newEntry);
       }
-      console.log('CHALLENGES_LOADED 2');
 
       return {
         isLoading: false,
@@ -71,10 +67,10 @@ export default (state = initialState.challenges, action) => {
       };
     }
     case LOAD_CHALLENGE: {
-      console.log('LOAD CHALLENGE');
+      console.log('LOAD_CHALLENGE');
       for (let i = 0; i < state.challenges.length; i += 1) {
         const myChallenge = state.challenges[i];
-        if (myChallenge.id === action.challengeId) {
+        if (myChallenge._id === action.challengeId) {
           const newChallenge = {
             ...myChallenge,
             isLoading: true,
@@ -96,11 +92,12 @@ export default (state = initialState.challenges, action) => {
       console.log(`CHALLENGE_LOADED ${action.action.challengeId}`);
       for (let i = 0; i < state.challenges.length; i += 1) {
         const myChallenge = state.challenges[i];
-        if (myChallenge.id === action.action.challengeId) {
+        if (myChallenge._id === action.action.challengeId) {
           const endDate = new Date(myChallenge.end_date);
           const finish = isFinished(endDate);
           const myChallenges = Array.from(state.challenges);
           if (action.result.challenges.length > 0) {
+            console.log('FOUND -> CHANGE');
             const newChallenge = {
               ...action.result.challenges[0],
               isFinished: finish,
@@ -109,6 +106,7 @@ export default (state = initialState.challenges, action) => {
             };
             myChallenges[i] = newChallenge;
           } else {
+            console.log('NOT FOUND -> DELETE');
             myChallenges.splice(i, 1);
           }
           const newState = {

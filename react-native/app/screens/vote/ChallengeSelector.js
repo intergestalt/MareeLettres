@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 import { Screen } from '../../components/general/Container';
 import { Header } from '../../components/general/Header';
-import { loadChallenges } from '../../actions/services/challenges';
+import { loadChallenges, loadChallenge } from '../../actions/services/challenges';
 import { SwipeContainer, FooterMenu } from '../../components/vote/ChallengeSelector';
 
 class ChallengeSelector extends Component {
@@ -33,20 +33,31 @@ class ChallengeSelector extends Component {
     this.handleListPress = this.handleListPress.bind(this);
     this.navigateUp = this.navigateUp.bind(this);
     this.navigateDown = this.navigateDown.bind(this);
+    this.callBackItemFinished = this.callBackItemFinished.bind(this);
   }
 
   componentDidMount() {
     this.props.dispatch(loadChallenges());
   }
+
   getIndexFromId() {
     let index = -1;
     for (let i = 0; i < this.props.challenges.length; i += 1) {
       const challenge = this.props.challenges[i];
-      if (challenge.id === this.state.selectedChallengeId) {
+      if (challenge._id === this.state.selectedChallengeId) {
         index = i;
       }
     }
     this.selectedChallengeIndex = index;
+  }
+
+  callBackItemFinished(challengeId) {
+    for (let i = 0; i < this.props.challenges.length; i += 1) {
+      const challenge = this.props.challenges[i];
+      if (challenge._id === challengeId) {
+        this.props.dispatch(loadChallenge(challengeId));
+      }
+    }
   }
   handleSharePress() {
     console.log('handleSharePress');
@@ -70,7 +81,7 @@ class ChallengeSelector extends Component {
   navigate() {
     const challenge = this.props.challenges[this.selectedChallengeIndex];
     if (challenge == null) return;
-    const newId = challenge.id;
+    const newId = challenge._id;
     this.state.headerSwipeOffsetX.setValue(0);
 
     this.setState({ selectedChallengeId: newId });
@@ -123,6 +134,8 @@ class ChallengeSelector extends Component {
           headerSwipeOffsetX={this.state.headerSwipeOffsetX}
           navigateDown={this.navigateDown}
           navigateUp={this.navigateUp}
+          navigation={this.props.navigation}
+          callBackItemFinished={this.callBackItemFinished}
         />
         <FooterMenu
           handleListPress={this.handleListPress}
@@ -144,7 +157,6 @@ class ChallengeSelector extends Component {
     }
 
     this.getIndexFromId();
-    console.log(`FOUND: ${this.selectedChallengeIndex}`);
     if (this.selectedChallengeIndex === -1) {
       return this.renderError();
     }

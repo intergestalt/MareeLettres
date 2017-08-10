@@ -17,6 +17,7 @@ class SwipeContainer extends Component {
     navigateUp: PropTypes.func,
     navigateDown: PropTypes.func,
     navigation: PropTypes.object,
+    callBackItemFinished: PropTypes.func,
   };
   constructor(props) {
     super(props);
@@ -148,8 +149,8 @@ class SwipeContainer extends Component {
 
   handleHeaderPressed = () => {
     console.log('PROPS');
-    console.log(this.props);
-    this.props.navigation.navigate('ChallengesList');
+    console.log(this.props.navigation);
+    this.props.navigation.navigate('Challenges');
   };
 
   // Render
@@ -168,6 +169,7 @@ class SwipeContainer extends Component {
               offsetX={this.props.headerSwipeOffsetX}
               challenge={this.props.challengeLeft}
               onPress={this.handleHeaderPressed}
+              callBackItemFinished={this.props.callBackItemFinished}
             />
           </View>
           <View style={styles.headerContainerCenter}>
@@ -178,6 +180,7 @@ class SwipeContainer extends Component {
               offsetX={this.props.headerSwipeOffsetX}
               challenge={this.props.challenge}
               onPress={this.handleHeaderPressed}
+              callBackItemFinished={this.props.callBackItemFinished}
             />
           </View>
           <View style={styles.headerContainerRight}>
@@ -187,6 +190,7 @@ class SwipeContainer extends Component {
               offsetX={this.props.headerSwipeOffsetX}
               challenge={this.props.challengeRight}
               onPress={this.handleHeaderPressed}
+              callBackItemFinished={this.props.callBackItemFinished}
             />
           </View>
         </View>
