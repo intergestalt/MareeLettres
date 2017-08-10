@@ -106,7 +106,7 @@ export default (state = initialState.challenges, action) => {
             };
             myChallenges[i] = newChallenge;
           } else {
-            console.log('NOT FOUND -> DELETE');
+            console.log('FOUND BUT NOT EXISTING ANYMORE -> DELETE');
             myChallenges.splice(i, 1);
             for (let j = 0; j < myChallenges.length; j += 1) {
               myChallenges[j].voteNum = j + 1;

@@ -4,14 +4,8 @@ import { connect } from 'react-redux';
 
 import { Screen } from '../../components/general/Container';
 import { Header } from '../../components/general/Header';
-import {
-  SwipeContainer,
-  FooterMenu
-} from '../../components/vote/ChallengeSelector';
-import {
-  loadChallengesServiceProxy,
-  loadChallengeServiceProxy
-} from '../../helper/apiProxy';
+import { SwipeContainer, FooterMenu } from '../../components/vote/ChallengeSelector';
+import { loadChallengesServiceProxy, loadChallengeServiceProxy } from '../../helper/apiProxy';
 
 class ChallengeSelector extends Component {
   static propTypes = {
@@ -21,7 +15,7 @@ class ChallengeSelector extends Component {
     isLoadingChallenges: PropTypes.bool,
     timeLoadChallenges: PropTypes.number,
     language: PropTypes.string,
-    challenges: PropTypes.array
+    challenges: PropTypes.array,
   };
   constructor(props) {
     super(props);
@@ -29,7 +23,7 @@ class ChallengeSelector extends Component {
       isFinished: true,
       isTinder: true,
       selectedChallengeId: this.props.navigation.state.params.id,
-      headerSwipeOffsetX: new Animated.Value()
+      headerSwipeOffsetX: new Animated.Value(),
     };
 
     this.selectedChallengeIndex = -1;
@@ -46,7 +40,7 @@ class ChallengeSelector extends Component {
   }
 
   getIndexFromId() {
-    let index = -1;
+    let index = 0;
     for (let i = 0; i < this.props.challenges.length; i += 1) {
       const challenge = this.props.challenges[i];
       if (challenge._id === this.state.selectedChallengeId) {
@@ -133,9 +127,7 @@ class ChallengeSelector extends Component {
           language={this.props.language}
           challengeLeft={this.props.challenges[this.selectedChallengeIndex - 1]}
           challenge={this.props.challenges[this.selectedChallengeIndex]}
-          challengeRight={
-            this.props.challenges[this.selectedChallengeIndex + 1]
-          }
+          challengeRight={this.props.challenges[this.selectedChallengeIndex + 1]}
           isTinder={this.state.isTinder}
           isFinished={this.state.isFinished}
           headerSwipeOffsetX={this.state.headerSwipeOffsetX}
@@ -170,7 +162,7 @@ class ChallengeSelector extends Component {
     return this.renderScreen(this.selectedChallengeIndex);
   }
 }
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   const challenges = state.challenges.challenges;
   const isLoadingChallenges = state.challenges.isLoading;
   const isErrorLoadingChallenges = state.challenges.isError;
@@ -181,7 +173,7 @@ const mapStateToProps = state => {
     isLoadingChallenges,
     isErrorLoadingChallenges,
     timeLoadChallenges,
-    language
+    language,
   };
 };
 export default connect(mapStateToProps)(ChallengeSelector);
