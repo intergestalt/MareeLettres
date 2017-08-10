@@ -3,6 +3,7 @@
 import { Meteor } from 'meteor/meteor';
 import { Random } from 'meteor/random';
 import moment from 'moment';
+import { OriginId } from 'maree-lettres-shared';
 
 import { Challenges } from '../../api/challenges/challenges';
 import { Proposals } from '../../api/proposals/proposals';
@@ -37,13 +38,15 @@ Meteor.startup(() => {
         (err, id) => {
           if (id != undefined) {
             console.log('Seeding Proposals');
-            for (let i = 1; i <= 200; i++) {
+            const amount = 150 + 10 * Math.floor(10 * Math.random());
+            for (let i = 1; i <= amount; i++) {
               Proposals.insert({
                 text: shuffleString('ABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRS          '),
                 challenge_id: id,
                 score: parseInt(10 * Math.random()),
                 votes_amount: parseInt(10 * Math.random()),
                 score_trending: 0,
+                origin_id: OriginId.generateFromString(`fixture/${i}`),
               });
             }
           }

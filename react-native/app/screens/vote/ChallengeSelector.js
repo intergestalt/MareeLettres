@@ -133,6 +133,7 @@ class ChallengeSelector extends Component {
           headerSwipeOffsetX={this.state.headerSwipeOffsetX}
           navigateDown={this.navigateDown}
           navigateUp={this.navigateUp}
+          navigation={this.props.navigation}
           callBackItemFinished={this.callBackItemFinished}
         />
         <FooterMenu

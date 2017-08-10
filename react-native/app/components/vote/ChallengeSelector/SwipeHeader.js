@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
-import { Animated, Text } from 'react-native';
+import { Animated, Text, TouchableOpacity, View } from 'react-native';
+import { NavigationActions } from 'react-navigation';
 
 import styles from './styles';
 import { getDateData, isFinished } from '../../../helper/dateFunctions';
@@ -11,6 +12,7 @@ class SwipeHeader extends Component {
     layoutCallback: PropTypes.func,
     offsetX: PropTypes.object,
     customStyle: PropTypes.number,
+    onPress: PropTypes.func,
     callBackItemFinished: PropTypes.func,
   };
 
@@ -36,6 +38,7 @@ class SwipeHeader extends Component {
       }, 1000);
     }
   }
+
   componentWillUnmount() {
     clearInterval(this.timerID);
   }
@@ -68,15 +71,19 @@ class SwipeHeader extends Component {
           onLayout={this.props.layoutCallback}
           style={[{ left: this.props.offsetX }, this.props.customStyle]}
         >
-          <Text style={styles.swipeDummyText}>
-            {this.props.challenge.title}
-          </Text>
-          <Text style={styles.swipeDummyText}>
-            {this.dateStrings.endString}
-          </Text>
-          <Text style={styles.swipeDummyText}>
-            {this.dateStrings.tickerString}
-          </Text>
+          <TouchableOpacity onPress={this.props.onPress}>
+            <View>
+              <Text style={styles.swipeDummyText}>
+                {this.props.challenge.title}
+              </Text>
+              <Text style={styles.swipeDummyText}>
+                {this.dateStrings.endString}
+              </Text>
+              <Text style={styles.swipeDummyText}>
+                {this.dateStrings.tickerString}
+              </Text>
+            </View>
+          </TouchableOpacity>
         </Animated.View>
       );
     }

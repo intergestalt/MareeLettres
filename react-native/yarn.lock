@@ -1678,6 +1678,10 @@ crypto-token@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/crypto-token/-/crypto-token-1.0.1.tgz#27c6482faf3b63c2f5da11577f8304346fe797a5"
 
+cryptr@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/cryptr/-/cryptr-2.0.0.tgz#adff600162f4a2b1d98c4e2185dcdda68b0a0a72"
+
 csrf@~3.0.0:
   version "3.0.6"
   resolved "https://registry.yarnpkg.com/csrf/-/csrf-3.0.6.tgz#b61120ddceeafc91e76ed5313bb5c0b2667b710a"
@@ -3871,6 +3875,11 @@ makeerror@1.0.x:
   resolved "https://registry.yarnpkg.com/makeerror/-/makeerror-1.0.11.tgz#e01a5c9109f2af79660e4e8b9587790184f5a96c"
   dependencies:
     tmpl "1.0.x"
+
+"maree-lettres-shared@file:../shared/maree-lettres-shared":
+  version "0.1.0"
+  dependencies:
+    cryptr "^2.0.0"
 
 match-require@^2.0.0:
   version "2.1.0"
