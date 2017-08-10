@@ -14,7 +14,7 @@
     "history": "^3.3.0",
     "ip": "^1.1.5",
     "leaflet": "^1.2.0",
-    "maree-lettres-shared": "file:../shared",
+    "maree-lettres-shared": "file:../shared/maree-lettres-shared",
     "meteor-node-stubs": "~0.2.3",
     "meteor-react-status": "0.0.3",
     "moment": "^2.18.1",

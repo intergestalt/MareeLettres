@@ -16,6 +16,7 @@ class SwipeContainer extends Component {
     headerSwipeOffsetX: PropTypes.object,
     navigateUp: PropTypes.func,
     navigateDown: PropTypes.func,
+    navigation: PropTypes.object,
   };
   constructor(props) {
     super(props);
@@ -145,6 +146,12 @@ class SwipeContainer extends Component {
     });
   }
 
+  handleHeaderPressed = () => {
+    console.log('PROPS');
+    console.log(this.props);
+    this.props.navigation.navigate('ChallengesList');
+  };
+
   // Render
   render() {
     return (
@@ -160,6 +167,7 @@ class SwipeContainer extends Component {
               customStyle={styles.headerLeft}
               offsetX={this.props.headerSwipeOffsetX}
               challenge={this.props.challengeLeft}
+              onPress={this.handleHeaderPressed}
             />
           </View>
           <View style={styles.headerContainerCenter}>
@@ -169,6 +177,7 @@ class SwipeContainer extends Component {
               layoutCallback={this.setChallengeHeaderLayout}
               offsetX={this.props.headerSwipeOffsetX}
               challenge={this.props.challenge}
+              onPress={this.handleHeaderPressed}
             />
           </View>
           <View style={styles.headerContainerRight}>
@@ -177,6 +186,7 @@ class SwipeContainer extends Component {
               customStyle={styles.headerRight}
               offsetX={this.props.headerSwipeOffsetX}
               challenge={this.props.challengeRight}
+              onPress={this.handleHeaderPressed}
             />
           </View>
         </View>

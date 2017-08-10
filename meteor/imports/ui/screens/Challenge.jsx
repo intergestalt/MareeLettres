@@ -4,6 +4,7 @@ import { Meteor } from 'meteor/meteor';
 import AutoField from 'uniforms-unstyled/AutoField';
 import AutoForm from 'uniforms-unstyled/AutoForm';
 import SubmitField from 'uniforms-unstyled/SubmitField';
+import { OriginId } from 'maree-lettres-shared';
 
 import { Challenges, ChallengesSchema } from '../../api/challenges/challenges';
 import { Proposals } from '../../api/proposals/proposals';
@@ -47,7 +48,8 @@ class Challenge extends Component {
     const proposals = this.props.proposals;
     return proposals.map(proposal =>
       <li key={proposal._id}>
-        {proposal.text}
+        <span className="impact">{proposal.text}</span>
+        &nbsp; {OriginId.getOrigin(proposal.origin_id)}
       </li>,
     );
   }
