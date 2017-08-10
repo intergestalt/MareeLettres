@@ -36,6 +36,6 @@ export function navigateToChallengeSelector(props, id) {
 
 export function popChallengeSelector(props) {
   if (!props.navigation.goBack()) {
-    props.navigate('Home');
+    props.navigation.navigate('Challenges');
   }
 }
