@@ -16,4 +16,9 @@ export default {
     content: [],
   },
   proposals: {},
+  letters: {
+    isLoading: false,
+    isError: false,
+    content: [],
+  }
 };
