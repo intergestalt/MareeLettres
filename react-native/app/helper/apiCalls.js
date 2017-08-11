@@ -27,3 +27,10 @@ export const callAllContent = () => {
   console.log(url);
   return fetch(url);
 };
+
+export const callLetters = () => {
+  console.log('Load letters');
+  const url = `${config.API_PREFIX}letters/`;
+  console.log(url);
+  return fetch(url);
+}
