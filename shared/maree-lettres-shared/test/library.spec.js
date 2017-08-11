@@ -1,7 +1,7 @@
 /* global describe, it, before */
 
 import chai from 'chai';
-import { OriginId } from '../lib/maree-lettres-shared.js';
+import { OriginId, DeviceIdException } from '../lib/maree-lettres-shared.js';
 import config from '../src/config.js';
 
 chai.expect();
@@ -15,6 +15,21 @@ describe('when encrypting from string', () => {
   it('should return a string', () => {
     // console.log(enc);
     expect(enc).to.be.a('string');
+  });
+});
+
+describe('when encrypting from deviceId', () => {
+  it('should accept a string', () => {
+    // console.log(enc);
+    expect(OriginId.generateFromDeviceId('12345-lseirufshker')).to.be.a('string');
+  });
+  it('should reject a short string', () => {
+    // console.log(enc);
+    expect(OriginId.generateFromDeviceId.bind('123d5')).to.throw(DeviceIdException);
+  });
+  it('should reject an empty string', () => {
+    // console.log(enc);
+    expect(OriginId.generateFromDeviceId.bind('')).to.throw(DeviceIdException);
   });
 });
 

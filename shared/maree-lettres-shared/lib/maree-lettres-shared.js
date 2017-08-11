@@ -13168,7 +13168,7 @@ exports.OriginId = _origin_id.OriginId;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.OriginId = undefined;
+exports.DeviceIdException = exports.OriginId = undefined;
 
 var _cryptr = __webpack_require__(76);
 
@@ -13187,11 +13187,26 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 */
 var encryptor = new _cryptr2.default(_config2.default.user_key_secret);
 
+function DeviceIdException(s) {
+  this.message = 'Invalid DeviceId "' + s + '"';
+  this.name = 'DeviceIdException';
+}
+
 var OriginId = {
   // user functions
 
   generateFromString: function generateFromString(s) {
     var code = s + '-' + _config2.default.user_key_other_code;
+    var encrypted = encryptor.encrypt(code);
+
+    return encrypted;
+  },
+  generateFromDeviceId: function generateFromDeviceId(s) {
+    if (typeof s !== 'string' || s === '' || s.length < 8) {
+      throw new DeviceIdException(s);
+    }
+
+    var code = s + '-' + _config2.default.user_key_phone_code;
     var encrypted = encryptor.encrypt(code);
 
     return encrypted;
@@ -13249,6 +13264,7 @@ const userKeys = {
 */
 
 exports.OriginId = OriginId;
+exports.DeviceIdException = DeviceIdException;
 
 /***/ }),
 /* 76 */

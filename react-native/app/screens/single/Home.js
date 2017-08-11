@@ -17,9 +17,6 @@ class Home extends Component {
   static propTypes = {
     navigation: PropTypes.object,
   };
-  static navigationOptions = {
-    title: 'Maree des Lettres',
-  };
 
   handleVotePress = () => {
     navigateToVote(this.props);

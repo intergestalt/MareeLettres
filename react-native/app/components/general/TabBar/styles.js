@@ -26,6 +26,7 @@ const styles = EStyleSheet.create({
     fontSize: '1rem',
     lineHeight: '2.5rem',
     textAlign: 'center',
+    fontFamily: 'impact',
   },
   textHigh: {
     color: 'white',
@@ -33,6 +34,7 @@ const styles = EStyleSheet.create({
     lineHeight: '2.5rem',
     backgroundColor: 'black',
     textAlign: 'center',
+    fontFamily: 'impact',
   },
 });
 
