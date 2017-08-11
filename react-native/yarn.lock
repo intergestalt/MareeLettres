@@ -3944,7 +3944,7 @@ makeerror@1.0.x:
   dependencies:
     tmpl "1.0.x"
 
-"maree-lettres-shared@file:../shared/maree-lettres-shared":
+maree-lettres-shared@../shared/maree-lettres-shared:
   version "0.1.0"
   dependencies:
     cryptr "^2.0.0"
