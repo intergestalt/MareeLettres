@@ -7,16 +7,12 @@ import mapstyles from './mapstyles';
 
 // https://www.npmjs.com/package/react-native-maps
 // Note: It's possible to use a different map tile provider for better look
-// <MapView.UrlTile
-// 		urlTemplate="http://c.tile.stamen.com/watercolor/{z}/{x}/{y}.jpg"
-// 		zIndex={-1}
-// 	  />
 
 const NativeMap = () =>
   <View style={styles.container}>
     <Text>You are the A</Text>
     <MapView
-			provider={MapView.PROVIDER_GOOGLE}
+			//provider={MapView.PROVIDER_GOOGLE}
       style={styles.container}
       initialRegion={{
         latitude: 48.864716,
@@ -24,8 +20,11 @@ const NativeMap = () =>
         latitudeDelta: 0.0922,
         longitudeDelta: 0.0421,
       }}
-			customMapStyle={mapstyles}
+			//customMapStyle={mapstyles}
     >
+			<MapView.UrlTile
+				urlTemplate="http://c.tile.stamen.com/toner/{z}/{x}/{y}.jpg"
+				zIndex={-1} />
 		
 			<MapView.Marker
 				title="A"
