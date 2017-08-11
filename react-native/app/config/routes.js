@@ -68,8 +68,9 @@ const VoteStack = StackNavigator(
   },
   {
     headerMode: 'none',
-    transitionConfig: TransitionConfiguration,
-
+    // NO TRANSITION AT ALL
+    // transitionConfig: TransitionConfiguration,
+    mode: 'modal',
     navigationOptions: {
       gesturesEnabled: false,
     },
@@ -107,7 +108,7 @@ const tabNavigator = TabNavigator(
     swipeEnabled: false,
     animationEnabled: false,
     //    tabBarPosition: 'bottom',
-    initialRouteName: 'Home',
+    initialRouteName: 'Vote',
   },
 );
 

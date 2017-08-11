@@ -179,7 +179,6 @@ export function formatDiff(diff) {
 }
 
 export function getDateData(endUTC, language) {
-  // / console.log('UPDATE DATE');
   const nowUTC = new Date(); // Now in what time zone ever
   const mNowUTC = nowUTC.getTime();
 
@@ -188,12 +187,12 @@ export function getDateData(endUTC, language) {
 
   let finished = false;
   if (diff <= null) finished = true;
-
-  return {
+  const result = {
     endString: formatDate(endUTC, nowUTC, language),
     tickerString: formatDiff(diff),
     finished,
   };
+  return result;
 }
 
 export function isFinished(endDate) {

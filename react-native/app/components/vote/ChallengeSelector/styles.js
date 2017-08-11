@@ -1,71 +1,85 @@
 import EStyleSheet from 'react-native-extended-stylesheet';
-import Dimensions from 'Dimensions';
+import { screenWidth } from '../../../helper/screen';
 
 const styles = EStyleSheet.create({
-  $swipeWidth: Dimensions.get('window').width,
+  $swipeWidth: screenWidth,
 
-  swipeContainer: {
+  // Container Main
+
+  // All 3 CHallenges
+  challengeContainer: {
     backgroundColor: '#7700FF',
-    width: '100%',
-    height: '70%',
+    flexDirection: 'row',
+    width: '$swipeWidth*3',
+    flex: 1,
   },
 
-  swipeHeaderContainer: {
-    flexDirection: 'row',
-    backgroundColor: '#dd0000',
-    flex: 0.2,
-  },
-  headerContainerLeft: {
-    position: 'absolute',
-    width: '$swipeWidth',
-    left: '$swipeWidth * -1',
-    top: 0,
-    bottom: 0,
-  },
-  headerContainerCenter: {
-    position: 'absolute',
+  // 1 Challange, but three of this in a row.
+  detailContainer: {
+    flexDirection: 'column',
+    backgroundColor: '#00FF00',
     width: '$swipeWidth',
     left: 0,
-    top: 0,
-    bottom: 0,
   },
-  headerContainerRight: {
-    position: 'absolute',
-    width: '$swipeWidth',
-    left: '$swipeWidth',
-    top: 0,
-    bottom: 0,
+  // Three Arrays of a detail view
+  challengeHeader: {
+    flexDirection: 'row',
+    position: 'relative',
+    flex: 0.25,
+  },
+  challengeContent: {
+    position: 'relative',
+    flex: 0.675,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  challengeFooter: {
+    position: 'relative',
+    flex: 0.075,
   },
 
-  headerLeft: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    flex: 1,
+  // Header
+
+  headerDownContainer: {
+    backgroundColor: '#555599',
+    flex: 0.12,
   },
-  headerCenter: {
+  headerTextContainer: {
     alignItems: 'center',
     justifyContent: 'center',
-    flex: 1,
+    backgroundColor: '#5555FF',
+    flex: 0.76,
   },
-  headerRight: {
+  headerUpContainer: {
+    backgroundColor: '#555500',
+    flex: 0.12,
+  },
+  headerNavContainer: {
+    flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    flex: 1,
+    backgroundColor: '#FF0000',
   },
 
-  swipeContentContainer: {
-    flex: 0.8,
-    backgroundColor: '#440044',
-    width: '100%',
+  headerText: {
+    color: '#aaaa00',
+    textAlign: 'center',
+    fontSize: 18,
   },
-  swipeContent: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#440000',
-    flex: 1,
+  headerNav: {
+    color: '#aaaa00',
+    textAlign: 'center',
+    fontSize: 40,
+  },
+  // Content
+
+  contentText: {
+    color: '#aa00aa',
+    fontSize: 25,
   },
 
   // Footer Menu
+
   footerMenu: {
     flexDirection: 'row',
     alignItems: 'center',
