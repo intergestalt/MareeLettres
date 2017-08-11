@@ -3,8 +3,9 @@ import { StatusBar, Text, Animated } from 'react-native';
 import { connect } from 'react-redux';
 
 import { Screen } from '../../components/general/Container';
-import { SwipeContainer, FooterMenu } from '../../components/vote/ChallengeSelector';
+import { ChallengeContainer } from '../../components/vote/ChallengeSelector';
 import { loadChallengesServiceProxy, loadChallengeServiceProxy } from '../../helper/apiProxy';
+import { screenWidth } from '../../helper/screen';
 
 class ChallengeSelector extends Component {
   static propTypes = {
@@ -21,32 +22,17 @@ class ChallengeSelector extends Component {
     this.state = {
       isFinished: true,
       isTinder: true,
-      selectedChallengeId: this.props.navigation.state.params.id,
-      headerSwipeOffsetX: new Animated.Value(),
     };
-
-    this.selectedChallengeIndex = -1;
+    this.selectedChallengeId = this.props.navigation.state.params.id;
     this.handleSharePress = this.handleSharePress.bind(this);
     this.handleTinderPress = this.handleTinderPress.bind(this);
     this.handleListPress = this.handleListPress.bind(this);
-    this.navigateUp = this.navigateUp.bind(this);
-    this.navigateDown = this.navigateDown.bind(this);
+
     this.callBackItemFinished = this.callBackItemFinished.bind(this);
   }
 
   componentDidMount() {
     loadChallengesServiceProxy(this.props);
-  }
-
-  getIndexFromId() {
-    let index = 0;
-    for (let i = 0; i < this.props.challenges.length; i += 1) {
-      const challenge = this.props.challenges[i];
-      if (challenge._id === this.state.selectedChallengeId) {
-        index = i;
-      }
-    }
-    this.selectedChallengeIndex = index;
   }
 
   callBackItemFinished(challengeId) {
@@ -61,30 +47,6 @@ class ChallengeSelector extends Component {
     console.log('handleSharePress');
   }
 
-  navigateDown() {
-    if (this.selectedChallengeIndex <= 0) {
-      return;
-    }
-    this.selectedChallengeIndex -= 1;
-    this.navigate();
-  }
-
-  navigateUp() {
-    if (this.selectedChallengeIndex >= this.props.challenges.length) {
-      return;
-    }
-    this.selectedChallengeIndex += 1;
-    this.navigate();
-  }
-  navigate() {
-    const challenge = this.props.challenges[this.selectedChallengeIndex];
-    if (challenge == null) return;
-    const newId = challenge._id;
-    this.state.headerSwipeOffsetX.setValue(0);
-
-    this.setState({ selectedChallengeId: newId });
-  }
-
   handleTinderPress() {
     console.log('handleTinderPress');
     this.setState({ isTinder: true });
@@ -92,7 +54,6 @@ class ChallengeSelector extends Component {
   }
   handleListPress() {
     console.log('handleListPress');
-
     this.setState({ isTinder: false });
     console.log(this.state);
   }
@@ -114,12 +75,32 @@ class ChallengeSelector extends Component {
       </Screen>
     );
   }
-
   renderScreen() {
     return (
       <Screen>
         <StatusBar />
-        <SwipeContainer
+        <ChallengeContainer
+          language={this.props.language}
+          challenges={this.props.challenges}
+          selectedChallengeId={this.selectedChallengeId}
+          callBackItemFinished={this.callBackItemFinished}
+          navigation={this.props.navigation}
+        />
+        {/* <FooterMenu
+          handleListPress={this.handleListPress}
+          handleTinderPress={this.handleTinderPress}
+          handleSharePress={this.handleSharePress}
+          isFinished={this.state.isFinished}
+          isTinder={this.state.isTinder}
+        />*/}
+      </Screen>
+    );
+  }
+  /* renderScreen() {
+    return (
+      <Screen>
+        <StatusBar />
+        <ChallengeContainer
           language={this.props.language}
           challengeLeft={this.props.challenges[this.selectedChallengeIndex - 1]}
           challenge={this.props.challenges[this.selectedChallengeIndex]}
@@ -141,18 +122,13 @@ class ChallengeSelector extends Component {
         />
       </Screen>
     );
-  }
+  }*/
 
   render() {
     if (this.props.isLoadingChallenges) {
       return this.renderLoading();
     }
     if (this.props.isErrorLoadingChallenges) {
-      return this.renderError();
-    }
-
-    this.getIndexFromId();
-    if (this.selectedChallengeIndex === -1) {
       return this.renderError();
     }
     return this.renderScreen(this.selectedChallengeIndex);

@@ -8,7 +8,7 @@ import {
 } from '../../actions/services/challenges';
 
 import initialState from '../../config/initialState';
-import { isFinished } from '../../helper/dateFunctions';
+import { getDateData, isFinished } from '../../helper/dateFunctions';
 
 const resetAllChallenges = () => {
   const res = {
@@ -32,18 +32,21 @@ export default (state = initialState.challenges, action) => {
       console.log('CHALLENGES_LOADED 1');
       const now = new Date();
       const challenges = [];
-
       for (let i = 0; i < action.result.challenges.length; i += 1) {
         const entry = action.result.challenges[i];
         const endDate = new Date(entry.end_date);
 
         const finish = isFinished(endDate);
+        const dateDate = getDateData(endDate);
 
         const newEntry = {
           ...entry,
           isFinished: finish,
           isLoading: false,
           voteNum: i + 1,
+          endStringFr: dateDate.endStringFr,
+          endStringEn: dateDate.endStringEn,
+          tickerString: dateDate.tickerString,
         };
         challenges.push(newEntry);
       }
