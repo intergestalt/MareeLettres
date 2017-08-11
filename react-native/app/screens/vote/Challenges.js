@@ -11,7 +11,6 @@ class Challenges extends Component {
     navigation: PropTypes.object,
   };
 
-  // TODO: fix the fetch!
   componentDidMount() {
     loadChallengesServiceProxy(this.props);
   }

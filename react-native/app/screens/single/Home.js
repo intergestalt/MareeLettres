@@ -14,9 +14,6 @@ import {
 } from '../../helper/navigationProxy';
 
 class Home extends Component {
-  static navigationOptions = {
-    title: 'Maree des Lettres',
-  };
 
   handleVotePress = () => {
     navigateToVote(this.props);
