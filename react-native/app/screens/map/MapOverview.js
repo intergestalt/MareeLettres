@@ -1,10 +1,17 @@
 import React, { PropTypes, Component } from 'react';
 import { StatusBar } from 'react-native';
+import { connect } from 'react-redux';
 
 import { Screen } from '../../components/general/Container';
 import { NativeMap } from '../../components/map/Map';
 import { TabBar } from '../../components/general/TabBar';
 import TABS from '../../consts/tab';
+
+import { loadLettersServiceProxy } from '../../helper/apiProxy';
+
+// 1. Get letters from API_PREFIX
+// 2. Map function to spit out Components
+// 3. ???
 
 class MapOverview extends Component {
   static navigationOptions = {
@@ -15,6 +22,10 @@ class MapOverview extends Component {
     navigation: PropTypes.object,
   };
 
+  componentDidMount() {
+    loadLettersServiceProxy(this.props);
+  }
+  
   render() {
     return (
       <Screen backgroundColor={'#00aaaa'}>
@@ -26,4 +37,4 @@ class MapOverview extends Component {
   }
 }
 
-export default MapOverview;
+export default connect()(MapOverview);
