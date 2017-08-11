@@ -14,7 +14,7 @@ class ChallengeHeader extends Component {
     onDownPress: PropTypes.func,
     tickerString: PropTypes.string,
     endString: PropTypes.string,
-    panResponder: PropTypes.string,
+    panResponder: PropTypes.object,
     language: PropTypes.string,
   };
   constructor(props) {
@@ -25,7 +25,7 @@ class ChallengeHeader extends Component {
         const customDate = '2017-08-11T12:27:50.000Z';
         myChallenge.end_date = new Date(customDate);
       }
-    }*/
+    } */
   }
 
   getChallenge() {

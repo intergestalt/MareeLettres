@@ -15,7 +15,7 @@ class ChallengeDetail extends Component {
     onDownPress: PropTypes.func,
     tickerString: PropTypes.string,
     endString: PropTypes.string,
-    panResponder: PropTypes.string,
+    panResponder: PropTypes.object,
   };
   render() {
     let colorHeader = '#FF0000';
