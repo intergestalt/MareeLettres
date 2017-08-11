@@ -9,11 +9,27 @@ import config from './config.js';
 
 const encryptor = new Cryptr(config.user_key_secret);
 
+function DeviceIdException(s) {
+  this.message = `Invalid DeviceId "${s}"`;
+  this.name = 'DeviceIdException';
+}
+
 const OriginId = {
   // user functions
 
   generateFromString(s) {
     const code = s + '-' + config.user_key_other_code;
+    const encrypted = encryptor.encrypt(code);
+
+    return encrypted;
+  },
+
+  generateFromDeviceId(s) {
+    if (typeof s !== 'string' || s === '' || s.length < 8) {
+      throw new DeviceIdException(s);
+    }
+
+    const code = s + '-' + config.user_key_phone_code;
     const encrypted = encryptor.encrypt(code);
 
     return encrypted;
@@ -63,14 +79,4 @@ const OriginId = {
   }
 };
 
-/*
-const userKeys = {
-  getBrowserUserKey: function () {
-    const string = config.user_key_browser_code;
-
-    return string;
-  }
-};
-*/
-
-export { OriginId };
+export { OriginId, DeviceIdException };
