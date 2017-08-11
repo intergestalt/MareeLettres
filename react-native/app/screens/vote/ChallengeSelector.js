@@ -3,14 +3,12 @@ import { StatusBar, Text, Animated } from 'react-native';
 import { connect } from 'react-redux';
 
 import { Screen } from '../../components/general/Container';
-import { Header } from '../../components/general/Header';
-import { loadChallenges } from '../../actions/services/challenges';
 import { SwipeContainer, FooterMenu } from '../../components/vote/ChallengeSelector';
+import { loadChallengesServiceProxy, loadChallengeServiceProxy } from '../../helper/apiProxy';
 
 class ChallengeSelector extends Component {
   static propTypes = {
     navigation: PropTypes.object,
-    dispatch: PropTypes.func,
     //    id: PropTypes.string,
     isErrorLoadingChallenges: PropTypes.bool,
     isLoadingChallenges: PropTypes.bool,
@@ -20,7 +18,6 @@ class ChallengeSelector extends Component {
   };
   constructor(props) {
     super(props);
-
     this.state = {
       isFinished: true,
       isTinder: true,
@@ -34,13 +31,15 @@ class ChallengeSelector extends Component {
     this.handleListPress = this.handleListPress.bind(this);
     this.navigateUp = this.navigateUp.bind(this);
     this.navigateDown = this.navigateDown.bind(this);
+    this.callBackItemFinished = this.callBackItemFinished.bind(this);
   }
 
   componentDidMount() {
-    this.props.dispatch(loadChallenges());
+    loadChallengesServiceProxy(this.props);
   }
+
   getIndexFromId() {
-    let index = -1;
+    let index = 0;
     for (let i = 0; i < this.props.challenges.length; i += 1) {
       const challenge = this.props.challenges[i];
       if (challenge._id === this.state.selectedChallengeId) {
@@ -48,6 +47,15 @@ class ChallengeSelector extends Component {
       }
     }
     this.selectedChallengeIndex = index;
+  }
+
+  callBackItemFinished(challengeId) {
+    for (let i = 0; i < this.props.challenges.length; i += 1) {
+      const challenge = this.props.challenges[i];
+      if (challenge._id === challengeId) {
+        loadChallengeServiceProxy(this.props, challengeId);
+      }
+    }
   }
   handleSharePress() {
     console.log('handleSharePress');
@@ -93,7 +101,6 @@ class ChallengeSelector extends Component {
     return (
       <Screen backgroundColor="#88ff44">
         <StatusBar />
-        <Header title={'Challenges'} navigation={this.props.navigation} />
         <Text>Loading...</Text>
       </Screen>
     );
@@ -103,7 +110,6 @@ class ChallengeSelector extends Component {
     return (
       <Screen backgroundColor="#88ff44">
         <StatusBar />
-        <Header title={'Challenges'} navigation={this.props.navigation} />
         <Text>ERROR!</Text>
       </Screen>
     );
@@ -113,8 +119,8 @@ class ChallengeSelector extends Component {
     return (
       <Screen>
         <StatusBar />
-        <Header title={'Challenges'} navigation={this.props.navigation} />
         <SwipeContainer
+          language={this.props.language}
           challengeLeft={this.props.challenges[this.selectedChallengeIndex - 1]}
           challenge={this.props.challenges[this.selectedChallengeIndex]}
           challengeRight={this.props.challenges[this.selectedChallengeIndex + 1]}
@@ -123,6 +129,8 @@ class ChallengeSelector extends Component {
           headerSwipeOffsetX={this.state.headerSwipeOffsetX}
           navigateDown={this.navigateDown}
           navigateUp={this.navigateUp}
+          navigation={this.props.navigation}
+          callBackItemFinished={this.callBackItemFinished}
         />
         <FooterMenu
           handleListPress={this.handleListPress}
@@ -144,7 +152,6 @@ class ChallengeSelector extends Component {
     }
 
     this.getIndexFromId();
-    console.log(`FOUND: ${this.selectedChallengeIndex}`);
     if (this.selectedChallengeIndex === -1) {
       return this.renderError();
     }
@@ -157,7 +164,6 @@ const mapStateToProps = (state) => {
   const isErrorLoadingChallenges = state.challenges.isError;
   const timeLoadChallenges = state.challenges.time;
   const language = state.globals.language;
-
   return {
     challenges,
     isLoadingChallenges,

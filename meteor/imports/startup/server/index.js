@@ -4,3 +4,4 @@ import './fixtures';
 import './register-api';
 import './accounts';
 import './status';
+import './elect-winner';

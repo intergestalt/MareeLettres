@@ -3,7 +3,7 @@ import ip from 'ip';
 
 import { Status } from '../../api/status/status';
 
-const machineKey = ip.address() + (process.env.DYNO ? `/${process.env.DYNO}` : '');
+const machineKey = process.env.DYNO ? process.env.DYNO : ip.address();
 
 Meteor.setInterval(() => {
   Status.update(

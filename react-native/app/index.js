@@ -4,6 +4,7 @@ import { Provider } from 'react-redux';
 
 import Navigator from './config/routes';
 import store from './config/store';
+import { AppContainer } from './components/general/Container';
 
 EStyleSheet.build({
   $backgroundColor: '#DDDDDD',
@@ -18,5 +19,7 @@ const configureScene = () => ({
 // export default () => <Home />;
 export default () =>
   <Provider store={store}>
-    <Navigator configureScene={configureScene} />
+    <AppContainer>
+      <Navigator configureScene={configureScene} />
+    </AppContainer>
   </Provider>;

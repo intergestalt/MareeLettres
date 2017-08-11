@@ -1,14 +1,13 @@
 import React, { PropTypes } from 'react';
-import { Text, StatusBar } from 'react-native';
+import { StatusBar } from 'react-native';
 
 import { Screen } from '../../components/general/Container';
-import { Header } from '../../components/general/Header';
+import { AboutApp } from '../../components/text/About';
 
 const About = props =>
-  <Screen centerContent backgroundColor="#aa00aa">
+  <Screen backgroundColor="#aa00aa">
     <StatusBar />
-    <Header title={'About'} navigation={props.navigation} />
-    <Text>ABOUT DUMMY</Text>
+    <AboutApp />
   </Screen>;
 
 About.propTypes = {

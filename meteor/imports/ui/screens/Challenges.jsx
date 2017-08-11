@@ -3,6 +3,7 @@ import { createContainer } from 'react-meteor-data';
 import { Meteor } from 'meteor/meteor';
 import { Link } from 'react-router';
 import Moment from 'react-moment';
+import 'moment-timezone';
 
 import { Challenges } from '../../api/challenges/challenges';
 import { Proposals } from '../../api/proposals/proposals';
@@ -14,15 +15,6 @@ class ChallengesIndex extends Component {
   constructor(props) {
     super(props);
     this.state = {};
-  }
-
-  renderProposals() {
-    const proposals = this.props.proposals;
-    return proposals.map(proposal =>
-      <li key={proposal._id}>
-        {proposal.text}
-      </li>,
-    );
   }
 
   renderChallenges() {
@@ -38,14 +30,25 @@ class ChallengesIndex extends Component {
           {challenge.proposals_amount}
         </td>
         <td>
-          <Moment fromNow>
+          <Moment format="MM.DD.YY HH:MM" tz="Europe/Paris">
             {challenge.start_date}
           </Moment>
         </td>
         <td>
-          <Moment fromNow>
+          <Moment format="MM.DD.YY HH:MM" tz="Europe/Paris">
             {challenge.end_date}
           </Moment>
+          {challenge.end_date > Date.now() &&
+            <span>
+              &nbsp;(
+              <Moment fromNow element="small" tz="Europe/Paris">
+                {challenge.end_date}
+              </Moment>
+              )
+            </span>}
+        </td>
+        <td className="impact">
+          {challenge.winningProposal ? challenge.winningProposal.text : '-'}
         </td>
       </tr>,
     );
@@ -62,12 +65,16 @@ class ChallengesIndex extends Component {
               <th># proposals</th>
               <th>start</th>
               <th>end</th>
+              <th>winningProposal</th>
             </tr>
           </thead>
           <tbody>
             {this.renderChallenges()}
           </tbody>
         </table>
+        <p>
+          &#8505; <small>All times in Paris time</small>
+        </p>
         <ApiInfo path="challenges" />
       </div>
     );

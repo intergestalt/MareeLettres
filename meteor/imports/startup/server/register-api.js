@@ -10,7 +10,9 @@ import '../../api/status/server/status';
 
 import '../../api/content/server/content';
 
-JsonRoutes.ErrorMiddleware.use(RestMiddleware.handleErrorAsJson);
+import '../../api/letters/server/letters';
+
+// JsonRoutes.ErrorMiddleware.use(RestMiddleware.handleErrorAsJson);
 
 JsonRoutes.setResponseHeaders({
   'Cache-Control': 'no-store',

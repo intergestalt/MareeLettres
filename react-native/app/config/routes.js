@@ -76,7 +76,7 @@ const VoteStack = StackNavigator(
   },
 );
 
-export default TabNavigator(
+const tabNavigator = TabNavigator(
   {
     Home: {
       screen: Home,
@@ -98,6 +98,7 @@ export default TabNavigator(
     },
   },
   {
+    tabBarPosition: 'top',
     tabBarComponent: TabBar,
     navigationOptions: {
       tabBarVisible: true,
@@ -109,3 +110,15 @@ export default TabNavigator(
     initialRouteName: 'Home',
   },
 );
+
+// for language selection at start
+const rootNavigator = StackNavigator({
+  Root: {
+    screen: tabNavigator,
+    navigationOptions: {
+      header: null,
+    },
+  },
+});
+
+export default rootNavigator;

@@ -5,6 +5,8 @@ import { connect } from 'react-redux';
 import Separator from './Separator';
 import ChallengesListItem from './ChallengesListItem';
 import styles from './styles';
+import { navigateToChallengeSelector } from '../../../helper/navigationProxy';
+import { loadChallengeServiceProxy } from '../../../helper/apiProxy';
 
 class ChallengesList extends Component {
   static propTypes = {
@@ -15,21 +17,27 @@ class ChallengesList extends Component {
     language: PropTypes.string,
     challenges: PropTypes.array,
   };
-  handlePress = (item) => {
-    console.log('PRESS ROW');
-    console.log(item);
 
-    this.props.navigation.navigate('ChallengeSelector', { id: item._id });
+  constructor(props) {
+    super(props);
+    this.callBackItemFinished = this.callBackItemFinished.bind(this);
+  }
+  handlePressRow = (item) => {
+    navigateToChallengeSelector(this.props, item._id);
   };
 
+  callBackItemFinished(challengeId) {
+    for (let i = 0; i < this.props.challenges.length; i += 1) {
+      const challenge = this.props.challenges[i];
+      if (challenge._id === challengeId) {
+        loadChallengeServiceProxy(this.props, challengeId);
+      }
+    }
+  }
+
   render() {
-    console.log(`isError: ${this.props.isError}`);
-    console.log(`isLoading: ${this.props.isLoading}`);
-    console.log(`time: ${this.props.time}`);
-    console.log(`language: ${this.props.language}`);
     const isLoading = this.props.isLoading;
     const isError = this.props.isError;
-
     if (!isLoading && !isError) {
       return (
         <View style={styles.container}>
@@ -37,7 +45,12 @@ class ChallengesList extends Component {
           <FlatList
             data={this.props.challenges}
             renderItem={({ item }) =>
-              <ChallengesListItem data={item} onPress={() => this.handlePress(item)} />}
+              <ChallengesListItem
+                callBackItemFinished={this.callBackItemFinished}
+                language={this.props.language}
+                data={item}
+                onPress={() => this.handlePressRow(item)}
+              />}
             keyExtractor={item => item._id}
             ItemSeparatorComponent={Separator}
           />

@@ -30,7 +30,7 @@ const styles = EStyleSheet.create({
     paddingVertical: 16,
     justifyContent: 'space-between',
     alignItems: 'center',
-    flexDirection: 'row',
+    flexDirection: 'column',
     backgroundColor: '#00FF00',
   },
   title: {

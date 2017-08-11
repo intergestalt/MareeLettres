@@ -4,9 +4,12 @@ import { View, Animated, PanResponder } from 'react-native';
 import styles from './styles';
 import SwipeHeader from './SwipeHeader';
 import SwipeContent from './SwipeContent';
+import { popChallengeSelector } from '../../../helper/navigationProxy';
 
 class SwipeContainer extends Component {
   static propTypes = {
+    navigation: PropTypes.object,
+    language: PropTypes.string,
     challenge: PropTypes.object,
     challengeRight: PropTypes.object,
     challengeLeft: PropTypes.object,
@@ -15,12 +18,15 @@ class SwipeContainer extends Component {
     headerSwipeOffsetX: PropTypes.object,
     navigateUp: PropTypes.func,
     navigateDown: PropTypes.func,
+    callBackItemFinished: PropTypes.func,
   };
+
   constructor(props) {
     super(props);
 
     this.setChallengeHeaderLayout = this.setChallengeHeaderLayout.bind(this);
     this.setPanOffset = this.setPanOffset.bind(this);
+    this.handleHeaderPressed = this.handleHeaderPressed.bind(this);
 
     this.state = {
       chalengeHeaderValues: null,
@@ -42,7 +48,10 @@ class SwipeContainer extends Component {
 
   setPanOffset(event) {
     this.setState({
-      panOffset: { x: event.nativeEvent.layout.x, y: event.nativeEvent.layout.y },
+      panOffset: {
+        x: event.nativeEvent.layout.x,
+        y: event.nativeEvent.layout.y,
+      },
     });
   }
 
@@ -143,6 +152,11 @@ class SwipeContainer extends Component {
       }, // Step 4
     });
   }
+
+  handleHeaderPressed = () => {
+    popChallengeSelector(this.props);
+  };
+
   // Render
   render() {
     return (
@@ -154,24 +168,33 @@ class SwipeContainer extends Component {
         <View style={styles.swipeHeaderContainer}>
           <View style={styles.headerContainerLeft}>
             <SwipeHeader
+              language={this.props.language}
               customStyle={styles.headerLeft}
               offsetX={this.props.headerSwipeOffsetX}
               challenge={this.props.challengeLeft}
+              onPress={this.handleHeaderPressed}
+              callBackItemFinished={this.props.callBackItemFinished}
             />
           </View>
           <View style={styles.headerContainerCenter}>
             <SwipeHeader
+              language={this.props.language}
               customStyle={styles.headerCenter}
               layoutCallback={this.setChallengeHeaderLayout}
               offsetX={this.props.headerSwipeOffsetX}
               challenge={this.props.challenge}
+              onPress={this.handleHeaderPressed}
+              callBackItemFinished={this.props.callBackItemFinished}
             />
           </View>
           <View style={styles.headerContainerRight}>
             <SwipeHeader
+              language={this.props.language}
               customStyle={styles.headerRight}
               offsetX={this.props.headerSwipeOffsetX}
               challenge={this.props.challengeRight}
+              onPress={this.handleHeaderPressed}
+              callBackItemFinished={this.props.callBackItemFinished}
             />
           </View>
         </View>

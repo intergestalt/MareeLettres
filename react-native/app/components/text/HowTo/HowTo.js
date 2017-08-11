@@ -1,46 +1,40 @@
 import React, { Component, PropTypes } from 'react';
-import { ScrollView, View } from 'react-native';
+import { ScrollView, View, Text } from 'react-native';
 import { connect } from 'react-redux';
 import Markdown from 'react-native-simple-markdown';
 
-import I18n from '../../../i18n/i18n';
 import styles from './styles';
 
-const markdownStyles = {
-  heading1: {
-    fontSize: 32,
-    fontWeight: 'bold',
-    color: '#FF0000',
-  },
-  link: {
-    color: 'pink',
-  },
-  mailTo: {
-    color: 'orange',
-  },
-  paragraph: {
-    color: '#00FF00',
-  },
-  text: {},
-};
+import markdownStyles from '../../../config/markdown';
+
 class HowTo extends Component {
   static propTypes = {
     language: PropTypes.string,
+    isError: PropTypes.bool,
+    isLoaded: PropTypes.bool,
+    isLoading: PropTypes.bool,
+    text: PropTypes.object,
   };
-  constructor(props) {
-    super(props);
-    I18n.locale = this.props.language;
-  }
 
   render() {
+    let string = '';
+    if (this.props.isLoading) {
+      string = 'Loading...';
+    } else if (this.props.isError) {
+      string = 'ERROR!!';
+    }
     return (
       <View style={styles.container}>
         <View style={styles.how}>
-          <ScrollView showsVerticalScrollIndicator={false}>
-            <Markdown styles={markdownStyles}>
-              {I18n.t('text_how')}
-            </Markdown>
-          </ScrollView>
+          {this.props.isLoaded
+            ? <ScrollView showsVerticalScrollIndicator={false}>
+              <Markdown styles={markdownStyles}>
+                {this.props.language === 'fr' ? this.props.text.fr : this.props.text.en}
+              </Markdown>
+            </ScrollView>
+            : <Text>
+              {string}
+            </Text>}
         </View>
       </View>
     );
@@ -49,6 +43,10 @@ class HowTo extends Component {
 
 const mapStateToProps = state => ({
   language: state.globals.language,
+  isError: state.content.isError,
+  isLoaded: state.content.isLoaded,
+  isLoading: state.content.isLoading,
+  text: state.content.content.howto,
 });
 
 export default connect(mapStateToProps)(HowTo);

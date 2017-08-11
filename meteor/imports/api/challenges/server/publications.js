@@ -9,20 +9,24 @@ Meteor.publish('get.challenge', function getChallenges(id) {
   return Challenges.find(id);
 });
 
+// REST:
+
 JsonRoutes.add('get', `${Meteor.settings.public.api_prefix}challenges`, function (req, res, next) {
   JsonRoutes.sendResult(res, {
-    data: { challenges: Challenges.find().fetch() },
+    data: { challenges: Challenges.find({}, { sort: { end_date: 1 } }).fetch() },
   });
 });
 
-JsonRoutes.add('get', `${Meteor.settings.public.api_prefix}challenges/:0`, function (
+JsonRoutes.add('get', `${Meteor.settings.public.api_prefix}challenges/:challenge_id`, function (
   req,
   res,
   next,
 ) {
-  const challenge_id = req.params[0];
+  const challenge_id = req.params.challenge_id;
 
-  JsonRoutes.sendResult(res, {
+  const options = {
     data: { challenges: Challenges.find(challenge_id).fetch() },
-  });
+  };
+
+  JsonRoutes.sendResult(res, options);
 });

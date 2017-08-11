@@ -2,6 +2,11 @@ import React, { Component, PropTypes } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 // import { NavigationActions } from 'react-navigation';
 import { connect } from 'react-redux';
+import {
+  navigateToVote,
+  navigateToBecome,
+  navigateToStream,
+} from '../../../helper/navigationProxy';
 
 import styles from './styles';
 
@@ -10,8 +15,8 @@ class TabBar extends Component {
     navigation: PropTypes.object,
   };
 
-  resetScreen(dest, props) {
-    /* const resetScreen = () =>
+  /*  resetScreen(dest, props) {
+     const resetScreen = () =>
       new Promise((resolve) => {
         const resetAction = NavigationActions.reset({
           index: 0,
@@ -20,21 +25,21 @@ class TabBar extends Component {
         this.props.navigation.dispatch(resetAction);
         resolve();
       });
-    resetScreen().then(() => {*/
+    resetScreen().then(() => {
     this.props.navigation.navigate(dest);
-    // });
-  }
+     });
+  }*/
 
   handleVotePress = () => {
-    this.resetScreen('Vote');
+    navigateToVote(this.props);
   };
 
   handleBecomePress = () => {
-    this.resetScreen('Become');
+    navigateToBecome(this.props);
   };
 
   handleStreamPress = () => {
-    this.resetScreen('Stream');
+    navigateToStream(this.props);
   };
 
   render() {
@@ -65,23 +70,27 @@ class TabBar extends Component {
     if (showTabBar) {
       return (
         <View style={styles.container}>
-          {!voteSelected
-            ? <TouchableOpacity onPress={this.handleVotePress}>
-              <Text style={styles.text}>Vote</Text>
-            </TouchableOpacity>
-            : <Text style={styles.textHigh}>Vote</Text>}
-
-          {!becomeSelected
-            ? <TouchableOpacity onPress={this.handleBecomePress}>
-              <Text style={styles.text}>Become</Text>
-            </TouchableOpacity>
-            : <Text style={styles.textHigh}>Become</Text>}
-
-          {!streamSelected
-            ? <TouchableOpacity onPress={this.handleStreamPress}>
-              <Text style={styles.text}>Stream</Text>
-            </TouchableOpacity>
-            : <Text style={styles.textHigh}>Stream</Text>}
+          <View style={styles.tab}>
+            {!voteSelected
+              ? <TouchableOpacity onPress={this.handleVotePress}>
+                <Text style={styles.text}>ABC</Text>
+              </TouchableOpacity>
+              : <Text style={styles.textHigh}>ABC</Text>}
+          </View>
+          <View style={styles.tab}>
+            {!becomeSelected
+              ? <TouchableOpacity onPress={this.handleBecomePress}>
+                <Text style={styles.text}>MAP</Text>
+              </TouchableOpacity>
+              : <Text style={styles.textHigh}>MAP</Text>}
+          </View>
+          <View style={styles.tab}>
+            {!streamSelected
+              ? <TouchableOpacity onPress={this.handleStreamPress}>
+                <Text style={styles.text}>IMG</Text>
+              </TouchableOpacity>
+              : <Text style={styles.textHigh}>IMG</Text>}
+          </View>
         </View>
       );
     }
@@ -96,4 +105,17 @@ const mapStateToProps = (state) => {
     showTabBar,
   };
 };
+
 export default connect(mapStateToProps)(TabBar);
+
+// class TabBarTest extends React.Component {
+//   render() {
+//     return (
+//       <View>
+//         <Text>Test</Text>
+//       </View>
+//     );
+//   }
+// }
+//
+// export default TabBar;

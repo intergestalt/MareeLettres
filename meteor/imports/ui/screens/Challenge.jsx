@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 import { createContainer } from 'react-meteor-data';
 import { Meteor } from 'meteor/meteor';
+import AutoField from 'uniforms-unstyled/AutoField';
 import AutoForm from 'uniforms-unstyled/AutoForm';
+import SubmitField from 'uniforms-unstyled/SubmitField';
+import { OriginId } from 'maree-lettres-shared';
 
 import { Challenges, ChallengesSchema } from '../../api/challenges/challenges';
 import { Proposals } from '../../api/proposals/proposals';
@@ -32,7 +35,12 @@ class Challenge extends Component {
         schema={ChallengesSchema}
         onSubmit={doc => this.save(doc)}
         model={this.props.challenge}
-      />
+      >
+        <AutoField name="title" />
+        <AutoField name="start_date" />
+        <AutoField name="end_date" />
+        <SubmitField />
+      </AutoForm>
     );
   }
 
@@ -40,7 +48,8 @@ class Challenge extends Component {
     const proposals = this.props.proposals;
     return proposals.map(proposal =>
       <li key={proposal._id}>
-        {proposal.text}
+        <span className="impact">{proposal.text}</span>
+        &nbsp; {OriginId.getOrigin(proposal.origin_id)}
       </li>,
     );
   }
