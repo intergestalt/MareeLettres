@@ -4,10 +4,11 @@ import { View, Animated, PanResponder } from 'react-native';
 import styles from './styles';
 import SwipeHeader from './SwipeHeader';
 import SwipeContent from './SwipeContent';
-import { navigateToVote } from '../../../helper/navigationProxy';
+import { popChallengeSelector } from '../../../helper/navigationProxy';
 
 class SwipeContainer extends Component {
   static propTypes = {
+    navigation: PropTypes.object,
     language: PropTypes.string,
     challenge: PropTypes.object,
     challengeRight: PropTypes.object,
@@ -19,11 +20,13 @@ class SwipeContainer extends Component {
     navigateDown: PropTypes.func,
     callBackItemFinished: PropTypes.func,
   };
+
   constructor(props) {
     super(props);
 
     this.setChallengeHeaderLayout = this.setChallengeHeaderLayout.bind(this);
     this.setPanOffset = this.setPanOffset.bind(this);
+    this.handleHeaderPressed = this.handleHeaderPressed.bind(this);
 
     this.state = {
       chalengeHeaderValues: null,
@@ -151,7 +154,7 @@ class SwipeContainer extends Component {
   }
 
   handleHeaderPressed = () => {
-    navigateToVote(this.props);
+    popChallengeSelector(this.props);
   };
 
   // Render

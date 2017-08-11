@@ -28,6 +28,14 @@ export function navigateToStream(props) {
 
 // SubPages
 
-export function navigateToChallengeSelector(props, item) {
-  props.navigation.navigate('ChallengeSelector', { id: item._id });
+export function navigateToChallengeSelector(props, id) {
+  props.navigation.navigate('ChallengeSelector', { id });
+}
+
+// Other
+
+export function popChallengeSelector(props) {
+  if (!props.navigation.goBack()) {
+    props.navigation.navigate('Challenges');
+  }
 }

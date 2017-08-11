@@ -23,10 +23,10 @@ class SwipeHeader extends Component {
       this.state = {
         getTickerData: true,
       };
-      /* if (this.props.challenge._id === 'RaALpmeE8vBjdH54K') {
-        const customDate = '2017-08-10T13:58:40.000Z';
+      if (this.props.challenge._id === 'RaALpmeE8vBjdH54K') {
+        const customDate = '2017-08-10T14:52:00.000Z';
         this.props.challenge.end_date = new Date(customDate);
-      }*/
+      }
     }
   }
 

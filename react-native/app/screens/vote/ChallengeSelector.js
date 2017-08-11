@@ -39,7 +39,7 @@ class ChallengeSelector extends Component {
   }
 
   getIndexFromId() {
-    let index = -1;
+    let index = 0;
     for (let i = 0; i < this.props.challenges.length; i += 1) {
       const challenge = this.props.challenges[i];
       if (challenge._id === this.state.selectedChallengeId) {
