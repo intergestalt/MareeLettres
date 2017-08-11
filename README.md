@@ -39,3 +39,12 @@ cd react-native
 yarn install
 yarn start
 ```
+
+### Setup Android Emulator (MWith probably some problems included)
+Install VirtualBox: https://www.virtualbox.org
+Install Genymotion: https://www.genymotion.com/fun-zone/
+Install android-sdk: brew install android-sdk
+Point Genymotion to android-sdk: Start Genymotion. Settings->ADB, use custom SDK
+export andriod-sdk: export ANDROID_HOME=<path_where_you_unpacked_android_sdk>
+
+To use it: start genymotion. Start the emulator. Runs: yarn run android
