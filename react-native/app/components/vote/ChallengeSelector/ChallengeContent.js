@@ -5,24 +5,60 @@ import styles from './styles';
 
 class ChallengeContent extends Component {
   static propTypes = {
-    backgroundColor: PropTypes.string,
-    isFinished: PropTypes.bool,
     isTinder: PropTypes.bool,
     challenges: PropTypes.array,
-    selectedChallengeIndex: PropTypes.number,
+    challengeIndex: PropTypes.number,
   };
 
-  renderFinished(color) {
+  getChallenge() {
+    if (this.props.challenges) {
+      if (
+        this.props.challengeIndex >= 0 &&
+        this.props.challengeIndex < this.props.challenges.length
+      ) {
+        const myChallenge = this.props.challenges[this.props.challengeIndex];
+        if (myChallenge) {
+          return myChallenge;
+        }
+      }
+    }
+    return null;
+  }
+
+  getAnswer() {
+    const myChallenge = this.getChallenge();
+    let answer = '';
+    if (myChallenge) {
+      const winning = myChallenge.winningProposal;
+      if (winning) {
+        answer = winning.text;
+      }
+    }
+    return answer;
+  }
+
+  isFinished() {
+    const myChallenge = this.getChallenge();
+    let finished = false;
+    if (myChallenge) {
+      finished = myChallenge.isFinished;
+    }
+    return finished;
+  }
+
+  renderFinished() {
     return (
-      <View style={[styles.challengeContent, color]}>
-        <Text style={styles.contentText}>Finished</Text>
+      <View style={styles.challengeContent}>
+        <Text style={styles.contentText}>
+          {this.getAnswer()}
+        </Text>
       </View>
     );
   }
 
-  renderUnfinished(color) {
+  renderUnfinished() {
     return (
-      <View style={[styles.challengeContent, color]}>
+      <View style={styles.challengeContent}>
         {this.props.isTinder
           ? <Text style={styles.contentText}>Tinder Mode</Text>
           : <Text style={styles.contentText}>List Mode</Text>}
@@ -30,14 +66,10 @@ class ChallengeContent extends Component {
     );
   }
   render() {
-    let color = { backgroundColor: '#FFFFFF' };
-    if (this.props.backgroundColor) {
-      color = { backgroundColor: this.props.backgroundColor };
+    if (this.isFinished()) {
+      return this.renderFinished();
     }
-    if (this.props.isFinished) {
-      return this.renderFinished(color);
-    }
-    return this.renderUnfinished(color);
+    return this.renderUnfinished();
   }
 }
 

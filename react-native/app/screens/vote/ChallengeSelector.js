@@ -18,33 +18,12 @@ class ChallengeSelector extends Component {
   };
   constructor(props) {
     super(props);
-    this.state = {
-      isFinished: true,
-      isTinder: true,
-    };
+
     this.selectedChallengeId = this.props.navigation.state.params.id;
-    this.handleSharePress = this.handleSharePress.bind(this);
-    this.handleTinderPress = this.handleTinderPress.bind(this);
-    this.handleListPress = this.handleListPress.bind(this);
   }
 
   componentDidMount() {
     loadChallengesServiceProxy();
-  }
-
-  handleSharePress() {
-    console.log('handleSharePress');
-  }
-
-  handleTinderPress() {
-    console.log('handleTinderPress');
-    this.setState({ isTinder: true });
-    console.log(this.state);
-  }
-  handleListPress() {
-    console.log('handleListPress');
-    this.setState({ isTinder: false });
-    console.log(this.state);
   }
 
   renderLoading() {
@@ -74,43 +53,9 @@ class ChallengeSelector extends Component {
           selectedChallengeId={this.selectedChallengeId}
           navigation={this.props.navigation}
         />
-        {/* <FooterMenu
-          handleListPress={this.handleListPress}
-          handleTinderPress={this.handleTinderPress}
-          handleSharePress={this.handleSharePress}
-          isFinished={this.state.isFinished}
-          isTinder={this.state.isTinder}
-        /> */}
       </Screen>
     );
   }
-  /* renderScreen() {
-    return (
-      <Screen>
-        <StatusBar />
-        <ChallengeContainer
-          language={this.props.language}
-          challengeLeft={this.props.challenges[this.selectedChallengeIndex - 1]}
-          challenge={this.props.challenges[this.selectedChallengeIndex]}
-          challengeRight={this.props.challenges[this.selectedChallengeIndex + 1]}
-          isTinder={this.state.isTinder}
-          isFinished={this.state.isFinished}
-          headerSwipeOffsetX={this.state.headerSwipeOffsetX}
-          navigateDown={this.navigateDown}
-          navigateUp={this.navigateUp}
-          navigation={this.props.navigation}
-          callBackItemFinished={this.callBackItemFinished}
-        />
-        <FooterMenu
-          handleListPress={this.handleListPress}
-          handleTinderPress={this.handleTinderPress}
-          handleSharePress={this.handleSharePress}
-          isFinished={this.state.isFinished}
-          isTinder={this.state.isTinder}
-        />
-      </Screen>
-    );
-  } */
 
   render() {
     if (this.props.isLoadingChallenges) {

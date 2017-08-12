@@ -76,36 +76,34 @@ const styles = EStyleSheet.create({
   contentText: {
     color: '#aa00aa',
     fontSize: 25,
+    textAlign: 'center',
   },
 
-  // Footer Menu
+  // Footer
 
-  footerMenu: {
+  challengeFooterFinished: {
+    flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: '#777700',
-    width: '100%',
-    top: 60,
-    height: '10%',
-  },
-  footerMenu2: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    backgroundColor: '#777700',
-    width: '100%',
-    top: 60,
-    paddingHorizontal: '10%',
-    height: '10%',
   },
 
-  footerMenuText: {
+  challengeFooterUnfinished: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-around',
+    backgroundColor: '#777700',
+    paddingHorizontal: 10,
+  },
+
+  challengeFooterText: {
     color: '#aaaa00',
     fontSize: 24,
   },
 
-  footerMenuTextHigh: {
+  challengeFooterTextHigh: {
     color: '#333333',
     fontSize: 24,
   },

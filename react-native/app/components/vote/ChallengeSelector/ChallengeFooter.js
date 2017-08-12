@@ -1,20 +1,71 @@
 import React, { Component, PropTypes } from 'react';
-import { View } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 
 import styles from './styles';
 
 class ChallengeFooter extends Component {
   static propTypes = {
-    backgroundColor: PropTypes.string,
     challenges: PropTypes.array,
-    selectedChallengeIndex: PropTypes.number,
+    challengeIndex: PropTypes.number,
+    isTinder: PropTypes.bool,
+    handleSharePress: PropTypes.func,
+    handleTinderPress: PropTypes.func,
+    handleListPress: PropTypes.func,
   };
-  render() {
-    let color = { backgroundColor: '#FFFFFF' };
-    if (this.props.backgroundColor) {
-      color = { backgroundColor: this.props.backgroundColor };
+
+  renderFinished() {
+    return (
+      <View style={styles.challengeFooter}>
+        <View style={styles.challengeFooterFinished}>
+          <TouchableOpacity onPress={this.props.handleSharePress}>
+            <Text style={styles.challengeFooterText}>Share</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+    );
+  }
+
+  renderUnfinished() {
+    return (
+      <View style={styles.challengeFooter}>
+        <View style={styles.challengeFooterUnfinished}>
+          {!this.props.isTinder
+            ? <TouchableOpacity onPress={this.props.handleTinderPress}>
+              <Text style={styles.challengeFooterText}>Swipe</Text>
+            </TouchableOpacity>
+            : <Text style={styles.challengeFooterTextHigh}>Swipe</Text>}
+
+          {this.props.isTinder
+            ? <TouchableOpacity onPress={this.props.handleListPress}>
+              <Text style={styles.challengeFooterText}>List</Text>
+            </TouchableOpacity>
+            : <Text style={styles.challengeFooterTextHigh}>List</Text>}
+        </View>
+      </View>
+    );
+  }
+
+  isFinished() {
+    let finished = false;
+    if (this.props.challenges) {
+      if (
+        this.props.challengeIndex >= 0 &&
+        this.props.challengeIndex < this.props.challenges.length
+      ) {
+        const myChallenge = this.props.challenges[this.props.challengeIndex];
+        if (myChallenge) {
+          finished = myChallenge.isFinished;
+        }
+      }
     }
-    return <View style={[styles.challengeFooter, color]} />;
+    return finished;
+  }
+
+  render() {
+    if (this.isFinished()) {
+      return this.renderFinished();
+    }
+    return this.renderUnfinished();
   }
 }
 export default ChallengeFooter;

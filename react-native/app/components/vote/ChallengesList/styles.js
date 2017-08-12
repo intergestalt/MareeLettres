@@ -36,6 +36,7 @@ const styles = EStyleSheet.create({
   title: {
     color: '#666666',
     fontSize: 16,
+    textAlign: 'center',
   },
   itemContainer: {
     marginLeft: 20,

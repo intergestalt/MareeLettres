@@ -6,7 +6,6 @@ import styles from './styles';
 class ChallengeHeader extends Component {
   static propTypes = {
     layoutCallback: PropTypes.func,
-    backgroundColor: PropTypes.string,
     challenges: PropTypes.array,
     challengeIndex: PropTypes.number,
     onHeaderPress: PropTypes.func,
@@ -27,15 +26,11 @@ class ChallengeHeader extends Component {
   }
 
   render() {
-    let color = { backgroundColor: '#FFFFFF' };
-    if (this.props.backgroundColor) {
-      color = { backgroundColor: this.props.backgroundColor };
-    }
     if (
       this.props.challengeIndex < 0 ||
       this.props.challengeIndex >= this.props.challenges.length
     ) {
-      color = { backgroundColor: '#000000' };
+      const color = { backgroundColor: '#000000' };
       return <View onLayout={this.props.layoutCallback} style={[styles.challengeHeader, color]} />;
     }
     let buttonUp = null;
@@ -83,7 +78,7 @@ class ChallengeHeader extends Component {
     }
     const contentMiddle = (
       <View style={styles.headerTextContainer}>
-        <TouchableOpacity onPress={this.props.onHeaderPress}>
+        <TouchableOpacity delayPressIn={30} onPress={this.props.onHeaderPress}>
           <Text style={styles.headerText}>
             VOTE #{challenge.voteNum}
           </Text>
@@ -104,7 +99,7 @@ class ChallengeHeader extends Component {
         <View
           {...this.props.panResponder.panHandlers}
           onLayout={this.props.layoutCallback}
-          style={[styles.challengeHeader, color]}
+          style={styles.challengeHeader}
         >
           {contentDown}
           {contentMiddle}
@@ -113,7 +108,7 @@ class ChallengeHeader extends Component {
       );
     }
     return (
-      <View onLayout={this.props.layoutCallback} style={[styles.challengeHeader, color]}>
+      <View onLayout={this.props.layoutCallback} style={styles.challengeHeader}>
         {contentDown}
         {contentMiddle}
         {contentUp}

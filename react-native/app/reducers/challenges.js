@@ -33,8 +33,8 @@ export default (state = initialState.challenges, action) => {
       const challenges = [];
       for (let i = 0; i < action.result.challenges.length; i += 1) {
         const entry = action.result.challenges[i];
-        /*  if (entry._id === 'rHETLnZij47h23fkS') {
-          const customDate = '2017-08-12T14:20:30.000Z';
+        /* if (entry._id === '98Auwp5wakBTLjeCe') {
+          const customDate = '2017-08-12T15:53:20.000Z';
           entry.end_date = new Date(customDate);
         } */
 

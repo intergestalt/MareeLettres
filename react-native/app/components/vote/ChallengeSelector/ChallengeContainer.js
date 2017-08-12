@@ -10,12 +10,9 @@ import { startChallengeTicker } from '../../../helper/ticker';
 
 class ChallengeContainer extends Component {
   static propTypes = {
-    // navigation: PropTypes.object,
-    dispatch: PropTypes.func,
     challenges: PropTypes.array,
     language: PropTypes.string,
     selectedChallengeId: PropTypes.string,
-    callBackItemFinished: PropTypes.func,
   };
 
   constructor(props) {
@@ -27,11 +24,16 @@ class ChallengeContainer extends Component {
     this.navigateUpPress = this.navigateUpPress.bind(this);
     this.navigateDownPress = this.navigateDownPress.bind(this);
 
+    this.handleSharePress = this.handleSharePress.bind(this);
+    this.handleTinderPress = this.handleTinderPress.bind(this);
+    this.handleListPress = this.handleListPress.bind(this);
+
     this.selectedChallengeIndex = -1;
     this.getIndexFromId(this.props.selectedChallengeId);
     this.state = {
       selectedChallengeId: this.props.selectedChallengeId,
       challengeContainerOffsetX: new Animated.Value(-screenWidth),
+      isTinder: true,
     };
 
     this.centralChallengeHeaderValues = null;
@@ -40,6 +42,19 @@ class ChallengeContainer extends Component {
   }
   componentDidMount() {
     startChallengeTicker();
+  }
+  handleSharePress() {
+    console.log('handleSharePress');
+  }
+
+  handleTinderPress() {
+    console.log('handleTinderPress');
+    this.setState({ isTinder: true });
+  }
+
+  handleListPress() {
+    console.log('handleListPress');
+    this.setState({ isTinder: false });
   }
 
   getChallenge(offset) {
@@ -220,24 +235,27 @@ class ChallengeContainer extends Component {
           challenges={this.props.challenges}
           challengeIndex={this.selectedChallengeIndex - 1}
           language={this.props.language}
-          type={-1}
+          isTinder={this.state.isTinder}
         />
         <ChallengeDetail
-          panResponder={this.panResponder}
           challenges={this.props.challenges}
           challengeIndex={this.selectedChallengeIndex}
-          type={0}
           language={this.props.language}
+          isTinder={this.state.isTinder}
           onHeaderPress={this.handleHeaderPressed}
           onDownPress={this.navigateDownPress}
           onUpPress={this.navigateUpPress}
+          handleSharePress={this.handleSharePress}
+          handleTinderPress={this.handleTinderPress}
+          handleListPress={this.handleListPress}
+          panResponder={this.panResponder}
           layoutCallback={this.setCentralChallengeHeaderLayout}
         />
         <ChallengeDetail
           challenges={this.props.challenges}
-          language={this.props.language}
           challengeIndex={this.selectedChallengeIndex + 1}
-          type={1}
+          language={this.props.language}
+          isTinder={this.state.isTinder}
         />
       </Animated.View>
     );

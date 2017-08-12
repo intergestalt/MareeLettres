@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { View, Text, TouchableHighlight } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 
 import styles from './styles';
 
@@ -9,6 +9,16 @@ class ChallengesListItem extends Component {
     onPress: PropTypes.func,
     language: PropTypes.string,
   };
+  getAnswer() {
+    let answer = '';
+    if (this.props.data) {
+      const winning = this.props.data.winningProposal;
+      if (winning) {
+        answer = winning.text;
+      }
+    }
+    return answer;
+  }
 
   render() {
     let myEndString = null;
@@ -20,7 +30,7 @@ class ChallengesListItem extends Component {
     return (
       <View style={styles.itemContainer}>
         {!this.props.data.isLoading
-          ? <TouchableHighlight onPress={this.props.onPress}>
+          ? <TouchableOpacity onPress={this.props.onPress}>
             {!this.props.data.isFinished
                 ? <View style={styles.row}>
                   <Text style={styles.title}>
@@ -47,10 +57,10 @@ class ChallengesListItem extends Component {
                     {this.props.data.tickerString}
                   </Text>
                   <Text style={styles.title}>
-                    {this.props.data.title}
+                      ANSWER: {this.getAnswer()}
                   </Text>
                 </View>}
-          </TouchableHighlight>
+          </TouchableOpacity>
           : <View style={styles.row}>
             <Text style={styles.title}>RELOAD ITEM</Text>
           </View>}
