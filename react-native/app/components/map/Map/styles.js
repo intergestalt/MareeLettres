@@ -7,5 +7,7 @@ export default EStyleSheet.create({
   },
   letter: {
     fontWeight: 'bold',
+		color: 'white',
+		fontSize: 16,
   },
 });

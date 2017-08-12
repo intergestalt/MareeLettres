@@ -14,6 +14,7 @@ export const loadChallenges = () => ({
   errorEvent: NETWORK_ERROR_LOAD_CHALLENGES,
   apiCall: callAllChallenges,
 });
+
 export const loadChallenge = challengeId => ({
   type: LOAD_CHALLENGE,
   successEvent: CHALLENGE_LOADED,

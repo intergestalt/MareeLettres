@@ -15,6 +15,8 @@ class AppContainer extends Component {
 
   async componentWillMount() {
     await Font.loadAsync({
+      normal: require('./assets/fonts/ArialMonospacedMTPro.ttf'),
+      bold: require('./assets/fonts/ArialMonospacedMTPro-Bld.ttf'),
       impact: require('./assets/fonts/impact.ttf'),
     });
     this.setState({ isReady: true });
