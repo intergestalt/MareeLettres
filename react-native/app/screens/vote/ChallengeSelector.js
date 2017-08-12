@@ -1,11 +1,10 @@
 import React, { Component, PropTypes } from 'react';
-import { StatusBar, Text, Animated } from 'react-native';
+import { StatusBar, Text } from 'react-native';
 import { connect } from 'react-redux';
 
 import { Screen } from '../../components/general/Container';
 import { ChallengeContainer } from '../../components/vote/ChallengeSelector';
-import { loadChallengesServiceProxy, loadChallengeServiceProxy } from '../../helper/apiProxy';
-import { screenWidth } from '../../helper/screen';
+import { loadChallengesServiceProxy } from '../../helper/apiProxy';
 
 class ChallengeSelector extends Component {
   static propTypes = {
@@ -27,22 +26,12 @@ class ChallengeSelector extends Component {
     this.handleSharePress = this.handleSharePress.bind(this);
     this.handleTinderPress = this.handleTinderPress.bind(this);
     this.handleListPress = this.handleListPress.bind(this);
-
-    this.callBackItemFinished = this.callBackItemFinished.bind(this);
   }
 
   componentDidMount() {
-    loadChallengesServiceProxy(this.props);
+    loadChallengesServiceProxy();
   }
 
-  callBackItemFinished(challengeId) {
-    for (let i = 0; i < this.props.challenges.length; i += 1) {
-      const challenge = this.props.challenges[i];
-      if (challenge._id === challengeId) {
-        loadChallengeServiceProxy(this.props, challengeId);
-      }
-    }
-  }
   handleSharePress() {
     console.log('handleSharePress');
   }
@@ -83,7 +72,6 @@ class ChallengeSelector extends Component {
           language={this.props.language}
           challenges={this.props.challenges}
           selectedChallengeId={this.selectedChallengeId}
-          callBackItemFinished={this.callBackItemFinished}
           navigation={this.props.navigation}
         />
         {/* <FooterMenu
@@ -92,7 +80,7 @@ class ChallengeSelector extends Component {
           handleSharePress={this.handleSharePress}
           isFinished={this.state.isFinished}
           isTinder={this.state.isTinder}
-        />*/}
+        /> */}
       </Screen>
     );
   }
@@ -122,7 +110,7 @@ class ChallengeSelector extends Component {
         />
       </Screen>
     );
-  }*/
+  } */
 
   render() {
     if (this.props.isLoadingChallenges) {

@@ -33,10 +33,10 @@ export default (state = initialState.challenges, action) => {
       const challenges = [];
       for (let i = 0; i < action.result.challenges.length; i += 1) {
         const entry = action.result.challenges[i];
-        if (entry._id === '98Auwp5wakBTLjeCe') {
-          const customDate = '2017-08-12T11:11:00.000Z';
+        /*  if (entry._id === 'rHETLnZij47h23fkS') {
+          const customDate = '2017-08-12T14:20:30.000Z';
           entry.end_date = new Date(customDate);
-        }
+        } */
 
         const endDate = new Date(entry.end_date);
 
@@ -44,6 +44,7 @@ export default (state = initialState.challenges, action) => {
         const newEntry = {
           ...entry,
           isFinished: dateData.finished,
+          wasFinished: dateData.finished,
           isLoading: false,
           voteNum: i + 1,
           endStringFr: dateData.endStringFr,
@@ -97,16 +98,17 @@ export default (state = initialState.challenges, action) => {
       for (let i = 0; i < state.challenges.length; i += 1) {
         const myChallenge = state.challenges[i];
         if (myChallenge._id === action.action.challengeId) {
-          const endDate = new Date(myChallenge.end_date);
-          const dateData = getDateData(endDate);
           const myChallenges = Array.from(state.challenges);
           if (action.result.challenges.length > 0) {
+            const endDate = new Date(action.result.challenges[0].end_date);
+            const dateData = getDateData(endDate);
             console.log('FOUND -> CHANGE');
             const newChallenge = {
               ...action.result.challenges[0],
               voteNum: i + 1,
               isLoading: false,
               isFinished: dateData.finished,
+              wasFinished: dateData.finished,
               endStringFr: dateData.endStringFr,
               endStringEn: dateData.endStringEn,
               tickerString: dateData.tickerString,
@@ -140,8 +142,9 @@ export default (state = initialState.challenges, action) => {
         const myChallenge = myChallenges[i];
         const endDate = new Date(myChallenge.end_date);
         const dateData = getDateData(endDate);
+
         const newChallenge = {
-          ...myChallenges,
+          ...myChallenge,
           isFinished: dateData.finished,
           endStringFr: dateData.endStringFr,
           endStringEn: dateData.endStringEn,
@@ -156,6 +159,7 @@ export default (state = initialState.challenges, action) => {
       };
       return newState;
     }
+
     default:
       return state;
   }

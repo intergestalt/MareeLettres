@@ -1,27 +1,26 @@
 import { loadContent } from '../actions/content';
 import { loadChallenge, loadChallenges } from '../actions/challenges';
 import { loadLetters } from '../actions/letters';
+import store from '../config/store';
 
-export function loadContentServiceProxy(props) {
-  if (props.content.isLoading) {
-    console.log('Content isLoading');
+export function loadContentServiceProxy(isLoading, isLoaded) {
+  if (isLoading) {
     return;
   }
-  if (props.content.isLoaded) {
-    console.log('Content isLoaded');
+  if (isLoaded) {
     return;
   }
-  props.dispatch(loadContent());
+  store.dispatch(loadContent());
 }
 
-export function loadChallengeServiceProxy(props, challengeId) {
-  props.dispatch(loadChallenge(challengeId));
+export function loadChallengeServiceProxy(challengeId) {
+  store.dispatch(loadChallenge(challengeId));
 }
 
-export function loadChallengesServiceProxy(props) {
-  props.dispatch(loadChallenges());
+export function loadChallengesServiceProxy() {
+  store.dispatch(loadChallenges());
 }
 
-export function loadLettersServiceProxy(props) {
-  props.dispatch(loadLetters());
+export function loadLettersServiceProxy() {
+  store.dispatch(loadLetters());
 }

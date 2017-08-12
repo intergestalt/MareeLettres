@@ -6,11 +6,11 @@ import Separator from './Separator';
 import ChallengesListItem from './ChallengesListItem';
 import styles from './styles';
 import { navigateToChallengeSelector } from '../../../helper/navigationProxy';
-import { loadChallengeServiceProxy } from '../../../helper/apiProxy';
+import { startChallengeTicker } from '../../../helper/ticker';
 
 class ChallengesList extends Component {
   static propTypes = {
-    navigation: PropTypes.object,
+    //  navigation: PropTypes.object,
     isError: PropTypes.bool,
     isLoading: PropTypes.bool,
     time: PropTypes.number,
@@ -18,22 +18,13 @@ class ChallengesList extends Component {
     challenges: PropTypes.array,
   };
 
-  constructor(props) {
-    super(props);
-    this.callBackItemFinished = this.callBackItemFinished.bind(this);
+  componentDidMount() {
+    startChallengeTicker();
   }
+
   handlePressRow = (item) => {
     navigateToChallengeSelector(this.props, item._id);
   };
-
-  callBackItemFinished(challengeId) {
-    for (let i = 0; i < this.props.challenges.length; i += 1) {
-      const challenge = this.props.challenges[i];
-      if (challenge._id === challengeId) {
-        loadChallengeServiceProxy(this.props, challengeId);
-      }
-    }
-  }
 
   render() {
     const isLoading = this.props.isLoading;
@@ -46,7 +37,6 @@ class ChallengesList extends Component {
             data={this.props.challenges}
             renderItem={({ item }) =>
               <ChallengesListItem
-                callBackItemFinished={this.callBackItemFinished}
                 language={this.props.language}
                 data={item}
                 onPress={() => this.handlePressRow(item)}

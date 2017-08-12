@@ -77,6 +77,40 @@ const VoteStack = StackNavigator(
   },
 );
 
+/* For Replacing the Stack.
+
+Call:
+ props.navigation.dispatch({
+    type: 'ReplaceCurrentScreen',
+    routeName: 'Challenges',
+    params: {},
+    key: 'Challenges',
+  });
+
+Custom transition to replace
+
+const prevGetStateForAction = VoteStack.router.getStateForAction;
+VoteStack.router = {
+  ...VoteStack.router,
+  getStateForAction(action, state) {
+    console.log('HERE WE GO!');
+    // console.log(state.routes.length);
+    if (state) {
+      console.log(state.routes);
+    }
+    if (state && action.type === 'ReplaceCurrentScreen') {
+      const routes = state.routes.slice(0, state.routes.length - 1);
+      routes.push(action);
+      return {
+        ...state,
+        routes,
+        index: routes.length - 1,
+      };
+    }
+    return prevGetStateForAction(action, state);
+  },
+}; */
+
 const tabNavigator = TabNavigator(
   {
     Home: {

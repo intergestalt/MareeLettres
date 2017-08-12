@@ -12,8 +12,6 @@ class ChallengeHeader extends Component {
     onHeaderPress: PropTypes.func,
     onUpPress: PropTypes.func,
     onDownPress: PropTypes.func,
-    tickerString: PropTypes.string,
-    endString: PropTypes.string,
     panResponder: PropTypes.object,
     language: PropTypes.string,
   };
@@ -76,17 +74,24 @@ class ChallengeHeader extends Component {
         {buttonUp}
       </View>
     );
+    const challenge = this.getChallenge();
+    let myEndString = null;
+    if (this.props.language === 'en') {
+      myEndString = challenge.endStringEn;
+    } else {
+      myEndString = challenge.endStringFr;
+    }
     const contentMiddle = (
       <View style={styles.headerTextContainer}>
         <TouchableOpacity onPress={this.props.onHeaderPress}>
           <Text style={styles.headerText}>
-            VOTE #{this.getChallenge().voteNum}
+            VOTE #{challenge.voteNum}
           </Text>
           <Text style={styles.headerText}>
-            {this.props.endString}
+            {myEndString}
           </Text>
           <Text style={styles.headerText}>
-            {this.props.tickerString}
+            {challenge.tickerString}
           </Text>
           <Text style={styles.headerText}>
             {this.getChallenge().title}

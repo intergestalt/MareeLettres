@@ -1,15 +1,17 @@
 import React, { Component, PropTypes } from 'react';
 import { Animated, PanResponder } from 'react-native';
+import { connect } from 'react-redux';
 
 import styles from './styles';
 import { ChallengeDetail } from './';
 import { screenWidth } from '../../../helper/screen';
 import { popChallengeSelector } from '../../../helper/navigationProxy';
-import { getDateData, isFinished } from '../../../helper/dateFunctions';
+import { startChallengeTicker } from '../../../helper/ticker';
 
 class ChallengeContainer extends Component {
   static propTypes = {
-    navigation: PropTypes.object,
+    // navigation: PropTypes.object,
+    dispatch: PropTypes.func,
     challenges: PropTypes.array,
     language: PropTypes.string,
     selectedChallengeId: PropTypes.string,
@@ -27,30 +29,17 @@ class ChallengeContainer extends Component {
 
     this.selectedChallengeIndex = -1;
     this.getIndexFromId(this.props.selectedChallengeId);
-    const dateStrings = this.calculateDateStrings();
     this.state = {
       selectedChallengeId: this.props.selectedChallengeId,
       challengeContainerOffsetX: new Animated.Value(-screenWidth),
-      tickerStringL: dateStrings.left.tickerString,
-      tickerString: dateStrings.center.tickerString,
-      tickerStringR: dateStrings.right.tickerString,
-      endStringL: dateStrings.left.endString,
-      endString: dateStrings.center.endString,
-      endStringR: dateStrings.right.endString,
     };
 
     this.centralChallengeHeaderValues = null;
     this.listenChallengeHeader = false;
-    this.swipeGesture = false;
     this.panResponder = this.createPanResponder();
   }
   componentDidMount() {
-    this.timerID = setInterval(() => {
-      this.tick();
-    }, 1000);
-  }
-  componentWillUnmount() {
-    clearInterval(this.timerID);
+    startChallengeTicker();
   }
 
   getChallenge(offset) {
@@ -78,32 +67,7 @@ class ChallengeContainer extends Component {
     }
     this.selectedChallengeIndex = index;
   }
-  calculateDateStrings() {
-    const result = {};
-    let dateData = null;
 
-    if (!this.isChallengeLeft()) {
-      const endDateL = new Date(this.getChallenge(-1).end_date);
-      dateData = getDateData(endDateL, this.props.language);
-      result.left = { tickerString: dateData.tickerString, endString: dateData.endString };
-    } else {
-      result.left = { tickerString: null, endString: null };
-    }
-
-    const endDate = new Date(this.getChallenge(0).end_date);
-    dateData = getDateData(endDate, this.props.language);
-    result.center = { tickerString: dateData.tickerString, endString: dateData.endString };
-
-    if (!this.isChallengeRight()) {
-      const endDateR = new Date(this.getChallenge(1).end_date);
-      dateData = getDateData(endDateR, this.props.language);
-      result.right = { tickerString: dateData.tickerString, endString: dateData.endString };
-    } else {
-      result.right = { tickerString: null, endString: null };
-    }
-
-    return result;
-  }
   createPanResponder() {
     return PanResponder.create({
       onStartShouldSetPanResponder: () => false,
@@ -115,10 +79,8 @@ class ChallengeContainer extends Component {
           x: e.nativeEvent.locationX,
           y: e.nativeEvent.locationY,
         };
-        console.log(`X: ${start.x} Y: ${start.y}`);
         if (this.isChallengeHeader(start)) {
           this.listenChallengeHeader = true;
-          // this.swipeGesture = true;
         } else {
           this.listenChallengeHeader = false;
         }
@@ -189,14 +151,12 @@ class ChallengeContainer extends Component {
           }
 
           this.startGesture = -1;
-          this.swipeGesture = false;
         }
       },
     });
   }
   isChallengeHeader(start) {
     const dz = this.centralChallengeHeaderValues;
-    console.log(dz);
     return (
       start.x > dz.x && start.x < dz.x + dz.width && start.y > dz.y && start.y < dz.y + dz.height
     );
@@ -224,44 +184,6 @@ class ChallengeContainer extends Component {
     popChallengeSelector(this.props);
   };
 
-  calcTimeState() {
-    const dateData = this.calculateDateStrings();
-    const newTicker = {};
-    if (!this.isChallengeLeft()) {
-      newTicker.tickerStringL = dateData.left.tickerString;
-      newTicker.endStringL = dateData.left.endString;
-    }
-    newTicker.tickerString = dateData.center.tickerString;
-    newTicker.endString = dateData.center.endString;
-
-    if (!this.isChallengeRight()) {
-      newTicker.tickerStringR = dateData.right.tickerString;
-      newTicker.endStringR = dateData.right.endString;
-    }
-    this.setState(newTicker);
-  }
-
-  isChallengeFinished(offset) {
-    const myChallenge = this.getChallenge(offset);
-    if (myChallenge) {
-      if (!myChallenge.isFinished) {
-        const endUTC = new Date(myChallenge.end_date);
-        const finish = isFinished(endUTC);
-        if (finish) {
-          this.props.callBackItemFinished(myChallenge._id);
-        }
-      }
-    }
-  }
-
-  tick() {
-    if (this.swipeGesture) return;
-    this.calcTimeState();
-    this.isChallengeFinished(-1);
-    this.isChallengeFinished(0);
-    this.isChallengeFinished(1);
-  }
-
   navigateDown() {
     if (this.selectedChallengeIndex <= 0) {
       this.state.challengeContainerOffsetX.setValue(-screenWidth);
@@ -286,7 +208,6 @@ class ChallengeContainer extends Component {
     this.state.challengeContainerOffsetX.setValue(-screenWidth);
     this.setState({ selectedChallengeId: newId });
     this.getIndexFromId(this.state.selectedChallengeId);
-    this.calcTimeState();
   }
 
   // Render
@@ -299,8 +220,6 @@ class ChallengeContainer extends Component {
           challenges={this.props.challenges}
           challengeIndex={this.selectedChallengeIndex - 1}
           language={this.props.language}
-          tickerString={this.state.tickerStringL}
-          endString={this.state.endStringL}
           type={-1}
         />
         <ChallengeDetail
@@ -312,20 +231,16 @@ class ChallengeContainer extends Component {
           onHeaderPress={this.handleHeaderPressed}
           onDownPress={this.navigateDownPress}
           onUpPress={this.navigateUpPress}
-          tickerString={this.state.tickerString}
-          endString={this.state.endString}
           layoutCallback={this.setCentralChallengeHeaderLayout}
         />
         <ChallengeDetail
           challenges={this.props.challenges}
           language={this.props.language}
           challengeIndex={this.selectedChallengeIndex + 1}
-          tickerString={this.state.tickerStringR}
-          endString={this.state.endStringR}
           type={1}
         />
       </Animated.View>
     );
   }
 }
-export default ChallengeContainer;
+export default connect()(ChallengeContainer);

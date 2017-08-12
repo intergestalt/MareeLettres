@@ -13,8 +13,6 @@ class ChallengeDetail extends Component {
     onHeaderPress: PropTypes.func,
     onUpPress: PropTypes.func,
     onDownPress: PropTypes.func,
-    tickerString: PropTypes.string,
-    endString: PropTypes.string,
     panResponder: PropTypes.object,
   };
   render() {
@@ -42,8 +40,6 @@ class ChallengeDetail extends Component {
           onHeaderPress={this.props.onHeaderPress}
           onDownPress={this.props.onDownPress}
           onUpPress={this.props.onUpPress}
-          tickerString={this.props.tickerString}
-          endString={this.props.endString}
           language={this.props.language}
         />
         <ChallengeContent
