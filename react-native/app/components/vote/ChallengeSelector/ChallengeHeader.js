@@ -25,7 +25,7 @@ class ChallengeHeader extends Component {
         const customDate = '2017-08-11T12:27:50.000Z';
         myChallenge.end_date = new Date(customDate);
       }
-    }*/
+    } */
   }
 
   getChallenge() {

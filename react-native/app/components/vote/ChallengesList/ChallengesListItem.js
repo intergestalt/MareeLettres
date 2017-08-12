@@ -9,7 +9,7 @@ class ChallengesListItem extends Component {
     data: PropTypes.object,
     onPress: PropTypes.func,
     language: PropTypes.string,
-    callBackItemFinished: PropTypes.func
+    callBackItemFinished: PropTypes.func,
   };
 
   constructor(props) {
@@ -19,12 +19,12 @@ class ChallengesListItem extends Component {
     this.dateStrings = { tickerString: '', endString: '' };
     this.state = {
       getTickerData: true,
-      isFinished: false
+      isFinished: false,
     };
     /*    if (this.props.data._id === 'RaALpmeE8vBjdH54K') {
       const customDate = '2017-08-10T13:04:00.000Z';
       this.props.data.end_date = new Date(customDate);
-    }*/
+    } */
   }
   componentDidMount() {
     this.timerID = setInterval(() => {
@@ -61,39 +61,39 @@ class ChallengesListItem extends Component {
       <View style={styles.itemContainer}>
         {!this.props.data.isLoading
           ? <TouchableHighlight onPress={this.props.onPress}>
-              {!this.props.data.isFinished
+            {!this.props.data.isFinished
                 ? <View style={styles.row}>
-                    <Text style={styles.title}>
+                  <Text style={styles.title}>
                       VOTE #{this.props.data.voteNum}
-                    </Text>
-                    <Text style={styles.title}>
-                      {this.dateStrings.endString}
-                    </Text>
-                    <Text style={styles.title}>
-                      {this.dateStrings.tickerString}
-                    </Text>
-                    <Text style={styles.title}>
-                      {this.props.data.title}
-                    </Text>
-                  </View>
+                  </Text>
+                  <Text style={styles.title}>
+                    {this.dateStrings.endString}
+                  </Text>
+                  <Text style={styles.title}>
+                    {this.dateStrings.tickerString}
+                  </Text>
+                  <Text style={styles.title}>
+                    {this.props.data.title}
+                  </Text>
+                </View>
                 : <View style={styles.row}>
-                    <Text style={styles.title}>
+                  <Text style={styles.title}>
                       VOTE #{this.props.data.voteNum} FINSHED
                     </Text>
-                    <Text style={styles.title}>
-                      {this.dateStrings.endString}
-                    </Text>
-                    <Text style={styles.title}>
-                      {this.dateStrings.tickerString}
-                    </Text>
-                    <Text style={styles.title}>
-                      {this.props.data.title}
-                    </Text>
-                  </View>}
-            </TouchableHighlight>
+                  <Text style={styles.title}>
+                    {this.dateStrings.endString}
+                  </Text>
+                  <Text style={styles.title}>
+                    {this.dateStrings.tickerString}
+                  </Text>
+                  <Text style={styles.title}>
+                    {this.props.data.title}
+                  </Text>
+                </View>}
+          </TouchableHighlight>
           : <View style={styles.row}>
-              <Text style={styles.title}>RELOAD ITEM</Text>
-            </View>}
+            <Text style={styles.title}>RELOAD ITEM</Text>
+          </View>}
       </View>
     );
   }
