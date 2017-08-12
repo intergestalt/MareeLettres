@@ -91,6 +91,9 @@ function formatDateEn(date, finished, sameDay, sameYear) {
   result += hours;
   if (min !== 0) {
     result += ':';
+    if (min < 10) {
+      result += '0';
+    }
     result += min;
   }
 

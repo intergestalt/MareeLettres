@@ -1,10 +1,10 @@
 import { combineReducers } from 'redux';
 
 import globals from './globals';
-import challenges from './services/challenges';
-import proposals from './services/proposals';
-import content from './services/content';
-import letters from './services/letters';
+import challenges from './challenges';
+import proposals from './proposals';
+import content from './content';
+import letters from './letters';
 
 export default combineReducers({
   globals,

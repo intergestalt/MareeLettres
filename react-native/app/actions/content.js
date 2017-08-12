@@ -1,4 +1,4 @@
-import { callAllContent } from '../../helper/apiCalls';
+import { callAllContent } from '../helper/apiCalls';
 
 export const LOAD_CONTENT = 'LOAD_CONTENT';
 export const CONTENT_LOADED = 'CONTENT_LOADED';

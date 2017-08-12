@@ -1,4 +1,4 @@
-import { callProposals } from '../../helper/apiCalls';
+import { callProposals } from '../helper/apiCalls';
 
 export const LOAD_PROPOSALS = 'LOAD_PROPOSALS';
 export const PROPOSALS_LOADED = 'PROPOSALS_LOADED';

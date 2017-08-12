@@ -1,14 +1,8 @@
-import {
-  LOAD_LETTERS,
-  SUCCESS_LETTERS,
-  NETWORK_ERROR_LOAD_LETTERS,
-} from '../../actions/services/letters';
+import { LOAD_LETTERS, SUCCESS_LETTERS, NETWORK_ERROR_LOAD_LETTERS } from '../actions/letters';
 
-import initialState from '../../config/initialState';
+import initialState from '../config/initialState';
 
 export default (state = initialState.letters, action) => {
-  console.log('REDUCER LETTERS');
-
   switch (action.type) {
     case LOAD_LETTERS:
       console.log('Nuke letters array.');
@@ -22,7 +16,7 @@ export default (state = initialState.letters, action) => {
       return {
         isLoading: false,
         isError: false,
-        content: action.result.letters
+        content: action.result.letters,
       };
 
     case NETWORK_ERROR_LOAD_LETTERS:
@@ -36,5 +30,4 @@ export default (state = initialState.letters, action) => {
     default:
       return state;
   }
-
-}
+};

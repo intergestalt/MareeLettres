@@ -1,10 +1,6 @@
-import {
-  LOAD_CONTENT,
-  CONTENT_LOADED,
-  NETWORK_ERROR_LOAD_CONTENT,
-} from '../../actions/services/content';
+import { LOAD_CONTENT, CONTENT_LOADED, NETWORK_ERROR_LOAD_CONTENT } from '../actions/content';
 
-import initialState from '../../config/initialState';
+import initialState from '../config/initialState';
 
 const resetContent = () => {
   const res = {
@@ -18,8 +14,6 @@ const resetContent = () => {
 };
 
 export default (state = initialState.content, action) => {
-  console.log('REDUCER CONTENT');
-  console.log(state);
   switch (action.type) {
     case LOAD_CONTENT: {
       console.log('START CONTENT');

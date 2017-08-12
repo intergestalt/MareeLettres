@@ -2,9 +2,9 @@ import {
   LOAD_PROPOSALS,
   PROPOSALS_LOADED,
   NETWORK_ERROR_LOAD_PROPOSALS,
-} from '../../actions/services/proposals';
+} from '../actions/proposals';
 
-import initialState from '../../config/initialState';
+import initialState from '../config/initialState';
 
 const resetAllProposals = (id) => {
   const res = {};
@@ -12,13 +12,11 @@ const resetAllProposals = (id) => {
     isError: false,
     time: null,
     challenges: [],
-  };*/
+  }; */
   return res;
 };
 
 export default (state = initialState.proposals, action) => {
-  console.log('REDUCER PROPOSAL');
-  console.log(action);
   switch (action.type) {
     case LOAD_PROPOSALS: {
       console.log('LOAD_PROPOSALS');
@@ -34,7 +32,7 @@ export default (state = initialState.proposals, action) => {
         isError: false,
         time: now.getTime(),
         ...action.result,
-      };*/
+      }; */
     }
     case NETWORK_ERROR_LOAD_PROPOSALS: {
       console.log('NETWORK_ERROR_LOAD_PROPOSALS');
@@ -46,7 +44,7 @@ export default (state = initialState.proposals, action) => {
         time: now.getTime(),
         challenges: [],
         error: action.error,
-      };*/
+      }; */
     }
     default:
       return state;

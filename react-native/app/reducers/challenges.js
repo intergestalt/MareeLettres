@@ -5,10 +5,11 @@ import {
   LOAD_CHALLENGE,
   NETWORK_ERROR_LOAD_CHALLENGE,
   CHALLENGE_LOADED,
-} from '../../actions/services/challenges';
+  SET_CHALLENGES_DATE_DATA,
+} from '../actions/challenges';
 
-import initialState from '../../config/initialState';
-import { getDateData, isFinished } from '../../helper/dateFunctions';
+import initialState from '../config/initialState';
+import { getDateData } from '../helper/dateFunctions';
 
 const resetAllChallenges = () => {
   const res = {
@@ -21,8 +22,6 @@ const resetAllChallenges = () => {
 };
 
 export default (state = initialState.challenges, action) => {
-  console.log('REDUCER CHALLANGES');
-
   switch (action.type) {
     case LOAD_CHALLENGES: {
       console.log('RESET Challenges');
@@ -34,19 +33,22 @@ export default (state = initialState.challenges, action) => {
       const challenges = [];
       for (let i = 0; i < action.result.challenges.length; i += 1) {
         const entry = action.result.challenges[i];
+        if (entry._id === '98Auwp5wakBTLjeCe') {
+          const customDate = '2017-08-12T11:11:00.000Z';
+          entry.end_date = new Date(customDate);
+        }
+
         const endDate = new Date(entry.end_date);
 
-        const finish = isFinished(endDate);
-        const dateDate = getDateData(endDate);
-
+        const dateData = getDateData(endDate);
         const newEntry = {
           ...entry,
-          isFinished: finish,
+          isFinished: dateData.finished,
           isLoading: false,
           voteNum: i + 1,
-          endStringFr: dateDate.endStringFr,
-          endStringEn: dateDate.endStringEn,
-          tickerString: dateDate.tickerString,
+          endStringFr: dateData.endStringFr,
+          endStringEn: dateData.endStringEn,
+          tickerString: dateData.tickerString,
         };
         challenges.push(newEntry);
       }
@@ -77,7 +79,6 @@ export default (state = initialState.challenges, action) => {
           const newChallenge = {
             ...myChallenge,
             isLoading: true,
-            isFinished: true,
           };
           const myChallenges = Array.from(state.challenges);
           myChallenges[i] = newChallenge;
@@ -97,15 +98,18 @@ export default (state = initialState.challenges, action) => {
         const myChallenge = state.challenges[i];
         if (myChallenge._id === action.action.challengeId) {
           const endDate = new Date(myChallenge.end_date);
-          const finish = isFinished(endDate);
+          const dateData = getDateData(endDate);
           const myChallenges = Array.from(state.challenges);
           if (action.result.challenges.length > 0) {
             console.log('FOUND -> CHANGE');
             const newChallenge = {
               ...action.result.challenges[0],
-              isFinished: finish,
               voteNum: i + 1,
               isLoading: false,
+              isFinished: dateData.finished,
+              endStringFr: dateData.endStringFr,
+              endStringEn: dateData.endStringEn,
+              tickerString: dateData.tickerString,
             };
             myChallenges[i] = newChallenge;
           } else {
@@ -129,6 +133,28 @@ export default (state = initialState.challenges, action) => {
     case NETWORK_ERROR_LOAD_CHALLENGE: {
       console.log('NETWORK_ERROR_LOAD_CHALLENGE');
       return state;
+    }
+    case SET_CHALLENGES_DATE_DATA: {
+      const myChallenges = Array.from(state.challenges);
+      for (let i = 0; i < myChallenges.length; i += 1) {
+        const myChallenge = myChallenges[i];
+        const endDate = new Date(myChallenge.end_date);
+        const dateData = getDateData(endDate);
+        const newChallenge = {
+          ...myChallenges,
+          isFinished: dateData.finished,
+          endStringFr: dateData.endStringFr,
+          endStringEn: dateData.endStringEn,
+          tickerString: dateData.tickerString,
+        };
+        myChallenges[i] = newChallenge;
+      }
+
+      const newState = {
+        ...state,
+        challenges: myChallenges,
+      };
+      return newState;
     }
     default:
       return state;

@@ -1,9 +1,9 @@
 import { takeEvery, call, put } from 'redux-saga/effects';
 
-import { LOAD_CHALLENGES, LOAD_CHALLENGE } from '../actions/services/challenges';
-import { LOAD_PROPOSALS } from '../actions/services/proposals';
-import { LOAD_CONTENT } from '../actions/services/content';
-import { LOAD_LETTERS } from '../actions/services/letters'
+import { LOAD_CHALLENGES, LOAD_CHALLENGE } from '../actions/challenges';
+import { LOAD_PROPOSALS } from '../actions/proposals';
+import { LOAD_CONTENT } from '../actions/content';
+import { LOAD_LETTERS } from '../actions/letters';
 
 function* loadData(action) {
   try {

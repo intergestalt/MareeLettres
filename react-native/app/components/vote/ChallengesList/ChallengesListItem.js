@@ -27,12 +27,13 @@ class ChallengesListItem extends Component {
     } */
   }
   componentDidMount() {
-    this.timerID = setInterval(() => {
+    /* this.timerID = setInterval(() => {
       this.tick();
-    }, 1000);
+    }, 1000); */
   }
+
   componentWillUnmount() {
-    clearInterval(this.timerID);
+    // clearInterval(this.timerID);
   }
 
   tick() {

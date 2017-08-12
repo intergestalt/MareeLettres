@@ -1,4 +1,4 @@
-import { callAllChallenges, callOneChallenge } from '../../helper/apiCalls';
+import { callAllChallenges, callOneChallenge } from '../helper/apiCalls';
 
 export const LOAD_CHALLENGES = 'LOAD_CHALLENGES';
 export const NETWORK_ERROR_LOAD_CHALLENGES = 'NETWORK_ERROR_LOAD_CHALLENGES';
@@ -7,6 +7,8 @@ export const CHALLENGES_LOADED = 'CHALLENGES_LOADED';
 export const LOAD_CHALLENGE = 'LOAD_CHALLENGE';
 export const CHALLENGE_LOADED = 'CHALLENGE_LOADED';
 export const NETWORK_ERROR_LOAD_CHALLENGE = 'NETWORK_ERROR_LOAD_CHALLENGE';
+
+export const SET_CHALLENGES_DATE_DATA = 'SET_CHALLENGES_DATE_DATA';
 
 export const loadChallenges = () => ({
   type: LOAD_CHALLENGES,
@@ -21,4 +23,8 @@ export const loadChallenge = challengeId => ({
   errorEvent: NETWORK_ERROR_LOAD_CHALLENGE,
   apiCall: callOneChallenge,
   challengeId,
+});
+
+export const setChallengesDateData = () => ({
+  type: SET_CHALLENGES_DATE_DATA,
 });

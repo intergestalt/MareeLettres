@@ -1,6 +1,6 @@
-import { loadContent } from '../actions/services/content';
-import { loadChallenge, loadChallenges } from '../actions/services/challenges';
-import { loadLetters } from '../actions/services/letters';
+import { loadContent } from '../actions/content';
+import { loadChallenge, loadChallenges } from '../actions/challenges';
+import { loadLetters } from '../actions/letters';
 
 export function loadContentServiceProxy(props) {
   if (props.content.isLoading) {

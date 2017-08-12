@@ -1,5 +1,5 @@
 import { TabNavigator, StackNavigator } from 'react-navigation';
-import { Easing, Animated } from 'react-native';
+// import { Easing, Animated } from 'react-native';
 
 import Home from '../screens/single/Home';
 import Stream from '../screens/single/Stream';
@@ -47,7 +47,7 @@ const MyTransitionSpec = {
   // easing: Easing.bezier(0.2833, 0.99, 0.31833, 0.99),
   // timing: Animated.timing,
 };
-*/
+
 const TransitionConfiguration = () => ({
   // Define scene interpolation, eq. custom transition
   // transitionSpec: MyTransitionSpec,
@@ -55,7 +55,7 @@ const TransitionConfiguration = () => ({
     //    const { position, scene } = sceneProps;
     //   const { index } = scene;
     null, // MyCustomTransition(index, position);
-});
+}); */
 
 const VoteStack = StackNavigator(
   {

@@ -17,16 +17,6 @@ class ChallengeHeader extends Component {
     panResponder: PropTypes.object,
     language: PropTypes.string,
   };
-  constructor(props) {
-    super(props);
-    /* const myChallenge = this.getChallenge();
-        if (myChallenge) {
-      if (this.getChallenge()._id === 'gg6fmsqMmwPGnip6h') {
-        const customDate = '2017-08-11T12:27:50.000Z';
-        myChallenge.end_date = new Date(customDate);
-      }
-    } */
-  }
 
   getChallenge() {
     if (
