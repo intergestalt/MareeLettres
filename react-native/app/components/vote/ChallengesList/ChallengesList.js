@@ -32,7 +32,6 @@ class ChallengesList extends Component {
     if (!isLoading && !isError) {
       return (
         <View style={styles.container}>
-          <Text style={styles.headline}>List of Challenges</Text>
           <FlatList
             data={this.props.challenges}
             renderItem={({ item }) =>
@@ -50,7 +49,6 @@ class ChallengesList extends Component {
     if (isLoading) {
       return (
         <View style={styles.container}>
-          <Text style={styles.headline}>List of Challenges</Text>
           <Text>Loading...</Text>
         </View>
       );
@@ -58,7 +56,6 @@ class ChallengesList extends Component {
     // Else: isError==true
     return (
       <View style={styles.container}>
-        <Text style={styles.headline}>List of Challenges</Text>
         <Text>ERROR!</Text>
       </View>
     );

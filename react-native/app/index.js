@@ -8,7 +8,9 @@ import { AppContainer } from './components/general/Container';
 
 EStyleSheet.build({
   $backgroundColor: '#DDDDDD',
+  $strokeWidth: '0.1rem',
   outline: 0, // set to 1 to see the elements boundaries
+  rem: 16,
 });
 
 const configureScene = () => ({

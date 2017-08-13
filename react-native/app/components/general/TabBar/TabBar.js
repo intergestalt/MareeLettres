@@ -28,7 +28,7 @@ class TabBar extends Component {
     resetScreen().then(() => {
     this.props.navigation.navigate(dest);
      });
-  }*/
+  } */
 
   handleVotePress = () => {
     navigateToVote(this.props);
@@ -42,6 +42,10 @@ class TabBar extends Component {
     navigateToStream(this.props);
   };
 
+  handleInfoPress = () => {
+    navigateToStream(this.props);
+  };
+
   render() {
     const tabIndex = this.props.navigation.state.index;
     /* let stackIndex = -1;
@@ -50,27 +54,30 @@ class TabBar extends Component {
       if (tab.routes) {
         stackIndex = tab.index;
       }
-    }*/
+    } */
     let voteSelected = false;
     let becomeSelected = false;
     let streamSelected = false;
+    let infoSelected = false;
     let showTabBar = true;
     if (tabIndex === 1) {
       voteSelected = true;
       /* if (stackIndex === 1) {
         showTabBar = false;
-      }*/
+      } */
     } else if (tabIndex === 2) {
       becomeSelected = true;
     } else if (tabIndex === 3) {
       streamSelected = true;
+    } else if (tabIndex === 4) {
+      infoSelected = true;
     } else {
       showTabBar = false;
     }
     if (showTabBar) {
       return (
         <View style={styles.container}>
-          <View style={styles.tab}>
+          <View style={[styles.tab, styles.tabFirst]}>
             {!voteSelected
               ? <TouchableOpacity onPress={this.handleVotePress}>
                 <Text style={styles.text}>ABC</Text>
@@ -79,7 +86,7 @@ class TabBar extends Component {
           </View>
           <View style={styles.tab}>
             {!becomeSelected
-              ? <TouchableOpacity onPress={this.handleBecomePress}>
+              ? <TouchableOpacity onPress={this.handleBecomePress} style={styles.touchable}>
                 <Text style={styles.text}>MAP</Text>
               </TouchableOpacity>
               : <Text style={styles.textHigh}>MAP</Text>}
@@ -90,6 +97,13 @@ class TabBar extends Component {
                 <Text style={styles.text}>IMG</Text>
               </TouchableOpacity>
               : <Text style={styles.textHigh}>IMG</Text>}
+          </View>
+          <View style={styles.tab}>
+            {!infoSelected
+              ? <TouchableOpacity onPress={this.handleInfoPress}>
+                <Text style={styles.text}>INFO</Text>
+              </TouchableOpacity>
+              : <Text style={styles.textHigh}>INFO</Text>}
           </View>
         </View>
       );

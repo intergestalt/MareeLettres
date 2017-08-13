@@ -2,6 +2,8 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 import { StatusBar } from 'react-native';
 
 const styles = EStyleSheet.create({
+  $backgroundColorMenuItem: 'rgb(245,132,102)',
+
   container: {
     width: '100%',
     alignItems: 'center',
@@ -19,19 +21,26 @@ const styles = EStyleSheet.create({
     },
   },
   tab: {
-    flexGrow: 1,
+    flex: 1,
+    borderBottomWidth: '$strokeWidth',
+    borderLeftWidth: '$strokeWidth',
+    backgroundColor: '$backgroundColorMenuItem',
   },
+  tabFirst: {
+    borderLeftWidth: 0,
+  },
+  touchable: {},
   text: {
-    color: '#555555',
-    fontSize: '1rem',
-    lineHeight: '2.5rem',
+    color: 'black',
+    fontSize: '1.25rem',
+    lineHeight: '2rem',
     textAlign: 'center',
     fontFamily: 'impact',
   },
   textHigh: {
     color: 'white',
-    fontSize: '1rem',
-    lineHeight: '2.5rem',
+    fontSize: '1.25rem',
+    lineHeight: '2rem',
     backgroundColor: 'black',
     textAlign: 'center',
     fontFamily: 'impact',

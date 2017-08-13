@@ -2,46 +2,62 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 import { StyleSheet } from 'react-native';
 
 const styles = EStyleSheet.create({
+  $challengeListBackgroundColor: '#E6E6E6',
+  $textColor: 'black',
+  $tickerColor: '#3F3C6A',
+  $challengeListItemHorizontalPadding: 32,
+  $lineTopOffset: '0.4rem', // compensate visual difference due to vertical placement of text inside line. see also: https://facebook.github.io/react-native/docs/textstyleproptypes.html#includefontpadding
+
   container: {
-    backgroundColor: '#00FF00',
-    height: '70%',
-    width: '80%',
-    top: 10,
-    borderRadius: 17,
-  },
-  headline: {
-    fontSize: 20,
-    left: 0,
-    marginVertical: 17,
-    textAlign: 'center',
-  },
-  list: {
-    left: 0,
+    backgroundColor: '$challengeListBackgroundColor',
   },
   separator: {
-    backgroundColor: '#555555',
-    height: StyleSheet.hairlineWidth,
+    backgroundColor: '$textColor',
+    height: '$strokeWidth',
     flex: 1,
-    marginLeft: 20,
-    marginRight: 20,
   },
   row: {
-    paddingHorizontal: 20,
-    paddingVertical: 16,
-    justifyContent: 'space-between',
+    marginHorizontal: '$challengeListItemHorizontalPadding',
+    paddingBottom: '1rem',
+    paddingTop: '1rem + $lineTopOffset',
+    justifyContent: 'space-around',
     alignItems: 'center',
     flexDirection: 'column',
-    backgroundColor: '#00FF00',
   },
   title: {
-    color: '#666666',
-    fontSize: 16,
+    color: '$textColor',
+    fontSize: '1rem',
     textAlign: 'center',
+    fontFamily: 'bold',
   },
-  itemContainer: {
-    marginLeft: 20,
-    marginRight: 20,
+  answer: {
+    color: '$textColor',
+    fontSize: '1rem',
+    textAlign: 'center',
+    fontFamily: 'impact',
+    letterSpacing: 2,
   },
+  tickerContainer: {
+    marginBottom: '1rem',
+    flexDirection: 'row',
+  },
+  ticker: {
+    color: '$tickerColor',
+    fontSize: '1rem',
+    fontFamily: 'normal',
+  },
+  live: {
+    color: 'red',
+    fontSize: '0.5rem',
+    fontFamily: 'normal',
+    paddingBottom: '0.5rem',
+  },
+  liveSpacer: {
+    color: 'transparent',
+    fontSize: '0.5rem',
+    fontFamily: 'normal',
+  },
+  itemContainer: {},
 });
 
 export default styles;

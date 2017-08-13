@@ -36,28 +36,28 @@ class ChallengesListItem extends Component {
                   <Text style={styles.title}>
                       VOTE #{this.props.data.voteNum}
                   </Text>
+                  <View style={styles.tickerContainer}>
+                    <Text style={styles.liveSpacer}>live</Text>
+                    <Text style={styles.ticker}>
+                      {this.props.data.tickerString}
+                    </Text>
+                    <Text style={styles.live}>live</Text>
+                  </View>
                   <Text style={styles.title}>
-                    {myEndString}
-                  </Text>
-                  <Text style={styles.title}>
-                    {this.props.data.tickerString}
-                  </Text>
-                  <Text style={styles.title}>
-                    {this.props.data.title}
+                    {this.props.data.title.toUpperCase()}
                   </Text>
                 </View>
                 : <View style={styles.row}>
                   <Text style={styles.title}>
                       VOTE #{this.props.data.voteNum} FINSHED
                     </Text>
-                  <Text style={styles.title}>
-                    {myEndString}
-                  </Text>
-                  <Text style={styles.title}>
-                    {this.props.data.tickerString}
-                  </Text>
-                  <Text style={styles.title}>
-                      ANSWER: {this.getAnswer()}
+                  <View style={styles.tickerContainer}>
+                    <Text style={styles.ticker}>
+                      {myEndString}
+                    </Text>
+                  </View>
+                  <Text style={styles.answer}>
+                    {this.getAnswer()}
                   </Text>
                 </View>}
           </TouchableOpacity>
