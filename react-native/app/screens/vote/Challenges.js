@@ -13,7 +13,7 @@ class Challenges extends Component {
 
   componentDidMount() {
     loadChallengesServiceProxy();
-  }
+  };
 
   render() {
     return (

@@ -5,7 +5,13 @@ import Home from '../screens/single/Home';
 import Stream from '../screens/single/Stream';
 import Challenges from '../screens/vote/Challenges';
 import ChallengeSelector from '../screens/vote/ChallengeSelector';
+
 import MapOverview from '../screens/map/MapOverview';
+import MapCamera from '../screens/map/MapCamera';
+import LetterSelector from '../screens/map/LetterSelector';
+import QRCodeGet from '../screens/map/QRCodeGet';
+import QRCodeSend from '../screens/map/QRCodeSend';
+
 import How from '../screens/single/How';
 import About from '../screens/single/About';
 import { TabBar } from '../components/general/TabBar';
@@ -56,6 +62,35 @@ const TransitionConfiguration = () => ({
     //   const { index } = scene;
     null, // MyCustomTransition(index, position);
 }); */
+
+const MapStack = StackNavigator(
+  {
+    MapOverview: {
+      screen: MapOverview,
+    },
+    MapCamera: {
+      screen: MapCamera,
+    },
+    LetterSelector: {
+      screen: LetterSelector,
+    },
+    QRCodeGet: {
+      screen: QRCodeGet,
+    },
+    QRCodeSend: {
+      screen: QRCodeSend,
+    }
+  },
+  {
+    headerMode: 'none',
+    // NO TRANSITION AT ALL
+    // transitionConfig: TransitionConfiguration,
+    mode: 'modal',
+    navigationOptions: {
+      gesturesEnabled: false,
+    },
+  },
+);
 
 const VoteStack = StackNavigator(
   {
@@ -120,7 +155,7 @@ const tabNavigator = TabNavigator(
       screen: VoteStack,
     },
     Become: {
-      screen: MapOverview,
+      screen: MapStack,
     },
     Stream: {
       screen: Stream,
@@ -142,7 +177,7 @@ const tabNavigator = TabNavigator(
     swipeEnabled: false,
     animationEnabled: false,
     //    tabBarPosition: 'bottom',
-    initialRouteName: 'Vote',
+    initialRouteName: 'Become',
   },
 );
 
