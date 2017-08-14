@@ -11,6 +11,7 @@ class ChallengeFooter extends Component {
     handleSharePress: PropTypes.func,
     handleTinderPress: PropTypes.func,
     handleListPress: PropTypes.func,
+    handleCommitPress: PropTypes.func,
   };
 
   renderFinished() {
@@ -24,22 +25,24 @@ class ChallengeFooter extends Component {
       </View>
     );
   }
+  renderTinderButton() {
+    return this.props.isTinder
+      ? <TouchableOpacity onPress={this.props.handleListPress}>
+        <Text style={styles.challengeFooterText}>List</Text>
+      </TouchableOpacity>
+      : <TouchableOpacity onPress={this.props.handleTinderPress}>
+        <Text style={styles.challengeFooterText}>Tinder</Text>
+      </TouchableOpacity>;
+  }
 
   renderUnfinished() {
     return (
       <View style={styles.challengeFooter}>
         <View style={styles.challengeFooterUnfinished}>
-          {!this.props.isTinder
-            ? <TouchableOpacity onPress={this.props.handleTinderPress}>
-              <Text style={styles.challengeFooterText}>Swipe</Text>
-            </TouchableOpacity>
-            : <Text style={styles.challengeFooterTextHigh}>Swipe</Text>}
-
-          {this.props.isTinder
-            ? <TouchableOpacity onPress={this.props.handleListPress}>
-              <Text style={styles.challengeFooterText}>List</Text>
-            </TouchableOpacity>
-            : <Text style={styles.challengeFooterTextHigh}>List</Text>}
+          {this.renderTinderButton()}
+          <TouchableOpacity onPress={this.props.handleCommitPress}>
+            <Text style={styles.challengeFooterText}>Commit</Text>
+          </TouchableOpacity>
         </View>
       </View>
     );

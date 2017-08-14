@@ -7,12 +7,15 @@ import { ChallengeDetail } from './';
 import { screenWidth } from '../../../helper/screen';
 import { popChallengeSelector } from '../../../helper/navigationProxy';
 import { startChallengeTicker } from '../../../helper/ticker';
+import { setTinderMode } from '../../../actions/general';
 
 class ChallengeContainer extends Component {
   static propTypes = {
+    dispatch: PropTypes.func,
     challenges: PropTypes.array,
     language: PropTypes.string,
     selectedChallengeId: PropTypes.string,
+    isTinder: PropTypes.bool,
   };
 
   constructor(props) {
@@ -27,13 +30,13 @@ class ChallengeContainer extends Component {
     this.handleSharePress = this.handleSharePress.bind(this);
     this.handleTinderPress = this.handleTinderPress.bind(this);
     this.handleListPress = this.handleListPress.bind(this);
+    this.handleCommitPress = this.handleCommitPress.bind(this);
 
     this.selectedChallengeIndex = -1;
     this.getIndexFromId(this.props.selectedChallengeId);
     this.state = {
       selectedChallengeId: this.props.selectedChallengeId,
       challengeContainerOffsetX: new Animated.Value(-screenWidth),
-      isTinder: true,
     };
 
     this.centralChallengeHeaderValues = null;
@@ -42,19 +45,6 @@ class ChallengeContainer extends Component {
   }
   componentDidMount() {
     startChallengeTicker();
-  }
-  handleSharePress() {
-    console.log('handleSharePress');
-  }
-
-  handleTinderPress() {
-    console.log('handleTinderPress');
-    this.setState({ isTinder: true });
-  }
-
-  handleListPress() {
-    console.log('handleListPress');
-    this.setState({ isTinder: false });
   }
 
   getChallenge(offset) {
@@ -81,6 +71,23 @@ class ChallengeContainer extends Component {
       }
     }
     this.selectedChallengeIndex = index;
+  }
+
+  handleSharePress() {
+    console.log('handleSharePress');
+  }
+  handleCommitPress() {
+    console.log('handleCommitPress');
+  }
+
+  handleTinderPress() {
+    console.log('handleTinderPress');
+    this.props.dispatch(setTinderMode(true));
+  }
+
+  handleListPress() {
+    console.log('handleListPress');
+    this.props.dispatch(setTinderMode(false));
   }
 
   createPanResponder() {
@@ -170,24 +177,29 @@ class ChallengeContainer extends Component {
       },
     });
   }
+
   isChallengeHeader(start) {
     const dz = this.centralChallengeHeaderValues;
     return (
       start.x > dz.x && start.x < dz.x + dz.width && start.y > dz.y && start.y < dz.y + dz.height
     );
   }
+
   isChallengeLeft() {
     return this.selectedChallengeIndex === 0;
   }
+
   isChallengeRight() {
     return this.selectedChallengeIndex === this.props.challenges.length - 1;
   }
+
   navigateDownPress() {
     Animated.timing(this.state.challengeContainerOffsetX, {
       toValue: 0,
       duration: 300,
     }).start(this.navigateDown);
   }
+
   navigateUpPress() {
     Animated.timing(this.state.challengeContainerOffsetX, {
       toValue: -2 * screenWidth,
@@ -235,19 +247,20 @@ class ChallengeContainer extends Component {
           challenges={this.props.challenges}
           challengeIndex={this.selectedChallengeIndex - 1}
           language={this.props.language}
-          isTinder={this.state.isTinder}
+          isTinder={this.props.isTinder}
         />
         <ChallengeDetail
           challenges={this.props.challenges}
           challengeIndex={this.selectedChallengeIndex}
           language={this.props.language}
-          isTinder={this.state.isTinder}
+          isTinder={this.props.isTinder}
           onHeaderPress={this.handleHeaderPressed}
           onDownPress={this.navigateDownPress}
           onUpPress={this.navigateUpPress}
           handleSharePress={this.handleSharePress}
           handleTinderPress={this.handleTinderPress}
           handleListPress={this.handleListPress}
+          handleCommitPress={this.handleCommitPress}
           panResponder={this.panResponder}
           layoutCallback={this.setCentralChallengeHeaderLayout}
         />
@@ -255,10 +268,18 @@ class ChallengeContainer extends Component {
           challenges={this.props.challenges}
           challengeIndex={this.selectedChallengeIndex + 1}
           language={this.props.language}
-          isTinder={this.state.isTinder}
+          isTinder={this.props.isTinder}
         />
       </Animated.View>
     );
   }
 }
-export default connect()(ChallengeContainer);
+
+const mapStateToProps = (state) => {
+  const isTinder = state.globals.isTinder;
+
+  return {
+    isTinder,
+  };
+};
+export default connect(mapStateToProps)(ChallengeContainer);

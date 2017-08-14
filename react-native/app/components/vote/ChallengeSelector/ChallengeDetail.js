@@ -17,6 +17,7 @@ class ChallengeDetail extends Component {
     handleSharePress: PropTypes.func,
     handleTinderPress: PropTypes.func,
     handleListPress: PropTypes.func,
+    handleCommitPress: PropTypes.func,
   };
 
   render() {
@@ -44,6 +45,7 @@ class ChallengeDetail extends Component {
           handleSharePress={this.props.handleSharePress}
           handleTinderPress={this.props.handleTinderPress}
           handleListPress={this.props.handleListPress}
+          handleCommitPress={this.props.handleCommitPress}
         />
       </View>
     );

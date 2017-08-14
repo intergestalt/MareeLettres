@@ -1,6 +1,7 @@
 export default {
   globals: {
     language: 'fr',
+    isTinder: true,
   },
   challenges: {
     isLoading: true,
@@ -20,5 +21,5 @@ export default {
     isLoading: false,
     isError: false,
     content: [],
-  }
+  },
 };
