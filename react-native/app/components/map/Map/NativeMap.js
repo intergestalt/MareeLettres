@@ -4,6 +4,12 @@ import MapView from 'react-native-maps';
 import { connect } from 'react-redux';
 
 import { LettersMenu, DropZone, CameraButton } from '../Overlay';
+import {
+  navigateToMapCamera,
+  navigateToQRCodeGet,
+  navigateToQRCodeSend,
+  navigateToLetterSelector
+} from '../../../helper/navigationProxy';
 
 import styles from './styles';
 import mapstyles from './mapstyles';
@@ -16,9 +22,30 @@ import mapstyles from './mapstyles';
 
 class NativeMap extends Component {
   static propTypes = {
+    navigation: PropTypes.object,
     isLoading: PropTypes.bool,
     isError: PropTypes.bool,
     letters: PropTypes.array,
+    myLetter: PropTypes.string,
+  };
+
+  componentDidMount() {};
+
+  handleCameraButtonPress() {
+    navigateToMapCamera(this.props);
+  };
+
+  handleLetterSelectorPress() {
+    console.log('hell?')
+    navigateToLetterSelector(this.props);
+  };
+
+  handleShareLettersPress() {
+    navigateToQRCodeSend(this.props);
+  };
+
+  handleGetLettersPress() {
+    navigateToQRCodeGet(this.props);
   };
 
   render() {
@@ -32,8 +59,8 @@ class NativeMap extends Component {
     	    provider={MapView.PROVIDER_GOOGLE}
           style={styles.container}
           initialRegion={{
-            latitude: 52.48, //48.864716 (Paris)
-            longitude: 13.41, //2.349014 (Paris)
+            latitude: 52.48, //48.864716 (Paris LAT)
+            longitude: 13.41, //2.349014 (Paris LNG)
             latitudeDelta: 0.0922,
             longitudeDelta: 0.0421,
           }}
@@ -41,7 +68,7 @@ class NativeMap extends Component {
         >
           {
             this.props.letters.map((item, i) => {
-              if (i < 20) {
+              //if (i < 20) {
                 return (
                   <MapView.Marker
                     key={i}
@@ -55,16 +82,22 @@ class NativeMap extends Component {
                     </Text>
                   </MapView.Marker>
                 );
-              } else {
-                return null;
-              }
+            //  } else { return null; }
             })
           }
 
         </MapView>
-        <LettersMenu />
+        <LettersMenu
+          myLetter={this.props.myLetter}
+          letterSelectorPress={() => this.handleLetterSelectorPress()}
+          shareLettersPress={() => this.handleShareLettersPress()}
+          getLettersPress={() => this.handleGetLettersPress()}
+          />
         <DropZone />
-        <CameraButton />
+        <CameraButton
+          text='Camera'
+          onPress={() => this.handleCameraButtonPress()}
+          />
       </View>
     );
   }
@@ -74,11 +107,13 @@ const mapStateToProps = (state) => {
   const isLoading = state.letters.isLoading;
   const isError = state.letters.isError;
   const letters = state.letters.content;
+  const myLetter = state.user.letter;
 
   return {
     isLoading,
     isError,
     letters,
+    myLetter,
   };
 };
 
