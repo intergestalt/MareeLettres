@@ -76,7 +76,7 @@ const MapStack = StackNavigator(
     },
     QRCodeSend: {
       screen: QRCodeSend,
-    }
+    },
   },
   {
     headerMode: 'none',
@@ -170,7 +170,7 @@ const tabNavigator = TabNavigator(
     swipeEnabled: false,
     animationEnabled: false,
     //    tabBarPosition: 'bottom',
-    initialRouteName: 'Become',
+    initialRouteName: 'Vote',
   },
 );
 

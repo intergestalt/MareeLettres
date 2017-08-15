@@ -1,6 +1,5 @@
 import React, { Component, PropTypes } from 'react';
 import { StatusBar } from 'react-native';
-import { connect } from 'react-redux';
 
 import { Screen } from '../../components/general/Container';
 import { ChallengesList } from '../../components/vote/ChallengesList';
@@ -24,6 +23,4 @@ class Challenges extends Component {
     );
   }
 }
-export default connect()(Challenges);
-
-// export default Challenges;
+export default Challenges;

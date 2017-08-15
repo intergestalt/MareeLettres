@@ -4,7 +4,6 @@ import { VOTE_VIEWS } from '../consts';
 import { setChallengesId, setChallengesIndex } from '../actions/challenges';
 
 export function manageChallenges() {
-  console.log(`MANAGE CHALLENGES ${store.getState().globals.voteView}`);
   if (store.getState().globals.voteView === VOTE_VIEWS.LIST) {
     loadChallengesServiceProxy();
     store.dispatch(setChallengesId(null));
