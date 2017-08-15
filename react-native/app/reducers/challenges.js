@@ -6,37 +6,33 @@ import {
   NETWORK_ERROR_LOAD_CHALLENGE,
   CHALLENGE_LOADED,
   SET_CHALLENGES_DATE_DATA,
+  SET_CHALLENGES_ID,
+  SET_CHALLENGES_INDEX,
 } from '../actions/challenges';
 
 import initialState from '../config/initialState';
 import { getDateData } from '../helper/dateFunctions';
 
-const resetAllChallenges = () => {
-  const res = {
-    isLoading: true,
-    isError: false,
-    time: null,
-    challenges: [],
-  };
-  return res;
-};
-
 export default (state = initialState.challenges, action) => {
   switch (action.type) {
     case LOAD_CHALLENGES: {
-      console.log('RESET Challenges');
-      return resetAllChallenges();
+      console.log('LOAD_CHALLENGES');
+      return {
+        ...state,
+        isLoading: true,
+        isError: false,
+      };
     }
     case CHALLENGES_LOADED: {
-      console.log('CHALLENGES_LOADED 1');
+      console.log('CHALLENGES_LOADED');
       const now = new Date();
       const challenges = [];
       for (let i = 0; i < action.result.challenges.length; i += 1) {
         const entry = action.result.challenges[i];
-        /* if (entry._id === '98Auwp5wakBTLjeCe') {
-          const customDate = '2017-08-12T15:53:20.000Z';
+        if (entry._id === 'YprApQtPzTdsPFQAp') {
+          const customDate = '2017-08-14T21:42:00.000Z';
           entry.end_date = new Date(customDate);
-        } */
+        }
 
         const endDate = new Date(entry.end_date);
 
@@ -55,6 +51,7 @@ export default (state = initialState.challenges, action) => {
       }
 
       return {
+        ...state,
         isLoading: false,
         isError: false,
         time: now.getTime(),
@@ -63,17 +60,16 @@ export default (state = initialState.challenges, action) => {
     }
     case NETWORK_ERROR_LOAD_CHALLENGES: {
       console.log('NETWORK ERROR 1');
-      const now = new Date();
       return {
         isLoading: false,
         isError: true,
-        time: now.getTime(),
+        time: state.time,
         challenges: [],
         error: action.error,
       };
     }
     case LOAD_CHALLENGE: {
-      console.log('LOAD_CHALLENGE');
+      console.log(`LOAD_CHALLENGE ${action.challengeId}`);
       for (let i = 0; i < state.challenges.length; i += 1) {
         const myChallenge = state.challenges[i];
         if (myChallenge._id === action.challengeId) {
@@ -95,6 +91,8 @@ export default (state = initialState.challenges, action) => {
     }
     case CHALLENGE_LOADED: {
       console.log(`CHALLENGE_LOADED ${action.action.challengeId}`);
+      let challengeId = null;
+      let challengeIndex = -1;
       for (let i = 0; i < state.challenges.length; i += 1) {
         const myChallenge = state.challenges[i];
         if (myChallenge._id === action.action.challengeId) {
@@ -103,6 +101,8 @@ export default (state = initialState.challenges, action) => {
             const endDate = new Date(action.result.challenges[0].end_date);
             const dateData = getDateData(endDate);
             console.log('FOUND -> CHANGE');
+            challengeIndex = i;
+            challengeId = myChallenge._id;
             const newChallenge = {
               ...action.result.challenges[0],
               voteNum: i + 1,
@@ -117,19 +117,36 @@ export default (state = initialState.challenges, action) => {
           } else {
             console.log('FOUND BUT NOT EXISTING ANYMORE -> DELETE');
             myChallenges.splice(i, 1);
+            challengeIndex = -1;
+            challengeId = null;
             for (let j = 0; j < myChallenges.length; j += 1) {
               myChallenges[j].voteNum = j + 1;
+              if (myChallenges[j]._id === state.selectedChallengeId) {
+                challengeId = myChallenges[j]._id;
+                challengeIndex = j;
+              }
+            }
+            // Challenge is not existing, but the current challenge. Go to 0
+            if (challengeIndex === -1) {
+              if (state.challenges) {
+                if (state.challenges.length > 0) {
+                  challengeId = state.challenges[0]._id;
+                  challengeIndex = 0;
+                }
+              }
             }
           }
           const newState = {
             ...state,
             challenges: myChallenges,
+            selectedChallengeId: challengeId,
+            selectedChallengeIndex: challengeIndex,
           };
 
           return newState;
         }
       }
-      // if found nothing: challenge was deleted
+      // if found nothing: challenge was deleted and is not in list anyway
       return state;
     }
     case NETWORK_ERROR_LOAD_CHALLENGE: {
@@ -159,7 +176,20 @@ export default (state = initialState.challenges, action) => {
       };
       return newState;
     }
-
+    case SET_CHALLENGES_ID: {
+      const newState = {
+        ...state,
+        selectedChallengeId: action.challengeId,
+      };
+      return newState;
+    }
+    case SET_CHALLENGES_INDEX: {
+      const newState = {
+        ...state,
+        selectedChallengeIndex: action.challengeIndex,
+      };
+      return newState;
+    }
     default:
       return state;
   }

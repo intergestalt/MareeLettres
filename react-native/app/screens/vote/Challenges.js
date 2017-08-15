@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 import { Screen } from '../../components/general/Container';
 import { ChallengesList } from '../../components/vote/ChallengesList';
-import { loadChallengesServiceProxy } from '../../helper/apiProxy';
+import { manageChallenges } from '../../helper/challengesHelper';
 
 class Challenges extends Component {
   static propTypes = {
@@ -12,14 +12,14 @@ class Challenges extends Component {
   };
 
   componentDidMount() {
-    loadChallengesServiceProxy();
+    manageChallenges();
   }
 
   render() {
     return (
       <Screen centerContent backgroundColor="#88ff44">
         <StatusBar />
-        {<ChallengesList navigation={this.props.navigation} />}
+        <ChallengesList navigation={this.props.navigation} />
       </Screen>
     );
   }

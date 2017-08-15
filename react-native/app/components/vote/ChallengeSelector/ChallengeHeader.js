@@ -1,40 +1,38 @@
 import React, { Component, PropTypes } from 'react';
 import { View, TouchableOpacity, Text } from 'react-native';
+import { connect } from 'react-redux';
 
 import styles from './styles';
 
 class ChallengeHeader extends Component {
   static propTypes = {
-    layoutCallback: PropTypes.func,
+    challengeOffset: PropTypes.number,
     challenges: PropTypes.array,
-    challengeIndex: PropTypes.number,
+    selectedChallengeIndex: PropTypes.number,
     onHeaderPress: PropTypes.func,
     onUpPress: PropTypes.func,
     onDownPress: PropTypes.func,
     panResponder: PropTypes.object,
     language: PropTypes.string,
+    layoutCallback: PropTypes.func,
   };
 
+  getChallengeIndex() {
+    return this.props.selectedChallengeIndex + this.props.challengeOffset;
+  }
   getChallenge() {
     if (
-      this.props.challengeIndex < 0 ||
-      this.props.challengeIndex > this.props.challenges.length - 1
+      this.getChallengeIndex() < 0 ||
+      this.getChallengeIndex() > this.props.challenges.length - 1
     ) {
       return null;
     }
-    return this.props.challenges[this.props.challengeIndex];
+    return this.props.challenges[this.getChallengeIndex()];
   }
 
   render() {
-    if (
-      this.props.challengeIndex < 0 ||
-      this.props.challengeIndex >= this.props.challenges.length
-    ) {
-      const color = { backgroundColor: '#000000' };
-      return <View onLayout={this.props.layoutCallback} style={[styles.challengeHeader, color]} />;
-    }
     let buttonUp = null;
-    if (this.props.challengeIndex < this.props.challenges.length - 1) {
+    if (this.getChallengeIndex() < this.props.challenges.length - 1) {
       buttonUp = (
         <TouchableOpacity onPress={this.props.onUpPress} style={{ flex: 1 }}>
           <View style={styles.headerNavContainer}>
@@ -47,7 +45,7 @@ class ChallengeHeader extends Component {
     }
 
     let buttonDown = null;
-    if (this.props.challengeIndex > 0) {
+    if (this.getChallengeIndex() > 0) {
       buttonDown = (
         <TouchableOpacity onPress={this.props.onDownPress} style={{ flex: 1 }}>
           <View style={styles.headerNavContainer}>
@@ -76,6 +74,7 @@ class ChallengeHeader extends Component {
     } else {
       myEndString = challenge.endStringFr;
     }
+
     const contentMiddle = (
       <View style={styles.headerTextContainer}>
         <TouchableOpacity delayPressIn={30} onPress={this.props.onHeaderPress}>
@@ -116,4 +115,12 @@ class ChallengeHeader extends Component {
     );
   }
 }
-export default ChallengeHeader;
+const mapStateToProps = (state) => {
+  const challenges = state.challenges.challenges;
+  const selectedChallengeIndex = state.challenges.selectedChallengeIndex;
+  return {
+    selectedChallengeIndex,
+    challenges,
+  };
+};
+export default connect(mapStateToProps)(ChallengeHeader);
