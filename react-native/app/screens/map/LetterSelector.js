@@ -1,33 +1,25 @@
 import React, { PropTypes, Component } from 'react';
-import { StatusBar } from 'react-native';
+import { StatusBar, Text } from 'react-native';
 import { connect } from 'react-redux';
 
 import { Screen } from '../../components/general/Container';
-import { NativeMap } from '../../components/map/Map';
 import { TabBar } from '../../components/general/TabBar';
+import TABS from '../../consts/tab';
 
-import { loadLettersServiceProxy } from '../../helper/apiProxy';
-
-class MapOverview extends Component {
-  static propTypes = {
+class LetterSelector extends Component {
+  static PropTypes = {
     navigation: PropTypes.object,
   };
-
-  componentWillMount() {}
-
-  componentDidMount() {
-    loadLettersServiceProxy(this.props);
-  }
 
   render() {
     return (
       <Screen backgroundColor={'#00aaaa'}>
         <StatusBar />
-        <NativeMap navigation={this.props.navigation} />
+        <Text>Letter Selector !</Text>
         <TabBar selectedTab={TABS.BECOME_TAB} navigation={this.props.navigation} />
       </Screen>
-    );
+    )
   }
-}
+};
 
-export default connect()(MapOverview);
+export default connect()(LetterSelector);

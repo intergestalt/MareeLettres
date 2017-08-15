@@ -26,6 +26,7 @@ export function navigateToAbout(props) {
 export function navigateToBecome(props) {
   stopChallengeTicker();
   props.navigation.navigate('Become');
+  props.navigation.navigate('MapOverview');
 }
 
 export function navigateToStream(props) {
@@ -39,6 +40,26 @@ export function navigateToVote(props) {
   manageProposals();
   startChallengeTicker();
   props.navigation.navigate('Vote');
+}
+
+// SubPages
+
+// Map Stack SubPages
+
+export function navigateToMapCamera(props) {
+  props.navigation.navigate('MapCamera');
+}
+
+export function navigateToLetterSelector(props) {
+  props.navigation.navigate('LetterSelector');
+}
+
+export function navigateToQRCodeGet(props) {
+  props.navigation.navigate('QRCodeGet');
+}
+
+export function navigateToQRCodeSend(props) {
+  props.navigation.navigate('QRCodeSend');
 }
 
 // Vote Stack
