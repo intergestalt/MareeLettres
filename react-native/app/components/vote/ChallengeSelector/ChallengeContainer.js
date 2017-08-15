@@ -8,14 +8,15 @@ import { screenWidth } from '../../../helper/screen';
 import { popChallengeSelector } from '../../../helper/navigationProxy';
 import { startChallengeTicker } from '../../../helper/ticker';
 import { setTinderMode } from '../../../actions/general';
+import { setChallengesId } from '../../../actions/challenges';
+import { loadProposalsServiceProxy } from '../../../helper/apiProxy';
+import { upDateSelectedChallengeIndex } from '../../../helper/challengesHelper';
 
 class ChallengeContainer extends Component {
   static propTypes = {
     dispatch: PropTypes.func,
     challenges: PropTypes.array,
-    language: PropTypes.string,
-    selectedChallengeId: PropTypes.string,
-    isTinder: PropTypes.bool,
+    selectedChallengeIndex: PropTypes.number,
   };
 
   constructor(props) {
@@ -32,10 +33,7 @@ class ChallengeContainer extends Component {
     this.handleListPress = this.handleListPress.bind(this);
     this.handleCommitPress = this.handleCommitPress.bind(this);
 
-    this.selectedChallengeIndex = -1;
-    this.getIndexFromId(this.props.selectedChallengeId);
     this.state = {
-      selectedChallengeId: this.props.selectedChallengeId,
       challengeContainerOffsetX: new Animated.Value(-screenWidth),
     };
 
@@ -47,30 +45,11 @@ class ChallengeContainer extends Component {
     startChallengeTicker();
   }
 
-  getChallenge(offset) {
-    const i = this.selectedChallengeIndex + offset;
-    if (i < 0) return null;
-    if (i > this.props.challenges.length - 1) return null;
-    const result = this.props.challenges[i];
-    return result;
-  }
-
   // Pan Logic
   // ChallengesSwipe
 
   setCentralChallengeHeaderLayout(event) {
     this.centralChallengeHeaderValues = event.nativeEvent.layout;
-  }
-
-  getIndexFromId(id) {
-    let index = 0;
-    for (let i = 0; i < this.props.challenges.length; i += 1) {
-      const challenge = this.props.challenges[i];
-      if (challenge._id === id) {
-        index = i;
-      }
-    }
-    this.selectedChallengeIndex = index;
   }
 
   handleSharePress() {
@@ -80,14 +59,26 @@ class ChallengeContainer extends Component {
     console.log('handleCommitPress');
   }
 
+  loadProposals(index) {
+    if (index < 0 || index > this.props.challenges.length - 1) return;
+    const id = this.props.challenges[index]._id;
+    loadProposalsServiceProxy(id);
+  }
+
   handleTinderPress() {
     console.log('handleTinderPress');
     this.props.dispatch(setTinderMode(true));
+    this.loadProposals(this.props.selectedChallengeIndex - 1);
+    this.loadProposals(this.props.selectedChallengeIndex);
+    this.loadProposals(this.props.selectedChallengeIndex + 1);
   }
 
   handleListPress() {
     console.log('handleListPress');
     this.props.dispatch(setTinderMode(false));
+    this.loadProposals(this.props.selectedChallengeIndex - 1);
+    this.loadProposals(this.props.selectedChallengeIndex);
+    this.loadProposals(this.props.selectedChallengeIndex + 1);
   }
 
   createPanResponder() {
@@ -186,11 +177,11 @@ class ChallengeContainer extends Component {
   }
 
   isChallengeLeft() {
-    return this.selectedChallengeIndex === 0;
+    return this.props.selectedChallengeIndex === 0;
   }
 
   isChallengeRight() {
-    return this.selectedChallengeIndex === this.props.challenges.length - 1;
+    return this.props.selectedChallengeIndex === this.props.challenges.length - 1;
   }
 
   navigateDownPress() {
@@ -212,48 +203,47 @@ class ChallengeContainer extends Component {
   };
 
   navigateDown() {
-    if (this.selectedChallengeIndex <= 0) {
+    if (this.props.selectedChallengeIndex <= 0) {
       this.state.challengeContainerOffsetX.setValue(-screenWidth);
       return;
     }
-    this.selectedChallengeIndex -= 1;
-    this.navigate();
+    this.navigate(-1);
   }
 
   navigateUp() {
-    if (this.selectedChallengeIndex >= this.props.challenges.length - 1) {
+    if (this.props.selectedChallengeIndex >= this.props.challenges.length - 1) {
       this.state.challengeContainerOffsetX.setValue(-screenWidth);
       return;
     }
-    this.selectedChallengeIndex += 1;
-    this.navigate();
+    this.navigate(1);
   }
-  navigate() {
-    const challenge = this.props.challenges[this.selectedChallengeIndex];
-    if (challenge == null) return;
-    const newId = challenge._id;
+  navigate(offset) {
+    const index = this.props.selectedChallengeIndex + offset;
+    let challenge = this.props.challenges[index];
+    if (challenge == null) {
+      if (this.props.challenges.length > 0) {
+        challenge = this.props.challenges[0];
+      } else {
+        return;
+      }
+    }
     this.state.challengeContainerOffsetX.setValue(-screenWidth);
-    this.setState({ selectedChallengeId: newId });
-    this.getIndexFromId(this.state.selectedChallengeId);
+    const newId = challenge._id;
+    this.loadProposals(index - 1);
+    this.loadProposals(index);
+    this.loadProposals(index + 1);
+    this.props.dispatch(setChallengesId(newId));
+    upDateSelectedChallengeIndex();
   }
 
   // Render
   render() {
     const myStyle = [styles.challengeContainer, { left: this.state.challengeContainerOffsetX }];
-
     return (
       <Animated.View style={myStyle}>
+        <ChallengeDetail challengeOffset={-1} />
         <ChallengeDetail
-          challenges={this.props.challenges}
-          challengeIndex={this.selectedChallengeIndex - 1}
-          language={this.props.language}
-          isTinder={this.props.isTinder}
-        />
-        <ChallengeDetail
-          challenges={this.props.challenges}
-          challengeIndex={this.selectedChallengeIndex}
-          language={this.props.language}
-          isTinder={this.props.isTinder}
+          challengeOffset={0}
           onHeaderPress={this.handleHeaderPressed}
           onDownPress={this.navigateDownPress}
           onUpPress={this.navigateUpPress}
@@ -264,22 +254,18 @@ class ChallengeContainer extends Component {
           panResponder={this.panResponder}
           layoutCallback={this.setCentralChallengeHeaderLayout}
         />
-        <ChallengeDetail
-          challenges={this.props.challenges}
-          challengeIndex={this.selectedChallengeIndex + 1}
-          language={this.props.language}
-          isTinder={this.props.isTinder}
-        />
+        <ChallengeDetail challengeOffset={1} />
       </Animated.View>
     );
   }
 }
 
 const mapStateToProps = (state) => {
-  const isTinder = state.globals.isTinder;
-
+  const challenges = state.challenges.challenges;
+  const selectedChallengeIndex = state.challenges.selectedChallengeIndex;
   return {
-    isTinder,
+    selectedChallengeIndex,
+    challenges,
   };
 };
 export default connect(mapStateToProps)(ChallengeContainer);

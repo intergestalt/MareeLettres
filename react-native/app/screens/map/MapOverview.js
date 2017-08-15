@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 import { Screen } from '../../components/general/Container';
 import { NativeMap } from '../../components/map/Map';
 import { TabBar } from '../../components/general/TabBar';
-import TABS from '../../consts/tab';
 
 import { loadLettersServiceProxy } from '../../helper/apiProxy';
 
@@ -14,6 +13,11 @@ class MapOverview extends Component {
     navigation: PropTypes.object,
   };
 
+<<<<<<< HEAD
+=======
+  componentWillMount() {}
+
+>>>>>>> master
   componentDidMount() {
     loadLettersServiceProxy(this.props);
   }
@@ -23,7 +27,6 @@ class MapOverview extends Component {
       <Screen backgroundColor={'#00aaaa'}>
         <StatusBar />
         <NativeMap navigation={this.props.navigation} />
-        <TabBar selectedTab={TABS.BECOME_TAB} navigation={this.props.navigation} />
       </Screen>
     );
   }

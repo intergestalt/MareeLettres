@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 
 import { Screen } from '../../components/general/Container';
 import { TabBar } from '../../components/general/TabBar';
-import TABS from '../../consts/tab';
 
 import { LetterSelectorWindow } from '../../components/map/LetterSelector';
 
@@ -17,13 +16,18 @@ class LetterSelector extends Component {
     return (
       <Screen backgroundColor={'#ffffff'}>
         <StatusBar />
+<<<<<<< HEAD
         <LetterSelectorWindow
           navigation={this.props.navigation}
           />
         <TabBar selectedTab={TABS.BECOME_TAB} navigation={this.props.navigation} />
+=======
+        <Text>Letter Selector !</Text>
+        <TabBar navigation={this.props.navigation} />
+>>>>>>> master
       </Screen>
-    )
+    );
   }
-};
+}
 
 export default connect()(LetterSelector);

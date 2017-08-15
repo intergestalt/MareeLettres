@@ -5,7 +5,7 @@ import QRCode from 'react-native-qrcode';
 
 import styles from './styles';
 
-//import QRCode from 'react-native-qrcode';
+// import QRCode from 'react-native-qrcode';
 
 class QRCodeBox extends Component {
   static PropTypes = {
@@ -15,14 +15,10 @@ class QRCodeBox extends Component {
   render() {
     return (
       <View>
-        <QRCode
-          value={this.props.input}
-          size={220}
-          bgColor='black'
-          fgColor='white'/>
+        <QRCode value={this.props.input} size={220} bgColor="black" fgColor="white" />
       </View>
-    )
+    );
   }
-};
+}
 
 export default connect()(QRCodeBox);

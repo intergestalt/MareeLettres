@@ -1,28 +1,30 @@
 import React, { Component, PropTypes } from 'react';
 import { View, Text } from 'react-native';
+import { connect } from 'react-redux';
 
-import styles from './styles';
+import { ProposalList } from '../ProposalList/';
+import { styles } from './';
 
 class ChallengeContent extends Component {
   static propTypes = {
-    isTinder: PropTypes.bool,
+    challengeOffset: PropTypes.number,
+    selectedChallengeIndex: PropTypes.number,
     challenges: PropTypes.array,
-    challengeIndex: PropTypes.number,
+    isTinder: PropTypes.bool,
   };
 
+  getChallengeIndex() {
+    return this.props.selectedChallengeIndex + this.props.challengeOffset;
+  }
+
   getChallenge() {
-    if (this.props.challenges) {
-      if (
-        this.props.challengeIndex >= 0 &&
-        this.props.challengeIndex < this.props.challenges.length
-      ) {
-        const myChallenge = this.props.challenges[this.props.challengeIndex];
-        if (myChallenge) {
-          return myChallenge;
-        }
-      }
+    if (
+      this.getChallengeIndex() < 0 ||
+      this.getChallengeIndex() > this.props.challenges.length - 1
+    ) {
+      return null;
     }
-    return null;
+    return this.props.challenges[this.getChallengeIndex()];
   }
 
   getAnswer() {
@@ -39,10 +41,7 @@ class ChallengeContent extends Component {
 
   isFinished() {
     const myChallenge = this.getChallenge();
-    let finished = false;
-    if (myChallenge) {
-      finished = myChallenge.isFinished;
-    }
+    const finished = myChallenge.isFinished;
     return finished;
   }
 
@@ -55,22 +54,41 @@ class ChallengeContent extends Component {
       </View>
     );
   }
-
-  renderUnfinished() {
+  renderTinder() {
     return (
       <View style={styles.challengeContent}>
-        {this.props.isTinder
-          ? <Text style={styles.contentText}>Tinder Mode</Text>
-          : <Text style={styles.contentText}>List Mode</Text>}
+        <Text style={styles.contentText}>Tinder Mode</Text>
       </View>
     );
   }
+  renderList() {
+    return (
+      <View style={styles.challengeContent}>
+        <ProposalList challengeOffset={this.props.challengeOffset} />
+      </View>
+    );
+  }
+
   render() {
     if (this.isFinished()) {
       return this.renderFinished();
     }
-    return this.renderUnfinished();
+    if (this.props.isTinder) {
+      return this.renderTinder();
+    }
+    return this.renderList();
   }
 }
 
-export default ChallengeContent;
+const mapStateToProps = (state, ownProps) => {
+  const challenges = state.challenges.challenges;
+  const selectedChallengeIndex = state.challenges.selectedChallengeIndex;
+  const isTinder = state.globals.isTinder;
+
+  return {
+    selectedChallengeIndex,
+    challenges,
+    isTinder,
+  };
+};
+export default connect(mapStateToProps)(ChallengeContent);

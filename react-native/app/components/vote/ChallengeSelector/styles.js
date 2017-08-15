@@ -21,6 +21,12 @@ const styles = EStyleSheet.create({
     width: '$swipeWidth',
     left: 0,
   },
+  detailContainerMargin: {
+    flexDirection: 'column',
+    backgroundColor: '#000000',
+    width: '$swipeWidth',
+    left: 0,
+  },
   // Three Arrays of a detail view
   challengeHeader: {
     flexDirection: 'row',

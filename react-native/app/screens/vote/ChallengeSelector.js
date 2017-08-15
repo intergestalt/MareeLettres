@@ -4,7 +4,8 @@ import { connect } from 'react-redux';
 
 import { Screen } from '../../components/general/Container';
 import { ChallengeContainer } from '../../components/vote/ChallengeSelector';
-import { loadChallengesServiceProxy } from '../../helper/apiProxy';
+// import { loadChallengesServiceProxy } from '../../helper/apiProxy';
+// import { setChallengesIndex, setChallengesId } from '../../actions/challenges';
 
 class ChallengeSelector extends Component {
   static propTypes = {
@@ -16,16 +17,12 @@ class ChallengeSelector extends Component {
     language: PropTypes.string,
     challenges: PropTypes.array,
   };
-  constructor(props) {
-    super(props);
 
-    this.selectedChallengeId = this.props.navigation.state.params.id;
-  }
-
-  componentDidMount() {
+  /* componentDidMount() {
+    this.props.dispatch(setChallengesId('98Auwp5wakBTLjeCe'));
+    this.props.dispatch(setChallengesIndex(0));
     loadChallengesServiceProxy();
-  }
-
+  } */
   renderLoading() {
     return (
       <Screen backgroundColor="#88ff44">
@@ -50,7 +47,6 @@ class ChallengeSelector extends Component {
         <ChallengeContainer
           language={this.props.language}
           challenges={this.props.challenges}
-          selectedChallengeId={this.selectedChallengeId}
           navigation={this.props.navigation}
         />
       </Screen>
@@ -64,7 +60,7 @@ class ChallengeSelector extends Component {
     if (this.props.isErrorLoadingChallenges) {
       return this.renderError();
     }
-    return this.renderScreen(this.selectedChallengeIndex);
+    return this.renderScreen();
   }
 }
 const mapStateToProps = (state) => {

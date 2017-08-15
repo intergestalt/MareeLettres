@@ -1,4 +1,4 @@
-import { SWAP_LANGUAGE, SET_TINDER_MODE } from '../actions/general';
+import { SWAP_LANGUAGE, SET_TINDER_MODE, SET_VOTE_VIEW } from '../actions/general';
 import initialState from '../config/initialState';
 import I18n from '../i18n/i18n';
 
@@ -11,7 +11,6 @@ const swapLanguage = (state) => {
   return newLanguage;
 };
 const setTinderMode = (state, action) => {
-  console.log(action);
   if (action.isTinder) {
     return true;
   }
@@ -29,6 +28,12 @@ export default (state = initialState.globals, action) => {
       return {
         ...state,
         isTinder: setTinderMode(state, action),
+      };
+    }
+    case SET_VOTE_VIEW: {
+      return {
+        ...state,
+        voteView: action.voteView,
       };
     }
     default:
