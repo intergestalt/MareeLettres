@@ -9,7 +9,6 @@ import { ChallengeContainer } from '../../components/vote/ChallengeSelector';
 
 class ChallengeSelector extends Component {
   static propTypes = {
-    dispatch: PropTypes.func,
     navigation: PropTypes.object,
     //    id: PropTypes.string,
     isErrorLoadingChallenges: PropTypes.bool,

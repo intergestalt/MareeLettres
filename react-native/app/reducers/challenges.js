@@ -30,7 +30,7 @@ export default (state = initialState.challenges, action) => {
       for (let i = 0; i < action.result.challenges.length; i += 1) {
         const entry = action.result.challenges[i];
         if (entry._id === 'YprApQtPzTdsPFQAp') {
-          const customDate = '2017-08-14T21:42:00.000Z';
+          const customDate = '2017-08-15T12:39:00.000Z';
           entry.end_date = new Date(customDate);
         }
 

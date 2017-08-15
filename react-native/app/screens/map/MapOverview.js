@@ -24,7 +24,6 @@ class MapOverview extends Component {
       <Screen backgroundColor={'#00aaaa'}>
         <StatusBar />
         <NativeMap navigation={this.props.navigation} />
-        <TabBar selectedTab={TABS.BECOME_TAB} navigation={this.props.navigation} />
       </Screen>
     );
   }
