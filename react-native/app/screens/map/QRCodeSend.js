@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 
 import { Screen } from '../../components/general/Container';
 import { TabBar } from '../../components/general/TabBar';
+
 import TABS from '../../consts/tab';
 
 import { QRCodeSendScreen } from '../../components/map/QR';
@@ -19,7 +20,7 @@ class QRCodeSend extends Component {
       <Screen backgroundColor={'#ffffff'}>
         <StatusBar />
         <QRCodeSendScreen
-          text='Let your friends scan your QR Code'
+          navigation={this.props.navigation}
           input={this.props.uniqueId}
           />
         <TabBar selectedTab={TABS.BECOME_TAB} navigation={this.props.navigation} />

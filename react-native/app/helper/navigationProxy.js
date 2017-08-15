@@ -1,5 +1,6 @@
 import { loadContentServiceProxy } from './apiProxy';
 import { stopChallengeTicker, startChallengeTicker } from './ticker';
+import { NavigationActions } from 'react-navigation';
 
 // Navigation
 
@@ -36,6 +37,10 @@ export function navigateToStream(props) {
 // SubPages
 // Map Stack SubPages
 
+export function navigateToMapOverview(props) {
+  props.navigation.navigate('MapOverview');
+}
+
 export function navigateToMapCamera(props) {
   props.navigation.navigate('MapCamera');
 }
@@ -50,7 +55,20 @@ export function navigateToQRCodeGet(props) {
 
 export function navigateToQRCodeSend(props) {
   props.navigation.navigate('QRCodeSend');
+  
+  /*
+  const navigateAction = NavigationActions.navigate({
+    routeName: 'QRCodeSend',
+    params: {visible: false},
+  });
+  props.navigation.dispatch(navigateAction);*/
 }
+
+//routeName: 'Profile',
+//params: {},
+// navigate can have a nested navigate action that will be run inside the child router
+//action: NavigationActions.navigate({ routeName: 'SubProfileRoute'})
+
 
 export function navigateToChallengeSelector(props, id) {
   startChallengeTicker();

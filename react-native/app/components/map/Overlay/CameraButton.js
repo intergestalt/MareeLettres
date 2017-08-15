@@ -1,6 +1,5 @@
 import React, { Component, PropTypes } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
-import { connect } from 'react-redux';
 import styles from './styles';
 
 class CameraButton extends Component {
@@ -24,4 +23,4 @@ class CameraButton extends Component {
   }
 }
 
-export default connect()(CameraButton);
+export default CameraButton;

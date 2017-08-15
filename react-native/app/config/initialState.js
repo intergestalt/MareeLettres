@@ -1,11 +1,12 @@
 // NOTE:
 // generateFromDeviceId
-//import { OriginId } from 'maree-lettres-shared';
+// import { OriginId } from 'maree-lettres-shared';
 
 export default {
   user: {
     id: 'user_1337',
     letter: 'X',
+    isAssignedLetter: false,
   },
   globals: {
     language: 'fr',

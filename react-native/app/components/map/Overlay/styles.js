@@ -77,6 +77,8 @@ export default EStyleSheet.create({
     flex: 1,
     margin: 8,
     backgroundColor: '#eee',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   lettersMenuCoworkers: {
     width: '66.66%',

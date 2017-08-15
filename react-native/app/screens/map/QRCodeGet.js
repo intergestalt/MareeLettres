@@ -19,7 +19,7 @@ class QRCodeGet extends Component {
       <Screen backgroundColor={'#00aaaa'}>
         <StatusBar />
         <QRCodeScanScreen
-          text='Scan a QR Code'
+          navigation={this.props.navigation}
           input={this.props.uniqueId}
           />
         <TabBar selectedTab={TABS.BECOME_TAB} navigation={this.props.navigation} />

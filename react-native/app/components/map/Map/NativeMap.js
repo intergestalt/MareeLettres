@@ -36,7 +36,6 @@ class NativeMap extends Component {
   };
 
   handleLetterSelectorPress() {
-    console.log('hell?')
     navigateToLetterSelector(this.props);
   };
 
@@ -68,7 +67,7 @@ class NativeMap extends Component {
         >
           {
             this.props.letters.map((item, i) => {
-              //if (i < 20) {
+              //if (i < 10) {
                 return (
                   <MapView.Marker
                     key={i}
