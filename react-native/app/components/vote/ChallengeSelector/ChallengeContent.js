@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { View, Text } from 'react-native';
 import { connect } from 'react-redux';
 
-import { ProposalList } from '../ProposalList/';
+import { ProposalList } from '../ProposalList';
 import { styles } from './';
 
 class ChallengeContent extends Component {

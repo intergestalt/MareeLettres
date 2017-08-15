@@ -1,15 +1,14 @@
 import { loadContentServiceProxy } from './apiProxy';
 import { stopChallengeTicker, startChallengeTicker } from './ticker';
-<<<<<<< HEAD
+
 import { NavigationActions } from 'react-navigation';
-=======
 import { setVoteView } from '../actions/general';
 import { setChallengesId } from '../actions/challenges';
 import { manageChallenges } from './challengesHelper';
 import { manageProposals } from './proposalsHelper';
 import store from '../config/store';
 import { VOTE_VIEWS } from '../consts';
->>>>>>> master
+
 
 // Navigation
 
@@ -68,7 +67,7 @@ export function navigateToQRCodeGet(props) {
 
 export function navigateToQRCodeSend(props) {
   props.navigation.navigate('QRCodeSend');
-  
+
   /*
   const navigateAction = NavigationActions.navigate({
     routeName: 'QRCodeSend',
@@ -77,15 +76,7 @@ export function navigateToQRCodeSend(props) {
   props.navigation.dispatch(navigateAction);*/
 }
 
-<<<<<<< HEAD
-//routeName: 'Profile',
-//params: {},
-// navigate can have a nested navigate action that will be run inside the child router
-//action: NavigationActions.navigate({ routeName: 'SubProfileRoute'})
-
-=======
 // Vote Stack
->>>>>>> master
 
 export function navigateToChallengeSelector(props, id) {
   console.log('FROM LIST TO DETAIL');

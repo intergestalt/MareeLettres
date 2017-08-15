@@ -13,11 +13,6 @@ class MapOverview extends Component {
     navigation: PropTypes.object,
   };
 
-<<<<<<< HEAD
-=======
-  componentWillMount() {}
-
->>>>>>> master
   componentDidMount() {
     loadLettersServiceProxy(this.props);
   }
