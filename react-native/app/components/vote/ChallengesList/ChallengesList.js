@@ -7,6 +7,7 @@ import ChallengesListItem from './ChallengesListItem';
 import styles from './styles';
 import { navigateToChallengeSelector } from '../../../helper/navigationProxy';
 import { startChallengeTicker } from '../../../helper/ticker';
+import { isFinished } from '../../../helper/dateFunctions';
 
 class ChallengesList extends Component {
   static propTypes = {
@@ -16,6 +17,7 @@ class ChallengesList extends Component {
     time: PropTypes.number,
     language: PropTypes.string,
     challenges: PropTypes.array,
+    challengesTicker: PropTypes.object,
   };
 
   componentDidMount() {
@@ -25,22 +27,50 @@ class ChallengesList extends Component {
   handlePressRow = (item) => {
     navigateToChallengeSelector(this.props, item._id);
   };
-
+  getAnswer(challenge) {
+    let answer = '';
+    const winning = challenge.winningProposal;
+    if (winning) {
+      answer = winning.text;
+    }
+    return answer;
+  }
   render() {
     const isLoading = this.props.isLoading;
     const isError = this.props.isError;
+    const listData = new Array(this.props.challenges.length);
+
+    for (let i = 0; i < this.props.challenges.length; i += 1) {
+      const myChallenge = this.props.challenges[i];
+      let myEndString = null;
+      const entry = this.props.challengesTicker[myChallenge._id];
+      if (this.props.language === 'en') {
+        myEndString = entry.endStringEn;
+      } else {
+        myEndString = entry.endStringFr;
+      }
+      listData[i] = {
+        id: i,
+        voteNum: myChallenge.voteNum,
+        isFinished: isFinished(myChallenge),
+        endString: myEndString,
+        tickerString: entry.tickerString,
+        title: myChallenge.title,
+        answer: this.getAnswer(myChallenge),
+      };
+    }
     if (!isLoading && !isError) {
       return (
         <View style={styles.container}>
           <FlatList
-            data={this.props.challenges}
+            data={listData}
             renderItem={({ item }) =>
               <ChallengesListItem
                 language={this.props.language}
                 data={item}
                 onPress={() => this.handlePressRow(item)}
               />}
-            keyExtractor={item => item._id}
+            keyExtractor={item => item.id}
             ItemSeparatorComponent={Separator}
           />
         </View>
@@ -64,6 +94,7 @@ class ChallengesList extends Component {
 
 const mapStateToProps = (state) => {
   const challenges = state.challenges.challenges;
+  const challengesTicker = state.challengesTicker;
   const isLoading = state.challenges.isLoading;
   const isError = state.challenges.isError;
   const time = state.challenges.time;
@@ -71,6 +102,7 @@ const mapStateToProps = (state) => {
 
   return {
     challenges,
+    challengesTicker,
     isLoading,
     isError,
     time,

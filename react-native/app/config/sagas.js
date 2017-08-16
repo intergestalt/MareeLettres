@@ -1,5 +1,6 @@
 import { takeEvery, call, put } from 'redux-saga/effects';
 
+import { SET_CHALLENGES_DATE_DATA } from '../actions/challengesTicker';
 import { LOAD_CHALLENGES, LOAD_CHALLENGE } from '../actions/challenges';
 import { LOAD_PROPOSALS } from '../actions/proposals';
 import { LOAD_CONTENT } from '../actions/content';
@@ -18,9 +19,22 @@ function* loadData(action) {
     yield put({ type: action.errorEvent, error: error.message });
   }
 }
-
+function* loadDataPlusTicker(action) {
+  try {
+    const response = yield call(action.apiCall, action);
+    const result = yield response.json();
+    if (result.error) {
+      yield put({ type: action.errorEvent, error: result.error });
+    } else {
+      yield put({ type: SET_CHALLENGES_DATE_DATA, result });
+      yield put({ type: action.successEvent, result, action });
+    }
+  } catch (error) {
+    yield put({ type: action.errorEvent, error: error.message });
+  }
+}
 export default function* rootSaga() {
-  yield takeEvery(LOAD_CHALLENGES, loadData);
+  yield takeEvery(LOAD_CHALLENGES, loadDataPlusTicker);
   yield takeEvery(LOAD_CHALLENGE, loadData);
   yield takeEvery(LOAD_PROPOSALS, loadData);
   yield takeEvery(LOAD_CONTENT, loadData);

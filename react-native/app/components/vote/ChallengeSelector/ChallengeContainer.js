@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { Animated, PanResponder } from 'react-native';
+import { View, Text, Animated, PanResponder } from 'react-native';
 import { connect } from 'react-redux';
 
 import styles from './styles';
@@ -8,19 +8,19 @@ import { screenWidth } from '../../../helper/screen';
 import { popChallengeSelector } from '../../../helper/navigationProxy';
 import { startChallengeTicker } from '../../../helper/ticker';
 import { setTinderMode } from '../../../actions/general';
+import { setChallengesId } from '../../../actions/challenges';
+import { loadProposalsServiceProxy } from '../../../helper/apiProxy';
+import { upDateSelectedChallengeIndex } from '../../../helper/challengesHelper';
 
 class ChallengeContainer extends Component {
   static propTypes = {
     dispatch: PropTypes.func,
     challenges: PropTypes.array,
-    language: PropTypes.string,
-    selectedChallengeId: PropTypes.string,
-    isTinder: PropTypes.bool,
+    selectedChallengeIndex: PropTypes.number,
   };
 
   constructor(props) {
     super(props);
-    this.setCentralChallengeHeaderLayout = this.setCentralChallengeHeaderLayout.bind(this);
     this.handleHeaderPressed = this.handleHeaderPressed.bind(this);
     this.navigateUp = this.navigateUp.bind(this);
     this.navigateDown = this.navigateDown.bind(this);
@@ -32,45 +32,14 @@ class ChallengeContainer extends Component {
     this.handleListPress = this.handleListPress.bind(this);
     this.handleCommitPress = this.handleCommitPress.bind(this);
 
-    this.selectedChallengeIndex = -1;
-    this.getIndexFromId(this.props.selectedChallengeId);
     this.state = {
-      selectedChallengeId: this.props.selectedChallengeId,
       challengeContainerOffsetX: new Animated.Value(-screenWidth),
     };
 
-    this.centralChallengeHeaderValues = null;
-    this.listenChallengeHeader = false;
-    this.panResponder = this.createPanResponder();
+    this.panResponderHeader = this.createPanResponderHeader();
   }
   componentDidMount() {
     startChallengeTicker();
-  }
-
-  getChallenge(offset) {
-    const i = this.selectedChallengeIndex + offset;
-    if (i < 0) return null;
-    if (i > this.props.challenges.length - 1) return null;
-    const result = this.props.challenges[i];
-    return result;
-  }
-
-  // Pan Logic
-  // ChallengesSwipe
-
-  setCentralChallengeHeaderLayout(event) {
-    this.centralChallengeHeaderValues = event.nativeEvent.layout;
-  }
-
-  getIndexFromId(id) {
-    let index = 0;
-    for (let i = 0; i < this.props.challenges.length; i += 1) {
-      const challenge = this.props.challenges[i];
-      if (challenge._id === id) {
-        index = i;
-      }
-    }
-    this.selectedChallengeIndex = index;
   }
 
   handleSharePress() {
@@ -80,118 +49,120 @@ class ChallengeContainer extends Component {
     console.log('handleCommitPress');
   }
 
+  handleHeaderPressed = () => {
+    console.log('PRESS');
+    popChallengeSelector(this.props);
+  };
+
+  loadProposals(index) {
+    if (index < 0 || index > this.props.challenges.length - 1) return;
+    const id = this.props.challenges[index]._id;
+    loadProposalsServiceProxy(id);
+  }
+
   handleTinderPress() {
     console.log('handleTinderPress');
     this.props.dispatch(setTinderMode(true));
+    this.loadProposals(this.props.selectedChallengeIndex - 1);
+    this.loadProposals(this.props.selectedChallengeIndex);
+    this.loadProposals(this.props.selectedChallengeIndex + 1);
   }
 
   handleListPress() {
     console.log('handleListPress');
     this.props.dispatch(setTinderMode(false));
+    this.loadProposals(this.props.selectedChallengeIndex - 1);
+    this.loadProposals(this.props.selectedChallengeIndex);
+    this.loadProposals(this.props.selectedChallengeIndex + 1);
   }
 
-  createPanResponder() {
+  // Pan Logic
+  // Header: Challenge Swipe
+
+  isChallengeLeft() {
+    return this.props.selectedChallengeIndex === 0;
+  }
+
+  isChallengeRight() {
+    return this.props.selectedChallengeIndex === this.props.challenges.length - 1;
+  }
+
+  createPanResponderHeader() {
     return PanResponder.create({
       onStartShouldSetPanResponder: () => false,
       onMoveShouldSetPanResponder: () => true,
-      onPanResponderGrant: (e) => {
+      onPanResponderGrant: () => {
         const d = new Date();
-        this.startGesture = d.getTime();
-        const start = {
-          x: e.nativeEvent.locationX,
-          y: e.nativeEvent.locationY,
-        };
-        if (this.isChallengeHeader(start)) {
-          this.listenChallengeHeader = true;
-        } else {
-          this.listenChallengeHeader = false;
-        }
+        this.startGestureHeader = d.getTime();
       },
       onPanResponderMove: (e, gesture) => {
-        if (this.listenChallengeHeader) {
-          let myDx = gesture.dx;
-          if (gesture.dx > 0) {
-            if (!this.isChallengeLeft()) {
-              myDx = gesture.dx;
-            } else {
-              myDx = gesture.dx / 3;
-            }
-          } else if (gesture.dx < 0) {
-            if (!this.isChallengeRight()) {
-              myDx = gesture.dx;
-            } else {
-              myDx = gesture.dx / 3;
-            }
+        let myDx = gesture.dx;
+        if (gesture.dx > 0) {
+          if (!this.isChallengeLeft()) {
+            myDx = gesture.dx;
+          } else {
+            myDx = gesture.dx / 3;
           }
-          this.state.challengeContainerOffsetX.setValue(myDx - screenWidth);
+        } else if (gesture.dx < 0) {
+          if (!this.isChallengeRight()) {
+            myDx = gesture.dx;
+          } else {
+            myDx = gesture.dx / 3;
+          }
         }
+        this.state.challengeContainerOffsetX.setValue(myDx - screenWidth);
       },
 
       onPanResponderRelease: (e, gesture) => {
-        if (this.listenChallengeHeader) {
-          const date = new Date();
-          const stopGesture = date.getTime();
-          const d = stopGesture - this.startGesture;
+        const date = new Date();
+        const stopGesture = date.getTime();
+        const d = stopGesture - this.startGestureHeader;
 
-          let duration = 500 * ((screenWidth - Math.abs(gesture.dx)) / screenWidth);
+        let duration = 500 * ((screenWidth - Math.abs(gesture.dx)) / screenWidth);
 
-          let dir = 0;
-          if (d < 300 && Math.abs(gesture.dx) > 30) {
-            if (gesture.vx > 0) {
-              dir = 1;
-              duration = 200;
-            } else if (gesture.vx < 0) {
-              dir = -1;
-              duration = 200;
-            }
-          } else if (gesture.dx > screenWidth / 2) {
+        let dir = 0;
+        if (d < 300 && Math.abs(gesture.dx) > 30) {
+          if (gesture.vx > 0) {
             dir = 1;
-          } else if (gesture.dx < -(screenWidth / 2)) {
+            duration = 200;
+          } else if (gesture.vx < 0) {
             dir = -1;
+            duration = 200;
           }
-          if (dir === 1 && this.isChallengeLeft()) {
-            dir = 0;
-          }
-          if (dir === -1 && this.isChallengeRight()) {
-            dir = 0;
-          }
-
-          if (dir === 1) {
-            Animated.timing(this.state.challengeContainerOffsetX, {
-              toValue: 0,
-              duration,
-            }).start(this.navigateDown);
-          } else if (dir === -1) {
-            Animated.timing(this.state.challengeContainerOffsetX, {
-              toValue: -2 * screenWidth,
-              duration,
-            }).start(this.navigateUp);
-          } else {
-            Animated.spring(this.state.challengeContainerOffsetX, {
-              toValue: -screenWidth,
-            }).start();
-          }
-
-          this.startGesture = -1;
+        } else if (gesture.dx > screenWidth / 2) {
+          dir = 1;
+        } else if (gesture.dx < -(screenWidth / 2)) {
+          dir = -1;
         }
+        if (dir === 1 && this.isChallengeLeft()) {
+          dir = 0;
+        }
+        if (dir === -1 && this.isChallengeRight()) {
+          dir = 0;
+        }
+
+        if (dir === 1) {
+          Animated.timing(this.state.challengeContainerOffsetX, {
+            toValue: 0,
+            duration,
+          }).start(this.navigateDown);
+        } else if (dir === -1) {
+          Animated.timing(this.state.challengeContainerOffsetX, {
+            toValue: -2 * screenWidth,
+            duration,
+          }).start(this.navigateUp);
+        } else {
+          Animated.spring(this.state.challengeContainerOffsetX, {
+            toValue: -screenWidth,
+          }).start();
+        }
+
+        this.startGestureHeader = -1;
       },
     });
   }
 
-  isChallengeHeader(start) {
-    const dz = this.centralChallengeHeaderValues;
-    return (
-      start.x > dz.x && start.x < dz.x + dz.width && start.y > dz.y && start.y < dz.y + dz.height
-    );
-  }
-
-  isChallengeLeft() {
-    return this.selectedChallengeIndex === 0;
-  }
-
-  isChallengeRight() {
-    return this.selectedChallengeIndex === this.props.challenges.length - 1;
-  }
+  // Navigation logic
 
   navigateDownPress() {
     Animated.timing(this.state.challengeContainerOffsetX, {
@@ -206,54 +177,50 @@ class ChallengeContainer extends Component {
       duration: 300,
     }).start(this.navigateUp);
   }
-  handleHeaderPressed = () => {
-    console.log('PRESS');
-    popChallengeSelector(this.props);
-  };
 
   navigateDown() {
-    if (this.selectedChallengeIndex <= 0) {
+    if (this.props.selectedChallengeIndex <= 0) {
       this.state.challengeContainerOffsetX.setValue(-screenWidth);
       return;
     }
-    this.selectedChallengeIndex -= 1;
-    this.navigate();
+    this.navigate(-1);
   }
 
   navigateUp() {
-    if (this.selectedChallengeIndex >= this.props.challenges.length - 1) {
+    if (this.props.selectedChallengeIndex >= this.props.challenges.length - 1) {
       this.state.challengeContainerOffsetX.setValue(-screenWidth);
       return;
     }
-    this.selectedChallengeIndex += 1;
-    this.navigate();
+    this.navigate(1);
   }
-  navigate() {
-    const challenge = this.props.challenges[this.selectedChallengeIndex];
-    if (challenge == null) return;
-    const newId = challenge._id;
+
+  navigate(offset) {
+    const index = this.props.selectedChallengeIndex + offset;
+    let challenge = this.props.challenges[index];
+    if (challenge == null) {
+      if (this.props.challenges.length > 0) {
+        challenge = this.props.challenges[0];
+      } else {
+        return;
+      }
+    }
     this.state.challengeContainerOffsetX.setValue(-screenWidth);
-    this.setState({ selectedChallengeId: newId });
-    this.getIndexFromId(this.state.selectedChallengeId);
+    const newId = challenge._id;
+    this.loadProposals(index - 1);
+    this.loadProposals(index);
+    this.loadProposals(index + 1);
+    this.props.dispatch(setChallengesId(newId));
+    upDateSelectedChallengeIndex();
   }
 
   // Render
   render() {
     const myStyle = [styles.challengeContainer, { left: this.state.challengeContainerOffsetX }];
-
     return (
       <Animated.View style={myStyle}>
+        <ChallengeDetail challengeOffset={-1} />
         <ChallengeDetail
-          challenges={this.props.challenges}
-          challengeIndex={this.selectedChallengeIndex - 1}
-          language={this.props.language}
-          isTinder={this.props.isTinder}
-        />
-        <ChallengeDetail
-          challenges={this.props.challenges}
-          challengeIndex={this.selectedChallengeIndex}
-          language={this.props.language}
-          isTinder={this.props.isTinder}
+          challengeOffset={0}
           onHeaderPress={this.handleHeaderPressed}
           onDownPress={this.navigateDownPress}
           onUpPress={this.navigateUpPress}
@@ -261,25 +228,20 @@ class ChallengeContainer extends Component {
           handleTinderPress={this.handleTinderPress}
           handleListPress={this.handleListPress}
           handleCommitPress={this.handleCommitPress}
-          panResponder={this.panResponder}
-          layoutCallback={this.setCentralChallengeHeaderLayout}
+          panResponderHeader={this.panResponderHeader}
         />
-        <ChallengeDetail
-          challenges={this.props.challenges}
-          challengeIndex={this.selectedChallengeIndex + 1}
-          language={this.props.language}
-          isTinder={this.props.isTinder}
-        />
+        <ChallengeDetail challengeOffset={1} />
       </Animated.View>
     );
   }
 }
 
 const mapStateToProps = (state) => {
-  const isTinder = state.globals.isTinder;
-
+  const challenges = state.challenges.challenges;
+  const selectedChallengeIndex = state.challenges.selectedChallengeIndex;
   return {
-    isTinder,
+    selectedChallengeIndex,
+    challenges,
   };
 };
 export default connect(mapStateToProps)(ChallengeContainer);

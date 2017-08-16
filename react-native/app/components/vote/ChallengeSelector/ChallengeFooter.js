@@ -1,12 +1,15 @@
 import React, { Component, PropTypes } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
+import { connect } from 'react-redux';
 
+import { isFinished } from '../../../helper/dateFunctions';
 import styles from './styles';
 
 class ChallengeFooter extends Component {
   static propTypes = {
+    challengeOffset: PropTypes.number,
     challenges: PropTypes.array,
-    challengeIndex: PropTypes.number,
+    selectedChallengeIndex: PropTypes.number,
     isTinder: PropTypes.bool,
     handleSharePress: PropTypes.func,
     handleTinderPress: PropTypes.func,
@@ -14,6 +17,23 @@ class ChallengeFooter extends Component {
     handleCommitPress: PropTypes.func,
   };
 
+  getChallengeIndex() {
+    return this.props.selectedChallengeIndex + this.props.challengeOffset;
+  }
+
+  getChallenge() {
+    if (
+      this.getChallengeIndex() < 0 ||
+      this.getChallengeIndex() > this.props.challenges.length - 1
+    ) {
+      return null;
+    }
+    return this.props.challenges[this.getChallengeIndex()];
+  }
+
+  isFinished() {
+    return isFinished(this.getChallenge());
+  }
   renderFinished() {
     return (
       <View style={styles.challengeFooter}>
@@ -48,22 +68,6 @@ class ChallengeFooter extends Component {
     );
   }
 
-  isFinished() {
-    let finished = false;
-    if (this.props.challenges) {
-      if (
-        this.props.challengeIndex >= 0 &&
-        this.props.challengeIndex < this.props.challenges.length
-      ) {
-        const myChallenge = this.props.challenges[this.props.challengeIndex];
-        if (myChallenge) {
-          finished = myChallenge.isFinished;
-        }
-      }
-    }
-    return finished;
-  }
-
   render() {
     if (this.isFinished()) {
       return this.renderFinished();
@@ -71,4 +75,15 @@ class ChallengeFooter extends Component {
     return this.renderUnfinished();
   }
 }
-export default ChallengeFooter;
+const mapStateToProps = (state) => {
+  const challenges = state.challenges.challenges;
+  const selectedChallengeIndex = state.challenges.selectedChallengeIndex;
+  const isTinder = state.globals.isTinder;
+
+  return {
+    selectedChallengeIndex,
+    challenges,
+    isTinder,
+  };
+};
+export default connect(mapStateToProps)(ChallengeFooter);

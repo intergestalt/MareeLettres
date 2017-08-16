@@ -19,8 +19,6 @@ import { TabBar } from '../components/general/TabBar';
 
 /* export const MyCustomTransition = (index, position) => {
   const inputRange = [index - 1, index, index + 0.99, index + 1];
-  console.log('EEE');
-  console.log(position);
 
   const input = new Animated.Value(0.3);
   const test = input.interpolate({
@@ -29,7 +27,6 @@ import { TabBar } from '../components/general/TabBar';
     extrapolate: 'clamp',
   });
   input.setValue(3);
-  console.log(test);
 
   const opacity = position.interpolate({
     inputRange,
@@ -79,7 +76,7 @@ const MapStack = StackNavigator(
     },
     QRCodeSend: {
       screen: QRCodeSend,
-    }
+    },
   },
   {
     headerMode: 'none',
@@ -128,11 +125,7 @@ const prevGetStateForAction = VoteStack.router.getStateForAction;
 VoteStack.router = {
   ...VoteStack.router,
   getStateForAction(action, state) {
-    console.log('HERE WE GO!');
-    // console.log(state.routes.length);
-    if (state) {
-      console.log(state.routes);
-    }
+
     if (state && action.type === 'ReplaceCurrentScreen') {
       const routes = state.routes.slice(0, state.routes.length - 1);
       routes.push(action);
@@ -177,7 +170,7 @@ const tabNavigator = TabNavigator(
     swipeEnabled: false,
     animationEnabled: false,
     //    tabBarPosition: 'bottom',
-    initialRouteName: 'Become',
+    initialRouteName: 'Vote',
   },
 );
 

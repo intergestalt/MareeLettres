@@ -1,0 +1,9 @@
+const VOTE_VIEWS = {
+  DETAIL: 'detail',
+  LIST: 'list',
+};
+const USE_CUSTOM_END_DATE = true;
+const CUSTOM_END_DATE_ID = 'SEydz4yei7dCA7BRa';
+const CUSTOM_END_DATE = '2017-08-18T13:05:30.000Z';
+
+export { VOTE_VIEWS, USE_CUSTOM_END_DATE, CUSTOM_END_DATE_ID, CUSTOM_END_DATE };

@@ -1,13 +1,15 @@
 import React, { Component, PropTypes } from 'react';
 import { View, TouchableOpacity, Text } from 'react-native';
+import { connect } from 'react-redux';
 
 import styles from './styles';
 
 class ChallengeHeader extends Component {
   static propTypes = {
-    layoutCallback: PropTypes.func,
+    challengeOffset: PropTypes.number,
     challenges: PropTypes.array,
-    challengeIndex: PropTypes.number,
+    challengesTicker: PropTypes.array,
+    selectedChallengeIndex: PropTypes.number,
     onHeaderPress: PropTypes.func,
     onUpPress: PropTypes.func,
     onDownPress: PropTypes.func,
@@ -15,26 +17,28 @@ class ChallengeHeader extends Component {
     language: PropTypes.string,
   };
 
+  getChallengeIndex() {
+    return this.props.selectedChallengeIndex + this.props.challengeOffset;
+  }
   getChallenge() {
     if (
-      this.props.challengeIndex < 0 ||
-      this.props.challengeIndex > this.props.challenges.length - 1
+      this.getChallengeIndex() < 0 ||
+      this.getChallengeIndex() > this.props.challenges.length - 1
     ) {
       return null;
     }
-    return this.props.challenges[this.props.challengeIndex];
+    return this.props.challenges[this.getChallengeIndex()];
   }
-
-  render() {
-    if (
-      this.props.challengeIndex < 0 ||
-      this.props.challengeIndex >= this.props.challenges.length
-    ) {
-      const color = { backgroundColor: '#000000' };
-      return <View onLayout={this.props.layoutCallback} style={[styles.challengeHeader, color]} />;
+  getChallengeTickerData() {
+    const myChallenge = this.getChallenge();
+    if (myChallenge) {
+      return this.props.challengesTicker[myChallenge._id];
     }
+    return null;
+  }
+  render() {
     let buttonUp = null;
-    if (this.props.challengeIndex < this.props.challenges.length - 1) {
+    if (this.getChallengeIndex() < this.props.challenges.length - 1) {
       buttonUp = (
         <TouchableOpacity onPress={this.props.onUpPress} style={{ flex: 1 }}>
           <View style={styles.headerNavContainer}>
@@ -47,7 +51,7 @@ class ChallengeHeader extends Component {
     }
 
     let buttonDown = null;
-    if (this.props.challengeIndex > 0) {
+    if (this.getChallengeIndex() > 0) {
       buttonDown = (
         <TouchableOpacity onPress={this.props.onDownPress} style={{ flex: 1 }}>
           <View style={styles.headerNavContainer}>
@@ -69,13 +73,15 @@ class ChallengeHeader extends Component {
         {buttonUp}
       </View>
     );
+    const challengeTickerData = this.getChallengeTickerData();
     const challenge = this.getChallenge();
     let myEndString = null;
     if (this.props.language === 'en') {
-      myEndString = challenge.endStringEn;
+      myEndString = challengeTickerData.endStringEn;
     } else {
-      myEndString = challenge.endStringFr;
+      myEndString = challengeTickerData.endStringFr;
     }
+
     const contentMiddle = (
       <View style={styles.headerTextContainer}>
         <TouchableOpacity delayPressIn={30} onPress={this.props.onHeaderPress}>
@@ -86,7 +92,7 @@ class ChallengeHeader extends Component {
             {myEndString}
           </Text>
           <Text style={styles.headerText}>
-            {challenge.tickerString}
+            {challengeTickerData.tickerString}
           </Text>
           <Text style={styles.headerText}>
             {this.getChallenge().title}
@@ -96,11 +102,7 @@ class ChallengeHeader extends Component {
     );
     if (this.props.panResponder) {
       return (
-        <View
-          {...this.props.panResponder.panHandlers}
-          onLayout={this.props.layoutCallback}
-          style={styles.challengeHeader}
-        >
+        <View {...this.props.panResponder.panHandlers} style={styles.challengeHeader}>
           {contentDown}
           {contentMiddle}
           {contentUp}
@@ -108,7 +110,7 @@ class ChallengeHeader extends Component {
       );
     }
     return (
-      <View onLayout={this.props.layoutCallback} style={styles.challengeHeader}>
+      <View style={styles.challengeHeader}>
         {contentDown}
         {contentMiddle}
         {contentUp}
@@ -116,4 +118,14 @@ class ChallengeHeader extends Component {
     );
   }
 }
-export default ChallengeHeader;
+const mapStateToProps = (state) => {
+  const challenges = state.challenges.challenges;
+  const challengesTicker = state.challengesTicker;
+  const selectedChallengeIndex = state.challenges.selectedChallengeIndex;
+  return {
+    selectedChallengeIndex,
+    challenges,
+    challengesTicker,
+  };
+};
+export default connect(mapStateToProps)(ChallengeHeader);

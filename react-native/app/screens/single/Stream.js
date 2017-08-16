@@ -3,7 +3,6 @@ import { Text, StatusBar } from 'react-native';
 
 import { Screen } from '../../components/general/Container';
 import { TabBar } from '../../components/general/TabBar';
-import TABS from '../../consts/tab';
 
 import { VoteMark, VoteMarkPanel } from '../../components/vote/VoteMark';
 
@@ -20,7 +19,7 @@ const Stream = props =>
     <VoteMark size="l" active value={0.5} type="no" />
     <VoteMarkPanel yes_amount={100} no_amount={50} />
 
-    <TabBar selectedTab={TABS.STREAM_TAB} navigation={props.navigation} />
+    <TabBar navigation={props.navigation} />
   </Screen>;
 
 Stream.propTypes = {
