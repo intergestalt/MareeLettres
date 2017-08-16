@@ -89,14 +89,14 @@ const styles = EStyleSheet.create({
     flex: 1,
     overflow: 'hidden',
     backgroundColor: '#aa00aa',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 
   tinderBoxToMove: {
     left: 0,
     top: 0,
-    position: 'relative',
     flex: 1,
-    backgroundColor: '#00aaaa',
   },
 
   contentText: {

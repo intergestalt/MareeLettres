@@ -7,7 +7,7 @@ const styles = EStyleSheet.create({
   container: {
     flexDirection: 'column',
     flex: 1,
-    backgroundColor: '#00aa00',
+    backgroundColor: '#eeeeee',
   },
   containerBackground: {
     position: 'absolute',
@@ -17,7 +17,7 @@ const styles = EStyleSheet.create({
     right: 0,
     flexDirection: 'column',
     flex: 1,
-    backgroundColor: '#006600',
+    backgroundColor: '#666666',
   },
 
   topContainer: {
@@ -32,6 +32,12 @@ const styles = EStyleSheet.create({
     flex: 0.5,
     justifyContent: 'space-around',
     alignItems: 'center',
+  },
+  noContainer1: {
+    position: 'relative',
+  },
+  noContainer2: {
+    position: 'absolute',
   },
   text: {
     fontSize: '1.5rem',

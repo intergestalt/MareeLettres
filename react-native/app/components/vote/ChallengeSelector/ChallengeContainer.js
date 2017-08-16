@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { View, Text, Animated, PanResponder } from 'react-native';
+import { Animated, PanResponder } from 'react-native';
 import { connect } from 'react-redux';
 
 import styles from './styles';

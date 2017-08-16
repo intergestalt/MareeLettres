@@ -9,14 +9,14 @@ export const callAllChallenges = () => {
 
 export const callOneChallenge = (action) => {
   console.log(`Load Challenge ${action.challengeId}`);
-  const url = `${config.API_PREFIX}challenges/${action.challengeId}!`;
+  const url = `${config.API_PREFIX}challenges/${action.challengeId}`;
   console.log(url);
   return fetch(url);
 };
 
 export const callProposals = (action) => {
   console.log('Load Proposals');
-  const url = `${config.API_PREFIX}challenges/${action.proposalId}/proposals?limit=15`;
+  const url = `${config.API_PREFIX}challenges/${action.challengeId}/proposals?limit=15`;
   console.log(url);
   return fetch(url);
 };

@@ -43,14 +43,14 @@ export default (state = initialState.challenges, action) => {
         };
         challenges.push(newEntry);
       }
-
-      return {
+      const result = {
         ...state,
         isLoading: false,
         isError: false,
         time: now.getTime(),
         challenges,
       };
+      return result;
     }
     case NETWORK_ERROR_LOAD_CHALLENGES: {
       console.log('NETWORK ERROR 1');

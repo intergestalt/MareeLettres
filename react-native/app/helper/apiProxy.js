@@ -21,11 +21,11 @@ export function loadChallengeServiceProxy(challengeId) {
 export function loadChallengesServiceProxy() {
   store.dispatch(loadChallenges());
 }
-export function loadProposalsServiceProxy(proposalId) {
+export function loadProposalsServiceProxy(challengeId) {
   const isTinder = store.getState().globals.isTinder;
   const listMode = store.getState().globals.listMode;
 
-  store.dispatch(loadProposals(proposalId, isTinder, listMode));
+  store.dispatch(loadProposals(challengeId, isTinder, listMode));
 }
 export function loadLettersServiceProxy() {
   store.dispatch(loadLetters());

@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { View, FlatList, Text } from 'react-native';
+import { View, TouchableOpacity, FlatList, Text } from 'react-native';
 import { connect } from 'react-redux';
 
 import Separator from './Separator';
@@ -11,7 +11,6 @@ import { isFinished } from '../../../helper/dateFunctions';
 
 class ChallengesList extends Component {
   static propTypes = {
-    //  navigation: PropTypes.object,
     isError: PropTypes.bool,
     isLoading: PropTypes.bool,
     time: PropTypes.number,
@@ -25,8 +24,9 @@ class ChallengesList extends Component {
   }
 
   handlePressRow = (item) => {
-    navigateToChallengeSelector(this.props, item._id);
+    navigateToChallengeSelector(this.props, item.id);
   };
+
   getAnswer(challenge) {
     let answer = '';
     const winning = challenge.winningProposal;
@@ -35,6 +35,12 @@ class ChallengesList extends Component {
     }
     return answer;
   }
+
+  dummyPress() {
+    console.log('DEPP');
+    navigateToChallengeSelector(this.props, 'SEydz4yei7dCA7BRa');
+  }
+
   render() {
     const isLoading = this.props.isLoading;
     const isError = this.props.isError;
@@ -50,7 +56,7 @@ class ChallengesList extends Component {
         myEndString = entry.endStringFr;
       }
       listData[i] = {
-        id: i,
+        id: myChallenge._id,
         voteNum: myChallenge.voteNum,
         isFinished: isFinished(myChallenge),
         endString: myEndString,
@@ -91,7 +97,8 @@ class ChallengesList extends Component {
     );
   }
 }
-
+/*
+          */
 const mapStateToProps = (state) => {
   const challenges = state.challenges.challenges;
   const challengesTicker = state.challengesTicker;
@@ -99,7 +106,6 @@ const mapStateToProps = (state) => {
   const isError = state.challenges.isError;
   const time = state.challenges.time;
   const language = state.globals.language;
-
   return {
     challenges,
     challengesTicker,
