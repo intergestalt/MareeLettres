@@ -1,21 +1,20 @@
 import { VOTE_VIEWS } from '../consts';
 
-// NOTE:
-// generateFromDeviceId
-// import { OriginId } from 'maree-lettres-shared';
+import { OriginId } from 'maree-lettres-shared';
 
 export default {
   user: {
-    id: 'user_1337',
+    id: OriginId.generateFromDeviceId('device-id-here'), // TODO: get a uid from device
     letter: 'X',
     isAssignedLetter: false,
   },
   globals: {
     language: 'fr',
-    isTinder: false,
+    isTinder: true,
     listMode: 0,
     voteView: VOTE_VIEWS.LIST,
   },
+
   challenges: {
     selectedChallengeId: null,
     selectedChallengeIndex: -1,
@@ -24,6 +23,9 @@ export default {
     time: null,
     challenges: [],
   },
+  challengesTicker: {},
+  proposals: {},
+
   content: {
     isLoading: false,
     isLoaded: false,
@@ -31,7 +33,6 @@ export default {
     time: null,
     content: [],
   },
-  proposals: {},
 
   letters: {
     isLoading: false,

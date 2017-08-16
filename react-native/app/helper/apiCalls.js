@@ -9,7 +9,7 @@ export const callAllChallenges = () => {
 
 export const callOneChallenge = (action) => {
   console.log(`Load Challenge ${action.challengeId}`);
-  const url = `${config.API_PREFIX}challenges/${action.challengeId}A`;
+  const url = `${config.API_PREFIX}challenges/${action.challengeId}!`;
   console.log(url);
   return fetch(url);
 };

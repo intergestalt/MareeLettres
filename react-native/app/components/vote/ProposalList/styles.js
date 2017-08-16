@@ -34,7 +34,7 @@ const styles = EStyleSheet.create({
     alignItems: 'center',
   },
   text: {
-    fontSize: '2rem',
+    fontSize: '1.5rem',
     textAlign: 'center',
     fontFamily: 'impact',
   },

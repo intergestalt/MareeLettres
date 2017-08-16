@@ -8,9 +8,10 @@ import Cryptr from 'cryptr';
 import config from './config.js';
 
 const encryptor = new Cryptr(config.user_key_secret);
+const min_length = 8;
 
 function DeviceIdException(s) {
-  this.message = `Invalid DeviceId "${s}"`;
+  this.message = `Invalid DeviceId "${s}" – minimum ${min_length} characters required.`;
   this.name = 'DeviceIdException';
 }
 
@@ -25,7 +26,7 @@ const OriginId = {
   },
 
   generateFromDeviceId(s) {
-    if (typeof s !== 'string' || s === '' || s.length < 8) {
+    if (typeof s !== 'string' || s === '' || s.length < min_length) {
       throw new DeviceIdException(s);
     }
 

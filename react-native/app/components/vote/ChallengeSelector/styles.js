@@ -34,6 +34,7 @@ const styles = EStyleSheet.create({
     flex: 0.25,
   },
   challengeContent: {
+    backgroundColor: '#008888',
     position: 'relative',
     flex: 0.675,
     alignItems: 'center',
@@ -78,6 +79,25 @@ const styles = EStyleSheet.create({
     fontSize: 40,
   },
   // Content
+  tinderContainer: {
+    flexDirection: 'row',
+    position: 'absolute',
+    left: 0,
+    width: '$swipeWidth',
+    top: 0,
+    bottom: 0,
+    flex: 1,
+    overflow: 'hidden',
+    backgroundColor: '#aa00aa',
+  },
+
+  tinderBoxToMove: {
+    left: 0,
+    top: 0,
+    position: 'relative',
+    flex: 1,
+    backgroundColor: '#00aaaa',
+  },
 
   contentText: {
     color: '#aa00aa',

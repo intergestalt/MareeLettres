@@ -13186,9 +13186,10 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 * console.log(shared.userKeys.getBrowserUserKey());
 */
 var encryptor = new _cryptr2.default(_config2.default.user_key_secret);
+var min_length = 8;
 
 function DeviceIdException(s) {
-  this.message = 'Invalid DeviceId "' + s + '"';
+  this.message = 'Invalid DeviceId "' + s + '" \u2013 minimum ' + min_length + ' characters required.';
   this.name = 'DeviceIdException';
 }
 
@@ -13202,7 +13203,7 @@ var OriginId = {
     return encrypted;
   },
   generateFromDeviceId: function generateFromDeviceId(s) {
-    if (typeof s !== 'string' || s === '' || s.length < 8) {
+    if (typeof s !== 'string' || s === '' || s.length < min_length) {
       throw new DeviceIdException(s);
     }
 
@@ -13252,16 +13253,6 @@ var OriginId = {
     };
   }
 };
-
-/*
-const userKeys = {
-  getBrowserUserKey: function () {
-    const string = config.user_key_browser_code;
-
-    return string;
-  }
-};
-*/
 
 exports.OriginId = OriginId;
 exports.DeviceIdException = DeviceIdException;

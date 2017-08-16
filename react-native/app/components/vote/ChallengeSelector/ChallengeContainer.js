@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { Animated, PanResponder } from 'react-native';
+import { View, Text, Animated, PanResponder } from 'react-native';
 import { connect } from 'react-redux';
 
 import styles from './styles';
@@ -21,7 +21,6 @@ class ChallengeContainer extends Component {
 
   constructor(props) {
     super(props);
-    this.setCentralChallengeHeaderLayout = this.setCentralChallengeHeaderLayout.bind(this);
     this.handleHeaderPressed = this.handleHeaderPressed.bind(this);
     this.navigateUp = this.navigateUp.bind(this);
     this.navigateDown = this.navigateDown.bind(this);
@@ -37,19 +36,10 @@ class ChallengeContainer extends Component {
       challengeContainerOffsetX: new Animated.Value(-screenWidth),
     };
 
-    this.centralChallengeHeaderValues = null;
-    this.listenChallengeHeader = false;
-    this.panResponder = this.createPanResponder();
+    this.panResponderHeader = this.createPanResponderHeader();
   }
   componentDidMount() {
     startChallengeTicker();
-  }
-
-  // Pan Logic
-  // ChallengesSwipe
-
-  setCentralChallengeHeaderLayout(event) {
-    this.centralChallengeHeaderValues = event.nativeEvent.layout;
   }
 
   handleSharePress() {
@@ -58,6 +48,11 @@ class ChallengeContainer extends Component {
   handleCommitPress() {
     console.log('handleCommitPress');
   }
+
+  handleHeaderPressed = () => {
+    console.log('PRESS');
+    popChallengeSelector(this.props);
+  };
 
   loadProposals(index) {
     if (index < 0 || index > this.props.challenges.length - 1) return;
@@ -81,100 +76,8 @@ class ChallengeContainer extends Component {
     this.loadProposals(this.props.selectedChallengeIndex + 1);
   }
 
-  createPanResponder() {
-    return PanResponder.create({
-      onStartShouldSetPanResponder: () => false,
-      onMoveShouldSetPanResponder: () => true,
-      onPanResponderGrant: (e) => {
-        const d = new Date();
-        this.startGesture = d.getTime();
-        const start = {
-          x: e.nativeEvent.locationX,
-          y: e.nativeEvent.locationY,
-        };
-        if (this.isChallengeHeader(start)) {
-          this.listenChallengeHeader = true;
-        } else {
-          this.listenChallengeHeader = false;
-        }
-      },
-      onPanResponderMove: (e, gesture) => {
-        if (this.listenChallengeHeader) {
-          let myDx = gesture.dx;
-          if (gesture.dx > 0) {
-            if (!this.isChallengeLeft()) {
-              myDx = gesture.dx;
-            } else {
-              myDx = gesture.dx / 3;
-            }
-          } else if (gesture.dx < 0) {
-            if (!this.isChallengeRight()) {
-              myDx = gesture.dx;
-            } else {
-              myDx = gesture.dx / 3;
-            }
-          }
-          this.state.challengeContainerOffsetX.setValue(myDx - screenWidth);
-        }
-      },
-
-      onPanResponderRelease: (e, gesture) => {
-        if (this.listenChallengeHeader) {
-          const date = new Date();
-          const stopGesture = date.getTime();
-          const d = stopGesture - this.startGesture;
-
-          let duration = 500 * ((screenWidth - Math.abs(gesture.dx)) / screenWidth);
-
-          let dir = 0;
-          if (d < 300 && Math.abs(gesture.dx) > 30) {
-            if (gesture.vx > 0) {
-              dir = 1;
-              duration = 200;
-            } else if (gesture.vx < 0) {
-              dir = -1;
-              duration = 200;
-            }
-          } else if (gesture.dx > screenWidth / 2) {
-            dir = 1;
-          } else if (gesture.dx < -(screenWidth / 2)) {
-            dir = -1;
-          }
-          if (dir === 1 && this.isChallengeLeft()) {
-            dir = 0;
-          }
-          if (dir === -1 && this.isChallengeRight()) {
-            dir = 0;
-          }
-
-          if (dir === 1) {
-            Animated.timing(this.state.challengeContainerOffsetX, {
-              toValue: 0,
-              duration,
-            }).start(this.navigateDown);
-          } else if (dir === -1) {
-            Animated.timing(this.state.challengeContainerOffsetX, {
-              toValue: -2 * screenWidth,
-              duration,
-            }).start(this.navigateUp);
-          } else {
-            Animated.spring(this.state.challengeContainerOffsetX, {
-              toValue: -screenWidth,
-            }).start();
-          }
-
-          this.startGesture = -1;
-        }
-      },
-    });
-  }
-
-  isChallengeHeader(start) {
-    const dz = this.centralChallengeHeaderValues;
-    return (
-      start.x > dz.x && start.x < dz.x + dz.width && start.y > dz.y && start.y < dz.y + dz.height
-    );
-  }
+  // Pan Logic
+  // Header: Challenge Swipe
 
   isChallengeLeft() {
     return this.props.selectedChallengeIndex === 0;
@@ -183,6 +86,83 @@ class ChallengeContainer extends Component {
   isChallengeRight() {
     return this.props.selectedChallengeIndex === this.props.challenges.length - 1;
   }
+
+  createPanResponderHeader() {
+    return PanResponder.create({
+      onStartShouldSetPanResponder: () => false,
+      onMoveShouldSetPanResponder: () => true,
+      onPanResponderGrant: () => {
+        const d = new Date();
+        this.startGestureHeader = d.getTime();
+      },
+      onPanResponderMove: (e, gesture) => {
+        let myDx = gesture.dx;
+        if (gesture.dx > 0) {
+          if (!this.isChallengeLeft()) {
+            myDx = gesture.dx;
+          } else {
+            myDx = gesture.dx / 3;
+          }
+        } else if (gesture.dx < 0) {
+          if (!this.isChallengeRight()) {
+            myDx = gesture.dx;
+          } else {
+            myDx = gesture.dx / 3;
+          }
+        }
+        this.state.challengeContainerOffsetX.setValue(myDx - screenWidth);
+      },
+
+      onPanResponderRelease: (e, gesture) => {
+        const date = new Date();
+        const stopGesture = date.getTime();
+        const d = stopGesture - this.startGestureHeader;
+
+        let duration = 500 * ((screenWidth - Math.abs(gesture.dx)) / screenWidth);
+
+        let dir = 0;
+        if (d < 300 && Math.abs(gesture.dx) > 30) {
+          if (gesture.vx > 0) {
+            dir = 1;
+            duration = 200;
+          } else if (gesture.vx < 0) {
+            dir = -1;
+            duration = 200;
+          }
+        } else if (gesture.dx > screenWidth / 2) {
+          dir = 1;
+        } else if (gesture.dx < -(screenWidth / 2)) {
+          dir = -1;
+        }
+        if (dir === 1 && this.isChallengeLeft()) {
+          dir = 0;
+        }
+        if (dir === -1 && this.isChallengeRight()) {
+          dir = 0;
+        }
+
+        if (dir === 1) {
+          Animated.timing(this.state.challengeContainerOffsetX, {
+            toValue: 0,
+            duration,
+          }).start(this.navigateDown);
+        } else if (dir === -1) {
+          Animated.timing(this.state.challengeContainerOffsetX, {
+            toValue: -2 * screenWidth,
+            duration,
+          }).start(this.navigateUp);
+        } else {
+          Animated.spring(this.state.challengeContainerOffsetX, {
+            toValue: -screenWidth,
+          }).start();
+        }
+
+        this.startGestureHeader = -1;
+      },
+    });
+  }
+
+  // Navigation logic
 
   navigateDownPress() {
     Animated.timing(this.state.challengeContainerOffsetX, {
@@ -197,10 +177,6 @@ class ChallengeContainer extends Component {
       duration: 300,
     }).start(this.navigateUp);
   }
-  handleHeaderPressed = () => {
-    console.log('PRESS');
-    popChallengeSelector(this.props);
-  };
 
   navigateDown() {
     if (this.props.selectedChallengeIndex <= 0) {
@@ -217,6 +193,7 @@ class ChallengeContainer extends Component {
     }
     this.navigate(1);
   }
+
   navigate(offset) {
     const index = this.props.selectedChallengeIndex + offset;
     let challenge = this.props.challenges[index];
@@ -251,8 +228,7 @@ class ChallengeContainer extends Component {
           handleTinderPress={this.handleTinderPress}
           handleListPress={this.handleListPress}
           handleCommitPress={this.handleCommitPress}
-          panResponder={this.panResponder}
-          layoutCallback={this.setCentralChallengeHeaderLayout}
+          panResponderHeader={this.panResponderHeader}
         />
         <ChallengeDetail challengeOffset={1} />
       </Animated.View>

@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 
+import { isFinished } from '../../../helper/dateFunctions';
 import styles from './styles';
 
 class ChallengeFooter extends Component {
@@ -31,10 +32,7 @@ class ChallengeFooter extends Component {
   }
 
   isFinished() {
-    const challenge = this.getChallenge();
-
-    const finished = challenge.isFinished;
-    return finished;
+    return isFinished(this.getChallenge());
   }
   renderFinished() {
     return (
@@ -81,6 +79,7 @@ const mapStateToProps = (state) => {
   const challenges = state.challenges.challenges;
   const selectedChallengeIndex = state.challenges.selectedChallengeIndex;
   const isTinder = state.globals.isTinder;
+
   return {
     selectedChallengeIndex,
     challenges,
