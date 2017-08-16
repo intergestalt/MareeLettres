@@ -13,12 +13,11 @@ class ChallengeDetail extends Component {
     onHeaderPress: PropTypes.func,
     onUpPress: PropTypes.func,
     onDownPress: PropTypes.func,
-    panResponder: PropTypes.object,
+    panResponderHeader: PropTypes.object,
     handleSharePress: PropTypes.func,
     handleTinderPress: PropTypes.func,
     handleListPress: PropTypes.func,
     handleCommitPress: PropTypes.func,
-    layoutCallback: PropTypes.func,
   };
   getChallengeIndex() {
     return this.props.selectedChallengeIndex + this.props.challengeOffset;
@@ -32,8 +31,7 @@ class ChallengeDetail extends Component {
       <View style={styles.detailContainer}>
         <ChallengeHeader
           challengeOffset={this.props.challengeOffset}
-          panResponder={this.props.panResponder}
-          layoutCallback={this.props.layoutCallback}
+          panResponder={this.props.panResponderHeader}
           onHeaderPress={this.props.onHeaderPress}
           onDownPress={this.props.onDownPress}
           onUpPress={this.props.onUpPress}

@@ -11,10 +11,11 @@ export default {
   },
   globals: {
     language: 'fr',
-    isTinder: false,
+    isTinder: true,
     listMode: 0,
     voteView: VOTE_VIEWS.LIST,
   },
+
   challenges: {
     selectedChallengeId: null,
     selectedChallengeIndex: -1,
@@ -23,6 +24,9 @@ export default {
     time: null,
     challenges: [],
   },
+  challengesTicker: {},
+  proposals: {},
+
   content: {
     isLoading: false,
     isLoaded: false,
@@ -30,7 +34,6 @@ export default {
     time: null,
     content: [],
   },
-  proposals: {},
 
   letters: {
     isLoading: false,

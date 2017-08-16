@@ -9,7 +9,12 @@ const styles = EStyleSheet.create({
   $lineTopOffset: '0.4rem', // compensate visual difference due to vertical placement of text inside line. see also: https://facebook.github.io/react-native/docs/textstyleproptypes.html#includefontpadding
 
   container: {
+    position: 'absolute',
     backgroundColor: '$challengeListBackgroundColor',
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
   },
   separator: {
     backgroundColor: '$textColor',

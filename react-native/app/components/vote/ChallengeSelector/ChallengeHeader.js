@@ -8,13 +8,13 @@ class ChallengeHeader extends Component {
   static propTypes = {
     challengeOffset: PropTypes.number,
     challenges: PropTypes.array,
+    challengesTicker: PropTypes.array,
     selectedChallengeIndex: PropTypes.number,
     onHeaderPress: PropTypes.func,
     onUpPress: PropTypes.func,
     onDownPress: PropTypes.func,
     panResponder: PropTypes.object,
     language: PropTypes.string,
-    layoutCallback: PropTypes.func,
   };
 
   getChallengeIndex() {
@@ -29,7 +29,13 @@ class ChallengeHeader extends Component {
     }
     return this.props.challenges[this.getChallengeIndex()];
   }
-
+  getChallengeTickerData() {
+    const myChallenge = this.getChallenge();
+    if (myChallenge) {
+      return this.props.challengesTicker[myChallenge._id];
+    }
+    return null;
+  }
   render() {
     let buttonUp = null;
     if (this.getChallengeIndex() < this.props.challenges.length - 1) {
@@ -67,12 +73,13 @@ class ChallengeHeader extends Component {
         {buttonUp}
       </View>
     );
+    const challengeTickerData = this.getChallengeTickerData();
     const challenge = this.getChallenge();
     let myEndString = null;
     if (this.props.language === 'en') {
-      myEndString = challenge.endStringEn;
+      myEndString = challengeTickerData.endStringEn;
     } else {
-      myEndString = challenge.endStringFr;
+      myEndString = challengeTickerData.endStringFr;
     }
 
     const contentMiddle = (
@@ -85,7 +92,7 @@ class ChallengeHeader extends Component {
             {myEndString}
           </Text>
           <Text style={styles.headerText}>
-            {challenge.tickerString}
+            {challengeTickerData.tickerString}
           </Text>
           <Text style={styles.headerText}>
             {this.getChallenge().title}
@@ -95,11 +102,7 @@ class ChallengeHeader extends Component {
     );
     if (this.props.panResponder) {
       return (
-        <View
-          {...this.props.panResponder.panHandlers}
-          onLayout={this.props.layoutCallback}
-          style={styles.challengeHeader}
-        >
+        <View {...this.props.panResponder.panHandlers} style={styles.challengeHeader}>
           {contentDown}
           {contentMiddle}
           {contentUp}
@@ -107,7 +110,7 @@ class ChallengeHeader extends Component {
       );
     }
     return (
-      <View onLayout={this.props.layoutCallback} style={styles.challengeHeader}>
+      <View style={styles.challengeHeader}>
         {contentDown}
         {contentMiddle}
         {contentUp}
@@ -117,10 +120,12 @@ class ChallengeHeader extends Component {
 }
 const mapStateToProps = (state) => {
   const challenges = state.challenges.challenges;
+  const challengesTicker = state.challengesTicker;
   const selectedChallengeIndex = state.challenges.selectedChallengeIndex;
   return {
     selectedChallengeIndex,
     challenges,
+    challengesTicker,
   };
 };
 export default connect(mapStateToProps)(ChallengeHeader);

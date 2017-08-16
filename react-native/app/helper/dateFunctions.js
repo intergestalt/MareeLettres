@@ -1,3 +1,5 @@
+import { USE_CUSTOM_END_DATE, CUSTOM_END_DATE_ID, CUSTOM_END_DATE } from '../consts/';
+
 const monthNamesEn = [
   'Jan',
   'Feb',
@@ -12,6 +14,8 @@ const monthNamesEn = [
   'Nov',
   'Dec',
 ];
+
+export const TICKER_END = '(00:00:00)';
 
 function getParisTime(date) {
   const year = date.getFullYear();
@@ -178,7 +182,7 @@ export function formatDiff(diff) {
     result = addNumber(result, s, false);
     return `(${result})`;
   }
-  return '(00:00:00)';
+  return TICKER_END;
 }
 
 export function getDateData(endUTC) {
@@ -199,7 +203,8 @@ export function getDateData(endUTC) {
   return result;
 }
 
-export function isFinished(endDate) {
+export function isFinished(challenge) {
+  const endDate = new Date(challenge.end_date);
   const nowUTC = new Date(); // Now in what time zone ever
   const mNowUTC = nowUTC.getTime();
 
@@ -209,4 +214,35 @@ export function isFinished(endDate) {
   let finished = false;
   if (diff <= 0) finished = true;
   return finished;
+}
+
+export function getChallengeTickerData(endDate) {
+  const dateData = getDateData(endDate);
+
+  const newChallengeTickerDate = {
+    endStringFr: dateData.endStringFr,
+    endStringEn: dateData.endStringEn,
+    tickerString: dateData.tickerString,
+  };
+
+  return newChallengeTickerDate;
+}
+
+export function getChallengesTickerData(challengeState) {
+  const newChallengesTickerData = {};
+  for (let i = 0; i < challengeState.challenges.length; i += 1) {
+    const myChallenge = challengeState.challenges[i];
+    let endDate = new Date(myChallenge.end_date);
+    if (USE_CUSTOM_END_DATE) {
+      if (myChallenge._id === CUSTOM_END_DATE_ID) {
+        const customDate = CUSTOM_END_DATE;
+        endDate = new Date(customDate);
+      }
+    }
+
+    let newChallengeTickerData = null;
+    newChallengeTickerData = getChallengeTickerData(endDate);
+    newChallengesTickerData[myChallenge._id] = newChallengeTickerData;
+  }
+  return newChallengesTickerData;
 }
