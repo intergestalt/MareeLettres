@@ -1,11 +1,14 @@
 import { loadContentServiceProxy } from './apiProxy';
 import { stopChallengeTicker, startChallengeTicker } from './ticker';
+
+import { NavigationActions } from 'react-navigation';
 import { setVoteView } from '../actions/general';
 import { setChallengesId } from '../actions/challenges';
 import { manageChallenges } from './challengesHelper';
 import { manageProposals } from './proposalsHelper';
 import store from '../config/store';
 import { VOTE_VIEWS } from '../consts';
+
 
 // Navigation
 
@@ -46,6 +49,10 @@ export function navigateToVote(props) {
 
 // Map Stack SubPages
 
+export function navigateToMapOverview(props) {
+  props.navigation.navigate('MapOverview');
+}
+
 export function navigateToMapCamera(props) {
   props.navigation.navigate('MapCamera');
 }
@@ -60,6 +67,13 @@ export function navigateToQRCodeGet(props) {
 
 export function navigateToQRCodeSend(props) {
   props.navigation.navigate('QRCodeSend');
+
+  /*
+  const navigateAction = NavigationActions.navigate({
+    routeName: 'QRCodeSend',
+    params: {visible: false},
+  });
+  props.navigation.dispatch(navigateAction);*/
 }
 
 // Vote Stack

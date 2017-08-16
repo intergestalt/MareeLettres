@@ -20,6 +20,21 @@ const styles = EStyleSheet.create({
       paddingTop: StatusBar.currentHeight, // android only
     },
   },
+  containerHidden: {
+    width: '100%',
+    alignItems: 'center',
+    justifyContent: 'space-around',
+    flexDirection: 'row',
+    display: 'flex',
+    backgroundColor: '#aaaaaa',
+    top: -60,
+    '@media ios': {
+      paddingTop: 20,
+    },
+    '@media android': {
+      paddingTop: StatusBar.currentHeight, // android only
+    },
+  },
   tab: {
     flex: 1,
     borderBottomWidth: '$strokeWidth',

@@ -6,6 +6,7 @@ export default {
   user: {
     id: OriginId.generateFromDeviceId('device-id-here'), // TODO: get a uid from device
     letter: 'X',
+    isAssignedLetter: false,
   },
   globals: {
     language: 'fr',
