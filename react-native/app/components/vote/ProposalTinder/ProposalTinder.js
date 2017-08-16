@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { Animated, View, Text } from 'react-native';
+import { Image, Animated, View, Text } from 'react-native';
 import { connect } from 'react-redux';
 
 import styles from './styles';
@@ -23,7 +23,6 @@ class ProposalTinder extends Component {
     } else {
       myStyle = styles.containerBackground;
     }
-
     if (!this.props.isLoading && !this.props.isError) {
       return (
         <View style={myStyle}>
