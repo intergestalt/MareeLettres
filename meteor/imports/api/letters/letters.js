@@ -10,10 +10,6 @@ Letters.allow({
   remove: () => false,
 });
 
-if (Meteor.isServer) {
-  Letters._ensureIndex({ coords: '2dsphere' });
-}
-
 const CoordsSchema = new SimpleSchema({
   lng: {
     type: Number,
@@ -33,6 +29,7 @@ const LettersSchema = new SimpleSchema({
   },
   coords: {
     type: CoordsSchema,
+    index: '2dsphere',
   },
   createdAt: {
     type: Date,

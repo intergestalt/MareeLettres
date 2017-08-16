@@ -12,6 +12,8 @@ import '../../api/content/server/content';
 
 import '../../api/letters/server/letters';
 
+import '../../api/players/server/players';
+
 // JsonRoutes.ErrorMiddleware.use(RestMiddleware.handleErrorAsJson);
 
 JsonRoutes.setResponseHeaders({

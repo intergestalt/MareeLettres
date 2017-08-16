@@ -181,6 +181,8 @@ JsonRoutes.add(
 
     const options = {};
 
+    // TODO: if player cannot get sufficient proposals to vote on, trigger recalculation. or write a note to status object.
+
     if (
       proposals_list_by_tinderscore.length === 0 &&
       Challenges.find({ _id: challenge_id }).count() === 0

@@ -17,7 +17,10 @@ class QRCodeSend extends Component {
     return (
       <Screen backgroundColor={'#ffffff'}>
         <StatusBar />
-        <QRCodeSendScreen text="Let your friends scan your QR Code" input={this.props.uniqueId} />
+        <QRCodeSendScreen
+          navigation={this.props.navigation}
+          input={this.props.uniqueId}
+          />
         <TabBar navigation={this.props.navigation} />
       </Screen>
     );

@@ -1,13 +1,12 @@
 import { VOTE_VIEWS } from '../consts';
 
-// NOTE:
-// generateFromDeviceId
-// import { OriginId } from 'maree-lettres-shared';
+import { OriginId } from 'maree-lettres-shared';
 
 export default {
   user: {
-    id: 'user_1337',
+    id: OriginId.generateFromDeviceId('device-id-here'), // TODO: get a uid from device
     letter: 'X',
+    isAssignedLetter: false,
   },
   globals: {
     language: 'fr',

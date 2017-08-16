@@ -20,8 +20,9 @@ class MapCamera extends Component {
     return (
       <Screen backgroundColor={'#00aaaa'}>
         <StatusBar />
-        <Text>Camera !</Text>
-        <NativeCamera />
+        <NativeCamera
+          navigation = {this.props.navigation}
+          />
         <TabBar navigation={this.props.navigation} />
       </Screen>
     );

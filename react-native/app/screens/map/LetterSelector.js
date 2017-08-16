@@ -5,6 +5,8 @@ import { connect } from 'react-redux';
 import { Screen } from '../../components/general/Container';
 import { TabBar } from '../../components/general/TabBar';
 
+import { LetterSelectorWindow } from '../../components/map/LetterSelector';
+
 class LetterSelector extends Component {
   static PropTypes = {
     navigation: PropTypes.object,
@@ -12,9 +14,11 @@ class LetterSelector extends Component {
 
   render() {
     return (
-      <Screen backgroundColor={'#00aaaa'}>
+      <Screen backgroundColor={'#ffffff'}>
         <StatusBar />
-        <Text>Letter Selector !</Text>
+        <LetterSelectorWindow
+          navigation={this.props.navigation}
+          />
         <TabBar navigation={this.props.navigation} />
       </Screen>
     );
