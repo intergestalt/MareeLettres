@@ -24,4 +24,8 @@ Important! Need to run this in each place it is used to activate change (in webs
 
 `npm install maree-lettres-shared`
 
+or
+
+`yarn upgrade maree-lettres-shared@../shared/maree-lettres-shared`
+
 Note: Does this work reliably with yarn in dev and prod? https://github.com/yarnpkg/yarn/issues/2165

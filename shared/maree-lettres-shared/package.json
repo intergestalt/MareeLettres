@@ -1,7 +1,7 @@
 {
   "name": "maree-lettres-shared",
   "private": true,
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "shared code for MareeLettres",
   "main": "lib/maree-lettres-shared.js",
   "scripts": {

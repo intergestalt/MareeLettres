@@ -45,5 +45,6 @@ Install Genymotion: https://www.genymotion.com/fun-zone/
 Install android-sdk: brew install android-sdk
 Point Genymotion to android-sdk: Start Genymotion. Settings->ADB, use custom SDK
 export andriod-sdk: export ANDROID_HOME=<path_where_you_unpacked_android_sdk>
+Add a Device (emulator) to genymotion
 
-To use it: start genymotion. Start the emulator. Runs: yarn run android
+To use it: start genymotion. Start the emulator in genymotion. Runs: yarn run android
