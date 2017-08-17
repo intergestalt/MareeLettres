@@ -57,7 +57,6 @@ export default (state = initialState.proposals, action) => {
         ...state,
       };
       newState[action.action.challengeId] = newProposals;
-      console.log(newState);
       return newState;
     }
     case NETWORK_ERROR_LOAD_PROPOSALS: {
