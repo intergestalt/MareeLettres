@@ -63,11 +63,11 @@ const styles = EStyleSheet.create({
   },
   listHeaderLink: {
     fontSize: '1rem',
-    color: '#FF0000',
+    color: '##000000',
   },
   listHeaderText: {
     fontSize: '1rem',
-    color: '#000000',
+    color: '#FF0000',
   },
 });
 export default styles;
