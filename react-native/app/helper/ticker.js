@@ -5,7 +5,7 @@ import store from '../config/store';
 import { isFinished, TICKER_END } from '../helper/dateFunctions';
 
 let tickerStarted = false;
-let timerId = null;
+const timerId = null;
 
 function tick() {
   const state = store.getState();
@@ -46,11 +46,11 @@ export function stopChallengeTicker() {
 }
 export function startChallengeTicker() {
   if (!tickerStarted) {
-    tickerStarted = true;
+    /*   tickerStarted = true;
     console.log('START TICKER');
-    timerId = setInterval(() => {
+   timerId = setInterval(() => {
       tick();
-    }, 1000);
+    }, 1000); */
   } else {
     console.log('TICKER ALREADY STARTED');
   }

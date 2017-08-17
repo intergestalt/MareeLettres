@@ -1,14 +1,13 @@
 import { loadContentServiceProxy } from './apiProxy';
 import { stopChallengeTicker, startChallengeTicker } from './ticker';
 
-import { NavigationActions } from 'react-navigation';
-import { setVoteView } from '../actions/general';
+// import { NavigationActions } from 'react-navigation';
+import { setChallengeView } from '../actions/general';
 import { setChallengesId } from '../actions/challenges';
 import { manageChallenges } from './challengesHelper';
 import { manageProposals } from './proposalsHelper';
 import store from '../config/store';
-import { VOTE_VIEWS } from '../consts';
-
+import { CHALLENGE_VIEWS } from '../consts';
 
 // Navigation
 
@@ -73,7 +72,7 @@ export function navigateToQRCodeSend(props) {
     routeName: 'QRCodeSend',
     params: {visible: false},
   });
-  props.navigation.dispatch(navigateAction);*/
+  props.navigation.dispatch(navigateAction); */
 }
 
 // Vote Stack
@@ -81,7 +80,7 @@ export function navigateToQRCodeSend(props) {
 export function navigateToChallengeSelector(props, id) {
   console.log('FROM LIST TO DETAIL');
 
-  store.dispatch(setVoteView(VOTE_VIEWS.DETAIL));
+  store.dispatch(setChallengeView(CHALLENGE_VIEWS.DETAIL));
   store.dispatch(setChallengesId(id));
   manageProposals();
   startChallengeTicker();
@@ -92,7 +91,7 @@ export function navigateToChallengeSelector(props, id) {
 export function popChallengeSelector(props) {
   console.log('FROM DETAIL TO LIST');
 
-  store.dispatch(setVoteView(VOTE_VIEWS.LIST));
+  store.dispatch(setChallengeView(CHALLENGE_VIEWS.LIST));
   manageChallenges();
 
   if (!props.navigation.goBack()) {

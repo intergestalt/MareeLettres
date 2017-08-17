@@ -7,10 +7,12 @@ import { ChallengeDetail } from './';
 import { screenWidth } from '../../../helper/screen';
 import { popChallengeSelector } from '../../../helper/navigationProxy';
 import { startChallengeTicker } from '../../../helper/ticker';
-import { setTinderMode } from '../../../actions/general';
+import { setProposalView } from '../../../actions/general';
 import { setChallengesId } from '../../../actions/challenges';
 import { loadProposalsServiceProxy } from '../../../helper/apiProxy';
 import { upDateSelectedChallengeIndex } from '../../../helper/challengesHelper';
+import { PROPOSAL_VIEWS, DEFAULT_PROPOSAL_LIMIT, PROPOSAL_LIST_MODES } from '../../../consts';
+import { setProposalListMode } from '../../../actions/general';
 
 class ChallengeContainer extends Component {
   static propTypes = {
@@ -31,6 +33,10 @@ class ChallengeContainer extends Component {
     this.handleTinderPress = this.handleTinderPress.bind(this);
     this.handleListPress = this.handleListPress.bind(this);
     this.handleCommitPress = this.handleCommitPress.bind(this);
+
+    this.onMostPress = this.onMostPress.bind(this);
+    this.onNewestPress = this.onNewestPress.bind(this);
+    this.onTrendingPress = this.onTrendingPress.bind(this);
 
     this.state = {
       challengeContainerOffsetX: new Animated.Value(-screenWidth),
@@ -57,25 +63,39 @@ class ChallengeContainer extends Component {
   loadProposals(index) {
     if (index < 0 || index > this.props.challenges.length - 1) return;
     const id = this.props.challenges[index]._id;
-    loadProposalsServiceProxy(id);
+    loadProposalsServiceProxy(id, DEFAULT_PROPOSAL_LIMIT);
   }
-
-  handleTinderPress() {
-    console.log('handleTinderPress');
-    this.props.dispatch(setTinderMode(true));
+  loadAllProposals() {
     this.loadProposals(this.props.selectedChallengeIndex - 1);
     this.loadProposals(this.props.selectedChallengeIndex);
     this.loadProposals(this.props.selectedChallengeIndex + 1);
+  }
+  handleTinderPress() {
+    console.log('handleTinderPress');
+    this.props.dispatch(setProposalView(PROPOSAL_VIEWS.TINDER));
+    this.loadAllProposals();
   }
 
   handleListPress() {
     console.log('handleListPress');
-    this.props.dispatch(setTinderMode(false));
-    this.loadProposals(this.props.selectedChallengeIndex - 1);
-    this.loadProposals(this.props.selectedChallengeIndex);
-    this.loadProposals(this.props.selectedChallengeIndex + 1);
+    this.props.dispatch(setProposalView(PROPOSAL_VIEWS.LIST));
+    this.loadAllProposals();
   }
-
+  onMostPress() {
+    console.log('onMostPress');
+    this.props.dispatch(setProposalListMode(PROPOSAL_LIST_MODES.MOST));
+    this.loadAllProposals();
+  }
+  onNewestPress() {
+    console.log('onNewestPress');
+    this.props.dispatch(setProposalListMode(PROPOSAL_LIST_MODES.NEWEST));
+    this.loadAllProposals();
+  }
+  onTrendingPress() {
+    console.log('onTrendingPress');
+    this.props.dispatch(setProposalListMode(PROPOSAL_LIST_MODES.TRENDING));
+    this.loadAllProposals();
+  }
   // Pan Logic
   // Header: Challenge Swipe
 
@@ -228,6 +248,9 @@ class ChallengeContainer extends Component {
           handleTinderPress={this.handleTinderPress}
           handleListPress={this.handleListPress}
           handleCommitPress={this.handleCommitPress}
+          onMostPress={this.onMostPress}
+          onTrendingPress={this.onTrendingPress}
+          onNewestPress={this.onNewestPress}
           panResponderHeader={this.panResponderHeader}
         />
         <ChallengeDetail challengeOffset={1} />

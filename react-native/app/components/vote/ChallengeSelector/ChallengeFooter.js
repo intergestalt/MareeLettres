@@ -4,13 +4,14 @@ import { connect } from 'react-redux';
 
 import { isFinished } from '../../../helper/dateFunctions';
 import styles from './styles';
+import { PROPOSAL_VIEWS } from '../../../consts';
 
 class ChallengeFooter extends Component {
   static propTypes = {
     challengeOffset: PropTypes.number,
     challenges: PropTypes.array,
     selectedChallengeIndex: PropTypes.number,
-    isTinder: PropTypes.bool,
+    proposalView: PropTypes.string,
     handleSharePress: PropTypes.func,
     handleTinderPress: PropTypes.func,
     handleListPress: PropTypes.func,
@@ -46,7 +47,7 @@ class ChallengeFooter extends Component {
     );
   }
   renderTinderButton() {
-    return this.props.isTinder
+    return this.props.proposalView === PROPOSAL_VIEWS.TINDER
       ? <TouchableOpacity onPress={this.props.handleListPress}>
         <Text style={styles.challengeFooterText}>List</Text>
       </TouchableOpacity>
@@ -78,12 +79,12 @@ class ChallengeFooter extends Component {
 const mapStateToProps = (state) => {
   const challenges = state.challenges.challenges;
   const selectedChallengeIndex = state.challenges.selectedChallengeIndex;
-  const isTinder = state.globals.isTinder;
+  const proposalView = state.globals.proposalView;
 
   return {
     selectedChallengeIndex,
     challenges,
-    isTinder,
+    proposalView,
   };
 };
 export default connect(mapStateToProps)(ChallengeFooter);

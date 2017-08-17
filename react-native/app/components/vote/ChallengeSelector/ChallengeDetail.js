@@ -18,6 +18,9 @@ class ChallengeDetail extends Component {
     handleTinderPress: PropTypes.func,
     handleListPress: PropTypes.func,
     handleCommitPress: PropTypes.func,
+    onMostPress: PropTypes.func,
+    onTrendingPress: PropTypes.func,
+    onNewestPress: PropTypes.func,
   };
   getChallengeIndex() {
     return this.props.selectedChallengeIndex + this.props.challengeOffset;
@@ -36,7 +39,12 @@ class ChallengeDetail extends Component {
           onDownPress={this.props.onDownPress}
           onUpPress={this.props.onUpPress}
         />
-        <ChallengeContent challengeOffset={this.props.challengeOffset} />
+        <ChallengeContent
+          onMostPress={this.props.onMostPress}
+          onTrendingPress={this.props.onTrendingPress}
+          onNewestPress={this.props.onNewestPress}
+          challengeOffset={this.props.challengeOffset}
+        />
         <ChallengeFooter
           challengeOffset={this.props.challengeOffset}
           handleSharePress={this.props.handleSharePress}
