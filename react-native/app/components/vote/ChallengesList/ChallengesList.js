@@ -22,11 +22,6 @@ class ChallengesList extends Component {
   componentDidMount() {
     startChallengeTicker();
   }
-
-  handlePressRow = (item) => {
-    navigateToChallengeSelector(this.props, item.id);
-  };
-
   getAnswer(challenge) {
     let answer = '';
     const winning = challenge.winningProposal;
@@ -35,7 +30,9 @@ class ChallengesList extends Component {
     }
     return answer;
   }
-
+  handlePressRow = (item) => {
+    navigateToChallengeSelector(this.props, item.id);
+  };
   render() {
     const isLoading = this.props.isLoading;
     const isError = this.props.isError;

@@ -63,7 +63,7 @@ class ChallengeContainer extends Component {
   loadProposals(index) {
     if (index < 0 || index > this.props.challenges.length - 1) return;
     const id = this.props.challenges[index]._id;
-    loadProposalsServiceProxy(id, DEFAULT_PROPOSAL_LIMIT);
+    loadProposalsServiceProxy(id, DEFAULT_PROPOSAL_LIMIT, true);
   }
   loadAllProposals() {
     this.loadProposals(this.props.selectedChallengeIndex - 1);

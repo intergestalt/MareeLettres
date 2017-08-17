@@ -254,7 +254,6 @@ class ChallengeContent extends Component {
     if (this.props.isLoading) {
       return this.renderLoading();
     }
-    console.log('RENDER CONTENT');
     if (this.isFinished()) {
       return this.renderFinished();
     }

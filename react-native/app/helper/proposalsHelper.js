@@ -23,7 +23,20 @@ export function manageProposals() {
     loadProposals(1);
   }
 }
-
+export function getProposalKey(proposalView, proposalListMode) {
+  if (proposalView === PROPOSAL_VIEWS.LIST) {
+    if (proposalListMode === PROPOSAL_LIST_MODES.MOST) {
+      return 'listMost';
+    } else if (proposalListMode === PROPOSAL_LIST_MODES.NEWEST) {
+      return 'listNewest';
+    } else if (proposalListMode === PROPOSAL_LIST_MODES.TRENDING) {
+      return 'listTrending';
+    }
+  } else if (proposalView === PROPOSAL_VIEWS.TINDER) {
+    return 'tinder';
+  }
+  return 'tinder';
+}
 export function getProposalList(proposalsParent, proposalView, proposalListMode) {
   if (proposalView === PROPOSAL_VIEWS.LIST) {
     if (proposalListMode === PROPOSAL_LIST_MODES.MOST) {

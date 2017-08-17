@@ -18,8 +18,6 @@ const styles = EStyleSheet.create({
     flexDirection: 'column',
     flex: 1,
     backgroundColor: '#666666',
-    justifyContent: 'center',
-    alignItems: 'center',
   },
 
   topContainer: {

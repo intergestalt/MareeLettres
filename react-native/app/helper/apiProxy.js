@@ -21,11 +21,25 @@ export function loadChallengeServiceProxy(challengeId) {
 export function loadChallengesServiceProxy() {
   store.dispatch(loadChallenges());
 }
-export function loadProposalsServiceProxy(challengeId, limit) {
+export function loadProposalsServiceProxy(
+  challengeId,
+  limit,
+  quietLoading = false,
+  pullDownLoading = false,
+) {
   const proposalView = store.getState().globals.proposalView;
   const proposalListMode = store.getState().globals.proposalListMode;
 
-  store.dispatch(loadProposals(challengeId, proposalView, proposalListMode, limit));
+  store.dispatch(
+    loadProposals(
+      challengeId,
+      proposalView,
+      proposalListMode,
+      limit,
+      quietLoading,
+      pullDownLoading,
+    ),
+  );
 }
 export function loadLettersServiceProxy() {
   store.dispatch(loadLetters());

@@ -20,12 +20,59 @@ class ProposalTinder extends Component {
   };
 
   render() {
-    console.log('RENDER');
     let myStyle = null;
+    let noContainer = null;
+    let yesContainer = null;
+
     if (this.props.proposalIndex === 0 && this.props.proposal) {
+      // Foreground
       myStyle = styles.container;
     } else {
+      // BAckground
       myStyle = styles.containerBackground;
+    }
+    if (this.props.proposalIndex === 0 && this.props.proposal && this.props.challengeOffset === 0) {
+      // Foreground or neighbour
+      noContainer = (
+        <View style={styles.noContainer1}>
+          <View style={styles.noContainer2}>
+            <VoteMark size="l" active value={0} type="no" />
+          </View>
+          <View style={styles.noContainer2}>
+            <Animated.View style={{ opacity: this.props.noOpacity }}>
+              <VoteMark size="l" active value={1} type="no" />
+            </Animated.View>
+          </View>
+        </View>
+      );
+      yesContainer = (
+        <View style={styles.noContainer1}>
+          <View style={styles.noContainer2}>
+            <VoteMark size="l" active value={0} type="yes" />
+          </View>
+          <View style={styles.noContainer2}>
+            <Animated.View style={{ opacity: this.props.yesOpacity }}>
+              <VoteMark size="l" active value={1} type="yes" />
+            </Animated.View>
+          </View>
+        </View>
+      );
+    } else {
+      // BAckground or neighbour
+      noContainer = (
+        <View style={styles.noContainer1}>
+          <View style={styles.noContainer2}>
+            <VoteMark size="l" active value={0} type="yes" />
+          </View>
+        </View>
+      );
+      yesContainer = (
+        <View style={styles.noContainer1}>
+          <View style={styles.noContainer2}>
+            <VoteMark size="l" active value={0} type="yes" />
+          </View>
+        </View>
+      );
     }
     let tinder = null;
     if (!this.props.isLoading && !this.props.isError) {
@@ -38,26 +85,8 @@ class ProposalTinder extends Component {
               </Text>
             </View>
             <View style={styles.bottomContainer}>
-              <View style={styles.noContainer1}>
-                <View style={styles.noContainer2}>
-                  <VoteMark size="l" active value={0} type="no" />
-                </View>
-                <View style={styles.noContainer2}>
-                  <Animated.View style={{ opacity: this.props.noOpacity }}>
-                    <VoteMark size="l" active value={1} type="no" />
-                  </Animated.View>
-                </View>
-              </View>
-              <View style={styles.noContainer1}>
-                <View style={styles.noContainer2}>
-                  <VoteMark size="l" active value={0} type="yes" />
-                </View>
-                <View style={styles.noContainer2}>
-                  <Animated.View style={{ opacity: this.props.yesOpacity }}>
-                    <VoteMark size="l" active value={1} type="yes" />
-                  </Animated.View>
-                </View>
-              </View>
+              {noContainer}
+              {yesContainer}
             </View>
           </View>
         );
