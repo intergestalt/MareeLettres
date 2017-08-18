@@ -1,8 +1,8 @@
 import { upDateSelectedChallengeIndex } from '../helper/challengesHelper';
 import { loadProposalsServiceProxy } from '../helper/apiProxy';
 import store from '../config/store';
-import { CHALLENGE_VIEWS, DEFAULT_PROPOSAL_LIMIT } from '../consts';
-import { PROPOSAL_VIEWS, PROPOSAL_LIST_MODES } from '../consts';
+import { PROPOSAL_VIEWS, PROPOSAL_LIST_MODES, CHALLENGE_VIEWS } from '../consts';
+import { LOAD_CONFIG } from '../config/config';
 
 function loadProposals(offset) {
   const challengeIndex = store.getState().challenges.selectedChallengeIndex;
@@ -10,7 +10,12 @@ function loadProposals(offset) {
   const challenges = store.getState().challenges.challenges;
   if (index < 0 || index > challenges.length - 1) return;
   const id = challenges[index]._id;
-  loadProposalsServiceProxy(id, DEFAULT_PROPOSAL_LIMIT);
+  loadProposalsServiceProxy(
+    false,
+    id,
+    LOAD_CONFIG.DEFAULT_PROPOSAL_LIMIT,
+    LOAD_CONFIG.LOAD_QUIET_TO_CHALLENGE_SELECTOR,
+  );
 }
 
 export function manageProposals() {
@@ -59,24 +64,32 @@ export function addDefaultStructure(proposals) {
       tinder: {
         proposals: [],
         isLoading: false,
+        isPullDownLoading: false,
+        isPullUpLoading: false,
         isError: false,
         time: 0,
       },
       listMost: {
         proposals: [],
         isLoading: false,
+        isPullDownLoading: false,
+        isPullUpLoading: false,
         isError: false,
         time: 0,
       },
       listNewest: {
         proposals: [],
         isLoading: false,
+        isPullDownLoading: false,
+        isPullUpLoading: false,
         isError: false,
         time: 0,
       },
       listTrending: {
         proposals: [],
         isLoading: false,
+        isPullDownLoading: false,
+        isPullUpLoading: false,
         isError: false,
         time: 0,
       },
@@ -87,6 +100,8 @@ export function addDefaultStructure(proposals) {
       proposals: [],
       isLoading: false,
       isError: false,
+      isPullDownLoading: false,
+      isPullUpLoading: false,
       time: 0,
     };
   }
@@ -103,6 +118,8 @@ export function addDefaultStructure(proposals) {
       proposals: [],
       isLoading: false,
       isError: false,
+      isPullDownLoading: false,
+      isPullUpLoading: false,
       time: 0,
     };
   }
@@ -110,7 +127,10 @@ export function addDefaultStructure(proposals) {
     myProposals.listTrending = {
       proposals: [],
       isLoading: false,
+      isPullDownLoading: false,
+      isPullUpLoading: false,
       isError: false,
+      time: 0,
     };
   }
   return myProposals;

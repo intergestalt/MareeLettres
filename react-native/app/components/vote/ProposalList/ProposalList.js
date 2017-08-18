@@ -1,12 +1,12 @@
 import React, { Component, PropTypes } from 'react';
-import { RefreshControl, View, Text, FlatList } from 'react-native';
+import { ActivityIndicator, RefreshControl, View, Text, FlatList } from 'react-native';
 import { connect } from 'react-redux';
 
 import { ProposalListItem, ProposalListHeader, styles } from './';
 import { Separator } from '../ChallengesList/';
-import { DEFAULT_PROPOSAL_LIMIT } from '../../../consts';
 import { getProposalList } from '../../../helper/proposalsHelper';
 import { loadProposalsServiceProxy } from '../../../helper/apiProxy';
+import { LOAD_CONFIG } from '../../../config/config';
 
 class ProposalList extends Component {
   static propTypes = {
@@ -19,17 +19,67 @@ class ProposalList extends Component {
     isLoading: PropTypes.bool,
     isError: PropTypes.bool,
     isPullDownLoading: PropTypes.bool,
+    isPullUpLoading: PropTypes.bool,
+    lastLimit: PropTypes.number,
   };
   constructor(props) {
     super(props);
     this.onPullDownRefresh = this.onPullDownRefresh.bind(this);
+    this.onEndReached = this.onEndReached.bind(this);
   }
   onPullDownRefresh() {
     const id = this.props.challenges[this.props.selectedChallengeIndex]._id;
-    loadProposalsServiceProxy(id, DEFAULT_PROPOSAL_LIMIT, true, true);
+    loadProposalsServiceProxy(
+      true,
+      id,
+      LOAD_CONFIG.DEFAULT_PROPOSAL_LIMIT,
+      LOAD_CONFIG.LOAD_QUIET_PULL_DOWN_UPDATE,
+      true,
+    );
   }
+  onEndReached() {
+    console.log('REACHED END');
+    if (this.props.isPullUpLoading) {
+      console.log('ABORTED');
+      return;
+    }
 
+    const id = this.props.challenges[this.props.selectedChallengeIndex]._id;
+    const limit = this.props.proposals.length + LOAD_CONFIG.DEFAULT_PROPOSAL_LIMIT;
+    console.log(`lastLimit ${this.props.lastLimit}`);
+    if (limit > this.props.lastLimit) {
+      loadProposalsServiceProxy(
+        true,
+        id,
+        limit,
+        LOAD_CONFIG.LOAD_QUIET_PULL_DOWN_UPDATE,
+        false,
+        true,
+      );
+    } else {
+      loadProposalsServiceProxy(
+        false,
+        id,
+        limit,
+        LOAD_CONFIG.LOAD_QUIET_PULL_DOWN_UPDATE,
+        false,
+        true,
+      );
+    }
+  }
+  renderFooter() {
+    if (this.props.isPullUpLoading) {
+      return (
+        <View style={styles.listFooter}>
+          <ActivityIndicator />
+        </View>
+      );
+    }
+
+    return null;
+  }
   render() {
+    console.log('RENDER LIST');
     if (!this.props.isLoading && !this.props.isError) {
       return (
         <View style={styles.container}>
@@ -52,6 +102,9 @@ class ProposalList extends Component {
                   onRefresh={this.onPullDownRefresh}
                 />
               }
+              onEndReachedThreshold={0.8}
+              onEndReached={this.onEndReached}
+              ListFooterComponent={this.renderFooter()}
             />
           </View>
         </View>
@@ -88,6 +141,8 @@ const mapStateToProps = (state, ownProps) => {
   const isLoading = p2.isLoading;
   const isError = p2.isError;
   const isPullDownLoading = p2.isPullDownLoading;
+  const isPullUpLoading = p2.isPullUpLoading;
+  const lastLimit = p2.lastLimit;
 
   return {
     challenges,
@@ -96,6 +151,8 @@ const mapStateToProps = (state, ownProps) => {
     isLoading,
     isError,
     isPullDownLoading,
+    isPullUpLoading,
+    lastLimit,
   };
 };
 export default connect(mapStateToProps)(ProposalList);

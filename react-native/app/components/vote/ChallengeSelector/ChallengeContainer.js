@@ -11,8 +11,9 @@ import { setProposalView } from '../../../actions/general';
 import { setChallengesId } from '../../../actions/challenges';
 import { loadProposalsServiceProxy } from '../../../helper/apiProxy';
 import { upDateSelectedChallengeIndex } from '../../../helper/challengesHelper';
-import { PROPOSAL_VIEWS, DEFAULT_PROPOSAL_LIMIT, PROPOSAL_LIST_MODES } from '../../../consts';
+import { PROPOSAL_VIEWS, PROPOSAL_LIST_MODES } from '../../../consts';
 import { setProposalListMode } from '../../../actions/general';
+import { LOAD_CONFIG } from '../../../config/config';
 
 class ChallengeContainer extends Component {
   static propTypes = {
@@ -63,7 +64,12 @@ class ChallengeContainer extends Component {
   loadProposals(index) {
     if (index < 0 || index > this.props.challenges.length - 1) return;
     const id = this.props.challenges[index]._id;
-    loadProposalsServiceProxy(id, DEFAULT_PROPOSAL_LIMIT, true);
+    loadProposalsServiceProxy(
+      false,
+      id,
+      LOAD_CONFIG.DEFAULT_PROPOSAL_LIMIT,
+      LOAD_CONFIG.LOAD_QUIET_CHALLENGE_SELECTOR,
+    );
   }
   loadAllProposals() {
     this.loadProposals(this.props.selectedChallengeIndex - 1);

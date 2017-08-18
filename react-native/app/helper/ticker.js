@@ -28,7 +28,6 @@ function tick() {
     const myChallenge = state.challenges.challenges[i];
     if (!myChallenge.isLoading) {
       if (!wasFinished[i] && isFinished(myChallenge)) {
-        console.log('HERE WE LOAD');
         loadChallengeServiceProxy(myChallenge._id);
       }
     }

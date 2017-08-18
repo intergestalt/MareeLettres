@@ -69,5 +69,9 @@ const styles = EStyleSheet.create({
     fontSize: '1rem',
     color: '#FF0000',
   },
+  listFooter: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
 });
 export default styles;
