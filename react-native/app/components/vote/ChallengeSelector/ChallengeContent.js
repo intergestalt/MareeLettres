@@ -8,6 +8,8 @@ import { isFinished } from '../../../helper/dateFunctions';
 import { styles } from './';
 import { screenWidth } from '../../../helper/screen';
 import { voteTinder } from '../../../actions/proposals';
+import { PROPOSAL_VIEWS } from '../../../consts/';
+import { getProposalList } from '../../../helper/proposalsHelper';
 
 class ChallengeContent extends Component {
   static propTypes = {
@@ -16,9 +18,12 @@ class ChallengeContent extends Component {
     selectedChallengeIndex: PropTypes.number,
     challenges: PropTypes.array,
     proposals: PropTypes.object,
-    isTinder: PropTypes.bool,
+    proposalView: PropTypes.string,
     isLoading: PropTypes.bool,
     isError: PropTypes.bool,
+    onMostPress: PropTypes.func,
+    onTrendingPress: PropTypes.func,
+    onNewestPress: PropTypes.func,
   };
   constructor(props) {
     super(props);
@@ -72,7 +77,6 @@ class ChallengeContent extends Component {
       onPanResponderGrant: () => {
         const d = new Date();
         this.startGestureContent = d.getTime();
-        console.log('GOGOGO TINDER');
       },
       onPanResponderMove: (e, gesture) => {
         const myDx = gesture.dx;
@@ -139,6 +143,7 @@ class ChallengeContent extends Component {
   }
 
   vote(yes) {
+    console.log(`VOTE ${yes}`);
     this.state.tinderContainerOffset.setValue({ x: 0, y: 0 });
     this.props.dispatch(voteTinder(this.getChallenge()._id, yes));
   }
@@ -186,66 +191,24 @@ class ChallengeContent extends Component {
         outputRange: [0, 1],
         extrapolate: 'clamp',
       });
+
       frontTinder = (
-        <Animated.View {...this.panResponderContent.panHandlers} style={myTinderStyle}>
-          <ProposalTinder
-            challengeOffset={this.props.challengeOffset}
-            noOpacity={noOpacity}
-            yesOpacity={yesOpacity}
-            proposalIndex={0}
-          />
-        </Animated.View>
+        <ProposalTinder
+          panResponderContent={this.panResponderContent}
+          myTinderStyle={myTinderStyle}
+          challengeOffset={this.props.challengeOffset}
+          noOpacity={noOpacity}
+          yesOpacity={yesOpacity}
+          proposalIndex={0}
+        />
       );
-
-      if (this.props.proposals) {
-        console.log('PROPOSALS');
-        console.log(this.props.proposals.length);
-        if (this.props.proposals.length > 1) {
-          backTinder = (
-            <ProposalTinder challengeOffset={this.props.challengeOffset} proposalIndex={1} />
-          );
-        } else if (this.props.proposals.length === 1) {
-          backTinder = (
-            <View style={styles.tinderContainer}>
-              <Text>Nothing to Swipe</Text>
-            </View>
-          );
-        } else if (this.props.proposals.length === 0) {
-          frontTinder = (
-            <View style={styles.tinderContainer}>
-              <Text>Nothing to Swipe</Text>
-            </View>
-          );
-        }
-      } else {
-        console.log('NO PROPOSALS');
-
-        backTinder = (
-          <View style={styles.tinderContainer}>
-            <Text>Nothing to Swipe</Text>
-          </View>
-        );
-      }
+      backTinder = (
+        <ProposalTinder challengeOffset={this.props.challengeOffset} proposalIndex={1} />
+      );
     } else if (this.props.proposals) {
       console.log('NO PAN BUT PROPOSALS');
-
-      if (this.props.proposals.length > 0) {
-        frontTinder = (
-          <ProposalTinder challengeOffset={this.props.challengeOffset} proposalIndex={0} />
-        );
-      } else {
-        frontTinder = (
-          <View style={styles.tinderContainer}>
-            <Text>Nothing to Swipe</Text>
-          </View>
-        );
-      }
-    } else {
-      console.log('NO PAN NO PROPOSALS');
       frontTinder = (
-        <View style={styles.tinderContainer}>
-          <Text>Nothing to Swipe</Text>
-        </View>
+        <ProposalTinder challengeOffset={this.props.challengeOffset} proposalIndex={0} />
       );
     }
     return (
@@ -257,10 +220,16 @@ class ChallengeContent extends Component {
       </View>
     );
   }
+
   renderList() {
     return (
       <View style={styles.challengeContent}>
-        <ProposalList challengeOffset={this.props.challengeOffset} />
+        <ProposalList
+          onMostPress={this.props.onMostPress}
+          onTrendingPress={this.props.onTrendingPress}
+          onNewestPress={this.props.onNewestPress}
+          challengeOffset={this.props.challengeOffset}
+        />
       </View>
     );
   }
@@ -285,11 +254,10 @@ class ChallengeContent extends Component {
     if (this.props.isLoading) {
       return this.renderLoading();
     }
-    console.log('RENDER CONTENT');
     if (this.isFinished()) {
       return this.renderFinished();
     }
-    if (this.props.isTinder) {
+    if (this.props.proposalView === PROPOSAL_VIEWS.TINDER) {
       return this.renderTinder();
     }
     return this.renderList();
@@ -299,17 +267,21 @@ class ChallengeContent extends Component {
 const mapStateToProps = (state, ownProps) => {
   const challenges = state.challenges.challenges;
   const selectedChallengeIndex = state.challenges.selectedChallengeIndex;
-  const isTinder = state.globals.isTinder;
+  const proposalView = state.globals.proposalView;
+  const proposalListMode = state.globals.proposalListMode;
   let proposals = null;
   let isError = false;
   let isLoading = false;
   if (selectedChallengeIndex !== -1) {
     const id = challenges[selectedChallengeIndex + ownProps.challengeOffset]._id;
     if (id) {
+      // all 4 lists
       const p = state.proposals[id];
-      proposals = p.proposals;
-      isError = p.isError;
-      isLoading = p.isLoading;
+      // get the correct list
+      const p2 = getProposalList(p, proposalView, proposalListMode);
+      proposals = p2.proposals;
+      isError = p2.isError;
+      isLoading = p2.isLoading;
     }
   }
 
@@ -317,7 +289,8 @@ const mapStateToProps = (state, ownProps) => {
     selectedChallengeIndex,
     challenges,
     proposals,
-    isTinder,
+    proposalView,
+    proposalListMode,
     isError,
     isLoading,
   };

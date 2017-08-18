@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { View, TouchableOpacity, FlatList, Text } from 'react-native';
+import { View, FlatList, Text } from 'react-native';
 import { connect } from 'react-redux';
 
 import Separator from './Separator';
@@ -22,11 +22,6 @@ class ChallengesList extends Component {
   componentDidMount() {
     startChallengeTicker();
   }
-
-  handlePressRow = (item) => {
-    navigateToChallengeSelector(this.props, item.id);
-  };
-
   getAnswer(challenge) {
     let answer = '';
     const winning = challenge.winningProposal;
@@ -35,12 +30,9 @@ class ChallengesList extends Component {
     }
     return answer;
   }
-
-  dummyPress() {
-    console.log('DEPP');
-    navigateToChallengeSelector(this.props, 'SEydz4yei7dCA7BRa');
-  }
-
+  handlePressRow = (item) => {
+    navigateToChallengeSelector(this.props, item.id);
+  };
   render() {
     const isLoading = this.props.isLoading;
     const isError = this.props.isError;

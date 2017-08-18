@@ -21,3 +21,16 @@ export default {
   SERVER_URL: `https://${serverAddress}/`,
   API_PREFIX: `https://${serverAddress}/api/`,
 };
+
+// Some load cnfig
+
+export const LOAD_CONFIG = {
+  DEFAULT_PROPOSAL_LIMIT: 15,
+  // Proposals
+  LOAD_QUIET_CHALLENGE_SELECTOR: true,
+  LOAD_QUIET_TO_CHALLENGE_SELECTOR: false,
+  LOAD_QUIET_PULL_DOWN_UPDATE: true,
+  LOAD_QUIET_PULL_UP_UPDATE: true,
+
+  UPDATE_PROPOSALS_AFTER: 10000,
+};

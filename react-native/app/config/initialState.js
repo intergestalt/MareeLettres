@@ -1,6 +1,6 @@
-import { VOTE_VIEWS } from '../consts';
-
 import { OriginId } from 'maree-lettres-shared';
+
+import { PROPOSAL_LIST_MODES, CHALLENGE_VIEWS, PROPOSAL_VIEWS } from '../consts';
 
 export default {
   user: {
@@ -10,9 +10,9 @@ export default {
   },
   globals: {
     language: 'fr',
-    isTinder: true,
-    listMode: 0,
-    voteView: VOTE_VIEWS.LIST,
+    proposalView: PROPOSAL_VIEWS.LIST,
+    proposalListMode: PROPOSAL_LIST_MODES.MOST,
+    challengeView: CHALLENGE_VIEWS.LIST,
   },
 
   challenges: {

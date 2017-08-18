@@ -34,7 +34,7 @@ const styles = EStyleSheet.create({
     flex: 0.25,
   },
   challengeContent: {
-    backgroundColor: '#008888',
+    backgroundColor: '#FFFFFF',
     position: 'relative',
     flex: 0.675,
     alignItems: 'center',

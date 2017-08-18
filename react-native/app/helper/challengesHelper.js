@@ -1,10 +1,10 @@
 import store from '../config/store';
 import { loadChallengesServiceProxy } from './apiProxy';
-import { VOTE_VIEWS } from '../consts';
+import { CHALLENGE_VIEWS } from '../consts';
 import { setChallengesId, setChallengesIndex } from '../actions/challenges';
 
 export function manageChallenges() {
-  if (store.getState().globals.voteView === VOTE_VIEWS.LIST) {
+  if (store.getState().globals.challengeView === CHALLENGE_VIEWS.LIST) {
     loadChallengesServiceProxy();
     store.dispatch(setChallengesId(null));
     store.dispatch(setChallengesIndex(-1));

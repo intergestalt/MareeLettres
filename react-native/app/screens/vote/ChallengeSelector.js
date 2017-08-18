@@ -79,5 +79,3 @@ const mapStateToProps = (state) => {
   };
 };
 export default connect(mapStateToProps)(ChallengeSelector);
-
-// export default Challenges;

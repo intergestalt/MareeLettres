@@ -1,17 +1,23 @@
 export const SWAP_LANGUAGE = 'SWAP_LANGUAGE';
-export const SET_TINDER_MODE = 'SET_TINDER_MODE';
-export const SET_VOTE_VIEW = 'SET_VOTE_VIEW';
+export const SET_PROPOSAL_VIEW = 'SET_PROPOSAL_VIEW';
+export const SET_CHALLENGE_VIEW = 'SET_CHALLENGE_VIEW';
+export const SET_PROPOSAL_LIST_MODE = 'SET_PROPOSAL_LIST_MODE';
 
 export const swapLanguage = () => ({
   type: SWAP_LANGUAGE,
 });
 
-export const setTinderMode = isTinder => ({
-  type: SET_TINDER_MODE,
-  isTinder,
+export const setProposalView = proposalView => ({
+  type: SET_PROPOSAL_VIEW,
+  proposalView,
 });
 
-export const setVoteView = voteView => ({
-  type: SET_VOTE_VIEW,
-  voteView,
+export const setChallengeView = challengeView => ({
+  type: SET_CHALLENGE_VIEW,
+  challengeView,
+});
+
+export const setProposalListMode = proposalListMode => ({
+  type: SET_PROPOSAL_LIST_MODE,
+  proposalListMode,
 });
