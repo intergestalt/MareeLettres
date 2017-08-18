@@ -25,7 +25,7 @@ export default {
 // Some load cnfig
 
 export const LOAD_CONFIG = {
-  DEFAULT_PROPOSAL_LIMIT: 300,
+  DEFAULT_PROPOSAL_LIMIT: 15,
   // Proposals
   LOAD_QUIET_CHALLENGE_SELECTOR: true,
   LOAD_QUIET_TO_CHALLENGE_SELECTOR: false,
