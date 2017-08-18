@@ -45,7 +45,6 @@ export function navigateToVote(props) {
 }
 
 // SubPages
-
 // Map Stack SubPages
 
 export function navigateToMapOverview(props) {

@@ -11,6 +11,7 @@ export default (state = initialState.letters, action) => {
         isError: false,
         content: [],
       };
+    
     case SUCCESS_LETTERS:
       console.log('LETTERS LOADED.');
       return {

@@ -1,8 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { View, Text } from 'react-native';
-
 import { Back } from '../../general/BackButton';
-//import Camera from 'react-native-camera';
 
 import styles from './styles';
 import { navigateToMapOverview } from '../../../helper/navigationProxy';
@@ -18,9 +16,10 @@ class NativeCamera extends Component {
 
   render() {
     return (
-      <Back
-        onPress={() => this.handleBackPress()}
-        />
+      <View style={styles.container}>
+        <Back
+          onPress={() => this.handleBackPress()} />
+      </View>
     )
   }
 }

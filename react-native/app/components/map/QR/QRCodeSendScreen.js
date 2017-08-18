@@ -12,7 +12,6 @@ import { navigateToMapOverview } from '../../../helper/navigationProxy';
 class QRCodeSendScreen extends Component {
   static propTypes = {
     navigation: PropTypes.object,
-    input: PropTypes.string,
   };
 
   handleBackPress() {
@@ -26,7 +25,7 @@ class QRCodeSendScreen extends Component {
         <Text style={styles.text}>
           Let your friends scan your QR Code
         </Text>
-        <QRCodeBox input = {this.props.input} />
+        <QRCodeBox />
       </View>
     );
   }

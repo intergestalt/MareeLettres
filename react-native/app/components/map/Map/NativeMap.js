@@ -3,7 +3,7 @@ import { View, Text } from 'react-native';
 import MapView from 'react-native-maps';
 import { connect } from 'react-redux';
 
-import { LettersMenu, DropZone, CameraButton } from '../Overlay';
+import { LettersMenu, CameraButton } from '../Overlay';
 import {
   navigateToMapCamera,
   navigateToQRCodeGet,
@@ -27,9 +27,8 @@ class NativeMap extends Component {
     isError: PropTypes.bool,
     letters: PropTypes.array,
     myLetter: PropTypes.string,
+    user: PropTypes.object,
   };
-
-  componentDidMount() {};
 
   handleCameraButtonPress() {
     navigateToMapCamera(this.props);
@@ -47,27 +46,59 @@ class NativeMap extends Component {
     navigateToQRCodeGet(this.props);
   };
 
+  onPress(region) {
+    console.log('press');
+  };
+
+  onRegionChange(region) {
+
+  };
+
+  onRegionChangeComplete(region) {
+
+  };
+
   render() {
-    const isLoading = this.props.isLoading;
-    const isError = this.props.isError;
-    const length = this.props.letters.length;
+    const user = this.props.user;
+    const coords = this.props.user.coordinates;
 
     return (
       <View style={styles.container}>
         <MapView
-    	    provider={MapView.PROVIDER_GOOGLE}
+          onRegionChange={e => this.onRegionChange(e)}
+          onRegionChangeComplete={e => this.onRegionChangeComplete(e)}
+          onPress={e => this.onPress(e.nativeEvent)}
+          provider={MapView.PROVIDER_GOOGLE}
           style={styles.container}
           initialRegion={{
-            latitude: 52.48, //48.864716 (Paris LAT)
-            longitude: 13.41, //2.349014 (Paris LNG)
-            latitudeDelta: 0.0922,
-            longitudeDelta: 0.0421,
+            ...coords,
+            latitudeDelta: 0.005, //0.0922
+            longitudeDelta: 0.005, //0.0421
           }}
     	  customMapStyle={mapstyles}
         >
+          <MapView.Circle
+            // Drop Zone, TODO: get line dash working??
+            center = {{...coords}}
+            radius = {250}
+            strokeColor = {'rgba(255,255,255,0.25)'}
+            ></MapView.Circle>
+          <MapView.Circle
+              center = {{...coords}}
+              radius = {1}
+              strokeColor = {'#fff'}
+              ></MapView.Circle>
+          <MapView.Marker
+            title={'The Drop Zone'}
+            coordinate={{
+              latitude: user.coordinates.latitude + 0.0002,
+              longitude: user.coordinates.longitude,
+            }} ><Text style={styles.letter}>The Drop Zone</Text>
+          </MapView.Marker>
+
           {
             this.props.letters.map((item, i) => {
-              //if (i < 10) {
+              if (i < 20) {
                 return (
                   <MapView.Marker
                     key={i}
@@ -81,18 +112,16 @@ class NativeMap extends Component {
                     </Text>
                   </MapView.Marker>
                 );
-            //  } else { return null; }
+              } else { return null; }
             })
           }
 
         </MapView>
         <LettersMenu
-          myLetter={this.props.myLetter}
           letterSelectorPress={() => this.handleLetterSelectorPress()}
           shareLettersPress={() => this.handleShareLettersPress()}
           getLettersPress={() => this.handleGetLettersPress()}
           />
-        <DropZone />
         <CameraButton
           text='Camera'
           onPress={() => this.handleCameraButtonPress()}
@@ -103,16 +132,12 @@ class NativeMap extends Component {
 }
 
 const mapStateToProps = (state) => {
-  const isLoading = state.letters.isLoading;
-  const isError = state.letters.isError;
+  const user = state.user;
   const letters = state.letters.content;
-  const myLetter = state.user.letter;
 
   return {
-    isLoading,
-    isError,
+    user,
     letters,
-    myLetter,
   };
 };
 
