@@ -2,16 +2,16 @@ import React, { PropTypes } from 'react';
 import { StatusBar } from 'react-native';
 
 import { Screen } from '../../components/general/Container';
-import { HowTo } from '../../components/text/HowTo';
+import { InfoBox } from '../../components/info/InfoBox';
 
-const How = props =>
+const Info = () =>
   <Screen backgroundColor="#aaaa00">
     <StatusBar />
-    <HowTo />
+    <InfoBox />
   </Screen>;
 
-How.propTypes = {
+Info.propTypes = {
   navigation: PropTypes.object,
 };
 
-export default How;
+export default Info;

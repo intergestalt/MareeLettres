@@ -13,16 +13,10 @@ import { CHALLENGE_VIEWS } from '../consts';
 
 // 1. Main Pages
 
-export function navigateToHowTo(props) {
+export function navigateToInfo(props) {
   stopChallengeTicker();
-  loadContentServiceProxy(props.content.isLoading, props.content.isLoaded);
-  props.navigation.navigate('How');
-}
-
-export function navigateToAbout(props) {
-  stopChallengeTicker();
-  loadContentServiceProxy(props.content.isLoading, props.content.isLoaded);
-  props.navigation.navigate('About');
+  loadContentServiceProxy(false, true);
+  props.navigation.navigate('Info');
 }
 
 export function navigateToBecome(props) {

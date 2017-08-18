@@ -18,9 +18,10 @@ export default {
   challenges: {
     selectedChallengeId: null,
     selectedChallengeIndex: -1,
-    isLoading: true,
+    isLoading: false,
     isError: false,
-    time: null,
+    isInternalLoading: false,
+    time: 0,
     challenges: [],
   },
   challengesTicker: {},
@@ -28,14 +29,15 @@ export default {
 
   content: {
     isLoading: false,
-    isLoaded: false,
+    isInternalLoading: false,
     isError: false,
-    time: null,
-    content: [],
+    time: 0,
+    content: {},
   },
 
   letters: {
     isLoading: false,
+    isInternalLoading: false,
     isError: false,
     content: [],
   },

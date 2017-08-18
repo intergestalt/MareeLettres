@@ -2,26 +2,22 @@ import { LOAD_CONTENT, CONTENT_LOADED, NETWORK_ERROR_LOAD_CONTENT } from '../act
 
 import initialState from '../config/initialState';
 
-const resetContent = () => {
-  const res = {
-    isLoading: true,
-    isError: false,
-    isLoaded: false,
-    time: null,
-    content: [],
-  };
-  return res;
-};
-
 export default (state = initialState.content, action) => {
   switch (action.type) {
     case LOAD_CONTENT: {
-      console.log('START CONTENT');
-      return resetContent();
+      console.log(`LOAD CONTENT  ${action.quietLoading}`);
+
+      const res = {
+        isLoading: !action.quietLoading,
+        isInternalLoading: true,
+        isError: false,
+        time: 0,
+        content: state.content,
+      };
+      return res;
     }
     case CONTENT_LOADED: {
       console.log('CONTENT LOADED');
-
       const content = {};
       const now = new Date();
       for (let i = 0; i < action.result.content.length; i += 1) {
@@ -30,21 +26,22 @@ export default (state = initialState.content, action) => {
         const id = entry._id;
         content[id] = newEntry;
       }
-      return {
+      const res = {
         isLoading: false,
+        isInternalLoading: false,
         isError: false,
-        isLoaded: true,
         time: now.getTime(),
         content,
       };
+      return res;
     }
     case NETWORK_ERROR_LOAD_CONTENT: {
       console.log('NETWORK ERROR LOAD CONTENT');
       const now = new Date();
       return {
         isLoading: false,
+        isInternalLoading: false,
         isError: true,
-        isLoaded: false,
         time: now.getTime(),
         content: [],
         error: action.error,

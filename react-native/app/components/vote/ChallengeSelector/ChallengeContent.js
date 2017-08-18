@@ -206,7 +206,6 @@ class ChallengeContent extends Component {
         <ProposalTinder challengeOffset={this.props.challengeOffset} proposalIndex={1} />
       );
     } else if (this.props.proposals) {
-      console.log('NO PAN BUT PROPOSALS');
       frontTinder = (
         <ProposalTinder challengeOffset={this.props.challengeOffset} proposalIndex={0} />
       );

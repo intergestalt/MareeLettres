@@ -18,7 +18,6 @@ const configureScene = () => ({
   gestures: null, // or null
 });
 
-// export default () => <Home />;
 export default () =>
   <Provider store={store}>
     <AppContainer>
