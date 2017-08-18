@@ -24,6 +24,10 @@ GET api/proposals
 GET api/tinder/:challenge_id/:origin_id (currently :origin_id is ignored) 1)
 GET api/tinder/:challenge_id/:origin_id?limit=:limit (currently :origin_id is ignored) 1)
 
+GET players/:origin_id
+
+POST players/:origin_id/votes { votes: { proposal_id1: true, proposal_id2: false, ...} }
+
 ### MAP (Map Game)
 
 GET api/letters
