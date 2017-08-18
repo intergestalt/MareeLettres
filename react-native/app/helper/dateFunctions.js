@@ -1,4 +1,4 @@
-import { USE_CUSTOM_END_DATE, CUSTOM_END_DATE_ID, CUSTOM_END_DATE } from '../consts/';
+import { DEV_CONFIG } from '../config/config';
 
 const monthNamesEn = [
   'Jan',
@@ -233,9 +233,9 @@ export function getChallengesTickerData(challengeState) {
   for (let i = 0; i < challengeState.challenges.length; i += 1) {
     const myChallenge = challengeState.challenges[i];
     let endDate = new Date(myChallenge.end_date);
-    if (USE_CUSTOM_END_DATE) {
-      if (myChallenge._id === CUSTOM_END_DATE_ID) {
-        const customDate = CUSTOM_END_DATE;
+    if (DEV_CONFIG.USE_CUSTOM_END_DATE) {
+      if (myChallenge._id === DEV_CONFIG.CUSTOM_END_DATE_ID) {
+        const customDate = DEV_CONFIG.CUSTOM_END_DATE;
         endDate = new Date(customDate);
       }
     }

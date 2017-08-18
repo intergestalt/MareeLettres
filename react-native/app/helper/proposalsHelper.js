@@ -20,7 +20,6 @@ function loadProposals(offset) {
 
 export function manageProposals() {
   // Assumption: Challengeslist is loaded
-  console.log(`MANAGE Proposal ${store.getState().globals.challengeView}`);
   if (store.getState().globals.challengeView === CHALLENGE_VIEWS.DETAIL) {
     upDateSelectedChallengeIndex();
     loadProposals(-1);
@@ -57,81 +56,40 @@ export function getProposalList(proposalsParent, proposalView, proposalListMode)
   return proposalsParent.tinder;
 }
 
+function getDefaultEntry() {
+  const result = {};
+  result.proposals = [];
+  result.isLoading = false;
+  result.isInternalLoading = false;
+  result.isError = false;
+  result.isPullDownLoading = false;
+  result.isPullUpLoading = false;
+  result.lastLimit = 0;
+  result.time = 0;
+  return result;
+}
 export function addDefaultStructure(proposals) {
   const myProposals = proposals;
   if (!myProposals) {
     return {
-      tinder: {
-        proposals: [],
-        isLoading: false,
-        isPullDownLoading: false,
-        isPullUpLoading: false,
-        isError: false,
-        time: 0,
-      },
-      listMost: {
-        proposals: [],
-        isLoading: false,
-        isPullDownLoading: false,
-        isPullUpLoading: false,
-        isError: false,
-        time: 0,
-      },
-      listNewest: {
-        proposals: [],
-        isLoading: false,
-        isPullDownLoading: false,
-        isPullUpLoading: false,
-        isError: false,
-        time: 0,
-      },
-      listTrending: {
-        proposals: [],
-        isLoading: false,
-        isPullDownLoading: false,
-        isPullUpLoading: false,
-        isError: false,
-        time: 0,
-      },
+      tinder: getDefaultEntry(),
+      listMost: getDefaultEntry(),
+      listNewest: getDefaultEntry(),
+      listTrending: getDefaultEntry(),
     };
   }
+
   if (!myProposals.tinder) {
-    myProposals.tinder = {
-      proposals: [],
-      isLoading: false,
-      isError: false,
-      isPullDownLoading: false,
-      isPullUpLoading: false,
-      time: 0,
-    };
+    myProposals.tinder = getDefaultEntry();
   }
   if (!myProposals.listMost) {
-    myProposals.listMost = {
-      proposals: [],
-      isLoading: false,
-      isError: false,
-      time: 0,
-    };
+    myProposals.listMost = getDefaultEntry();
   }
   if (!proposals.listNewest) {
-    myProposals.listNewest = {
-      proposals: [],
-      isLoading: false,
-      isError: false,
-      isPullDownLoading: false,
-      isPullUpLoading: false,
-      time: 0,
-    };
+    myProposals.listNewest = getDefaultEntry();
   }
   if (!proposals.listTrending) {
-    myProposals.listTrending = {
-      proposals: [],
-      isLoading: false,
-      isPullDownLoading: false,
-      isPullUpLoading: false,
-      isError: false,
-      time: 0,
-    };
+    myProposals.listTrending = getDefaultEntry();
   }
   return myProposals;
 }

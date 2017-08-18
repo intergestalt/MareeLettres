@@ -38,34 +38,24 @@ class ProposalList extends Component {
     );
   }
   onEndReached() {
-    console.log('REACHED END');
     if (this.props.isPullUpLoading) {
-      console.log('ABORTED');
       return;
     }
 
     const id = this.props.challenges[this.props.selectedChallengeIndex]._id;
     const limit = this.props.proposals.length + LOAD_CONFIG.DEFAULT_PROPOSAL_LIMIT;
-    console.log(`lastLimit ${this.props.lastLimit}`);
+    let force = false;
     if (limit > this.props.lastLimit) {
-      loadProposalsServiceProxy(
-        true,
-        id,
-        limit,
-        LOAD_CONFIG.LOAD_QUIET_PULL_DOWN_UPDATE,
-        false,
-        true,
-      );
-    } else {
-      loadProposalsServiceProxy(
-        false,
-        id,
-        limit,
-        LOAD_CONFIG.LOAD_QUIET_PULL_DOWN_UPDATE,
-        false,
-        true,
-      );
+      force = true;
     }
+    loadProposalsServiceProxy(
+      force,
+      id,
+      limit,
+      LOAD_CONFIG.LOAD_QUIET_PULL_DOWN_UPDATE,
+      false,
+      true,
+    );
   }
   renderFooter() {
     if (this.props.isPullUpLoading) {
@@ -79,7 +69,6 @@ class ProposalList extends Component {
     return null;
   }
   render() {
-    console.log('RENDER LIST');
     if (!this.props.isLoading && !this.props.isError) {
       return (
         <View style={styles.container}>
@@ -102,7 +91,7 @@ class ProposalList extends Component {
                   onRefresh={this.onPullDownRefresh}
                 />
               }
-              onEndReachedThreshold={0.8}
+              onEndReachedThreshold={LOAD_CONFIG.DEFAULT_PROPOSAL_RELOAD_LIST_OFFSET}
               onEndReached={this.onEndReached}
               ListFooterComponent={this.renderFooter()}
             />

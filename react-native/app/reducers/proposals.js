@@ -5,6 +5,7 @@ import {
   VOTE_TINDER,
 } from '../actions/proposals';
 import { PROPOSAL_VIEWS } from '../consts/';
+import { DEV_CONFIG } from '../config/config';
 
 import initialState from '../config/initialState';
 import { getProposalList, getProposalKey, addDefaultStructure } from '../helper/proposalsHelper';
@@ -36,7 +37,7 @@ export default (state = initialState.proposals, action) => {
 
       // all 4our lists for this challenge
       let oldProposals = state[action.challengeId];
-      // No object for this challenge or incomplete object
+      // No object for this challenge or incomplete object ?
       oldProposals = addDefaultStructure(oldProposals);
 
       // one of the list depending of what is demanded
@@ -51,6 +52,7 @@ export default (state = initialState.proposals, action) => {
       } else {
         oldProposalList.isLoading = true;
       }
+      oldProposalList.isInternalLoading = true;
       oldProposalList.isPullDownLoading = action.pullDownLoading;
       oldProposalList.isPullUpLoading = action.pullUpLoading;
       oldProposalList.isError = false;
@@ -73,12 +75,19 @@ export default (state = initialState.proposals, action) => {
       );
 
       newProposalList.proposals = action.result.proposals;
-      // if (action.action.proposalView === PROPOSAL_VIEWS.LIST) {
-      //   newProposalList.proposals = swapSomeElements(newProposalList.proposals, 4);
-      // }
+
+      if (DEV_CONFIG.SWAP_RELOADED_PROPOSALS) {
+        if (action.action.proposalView === PROPOSAL_VIEWS.LIST) {
+          newProposalList.proposals = swapSomeElements(
+            newProposalList.proposals,
+            DEV_CONFIG.SWAP_RELOADED_PROPOSALS_COUNT,
+          );
+        }
+      }
       newProposalList.lastLimit = action.action.limit;
       console.log(`lastLimit ${action.action.limit}`);
       newProposalList.isLoading = false;
+      newProposalList.isInternalLoading = false;
       newProposalList.isError = false;
       newProposalList.isPullDownLoading = false;
       newProposalList.isPullUpLoading = false;
@@ -101,6 +110,7 @@ export default (state = initialState.proposals, action) => {
       console.log('NETWORK_ERROR_LOAD_PROPOSALS');
       const oldProposals = state[action.challengeId];
       oldProposals.isLoading = false;
+      oldProposals.isInternalLoading = false;
       oldProposals.isError = true;
       oldProposals.isError = false;
       oldProposals.isPullDownLoading = false;
