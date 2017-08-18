@@ -28,7 +28,6 @@ export function navigateToAbout(props) {
 export function navigateToBecome(props) {
   stopChallengeTicker();
   props.navigation.navigate('Become');
-  props.navigation.navigate('MapOverview');
 }
 
 export function navigateToStream(props) {

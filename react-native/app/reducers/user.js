@@ -4,13 +4,52 @@ import {
   USER_SET_SECONDARY_LETTERS,
   USER_SET_PRIMARY_LETTER,
   USER_DELETE_LETTERS,
+  USER_UPDATE_LETTER_MENU,
+  USER_WIPE_LETTER_MENU,
   USER_UPDATE_ERROR,
 } from '../actions/user';
 
 import initialState from '../config/initialState';
 
+const selectMenuItem = (state, index) => {
+  if (index === 'primary_letter') {
+    return state;
+  } else {
+    let newFriends = state.map.lettersSelected.friends;
+    newFriends[index] = true;
+
+    return {
+      ...state,
+      map: {
+        ...state.map,
+        lettersSelected: {
+          mine: state.map.lettersSelected,
+          friends: newFriends,
+        }
+      }
+    }
+  }
+};
+
 export default (state = initialState.user, action) => {
   switch (action.type) {
+    case USER_UPDATE_LETTER_MENU:
+      console.log('Reducer: USER_UPDATE_LETTER_MENU');
+      return selectMenuItem(state, action.menuIndex);
+
+    case USER_WIPE_LETTER_MENU:
+      console.log('Reducer: USER_WIPE_LETTER_MENU');
+      return {
+        ...state,
+        map: {
+          ...state.map,
+          lettersSelected: {
+            mine: false,
+            friends: [false, false, false, false],
+          }
+        }
+      }
+
     case USER_SET_ID:
       console.log('Reducer: USER_SET_ID');
       return state;

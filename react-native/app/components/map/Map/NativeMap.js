@@ -47,15 +47,19 @@ class NativeMap extends Component {
   };
 
   onPress(region) {
-    console.log('press');
+    // click map
   };
 
   onRegionChange(region) {
-
+    // drag map
   };
 
   onRegionChangeComplete(region) {
+    // after drag map
+  };
 
+  handleLetterDrag(letter) {
+    console.log('DRAGGED');
   };
 
   render() {
@@ -72,46 +76,61 @@ class NativeMap extends Component {
           style={styles.container}
           initialRegion={{
             ...coords,
-            latitudeDelta: 0.005, //0.0922
-            longitudeDelta: 0.005, //0.0421
+            latitudeDelta: 0.008, // 0.0922, 0.0421
+            longitudeDelta: 0.008,
           }}
     	  customMapStyle={mapstyles}
         >
+
           <MapView.Circle
-            // Drop Zone, TODO: get line dash working??
+            // Drop Zone, TODO: add line dash
             center = {{...coords}}
-            radius = {250}
-            strokeColor = {'rgba(255,255,255,0.25)'}
+            radius = {1}
+            strokeColor = {'#fff'}
             ></MapView.Circle>
           <MapView.Circle
-              center = {{...coords}}
-              radius = {1}
-              strokeColor = {'#fff'}
-              ></MapView.Circle>
+            center = {{...coords}}
+            radius = {300}
+            strokeColor = {'rgba(255,255,255,0.25)'}
+            fillColor = {'rgba(255,255,255,0.1)'}
+            ></MapView.Circle>
           <MapView.Marker
-            title={'The Drop Zone'}
+            title={'drop_zone'}
             coordinate={{
               latitude: user.coordinates.latitude + 0.0002,
               longitude: user.coordinates.longitude,
-            }} ><Text style={styles.letter}>The Drop Zone</Text>
+            }} ><Text style={styles.letterDropZone}>DROP ZONE</Text>
           </MapView.Marker>
 
           {
             this.props.letters.map((item, i) => {
-              if (i < 20) {
-                return (
-                  <MapView.Marker
-                    key={i}
-                    title={item.character}
-                    coordinate={{
-                      latitude: item.coords.lat,
-                      longitude: item.coords.lng,
-                    }}
-                    ><Text style={styles.letter}>
-                      {item.character}
-                    </Text>
-                  </MapView.Marker>
-                );
+              if (i < 25) {
+                let draggable = (item._id === user.origin_id);
+
+                if (draggable) {
+                  return (
+                    <MapView.Marker
+                      draggable
+                      onDragEnd={this.handleLetterDrag}
+                      key={i}
+                      title={item.character}
+                      coordinate={{latitude:item.coords.lat, longitude:item.coords.lng}}
+                      ><Text style={styles.letterDraggable}>
+                        {item.character}
+                      </Text>
+                    </MapView.Marker>
+                  );
+                } else {
+                  return (
+                    <MapView.Marker
+                      key={i}
+                      coordinate={{latitude:item.coords.lat, longitude:item.coords.lng}}
+                      ><Text style={styles.letter}>
+                        {item.character}
+                      </Text>
+                    </MapView.Marker>
+                  );
+                }
               } else { return null; }
             })
           }

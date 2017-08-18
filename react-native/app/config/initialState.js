@@ -1,13 +1,9 @@
 import { OriginId } from 'maree-lettres-shared';
 import { PROPOSAL_LIST_MODES, CHALLENGE_VIEWS, PROPOSAL_VIEWS } from '../consts';
 
-//import DeviceInfo from 'react-native-device-info';
-//get ID -> DeviceInfo.getUniqueID()
-
-// TODO get a uid from device
-//      get coordinates from device
-
-const sampleDate = 'Fri, 18 Aug 2017 09:22:55 GMT'; // (new Date()).toUTCString()
+const sampleDate = (new Date()).toUTCString();
+const lat = 52.4975;
+const lng = 13.4377;
 
 export default {
   user: {
@@ -35,7 +31,7 @@ export default {
       },{
         character: 'D',
         acquired_at: sampleDate,
-        last_used_at: sampleDate,
+        last_used_at: sampleDate, 
       },
     ],
     votes: [{
@@ -46,14 +42,22 @@ export default {
     last_seen: sampleDate,
     banned: false,
     coordinates: {
-      latitude: 52.48,
-      longitude: 13.41,
+      latitude: lat,
+      longitude: lng,
     },
-    // coords of last map interaction
+    // user interaction with map
     map: {
-      latitude: 52.48,
-      longitude: 13.41,
-    }
+      // items selected in Map menu
+      lettersSelected: {
+        mine: false,
+        friends: [false, false, false, false],
+      },
+      // coords of last map interaction
+      coords: {
+        lat: lat,
+        lng: lng,
+      },
+    },
   },
 
   globals: {
@@ -87,4 +91,14 @@ export default {
     isError: false,
     content: [],
   },
+
+  // letter response structure
+  // {
+  //     "_id": "neNZkj5QJhRvXJkJu",
+  //     "character": "M",
+  //     "coords": {
+  //         "lat": 52.47541975964792,
+  //         "lng": 13.453484357399867
+  //     }
+  // }
 };
