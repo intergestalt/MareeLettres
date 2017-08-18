@@ -16,6 +16,7 @@ GET api/challenges/:id/proposals
 
 GET api/challenges/:id/proposals 1)
 GET api/challenges/:id/proposals?limit=:limit 1)
+GET api/challenges/:id/proposals?limit=:limit&sort=:sort 1) sort={popular|trending|newest}
 
 [ deprecated: GET api/challenges/:id/proposals/limit/:limit (-> change to ?limit=:limit) ]
 

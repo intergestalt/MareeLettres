@@ -91,18 +91,17 @@ JsonRoutes.add('post', `${Meteor.settings.public.api_prefix}players/:origin_id/v
     ) {
       // changed vote (adjust)
       console.log(`changed vote on ${proposal_id}`);
-      
-        incQuery.yes_votes = votes[proposal_id] ? 1 : -1;
-        incQuery.no_votes = votes[proposal_id] ? -1 : 1;
-      
-      incQuery.score = votes[proposal_id] ? 2 : -2; 
+
+      incQuery.yes_votes = votes[proposal_id] ? 1 : -1;
+      incQuery.no_votes = votes[proposal_id] ? -1 : 1;
+
+      incQuery.score = votes[proposal_id] ? 2 : -2;
     } else {
       // new vote (add)
       incQuery[votes[proposal_id] ? 'yes_votes' : 'no_votes'] = 1;
       incQuery.score = votes[proposal_id] ? 1 : -1;
       incQuery.votes_amount = 1;
     }
-    
 
     Proposals.update(proposal_id, {
       $inc: incQuery,
@@ -110,7 +109,7 @@ JsonRoutes.add('post', `${Meteor.settings.public.api_prefix}players/:origin_id/v
   }
 
   const options = {
-    data: 'data',
+    data: {},
   };
 
   JsonRoutes.sendResult(res, options);

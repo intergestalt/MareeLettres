@@ -18,3 +18,7 @@ Proposals.after.remove(function (userId, doc) {
     },
   });
 });
+
+Proposals.before.insert(function (userId, doc) {
+  doc.created_at = new Date();
+});
