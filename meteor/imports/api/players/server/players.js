@@ -23,7 +23,7 @@ JsonRoutes.add('get', `${Meteor.settings.public.api_prefix}players/:origin_id`, 
   res,
   next,
 ) {
-  request_check_origin(req);
+  const origin_id = request_check_origin(req);
 
   const player = Players.findOne({ origin_id });
 
