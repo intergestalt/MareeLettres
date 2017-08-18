@@ -63,7 +63,7 @@ const styles = EStyleSheet.create({
   },
   listHeaderLink: {
     fontSize: '1rem',
-    color: '##000000',
+    color: '#000000',
   },
   listHeaderText: {
     fontSize: '1rem',
