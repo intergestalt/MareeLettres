@@ -22,7 +22,6 @@ export function navigateToInfo(props) {
 export function navigateToBecome(props) {
   stopChallengeTicker();
   props.navigation.navigate('Become');
-  props.navigation.navigate('MapOverview');
 }
 
 export function navigateToStream(props) {
@@ -39,7 +38,6 @@ export function navigateToVote(props) {
 }
 
 // SubPages
-
 // Map Stack SubPages
 
 export function navigateToMapOverview(props) {

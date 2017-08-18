@@ -73,12 +73,15 @@ export default EStyleSheet.create({
   lettersMenuYou: {
     width: '33.33%',
   },
-  lettersMenuYourLetter: {
+  lettersMenuMyLetter: {
     flex: 1,
     margin: 8,
     backgroundColor: '#eee',
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  selected: {
+    color: 'rgba(0, 0, 0, 0.25)'
   },
   lettersMenuCoworkers: {
     width: '66.66%',
@@ -92,6 +95,8 @@ export default EStyleSheet.create({
     flex: 1,
     margin: 8,
     backgroundColor: '#eee',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   lettersMenuLower: {
     width: '100%',
