@@ -113,9 +113,9 @@ export default (state = initialState.challenges, action) => {
               isLoading: false,
               isInternalLoading: false,
             };
-            if (USE_CUSTOM_END_DATE) {
-              if (myChallenge._id === CUSTOM_END_DATE_ID) {
-                const customDate = CUSTOM_END_DATE;
+            if (DEV_CONFIG.USE_CUSTOM_END_DATE) {
+              if (myChallenge._id === DEV_CONFIG.CUSTOM_END_DATE_ID) {
+                const customDate = DEV_CONFIG.CUSTOM_END_DATE;
                 newChallenge.end_date = new Date(customDate);
               }
             }
