@@ -8,19 +8,26 @@ import {
   SET_CHALLENGES_ID,
   SET_CHALLENGES_INDEX,
 } from '../actions/challenges';
-import { USE_CUSTOM_END_DATE, CUSTOM_END_DATE_ID, CUSTOM_END_DATE } from '../consts/';
+import { DEV_CONFIG } from '../config/config';
 
+import { addDefaultStructure } from '../helper/challengesHelper';
 import initialState from '../config/initialState';
 
 export default (state = initialState.challenges, action) => {
   switch (action.type) {
     case LOAD_CHALLENGES: {
-      console.log('LOAD_CHALLENGES');
-      return {
-        ...state,
-        isLoading: true,
-        isError: false,
-      };
+      console.log(`LOAD_CHALLENGES ${action.quietLoading}`);
+      let oldChallenges = state;
+      oldChallenges = addDefaultStructure(oldChallenges);
+
+      if (oldChallenges.challenges.length > 0) {
+        oldChallenges.isLoading = !action.quietLoading;
+      } else {
+        oldChallenges.isLoading = true;
+      }
+      oldChallenges.isInternalLoading = true;
+      oldChallenges.isError = false;
+      return oldChallenges;
     }
     case CHALLENGES_LOADED: {
       console.log('CHALLENGES_LOADED');
@@ -29,9 +36,9 @@ export default (state = initialState.challenges, action) => {
       for (let i = 0; i < action.result.challenges.length; i += 1) {
         const entry = action.result.challenges[i];
 
-        if (USE_CUSTOM_END_DATE) {
-          if (entry._id === CUSTOM_END_DATE_ID) {
-            const customDate = CUSTOM_END_DATE;
+        if (DEV_CONFIG.USE_CUSTOM_END_DATE) {
+          if (entry._id === DEV_CONFIG.CUSTOM_END_DATE_ID) {
+            const customDate = DEV_CONFIG.CUSTOM_END_DATE;
             entry.end_date = new Date(customDate);
           }
         }
@@ -39,6 +46,8 @@ export default (state = initialState.challenges, action) => {
         const newEntry = {
           ...entry,
           isLoading: false,
+          isInternalLoading: false,
+          isError: false,
           voteNum: i + 1,
         };
         challenges.push(newEntry);
@@ -46,6 +55,7 @@ export default (state = initialState.challenges, action) => {
       const result = {
         ...state,
         isLoading: false,
+        isInternalLoading: false,
         isError: false,
         time: now.getTime(),
         challenges,
@@ -56,6 +66,7 @@ export default (state = initialState.challenges, action) => {
       console.log('NETWORK ERROR 1');
       return {
         isLoading: false,
+        isInternalLoading: false,
         isError: true,
         time: state.time,
         challenges: [],
@@ -70,6 +81,7 @@ export default (state = initialState.challenges, action) => {
           const newChallenge = {
             ...myChallenge,
             isLoading: true,
+            isInternalLoading: true,
           };
           const myChallenges = Array.from(state.challenges);
           myChallenges[i] = newChallenge;
@@ -99,10 +111,11 @@ export default (state = initialState.challenges, action) => {
               ...action.result.challenges[0],
               voteNum: i + 1,
               isLoading: false,
+              isInternalLoading: false,
             };
-            if (USE_CUSTOM_END_DATE) {
-              if (myChallenge._id === CUSTOM_END_DATE_ID) {
-                const customDate = CUSTOM_END_DATE;
+            if (DEV_CONFIG.USE_CUSTOM_END_DATE) {
+              if (myChallenge._id === DEV_CONFIG.CUSTOM_END_DATE_ID) {
+                const customDate = DEV_CONFIG.CUSTOM_END_DATE;
                 newChallenge.end_date = new Date(customDate);
               }
             }

@@ -77,7 +77,7 @@ class ChallengesList extends Component {
     if (isLoading) {
       return (
         <View style={styles.container}>
-          <Text>Loading...</Text>
+          <Text>Loading Challenges...</Text>
         </View>
       );
     }

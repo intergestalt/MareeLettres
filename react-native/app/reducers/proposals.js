@@ -4,7 +4,8 @@ import {
   NETWORK_ERROR_LOAD_PROPOSALS,
   VOTE_TINDER,
 } from '../actions/proposals';
-import { PROPOSAL_VIEWS, PROPOSAL_LIST_MODES } from '../consts/';
+import { PROPOSAL_VIEWS } from '../consts/';
+import { DEV_CONFIG } from '../config/config';
 
 import initialState from '../config/initialState';
 import { getProposalList, getProposalKey, addDefaultStructure } from '../helper/proposalsHelper';
@@ -31,12 +32,12 @@ export default (state = initialState.proposals, action) => {
   switch (action.type) {
     case LOAD_PROPOSALS: {
       console.log(
-        `LOAD_PROPOSALS ${action.challengeId} ${action.proposalView} ${action.proposalListMode} ${action.quietLoading} ${action.pullDownLoading}`,
+        `LOAD_PROPOSALS ${action.challengeId} ${action.proposalView} ${action.proposalListMode} ${action.quietLoading} ${action.pullDownLoading} ${action.pullUpLoading}`,
       );
 
       // all 4our lists for this challenge
       let oldProposals = state[action.challengeId];
-      // No object for this challenge or incomplete object
+      // No object for this challenge or incomplete object ?
       oldProposals = addDefaultStructure(oldProposals);
 
       // one of the list depending of what is demanded
@@ -51,7 +52,9 @@ export default (state = initialState.proposals, action) => {
       } else {
         oldProposalList.isLoading = true;
       }
+      oldProposalList.isInternalLoading = true;
       oldProposalList.isPullDownLoading = action.pullDownLoading;
+      oldProposalList.isPullUpLoading = action.pullUpLoading;
       oldProposalList.isError = false;
 
       const newState = { ...state };
@@ -72,13 +75,23 @@ export default (state = initialState.proposals, action) => {
       );
 
       newProposalList.proposals = action.result.proposals;
-      // if (action.action.proposalView === PROPOSAL_VIEWS.LIST) {
-      //   newProposalList.proposals = swapSomeElements(newProposalList.proposals, 4);
-      // }
+
+      if (DEV_CONFIG.SWAP_RELOADED_PROPOSALS) {
+        if (action.action.proposalView === PROPOSAL_VIEWS.LIST) {
+          newProposalList.proposals = swapSomeElements(
+            newProposalList.proposals,
+            DEV_CONFIG.SWAP_RELOADED_PROPOSALS_COUNT,
+          );
+        }
+      }
+      newProposalList.lastLimit = action.action.limit;
+      console.log(`lastLimit ${action.action.limit}`);
       newProposalList.isLoading = false;
+      newProposalList.isInternalLoading = false;
       newProposalList.isError = false;
       newProposalList.isPullDownLoading = false;
-      newProposalList.time = now;
+      newProposalList.isPullUpLoading = false;
+      newProposalList.time = now.getTime();
       const key = getProposalKey(action.action.proposalView, action.action.proposalListMode);
 
       // New object
@@ -97,9 +110,11 @@ export default (state = initialState.proposals, action) => {
       console.log('NETWORK_ERROR_LOAD_PROPOSALS');
       const oldProposals = state[action.challengeId];
       oldProposals.isLoading = false;
+      oldProposals.isInternalLoading = false;
       oldProposals.isError = true;
       oldProposals.isError = false;
       oldProposals.isPullDownLoading = false;
+      oldProposals.isPullUpLoading = false;
       const result = {
         ...state,
       };
@@ -130,49 +145,6 @@ export default (state = initialState.proposals, action) => {
       };
       result[action.challengeId] = challengeProposals;
       return result;
-
-      /*      // of all 4 lists
-      const p = state[action.challengeId];
-
-      // Copy all List lists NOT tinder
-      const p1 = getProposalList(p, PROPOSAL_VIEWS.TINDER);
-      const p2 = getProposalList(p, PROPOSAL_VIEWS.LIST, PROPOSAL_LIST_MODES.MOST);
-      const p3 = getProposalList(p, PROPOSAL_VIEWS.LIST, PROPOSAL_LIST_MODES.NEWEST);
-      const p4 = getProposalList(p, PROPOSAL_VIEWS.LIST, PROPOSAL_LIST_MODES.TRENDING);
-
-      const c2 = {
-        ...p2,
-        proposals: Array.from(p2.proposals),
-      };
-      const c3 = {
-        ...p3,
-        proposals: Array.from(p3.proposals),
-      };
-      const c4 = {
-        ...p4,
-        proposals: Array.from(p4.proposals),
-      };
-      // correct List
-      const listToChange = getProposalList(p, PROPOSAL_VIEWS.TINDER);
-      const oldProposals = listToChange.proposals;
-      oldProposals.shift();
-      const c1 = {
-        ...p1,
-        proposals: Array.from(oldProposals),
-      };
-
-      const challengeProposals = {
-        tinder: c1,
-        listMost: c2,
-        listNewest: c3,
-        listTrending: c4,
-      };
-      const result = {
-        ...state,
-      };
-      result[action.challengeId] = challengeProposals;
-      console.log(result);
-      return result; */
     }
     default:
       return state;

@@ -47,6 +47,7 @@ export default (state = initialState.letters, action) => {
       console.log('Nuke letters array.');
       return {
         isLoading: true,
+        isInternalLoading: true,
         isError: false,
         content: [],
       };
@@ -55,6 +56,7 @@ export default (state = initialState.letters, action) => {
       console.log('LETTERS LOADED.');
       return {
         isLoading: false,
+        isInternalLoading: false,
         isError: false,
         content: action.result.letters,
       };
@@ -63,6 +65,7 @@ export default (state = initialState.letters, action) => {
       console.log('NETWORK ERROR LETTERS');
       return {
         isLoading: false,
+        isInternalLoading: false,
         isError: true,
         content: [],
         error: action.error,

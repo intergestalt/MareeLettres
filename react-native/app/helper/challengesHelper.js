@@ -2,10 +2,11 @@ import store from '../config/store';
 import { loadChallengesServiceProxy } from './apiProxy';
 import { CHALLENGE_VIEWS } from '../consts';
 import { setChallengesId, setChallengesIndex } from '../actions/challenges';
+import { LOAD_CONFIG } from '../config/config';
 
 export function manageChallenges() {
   if (store.getState().globals.challengeView === CHALLENGE_VIEWS.LIST) {
-    loadChallengesServiceProxy();
+    loadChallengesServiceProxy(false, LOAD_CONFIG.LOAD_QUIET_CHALLENGES_LIST);
     store.dispatch(setChallengesId(null));
     store.dispatch(setChallengesIndex(-1));
   }
@@ -34,14 +35,31 @@ export function upDateSelectedChallengeIndex() {
   }
   store.dispatch(setChallengesIndex(index));
 }
-
-export function getIndexFromId(id) {
-  let index = 0;
-  for (let i = 0; i < this.props.challenges.length; i += 1) {
-    const challenge = this.props.challenges[i];
+export function getChallengeFromId(challenges, id) {
+  for (let i = 0; i < challenges.length; i += 1) {
+    const challenge = challenges[i];
     if (challenge._id === id) {
-      index = i;
+      return challenge;
     }
   }
-  this.selectedChallengeIndex = index;
+  return null;
+}
+
+function getDefaultEntry() {
+  const result = {};
+  result.challenges = [];
+  result.isLoading = false;
+  result.isInternalLoading = false;
+  result.isError = false;
+  result.time = 0;
+  result.selectedChallengeId = null;
+  result.time = -1;
+  return result;
+}
+
+export function addDefaultStructure(challenges) {
+  if (!challenges) {
+    return getDefaultEntry();
+  }
+  return challenges;
 }

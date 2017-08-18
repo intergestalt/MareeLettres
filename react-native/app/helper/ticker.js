@@ -3,6 +3,7 @@ import { loadChallengeServiceProxy } from '../helper/apiProxy';
 import store from '../config/store';
 
 import { isFinished, TICKER_END } from '../helper/dateFunctions';
+import { DEV_CONFIG } from '../config/config';
 
 let tickerStarted = false;
 let timerId = null;
@@ -26,9 +27,8 @@ function tick() {
   // check if it is finished now.
   for (let i = 0; i < state.challenges.challenges.length; i += 1) {
     const myChallenge = state.challenges.challenges[i];
-    if (!myChallenge.isLoading) {
+    if (!myChallenge.isInternalLoading) {
       if (!wasFinished[i] && isFinished(myChallenge)) {
-        console.log('HERE WE LOAD');
         loadChallengeServiceProxy(myChallenge._id);
       }
     }
@@ -38,7 +38,9 @@ function tick() {
 export function stopChallengeTicker() {
   if (tickerStarted) {
     console.log('STOP TICKER');
-    clearInterval(timerId);
+    if (DEV_CONFIG.TICKER_ENABELD) {
+      clearInterval(timerId);
+    }
     tickerStarted = false;
   } else {
     console.log('TICKER ALREADY STOPPED');
@@ -48,9 +50,11 @@ export function startChallengeTicker() {
   if (!tickerStarted) {
     tickerStarted = true;
     console.log('START TICKER');
-    timerId = setInterval(() => {
-      tick();
-    }, 1000);
+    if (DEV_CONFIG.TICKER_ENABELD) {
+      timerId = setInterval(() => {
+        tick();
+      }, 1000);
+    }
   } else {
     console.log('TICKER ALREADY STARTED');
   }

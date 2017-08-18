@@ -11,10 +11,11 @@ export const NETWORK_ERROR_LOAD_CHALLENGE = 'NETWORK_ERROR_LOAD_CHALLENGE';
 export const SET_CHALLENGES_ID = 'SET_CHALLENGES_DATE_ID';
 export const SET_CHALLENGES_INDEX = 'SET_CHALLENGES_INDEX';
 
-export const loadChallenges = () => ({
+export const loadChallenges = (quietLoading = false) => ({
   type: LOAD_CHALLENGES,
   successEvent: CHALLENGES_LOADED,
   errorEvent: NETWORK_ERROR_LOAD_CHALLENGES,
+  quietLoading,
   apiCall: callAllChallenges,
 });
 

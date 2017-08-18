@@ -14,7 +14,6 @@ class ChallengeSelector extends Component {
     //    id: PropTypes.string,
     isErrorLoadingChallenges: PropTypes.bool,
     isLoadingChallenges: PropTypes.bool,
-    timeLoadChallenges: PropTypes.number,
     language: PropTypes.string,
     challenges: PropTypes.array,
   };
@@ -68,13 +67,11 @@ const mapStateToProps = (state) => {
   const challenges = state.challenges.challenges;
   const isLoadingChallenges = state.challenges.isLoading;
   const isErrorLoadingChallenges = state.challenges.isError;
-  const timeLoadChallenges = state.challenges.time;
   const language = state.globals.language;
   return {
     challenges,
     isLoadingChallenges,
     isErrorLoadingChallenges,
-    timeLoadChallenges,
     language,
   };
 };

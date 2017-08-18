@@ -18,21 +18,15 @@ some of the used tools / requirements:
 - react-native-scripts
 - meteor
 
-### config server
-set meteor server ip address in react-native/app/config/config.js
+### workaround for babel export
 
-- `ws://<your local ip address>:3000/websocket` to use local meteor (you may skip "setup meteor")
-- `ws://maree.herokuapp.com/websocket` to use live-test meteor
-
-Attention not to check these local changes into git!
-
-### setup meteor
 ```
-cd meteor
-meteor npm install
-npm start
+cd shared/maree-lettres-shared
+npm run dev # (you can ctrl-c when it starts watching for file changes)
+npm run build
 ```
-### setup mobile app
+
+### setup and run mobile app
 ```
 cd react-native
 yarn install
@@ -48,3 +42,18 @@ export andriod-sdk: export ANDROID_HOME=<path_where_you_unpacked_android_sdk>
 Add a Device (emulator) to genymotion
 
 To use it: start genymotion. Start the emulator in genymotion. Runs: yarn run android
+
+## setup local server
+```
+cd meteor
+meteor npm install
+npm start
+```
+
+### config server
+set meteor server ip address in react-native/app/config/config.js
+
+- `ws://<your local ip address>:3000/websocket` to use local meteor (you may skip "setup meteor")
+- `ws://maree.herokuapp.com/websocket` to use live-test meteor
+
+Attention not to check these local changes into git!

@@ -1,8 +1,8 @@
 import { upDateSelectedChallengeIndex } from '../helper/challengesHelper';
 import { loadProposalsServiceProxy } from '../helper/apiProxy';
 import store from '../config/store';
-import { CHALLENGE_VIEWS, DEFAULT_PROPOSAL_LIMIT } from '../consts';
-import { PROPOSAL_VIEWS, PROPOSAL_LIST_MODES } from '../consts';
+import { PROPOSAL_VIEWS, PROPOSAL_LIST_MODES, CHALLENGE_VIEWS } from '../consts';
+import { LOAD_CONFIG } from '../config/config';
 
 function loadProposals(offset) {
   const challengeIndex = store.getState().challenges.selectedChallengeIndex;
@@ -10,12 +10,16 @@ function loadProposals(offset) {
   const challenges = store.getState().challenges.challenges;
   if (index < 0 || index > challenges.length - 1) return;
   const id = challenges[index]._id;
-  loadProposalsServiceProxy(id, DEFAULT_PROPOSAL_LIMIT);
+  loadProposalsServiceProxy(
+    false,
+    id,
+    LOAD_CONFIG.DEFAULT_PROPOSAL_LIMIT,
+    LOAD_CONFIG.LOAD_QUIET_TO_CHALLENGE_SELECTOR,
+  );
 }
 
 export function manageProposals() {
   // Assumption: Challengeslist is loaded
-  console.log(`MANAGE Proposal ${store.getState().globals.challengeView}`);
   if (store.getState().globals.challengeView === CHALLENGE_VIEWS.DETAIL) {
     upDateSelectedChallengeIndex();
     loadProposals(-1);
@@ -52,66 +56,40 @@ export function getProposalList(proposalsParent, proposalView, proposalListMode)
   return proposalsParent.tinder;
 }
 
+function getDefaultEntry() {
+  const result = {};
+  result.proposals = [];
+  result.isLoading = false;
+  result.isInternalLoading = false;
+  result.isError = false;
+  result.isPullDownLoading = false;
+  result.isPullUpLoading = false;
+  result.lastLimit = 0;
+  result.time = 0;
+  return result;
+}
 export function addDefaultStructure(proposals) {
   const myProposals = proposals;
   if (!myProposals) {
     return {
-      tinder: {
-        proposals: [],
-        isLoading: false,
-        isError: false,
-        time: 0,
-      },
-      listMost: {
-        proposals: [],
-        isLoading: false,
-        isError: false,
-        time: 0,
-      },
-      listNewest: {
-        proposals: [],
-        isLoading: false,
-        isError: false,
-        time: 0,
-      },
-      listTrending: {
-        proposals: [],
-        isLoading: false,
-        isError: false,
-        time: 0,
-      },
+      tinder: getDefaultEntry(),
+      listMost: getDefaultEntry(),
+      listNewest: getDefaultEntry(),
+      listTrending: getDefaultEntry(),
     };
   }
+
   if (!myProposals.tinder) {
-    myProposals.tinder = {
-      proposals: [],
-      isLoading: false,
-      isError: false,
-      time: 0,
-    };
+    myProposals.tinder = getDefaultEntry();
   }
   if (!myProposals.listMost) {
-    myProposals.listMost = {
-      proposals: [],
-      isLoading: false,
-      isError: false,
-      time: 0,
-    };
+    myProposals.listMost = getDefaultEntry();
   }
   if (!proposals.listNewest) {
-    myProposals.listNewest = {
-      proposals: [],
-      isLoading: false,
-      isError: false,
-      time: 0,
-    };
+    myProposals.listNewest = getDefaultEntry();
   }
   if (!proposals.listTrending) {
-    myProposals.listTrending = {
-      proposals: [],
-      isLoading: false,
-      isError: false,
-    };
+    myProposals.listTrending = getDefaultEntry();
   }
   return myProposals;
 }

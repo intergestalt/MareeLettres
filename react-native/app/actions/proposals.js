@@ -12,6 +12,7 @@ export const loadProposals = (
   limit,
   quietLoading = false,
   pullDownLoading = false,
+  pullUpLoading = false,
 ) => ({
   type: LOAD_PROPOSALS,
   successEvent: PROPOSALS_LOADED,
@@ -23,6 +24,7 @@ export const loadProposals = (
   limit,
   quietLoading,
   pullDownLoading,
+  pullUpLoading,
 });
 
 export const voteTinder = (challengeId, yes) => ({
