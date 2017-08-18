@@ -30,7 +30,7 @@ Meteor.startup(() => {
     for (let i = 1; i <= 24; i++) {
       Challenges.insert(
         {
-          _id: `fixture.${i}`,
+          _id: `fixture_${i}`,
           title: `Question #${i}`,
           votes_amount: 0,
           proposals_amount: 0,
@@ -43,13 +43,15 @@ Meteor.startup(() => {
             const amount = 150 + 10 * Math.floor(10 * Math.random());
             for (let j = 1; j <= amount; j++) {
               Proposals.insert({
-                _id: `fixture.${i}/${j}`,
+                _id: `fixture_${i}_${j}`,
                 text: shuffleString('ABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRS          '),
                 challenge_id: id,
-                score: parseInt(10 * Math.random()),
-                votes_amount: parseInt(10 * Math.random()),
+                score: 0, // parseInt(10 * Math.random()),
+                votes_amount: 0, // parseInt(10 * Math.random()),
                 score_trending: 0,
-                origin_id: OriginId.generateFromString(`fixture.${j}`),
+                yes_votes: 0,
+                no_votes: 0,
+                origin_id: OriginId.generateFromString(`fixture_${j}`),
               });
             }
           }
@@ -62,9 +64,9 @@ Meteor.startup(() => {
     console.log('Seeding Players');
     for (let i = 1; i <= 150; i++) {
       Players.insert({
-        _id: `fixture.${i}`,
-        origin_id: OriginId.generateFromString(`fixture.${i}`),
-        votes: [{}],
+        _id: `fixture_${i}`,
+        origin_id: OriginId.generateFromString(`fixture_${i}`),
+        votes: {},
       });
     }
   }

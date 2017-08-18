@@ -56,21 +56,54 @@ JsonRoutes.add('post', `${Meteor.settings.public.api_prefix}players/:origin_id/v
 
   const body = req.body;
 
-  const setQuery = {};
+  const votes = body.votes;
 
+  /*
   body.votes.forEach(function (vote) {
     setQuery[vote.proposal_id] = vote.value;
   });
+*/
 
-  console.log(setQuery);
+  const setQueryParams = {};
+  const getQueryParams = {};
+  for (proposal_id in votes) {
+    getQueryParams[`votes.${proposal_id}`] = 1;
+    setQueryParams[`votes.${proposal_id}`] = votes[proposal_id];
+  }
 
-  Players.update({ origin_id }, { $set: setQuery }); // assuming Success
+  const pastVotes = Players.findOne({ origin_id }, getQueryParams).votes; // TODO possibly save this query and get old values from set query?
 
-  for (proposal_id in setQuery) {
+  const result = Players.update({ origin_id }, { $set: setQueryParams }); // TODO check result
+
+  for (proposal_id in votes) {
     const incQuery = {};
-    incQuery[setQuery[proposal_id] ? 'yes_votes' : 'no_votes'] = 1;
-    incQuery.votes_amount = 1;
-    incQuery.score = setQuery[proposal_id] ? 1 : -1;
+    if (
+      typeof pastVotes[proposal_id] !== 'undefined' &&
+      pastVotes[proposal_id] === votes[proposal_id]
+    ) {
+      // same vote (ignore)
+      console.log(`ignoring same vote on ${proposal_id}`);
+      continue;
+    }
+    if (
+      typeof pastVotes[proposal_id] !== 'undefined' &&
+      pastVotes[proposal_id] !== votes[proposal_id]
+    ) {
+      // changed vote (adjust)
+      console.log(`changed vote on ${proposal_id}`);
+      
+        incQuery.yes_votes = votes[proposal_id] ? 1 : -1;
+        incQuery.no_votes = votes[proposal_id] ? -1 : 1;
+      
+      incQuery.score = votes[proposal_id] ? 2 : -2; 
+    } else {
+      // new vote (add)
+      incQuery[votes[proposal_id] ? 'yes_votes' : 'no_votes'] = 1;
+      incQuery.score = votes[proposal_id] ? 1 : -1;
+      incQuery.votes_amount = 1;
+    }
+    
+
     Proposals.update(proposal_id, {
       $inc: incQuery,
     });

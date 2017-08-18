@@ -52,6 +52,14 @@ class Challenge extends Component {
           {OriginId.getOrigin(proposal.origin_id)} ({proposal.origin_id})
         </code>
         &nbsp;
+        score: <tt>{proposal.score}</tt>
+        &nbsp;
+        yes: <tt>{proposal.yes_votes}</tt>
+        &nbsp;
+        no: <tt>{proposal.no_votes}</tt>
+        &nbsp;
+        pop: <tt>{proposal.votes_amount}</tt>
+        &nbsp;        
         <span className="impact">{proposal.text}</span>
       </li>,
     );

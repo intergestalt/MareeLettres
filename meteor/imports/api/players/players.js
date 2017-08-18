@@ -29,16 +29,6 @@ const OwnedLetterSchema = new SimpleSchema({
   },
 });
 
-const PlayerVoteSchema = new SimpleSchema({
-  proposal_id: {
-    type: String,
-  },
-  value: {
-    type: Boolean,
-    description: 'true = yes vote, false = no vote',
-  },
-});
-
 const PlayersSchema = new SimpleSchema({
   origin_id: {
     type: String,
@@ -56,13 +46,11 @@ const PlayersSchema = new SimpleSchema({
   },
   'secondary_letters.$': OwnedLetterSchema,
   votes: {
-    type: Array,
+    type: Object,
     optional: true,
-  },
-  'votes.$': PlayerVoteSchema,
-  created_at: {
-    type: Date,
-    optional: true,
+    blackbox: true,
+    description:
+      'Object of type: { proposal_id1: value1, proposal_id2: value2, ... } e.g. { 1234: true, 1235: false }',
   },
   last_seen: {
     type: Date,
