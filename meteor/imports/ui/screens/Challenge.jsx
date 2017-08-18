@@ -48,8 +48,11 @@ class Challenge extends Component {
     const proposals = this.props.proposals;
     return proposals.map(proposal =>
       <li key={proposal._id}>
+        <code>
+          {OriginId.getOrigin(proposal.origin_id)} ({proposal.origin_id})
+        </code>
+        &nbsp;
         <span className="impact">{proposal.text}</span>
-        &nbsp; {OriginId.getOrigin(proposal.origin_id)}
       </li>,
     );
   }

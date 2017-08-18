@@ -7,6 +7,7 @@ const Players = new Mongo.Collection('players');
 
 Players.allow({
   insert: () => false,
+  update: () => false,
   remove: () => false,
 });
 
