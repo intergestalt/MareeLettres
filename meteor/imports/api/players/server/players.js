@@ -23,10 +23,21 @@ JsonRoutes.add('get', `${Meteor.settings.public.api_prefix}players/:origin_id`, 
   res,
   next,
 ) {
-  const origin_id = request_check_origin(req);
+  const origin_id = request_check_origin(req, res, next);
 
-  const player = Players.findOne({ origin_id });
+  let player = Players.findOne({ origin_id });
 
+  if (!player) {
+    console.log('new player!');
+    player = {
+      origin_id,
+      votes: {},
+    };
+    Players.insert(player);
+    player.new = true;
+  }
+
+  /*
   if (!player) {
     error_options = {
       code: 404,
@@ -36,7 +47,7 @@ JsonRoutes.add('get', `${Meteor.settings.public.api_prefix}players/:origin_id`, 
       },
     };
     JsonRoutes.sendResult(res, error_options);
-  }
+  } */
 
   const options = {
     data: player,
@@ -50,7 +61,7 @@ JsonRoutes.add('post', `${Meteor.settings.public.api_prefix}players/:origin_id/v
   res,
   next,
 ) {
-  const origin_id = request_check_origin(req);
+  const origin_id = request_check_origin(req, res, next);
 
   // console.log(req);
 
@@ -71,9 +82,24 @@ JsonRoutes.add('post', `${Meteor.settings.public.api_prefix}players/:origin_id/v
     setQueryParams[`votes.${proposal_id}`] = votes[proposal_id];
   }
 
-  const pastVotes = Players.findOne({ origin_id }, getQueryParams).votes; // TODO possibly save this query and get old values from set query?
+  const pastVotesResult = Players.findOne({ origin_id }, getQueryParams); // TODO possibly save this query and get old values from set query?
+
+  if (!pastVotesResult) {
+    error_options = {
+      code: 404,
+      data: {
+        error: 'player-not-found',
+        reason: `Player ${origin_id} not found`,
+      },
+    };
+    JsonRoutes.sendResult(res, error_options);
+  }
+
+  const pastVotes = pastVotesResult.votes;
 
   const result = Players.update({ origin_id }, { $set: setQueryParams }); // TODO check result
+
+  // console.log(`Player update result: ${result}`);
 
   for (proposal_id in votes) {
     const incQuery = {};
@@ -115,10 +141,10 @@ JsonRoutes.add('post', `${Meteor.settings.public.api_prefix}players/:origin_id/v
   JsonRoutes.sendResult(res, options);
 });
 
-const request_check_origin = function (req) {
+const request_check_origin = function (req, res, next) {
   const origin_id = req.params.origin_id;
 
-  console.log(origin_id);
+  // console.log(origin_id);
 
   if (!origin_id) {
     error_options = {
@@ -131,7 +157,18 @@ const request_check_origin = function (req) {
     JsonRoutes.sendResult(res, error_options);
   }
 
-  console.log(OriginId.verify(origin_id));
+  // console.log(OriginId.verify(origin_id));
+
+  if (!OriginId.verify(origin_id)) {
+    error_options = {
+      code: 401,
+      data: {
+        error: 'id-invalid',
+        reason: 'origin_id is not valid',
+      },
+    };
+    JsonRoutes.sendResult(res, error_options);
+  }
 
   return origin_id;
 };
