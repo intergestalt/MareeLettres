@@ -39,16 +39,47 @@ GET api/letters
 
 ## (discussion / to do)
 
-GET proposals (challenge, limit, order)
+#### POST api/letters 
+POST body: 
+{ letters:
+  [ 
+    { 
+      character: "X",
+      origin_id: ...,
+      coords: {
+        lat: ...,
+        lng: ...
+      },
+      created_at: new Date,
+    } 
+  ]
+}
+return body OK: {}
+return body FAIL: { error: "error-code" , reason: "reason of error"}
+NOTE: assuming no date/time problems
+
+#### POST api/players/:player_id/letters/send
+return body:
+{
+  transnaction_id: 12345
+  transaction_url: http://mareedeslettres.fr/x/12345
+}
+
+#### GET api/players/:player_id/letters/receive/:transaction_id
+return body:
+{
+  letter: {
+    character: "X",
+    acquired_at: Date,
+  }
+}
+
+#### GET api/letters?centerLat=...&centerLng=...&radius=...
+
+#### more
 
 GET proposal (proposal_id)
 
-POST proposal (challenge, user_key)
-
-[ GET userProposals (user_id) ]
-
-GET tinderProposals (challenge_id, amount, user_id)
-
-POST votes
+POST proposal (challenge, origin_id, text)
 
 GET letters (center, width, height)
