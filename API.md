@@ -41,6 +41,7 @@ GET api/letters
 
 #### POST api/letters 
 POST body: 
+
 { letters:
   [ 
     { 
@@ -54,12 +55,16 @@ POST body:
     } 
   ]
 }
+
 return body OK: {}
+
 return body FAIL: { error: "error-code" , reason: "reason of error"}
+
 NOTE: assuming no date/time problems
 
 #### POST api/players/:player_id/letters/send
 return body:
+
 {
   transnaction_id: 12345
   transaction_url: http://mareedeslettres.fr/x/12345
@@ -67,6 +72,7 @@ return body:
 
 #### GET api/players/:player_id/letters/receive/:transaction_id
 return body:
+
 {
   letter: {
     character: "X",
