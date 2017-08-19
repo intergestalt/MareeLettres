@@ -1,17 +1,18 @@
 import React, { PropTypes, Component } from 'react';
 import { StatusBar } from 'react-native';
-import { connect } from 'react-redux';
 
 import { Screen } from '../../components/general/Container';
-import { NativeMap } from '../../components/map/Map';
 import { TabBar } from '../../components/general/TabBar';
+
+import { Map } from '../../components/map/Map';
+import { LettersMenu, CameraButton, MapScreenMenu } from '../../components/map/Overlay';
 
 import { loadLettersServiceProxy } from '../../helper/apiProxy';
 
 class MapOverview extends Component {
   static propTypes = {
     navigation: PropTypes.object,
-  };
+  }
 
   componentDidMount() {
     loadLettersServiceProxy(this.props);
@@ -21,10 +22,17 @@ class MapOverview extends Component {
     return (
       <Screen backgroundColor={'#00aaaa'}>
         <StatusBar />
-        <NativeMap navigation={this.props.navigation} />
+        <Map navigation={this.props.navigation} />
+        <CameraButton navigation={this.props.navigation} />
+        <LettersMenu
+          letterSelectorPress={() => this.handleLetterSelectorPress()}
+          shareLettersPress={() => this.handleShareLettersPress()}
+          getLettersPress={() => this.handleGetLettersPress()}
+          />
+        <MapScreenMenu navigation={this.props.navigation} />
       </Screen>
     );
   }
 }
 
-export default connect()(MapOverview);
+export default MapOverview;

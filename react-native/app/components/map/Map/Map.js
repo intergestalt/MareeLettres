@@ -11,39 +11,13 @@ import {
   navigateToLetterSelector
 } from '../../../helper/navigationProxy';
 
-import styles from './styles';
-import mapstyles from './mapstyles';
+import { styles, mapstyles } from './styles';
 
-// https://www.npmjs.com/package/react-native-maps
-// Note: It's possible to use a different map tile provider for better look
-// <MapView.UrlTile
-//	 urlTemplate="http://c.tile.stamen.com/toner/{z}/{x}/{y}.jpg"
-//	 zIndex={-1} />
-
-class NativeMap extends Component {
+class Map extends Component {
   static propTypes = {
     navigation: PropTypes.object,
-    isLoading: PropTypes.bool,
-    isError: PropTypes.bool,
     letters: PropTypes.array,
-    myLetter: PropTypes.string,
     user: PropTypes.object,
-  };
-
-  handleCameraButtonPress() {
-    navigateToMapCamera(this.props);
-  };
-
-  handleLetterSelectorPress() {
-    navigateToLetterSelector(this.props);
-  };
-
-  handleShareLettersPress() {
-    navigateToQRCodeSend(this.props);
-  };
-
-  handleGetLettersPress() {
-    navigateToQRCodeGet(this.props);
   };
 
   onPress(region) {
@@ -91,7 +65,7 @@ class NativeMap extends Component {
           <MapView.Circle
             center = {{...coords}}
             radius = {300}
-            strokeColor = {'rgba(255,255,255,0.25)'}
+            strokeColor = {'rgba(255,255,255,0.25)' }
             fillColor = {'rgba(255,255,255,0.1)'}
             ></MapView.Circle>
           <MapView.Marker
@@ -136,15 +110,7 @@ class NativeMap extends Component {
           }
 
         </MapView>
-        <LettersMenu
-          letterSelectorPress={() => this.handleLetterSelectorPress()}
-          shareLettersPress={() => this.handleShareLettersPress()}
-          getLettersPress={() => this.handleGetLettersPress()}
-          />
-        <CameraButton
-          text='Camera'
-          onPress={() => this.handleCameraButtonPress()}
-          />
+
       </View>
     );
   }
@@ -160,4 +126,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps)(NativeMap);
+export default connect(mapStateToProps)(Map);
