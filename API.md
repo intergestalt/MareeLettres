@@ -1,33 +1,64 @@
 # Marre des Lettres REST API
 
-## implementation
+## Implementation
 
-### general
+### General
 
 GET api/content
 
-### ABC (Voting Game)
+### ABC section (Voting Game)
 
-GET api/challenges
+#### GET api/challenges
+Get all challenenges
 
-GET api/challenges/:id
+#### GET api/challenges/:id
+Get a challenge by challenge_id
 
-GET api/challenges/:id/proposals
+#### GET api/challenges/:id/proposals?limit=:limit&sort=:sort
+Get proposals of a challenge
 
-GET api/challenges/:id/proposals 1)
-GET api/challenges/:id/proposals?limit=:limit 1)
-GET api/challenges/:id/proposals?limit=:limit&sort=:sort 1) sort={popular|trending|newest}
+##### Query Params
+- (optional) :limit={Number}
+- (optional) :sort={'popular'|'trending'|'newest'}
 
 [ deprecated: GET api/challenges/:id/proposals/limit/:limit (-> change to ?limit=:limit) ]
 
-GET api/proposals
+#### GET api/proposals
+do not use
 
-GET api/tinder/:challenge_id/:origin_id (currently :origin_id is ignored) 1)
-GET api/tinder/:challenge_id/:origin_id?limit=:limit (currently :origin_id is ignored) 1)
+#### GET api/tinder/:challenge_id/:origin_id?limit=:limit
+Get tinder proposals for a player
+(currently :origin_id is ignored)
 
-GET players/:origin_id
+##### Query Params
+- (optional) :limit={Number}
 
-POST players/:origin_id/votes { votes: { proposal_id1: true, proposal_id2: false, ...} }
+#### GET players/:origin_id
+Get "player object" of a player by :origin_id
+
+NOTE: If no entry exists, player object will be created on the fly!
+NOTE2: Create a valid origin_id with OriginId.generateFromPhoneId() or OriginId.generateFromString()
+
+#### POST players/:origin_id/votes 
+Post a bunch of votes of a player
+
+##### Request Body
+```
+{ 
+  votes: { 
+    proposal_id1: true, 
+    proposal_id2: false, 
+    ...
+  } 
+}
+```
+
+##### response body
+
+OK: 
+```
+{}
+```
 
 ### MAP (Map Game)
 
