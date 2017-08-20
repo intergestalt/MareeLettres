@@ -64,10 +64,6 @@ OK:
 
 GET api/letters
 
-## Notes
-
-1) Can return error: challenge-not-found
-
 ## (discussion / to do)
 
 #### GET api/letters?centerLat=...&centerLng=...&radius=...
