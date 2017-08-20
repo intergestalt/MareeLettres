@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { View, Text, PanResponder, Animated, TouchableOpacity, Dimensions } from 'react-native';
 
-import { updateLetterMenuProxy, reviveLetterMenuProxy } from '../../../helper/userHelper';
+import { updateLetterMenuProxy, reviveLetterMenuProxy, binLetterProxy } from '../../../helper/userHelper';
 import { putLetterOnMapProxy } from '../../../helper/mapHelper';
 import { navigateToLetterSelector } from '../../../helper/navigationProxy';
 
@@ -32,13 +32,28 @@ class Letter extends Component {
           }]),
           onPanResponderRelease : (e, gesture) => {
             if(this.isDropZone(gesture)){
+              if (!this.props.selected) {
+                Animated.timing(
+                  this.state.pan, {
+                    toValue: {x:0, y:0},
+                    duration: 1
+                  },
+                ).start();
+                this.onDrop(gesture.moveX, gesture.moveY);
+              } else {
+                Animated.spring(
+                    this.state.pan,
+                    {toValue:{x:0,y:0}}
+                ).start();
+              }
+            } else if (this.isBin(gesture)) {
               Animated.timing(
                 this.state.pan, {
                   toValue: {x:0, y:0},
                   duration: 1
                 },
               ).start();
-              this.onDrop(gesture.moveX, gesture.moveY);
+              this.onBin();
             } else {
               Animated.spring(
                   this.state.pan,
@@ -50,6 +65,8 @@ class Letter extends Component {
   }
 
   onDrop = (x, y) => {
+    // drop letter on to map
+
     // normalise coordinates and put in range [-1, 1]
     let win = Dimensions.get('window');
     let tx = ((x / win.width) - 0.5) * 1;
@@ -66,11 +83,34 @@ class Letter extends Component {
 
       setTimeout(function(){
         reviveLetterMenuProxy(index, char);
-      }, 1000);
+      }, 3000);
     };
   }
 
+  onBin = () => {
+    // put letter in bin !
+
+    binLetterProxy(this.props.index);
+  }
+
+  isBin(gesture) {
+    // check if letter is in rubbish bin
+
+    let inBin = false;
+
+    if (!this.props.main) {
+      let win = Dimensions.get('window');
+      if (gesture.moveY > win.height - 60 && gesture.moveX > win.width * 0.66) {
+        inBin = true;
+      }
+    }
+
+    return inBin;
+  }
+
   isDropZone(gesture){
+    // check if letter is over map
+
     let win = Dimensions.get('window');
 
     if (gesture.moveY < win.height - 170) {
@@ -121,17 +161,27 @@ class Letter extends Component {
   }
 
   renderFriends() {
-    return (
-      <View style = {styles.background_secondary}>
-        <Animated.View
-          {...this.panResponder.panHandlers}
-          style = {[this.state.pan.getLayout(), styles.letter_area]}>
-            <Text style={this.props.selected ? styles.disabled : styles.letter}>
-              {this.props.character}
-            </Text>
-        </Animated.View>
-      </View>
-    )
+    if (this.props.index == -1) {
+      return (
+        <View style = {styles.background_secondary} />
+      );
+    } else {
+      return (
+        <View style = {styles.background_secondary}>
+          {
+            this.props.index == -1
+            ? null
+            : <Animated.View
+                {...this.panResponder.panHandlers}
+                style = {[this.state.pan.getLayout(), styles.letter_area]}>
+                  <Text style={this.props.selected ? styles.disabled : styles.letter}>
+                    {this.props.character}
+                  </Text>
+              </Animated.View>
+          }
+        </View>
+      );
+    }
   }
 };
 

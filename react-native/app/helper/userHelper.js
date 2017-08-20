@@ -9,12 +9,17 @@ import {
   wipeLetterMenu,
   deleteLetters,
   getUserLetter,
+  binLetter,
 } from '../actions/user';
 
 import store from '../config/store';
 
 export function deleteLettersProxy() {
   store.dispatch(deleteLetters());
+}
+
+export function binLetterProxy(menuIndex) {
+  store.dispatch(binLetter(menuIndex));
 }
 
 export function updateLetterMenuProxy(menuIndex) {

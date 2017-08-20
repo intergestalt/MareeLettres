@@ -9,6 +9,7 @@ import {
   USER_WIPE_LETTER_MENU,
   USER_UPDATE_ERROR,
   USER_GET_LETTER,
+  USER_BIN_LETTER,
 } from '../actions/user';
 
 import {
@@ -78,6 +79,15 @@ export default (state = initialState.user, action) => {
 
       if (letters.length > action.menuIndex && letters[action.menuIndex].character === action.character) {
         friends[action.menuIndex] = false;
+      } else {
+        // case user deletes a letter (altering index)
+        // TODO: change key to transaction_id when it's implemented
+
+        for (var i=0; i<letters.length; i+=1) {
+          if (i < 4 && letters[i].character === action.character) {
+            friends[i] = false;
+          }
+        }
       }
 
       return {
@@ -89,6 +99,26 @@ export default (state = initialState.user, action) => {
             friends: friends,
           }
         }
+      }
+    };
+
+    case USER_BIN_LETTER: {
+      console.log('Reducer: USER_BIN_LETTER');
+
+      let letters = [ ...state.secondary_letters ];
+      let newLetters = [];
+
+      for (var i=0; i<letters.length; i+=1) {
+        if (i != action.menuIndex) {
+          newLetters.push(letters[i]);
+        }
+      }
+
+      return {
+        ...state,
+        secondary_letters: [
+          ...newLetters,
+        ]
       }
     }
 
