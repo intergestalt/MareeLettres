@@ -10,8 +10,8 @@ export function changeMapRegionProxy(region) {
   store.dispatch(changeMapRegion(region));
 }
 
-export function putLetterOnMapProxy(character) {
-  store.dispatch(putLetterOnMap(character));
+export function putLetterOnMapProxy(character, x, y) {
+  store.dispatch(putLetterOnMap(character, x, y));
 }
 
 export function loadMyLettersProxy() {

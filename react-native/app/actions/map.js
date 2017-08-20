@@ -13,7 +13,9 @@ export const changeMapRegion = (region) => ({
   region: region,
 });
 
-export const putLetterOnMap = (character) => ({
+export const putLetterOnMap = (character, x, y) => ({
   type: PUT_LETTER_ON_MAP,
   character: character,
+  x: x,
+  y: y,
 });

@@ -7,8 +7,11 @@ import {
   USER_UPDATE_LETTER_MENU,
   USER_WIPE_LETTER_MENU,
   USER_UPDATE_ERROR,
-  CHANGE_MAP_REGION,
 } from '../actions/user';
+
+import {
+  CHANGE_MAP_REGION
+} from '../actions/map';
 
 import initialState from '../config/initialState';
 

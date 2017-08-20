@@ -5,16 +5,19 @@ export default EStyleSheet.create({
   $margin: 12,
   $marginHalf: 6,
   $padding: 20,
+  $indexLetter: 100,
 
   letter: {
     color: '#000',
     textAlign: 'center',
     backgroundColor: 'transparent',
+    zIndex: '$indexLetter',
   },
   selected: {
     color: 'rgba(0,0,0,0.25)',
     textAlign: 'center',
     backgroundColor: 'transparent',
+    zIndex: '$indexLetter',
   },
   letter_area: {
     width: 40,

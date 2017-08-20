@@ -5,6 +5,7 @@ import {
 } from '../actions/map';
 
 import initialState from '../config/initialState';
+import store from '../config/store';
 
 export default (state = initialState.myLetters, action) => {
   switch (action.type) {
@@ -17,6 +18,15 @@ export default (state = initialState.myLetters, action) => {
 
     case PUT_LETTER_ON_MAP:
       console.log('Reducer: PUT_LETTER_ON_MAP');
+
+      let user = store.getState().user;
+      let c = user.map.coordinates;
+
+      const lat = c.latitude + action.y * c.latitudeDelta;
+      const lng = c.longitude + action.x * c.longitudeDelta;
+
+      console.log(action, lat, lng)
+
       return {
         ...state,
         content: [
@@ -25,8 +35,8 @@ export default (state = initialState.myLetters, action) => {
             _id: 'temp_id',
             character: action.character,
             coords: {
-              lat: 52.4972,
-              lng: 13.4377,
+              lat: lat,
+              lng: lng,
             },
           }
         ]
