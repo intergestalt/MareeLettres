@@ -62,36 +62,8 @@ OK:
 
 ### MAP (Map Game)
 
-GET api/letters
-
-## (discussion / to do)
-
-#### GET api/letters?centerLat=...&centerLng=...&radius=...
-Get letters in radius
-
-#### GET api/letters?since=:seconds
-Get the new letters placed withing the last :seconds
-
-NOTE: Choose :seconds from a limited set. For example always use 5 seconds. Or only use 5 or 10 seconds. This is to leverage caching, which happens per URL.
-
 #### GET api/letters
-The GET letters request should allow transmission of player coordinates
-
-##### request body
-```
-{
-  player: {
-    position: {
-      lat: ...,
-      lng: ...
-      }
-   }
-}
-```
-
-NOTE: this would be a PATCH request. WTF.
-
-IDEA: Allow both verbs, GET and PATCH, but only URL-Cache GET?
+Get all letters on map
 
 #### POST api/letters 
 Place a letter on the map
@@ -129,6 +101,37 @@ FAIL:
 }
 ```
 NOTE: assuming no date/time discrepancies, using UTC ISODate
+
+
+
+## (discussion / to do)
+
+#### GET api/letters?centerLat=...&centerLng=...&radius=...
+Get letters in radius
+
+#### GET api/letters?since=:seconds
+Get the new letters placed withing the last :seconds
+
+NOTE: Choose :seconds from a limited set. For example always use 5 seconds. Or only use 5 or 10 seconds. This is to leverage caching, which happens per URL.
+
+#### GET api/letters
+The GET letters request should allow transmission of player coordinates
+
+##### request body
+```
+{
+  player: {
+    position: {
+      lat: ...,
+      lng: ...
+      }
+   }
+}
+```
+
+NOTE: this would be a PATCH request. WTF.
+
+IDEA: Allow both verbs, GET and PATCH, but only URL-Cache GET?
 
 #### POST api/players/:player_id/letters/send
 ##### request body
