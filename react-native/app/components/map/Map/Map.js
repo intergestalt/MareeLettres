@@ -1,111 +1,102 @@
 import React, { Component, PropTypes } from 'react';
 import { View, Text } from 'react-native';
 import MapView from 'react-native-maps';
+
+import { changeMapRegionProxy } from '../../../helper/mapHelper';
+
 import { connect } from 'react-redux';
-
-import { LettersMenu, CameraButton } from '../Overlay';
-import {
-  navigateToMapCamera,
-  navigateToQRCodeGet,
-  navigateToQRCodeSend,
-  navigateToLetterSelector
-} from '../../../helper/navigationProxy';
-
 import { styles, mapstyles } from './styles';
 
 class Map extends Component {
   static propTypes = {
     navigation: PropTypes.object,
+    origin_id: PropTypes.string,
     letters: PropTypes.array,
-    user: PropTypes.object,
+    my_letters: PropTypes.array,
+    dropzone_radius: PropTypes.number,
+    coordinates: PropTypes.object,
   };
 
-  onPress(region) {
+  onPress = (e) => {
+    let region = e.nativeEvent;
     // click map
   };
 
-  onRegionChange(region) {
+  onRegionChange = (region) => {
     // drag map
   };
 
-  onRegionChangeComplete(region) {
-    // after drag map
-  };
-
-  handleLetterDrag(letter) {
-    console.log('DRAGGED');
+  onRegionChangeComplete = (region) => {
+    changeMapRegionProxy(region);
   };
 
   render() {
-    const user = this.props.user;
-    const coords = this.props.user.coordinates;
+    console.log('MAP RENDERED');
+    console.log(this.props);
 
     return (
-      <View style={styles.container}>
+      <View style = {styles.container}>
         <MapView
-          onRegionChange={e => this.onRegionChange(e)}
-          onRegionChangeComplete={e => this.onRegionChangeComplete(e)}
-          onPress={e => this.onPress(e.nativeEvent)}
-          provider={MapView.PROVIDER_GOOGLE}
-          style={styles.container}
-          initialRegion={{
-            ...coords,
-            latitudeDelta: 0.008, // 0.0922, 0.0421
-            longitudeDelta: 0.008,
-          }}
+          onRegionChange = {this.onRegionChange}
+          onRegionChangeComplete = {this.onRegionChangeComplete}
+          onPress = {this.onPress}
+          provider = {MapView.PROVIDER_GOOGLE}
+          style = {styles.container}
+          initialRegion = {{ ...this.props.coordinates }}
     	  customMapStyle={mapstyles}
         >
-
           <MapView.Circle
-            // Drop Zone, TODO: add line dash
-            center = {{...coords}}
+            center = {{ ...this.props.coordinates }}
             radius = {1}
             strokeColor = {'#fff'}
-            ></MapView.Circle>
+            />
           <MapView.Circle
-            center = {{...coords}}
-            radius = {300}
-            strokeColor = {'rgba(255,255,255,0.25)' }
-            fillColor = {'rgba(255,255,255,0.1)'}
-            ></MapView.Circle>
+            center = {{ ...this.props.coordinates }}
+            radius = { this.props.dropzone_radius }
+            strokeColor = { 'rgba(255,255,255,0.25)' }
+            fillColor = { 'rgba(255,255,255,0.1)' }
+            />
           <MapView.Marker
             title={'drop_zone'}
             coordinate={{
-              latitude: user.coordinates.latitude + 0.0002,
-              longitude: user.coordinates.longitude,
-            }} ><Text style={styles.letterDropZone}>DROP ZONE</Text>
+              latitude: this.props.coordinates.latitude + 0.0002,
+              longitude: this.props.coordinates.longitude,
+            }}
+            >
+            <Text style={styles.letter_dropzone}>
+              DROP ZONE
+            </Text>
           </MapView.Marker>
 
           {
             this.props.letters.map((item, i) => {
               if (i < 25) {
-                let draggable = (item._id === user.origin_id);
+                return (
+                  <MapView.Marker
+                    key={i}
+                    coordinate={{latitude:item.coords.lat, longitude:item.coords.lng}}
+                    ><Text style={styles.letter}>
+                      {item.character}
+                    </Text>
+                  </MapView.Marker>
+                );
+              }
+            })
+          }
 
-                if (draggable) {
-                  return (
-                    <MapView.Marker
-                      draggable
-                      onDragEnd={this.handleLetterDrag}
-                      key={i}
-                      title={item.character}
-                      coordinate={{latitude:item.coords.lat, longitude:item.coords.lng}}
-                      ><Text style={styles.letterDraggable}>
-                        {item.character}
-                      </Text>
-                    </MapView.Marker>
-                  );
-                } else {
-                  return (
-                    <MapView.Marker
-                      key={i}
-                      coordinate={{latitude:item.coords.lat, longitude:item.coords.lng}}
-                      ><Text style={styles.letter}>
-                        {item.character}
-                      </Text>
-                    </MapView.Marker>
-                  );
-                }
-              } else { return null; }
+          {
+            this.props.my_letters.map((item, i) => {
+              if (i < 25) {
+                return (
+                  <MapView.Marker
+                    key={i}
+                    coordinate={{latitude:item.coords.lat, longitude:item.coords.lng}}
+                    ><Text style={styles.letter}>
+                      {item.character}
+                    </Text>
+                  </MapView.Marker>
+                );
+              }
             })
           }
 
@@ -117,12 +108,14 @@ class Map extends Component {
 }
 
 const mapStateToProps = (state) => {
-  const user = state.user;
+  const origin_id = state.user.origin_id;
   const letters = state.letters.content;
+  const my_letters = state.letters.my_letters;
+  const coordinates = state.user.coordinates;
+  const dropzone_radius = state.user.map.dropzone_radius;
 
   return {
-    user,
-    letters,
+    origin_id, letters, my_letters, coordinates, dropzone_radius,
   };
 };
 

@@ -12,18 +12,18 @@ import {
 import initialState from '../config/initialState';
 
 const selectMenuItem = (state, index) => {
-  if (index === 'primary_letter') {
+  if (index < 0) {
     return state;
   } else {
-    let newFriends = state.map.lettersSelected.friends;
+    let newFriends = state.map.letters_selected.friends;
     newFriends[index] = true;
 
     return {
       ...state,
       map: {
         ...state.map,
-        lettersSelected: {
-          mine: state.map.lettersSelected,
+        letters_selected: {
+          mine: state.map.letters_selected.mine,
           friends: newFriends,
         }
       }

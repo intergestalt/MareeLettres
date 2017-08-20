@@ -1,13 +1,36 @@
 import { OriginId } from 'maree-lettres-shared';
 import { PROPOSAL_LIST_MODES, CHALLENGE_VIEWS, PROPOSAL_VIEWS } from '../consts';
 
-const sampleDate = (new Date()).getTime();
-const lat = 52.4975;
+const sampleDate = (new Date()).toISOString();
+const lat = 52.4972;
 const lng = 13.4377;
+const latDelta = 0.001;
+const lngDelta = 0.001;
 
 export default {
   user: {
     origin_id: OriginId.generateFromDeviceId(Expo.Constants.deviceId),
+    created_at: sampleDate,
+    last_seen: sampleDate,
+    coordinates: {
+      latitude: lat,
+      longitude: lng,
+      latitudeDelta: latDelta,
+      longitudeDelta: lngDelta,
+    },
+    map: {
+      dropzone_radius: 30,
+      coordinates: {
+        latitude: lat,
+        longitude: lng,
+        latitudeDelta: latDelta,
+        longitudeDelta: lngDelta,
+      },
+      letters_selected: {
+        mine: false,
+        friends: [false, false, false, false],
+      },
+    },
     primary_letter: {
       character: 'X',
       acquired_at: sampleDate,
@@ -35,26 +58,7 @@ export default {
       proposal_id: 'my_proposal',
       bool: true,
     }],
-    created_at: sampleDate,
-    last_seen: sampleDate,
     banned: false,
-    coordinates: {
-      latitude: lat,
-      longitude: lng,
-    },
-    // user interaction with map
-    map: {
-      // items selected in Map menu
-      lettersSelected: {
-        mine: false,
-        friends: [false, false, false, false],
-      },
-      // coords of last map interaction
-      coords: {
-        lat: lat,
-        lng: lng,
-      },
-    },
   },
 
   globals: {
@@ -73,7 +77,9 @@ export default {
     time: 0,
     challenges: [],
   },
+
   challengesTicker: {},
+
   proposals: {},
 
   content: {
@@ -89,15 +95,13 @@ export default {
     isInternalLoading: false,
     isError: false,
     content: [],
+    my_letters: [],
   },
 
-  // letter response structure
-  // {
-  //     "_id": "neNZkj5QJhRvXJkJu",
-  //     "character": "M",
-  //     "coords": {
-  //         "lat": 52.47541975964792,
-  //         "lng": 13.453484357399867
-  //     }
-  // }
+  //"_id": "pgYw8TzdLc8NQfdzw",
+  //"character": "C",
+  //"coords": {
+  //    "lat": 52.47469235825353,
+  //    "lng": 13.479836201593281
+  //}
 };

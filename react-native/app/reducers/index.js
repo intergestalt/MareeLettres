@@ -7,6 +7,7 @@ import proposals from './proposals';
 import content from './content';
 import letters from './letters';
 import user from './user';
+import map from './map';
 
 export default combineReducers({
   globals,
@@ -16,4 +17,5 @@ export default combineReducers({
   content,
   letters,
   user,
+  map,
 });

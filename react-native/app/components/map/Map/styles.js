@@ -10,12 +10,12 @@ const styles = EStyleSheet.create({
 		color: 'white',
 		fontSize: 16,
   },
-	letterDropZone: {
+	letter_dropzone: {
 		fontWeight: 'normal',
 		color: 'rgba(255,255,255,0.5)',
 		fontSize: 16,
 	},
-	letterDraggable: {
+	letter_draggable: {
     fontWeight: 'bold',
 		color: 'rgb(245,132,102)',
 		fontSize: 18,
