@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { View, Text, PanResponder, Animated, TouchableOpacity, Dimensions } from 'react-native';
 
-import { updateLetterMenuProxy } from '../../../helper/userHelper';
+import { updateLetterMenuProxy, reviveLetterMenuProxy } from '../../../helper/userHelper';
 import { putLetterOnMapProxy } from '../../../helper/mapHelper';
 import { navigateToLetterSelector } from '../../../helper/navigationProxy';
 
@@ -12,6 +12,7 @@ class Letter extends Component {
     navigation: PropTypes.object,
     character: PropTypes.string,
     selected: PropTypes.bool,
+    id: PropTypes.string,
     main: PropTypes.bool,
     index: PropTypes.number,
   }
@@ -31,14 +32,13 @@ class Letter extends Component {
           }]),
           onPanResponderRelease : (e, gesture) => {
             if(this.isDropZone(gesture)){
-              //console.log(gesture);
-              this.onDrop(gesture.moveX, gesture.moveY);
               Animated.timing(
                 this.state.pan, {
                   toValue: {x:0, y:0},
                   duration: 1
                 },
               ).start();
+              this.onDrop(gesture.moveX, gesture.moveY);
             } else {
               Animated.spring(
                   this.state.pan,
@@ -55,8 +55,19 @@ class Letter extends Component {
     let tx = ((x / win.width) - 0.5) * 1;
     let ty = (((y - 60) / (win.height - 230) - 0.5)) * -1;
 
+    // put letter on map
     putLetterOnMapProxy(this.props.character, tx, ty);
     updateLetterMenuProxy(this.props.index);
+
+    // set timer to reactivate letter
+    if (!this.props.main) {
+      let index = this.props.index;
+      let char  = this.props.character;
+
+      setTimeout(function(){
+        reviveLetterMenuProxy(index, char);
+      }, 1000);
+    };
   }
 
   isDropZone(gesture){
@@ -112,21 +123,13 @@ class Letter extends Component {
   renderFriends() {
     return (
       <View style = {styles.background_secondary}>
-        {
-          this.props.selected
-          ? <View style={styles.letter_area}>
-              <Text style={styles.disabled}>
-                {this.props.character}
-              </Text>
-            </View>
-          : <Animated.View
-              {...this.panResponder.panHandlers}
-              style = {[this.state.pan.getLayout(), styles.letter_area]}>
-                <Text style={styles.letter}>
-                  {this.props.character}
-                </Text>
-            </Animated.View>
-          }
+        <Animated.View
+          {...this.panResponder.panHandlers}
+          style = {[this.state.pan.getLayout(), styles.letter_area]}>
+            <Text style={this.props.selected ? styles.disabled : styles.letter}>
+              {this.props.character}
+            </Text>
+        </Animated.View>
       </View>
     )
   }

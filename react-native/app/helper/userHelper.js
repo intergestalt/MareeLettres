@@ -5,6 +5,7 @@ import {
   setUserSecondaryLetters,
   putLetterOnMap,
   updateLetterMenu,
+  reviveLetterMenu,
   wipeLetterMenu,
   deleteLetters,
   getUserLetter,
@@ -18,6 +19,10 @@ export function deleteLettersProxy() {
 
 export function updateLetterMenuProxy(menuIndex) {
   store.dispatch(updateLetterMenu(menuIndex));
+}
+
+export function reviveLetterMenuProxy(menuIndex, character) {
+  store.dispatch(reviveLetterMenu(menuIndex, character));
 }
 
 export function wipeLetterMenuProxy() {

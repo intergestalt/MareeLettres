@@ -47,6 +47,7 @@ class LettersMenu extends Component {
                     <Letter
                       key = {i}
                       index = {i}
+                      id = {item._id}
                       character = {item.character}
                       selected = {this.props.letters_selected.friends[i]}
                       />
@@ -60,6 +61,7 @@ class LettersMenu extends Component {
                   <Letter
                     key = {i}
                     index = {-1}
+                    id = {item._id}
                     character = {''}
                     selected = {false}
                     />

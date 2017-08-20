@@ -5,6 +5,7 @@ import {
   USER_SET_PRIMARY_LETTER,
   USER_DELETE_LETTERS,
   USER_UPDATE_LETTER_MENU,
+  USER_REVIVE_LETTER_MENU,
   USER_WIPE_LETTER_MENU,
   USER_UPDATE_ERROR,
   USER_GET_LETTER,
@@ -17,23 +18,7 @@ import {
 import initialState from '../config/initialState';
 
 const selectMenuItem = (state, index) => {
-  if (index < 0) {
-    return state;
-  } else {
-    let newFriends = [ ...state.map.letters_selected.friends ];
-    newFriends[index] = true;
 
-    return {
-      ...state,
-      map: {
-        ...state.map,
-        letters_selected: {
-          mine: state.map.letters_selected.mine,
-          friends: newFriends,
-        }
-      }
-    }
-  }
 };
 
 export default (state = initialState.user, action) => {
@@ -66,7 +51,46 @@ export default (state = initialState.user, action) => {
 
     case USER_UPDATE_LETTER_MENU:
       console.log('Reducer: USER_UPDATE_LETTER_MENU');
-      return selectMenuItem(state, action.menuIndex);
+
+      if (action.menuIndex < 0) {
+        return state;
+      } else {
+        let newFriends = [ ...state.map.letters_selected.friends ];
+        newFriends[action.menuIndex] = true;
+
+        return {
+          ...state,
+          map: {
+            ...state.map,
+            letters_selected: {
+              mine: state.map.letters_selected.mine,
+              friends: newFriends,
+            }
+          }
+        }
+      };
+
+    case USER_REVIVE_LETTER_MENU: {
+      console.log('Reducer: USER_REVIVE_LETTER_MENU');
+
+      let letters = state.secondary_letters;
+      let friends = [ ...state.map.letters_selected.friends ];
+
+      if (letters.length > action.menuIndex && letters[action.menuIndex].character === action.character) {
+        friends[action.menuIndex] = false;
+      }
+
+      return {
+        ...state,
+        map: {
+          ...state.map,
+          letters_selected: {
+            ...state.map.letters_selected,
+            friends: friends,
+          }
+        }
+      }
+    }
 
     case USER_WIPE_LETTER_MENU:
       console.log('Reducer: USER_WIPE_LETTER_MENU');

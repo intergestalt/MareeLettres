@@ -7,6 +7,20 @@ const lng = 13.4377;
 const latDelta = 0.001;
 const lngDelta = 0.001;
 
+// NOTE:
+// when slicing the state in a reducer, the reducer will change the key name
+//
+// EXAMPLE:
+//
+//    initialState = { key: 'my_value' };
+//
+//    const myReducer = (state = initialState.key, action) => {
+//       ...etc
+//      return state;
+//    }
+//
+//    newState = { myReducer: 'my_value' }
+
 export default {
   user: {
     origin_id: OriginId.generateFromDeviceId(Expo.Constants.deviceId),
