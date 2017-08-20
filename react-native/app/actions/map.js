@@ -10,6 +10,5 @@ export const changeMapRegion = (region) => ({
 
 export const putLetterOnMap = (character) => ({
   type: PUT_LETTER_ON_MAP,
-  errorEvent: PUT_LETTER_ERROR,
   character: character,
 })

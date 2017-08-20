@@ -5,9 +5,9 @@ import challenges from './challenges';
 import challengesTicker from './challengesTicker';
 import proposals from './proposals';
 import content from './content';
+import map from './map';
 import letters from './letters';
 import user from './user';
-import map from './map';
 
 export default combineReducers({
   globals,
@@ -15,7 +15,7 @@ export default combineReducers({
   challengesTicker,
   proposals,
   content,
+  map,
   letters,
   user,
-  map,
 });

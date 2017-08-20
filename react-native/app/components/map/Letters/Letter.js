@@ -22,7 +22,10 @@ class Letter extends Component {
           }]),
           onPanResponderRelease : (e, gesture) => {
             if(this.isDropZone(gesture)){
-              this.onDrop();
+              this.onDrop(
+                this.props.index,
+                this.props.character
+              );
               Animated.timing(
                 this.state.pan, {
                   toValue: {x:0, y:0},
@@ -47,8 +50,8 @@ class Letter extends Component {
   }
 
   onDrop = () => {
-    updateLetterMenuProxy(this.props.index);
     putLetterOnMapProxy(this.props.character);
+    updateLetterMenuProxy(this.props.index);
   }
 
   isDropZone(gesture){

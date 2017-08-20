@@ -15,7 +15,7 @@ const selectMenuItem = (state, index) => {
   if (index < 0) {
     return state;
   } else {
-    let newFriends = state.map.letters_selected.friends;
+    let newFriends = [ ...state.map.letters_selected.friends ];
     newFriends[index] = true;
 
     return {

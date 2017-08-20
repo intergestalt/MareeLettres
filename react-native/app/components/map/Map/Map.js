@@ -32,7 +32,6 @@ class Map extends Component {
 
   render() {
     console.log('MAP RENDERED');
-    console.log(this.props);
 
     return (
       <View style = {styles.container}>
@@ -69,6 +68,21 @@ class Map extends Component {
           </MapView.Marker>
 
           {
+            this.props.my_letters.map((item, i) => {
+              if (i < 25) {
+                return (
+                  <MapView.Marker
+                    key={i}
+                    coordinate={{latitude:item.coords.lat, longitude:item.coords.lng}}
+                    ><Text style={styles.letter}>
+                      {item.character}
+                    </Text>
+                  </MapView.Marker>
+                );
+              }
+            })
+          }
+          {
             this.props.letters.map((item, i) => {
               if (i < 25) {
                 return (
@@ -84,24 +98,7 @@ class Map extends Component {
             })
           }
 
-          {
-            this.props.my_letters.map((item, i) => {
-              if (i < 25) {
-                return (
-                  <MapView.Marker
-                    key={i}
-                    coordinate={{latitude:item.coords.lat, longitude:item.coords.lng}}
-                    ><Text style={styles.letter}>
-                      {item.character}
-                    </Text>
-                  </MapView.Marker>
-                );
-              }
-            })
-          }
-
         </MapView>
-
       </View>
     );
   }
@@ -113,6 +110,8 @@ const mapStateToProps = (state) => {
   const my_letters = state.letters.my_letters;
   const coordinates = state.user.coordinates;
   const dropzone_radius = state.user.map.dropzone_radius;
+
+  console.log(my_letters.length);
 
   return {
     origin_id, letters, my_letters, coordinates, dropzone_radius,
