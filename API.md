@@ -66,7 +66,7 @@ OK:
 Get all letters on map
 
 #### POST api/letters 
-Place a letter on the map
+Place letters on the map
 
 ##### request body
 ```
