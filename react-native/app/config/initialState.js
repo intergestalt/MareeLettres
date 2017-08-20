@@ -32,24 +32,24 @@ export default {
       },
     },
     primary_letter: {
-      character: 'X',
+      character: '...',
       acquired_at: sampleDate,
       last_used_at: sampleDate,
     },
     secondary_letters: [{
-        character: 'A',
+        character: 'L',
         acquired_at: sampleDate,
         last_used_at: sampleDate,
       },{
-        character: 'B',
+        character: 'O',
         acquired_at: sampleDate,
         last_used_at: sampleDate,
       },{
-        character: 'C',
+        character: 'V',
         acquired_at: sampleDate,
         last_used_at: sampleDate,
       },{
-        character: 'D',
+        character: 'E',
         acquired_at: sampleDate,
         last_used_at: sampleDate,
       },

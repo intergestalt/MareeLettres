@@ -19,26 +19,41 @@ export default (state = initialState.myLetters, action) => {
     case PUT_LETTER_ON_MAP:
       console.log('Reducer: PUT_LETTER_ON_MAP');
 
+      // calculate lat & long
       let user = store.getState().user;
       let c = user.map.coordinates;
+      let lat = c.latitude + action.y * c.latitudeDelta;
+      let lng = c.longitude + action.x * c.longitudeDelta;
+      let content = [ ...state.content ];
+      let match = false;
+      
+      for (var i=0; i<content.length; i+=1) {
+        // TODO replace origin_id with transaction_id
 
-      const lat = c.latitude + action.y * c.latitudeDelta;
-      const lng = c.longitude + action.x * c.longitudeDelta;
+        if (content[i]._id === user.origin_id && content[i].character === action.character) {
+          match = true;
+          content[i].coords.lat = lat;
+          content[i].coords.lng = lng;
+          break;
+        }
+      }
 
-      console.log(action, lat, lng)
+      // add new letter
+      if (!match) {
+        content.push({
+          _id: user.origin_id,
+          character: action.character,
+          coords: {
+            lat: lat,
+            lng: lng,
+          }
+        });
+      }
 
       return {
         ...state,
         content: [
-          ...state.content,
-          {
-            _id: 'temp_id',
-            character: action.character,
-            coords: {
-              lat: lat,
-              lng: lng,
-            },
-          }
+          ...content
         ]
       };
 

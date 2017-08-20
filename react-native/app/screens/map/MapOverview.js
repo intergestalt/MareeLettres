@@ -27,9 +27,7 @@ class MapOverview extends Component {
         <Map navigation={this.props.navigation} />
         <CameraButton navigation={this.props.navigation} />
         <LettersMenu
-          letterSelectorPress={() => this.handleLetterSelectorPress()}
-          shareLettersPress={() => this.handleShareLettersPress()}
-          getLettersPress={() => this.handleGetLettersPress()}
+          navigation={this.props.navigation}
           />
         <MapScreenMenu navigation={this.props.navigation} />
       </Screen>

@@ -13,7 +13,7 @@ export default EStyleSheet.create({
     backgroundColor: 'transparent',
     zIndex: '$indexLetter',
   },
-  selected: {
+  disabled: {
     color: 'rgba(0,0,0,0.25)',
     textAlign: 'center',
     backgroundColor: 'transparent',

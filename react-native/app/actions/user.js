@@ -7,6 +7,12 @@ export const USER_LETTER_TO_MAP = 'USER_PUT_LETTER_ON_MAP';
 export const USER_UPDATE_ERROR = 'USER_UPDATE_ERROR';
 export const USER_UPDATE_LETTER_MENU = 'USER_UPDATE_LETTER_MENU';
 export const USER_WIPE_LETTER_MENU = 'USER_WIPE_LETTER_MENU';
+export const USER_GET_LETTER = 'USER_GET_LETTER';
+
+export const getUserLetter = () => ({
+  type: USER_GET_LETTER,
+  errorEvent: USER_UPDATE_ERROR,
+});
 
 export const setUserId = () => ({
   type: USER_SET_ID,

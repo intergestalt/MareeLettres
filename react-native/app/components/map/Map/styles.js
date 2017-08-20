@@ -13,7 +13,7 @@ const styles = EStyleSheet.create({
 	letter_dropzone: {
 		fontWeight: 'normal',
 		color: 'rgba(255,255,255,0.5)',
-		fontSize: 16,
+		fontSize: 12,
 	},
 	letter_draggable: {
     fontWeight: 'bold',

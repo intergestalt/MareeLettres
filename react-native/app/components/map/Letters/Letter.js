@@ -1,12 +1,21 @@
 import React, { Component, PropTypes } from 'react';
-import { View, Text, PanResponder, Animated, TouchableHighlight, Dimensions } from 'react-native';
+import { View, Text, PanResponder, Animated, TouchableOpacity, Dimensions } from 'react-native';
 
 import { updateLetterMenuProxy } from '../../../helper/userHelper';
 import { putLetterOnMapProxy } from '../../../helper/mapHelper';
+import { navigateToLetterSelector } from '../../../helper/navigationProxy';
 
 import styles from './styles';
 
 class Letter extends Component {
+  static propTypes = {
+    navigation: PropTypes.object,
+    character: PropTypes.string,
+    selected: PropTypes.bool,
+    main: PropTypes.bool,
+    index: PropTypes.number,
+  }
+
   constructor(props){
       super(props);
 
@@ -40,13 +49,6 @@ class Letter extends Component {
       });
   }
 
-  static propTypes = {
-    character: PropTypes.string,
-    selected: PropTypes.bool,
-    main: PropTypes.bool,
-    index: PropTypes.number,
-  }
-
   onDrop = (x, y) => {
     // normalise coordinates and put in range [-1, 1]
     let win = Dimensions.get('window');
@@ -67,24 +69,66 @@ class Letter extends Component {
     }
   }
 
+  onPress = () => {
+    console.log(this.props)
+    navigateToLetterSelector(this.props);
+  }
+
   render() {
+    if (this.props.main) {
+      return this.renderYou();
+    } else {
+      return this.renderFriends();
+    }
+  }
+
+  renderYou() {
     return (
-      <View
-        style = {this.props.main ? styles.background_main : styles.background_secondary}
-        >
-        <Animated.View
-          {...this.panResponder.panHandlers}
-          style = {[
-            this.state.pan.getLayout(),
-            styles.letter_area,
-          ]}
-          >
-            <Text style={this.props.selected ? styles.selected : styles.letter}>
-              {this.props.character}
-            </Text>
-        </Animated.View>
+      <View style = {styles.background_main}>
+        {
+          this.props.character === '...'
+          ? <TouchableOpacity
+              onPress={this.onPress}
+              style={styles.letter_area}>
+              <Text style={styles.disabled}>
+                {'...'}
+              </Text>
+            </TouchableOpacity>
+          : <Animated.View
+              {...this.panResponder.panHandlers}
+              style = {[
+                this.state.pan.getLayout(),
+                styles.letter_area,
+              ]}>
+                <Text style={styles.letter}>
+                  {this.props.character}
+                </Text>
+            </Animated.View>
+          }
       </View>
     );
+  }
+
+  renderFriends() {
+    return (
+      <View style = {styles.background_secondary}>
+        {
+          this.props.selected
+          ? <View style={styles.letter_area}>
+              <Text style={styles.disabled}>
+                {this.props.character}
+              </Text>
+            </View>
+          : <Animated.View
+              {...this.panResponder.panHandlers}
+              style = {[this.state.pan.getLayout(), styles.letter_area]}>
+                <Text style={styles.letter}>
+                  {this.props.character}
+                </Text>
+            </Animated.View>
+          }
+      </View>
+    )
   }
 };
 

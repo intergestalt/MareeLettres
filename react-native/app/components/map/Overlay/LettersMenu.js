@@ -5,22 +5,15 @@ import { connect } from 'react-redux';
 
 import { Letter } from '../Letters';
 
-import { navigateToLetterSelector } from '../../../helper/navigationProxy';
-
 class LettersMenu extends Component {
   static propTypes = {
     navigation: PropTypes.object,
     primary_letter: PropTypes.string,
     secondary_letters: PropTypes.array,
     letters_selected: PropTypes.object,
-    letterSelectorPress: PropTypes.func,
     map: PropTypes.object,
     user: PropTypes.object,
   };
-
-  handleLetterSelectorPress() {
-    navigateToLetterSelector(this.props);
-  }
 
   render() {
     let length = 4 - this.props.secondary_letters.length;
@@ -37,10 +30,11 @@ class LettersMenu extends Component {
         <View style={styles.letters__item__you}>
           <Text style={styles.letters__label__you}>You</Text>
           <Letter
-            main
             character = {this.props.primary_letter}
             selected = {this.props.letters_selected.mine}
             index = {-1}
+            navigation = {this.props.navigation}
+            main
             />
         </View>
         <View style={styles.letters__item__friends}>

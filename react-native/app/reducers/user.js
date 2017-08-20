@@ -7,6 +7,7 @@ import {
   USER_UPDATE_LETTER_MENU,
   USER_WIPE_LETTER_MENU,
   USER_UPDATE_ERROR,
+  USER_GET_LETTER,
 } from '../actions/user';
 
 import {
@@ -46,6 +47,22 @@ export default (state = initialState.user, action) => {
           coordinates: action.region,
         },
       };
+
+    case USER_GET_LETTER:
+      console.log('Reducer: USER_GET_LETTER');
+
+      // get random letter for now
+      // TODO: replace with keyboard component
+      let letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L',
+        'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
+      let char = letters[Math.floor(Math.random() * 26)];
+      return {
+        ...state,
+        primary_letter: {
+          ...state.primary_letter,
+          character: char,
+        }
+      }
 
     case USER_UPDATE_LETTER_MENU:
       console.log('Reducer: USER_UPDATE_LETTER_MENU');

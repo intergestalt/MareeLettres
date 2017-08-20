@@ -58,12 +58,12 @@ class Map extends Component {
           <MapView.Marker
             title={'drop_zone'}
             coordinate={{
-              latitude: this.props.coordinates.latitude + 0.0002,
+              latitude: this.props.coordinates.latitude + 0.00005,
               longitude: this.props.coordinates.longitude,
             }}
             >
             <Text style={styles.letter_dropzone}>
-              DROP ZONE
+              Drop Zone
             </Text>
           </MapView.Marker>
 
