@@ -5,9 +5,11 @@ import {
   USER_SET_PRIMARY_LETTER,
   USER_DELETE_LETTERS,
   USER_UPDATE_LETTER_MENU,
+  USER_REVIVE_LETTER_MENU,
   USER_WIPE_LETTER_MENU,
   USER_UPDATE_ERROR,
   USER_GET_LETTER,
+  USER_BIN_LETTER,
 } from '../actions/user';
 
 import {
@@ -17,23 +19,7 @@ import {
 import initialState from '../config/initialState';
 
 const selectMenuItem = (state, index) => {
-  if (index < 0) {
-    return state;
-  } else {
-    let newFriends = [ ...state.map.letters_selected.friends ];
-    newFriends[index] = true;
 
-    return {
-      ...state,
-      map: {
-        ...state.map,
-        letters_selected: {
-          mine: state.map.letters_selected.mine,
-          friends: newFriends,
-        }
-      }
-    }
-  }
 };
 
 export default (state = initialState.user, action) => {
@@ -66,7 +52,75 @@ export default (state = initialState.user, action) => {
 
     case USER_UPDATE_LETTER_MENU:
       console.log('Reducer: USER_UPDATE_LETTER_MENU');
-      return selectMenuItem(state, action.menuIndex);
+
+      if (action.menuIndex < 0) {
+        return state;
+      } else {
+        let newFriends = [ ...state.map.letters_selected.friends ];
+        newFriends[action.menuIndex] = true;
+
+        return {
+          ...state,
+          map: {
+            ...state.map,
+            letters_selected: {
+              mine: state.map.letters_selected.mine,
+              friends: newFriends,
+            }
+          }
+        }
+      };
+
+    case USER_REVIVE_LETTER_MENU: {
+      console.log('Reducer: USER_REVIVE_LETTER_MENU');
+
+      let letters = state.secondary_letters;
+      let friends = [ ...state.map.letters_selected.friends ];
+
+      if (letters.length > action.menuIndex && letters[action.menuIndex].character === action.character) {
+        friends[action.menuIndex] = false;
+      } else {
+        // case user deletes a letter (altering index)
+        // TODO: change key to transaction_id when it's implemented
+
+        for (var i=0; i<letters.length; i+=1) {
+          if (i < 4 && letters[i].character === action.character) {
+            friends[i] = false;
+          }
+        }
+      }
+
+      return {
+        ...state,
+        map: {
+          ...state.map,
+          letters_selected: {
+            ...state.map.letters_selected,
+            friends: friends,
+          }
+        }
+      }
+    };
+
+    case USER_BIN_LETTER: {
+      console.log('Reducer: USER_BIN_LETTER');
+
+      let letters = [ ...state.secondary_letters ];
+      let newLetters = [];
+
+      for (var i=0; i<letters.length; i+=1) {
+        if (i != action.menuIndex) {
+          newLetters.push(letters[i]);
+        }
+      }
+
+      return {
+        ...state,
+        secondary_letters: [
+          ...newLetters,
+        ]
+      }
+    }
 
     case USER_WIPE_LETTER_MENU:
       console.log('Reducer: USER_WIPE_LETTER_MENU');

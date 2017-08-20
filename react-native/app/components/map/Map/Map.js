@@ -42,6 +42,7 @@ class Map extends Component {
           provider = {MapView.PROVIDER_GOOGLE}
           style = {styles.container}
           initialRegion = {{ ...this.props.coordinates }}
+          rotateEnabled = {false}
     	  customMapStyle={mapstyles}
         >
           <MapView.Circle
@@ -69,22 +70,20 @@ class Map extends Component {
 
           {
             this.props.my_letters.map((item, i) => {
-              if (i < 25) {
-                return (
-                  <MapView.Marker
-                    key={i}
-                    coordinate={{latitude:item.coords.lat, longitude:item.coords.lng}}
-                    ><Text style={styles.letter}>
-                      {item.character}
-                    </Text>
-                  </MapView.Marker>
-                );
-              }
+              return (
+                <MapView.Marker
+                  key={i}
+                  coordinate={{latitude:item.coords.lat, longitude:item.coords.lng}}
+                  ><Text style={styles.letter}>
+                    {item.character}
+                  </Text>
+                </MapView.Marker>
+              );
             })
           }
           {
             this.props.letters.map((item, i) => {
-              if (i < 25) {
+              if (i < 30) {
                 return (
                   <MapView.Marker
                     key={i}
@@ -110,8 +109,6 @@ const mapStateToProps = (state) => {
   const my_letters = state.myLetters.content;
   const coordinates = state.user.coordinates;
   const dropzone_radius = state.user.map.dropzone_radius;
-
-  console.log(my_letters);
 
   return {
     origin_id, letters, my_letters, coordinates, dropzone_radius,

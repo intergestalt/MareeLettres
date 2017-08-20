@@ -16,10 +16,10 @@ class MapScreenMenu extends Component {
   handleGet = () => {
     navigateToQRCodeGet(this.props);
   }
-  
+
   handleTrash = () => {
-    deleteLettersProxy();
-    wipeLetterMenuProxy();
+    //deleteLettersProxy();
+    //wipeLetterMenuProxy();
   }
 
   render() {
@@ -35,11 +35,11 @@ class MapScreenMenu extends Component {
             Get Letters
           </Text>
         </TouchableOpacity>
-        <TouchableOpacity style={[styles.menu__item, styles.menu__item__last]} onPress={this.handleTrash}>
+        <View style={[styles.menu__item, styles.menu__item__last]} onPress={this.handleTrash}>
           <Text style={styles.menu__text}>
-            Move Letters To Trash
+            Move Letter To Trash
           </Text>
-        </TouchableOpacity>
+        </View>
       </View>
     )
   }

@@ -8,6 +8,8 @@ export const USER_UPDATE_ERROR = 'USER_UPDATE_ERROR';
 export const USER_UPDATE_LETTER_MENU = 'USER_UPDATE_LETTER_MENU';
 export const USER_WIPE_LETTER_MENU = 'USER_WIPE_LETTER_MENU';
 export const USER_GET_LETTER = 'USER_GET_LETTER';
+export const USER_REVIVE_LETTER_MENU = 'USER_REVIVE_LETTER_MENU';
+export const USER_BIN_LETTER = 'USER_BIN_LETTER';
 
 export const getUserLetter = () => ({
   type: USER_GET_LETTER,
@@ -41,6 +43,19 @@ export const deleteLetters = () => ({
 
 export const updateLetterMenu = (menuIndex) => ({
   type: USER_UPDATE_LETTER_MENU,
+  errorEvent: USER_UPDATE_ERROR,
+  menuIndex: menuIndex,
+});
+
+export const reviveLetterMenu = (menuIndex, character) => ({
+  type: USER_REVIVE_LETTER_MENU,
+  errorEvent: USER_UPDATE_ERROR,
+  menuIndex: menuIndex,
+  character: character
+});
+
+export const binLetter = (menuIndex) => ({
+  type: USER_BIN_LETTER,
   errorEvent: USER_UPDATE_ERROR,
   menuIndex: menuIndex,
 });
