@@ -2,62 +2,63 @@ import { OriginId } from 'maree-lettres-shared';
 import { PROPOSAL_LIST_MODES, CHALLENGE_VIEWS, PROPOSAL_VIEWS } from '../consts';
 
 const sampleDate = (new Date()).toUTCString();
-const lat = 52.4975;
+const lat = 52.4972;
 const lng = 13.4377;
+const latDelta = 0.001;
+const lngDelta = 0.001;
 
 export default {
   user: {
-    // NOTE: Return string is very long. Results in complex (ugly) QR Codes.
-    //       Rework generateFromDeviceId? A set-length hash function might work
-    //       -xavier
     origin_id: OriginId.generateFromDeviceId(Expo.Constants.deviceId),
+    created_at: sampleDate,
+    last_seen: sampleDate,
+    coordinates: {
+      latitude: lat,
+      longitude: lng,
+      latitudeDelta: latDelta,
+      longitudeDelta: lngDelta,
+    },
+    map: {
+      dropzone_radius: 30,
+      coordinates: {
+        latitude: lat,
+        longitude: lng,
+        latitudeDelta: latDelta,
+        longitudeDelta: lngDelta,
+      },
+      letters_selected: {
+        mine: false,
+        friends: [false, false, false, false],
+      },
+    },
     primary_letter: {
-      character: 'X',
+      character: '...',
       acquired_at: sampleDate,
       last_used_at: sampleDate,
     },
     secondary_letters: [{
-        character: 'A',
+        character: 'L',
         acquired_at: sampleDate,
         last_used_at: sampleDate,
       },{
-        character: 'B',
+        character: 'O',
         acquired_at: sampleDate,
         last_used_at: sampleDate,
       },{
-        character: 'C',
+        character: 'V',
         acquired_at: sampleDate,
         last_used_at: sampleDate,
       },{
-        character: 'D',
+        character: 'E',
         acquired_at: sampleDate,
-        last_used_at: sampleDate, 
+        last_used_at: sampleDate,
       },
     ],
     votes: [{
       proposal_id: 'my_proposal',
       bool: true,
     }],
-    created_at: sampleDate,
-    last_seen: sampleDate,
     banned: false,
-    coordinates: {
-      latitude: lat,
-      longitude: lng,
-    },
-    // user interaction with map
-    map: {
-      // items selected in Map menu
-      lettersSelected: {
-        mine: false,
-        friends: [false, false, false, false],
-      },
-      // coords of last map interaction
-      coords: {
-        lat: lat,
-        lng: lng,
-      },
-    },
   },
 
   globals: {
@@ -76,7 +77,9 @@ export default {
     time: 0,
     challenges: [],
   },
+
   challengesTicker: {},
+
   proposals: {},
 
   content: {
@@ -94,13 +97,15 @@ export default {
     content: [],
   },
 
-  // letter response structure
-  // {
-  //     "_id": "neNZkj5QJhRvXJkJu",
-  //     "character": "M",
-  //     "coords": {
-  //         "lat": 52.47541975964792,
-  //         "lng": 13.453484357399867
-  //     }
-  // }
+  myLetters: {
+    isLoading: false,
+    isError: false,
+    content: [],
+  }
+  //"_id": "pgYw8TzdLc8NQfdzw",
+  //"character": "C",
+  //"coords": {
+  //    "lat": 52.47469235825353,
+  //    "lng": 13.479836201593281
+  //}
 };

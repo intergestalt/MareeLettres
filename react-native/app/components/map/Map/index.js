@@ -1,5 +1,4 @@
-import NativeMap from './NativeMap';
-
+import Map from './Map';
 import { styles, mapstyles } from './styles';
 
-export { NativeMap, styles, mapstyles };
+export { Map, styles, mapstyles };

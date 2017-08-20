@@ -7,23 +7,28 @@ import {
   USER_UPDATE_LETTER_MENU,
   USER_WIPE_LETTER_MENU,
   USER_UPDATE_ERROR,
+  USER_GET_LETTER,
 } from '../actions/user';
+
+import {
+  CHANGE_MAP_REGION
+} from '../actions/map';
 
 import initialState from '../config/initialState';
 
 const selectMenuItem = (state, index) => {
-  if (index === 'primary_letter') {
+  if (index < 0) {
     return state;
   } else {
-    let newFriends = state.map.lettersSelected.friends;
+    let newFriends = [ ...state.map.letters_selected.friends ];
     newFriends[index] = true;
 
     return {
       ...state,
       map: {
         ...state.map,
-        lettersSelected: {
-          mine: state.map.lettersSelected,
+        letters_selected: {
+          mine: state.map.letters_selected.mine,
           friends: newFriends,
         }
       }
@@ -33,6 +38,32 @@ const selectMenuItem = (state, index) => {
 
 export default (state = initialState.user, action) => {
   switch (action.type) {
+    case CHANGE_MAP_REGION:
+      console.log('Reducer: CHANGE_MAP_REGION');
+      return {
+        ...state,
+        map: {
+          ...state.map,
+          coordinates: action.region,
+        },
+      };
+
+    case USER_GET_LETTER:
+      console.log('Reducer: USER_GET_LETTER');
+
+      // get random letter for now
+      // TODO: replace with keyboard component
+      let letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L',
+        'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
+      let char = letters[Math.floor(Math.random() * 26)];
+      return {
+        ...state,
+        primary_letter: {
+          ...state.primary_letter,
+          character: char,
+        }
+      }
+
     case USER_UPDATE_LETTER_MENU:
       console.log('Reducer: USER_UPDATE_LETTER_MENU');
       return selectMenuItem(state, action.menuIndex);

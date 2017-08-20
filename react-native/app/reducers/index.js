@@ -5,6 +5,7 @@ import challenges from './challenges';
 import challengesTicker from './challengesTicker';
 import proposals from './proposals';
 import content from './content';
+import myLetters from './myLetters';
 import letters from './letters';
 import user from './user';
 
@@ -15,5 +16,6 @@ export default combineReducers({
   proposals,
   content,
   letters,
+  myLetters,
   user,
 });

@@ -1,24 +1,24 @@
 import React, { Component, PropTypes } from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { Text, TouchableOpacity } from 'react-native';
+import { navigateToMapCamera } from '../../../helper/navigationProxy';
 import styles from './styles';
 
 class CameraButton extends Component {
   static PropTypes = {
-    onPress: PropTypes.func,
-    text: PropTypes.string,
+    navigation: PropTypes.object,
   };
+
+  handlePress = () => {
+    navigateToMapCamera(this.props);
+  }
 
   render() {
     return (
-      <View style={styles.cameraButton}>
-        <TouchableOpacity
-          onPress={this.props.onPress}
-          >
-          <Text style={styles.cameraButtonText}>
-            {this.props.text}
-          </Text>
-        </TouchableOpacity>
-      </View>
+      <TouchableOpacity style={styles.camera__button} onPress={this.handlePress}>
+        <Text style={styles.camera__button__text}>
+          CAMERA
+        </Text>
+      </TouchableOpacity>
     );
   }
 }
