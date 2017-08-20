@@ -8,6 +8,7 @@ import { Map } from '../../components/map/Map';
 import { LettersMenu, CameraButton, MapScreenMenu } from '../../components/map/Overlay';
 
 import { loadLettersServiceProxy } from '../../helper/apiProxy';
+import { loadMyLettersProxy } from '../../helper/mapHelper';
 
 class MapOverview extends Component {
   static propTypes = {
@@ -16,6 +17,7 @@ class MapOverview extends Component {
 
   componentDidMount() {
     loadLettersServiceProxy(this.props);
+    loadMyLettersProxy(this.props);
   }
 
   render() {

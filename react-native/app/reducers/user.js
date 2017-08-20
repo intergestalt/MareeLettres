@@ -7,6 +7,7 @@ import {
   USER_UPDATE_LETTER_MENU,
   USER_WIPE_LETTER_MENU,
   USER_UPDATE_ERROR,
+  CHANGE_MAP_REGION,
 } from '../actions/user';
 
 import initialState from '../config/initialState';
@@ -33,6 +34,16 @@ const selectMenuItem = (state, index) => {
 
 export default (state = initialState.user, action) => {
   switch (action.type) {
+    case CHANGE_MAP_REGION:
+      console.log('Reducer: CHANGE_MAP_REGION');
+      return {
+        ...state,
+        map: {
+          ...state.map,
+          coordinates: action.region,
+        },
+      };
+
     case USER_UPDATE_LETTER_MENU:
       console.log('Reducer: USER_UPDATE_LETTER_MENU');
       return selectMenuItem(state, action.menuIndex);

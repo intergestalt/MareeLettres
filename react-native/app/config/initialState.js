@@ -1,7 +1,7 @@
 import { OriginId } from 'maree-lettres-shared';
 import { PROPOSAL_LIST_MODES, CHALLENGE_VIEWS, PROPOSAL_VIEWS } from '../consts';
 
-const sampleDate = (new Date()).toISOString();
+const sampleDate = (new Date()).toUTCString();
 const lat = 52.4972;
 const lng = 13.4377;
 const latDelta = 0.001;
@@ -95,9 +95,13 @@ export default {
     isInternalLoading: false,
     isError: false,
     content: [],
-    my_letters: [],
   },
 
+  myLetters: {
+    isLoading: false,
+    isError: false,
+    content: [],
+  }
   //"_id": "pgYw8TzdLc8NQfdzw",
   //"character": "C",
   //"coords": {

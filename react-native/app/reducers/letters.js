@@ -9,8 +9,6 @@ import initialState from '../config/initialState';
 
 const letters = (state = initialState.letters, action) => {
   switch (action.type) {
-
-
     case LOAD_LETTERS:
       console.log('Reducer: LOAD_LETTERS');
       return {

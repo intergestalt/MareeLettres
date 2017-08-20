@@ -107,11 +107,11 @@ class Map extends Component {
 const mapStateToProps = (state) => {
   const origin_id = state.user.origin_id;
   const letters = state.letters.content;
-  const my_letters = state.letters.my_letters;
+  const my_letters = state.myLetters.content;
   const coordinates = state.user.coordinates;
   const dropzone_radius = state.user.map.dropzone_radius;
 
-  console.log(my_letters.length);
+  console.log(my_letters);
 
   return {
     origin_id, letters, my_letters, coordinates, dropzone_radius,
