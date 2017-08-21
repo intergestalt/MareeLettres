@@ -37,25 +37,19 @@ function tick() {
 
 export function stopChallengeTicker() {
   if (tickerStarted) {
-    console.log('STOP TICKER');
     if (DEV_CONFIG.TICKER_ENABELD) {
       clearInterval(timerId);
     }
     tickerStarted = false;
-  } else {
-    console.log('TICKER ALREADY STOPPED');
   }
 }
 export function startChallengeTicker() {
   if (!tickerStarted) {
     tickerStarted = true;
-    console.log('START TICKER');
     if (DEV_CONFIG.TICKER_ENABELD) {
       timerId = setInterval(() => {
         tick();
       }, 1000);
     }
-  } else {
-    console.log('TICKER ALREADY STARTED');
   }
 }

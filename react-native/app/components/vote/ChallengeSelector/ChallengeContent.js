@@ -162,7 +162,6 @@ class ChallengeContent extends Component {
   }
 
   vote(yes) {
-    console.log(`VOTE ${yes}`);
     this.state.tinderContainerOffset.setValue({ x: 0, y: 0 });
     this.props.dispatch(voteTinder(this.getChallenge()._id, yes));
     this.checkToLoadMoreProposals();
@@ -241,7 +240,6 @@ class ChallengeContent extends Component {
   }
 
   renderList() {
-    console.log(`RENDER LIST ${this.props.challengeOffset}`);
     return (
       <View style={styles.challengeContent}>
         <ProposalList

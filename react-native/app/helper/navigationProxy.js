@@ -30,7 +30,6 @@ export function navigateToStream(props) {
 }
 
 export function navigateToVote(props) {
-  console.log('TO VOTE');
   manageChallenges();
   manageProposals();
   startChallengeTicker();
@@ -71,7 +70,12 @@ export function navigateToQRCodeSend(props) {
 
 export function navigateToChallengeSelector(props, id) {
   console.log('FROM LIST TO DETAIL');
-
+  const mode = store.getState().globals.challengeView;
+  console.log(mode);
+  if (mode === CHALLENGE_VIEWS.DETAIL) {
+    console.log('ABORT');
+    return;
+  }
   store.dispatch(setChallengeView(CHALLENGE_VIEWS.DETAIL));
   store.dispatch(setChallengesId(id));
   manageProposals();
@@ -80,8 +84,6 @@ export function navigateToChallengeSelector(props, id) {
 }
 
 export function popChallengeSelector(props) {
-  console.log('FROM DETAIL TO LIST');
-
   store.dispatch(setChallengeView(CHALLENGE_VIEWS.LIST));
   manageChallenges();
 

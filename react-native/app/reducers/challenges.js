@@ -16,7 +16,6 @@ import initialState from '../config/initialState';
 export default (state = initialState.challenges, action) => {
   switch (action.type) {
     case LOAD_CHALLENGES: {
-      console.log(`LOAD_CHALLENGES ${action.quietLoading}`);
       let oldChallenges = state;
       oldChallenges = addDefaultStructure(oldChallenges);
 
@@ -30,7 +29,6 @@ export default (state = initialState.challenges, action) => {
       return oldChallenges;
     }
     case CHALLENGES_LOADED: {
-      console.log('CHALLENGES_LOADED');
       const now = new Date();
       const challenges = [];
       for (let i = 0; i < action.result.challenges.length; i += 1) {
@@ -63,7 +61,6 @@ export default (state = initialState.challenges, action) => {
       return result;
     }
     case NETWORK_ERROR_LOAD_CHALLENGES: {
-      console.log('NETWORK ERROR 1');
       return {
         isLoading: false,
         isInternalLoading: false,
@@ -74,7 +71,6 @@ export default (state = initialState.challenges, action) => {
       };
     }
     case LOAD_CHALLENGE: {
-      console.log(`LOAD_CHALLENGE ${action.challengeId}`);
       for (let i = 0; i < state.challenges.length; i += 1) {
         const myChallenge = state.challenges[i];
         if (myChallenge._id === action.challengeId) {
@@ -96,7 +92,6 @@ export default (state = initialState.challenges, action) => {
       return state;
     }
     case CHALLENGE_LOADED: {
-      console.log(`CHALLENGE_LOADED ${action.action.challengeId}`);
       let challengeId = null;
       let challengeIndex = -1;
       for (let i = 0; i < state.challenges.length; i += 1) {
@@ -104,7 +99,6 @@ export default (state = initialState.challenges, action) => {
         if (myChallenge._id === action.action.challengeId) {
           const myChallenges = Array.from(state.challenges);
           if (action.result.challenges.length > 0) {
-            console.log('FOUND -> CHANGE');
             challengeIndex = i;
             challengeId = myChallenge._id;
             const newChallenge = {
@@ -121,7 +115,6 @@ export default (state = initialState.challenges, action) => {
             }
             myChallenges[i] = newChallenge;
           } else {
-            console.log('FOUND BUT NOT EXISTING ANYMORE -> DELETE');
             myChallenges.splice(i, 1);
             challengeIndex = -1;
             challengeId = null;
@@ -157,7 +150,6 @@ export default (state = initialState.challenges, action) => {
       return state;
     }
     case NETWORK_ERROR_LOAD_CHALLENGE: {
-      console.log('NETWORK_ERROR_LOAD_CHALLENGE');
       return state;
     }
     case SET_CHALLENGES_ID: {
