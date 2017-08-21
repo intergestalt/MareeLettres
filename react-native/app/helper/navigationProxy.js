@@ -69,11 +69,8 @@ export function navigateToQRCodeSend(props) {
 // Vote Stack
 
 export function navigateToChallengeSelector(props, id) {
-  console.log('FROM LIST TO DETAIL');
   const mode = store.getState().globals.challengeView;
-  console.log(mode);
   if (mode === CHALLENGE_VIEWS.DETAIL) {
-    console.log('ABORT');
     return;
   }
   store.dispatch(setChallengeView(CHALLENGE_VIEWS.DETAIL));
