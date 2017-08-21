@@ -1,13 +1,15 @@
+import Expo from 'expo';
 import { OriginId } from 'maree-lettres-shared';
 
 import { PROPOSAL_LIST_MODES, CHALLENGE_VIEWS, PROPOSAL_VIEWS } from '../consts';
 
 export default {
   user: {
-    id: OriginId.generateFromDeviceId('device-id-here'), // TODO: get a uid from device
+    id: OriginId.generateFromDeviceId(Expo.Constants.deviceId),
     letter: 'X',
     isAssignedLetter: false,
   },
+
   globals: {
     language: 'fr',
     proposalView: PROPOSAL_VIEWS.LIST,

@@ -27,6 +27,7 @@ export function manageProposals() {
     loadProposals(1);
   }
 }
+
 export function getProposalKey(proposalView, proposalListMode) {
   if (proposalView === PROPOSAL_VIEWS.LIST) {
     if (proposalListMode === PROPOSAL_LIST_MODES.MOST) {

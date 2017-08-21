@@ -78,7 +78,6 @@ export function navigateToChallengeSelector(props, id) {
   store.dispatch(setChallengesId(id));
   manageProposals();
   startChallengeTicker();
-
   props.navigation.navigate('ChallengeSelector', { id });
 }
 

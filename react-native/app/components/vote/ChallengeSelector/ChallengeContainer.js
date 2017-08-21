@@ -71,36 +71,36 @@ class ChallengeContainer extends Component {
       LOAD_CONFIG.LOAD_QUIET_CHALLENGE_SELECTOR,
     );
   }
-  loadAllProposals() {
-    this.loadProposals(this.props.selectedChallengeIndex - 1);
-    this.loadProposals(this.props.selectedChallengeIndex);
-    this.loadProposals(this.props.selectedChallengeIndex + 1);
+  loadAllProposals(myIndex) {
+    this.loadProposals(myIndex - 1);
+    this.loadProposals(myIndex);
+    this.loadProposals(myIndex + 1);
   }
   handleTinderPress() {
     console.log('handleTinderPress');
     this.props.dispatch(setProposalView(PROPOSAL_VIEWS.TINDER));
-    this.loadAllProposals();
+    this.loadAllProposals(this.props.selectedChallengeIndex);
   }
 
   handleListPress() {
     console.log('handleListPress');
     this.props.dispatch(setProposalView(PROPOSAL_VIEWS.LIST));
-    this.loadAllProposals();
+    this.loadAllProposals(this.props.selectedChallengeIndex);
   }
   onMostPress() {
     console.log('onMostPress');
     this.props.dispatch(setProposalListMode(PROPOSAL_LIST_MODES.MOST));
-    this.loadAllProposals();
+    this.loadAllProposals(this.props.selectedChallengeIndex);
   }
   onNewestPress() {
     console.log('onNewestPress');
     this.props.dispatch(setProposalListMode(PROPOSAL_LIST_MODES.NEWEST));
-    this.loadAllProposals();
+    this.loadAllProposals(this.props.selectedChallengeIndex);
   }
   onTrendingPress() {
     console.log('onTrendingPress');
     this.props.dispatch(setProposalListMode(PROPOSAL_LIST_MODES.TRENDING));
-    this.loadAllProposals();
+    this.loadAllProposals(this.props.selectedChallengeIndex);
   }
   // Pan Logic
   // Header: Challenge Swipe
@@ -232,15 +232,17 @@ class ChallengeContainer extends Component {
     }
     this.state.challengeContainerOffsetX.setValue(-screenWidth);
     const newId = challenge._id;
-    this.loadProposals(index - 1);
-    this.loadProposals(index);
-    this.loadProposals(index + 1);
+    this.loadAllProposals(index);
     this.props.dispatch(setChallengesId(newId));
-    upDateSelectedChallengeIndex();
+    upDateSelectedChallengeIndex(this.props);
   }
 
   // Render
   render() {
+    if (this.props.selectedChallengeIndex === -1) {
+      popChallengeSelector(this.props);
+    }
+
     const myStyle = [styles.challengeContainer, { left: this.state.challengeContainerOffsetX }];
     return (
       <Animated.View style={myStyle}>
