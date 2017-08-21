@@ -1,53 +1,161 @@
 # Marre des Lettres REST API
 
-## implementation
+## Implementation
 
-### general
+### General
 
 GET api/content
 
-### ABC (Voting Game)
+### ABC section (Voting Game)
 
-GET api/challenges
+#### GET api/challenges
+Get all challenenges
 
-GET api/challenges/:id
+#### GET api/challenges/:id
+Get a challenge by challenge_id
 
-GET api/challenges/:id/proposals
+#### GET api/challenges/:id/proposals?limit=:limit&sort=:sort
+Get proposals of a challenge
 
-GET api/challenges/:id/proposals 1)
-GET api/challenges/:id/proposals?limit=:limit 1)
+##### Query Params
+- (optional) :limit={Number}
+- (optional) :sort={'popular'|'trending'|'newest'}
 
 [ deprecated: GET api/challenges/:id/proposals/limit/:limit (-> change to ?limit=:limit) ]
 
-GET api/proposals
+#### GET api/proposals
+do not use
 
-GET api/tinder/:challenge_id/:origin_id (currently :origin_id is ignored) 1)
-GET api/tinder/:challenge_id/:origin_id?limit=:limit (currently :origin_id is ignored) 1)
+#### GET api/tinder/:challenge_id/:origin_id?limit=:limit
+Get tinder proposals for a player
+(currently :origin_id is ignored)
 
-GET players/:origin_id
+##### Query Params
+- (optional) :limit={Number}
 
-POST players/:origin_id/votes { votes: { proposal_id1: true, proposal_id2: false, ...} }
+#### GET players/:origin_id
+Get "player object" of a player by :origin_id
+
+NOTE: If no entry exists, player object will be created on the fly!
+NOTE2: Create a valid origin_id with OriginId.generateFromPhoneId() or OriginId.generateFromString()
+
+#### POST players/:origin_id/votes 
+Post a bunch of votes of a player
+
+##### Request Body
+```
+{ 
+  votes: { 
+    proposal_id1: true, 
+    proposal_id2: false, 
+    ...
+  } 
+}
+```
+
+##### response body
+
+OK: 
+```
+{}
+```
 
 ### MAP (Map Game)
 
-GET api/letters
+#### GET api/letters
+Get all letters on map
 
-## Notes
+#### POST api/letters 
+Place letters on the map
 
-1) Can return error: challenge-not-found
+##### request body
+```
+{ letters:
+  [ 
+    { 
+      character: "X",
+      origin_id: ...,
+      coords: {
+        lat: ...,
+        lng: ...
+      },
+      created_at: new Date,
+    } 
+  ]
+}
+```
+
+##### response body
+
+OK: 
+```
+{}
+```
+
+
+FAIL: 
+```
+{ 
+  error: "error-code", 
+  reason: "reason of error"
+}
+```
+NOTE: assuming no date/time discrepancies, using UTC ISODate
+
+
 
 ## (discussion / to do)
 
-GET proposals (challenge, limit, order)
+#### GET api/letters?centerLat=...&centerLng=...&radius=...
+Get letters in radius
+
+#### GET api/letters?since=:seconds
+Get the new letters placed withing the last :seconds
+
+NOTE: Choose :seconds from a limited set. For example always use 5 seconds. Or only use 5 or 10 seconds. This is to leverage caching, which happens per URL.
+
+#### GET api/letters
+The GET letters request should allow transmission of player coordinates
+
+##### request body
+```
+{
+  player: {
+    position: {
+      lat: ...,
+      lng: ...
+      }
+   }
+}
+```
+
+NOTE: this would be a PATCH request. WTF.
+
+IDEA: Allow both verbs, GET and PATCH, but only URL-Cache GET?
+
+#### POST api/players/:player_id/letters/send
+##### request body
+```
+{
+  transnaction_id: 12345
+  transaction_url: http://mareedeslettres.fr/x/12345
+}
+```
+#### GET api/players/:player_id/letters/receive/:transaction_id
+##### response body
+```
+{
+  letter: {
+    character: "X",
+    acquired_at: Date,
+  }
+}
+```
+
+#### more
 
 GET proposal (proposal_id)
 
-POST proposal (challenge, user_key)
-
-[ GET userProposals (user_id) ]
-
-GET tinderProposals (challenge_id, amount, user_id)
-
-POST votes
+POST proposal (challenge, origin_id, text)
 
 GET letters (center, width, height)

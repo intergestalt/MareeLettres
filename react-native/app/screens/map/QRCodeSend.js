@@ -10,28 +10,16 @@ import { QRCodeSendScreen } from '../../components/map/QR';
 class QRCodeSend extends Component {
   static PropTypes = {
     navigation: PropTypes.object,
-    uniqueId: PropTypes.string,
   };
 
   render() {
     return (
       <Screen backgroundColor={'#ffffff'}>
         <StatusBar />
-        <QRCodeSendScreen
-          navigation={this.props.navigation}
-          input={this.props.uniqueId}
-          />
-        <TabBar navigation={this.props.navigation} />
+        <QRCodeSendScreen navigation={this.props.navigation} />
       </Screen>
     );
   }
 }
 
-const mapStateToProps = (state) => {
-  const uniqueId = state.user.id;
-  return {
-    uniqueId,
-  };
-};
-
-export default connect(mapStateToProps)(QRCodeSend);
+export default QRCodeSend;

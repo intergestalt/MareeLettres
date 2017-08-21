@@ -19,6 +19,7 @@ function* loadData(action) {
     yield put({ type: action.errorEvent, error: error.message });
   }
 }
+
 function* loadDataPlusTicker(action) {
   try {
     const response = yield call(action.apiCall, action);

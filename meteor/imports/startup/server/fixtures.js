@@ -73,7 +73,7 @@ Meteor.startup(() => {
 
   if (Letters.find().count() === 0) {
     console.log('Seeding Letters');
-    for (let i = 1; i <= 500; i++) {
+    for (let i = 1; i <= 50; i++) {
       Letters.insert({
         character: shuffleString('ABCDEFGHIJKLMNOPQRSTUVWXYZ?:*').charAt(0),
         coords: {

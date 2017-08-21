@@ -1,6 +1,6 @@
 import CameraButton from './CameraButton';
-import DropZone from './DropZone';
 import LettersMenu from './LettersMenu';
+import MapScreenMenu from './MapScreenMenu';
 import styles from './styles';
 
-export { CameraButton, DropZone, LettersMenu, styles };
+export { CameraButton, LettersMenu, MapScreenMenu, styles };

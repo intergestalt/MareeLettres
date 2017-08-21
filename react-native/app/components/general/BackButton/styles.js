@@ -34,6 +34,7 @@ const styles = EStyleSheet.create({
     left: '0%',
     padding: 20,
     paddingLeft: 10,
+    backgroundColor: 'transparent'
   },
   textSimple: {
     color: 'black',

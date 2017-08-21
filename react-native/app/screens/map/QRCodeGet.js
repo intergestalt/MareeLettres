@@ -21,7 +21,6 @@ class QRCodeGet extends Component {
           navigation={this.props.navigation}
           input={this.props.uniqueId}
           />
-        <TabBar navigation={this.props.navigation} />
       </Screen>
     );
   }

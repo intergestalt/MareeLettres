@@ -1,15 +1,167 @@
-import { GET_USER_ID, GET_USER_LETTER } from '../actions/user';
+import {
+  USER_SET_ID,
+  USER_SET_COORDINATES,
+  USER_SET_SECONDARY_LETTERS,
+  USER_SET_PRIMARY_LETTER,
+  USER_DELETE_LETTERS,
+  USER_UPDATE_LETTER_MENU,
+  USER_REVIVE_LETTER_MENU,
+  USER_WIPE_LETTER_MENU,
+  USER_UPDATE_ERROR,
+  USER_GET_LETTER,
+  USER_BIN_LETTER,
+} from '../actions/user';
+
+import {
+  CHANGE_MAP_REGION
+} from '../actions/map';
 
 import initialState from '../config/initialState';
 
+const selectMenuItem = (state, index) => {
+
+};
+
 export default (state = initialState.user, action) => {
   switch (action.type) {
-    case GET_USER_ID:
-      console.log('GET_USER_ID');
+    case CHANGE_MAP_REGION:
+      console.log('Reducer: CHANGE_MAP_REGION');
+      return {
+        ...state,
+        map: {
+          ...state.map,
+          coordinates: action.region,
+        },
+      };
+
+    case USER_GET_LETTER:
+      console.log('Reducer: USER_GET_LETTER');
+
+      // get random letter for now
+      // TODO: replace with keyboard component
+      let letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L',
+        'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
+      let char = letters[Math.floor(Math.random() * 26)];
+      return {
+        ...state,
+        primary_letter: {
+          ...state.primary_letter,
+          character: char,
+        }
+      }
+
+    case USER_UPDATE_LETTER_MENU:
+      console.log('Reducer: USER_UPDATE_LETTER_MENU');
+
+      if (action.menuIndex < 0) {
+        return state;
+      } else {
+        let newFriends = [ ...state.map.letters_selected.friends ];
+        newFriends[action.menuIndex] = true;
+
+        return {
+          ...state,
+          map: {
+            ...state.map,
+            letters_selected: {
+              mine: state.map.letters_selected.mine,
+              friends: newFriends,
+            }
+          }
+        }
+      };
+
+    case USER_REVIVE_LETTER_MENU: {
+      console.log('Reducer: USER_REVIVE_LETTER_MENU');
+
+      let letters = state.secondary_letters;
+      let friends = [ ...state.map.letters_selected.friends ];
+
+      if (letters.length > action.menuIndex && letters[action.menuIndex].character === action.character) {
+        friends[action.menuIndex] = false;
+      } else {
+        // case user deletes a letter (altering index)
+        // TODO: change key to transaction_id when it's implemented
+
+        for (var i=0; i<letters.length; i+=1) {
+          if (i < 4 && letters[i].character === action.character) {
+            friends[i] = false;
+          }
+        }
+      }
+
+      return {
+        ...state,
+        map: {
+          ...state.map,
+          letters_selected: {
+            ...state.map.letters_selected,
+            friends: friends,
+          }
+        }
+      }
+    };
+
+    case USER_BIN_LETTER: {
+      console.log('Reducer: USER_BIN_LETTER');
+
+      let letters = [ ...state.secondary_letters ];
+      let newLetters = [];
+
+      for (var i=0; i<letters.length; i+=1) {
+        if (i != action.menuIndex) {
+          newLetters.push(letters[i]);
+        }
+      }
+
+      return {
+        ...state,
+        secondary_letters: [
+          ...newLetters,
+        ]
+      }
+    }
+
+    case USER_WIPE_LETTER_MENU:
+      console.log('Reducer: USER_WIPE_LETTER_MENU');
+      return {
+        ...state,
+        map: {
+          ...state.map,
+          lettersSelected: {
+            mine: false,
+            friends: [false, false, false, false],
+          }
+        }
+      }
+
+    case USER_SET_ID:
+      console.log('Reducer: USER_SET_ID');
       return state;
-    case GET_USER_LETTER:
-      console.log('GET_USER_LETTER');
+
+    case USER_SET_COORDINATES:
+      console.log('Reducer: USER_SET_COORDINATES');
       return state;
+
+    case USER_SET_PRIMARY_LETTER:
+      console.log('Reducer: USER_SET_PRIMARY_LETTER');
+      return state;
+
+    case USER_SET_SECONDARY_LETTERS:
+      console.log('Reducer: USER_SET_SECONDARY_LETTERS');
+      return state;
+
+    case USER_DELETE_LETTERS:
+      console.log('Reducer: USER_DELETE_LETTERS');
+      return {
+        ...state,
+        secondary_letters: [],
+      };
+
+    case USER_UPDATE_ERROR:
+      console.log('Reducer: USER_UPDATE_ERROR')
+      return state;
+
     default:
       return state;
   }

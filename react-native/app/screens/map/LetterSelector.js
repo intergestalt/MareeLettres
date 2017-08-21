@@ -19,10 +19,9 @@ class LetterSelector extends Component {
         <LetterSelectorWindow
           navigation={this.props.navigation}
           />
-        <TabBar navigation={this.props.navigation} />
       </Screen>
     );
   }
 }
 
-export default connect()(LetterSelector);
+export default LetterSelector;

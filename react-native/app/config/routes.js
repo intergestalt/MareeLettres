@@ -83,8 +83,8 @@ const tabNavigator = TabNavigator(
     lazy: true,
     swipeEnabled: false,
     animationEnabled: false,
-    //    tabBarPosition: 'bottom',
-    initialRouteName: 'Vote',
+    // tabBarPosition: 'bottom',
+    initialRouteName: 'Become',
   },
 );
 

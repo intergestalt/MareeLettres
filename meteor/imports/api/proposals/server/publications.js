@@ -37,8 +37,19 @@ JsonRoutes.add(
   function (req, res, next) {
     const challenge_id = req.params.challenge_id;
     const limit = parseInt(req.query.limit) || 0; // ?limit=:limit
+    const sort_param = req.query.sort; // ?limit=:limit
 
-    const proposals = Proposals.find({ challenge_id }, { limit }).fetch();
+    const sort_modes = {
+      popular: { score: -1 },
+      newest: { created_at: -1 },
+      trending: { score_trending: -1 },
+    };
+
+    if (Object.keys(sort_modes).indexOf(sort_param) < 0) sort_mode = 'popular';
+
+    const sort = sort_modes[sort_param];
+
+    const proposals = Proposals.find({ challenge_id }, { sort, limit }).fetch();
 
     const options = {};
 
