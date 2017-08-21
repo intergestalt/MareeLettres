@@ -7,7 +7,6 @@ import store from '../config/store';
 export default (state = initialState.challengesTicker, action) => {
   switch (action.type) {
     case SET_CHALLENGES_DATE_DATA: {
-      console.log('SET_CHALLENGES_DATE_DATA');
       let challengesState = null;
 
       if (action.result) {

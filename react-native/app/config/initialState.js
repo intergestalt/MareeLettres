@@ -73,12 +73,8 @@ export default {
         last_used_at: sampleDate,
       },
     ],
-    votes: [
-      {
-        proposal_id: 'my_proposal',
-        bool: true,
-      },
-    ],
+    votes: {},
+    internalVotes: {},
     banned: false,
   },
 

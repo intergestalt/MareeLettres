@@ -7,12 +7,11 @@ import { ChallengeDetail } from './';
 import { screenWidth } from '../../../helper/screen';
 import { popChallengeSelector } from '../../../helper/navigationProxy';
 import { startChallengeTicker } from '../../../helper/ticker';
-import { setProposalView } from '../../../actions/general';
+import { setProposalView, setProposalListMode } from '../../../actions/general';
 import { setChallengesId } from '../../../actions/challenges';
 import { loadProposalsServiceProxy } from '../../../helper/apiProxy';
 import { upDateSelectedChallengeIndex } from '../../../helper/challengesHelper';
-import { PROPOSAL_VIEWS, PROPOSAL_LIST_MODES } from '../../../consts';
-import { setProposalListMode } from '../../../actions/general';
+import { PROPOSAL_VIEWS, PROPOSAL_LIST_MODES, CHALLENGE_VIEWS } from '../../../consts';
 import { LOAD_CONFIG } from '../../../config/config';
 
 class ChallengeContainer extends Component {
@@ -20,6 +19,7 @@ class ChallengeContainer extends Component {
     dispatch: PropTypes.func,
     challenges: PropTypes.array,
     selectedChallengeIndex: PropTypes.number,
+    challengeView: PropTypes.string,
   };
 
   constructor(props) {
@@ -240,7 +240,10 @@ class ChallengeContainer extends Component {
   // Render
   render() {
     if (this.props.selectedChallengeIndex === -1) {
-      popChallengeSelector(this.props);
+      if (this.props.challengeView === CHALLENGE_VIEWS.DETAIL) {
+        console.log('POP');
+        popChallengeSelector(this.props);
+      }
     }
 
     const myStyle = [styles.challengeContainer, { left: this.state.challengeContainerOffsetX }];
@@ -270,9 +273,11 @@ class ChallengeContainer extends Component {
 const mapStateToProps = (state) => {
   const challenges = state.challenges.challenges;
   const selectedChallengeIndex = state.challenges.selectedChallengeIndex;
+  const challengeView = state.globals.challengeView;
   return {
     selectedChallengeIndex,
     challenges,
+    challengeView,
   };
 };
 export default connect(mapStateToProps)(ChallengeContainer);
