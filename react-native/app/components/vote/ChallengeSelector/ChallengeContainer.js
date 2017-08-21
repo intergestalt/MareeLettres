@@ -8,7 +8,7 @@ import { screenWidth } from '../../../helper/screen';
 import { popChallengeSelector } from '../../../helper/navigationProxy';
 import { startChallengeTicker } from '../../../helper/ticker';
 import { setProposalView, setProposalListMode } from '../../../actions/general';
-import { setChallengesId } from '../../../actions/challenges';
+import { setChallengesId, setChallengesIndex } from '../../../actions/challenges';
 import { loadProposalsServiceProxy } from '../../../helper/apiProxy';
 import { upDateSelectedChallengeIndex } from '../../../helper/challengesHelper';
 import { PROPOSAL_VIEWS, PROPOSAL_LIST_MODES, CHALLENGE_VIEWS } from '../../../consts';
@@ -38,6 +38,10 @@ class ChallengeContainer extends Component {
     this.onMostPress = this.onMostPress.bind(this);
     this.onNewestPress = this.onNewestPress.bind(this);
     this.onTrendingPress = this.onTrendingPress.bind(this);
+
+    this.setFlatlistRefLeft = this.setFlatlistRefLeft.bind(this);
+    this.setFlatlistRefCenter = this.setFlatlistRefCenter.bind(this);
+    this.setFlatlistRefRight = this.setFlatlistRefRight.bind(this);
 
     this.state = {
       challengeContainerOffsetX: new Animated.Value(-screenWidth),
@@ -221,27 +225,51 @@ class ChallengeContainer extends Component {
   }
 
   navigate(offset) {
-    const index = this.props.selectedChallengeIndex + offset;
-    let challenge = this.props.challenges[index];
-    if (challenge == null) {
-      if (this.props.challenges.length > 0) {
-        challenge = this.props.challenges[0];
-      } else {
-        return;
-      }
+    if (this.flatlistRefLeft) {
+      this.flatlistRefLeft.scrollToOffset({ animated: false, offset: 0 });
     }
-    this.state.challengeContainerOffsetX.setValue(-screenWidth);
-    const newId = challenge._id;
-    this.loadAllProposals(index);
-    this.props.dispatch(setChallengesId(newId));
-    upDateSelectedChallengeIndex(this.props);
+    if (this.flatlistRefCenter) {
+      this.flatlistRefCenter.scrollToOffset({ animated: false, offset: 0 });
+    }
+    if (this.flatlistRefRight) {
+      this.flatlistRefRight.scrollToOffset({ animated: false, offset: 0 });
+    }
+    setTimeout(() => {
+      const index = this.props.selectedChallengeIndex + offset;
+      let challenge = this.props.challenges[index];
+      if (challenge == null) {
+        if (this.props.challenges.length > 0) {
+          challenge = this.props.challenges[0];
+        }
+      }
+      this.state.challengeContainerOffsetX.setValue(-screenWidth);
+      const newId = challenge._id;
+      this.loadAllProposals(index);
+      let t1 = new Date().getTime();
+      this.props.dispatch(setChallengesId(newId));
+      let t2 = new Date().getTime();
+      console.log(`Time 1: ${t2 - t1}`);
+      t1 = new Date().getTime();
+      upDateSelectedChallengeIndex();
+      t2 = new Date().getTime();
+      console.log(`Time 2: ${t2 - t1}`);
+    }, 1);
+  }
+
+  setFlatlistRefLeft(ref) {
+    this.flatlistRefLeft = ref;
+  }
+  setFlatlistRefCenter(ref) {
+    this.flatlistRefCenter = ref;
+  }
+  setFlatlistRefRight(ref) {
+    this.flatlistRefRight = ref;
   }
 
   // Render
   render() {
     if (this.props.selectedChallengeIndex === -1) {
       if (this.props.challengeView === CHALLENGE_VIEWS.DETAIL) {
-        console.log('POP');
         popChallengeSelector(this.props);
       }
     }
@@ -249,9 +277,14 @@ class ChallengeContainer extends Component {
     const myStyle = [styles.challengeContainer, { left: this.state.challengeContainerOffsetX }];
     return (
       <Animated.View style={myStyle}>
-        <ChallengeDetail challengeOffset={-1} />
+        <ChallengeDetail
+          listEnabled={false}
+          challengeOffset={-1}
+          setFlatlistRef={this.setFlatlistRefLeft}
+        />
         <ChallengeDetail
           challengeOffset={0}
+          listEnabled
           onHeaderPress={this.handleHeaderPressed}
           onDownPress={this.navigateDownPress}
           onUpPress={this.navigateUpPress}
@@ -263,8 +296,13 @@ class ChallengeContainer extends Component {
           onTrendingPress={this.onTrendingPress}
           onNewestPress={this.onNewestPress}
           panResponderHeader={this.panResponderHeader}
+          setFlatlistRef={this.setFlatlistRefCenter}
         />
-        <ChallengeDetail challengeOffset={1} />
+        <ChallengeDetail
+          listEnabled={false}
+          challengeOffset={1}
+          setFlatlistRef={this.setFlatlistRefRight}
+        />
       </Animated.View>
     );
   }

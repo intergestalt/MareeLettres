@@ -62,7 +62,7 @@ class ProposalTinder extends Component {
       noContainer = (
         <View style={styles.noContainer1}>
           <View style={styles.noContainer2}>
-            <VoteMark size="l" active value={0} type="yes" />
+            <VoteMark size="l" active value={0} type="no" />
           </View>
         </View>
       );

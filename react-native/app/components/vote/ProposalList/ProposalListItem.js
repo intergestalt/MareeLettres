@@ -4,11 +4,11 @@ import { View, Text } from 'react-native';
 import { styles } from './';
 import { VoteMark } from '../VoteMark/';
 
-class ProposalListItem extends Component {
+class ProposalListItem extends React.PureComponent {
   static propTypes = {
     data: PropTypes.object,
   };
-  getAnswer() {
+  /* getAnswer() {
     let answer = '';
     if (this.props.data) {
       const winning = this.props.data.winningProposal;
@@ -17,7 +17,7 @@ class ProposalListItem extends Component {
       }
     }
     return answer;
-  }
+  } */
 
   render() {
     return (

@@ -90,6 +90,7 @@ This is the structure of the state:
         "isPullDownLoading": false,
         "isPullUpLoading": false,
         "lastLimit": 15,
+        "lastLoaded": 1,
         "proposals":  [{
                 "_id": "fixture_10_15",
                 "challenge_id": "fixture_10",

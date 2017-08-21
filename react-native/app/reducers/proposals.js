@@ -8,7 +8,12 @@ import { PROPOSAL_VIEWS } from '../consts/';
 import { DEV_CONFIG } from '../config/config';
 
 import initialState from '../config/initialState';
-import { getProposalList, getProposalKey, addDefaultStructure } from '../helper/proposalsHelper';
+import {
+  getProposalList,
+  getProposalKey,
+  addDefaultStructure,
+  mergeProposalList,
+} from '../helper/proposalsHelper';
 
 function swapArrayElements(arr, indexA, indexB) {
   const res = arr;
@@ -74,8 +79,12 @@ export default (state = initialState.proposals, action) => {
         action.action.proposalListMode,
       );
 
-      newProposalList.proposals = action.result.proposals;
-
+      const mergedProposalList = mergeProposalList(
+        newProposalList.proposals,
+        action.result.proposals,
+        action.action.proposalView,
+      );
+      newProposalList.proposals = mergedProposalList;
       if (DEV_CONFIG.SWAP_RELOADED_PROPOSALS) {
         if (action.action.proposalView === PROPOSAL_VIEWS.LIST) {
           newProposalList.proposals = swapSomeElements(
@@ -85,6 +94,7 @@ export default (state = initialState.proposals, action) => {
         }
       }
       newProposalList.lastLimit = action.action.limit;
+      newProposalList.lastLoaded = action.result.proposals.length;
       console.log(`lastLimit ${action.action.limit}`);
       newProposalList.isLoading = false;
       newProposalList.isInternalLoading = false;

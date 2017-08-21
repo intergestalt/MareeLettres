@@ -33,18 +33,14 @@ function isTimeout(item, intervall) {
 }
 function checkReload(force, item, intervall) {
   if (isLoading(item)) {
-    console.log('IS ALREADY LOADING -> ABORT');
     return false;
   }
   if (force) {
-    console.log('FORCE -> RELOAD');
     return true;
   }
   if (isTimeout(item, intervall)) {
-    console.log('TIME OUT -> RELOAD');
     return true;
   }
-  console.log('IS ALREADY LOADED -> ABORT');
 
   return false;
 }
@@ -86,15 +82,12 @@ export function loadChallengesServiceProxy(force, quietLoading = false) {
 
   let myQuiet = quietLoading;
   if (emptyOrNull(challenges)) {
-    console.log('OKAY 1');
     myQuiet = false;
     doit = true;
   } else if (emptyOrNull(challenges.challenges)) {
-    console.log('OKAY 2');
     myQuiet = false;
     doit = true;
   }
-  console.log(`myQuiet ${myQuiet}`);
   if (doit) {
     store.dispatch(loadChallenges(myQuiet));
   }
