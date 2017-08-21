@@ -5,8 +5,6 @@ import initialState from '../config/initialState';
 export default (state = initialState.content, action) => {
   switch (action.type) {
     case LOAD_CONTENT: {
-      console.log(`LOAD CONTENT  ${action.quietLoading}`);
-
       const res = {
         isLoading: !action.quietLoading,
         isInternalLoading: true,
@@ -17,7 +15,6 @@ export default (state = initialState.content, action) => {
       return res;
     }
     case CONTENT_LOADED: {
-      console.log('CONTENT LOADED');
       const content = {};
       const now = new Date();
       for (let i = 0; i < action.result.content.length; i += 1) {
@@ -36,7 +33,6 @@ export default (state = initialState.content, action) => {
       return res;
     }
     case NETWORK_ERROR_LOAD_CONTENT: {
-      console.log('NETWORK ERROR LOAD CONTENT');
       const now = new Date();
       return {
         isLoading: false,

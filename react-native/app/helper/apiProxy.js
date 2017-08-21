@@ -55,7 +55,6 @@ function emptyOrNull(obj) {
 }
 
 export function loadContentServiceProxy(force, quietLoading = false) {
-  console.log('LOAD CONTENT PROXY');
   const content = store.getState().content;
   let doit = checkReload(force, content, LOAD_CONFIG.UPDATE_CONTENT_AFTER);
 
@@ -74,8 +73,6 @@ export function loadContentServiceProxy(force, quietLoading = false) {
 }
 
 export function loadChallengesServiceProxy(force, quietLoading = false) {
-  console.log('LOAD CHALLENGES PROXY');
-
   const challenges = store.getState().challenges;
 
   let doit = checkReload(force, challenges, LOAD_CONFIG.UPDATE_CHALLENGES_AFTER);
@@ -95,7 +92,6 @@ export function loadChallengesServiceProxy(force, quietLoading = false) {
 
 export function loadChallengeServiceProxy(challengeId) {
   // ALWAYS AND QUIET. No check of force and time
-  console.log('LOAD CHALLENGE PROXY');
   const challenges = store.getState().challenges;
   const challenge = getChallengeFromId(challenges, challengeId);
   let doit = true;
@@ -115,7 +111,6 @@ export function loadProposalsServiceProxy(
   pullDownLoading = false,
   pullUpLoading = false,
 ) {
-  console.log('LOAD PROPOSALS PROXY');
   const proposalView = store.getState().globals.proposalView;
   const proposalListMode = store.getState().globals.proposalListMode;
   // all 4 lists
@@ -139,7 +134,6 @@ export function loadProposalsServiceProxy(
   }
 
   if (doit) {
-    console.log('LOAD PROPOSALS');
     store.dispatch(
       loadProposals(
         challengeId,
@@ -151,8 +145,6 @@ export function loadProposalsServiceProxy(
         pullUpLoading,
       ),
     );
-  } else {
-    console.log('DONT LOAD PROPOSALS');
   }
 }
 export function loadLettersServiceProxy() {
