@@ -36,6 +36,8 @@ export default (state = initialState.myLetters, action) => {
               lat: lat,
               lng: lng,
             },
+            acquired_at: 0,
+            last_used_at: (new Date()).toISOString(),
           },
         ]
       };

@@ -2,7 +2,10 @@ import Expo from 'expo';
 import { OriginId } from 'maree-lettres-shared';
 import { PROPOSAL_LIST_MODES, CHALLENGE_VIEWS, PROPOSAL_VIEWS } from '../consts';
 
-const sampleDate = new Date().toUTCString();
+// for testing
+
+const originId = OriginId.generateFromDeviceId(Expo.Constants.deviceId);
+const sampleDate = (new Date()).toISOString();
 const lat = 52.4972;
 const lng = 13.4377;
 const latDelta = 0.001;
@@ -14,17 +17,15 @@ const lngDelta = 0.001;
 // EXAMPLE:
 //
 //    initialState = { key: 'my_value' };
-//
 //    const myReducer = (state = initialState.key, action) => {
 //       ...etc
 //      return state;
 //    }
-//
 //    newState = { myReducer: 'my_value' }
 
 export default {
   user: {
-    origin_id: OriginId.generateFromDeviceId(Expo.Constants.deviceId),
+    origin_id: originId,
     created_at: sampleDate,
     last_seen: sampleDate,
     coordinates: {
@@ -47,6 +48,7 @@ export default {
       },
     },
     primary_letter: {
+      _id: originId,
       character: '...',
       acquired_at: sampleDate,
       last_used_at: sampleDate,

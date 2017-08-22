@@ -13,7 +13,7 @@ export default EStyleSheet.create({
     backgroundColor: 'transparent',
   },
   disabled: {
-    color: 'rgba(0,0,0,0.25)',
+    opacity: 0.5,
     textAlign: 'center',
     backgroundColor: 'transparent',
   },
