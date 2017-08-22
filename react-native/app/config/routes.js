@@ -1,6 +1,7 @@
 import { TabNavigator, StackNavigator } from 'react-navigation';
 // import { Easing, Animated } from 'react-native';
 
+import LanguageSelector from '../screens/single/LanguageSelector';
 import Stream from '../screens/single/Stream';
 import Challenges from '../screens/vote/Challenges';
 import ChallengeSelector from '../screens/vote/ChallengeSelector';
@@ -90,6 +91,12 @@ const tabNavigator = TabNavigator(
 
 // for language selection at start
 const rootNavigator = StackNavigator({
+  LanguageSelector: {
+    screen: LanguageSelector,
+    navigationOptions: {
+      header: null,
+    },
+  },
   Root: {
     screen: tabNavigator,
     navigationOptions: {

@@ -115,7 +115,7 @@ class Letter extends Component {
       let char  = this.props.character;
 
       // NOTE: time will be inconsistent during development due to difference
-      // between computer clock and device clock
+      // between expo computer clock and device clock
       setTimeout(() => {
         reviveLetterMenuProxy(index, char);
       }, 10000);

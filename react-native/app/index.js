@@ -6,6 +6,10 @@ import Navigator from './config/routes';
 import store from './config/store';
 import { AppContainer } from './components/general/Container';
 
+// import That from '../../meteor/exports';
+
+// console.log(That);
+
 EStyleSheet.build({
   $backgroundColor: '#DDDDDD',
   $strokeWidth: '0.1rem',
