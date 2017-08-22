@@ -21,18 +21,36 @@ class Letter extends Component {
       super(props);
 
       this.state = {
-          pan : new Animated.ValueXY()
+          pan: new Animated.ValueXY(),
+          font: {
+            size: new Animated.Value(0),
+            colour: new Animated.Value(0),
+          }
       };
-
       this.panResponder = PanResponder.create({
           onStartShouldSetPanResponder : () => true,
+          onPanResponderStart : () => {
+            Animated.timing(
+              this.state.font.size, {
+                toValue: 100,
+                duration: 1
+              },
+            ).start();
+            Animated.timing(
+              this.state.font.colour, {
+                toValue: 100,
+                duration: 1
+              },
+            ).start();
+          },
           onPanResponderMove : Animated.event([null,{
-            dx : this.state.pan.x,
-            dy : this.state.pan.y
+            dx: this.state.pan.x,
+            dy: this.state.pan.y
           }]),
           onPanResponderRelease : (e, gesture) => {
-            if(this.isDropZone(gesture)){
+            if (this.isDropZone(gesture)){
               if (!this.props.selected) {
+                // letter enabled, place on map, reset
                 Animated.timing(
                   this.state.pan, {
                     toValue: {x:0, y:0},
@@ -41,12 +59,14 @@ class Letter extends Component {
                 ).start();
                 this.onDrop(gesture.moveX, gesture.moveY);
               } else {
+                // letter disabled, reset
                 Animated.spring(
-                    this.state.pan,
-                    {toValue:{x:0,y:0}}
+                  this.state.pan,
+                  {toValue:{x:0,y:0}}
                 ).start();
               }
             } else if (this.isBin(gesture)) {
+              // snap to start, destroy
               Animated.timing(
                 this.state.pan, {
                   toValue: {x:0, y:0},
@@ -55,18 +75,31 @@ class Letter extends Component {
               ).start();
               this.onBin();
             } else {
+              // do nothing, reset
               Animated.spring(
                   this.state.pan,
                   {toValue:{x:0,y:0}}
               ).start();
             }
+
+            // reset font
+            Animated.timing(
+              this.state.font.size, {
+                toValue: 0,
+                duration: 1
+              },
+            ).start();
+            Animated.timing(
+              this.state.font.colour, {
+                toValue: 0,
+                duration: 1
+              },
+            ).start();
           }
       });
   }
 
-  onDrop = (x, y) => {
-    // drop letter on to map
-
+  onDrop(x, y) {
     // normalise coordinates and put in range [-1, 1]
     let win = Dimensions.get('window');
     let tx = ((x / win.width) - 0.5) * 1;
@@ -81,16 +114,21 @@ class Letter extends Component {
       let index = this.props.index;
       let char  = this.props.character;
 
-      setTimeout(function(){
+      // NOTE: time will be inconsistent during development due to difference
+      // between computer clock and device clock
+      setTimeout(() => {
         reviveLetterMenuProxy(index, char);
-      }, 3000);
+      }, 10000);
     };
   }
 
   onBin = () => {
     // put letter in bin !
-
     binLetterProxy(this.props.index);
+  }
+
+  onPress = () => {
+    navigateToLetterSelector(this.props);
   }
 
   isBin(gesture) {
@@ -120,20 +158,31 @@ class Letter extends Component {
     }
   }
 
-  onPress = () => {
-    console.log(this.props)
-    navigateToLetterSelector(this.props);
-  }
-
   render() {
+    // colour animation
+    /*
+    let colour = this.state.text.colour.interpolate({
+      inputRange: [0, 100],
+      outputRange: ['rgba(0,0,0,1)', 'rgba(255,255,255,1)']
+    });
+    */
+    let size = this.state.font.size.interpolate({
+      inputRange: [0, 100],
+      outputRange: [14, 24]
+    });
+    let colour = this.state.font.colour.interpolate({
+      inputRange: [0, 100],
+      outputRange: ['rgb(0,0,0)', 'rgb(255,255,255)']
+    });
+
     if (this.props.main) {
-      return this.renderYou();
+      return this.renderYou(size, colour);
     } else {
-      return this.renderFriends();
+      return this.renderFriends(size, colour);
     }
   }
 
-  renderYou() {
+  renderYou(size, colour) {
     return (
       <View style = {styles.background_main}>
         {
@@ -151,16 +200,21 @@ class Letter extends Component {
                 this.state.pan.getLayout(),
                 styles.letter_area,
               ]}>
-                <Text style={styles.letter}>
+                <Animated.Text style={[
+                    styles.letter, {
+                      color: colour,
+                      fontSize: size,
+                    }
+                  ]}>
                   {this.props.character}
-                </Text>
+                </Animated.Text>
             </Animated.View>
           }
       </View>
     );
   }
 
-  renderFriends() {
+  renderFriends(size, colour) {
     if (this.props.index == -1) {
       return (
         <View style = {styles.background_secondary} />
@@ -168,17 +222,23 @@ class Letter extends Component {
     } else {
       return (
         <View style = {styles.background_secondary}>
-          {
-            this.props.index == -1
-            ? null
-            : <Animated.View
-                {...this.panResponder.panHandlers}
-                style = {[this.state.pan.getLayout(), styles.letter_area]}>
-                  <Text style={this.props.selected ? styles.disabled : styles.letter}>
-                    {this.props.character}
-                  </Text>
-              </Animated.View>
-          }
+            <Animated.View
+              {...this.panResponder.panHandlers}
+              style = {[
+                this.state.pan.getLayout(),
+                styles.letter_area,
+              ]}>
+                <Animated.Text style={[
+                  this.props.selected
+                    ? styles.disabled
+                    : styles.letter, {
+                    color: colour,
+                    fontSize: size,
+                  }
+                ]}>
+                  {this.props.character}
+                </Animated.Text>
+            </Animated.View>
         </View>
       );
     }

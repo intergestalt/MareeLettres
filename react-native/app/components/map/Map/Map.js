@@ -19,11 +19,11 @@ class Map extends Component {
 
   onPress = (e) => {
     let region = e.nativeEvent;
-    // click map
+    // on map press
   };
 
   onRegionChange = (region) => {
-    // drag map
+    // on map drag
   };
 
   onRegionChangeComplete = (region) => {
@@ -70,11 +70,23 @@ class Map extends Component {
 
           {
             this.props.my_letters.map((item, i) => {
+              // prototype fade function
+              // TODO: shift to reducer, remove invisible letters
+
+              let t = (new Date()).getTime() - (new Date(item.last_used_at)).getTime();
+              let opacity = 1 - (t / 60000);
+              if (opacity < 0) {
+                opacity = 0;
+              }
+
               return (
                 <MapView.Marker
                   key={i}
                   coordinate={{latitude:item.coords.lat, longitude:item.coords.lng}}
-                  ><Text style={styles.letter}>
+                  ><Text style={[
+                      styles.letter,
+                      {opacity: opacity}
+                    ]}>
                     {item.character}
                   </Text>
                 </MapView.Marker>
