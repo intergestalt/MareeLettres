@@ -6,6 +6,8 @@ import Navigator from './config/routes';
 import store from './config/store';
 import { AppContainer } from './components/general/Container';
 
+import { screenHeight } from './helper/screen';
+
 // import That from '../../meteor/exports';
 
 // console.log(That);
@@ -14,7 +16,7 @@ EStyleSheet.build({
   $backgroundColor: '#DDDDDD',
   $strokeWidth: '0.1rem',
   outline: 0, // set to 1 to see the elements boundaries
-  rem: 16,
+  rem: screenHeight > 800 ? 24 : screenHeight > 600 ? 20 : 16,
 });
 
 const configureScene = () => ({
