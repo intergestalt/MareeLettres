@@ -1,11 +1,14 @@
 /* BEGIN SET YOUR LOCAL IP ADDRESS HERE */
 
-// const DEV_MAREE_SERVER_ADDRESS = '172.20.10.2:3000';
-// const DEV_MAREE_SERVER_ADDRESS = '192.168.178.83:3000';
+// const DEV_MAREE_SERVER_ADDRESS = `${Expo.Constants.linkingUri.match(/:\/\/(.*):/)[1]}:3000`;
 const DEV_MAREE_SERVER_ADDRESS = 'maree.herokuapp.com';
 
 /* END SET YOUR LOCAL IP ADDRESS HERE */
 
+const DEV_MAREE_SERVER_PROTOCOL = 'http';
+
+// LIVE setup
+const LIVE_MAREE_SERVER_PROTOCOL = 'https';
 const LIVE_MAREE_SERVER_ADDRESS = 'maree.herokuapp.com';
 
 const serverAddress =
@@ -13,13 +16,18 @@ const serverAddress =
     ? DEV_MAREE_SERVER_ADDRESS
     : LIVE_MAREE_SERVER_ADDRESS;
 
+const serverProtocol =
+  process.env.NODE_ENV === 'development' && DEV_MAREE_SERVER_PROTOCOL
+    ? DEV_MAREE_SERVER_PROTOCOL
+    : LIVE_MAREE_SERVER_PROTOCOL;
+
 console.log(`- NODE_ENV: ${process.env.NODE_ENV}`);
 console.log(`- Server Address: ${serverAddress}`);
 
 export default {
   SERVER_ADDRESS: serverAddress,
-  SERVER_URL: `https://${serverAddress}/`,
-  API_PREFIX: `https://${serverAddress}/api/`,
+  SERVER_URL: `${serverProtocol}://${serverAddress}/`,
+  API_PREFIX: `${serverProtocol}://${serverAddress}/api/`,
 };
 
 // Some load cnfig
