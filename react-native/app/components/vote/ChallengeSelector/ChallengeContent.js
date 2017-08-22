@@ -10,6 +10,8 @@ import { screenWidth } from '../../../helper/screen';
 import { voteTinder } from '../../../actions/proposals';
 import { PROPOSAL_VIEWS } from '../../../consts/';
 import { getProposalList } from '../../../helper/proposalsHelper';
+import { loadProposalsServiceProxy } from '../../../helper/apiProxy';
+import { LOAD_CONFIG } from '../../../config/config';
 
 class ChallengeContent extends Component {
   static propTypes = {
@@ -24,6 +26,9 @@ class ChallengeContent extends Component {
     onMostPress: PropTypes.func,
     onTrendingPress: PropTypes.func,
     onNewestPress: PropTypes.func,
+    lastLoaded: PropTypes.number,
+    setFlatlistRef: PropTypes.func,
+    listEnabled: PropTypes.bool,
   };
   constructor(props) {
     super(props);
@@ -142,10 +147,24 @@ class ChallengeContent extends Component {
     this.vote(false);
   }
 
+  checkToLoadMoreProposals() {
+    const id = this.props.challenges[this.props.selectedChallengeIndex]._id;
+    const length = this.props.proposals.length;
+    if (length > LOAD_CONFIG.PROPOSAL_RELOAD_TINDER_OFFSET) return;
+    const limit = LOAD_CONFIG.DEFAULT_PROPOSAL_LIMIT;
+
+    let force = false;
+    if (this.props.lastLoaded > 0) {
+      force = true;
+    }
+
+    loadProposalsServiceProxy(force, id, limit, LOAD_CONFIG.LOAD_QUIET_TINDER, false, false);
+  }
+
   vote(yes) {
-    console.log(`VOTE ${yes}`);
     this.state.tinderContainerOffset.setValue({ x: 0, y: 0 });
     this.props.dispatch(voteTinder(this.getChallenge()._id, yes));
+    this.checkToLoadMoreProposals();
   }
 
   renderFinished() {
@@ -228,6 +247,8 @@ class ChallengeContent extends Component {
           onTrendingPress={this.props.onTrendingPress}
           onNewestPress={this.props.onNewestPress}
           challengeOffset={this.props.challengeOffset}
+          setFlatlistRef={this.props.setFlatlistRef}
+          listEnabled={this.props.listEnabled}
         />
       </View>
     );
@@ -271,6 +292,7 @@ const mapStateToProps = (state, ownProps) => {
   let proposals = null;
   let isError = false;
   let isLoading = false;
+  let lastLoaded = 1;
   if (selectedChallengeIndex !== -1) {
     const id = challenges[selectedChallengeIndex + ownProps.challengeOffset]._id;
     if (id) {
@@ -281,6 +303,7 @@ const mapStateToProps = (state, ownProps) => {
       proposals = p2.proposals;
       isError = p2.isError;
       isLoading = p2.isLoading;
+      lastLoaded = p2.lastLoaded;
     }
   }
 
@@ -292,6 +315,7 @@ const mapStateToProps = (state, ownProps) => {
     proposalListMode,
     isError,
     isLoading,
+    lastLoaded,
   };
 };
 export default connect(mapStateToProps)(ChallengeContent);

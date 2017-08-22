@@ -21,6 +21,8 @@ class ProposalList extends Component {
     isPullDownLoading: PropTypes.bool,
     isPullUpLoading: PropTypes.bool,
     lastLimit: PropTypes.number,
+    setFlatlistRef: PropTypes.func,
+    listEnabled: PropTypes.bool,
   };
   constructor(props) {
     super(props);
@@ -68,7 +70,18 @@ class ProposalList extends Component {
 
     return null;
   }
+
   render() {
+    let myRefCallback = null;
+    if (this.props.setFlatlistRef) {
+      myRefCallback = (ref) => {
+        this.props.setFlatlistRef(ref);
+      };
+    }
+    let listEnabled = null;
+    if (!this.props.listEnabled) {
+      listEnabled = 'none';
+    }
     if (!this.props.isLoading && !this.props.isError) {
       return (
         <View style={styles.container}>
@@ -79,8 +92,9 @@ class ProposalList extends Component {
               onNewestPress={this.props.onNewestPress}
             />
           </View>
-          <View style={styles.listContainer}>
+          <View pointerEvents={listEnabled} style={styles.listContainer}>
             <FlatList
+              ref={myRefCallback}
               data={this.props.proposals}
               renderItem={({ item }) => <ProposalListItem data={item} />}
               keyExtractor={item => item._id}
@@ -91,7 +105,7 @@ class ProposalList extends Component {
                   onRefresh={this.onPullDownRefresh}
                 />
               }
-              onEndReachedThreshold={LOAD_CONFIG.DEFAULT_PROPOSAL_RELOAD_LIST_OFFSET}
+              onEndReachedThreshold={LOAD_CONFIG.PROPOSAL_RELOAD_LIST_OFFSET}
               onEndReached={this.onEndReached}
               ListFooterComponent={this.renderFooter()}
             />

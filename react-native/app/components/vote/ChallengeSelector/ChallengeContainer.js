@@ -7,12 +7,11 @@ import { ChallengeDetail } from './';
 import { screenWidth } from '../../../helper/screen';
 import { popChallengeSelector } from '../../../helper/navigationProxy';
 import { startChallengeTicker } from '../../../helper/ticker';
-import { setProposalView } from '../../../actions/general';
-import { setChallengesId } from '../../../actions/challenges';
+import { setProposalView, setProposalListMode } from '../../../actions/general';
+import { setChallengesId, setChallengesIndex } from '../../../actions/challenges';
 import { loadProposalsServiceProxy } from '../../../helper/apiProxy';
 import { upDateSelectedChallengeIndex } from '../../../helper/challengesHelper';
-import { PROPOSAL_VIEWS, PROPOSAL_LIST_MODES } from '../../../consts';
-import { setProposalListMode } from '../../../actions/general';
+import { PROPOSAL_VIEWS, PROPOSAL_LIST_MODES, CHALLENGE_VIEWS } from '../../../consts';
 import { LOAD_CONFIG } from '../../../config/config';
 
 class ChallengeContainer extends Component {
@@ -20,6 +19,7 @@ class ChallengeContainer extends Component {
     dispatch: PropTypes.func,
     challenges: PropTypes.array,
     selectedChallengeIndex: PropTypes.number,
+    challengeView: PropTypes.string,
   };
 
   constructor(props) {
@@ -38,6 +38,10 @@ class ChallengeContainer extends Component {
     this.onMostPress = this.onMostPress.bind(this);
     this.onNewestPress = this.onNewestPress.bind(this);
     this.onTrendingPress = this.onTrendingPress.bind(this);
+
+    this.setFlatlistRefLeft = this.setFlatlistRefLeft.bind(this);
+    this.setFlatlistRefCenter = this.setFlatlistRefCenter.bind(this);
+    this.setFlatlistRefRight = this.setFlatlistRefRight.bind(this);
 
     this.state = {
       challengeContainerOffsetX: new Animated.Value(-screenWidth),
@@ -71,36 +75,36 @@ class ChallengeContainer extends Component {
       LOAD_CONFIG.LOAD_QUIET_CHALLENGE_SELECTOR,
     );
   }
-  loadAllProposals() {
-    this.loadProposals(this.props.selectedChallengeIndex - 1);
-    this.loadProposals(this.props.selectedChallengeIndex);
-    this.loadProposals(this.props.selectedChallengeIndex + 1);
+  loadAllProposals(myIndex) {
+    this.loadProposals(myIndex - 1);
+    this.loadProposals(myIndex);
+    this.loadProposals(myIndex + 1);
   }
   handleTinderPress() {
     console.log('handleTinderPress');
     this.props.dispatch(setProposalView(PROPOSAL_VIEWS.TINDER));
-    this.loadAllProposals();
+    this.loadAllProposals(this.props.selectedChallengeIndex);
   }
 
   handleListPress() {
     console.log('handleListPress');
     this.props.dispatch(setProposalView(PROPOSAL_VIEWS.LIST));
-    this.loadAllProposals();
+    this.loadAllProposals(this.props.selectedChallengeIndex);
   }
   onMostPress() {
     console.log('onMostPress');
     this.props.dispatch(setProposalListMode(PROPOSAL_LIST_MODES.MOST));
-    this.loadAllProposals();
+    this.loadAllProposals(this.props.selectedChallengeIndex);
   }
   onNewestPress() {
     console.log('onNewestPress');
     this.props.dispatch(setProposalListMode(PROPOSAL_LIST_MODES.NEWEST));
-    this.loadAllProposals();
+    this.loadAllProposals(this.props.selectedChallengeIndex);
   }
   onTrendingPress() {
     console.log('onTrendingPress');
     this.props.dispatch(setProposalListMode(PROPOSAL_LIST_MODES.TRENDING));
-    this.loadAllProposals();
+    this.loadAllProposals(this.props.selectedChallengeIndex);
   }
   // Pan Logic
   // Header: Challenge Swipe
@@ -221,32 +225,66 @@ class ChallengeContainer extends Component {
   }
 
   navigate(offset) {
-    const index = this.props.selectedChallengeIndex + offset;
-    let challenge = this.props.challenges[index];
-    if (challenge == null) {
-      if (this.props.challenges.length > 0) {
-        challenge = this.props.challenges[0];
-      } else {
-        return;
-      }
+    if (this.flatlistRefLeft) {
+      this.flatlistRefLeft.scrollToOffset({ animated: false, offset: 0 });
     }
-    this.state.challengeContainerOffsetX.setValue(-screenWidth);
-    const newId = challenge._id;
-    this.loadProposals(index - 1);
-    this.loadProposals(index);
-    this.loadProposals(index + 1);
-    this.props.dispatch(setChallengesId(newId));
-    upDateSelectedChallengeIndex();
+    if (this.flatlistRefCenter) {
+      this.flatlistRefCenter.scrollToOffset({ animated: false, offset: 0 });
+    }
+    if (this.flatlistRefRight) {
+      this.flatlistRefRight.scrollToOffset({ animated: false, offset: 0 });
+    }
+    setTimeout(() => {
+      const index = this.props.selectedChallengeIndex + offset;
+      let challenge = this.props.challenges[index];
+      if (challenge == null) {
+        if (this.props.challenges.length > 0) {
+          challenge = this.props.challenges[0];
+        }
+      }
+      this.state.challengeContainerOffsetX.setValue(-screenWidth);
+      const newId = challenge._id;
+      this.loadAllProposals(index);
+      let t1 = new Date().getTime();
+      this.props.dispatch(setChallengesId(newId));
+      let t2 = new Date().getTime();
+      console.log(`Time 1: ${t2 - t1}`);
+      t1 = new Date().getTime();
+      upDateSelectedChallengeIndex();
+      t2 = new Date().getTime();
+      console.log(`Time 2: ${t2 - t1}`);
+    }, 1);
+  }
+
+  setFlatlistRefLeft(ref) {
+    this.flatlistRefLeft = ref;
+  }
+  setFlatlistRefCenter(ref) {
+    this.flatlistRefCenter = ref;
+  }
+  setFlatlistRefRight(ref) {
+    this.flatlistRefRight = ref;
   }
 
   // Render
   render() {
+    if (this.props.selectedChallengeIndex === -1) {
+      if (this.props.challengeView === CHALLENGE_VIEWS.DETAIL) {
+        popChallengeSelector(this.props);
+      }
+    }
+
     const myStyle = [styles.challengeContainer, { left: this.state.challengeContainerOffsetX }];
     return (
       <Animated.View style={myStyle}>
-        <ChallengeDetail challengeOffset={-1} />
+        <ChallengeDetail
+          listEnabled={false}
+          challengeOffset={-1}
+          setFlatlistRef={this.setFlatlistRefLeft}
+        />
         <ChallengeDetail
           challengeOffset={0}
+          listEnabled
           onHeaderPress={this.handleHeaderPressed}
           onDownPress={this.navigateDownPress}
           onUpPress={this.navigateUpPress}
@@ -258,8 +296,13 @@ class ChallengeContainer extends Component {
           onTrendingPress={this.onTrendingPress}
           onNewestPress={this.onNewestPress}
           panResponderHeader={this.panResponderHeader}
+          setFlatlistRef={this.setFlatlistRefCenter}
         />
-        <ChallengeDetail challengeOffset={1} />
+        <ChallengeDetail
+          listEnabled={false}
+          challengeOffset={1}
+          setFlatlistRef={this.setFlatlistRefRight}
+        />
       </Animated.View>
     );
   }
@@ -268,9 +311,11 @@ class ChallengeContainer extends Component {
 const mapStateToProps = (state) => {
   const challenges = state.challenges.challenges;
   const selectedChallengeIndex = state.challenges.selectedChallengeIndex;
+  const challengeView = state.globals.challengeView;
   return {
     selectedChallengeIndex,
     challenges,
+    challengeView,
   };
 };
 export default connect(mapStateToProps)(ChallengeContainer);

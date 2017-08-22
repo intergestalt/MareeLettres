@@ -23,6 +23,7 @@ export function upDateSelectedChallengeIndex() {
       index = i;
     }
   }
+
   if (index === -1) {
     if (challenges.length > 0) {
       index = 0;

@@ -12,7 +12,7 @@ Players.allow({
 });
 
 const OwnedLetterSchema = new SimpleSchema({
-  letter: {
+  character: {
     type: String,
     allowedValues: allowedOwnedCharacters,
     description: 'One uppercase character',

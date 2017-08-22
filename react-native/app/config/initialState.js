@@ -1,3 +1,4 @@
+import Expo from 'expo';
 import { OriginId } from 'maree-lettres-shared';
 import { PROPOSAL_LIST_MODES, CHALLENGE_VIEWS, PROPOSAL_VIEWS } from '../consts';
 
@@ -52,32 +53,30 @@ export default {
       acquired_at: sampleDate,
       last_used_at: sampleDate,
     },
-    secondary_letters: [{
-        _id: originId,
+    secondary_letters: [
+      {
         character: 'L',
         acquired_at: sampleDate,
         last_used_at: sampleDate,
-      },{
-        _id: originId,
+      },
+      {
         character: 'O',
         acquired_at: sampleDate,
         last_used_at: sampleDate,
-      },{
-        _id: originId,
+      },
+      {
         character: 'V',
         acquired_at: sampleDate,
         last_used_at: sampleDate,
-      },{
-        _id: originId,
+      },
+      {
         character: 'E',
         acquired_at: sampleDate,
         last_used_at: sampleDate,
       },
     ],
-    votes: [{
-      proposal_id: 'my_proposal',
-      bool: true,
-    }],
+    votes: {},
+    internalVotes: {},
     banned: false,
   },
 
@@ -121,5 +120,11 @@ export default {
     isLoading: false,
     isError: false,
     content: [],
-  }
+  },
+  // "_id": "pgYw8TzdLc8NQfdzw",
+  // "character": "C",
+  // "coords": {
+  //    "lat": 52.47469235825353,
+  //    "lng": 13.479836201593281
+  // }
 };

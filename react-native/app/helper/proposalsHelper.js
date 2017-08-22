@@ -3,6 +3,7 @@ import { loadProposalsServiceProxy } from '../helper/apiProxy';
 import store from '../config/store';
 import { PROPOSAL_VIEWS, PROPOSAL_LIST_MODES, CHALLENGE_VIEWS } from '../consts';
 import { LOAD_CONFIG } from '../config/config';
+import { setChallengesIndex } from '../actions/challenges';
 
 function loadProposals(offset) {
   const challengeIndex = store.getState().challenges.selectedChallengeIndex;
@@ -22,11 +23,13 @@ export function manageProposals() {
   // Assumption: Challengeslist is loaded
   if (store.getState().globals.challengeView === CHALLENGE_VIEWS.DETAIL) {
     upDateSelectedChallengeIndex();
+
     loadProposals(-1);
     loadProposals(0);
     loadProposals(1);
   }
 }
+
 export function getProposalKey(proposalView, proposalListMode) {
   if (proposalView === PROPOSAL_VIEWS.LIST) {
     if (proposalListMode === PROPOSAL_LIST_MODES.MOST) {
@@ -65,6 +68,7 @@ function getDefaultEntry() {
   result.isPullDownLoading = false;
   result.isPullUpLoading = false;
   result.lastLimit = 0;
+  result.lastLoaded = 1;
   result.time = 0;
   return result;
 }
@@ -92,4 +96,33 @@ export function addDefaultStructure(proposals) {
     myProposals.listTrending = getDefaultEntry();
   }
   return myProposals;
+}
+
+function mergeProposalListList(oldList, newList) {
+  return newList;
+}
+function mergeProposalListTinder(oldList, newList) {
+  // Create HASH from old List.
+  const hash = {};
+  for (let i = 0; i < oldList.length; i += 1) {
+    const key = oldList[i]._id;
+    hash[key] = true;
+  }
+  const result = oldList;
+  // insert all new Elements after
+  for (let i = 0; i < newList.length; i += 1) {
+    const entry = newList[i];
+    const key = entry._id;
+    if (!hash[key]) {
+      result.push(entry);
+    }
+  }
+  return result;
+}
+
+export function mergeProposalList(oldList, newList, proposalView) {
+  if (proposalView === PROPOSAL_VIEWS.LIST) {
+    return mergeProposalListList(oldList, newList);
+  }
+  return mergeProposalListTinder(oldList, newList);
 }

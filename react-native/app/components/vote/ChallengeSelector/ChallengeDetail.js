@@ -21,6 +21,8 @@ class ChallengeDetail extends Component {
     onMostPress: PropTypes.func,
     onTrendingPress: PropTypes.func,
     onNewestPress: PropTypes.func,
+    setFlatlistRef: PropTypes.func,
+    listEnabled: PropTypes.bool,
   };
   getChallengeIndex() {
     return this.props.selectedChallengeIndex + this.props.challengeOffset;
@@ -44,6 +46,8 @@ class ChallengeDetail extends Component {
           onTrendingPress={this.props.onTrendingPress}
           onNewestPress={this.props.onNewestPress}
           challengeOffset={this.props.challengeOffset}
+          listEnabled={this.props.listEnabled}
+          setFlatlistRef={this.props.setFlatlistRef}
         />
         <ChallengeFooter
           challengeOffset={this.props.challengeOffset}

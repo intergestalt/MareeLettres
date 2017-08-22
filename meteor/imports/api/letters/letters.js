@@ -31,7 +31,7 @@ const LettersSchema = new SimpleSchema({
     type: CoordsSchema,
     index: '2dsphere',
   },
-  createdAt: {
+  created_at: {
     type: Date,
   },
 });

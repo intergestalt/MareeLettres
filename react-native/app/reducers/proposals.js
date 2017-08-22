@@ -8,7 +8,12 @@ import { PROPOSAL_VIEWS } from '../consts/';
 import { DEV_CONFIG } from '../config/config';
 
 import initialState from '../config/initialState';
-import { getProposalList, getProposalKey, addDefaultStructure } from '../helper/proposalsHelper';
+import {
+  getProposalList,
+  getProposalKey,
+  addDefaultStructure,
+  mergeProposalList,
+} from '../helper/proposalsHelper';
 
 function swapArrayElements(arr, indexA, indexB) {
   const res = arr;
@@ -31,10 +36,6 @@ function swapSomeElements(arr, count) {
 export default (state = initialState.proposals, action) => {
   switch (action.type) {
     case LOAD_PROPOSALS: {
-      console.log(
-        `LOAD_PROPOSALS ${action.challengeId} ${action.proposalView} ${action.proposalListMode} ${action.quietLoading} ${action.pullDownLoading} ${action.pullUpLoading}`,
-      );
-
       // all 4our lists for this challenge
       let oldProposals = state[action.challengeId];
       // No object for this challenge or incomplete object ?
@@ -62,7 +63,6 @@ export default (state = initialState.proposals, action) => {
       return newState;
     }
     case PROPOSALS_LOADED: {
-      console.log(`PROPOSALS_LOADED ${action.action.challengeId}`);
       const now = new Date();
 
       // of all 4 lists
@@ -74,8 +74,12 @@ export default (state = initialState.proposals, action) => {
         action.action.proposalListMode,
       );
 
-      newProposalList.proposals = action.result.proposals;
-
+      const mergedProposalList = mergeProposalList(
+        newProposalList.proposals,
+        action.result.proposals,
+        action.action.proposalView,
+      );
+      newProposalList.proposals = mergedProposalList;
       if (DEV_CONFIG.SWAP_RELOADED_PROPOSALS) {
         if (action.action.proposalView === PROPOSAL_VIEWS.LIST) {
           newProposalList.proposals = swapSomeElements(
@@ -85,7 +89,7 @@ export default (state = initialState.proposals, action) => {
         }
       }
       newProposalList.lastLimit = action.action.limit;
-      console.log(`lastLimit ${action.action.limit}`);
+      newProposalList.lastLoaded = action.result.proposals.length;
       newProposalList.isLoading = false;
       newProposalList.isInternalLoading = false;
       newProposalList.isError = false;
@@ -107,7 +111,6 @@ export default (state = initialState.proposals, action) => {
       return result;
     }
     case NETWORK_ERROR_LOAD_PROPOSALS: {
-      console.log('NETWORK_ERROR_LOAD_PROPOSALS');
       const oldProposals = state[action.challengeId];
       oldProposals.isLoading = false;
       oldProposals.isInternalLoading = false;
