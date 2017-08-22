@@ -1,7 +1,7 @@
 import { Challenges } from '../challenges/challenges';
 import { Proposals } from './proposals';
 
-console.log('attach hooks');
+console.log('attach proposals hooks');
 
 Proposals.after.insert(function (userId, doc) {
   Challenges.update(doc.challenge_id, {

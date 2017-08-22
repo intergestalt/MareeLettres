@@ -11,6 +11,8 @@ import { Content } from '../../api/content/content';
 import { Letters } from '../../api/letters/letters';
 import { Players } from '../../api/players/players';
 
+const SeedChallenges = JSON.parse(Assets.getText('fixtures/challenges.json')).challenges;
+
 const contents = ['howto', 'about'];
 
 Meteor.startup(() => {
@@ -34,8 +36,9 @@ Meteor.startup(() => {
           title: `Question #${i}`,
           votes_amount: 0,
           proposals_amount: 0,
-          start_date: moment().add(i - 2, 'days').toDate(),
+          start_date: moment().add(i - 3, 'days').toDate(),
           end_date: moment().add(i - 1, 'days').toDate(),
+          ...SeedChallenges[i],
         },
         (err, id) => {
           if (id != undefined) {
@@ -51,7 +54,7 @@ Meteor.startup(() => {
                 score_trending: 0,
                 yes_votes: 0,
                 no_votes: 0,
-                origin_id: OriginId.generateFromString(`fixture_${j}`),
+                origin_id: OriginId.generateFromString(`fixture_player_${j}`),
               });
             }
           }
@@ -65,7 +68,7 @@ Meteor.startup(() => {
     for (let i = 1; i <= 150; i++) {
       Players.insert({
         _id: `fixture_${i}`,
-        origin_id: OriginId.generateFromString(`fixture_${i}`),
+        origin_id: OriginId.generateFromString(`fixture_player_${i}`),
         votes: {},
       });
     }
