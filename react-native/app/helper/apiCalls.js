@@ -49,11 +49,11 @@ export const callProposals = (action) => {
   if (action.proposalView === PROPOSAL_VIEWS.TINDER) {
     url = `${config.API_PREFIX}challenges/${action.challengeId}/proposals?limit=${action.limit}`;
   } else if (action.proposalListMode === PROPOSAL_LIST_MODES.MOST) {
-    url = `${config.API_PREFIX}challenges/${action.challengeId}/proposals?limit=${action.limit}`;
+    url = `${config.API_PREFIX}challenges/${action.challengeId}/proposals?limit=${action.limit}&sort=popular`;
   } else if (action.proposalListMode === PROPOSAL_LIST_MODES.NEWEST) {
-    url = `${config.API_PREFIX}challenges/${action.challengeId}/proposals?limit=${action.limit}`;
+    url = `${config.API_PREFIX}challenges/${action.challengeId}/proposals?limit=${action.limit}&sort=newest`;
   } else if (action.proposalListMode === PROPOSAL_LIST_MODES.TRENDING) {
-    url = `${config.API_PREFIX}challenges/${action.challengeId}/proposals?limit=${action.limit}`;
+    url = `${config.API_PREFIX}challenges/${action.challengeId}/proposals?limit=${action.limit}&sort=trending`;
   }
   console.log('API CALL: callProposals');
   console.log(url);
