@@ -141,6 +141,7 @@ const mapStateToProps = (state, ownProps) => {
   const proposalListMode = state.globals.proposalListMode;
   // all 4 lists
   const p = state.proposals[id];
+
   const proposals = getProposalList(p, proposalView, proposalListMode);
   const isError = proposals.isError;
   const isLoading = proposals.isLoading;

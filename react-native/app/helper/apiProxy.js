@@ -6,6 +6,7 @@ import store from '../config/store';
 import { getProposalList } from '../helper/proposalsHelper';
 import { getChallengeFromId } from '../helper/challengesHelper';
 import { LOAD_CONFIG } from '../config/config';
+import { PROPOSAL_VIEWS } from '../consts';
 
 function isLoading(item) {
   if (item) {
@@ -32,9 +33,6 @@ function isTimeout(item, intervall) {
   return timeout;
 }
 function checkReload(force, item, intervall) {
-  if (isLoading(item)) {
-    return false;
-  }
   if (force) {
     return true;
   }
@@ -56,6 +54,10 @@ function emptyOrNull(obj) {
 
 export function loadContentServiceProxy(force, quietLoading = false) {
   const content = store.getState().content;
+  if (isLoading(content)) {
+    return;
+  }
+
   let doit = checkReload(force, content, LOAD_CONFIG.UPDATE_CONTENT_AFTER);
 
   let myQuiet = quietLoading;
@@ -75,6 +77,9 @@ export function loadContentServiceProxy(force, quietLoading = false) {
 export function loadChallengesServiceProxy(force, quietLoading = false) {
   const challenges = store.getState().challenges;
 
+  if (isLoading(challenges)) {
+    return;
+  }
   let doit = checkReload(force, challenges, LOAD_CONFIG.UPDATE_CHALLENGES_AFTER);
 
   let myQuiet = quietLoading;
@@ -94,9 +99,9 @@ export function loadChallengeServiceProxy(challengeId) {
   // ALWAYS AND QUIET. No check of force and time
   const challenges = store.getState().challenges;
   const challenge = getChallengeFromId(challenges, challengeId);
-  let doit = true;
+  const doit = true;
   if (isLoading(challenge)) {
-    doit = false;
+    return;
   }
   if (doit) {
     store.dispatch(loadChallenge(challengeId));
@@ -110,6 +115,7 @@ export function loadProposalsServiceProxy(
   quietLoading = false,
   pullDownLoading = false,
   pullUpLoading = false,
+  lastNotLoad = false,
 ) {
   const proposalView = store.getState().globals.proposalView;
   const proposalListMode = store.getState().globals.proposalListMode;
@@ -122,15 +128,23 @@ export function loadProposalsServiceProxy(
     list = getProposalList(allProposals, proposalView, proposalListMode);
   }
 
+  if (isLoading(list)) {
+    return;
+  }
   let doit = checkReload(force, list, LOAD_CONFIG.UPDATE_PROPOSALS_AFTER);
 
   let myQuiet = quietLoading;
+  // FIRST LOAD??? Only if nothing is loaded the last time.
   if (emptyOrNull(list)) {
-    myQuiet = false;
-    doit = true;
+    if (!lastNotLoad) {
+      myQuiet = false;
+      doit = true;
+    }
   } else if (emptyOrNull(list.proposals)) {
-    myQuiet = false;
-    doit = true;
+    if (!lastNotLoad) {
+      myQuiet = false;
+      doit = true;
+    }
   }
 
   if (doit) {
@@ -144,6 +158,49 @@ export function loadProposalsServiceProxy(
         pullDownLoading,
         pullUpLoading,
       ),
+    );
+  }
+}
+
+// Load only if there are not enough tinder proposals
+export function loadTinderProposalsServiceProxy(challengeId, limit, force, lastNotLoad) {
+  const proposalView = PROPOSAL_VIEWS.TINDER;
+  const proposalListMode = null;
+  // all 4 lists
+  const allProposals = store.getState().proposals[challengeId];
+  // correct list
+
+  let list = null;
+  if (allProposals) {
+    list = getProposalList(allProposals, proposalView, proposalListMode);
+  }
+  // If enough tinder proposals: DONT
+  console.log(`${list.proposals.length} vs. ${LOAD_CONFIG.PROPOSAL_RELOAD_TINDER_OFFSET}`);
+  if (list.proposals.length > LOAD_CONFIG.PROPOSAL_RELOAD_TINDER_OFFSET) {
+    return;
+  }
+  if (isLoading(list)) {
+    return;
+  }
+
+  // IF NOT: Check force, timout
+  let doit = checkReload(force, list, LOAD_CONFIG.UPDATE_PROPOSALS_AFTER);
+
+  // FIRST LOAD??? Only if nothing is loaded the last time.
+  if (emptyOrNull(list)) {
+    if (!lastNotLoad) {
+      doit = true;
+    }
+  }
+  if (list.proposals.length <= LOAD_CONFIG.PROPOSAL_RELOAD_TINDER_OFFSET) {
+    doit = true;
+  } else {
+    doit = false;
+  }
+
+  if (doit) {
+    store.dispatch(
+      loadProposals(challengeId, proposalView, proposalListMode, limit, true, false, false),
     );
   }
 }

@@ -74,7 +74,10 @@ export default {
       },
     ],
     votes: {},
-    internalVotes: {},
+    internalVotes: {
+      isInternalLoading: false,
+      internalVotes: {},
+    },
     banned: false,
   },
 

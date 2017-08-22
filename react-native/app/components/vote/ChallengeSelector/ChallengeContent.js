@@ -7,7 +7,9 @@ import { ProposalTinder } from '../ProposalTinder/';
 import { isFinished } from '../../../helper/dateFunctions';
 import { styles } from './';
 import { screenWidth } from '../../../helper/screen';
-import { voteTinder } from '../../../actions/proposals';
+import { deleteProposalFromTinderList } from '../../../actions/proposals';
+import { userVoteInternal } from '../../../actions/userVotes';
+
 import { PROPOSAL_VIEWS } from '../../../consts/';
 import { getProposalList } from '../../../helper/proposalsHelper';
 import { loadProposalsServiceProxy } from '../../../helper/apiProxy';
@@ -32,9 +34,9 @@ class ChallengeContent extends Component {
   };
   constructor(props) {
     super(props);
-    this.vote = this.vote.bind(this);
-    this.voteYes = this.voteYes.bind(this);
-    this.voteNo = this.voteNo.bind(this);
+    this.tinderVote = this.tinderVote.bind(this);
+    this.tinderVoteYes = this.tinderVoteYes.bind(this);
+    this.tinderVoteNo = this.tinderVoteNo.bind(this);
 
     this.state = {
       tinderContainerOffset: new Animated.ValueXY({ x: 0, y: 0 }),
@@ -123,12 +125,12 @@ class ChallengeContent extends Component {
           Animated.timing(this.state.tinderContainerOffset, {
             toValue: { x: toX, y: toY },
             duration,
-          }).start(this.voteYes);
+          }).start(this.tinderVoteYes);
         } else if (dir === -1) {
           Animated.timing(this.state.tinderContainerOffset, {
             toValue: { x: toX, y: toY },
             duration,
-          }).start(this.voteNo);
+          }).start(this.tinderVoteNo);
         } else {
           Animated.spring(this.state.tinderContainerOffset, {
             toValue: { x: 0, y: 0 },
@@ -140,11 +142,11 @@ class ChallengeContent extends Component {
     });
   }
 
-  voteYes() {
-    this.vote(true);
+  tinderVoteYes() {
+    this.tinderVote(true);
   }
-  voteNo() {
-    this.vote(false);
+  tinderVoteNo() {
+    this.tinderVote(false);
   }
 
   checkToLoadMoreProposals() {
@@ -154,16 +156,28 @@ class ChallengeContent extends Component {
     const limit = LOAD_CONFIG.DEFAULT_PROPOSAL_LIMIT;
 
     let force = false;
+    let lastNotLoad = true;
     if (this.props.lastLoaded > 0) {
       force = true;
+      lastNotLoad = false;
     }
 
-    loadProposalsServiceProxy(force, id, limit, LOAD_CONFIG.LOAD_QUIET_TINDER, false, false);
+    loadProposalsServiceProxy(
+      force,
+      id,
+      limit,
+      LOAD_CONFIG.LOAD_QUIET_TINDER,
+      false,
+      false,
+      lastNotLoad,
+    );
   }
 
-  vote(yes) {
+  tinderVote(yes) {
+    const proposalId = this.props.proposals[0]._id;
+    this.props.dispatch(userVoteInternal(proposalId, yes));
     this.state.tinderContainerOffset.setValue({ x: 0, y: 0 });
-    this.props.dispatch(voteTinder(this.getChallenge()._id, yes));
+    this.props.dispatch(deleteProposalFromTinderList(this.getChallenge()._id));
     this.checkToLoadMoreProposals();
   }
 

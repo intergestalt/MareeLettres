@@ -8,7 +8,7 @@ import { screenWidth } from '../../../helper/screen';
 import { popChallengeSelector } from '../../../helper/navigationProxy';
 import { startChallengeTicker } from '../../../helper/ticker';
 import { setProposalView, setProposalListMode } from '../../../actions/general';
-import { setChallengesId, setChallengesIndex } from '../../../actions/challenges';
+import { setChallengesId } from '../../../actions/challenges';
 import { loadProposalsServiceProxy } from '../../../helper/apiProxy';
 import { upDateSelectedChallengeIndex } from '../../../helper/challengesHelper';
 import { PROPOSAL_VIEWS, PROPOSAL_LIST_MODES, CHALLENGE_VIEWS } from '../../../consts';
@@ -47,6 +47,7 @@ class ChallengeContainer extends Component {
       challengeContainerOffsetX: new Animated.Value(-screenWidth),
     };
 
+    this.navigationEnabled = true;
     this.panResponderHeader = this.createPanResponderHeader();
   }
   componentDidMount() {
@@ -195,6 +196,11 @@ class ChallengeContainer extends Component {
   // Navigation logic
 
   navigateDownPress() {
+    if (!this.navigationEnabled) {
+      return;
+    }
+    this.navigationEnabled = false;
+
     Animated.timing(this.state.challengeContainerOffsetX, {
       toValue: 0,
       duration: 300,
@@ -202,6 +208,10 @@ class ChallengeContainer extends Component {
   }
 
   navigateUpPress() {
+    if (!this.navigationEnabled) {
+      return;
+    }
+    this.navigationEnabled = false;
     Animated.timing(this.state.challengeContainerOffsetX, {
       toValue: -2 * screenWidth,
       duration: 300,
@@ -253,6 +263,7 @@ class ChallengeContainer extends Component {
       upDateSelectedChallengeIndex();
       t2 = new Date().getTime();
       console.log(`Time 2: ${t2 - t1}`);
+      this.navigationEnabled = true;
     }, 1);
   }
 

@@ -5,8 +5,13 @@ import { connect } from 'react-redux';
 import { ProposalListItem, ProposalListHeader, styles } from './';
 import { Separator } from '../ChallengesList/';
 import { getProposalList } from '../../../helper/proposalsHelper';
-import { loadProposalsServiceProxy } from '../../../helper/apiProxy';
+import {
+  loadProposalsServiceProxy,
+  loadTinderProposalsServiceProxy,
+} from '../../../helper/apiProxy';
 import { LOAD_CONFIG } from '../../../config/config';
+import { userVoteInternal } from '../../../actions/userVotes';
+import { deleteProposalFromTinderList } from '../../../actions/proposals';
 
 class ProposalList extends Component {
   static propTypes = {
@@ -21,8 +26,10 @@ class ProposalList extends Component {
     isPullDownLoading: PropTypes.bool,
     isPullUpLoading: PropTypes.bool,
     lastLimit: PropTypes.number,
+    lastLoaded: PropTypes.number,
     setFlatlistRef: PropTypes.func,
     listEnabled: PropTypes.bool,
+    dispatch: PropTypes.func,
   };
   constructor(props) {
     super(props);
@@ -47,8 +54,10 @@ class ProposalList extends Component {
     const id = this.props.challenges[this.props.selectedChallengeIndex]._id;
     const limit = this.props.proposals.length + LOAD_CONFIG.DEFAULT_PROPOSAL_LIMIT;
     let force = false;
+    let lastNotLoad = true;
     if (limit > this.props.lastLimit) {
       force = true;
+      lastNotLoad = false;
     }
     loadProposalsServiceProxy(
       force,
@@ -57,7 +66,39 @@ class ProposalList extends Component {
       LOAD_CONFIG.LOAD_QUIET_PULL_DOWN_UPDATE,
       false,
       true,
+      lastNotLoad,
     );
+  }
+
+  onNoPress(item) {
+    const proposalId = item._id;
+    const challengeId = this.getChallenge()._id;
+    this.onVotePress(proposalId, challengeId, false);
+  }
+  onYesPress(item) {
+    const proposalId = item._id;
+    const challengeId = this.getChallenge()._id;
+    this.onVotePress(proposalId, challengeId, true);
+  }
+  onVotePress(proposalId, challengeId, yes) {
+    this.props.dispatch(userVoteInternal(proposalId, yes));
+    this.props.dispatch(deleteProposalFromTinderList(challengeId, proposalId));
+    let force = false;
+    let lastNotLoad = true;
+    if (this.props.lastLoaded > 0) {
+      force = true;
+      lastNotLoad = false;
+    }
+    loadTinderProposalsServiceProxy(
+      challengeId,
+      LOAD_CONFIG.DEFAULT_PROPOSAL_LIMIT,
+      force,
+      lastNotLoad,
+    );
+  }
+
+  getChallenge() {
+    return this.props.challenges[this.props.selectedChallengeIndex];
   }
   renderFooter() {
     if (this.props.isPullUpLoading) {
@@ -70,7 +111,6 @@ class ProposalList extends Component {
 
     return null;
   }
-
   render() {
     let myRefCallback = null;
     if (this.props.setFlatlistRef) {
@@ -96,7 +136,12 @@ class ProposalList extends Component {
             <FlatList
               ref={myRefCallback}
               data={this.props.proposals}
-              renderItem={({ item }) => <ProposalListItem data={item} />}
+              renderItem={({ item }) =>
+                <ProposalListItem
+                  onNoPress={() => this.onNoPress(item)}
+                  onYesPress={() => this.onYesPress(item)}
+                  data={item}
+                />}
               keyExtractor={item => item._id}
               ItemSeparatorComponent={Separator}
               refreshControl={
@@ -146,7 +191,7 @@ const mapStateToProps = (state, ownProps) => {
   const isPullDownLoading = p2.isPullDownLoading;
   const isPullUpLoading = p2.isPullUpLoading;
   const lastLimit = p2.lastLimit;
-
+  const lastLoaded = p2.lastLoaded;
   return {
     challenges,
     proposals,
@@ -156,6 +201,7 @@ const mapStateToProps = (state, ownProps) => {
     isPullDownLoading,
     isPullUpLoading,
     lastLimit,
+    lastLoaded,
   };
 };
 export default connect(mapStateToProps)(ProposalList);

@@ -3,7 +3,6 @@ import { loadProposalsServiceProxy } from '../helper/apiProxy';
 import store from '../config/store';
 import { PROPOSAL_VIEWS, PROPOSAL_LIST_MODES, CHALLENGE_VIEWS } from '../consts';
 import { LOAD_CONFIG } from '../config/config';
-import { setChallengesIndex } from '../actions/challenges';
 
 function loadProposals(offset) {
   const challengeIndex = store.getState().challenges.selectedChallengeIndex;
@@ -102,6 +101,9 @@ function mergeProposalListList(oldList, newList) {
   return newList;
 }
 function mergeProposalListTinder(oldList, newList) {
+  const internalVotes = store.getState().user.internalVotes.internalVotes;
+  const votes = store.getState().user.votes;
+
   // Create HASH from old List.
   const hash = {};
   for (let i = 0; i < oldList.length; i += 1) {
@@ -113,8 +115,12 @@ function mergeProposalListTinder(oldList, newList) {
   for (let i = 0; i < newList.length; i += 1) {
     const entry = newList[i];
     const key = entry._id;
-    if (!hash[key]) {
-      result.push(entry);
+    if (hash[key] === undefined) {
+      if (internalVotes[key] === undefined) {
+        if (votes[key] === undefined) {
+          result.push(entry);
+        }
+      }
     }
   }
   return result;
