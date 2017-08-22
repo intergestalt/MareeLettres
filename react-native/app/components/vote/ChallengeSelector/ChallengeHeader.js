@@ -122,6 +122,7 @@ const mapStateToProps = (state) => {
   const challenges = state.challenges.challenges;
   const challengesTicker = state.challengesTicker;
   const selectedChallengeIndex = state.challenges.selectedChallengeIndex;
+
   return {
     selectedChallengeIndex,
     challenges,

@@ -323,6 +323,7 @@ const mapStateToProps = (state) => {
   const challenges = state.challenges.challenges;
   const selectedChallengeIndex = state.challenges.selectedChallengeIndex;
   const challengeView = state.globals.challengeView;
+
   return {
     selectedChallengeIndex,
     challenges,

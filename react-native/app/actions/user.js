@@ -1,3 +1,8 @@
+import { callLoadUser, callSendUserVotes } from '../helper/apiCalls';
+
+export const LOAD_USER = 'LOAD_USER';
+export const USER_LOADED = 'USER_LOADED';
+export const LOAD_USER_ERROR = 'LOAD_USER_ERROR';
 export const USER_SET_ID = 'USER_SET_ID';
 export const USER_SET_COORDINATES = 'USER_SET_COORDINATES';
 export const USER_SET_PRIMARY_LETTER = 'USER_SET_PRIMARY_LETTER';
@@ -10,6 +15,19 @@ export const USER_WIPE_LETTER_MENU = 'USER_WIPE_LETTER_MENU';
 export const USER_GET_LETTER = 'USER_GET_LETTER';
 export const USER_REVIVE_LETTER_MENU = 'USER_REVIVE_LETTER_MENU';
 export const USER_BIN_LETTER = 'USER_BIN_LETTER';
+
+export const USER_VOTE_INTERNAL = 'USER_VOTE_INTERNAL';
+export const USER_SEND_INTERNAL_VOTES = 'USER_SEND_INTERNAL_VOTES';
+export const USER_INTERNAL_VOTES_SENT = 'USER_INTERNAL_VOTES_SENT';
+export const USER_SEND_INTERNAL_VOTES_ERROR = 'USER_SEND_INTERNAL_VOTES_ERROR';
+
+export const loadUser = originId => ({
+  type: LOAD_USER,
+  successEvent: USER_LOADED,
+  errorEvent: LOAD_USER_ERROR,
+  apiCall: callLoadUser,
+  originId,
+});
 
 export const getUserLetter = () => ({
   type: USER_GET_LETTER,
@@ -41,26 +59,43 @@ export const deleteLetters = () => ({
   errorEvent: USER_UPDATE_ERROR,
 });
 
-export const updateLetterMenu = (menuIndex) => ({
+export const updateLetterMenu = menuIndex => ({
   type: USER_UPDATE_LETTER_MENU,
   errorEvent: USER_UPDATE_ERROR,
-  menuIndex: menuIndex,
+  menuIndex,
 });
 
 export const reviveLetterMenu = (menuIndex, character) => ({
   type: USER_REVIVE_LETTER_MENU,
   errorEvent: USER_UPDATE_ERROR,
-  menuIndex: menuIndex,
-  character: character
+  menuIndex,
+  character,
 });
 
-export const binLetter = (menuIndex) => ({
+export const binLetter = menuIndex => ({
   type: USER_BIN_LETTER,
   errorEvent: USER_UPDATE_ERROR,
-  menuIndex: menuIndex,
+  menuIndex,
 });
 
 export const wipeLetterMenu = () => ({
   type: USER_WIPE_LETTER_MENU,
   error: USER_UPDATE_ERROR,
+});
+
+// Voteing
+
+export const userVoteInternal = (proposalId, yes) => ({
+  type: USER_VOTE_INTERNAL,
+  proposalId,
+  yes,
+});
+
+export const userSendInternalVotes = (originId, internalVotes) => ({
+  type: USER_SEND_INTERNAL_VOTES,
+  successEvent: USER_INTERNAL_VOTES_SENT,
+  errorEvent: USER_SEND_INTERNAL_VOTES_ERROR,
+  apiCall: callSendUserVotes,
+  originId,
+  internalVotes,
 });

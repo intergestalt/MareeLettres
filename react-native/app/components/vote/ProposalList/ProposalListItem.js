@@ -54,13 +54,14 @@ class ProposalListItem extends PureComponent {
 const mapStateToProps = (state, ownProps) => {
   const votes = state.user.votes;
   const internalVotes = state.user.internalVotes.internalVotes;
+
   const id = ownProps.data._id;
   const vote = votes[id];
   const internalVote = internalVotes[id];
   let yes = false;
   let no = false;
-  if (vote !== undefined) {
-    if (vote) {
+  if (vote) {
+    if (vote.bool) {
       yes = true;
       no = false;
     } else {
@@ -68,8 +69,8 @@ const mapStateToProps = (state, ownProps) => {
       no = true;
     }
   }
-  if (internalVote !== undefined) {
-    if (internalVote) {
+  if (internalVote) {
+    if (internalVote.bool) {
       yes = true;
       no = false;
     } else {

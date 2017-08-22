@@ -1,5 +1,5 @@
 import { setChallengesDateData } from '../actions/challengesTicker';
-import { loadChallengeServiceProxy } from '../helper/apiProxy';
+import { loadChallengeServiceProxy, sendInternalVotesServiceProxy } from '../helper/apiProxy';
 import store from '../config/store';
 
 import { isFinished, TICKER_END } from '../helper/dateFunctions';
@@ -8,7 +8,7 @@ import { DEV_CONFIG } from '../config/config';
 let tickerStarted = false;
 let timerId = null;
 
-function tick() {
+function tickerData() {
   const state = store.getState();
   // get old finished
   const wasFinished = new Array(state.challenges.challenges.length);
@@ -35,6 +35,14 @@ function tick() {
   }
 }
 
+function sendInternalVotes() {
+  sendInternalVotesServiceProxy(false);
+}
+
+function tick() {
+  tickerData();
+  sendInternalVotes();
+}
 export function stopChallengeTicker() {
   if (tickerStarted) {
     if (DEV_CONFIG.TICKER_ENABELD) {

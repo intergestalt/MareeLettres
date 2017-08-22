@@ -1,4 +1,6 @@
 import { loadContent } from '../actions/content';
+import { loadUser } from '../actions/user';
+import { userSendInternalVotes } from '../actions/user';
 import { loadChallenge, loadChallenges } from '../actions/challenges';
 import { loadProposals } from '../actions/proposals';
 import { loadLetters } from '../actions/letters';
@@ -26,7 +28,6 @@ function isTimeout(item, intervall) {
       lastTime = time;
     }
   }
-
   const now = new Date().getTime();
   const timeout = now - lastTime > intervall;
 
@@ -51,7 +52,25 @@ function emptyOrNull(obj) {
   }
   return true;
 }
+export function loadUserServiceProxy(force) {
+  const user = store.getState().user;
+  if (isLoading(user)) {
+    return;
+  }
 
+  let doit = checkReload(force, user, LOAD_CONFIG.UPDATE_CONTENT_AFTER);
+
+  if (emptyOrNull(user)) {
+    doit = true;
+  } else if (emptyOrNull(user.votes)) {
+    doit = true;
+  }
+  const originId = user.origin_id;
+  if (doit) {
+    console.log(`LOAD USER: ${originId}`);
+    store.dispatch(loadUser(originId));
+  }
+}
 export function loadContentServiceProxy(force, quietLoading = false) {
   const content = store.getState().content;
   if (isLoading(content)) {
@@ -175,7 +194,6 @@ export function loadTinderProposalsServiceProxy(challengeId, limit, force, lastN
     list = getProposalList(allProposals, proposalView, proposalListMode);
   }
   // If enough tinder proposals: DONT
-  console.log(`${list.proposals.length} vs. ${LOAD_CONFIG.PROPOSAL_RELOAD_TINDER_OFFSET}`);
   if (list.proposals.length > LOAD_CONFIG.PROPOSAL_RELOAD_TINDER_OFFSET) {
     return;
   }
@@ -206,4 +224,28 @@ export function loadTinderProposalsServiceProxy(challengeId, limit, force, lastN
 }
 export function loadLettersServiceProxy() {
   store.dispatch(loadLetters());
+}
+
+export function sendInternalVotesServiceProxy(force) {
+  const user = store.getState().user;
+  const internalVotes = user.internalVotes;
+  if (isLoading(internalVotes)) {
+    return;
+  }
+  // force oder timout
+  let doit = checkReload(force, internalVotes, LOAD_CONFIG.SEND_INTERNAL_VOTES_AFTER);
+
+  // Do not send if there is nothing to sent
+  if (emptyOrNull(internalVotes)) {
+    return;
+  } else if (emptyOrNull(internalVotes.internalVotes)) {
+    return;
+  }
+  // if there are more then n internal vots doit
+  if (Object.keys(internalVotes.internalVotes).length >= LOAD_CONFIG.INTERNAL_VOTES_OFFSET) {
+    doit = true;
+  }
+  if (doit) {
+    store.dispatch(userSendInternalVotes(user.origin_id, internalVotes));
+  }
 }

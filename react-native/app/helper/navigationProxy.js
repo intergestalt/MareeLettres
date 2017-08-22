@@ -1,4 +1,4 @@
-import { loadContentServiceProxy } from './apiProxy';
+import { loadContentServiceProxy, sendInternalVotesServiceProxy } from './apiProxy';
 import { stopChallengeTicker, startChallengeTicker } from './ticker';
 
 // import { NavigationActions } from 'react-navigation';
@@ -16,16 +16,19 @@ import { CHALLENGE_VIEWS } from '../consts';
 export function navigateToInfo(props) {
   stopChallengeTicker();
   loadContentServiceProxy(false, true);
+  sendInternalVotesServiceProxy(true);
   props.navigation.navigate('Info');
 }
 
 export function navigateToBecome(props) {
   stopChallengeTicker();
+  sendInternalVotesServiceProxy(true);
   props.navigation.navigate('Become');
 }
 
 export function navigateToStream(props) {
   stopChallengeTicker();
+  sendInternalVotesServiceProxy(true);
   props.navigation.navigate('Stream');
 }
 
@@ -33,6 +36,7 @@ export function navigateToVote(props) {
   manageChallenges();
   manageProposals();
   startChallengeTicker();
+  sendInternalVotesServiceProxy(true);
   props.navigation.navigate('Vote');
 }
 
@@ -77,12 +81,14 @@ export function navigateToChallengeSelector(props, id) {
   store.dispatch(setChallengesId(id));
   manageProposals();
   startChallengeTicker();
+  sendInternalVotesServiceProxy(true);
   props.navigation.navigate('ChallengeSelector', { id });
 }
 
 export function popChallengeSelector(props) {
   store.dispatch(setChallengeView(CHALLENGE_VIEWS.LIST));
   manageChallenges();
+  sendInternalVotesServiceProxy(true);
 
   if (!props.navigation.goBack()) {
     props.navigation.navigate('Challenges');
