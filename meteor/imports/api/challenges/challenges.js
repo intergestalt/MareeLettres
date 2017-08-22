@@ -19,6 +19,10 @@ const ChallengesSchema = new SimpleSchema({
   end_date: {
     type: Date,
   },
+  proposals_amount: {
+    type: Number,
+    optional: true,
+  },
   winningProposal: {
     type: Object, // TODO: Add ProposalsSchama here
     optional: true,

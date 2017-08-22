@@ -2,6 +2,7 @@
 
 import '../../api/challenges/methods';
 import '../../api/challenges/server/publications';
+import '../../api/challenges/hooks';
 
 import '../../api/proposals/server/publications';
 import '../../api/proposals/hooks';
