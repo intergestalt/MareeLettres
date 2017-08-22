@@ -8,7 +8,7 @@ import { isFinished } from '../../../helper/dateFunctions';
 import { styles } from './';
 import { screenWidth } from '../../../helper/screen';
 import { deleteProposalFromTinderList } from '../../../actions/proposals';
-import { userVoteInternal } from '../../../actions/userVotes';
+import { userVoteInternal } from '../../../actions/user';
 
 import { PROPOSAL_VIEWS } from '../../../consts/';
 import { getProposalList } from '../../../helper/proposalsHelper';

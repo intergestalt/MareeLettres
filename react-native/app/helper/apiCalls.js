@@ -1,15 +1,32 @@
 import config from '../config/config';
 import { PROPOSAL_LIST_MODES, PROPOSAL_VIEWS } from '../consts';
 
+export const callLoadUser = (action) => {
+  const url = `${config.API_PREFIX}players/${action.originId}`;
+  console.log('API CALL: callLoadUser');
+  console.log(url);
+  return fetch(url);
+};
+
 export const callSendUserVotes = (action) => {
   const url = `${config.API_PREFIX}players/${action.originId}/votes`;
   console.log('API CALL: callSendUserVotes');
   console.log(url);
   const body = {};
-  body.votes = action.internalVotes;
+  const votes = {};
+  const proposalIds = Object.keys(action.internalVotes.internalVotes);
+
+  for (let i = 0; i < proposalIds.length; i += 1) {
+    const proposalId = proposalIds[i];
+    votes[proposalId] = action.internalVotes.internalVotes[proposalId].bool;
+  }
+  body.votes = votes;
   return fetch(url, {
+    headers: {
+      'Content-Type': 'application/json',
+    },
     method: 'POST',
-    body,
+    body: JSON.stringify(body),
   });
 };
 

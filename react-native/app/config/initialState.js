@@ -5,7 +5,7 @@ import { PROPOSAL_LIST_MODES, CHALLENGE_VIEWS, PROPOSAL_VIEWS } from '../consts'
 // for testing
 
 const originId = OriginId.generateFromDeviceId(Expo.Constants.deviceId);
-const sampleDate = (new Date()).toISOString();
+const sampleDate = new Date().toISOString();
 const lat = 52.4972;
 const lng = 13.4377;
 const latDelta = 0.001;

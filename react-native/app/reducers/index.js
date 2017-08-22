@@ -8,7 +8,6 @@ import content from './content';
 import myLetters from './myLetters';
 import letters from './letters';
 import user from './user';
-import userVotes from './userVotes';
 
 export default combineReducers({
   globals,
@@ -19,5 +18,4 @@ export default combineReducers({
   letters,
   myLetters,
   user,
-  userVotes,
 });

@@ -36,6 +36,7 @@ function swapSomeElements(arr, count) {
 export default (state = initialState.proposals, action) => {
   switch (action.type) {
     case LOAD_PROPOSALS: {
+      console.log('LOAD_PROPOSALS');
       // all 4our lists for this challenge
       let oldProposals = state[action.challengeId];
       // No object for this challenge or incomplete object ?
@@ -64,6 +65,7 @@ export default (state = initialState.proposals, action) => {
       return newState;
     }
     case PROPOSALS_LOADED: {
+      console.log('PROPOSALS_LOADED');
       const now = new Date();
 
       // of all 4 lists
@@ -74,7 +76,6 @@ export default (state = initialState.proposals, action) => {
         action.action.proposalView,
         action.action.proposalListMode,
       );
-
       const mergedProposalList = mergeProposalList(
         newProposalList.proposals,
         action.result.proposals,
@@ -108,10 +109,12 @@ export default (state = initialState.proposals, action) => {
       const result = {
         ...state,
       };
+
       result[action.action.challengeId] = challengeProposals;
       return result;
     }
     case NETWORK_ERROR_LOAD_PROPOSALS: {
+      console.log('NETWORK_ERROR_LOAD_PROPOSALS');
       const oldProposals = state[action.challengeId];
       oldProposals.isLoading = false;
       oldProposals.isInternalLoading = false;

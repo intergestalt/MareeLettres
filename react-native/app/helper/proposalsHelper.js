@@ -108,16 +108,16 @@ function mergeProposalListTinder(oldList, newList) {
   const hash = {};
   for (let i = 0; i < oldList.length; i += 1) {
     const key = oldList[i]._id;
-    hash[key] = true;
+    hash[key] = { bool: true };
   }
   const result = oldList;
   // insert all new Elements after
   for (let i = 0; i < newList.length; i += 1) {
     const entry = newList[i];
     const key = entry._id;
-    if (hash[key] === undefined) {
-      if (internalVotes[key] === undefined) {
-        if (votes[key] === undefined) {
+    if (!hash[key]) {
+      if (!internalVotes[key]) {
+        if (!votes[key]) {
           result.push(entry);
         }
       }

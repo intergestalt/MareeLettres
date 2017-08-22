@@ -5,7 +5,7 @@ import { LOAD_CHALLENGES, LOAD_CHALLENGE } from '../actions/challenges';
 import { LOAD_PROPOSALS } from '../actions/proposals';
 import { LOAD_CONTENT } from '../actions/content';
 import { LOAD_LETTERS } from '../actions/letters';
-import { USER_SEND_INTERNAL_VOTES } from '../actions/userVotes';
+import { USER_SEND_INTERNAL_VOTES, LOAD_USER } from '../actions/user';
 
 function* loadData(action) {
   try {
@@ -55,4 +55,5 @@ export default function* rootSaga() {
   yield takeEvery(LOAD_CONTENT, loadData);
   yield takeEvery(USER_SEND_INTERNAL_VOTES, sendData);
   yield takeEvery(LOAD_LETTERS, loadData);
+  yield takeEvery(LOAD_USER, loadData);
 }

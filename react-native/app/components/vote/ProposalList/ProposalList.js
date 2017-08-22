@@ -10,7 +10,7 @@ import {
   loadTinderProposalsServiceProxy,
 } from '../../../helper/apiProxy';
 import { LOAD_CONFIG } from '../../../config/config';
-import { userVoteInternal } from '../../../actions/userVotes';
+import { userVoteInternal } from '../../../actions/user';
 import { deleteProposalFromTinderList } from '../../../actions/proposals';
 
 class ProposalList extends Component {
