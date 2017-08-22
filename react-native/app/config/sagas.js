@@ -5,6 +5,7 @@ import { LOAD_CHALLENGES, LOAD_CHALLENGE } from '../actions/challenges';
 import { LOAD_PROPOSALS } from '../actions/proposals';
 import { LOAD_CONTENT } from '../actions/content';
 import { LOAD_LETTERS } from '../actions/letters';
+import { USER_SEND_INTERNAL_VOTES } from '../actions/userVotes';
 
 function* loadData(action) {
   try {
@@ -34,10 +35,24 @@ function* loadDataPlusTicker(action) {
     yield put({ type: action.errorEvent, error: error.message });
   }
 }
+function* sendData(action) {
+  try {
+    const response = yield call(action.apiCall, action);
+    const result = yield response.json();
+    if (result.error) {
+      yield put({ type: action.errorEvent, error: result.error });
+    } else {
+      yield put({ type: action.successEvent, result, action });
+    }
+  } catch (error) {
+    yield put({ type: action.errorEvent, error: error.message });
+  }
+}
 export default function* rootSaga() {
   yield takeEvery(LOAD_CHALLENGES, loadDataPlusTicker);
   yield takeEvery(LOAD_CHALLENGE, loadData);
   yield takeEvery(LOAD_PROPOSALS, loadData);
   yield takeEvery(LOAD_CONTENT, loadData);
+  yield takeEvery(USER_SEND_INTERNAL_VOTES, sendData);
   yield takeEvery(LOAD_LETTERS, loadData);
 }

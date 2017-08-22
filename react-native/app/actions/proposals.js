@@ -3,7 +3,7 @@ import { callProposals } from '../helper/apiCalls';
 export const LOAD_PROPOSALS = 'LOAD_PROPOSALS';
 export const PROPOSALS_LOADED = 'PROPOSALS_LOADED';
 export const NETWORK_ERROR_LOAD_PROPOSALS = 'NETWORK_ERROR_LOAD_PROPOSALS';
-export const VOTE_TINDER = 'VOTE_TINDER';
+export const DELETE_PROPOSAL_FROM_TINDER_LIST = 'DELETE_PROPOSAL_FROM_TINDER_LIST';
 
 export const loadProposals = (
   challengeId,
@@ -27,8 +27,8 @@ export const loadProposals = (
   pullUpLoading,
 });
 
-export const voteTinder = (challengeId, yes) => ({
-  type: VOTE_TINDER,
+export const deleteProposalFromTinderList = (challengeId, proposalId) => ({
+  type: DELETE_PROPOSAL_FROM_TINDER_LIST,
   challengeId,
-  yes,
+  proposalId,
 });

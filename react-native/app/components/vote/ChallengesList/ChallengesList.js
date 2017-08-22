@@ -13,7 +13,6 @@ class ChallengesList extends Component {
   static propTypes = {
     isError: PropTypes.bool,
     isLoading: PropTypes.bool,
-    time: PropTypes.number,
     language: PropTypes.string,
     challenges: PropTypes.array,
     challengesTicker: PropTypes.object,
@@ -89,21 +88,18 @@ class ChallengesList extends Component {
     );
   }
 }
-/*
-          */
+
 const mapStateToProps = (state) => {
   const challenges = state.challenges.challenges;
   const challengesTicker = state.challengesTicker;
   const isLoading = state.challenges.isLoading;
   const isError = state.challenges.isError;
-  const time = state.challenges.time;
   const language = state.globals.language;
   return {
     challenges,
     challengesTicker,
     isLoading,
     isError,
-    time,
     language,
   };
 };

@@ -2,7 +2,7 @@ import {
   LOAD_PROPOSALS,
   PROPOSALS_LOADED,
   NETWORK_ERROR_LOAD_PROPOSALS,
-  VOTE_TINDER,
+  DELETE_PROPOSAL_FROM_TINDER_LIST,
 } from '../actions/proposals';
 import { PROPOSAL_VIEWS } from '../consts/';
 import { DEV_CONFIG } from '../config/config';
@@ -42,6 +42,7 @@ export default (state = initialState.proposals, action) => {
       oldProposals = addDefaultStructure(oldProposals);
 
       // one of the list depending of what is demanded
+
       const oldProposalList = getProposalList(
         oldProposals,
         action.proposalView,
@@ -125,13 +126,30 @@ export default (state = initialState.proposals, action) => {
 
       return result;
     }
-    case VOTE_TINDER: {
+    case DELETE_PROPOSAL_FROM_TINDER_LIST: {
+      const proposalId = action.proposalId;
+
       // of all 4 lists
       const p = state[action.challengeId];
       // correct List
       const listToChange = getProposalList(p, PROPOSAL_VIEWS.TINDER);
       const oldProposals = listToChange.proposals;
-      oldProposals.shift();
+
+      if (!proposalId) {
+        oldProposals.shift();
+      } else {
+        let index = -1;
+        for (let i = 0; i < oldProposals.length; i += 1) {
+          const id = oldProposals[i]._id;
+          if (id === proposalId) {
+            index = i;
+          }
+        }
+        if (index >= 0) {
+          oldProposals.splice(index, 1);
+        }
+      }
+
       const p1 = getProposalList(p, PROPOSAL_VIEWS.TINDER);
       const c1 = {
         ...p1,
