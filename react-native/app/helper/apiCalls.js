@@ -51,6 +51,7 @@ export const callProposals = (action) => {
     url = `${config.API_PREFIX}challenges/${action.challengeId}/proposals?limit=${action.limit}`;
   } else if (action.proposalListMode === PROPOSAL_LIST_MODES.MOST) {
     url = `${config.API_PREFIX}challenges/${action.challengeId}/proposals?limit=${action.limit}&sort=popular`;
+<<<<<<< HEAD
     url = `${config.API_PREFIX}challenges/${action.challengeId}/proposals?limit=${action.limit}`;
   } else if (action.proposalListMode === PROPOSAL_LIST_MODES.NEWEST) {
     url = `${config.API_PREFIX}challenges/${action.challengeId}/proposals?limit=${action.limit}&sort=newest`;
@@ -58,6 +59,12 @@ export const callProposals = (action) => {
   } else if (action.proposalListMode === PROPOSAL_LIST_MODES.TRENDING) {
     url = `${config.API_PREFIX}challenges/${action.challengeId}/proposals?limit=${action.limit}&sort=trending`;
     url = `${config.API_PREFIX}challenges/${action.challengeId}/proposals?limit=${action.limit}`;
+=======
+  } else if (action.proposalListMode === PROPOSAL_LIST_MODES.NEWEST) {
+    url = `${config.API_PREFIX}challenges/${action.challengeId}/proposals?limit=${action.limit}&sort=newest`;
+  } else if (action.proposalListMode === PROPOSAL_LIST_MODES.TRENDING) {
+    url = `${config.API_PREFIX}challenges/${action.challengeId}/proposals?limit=${action.limit}&sort=trending`;
+>>>>>>> 8ccb37e67f965c16a7b7b76dc89294ac3905feed
   }
   console.log('API CALL: callProposals');
   console.log(url);

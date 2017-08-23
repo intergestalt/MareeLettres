@@ -32,3 +32,4 @@ aldeed:collection2-core
 shell-server
 simple:json-routes
 aldeed:schema-index
+session

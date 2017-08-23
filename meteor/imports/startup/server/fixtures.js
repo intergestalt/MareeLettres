@@ -3,6 +3,7 @@
 import { Meteor } from 'meteor/meteor';
 import { Random } from 'meteor/random';
 import moment from 'moment';
+
 import { OriginId } from 'maree-lettres-shared';
 
 import { Challenges } from '../../api/challenges/challenges';
@@ -10,12 +11,19 @@ import { Proposals } from '../../api/proposals/proposals';
 import { Content } from '../../api/content/content';
 import { Letters } from '../../api/letters/letters';
 import { Players } from '../../api/players/players';
+import { SystemConfig, SystemConfigSchema } from '../../api/systemConfig/systemConfig';
 
 const SeedChallenges = JSON.parse(Assets.getText('fixtures/challenges.json')).challenges;
 
 const contents = ['howto', 'about'];
 
 Meteor.startup(() => {
+  // Always update default SystemConfig
+  const defaultSystemConfig = SystemConfigSchema.clean({});
+  SystemConfig.rawCollection().replaceOne({ name: 'default' }, defaultSystemConfig, {
+    upsert: true,
+  });
+
   contents.forEach((content) => {
     if (Content.find(content).count() === 0) {
       console.log('Seeding Content');
