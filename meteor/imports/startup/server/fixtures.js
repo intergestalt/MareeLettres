@@ -59,7 +59,7 @@ Meteor.startup(() => {
             for (let j = 1; j <= amount; j++) {
               Proposals.insert({
                 _id: `fixture_${i}_${j}`,
-                text: shuffleString('ABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRS          '),
+                text: `${j} ${shuffleString('ABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHAAEE       ')}`,
                 challenge_id: id,
                 score: 0, // parseInt(10 * Math.random()),
                 votes_amount: 0, // parseInt(10 * Math.random()),
