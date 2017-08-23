@@ -1,6 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 
-import { SystemConfig } from '../../api/systemConfig/systemConfig';
+import { SystemConfig, SystemConfigSchema } from '../../api/systemConfig/systemConfig';
 
 const interval = 5;
 
@@ -12,7 +12,14 @@ class SysConf {
   }
 
   update() {
-    global.currentSystemConfig = SystemConfig.findOne({}, { fields: { _id: 0, name: 0 } });
+    let current = SystemConfig.findOne({}, { fields: { _id: 0, name: 0 } });
+
+    if (!current) {
+      console.log('system config retrieval failed. using default config.');
+      current = SystemConfigSchema.clean({});
+    }
+
+    global.currentSystemConfig = current;
   }
 }
 
