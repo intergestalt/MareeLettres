@@ -90,19 +90,28 @@ const tabNavigator = TabNavigator(
 );
 
 // for language selection at start
-const rootNavigator = StackNavigator({
-  Root: {
-    screen: tabNavigator,
-    navigationOptions: {
-      header: null,
+const rootNavigator = StackNavigator(
+  {
+    LanguageSelector: {
+      screen: LanguageSelector,
+      navigationOptions: {
+        header: null,
+      },
+    },
+    Root: {
+      screen: tabNavigator,
+      navigationOptions: {
+        header: null,
+      },
     },
   },
-  LanguageSelector: {
-    screen: LanguageSelector,
+  {
+    headerMode: 'none',
+    mode: 'modal',
     navigationOptions: {
-      header: null,
+      gesturesEnabled: false,
     },
   },
-});
+);
 
 export default rootNavigator;

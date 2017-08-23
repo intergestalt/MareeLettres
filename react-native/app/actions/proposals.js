@@ -6,6 +6,7 @@ export const NETWORK_ERROR_LOAD_PROPOSALS = 'NETWORK_ERROR_LOAD_PROPOSALS';
 export const DELETE_PROPOSAL_FROM_TINDER_LIST = 'DELETE_PROPOSAL_FROM_TINDER_LIST';
 
 export const loadProposals = (
+  originId,
   challengeId,
   proposalView,
   proposalListMode,
@@ -18,6 +19,7 @@ export const loadProposals = (
   successEvent: PROPOSALS_LOADED,
   errorEvent: NETWORK_ERROR_LOAD_PROPOSALS,
   apiCall: callProposals,
+  originId,
   challengeId,
   proposalView,
   proposalListMode,

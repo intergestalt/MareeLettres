@@ -165,10 +165,11 @@ export function loadProposalsServiceProxy(
       doit = true;
     }
   }
-
+  const originId = store.getState().user.origin_id;
   if (doit) {
     store.dispatch(
       loadProposals(
+        originId,
         challengeId,
         proposalView,
         proposalListMode,
@@ -183,6 +184,7 @@ export function loadProposalsServiceProxy(
 
 // Load only if there are not enough tinder proposals
 export function loadTinderProposalsServiceProxy(challengeId, limit, force, lastNotLoad) {
+  const originId = store.getState().user.origin_id;
   const proposalView = PROPOSAL_VIEWS.TINDER;
   const proposalListMode = null;
   // all 4 lists
@@ -218,7 +220,16 @@ export function loadTinderProposalsServiceProxy(challengeId, limit, force, lastN
 
   if (doit) {
     store.dispatch(
-      loadProposals(challengeId, proposalView, proposalListMode, limit, true, false, false),
+      loadProposals(
+        originId,
+        challengeId,
+        proposalView,
+        proposalListMode,
+        limit,
+        true,
+        false,
+        false,
+      ),
     );
   }
 }
