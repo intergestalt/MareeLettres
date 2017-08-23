@@ -21,6 +21,9 @@ class Menu extends Component {
             <Link to="/admin/challenges">Challenges</Link>
           </li>
           <li>
+            <Link to="/admin/proposals">Proposals</Link>
+          </li>
+          <li>
             <Link to="/admin/content">Content</Link>
           </li>
           <li>

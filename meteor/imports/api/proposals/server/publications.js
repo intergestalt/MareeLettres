@@ -4,23 +4,20 @@ import { Challenges } from '../../challenges/challenges';
 
 import _ from 'underscore';
 
-Meteor.publish('get.proposals/challenge_id/limit', function getProposals(challenge_id, limit) {
-  const query = {
-    challenge_id,
-  };
-  const options = {
-    limit: parseInt(limit),
-  };
+Meteor.publish('get.proposals', function getProposals(data) {
+  const query = {};
+  if (data.challenge_id) query.challenge_id = data.challenge_id;
+
+  const options = {};
+  if (data.limit) options.limit = data.limit;
+  if (data.sort) options.sort = data.sort;
+
   return Proposals.find(query, options);
 });
 
 Meteor.publish('get.proposals/challenge_id', function getProposals(challenge_id) {
   const query = challenge_id ? { challenge_id } : {};
   return Proposals.find(query);
-});
-
-Meteor.publish('get.proposals', function getProposals() {
-  return Proposals.find();
 });
 
 // REST:
