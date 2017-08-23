@@ -23,28 +23,54 @@ class ChallengesIndex extends Component {
       <tr key={challenge._id}>
         <td>
           <Link to={`/admin/challenges/${challenge._id}`}>
-            {challenge.title}
+            {challenge.title.en}
+            <br />
+            {challenge.title.fr}
           </Link>
         </td>
         <td>
           {challenge.proposals_amount}
         </td>
         <td>
-          <Moment format="MM.DD.YY HH:MM" tz="Europe/Paris">
+          <Moment format="DD.MM.YY HH:MM" tz="Europe/Paris">
             {challenge.start_date}
           </Moment>
+          {challenge.start_date > Date.now() &&
+            <span>
+              <br />
+              <small>
+                <Moment fromNow element="small" tz="Europe/Paris">
+                  {challenge.start_date}
+                </Moment>
+              </small>
+            </span>}
         </td>
         <td>
-          <Moment format="MM.DD.YY HH:MM" tz="Europe/Paris">
+          <Moment format="DD.MM.YY HH:MM" tz="Europe/Paris">
             {challenge.end_date}
           </Moment>
           {challenge.end_date > Date.now() &&
             <span>
-              &nbsp;(
-              <Moment fromNow element="small" tz="Europe/Paris">
-                {challenge.end_date}
-              </Moment>
-              )
+              <br />
+              <small>
+                <Moment fromNow element="small" tz="Europe/Paris">
+                  {challenge.end_date}
+                </Moment>
+              </small>
+            </span>}
+        </td>
+        <td>
+          <Moment format="DD.MM.YY HH:MM" tz="Europe/Paris">
+            {challenge.proposals_end_date}
+          </Moment>
+          {challenge.proposals_end_date > Date.now() &&
+            <span>
+              <br />
+              <small>
+                <Moment fromNow element="small" tz="Europe/Paris">
+                  {challenge.proposals_end_date}
+                </Moment>
+              </small>
             </span>}
         </td>
         <td className="impact">
@@ -58,13 +84,14 @@ class ChallengesIndex extends Component {
     return (
       <div>
         <Menu />
-        <table>
+        <table className="tableFullBorder">
           <thead>
             <tr>
               <th>text</th>
-              <th># proposals</th>
-              <th>start</th>
-              <th>end</th>
+              <th>proposals</th>
+              <th>voting starts</th>
+              <th>voting ends</th>
+              <th>submission ends</th>
               <th>winningProposal</th>
             </tr>
           </thead>

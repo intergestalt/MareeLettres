@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
+import { connect } from 'react-redux';
 
 import styles from './styles';
 
@@ -7,9 +8,11 @@ class ChallengesListItem extends Component {
   static propTypes = {
     data: PropTypes.object,
     onPress: PropTypes.func,
+    language: PropTypes.string,
   };
 
   render() {
+    const language = this.props.language;
     return (
       <View style={styles.itemContainer}>
         {!this.props.data.isLoading
@@ -30,7 +33,7 @@ class ChallengesListItem extends Component {
                     <Text style={styles.live}>live</Text>
                   </View>
                   <Text style={styles.title}>
-                    {this.props.data.title.toUpperCase()}
+                    {this.props.data.title}
                   </Text>
                 </View>
                 : <View style={styles.row}>
@@ -38,7 +41,7 @@ class ChallengesListItem extends Component {
                       VOTE #{this.props.data.voteNum}
                   </Text>
                   <Text style={styles.ticker}>
-                    {this.props.data.title.toUpperCase()}
+                    {this.props.data.title}
                   </Text>
                   <Text style={styles.answer}>
                     {this.props.data.answer}
@@ -53,4 +56,10 @@ class ChallengesListItem extends Component {
   }
 }
 
-export default ChallengesListItem;
+const mapStateToProps = (state) => {
+  const language = state.globals.language;
+  return {
+    language,
+  };
+};
+export default connect(mapStateToProps)(ChallengesListItem);

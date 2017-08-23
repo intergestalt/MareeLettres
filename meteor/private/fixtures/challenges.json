@@ -1,32 +1,58 @@
 {
-  "challenges":
-  [
+  "challenges": [
     {
-      "title": "What is the best thing about Paris?"
+      "title": {
+        "en": "What is the best thing about Paris?",
+        "fr": "Meilleur chose about Paris?"
+      }
     },
     {
-      "title": "What is the meaning of life?"
+      "title": {
+        "en": "What is the meaning of life?",
+        "fr": "Raison d`être?"
+      }
     },
     {
-      "title": "Write a good joke!"
+      "title": {
+        "en": "Write a good joke!",
+        "fr": "Quelque chose à rire!"
+      }
     },
     {
-      "title": "What is the most embarrassing thing that ever happened?"
+      "title": {
+        "en": "What is the most embarrassing thing that ever happened?",
+        "fr": "Quelque chose autre?"
+      }
     },
     {
-      "title": "Your favourite letter?"
-    },                
-    {
-      "title": "What is going on?"
-    },                
-    {
-      "title": "Future relates to monkey as money relates to ..."
-    },                
-    {
-      "title": "What happens when lovers meet in moonlight at the banks de la Seine?"
+      "title": {
+        "en": "Your favourite letter?",
+        "fr": "Lettres favorisées?"
+      }
     },
     {
-      "title": "Voulez-vous coucher avec mois?"
+      "title": {
+        "en": "What is going on?",
+        "fr": "Que'est-ce-qu'il es passé?"
+      }
+    },
+    {
+      "title": {
+        "en": "Future relates to monkey as money relates to ...",
+        "fr": "Comment est-ce que la future?"
+      }
+    },
+    {
+      "title": {
+        "en": "What happens when lovers meet in moonlight at the banks de la Seine?",
+        "fr": "La Saine c'est quoi?"
+      }
+    },
+    {
+      "title": {
+        "en": "Voulez-vous coucher avec mois?",
+        "fr": "Quelle heure est-il?"
+      }
     }
   ]
 }

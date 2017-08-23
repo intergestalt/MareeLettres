@@ -22,9 +22,11 @@ class Challenge extends Component {
     console.log(doc);
     Challenges.update(doc._id, {
       $set: {
-        title: doc.title,
+        'title.en': doc.title.en,
+        'title.fr': doc.title.fr,
         start_date: doc.start_date,
         end_date: doc.end_date,
+        proposals_end_date: doc.proposals_end_date,
       },
     });
   }
@@ -39,10 +41,17 @@ class Challenge extends Component {
         <AutoField name="title" />
         <AutoField name="start_date" />
         <AutoField name="end_date" />
+        <AutoField name="proposals_end_date" />
         <SubmitField />
       </AutoForm>
     );
   }
+
+  /*
+        <AutoField name="start_date" />
+        <AutoField name="end_date" />
+        <SubmitField />
+        */
 
   renderProposals() {
     const proposals = this.props.proposals;
@@ -51,15 +60,11 @@ class Challenge extends Component {
         <code>
           {OriginId.getOrigin(proposal.origin_id)} ({proposal.origin_id})
         </code>
+        &nbsp; score: <tt>{proposal.score}</tt>
+        &nbsp; yes: <tt>{proposal.yes_votes}</tt>
+        &nbsp; no: <tt>{proposal.no_votes}</tt>
+        &nbsp; pop: <tt>{proposal.votes_amount}</tt>
         &nbsp;
-        score: <tt>{proposal.score}</tt>
-        &nbsp;
-        yes: <tt>{proposal.yes_votes}</tt>
-        &nbsp;
-        no: <tt>{proposal.no_votes}</tt>
-        &nbsp;
-        pop: <tt>{proposal.votes_amount}</tt>
-        &nbsp;        
         <span className="impact">{proposal.text}</span>
       </li>,
     );
@@ -70,9 +75,9 @@ class Challenge extends Component {
       <div>
         <Menu />
         {this.renderEditForm()}
-        <ul>
+        {/* <ul>
           {this.renderProposals()}
-        </ul>
+        </ul> */}
       </div>
     );
   }
@@ -82,11 +87,8 @@ export default createContainer((props) => {
   Meteor.subscribe('get.challenge', props.params.challenge_id);
   Meteor.subscribe('get.proposals/challenge_id', props.params.challenge_id);
 
-  const proposalsCounts = {};
-
   return {
     challenge: Challenges.findOne(props.params.challenge_id),
     proposals: Proposals.find({ challenge_id: props.params.challenge_id }).fetch(),
-    proposalsCounts,
   };
 }, Challenge);

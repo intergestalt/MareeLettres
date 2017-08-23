@@ -41,11 +41,15 @@ Meteor.startup(() => {
       Challenges.insert(
         {
           _id: `fixture_${i}`,
-          title: `Question #${i}`,
+          title: {
+            en: `Question #${i} [EN]`,
+            fr: `Question #${i} [FR]`,
+          },
           votes_amount: 0,
           proposals_amount: 0,
           start_date: moment().add(i - 3, 'days').toDate(),
           end_date: moment().add(i - 1, 'days').toDate(),
+          proposals_end_date: moment().add(i - 1, 'days').add(-10, 'minutes').toDate(),
           ...SeedChallenges[i],
         },
         (err, id) => {

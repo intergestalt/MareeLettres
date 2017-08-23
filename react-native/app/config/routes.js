@@ -91,14 +91,14 @@ const tabNavigator = TabNavigator(
 
 // for language selection at start
 const rootNavigator = StackNavigator({
-  LanguageSelector: {
-    screen: LanguageSelector,
+  Root: {
+    screen: tabNavigator,
     navigationOptions: {
       header: null,
     },
   },
-  Root: {
-    screen: tabNavigator,
+  LanguageSelector: {
+    screen: LanguageSelector,
     navigationOptions: {
       header: null,
     },

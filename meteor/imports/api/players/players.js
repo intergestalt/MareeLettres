@@ -1,8 +1,6 @@
 import { Mongo } from 'meteor/mongo';
 import SimpleSchema from 'simpl-schema';
 
-SimpleSchema.extendOptions(['description']);
-
 const Players = new Mongo.Collection('players');
 
 Players.allow({

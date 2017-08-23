@@ -13,6 +13,8 @@ import ProposalEntry from '../components/ProposalEntry';
 
 import Menu from '../components/menu';
 
+Session.setDefault('proposalsListLimit', 100);
+
 class ProposalsPage extends Component {
   constructor(props) {
     super(props);
