@@ -15,16 +15,4 @@ import '../../api/letters/server/letters';
 
 import '../../api/players/server/players';
 
-// JsonRoutes.ErrorMiddleware.use(RestMiddleware.handleErrorAsJson);
-
-JsonRoutes.setResponseHeaders({
-  'Cache-Control': 'no-store',
-  Pragma: 'no-cache',
-});
-
-if (Object.keys(Meteor.settings).length <= 1 && Object.keys(Meteor.settings.public).length <= 0) {
-  console.log('ERROR: Need to start with: $ npm start');
-  process.exit(1);
-}
-
-console.log(`api prefix: ${Meteor.settings.public.api_prefix}`);
+import '../../api/systemConfig/server/systemConfig';
