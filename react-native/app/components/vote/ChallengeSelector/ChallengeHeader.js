@@ -95,7 +95,7 @@ class ChallengeHeader extends Component {
             {challengeTickerData.tickerString}
           </Text>
           <Text style={styles.headerText}>
-            {this.getChallenge().title}
+            {this.getChallenge().title[this.props.language]}
           </Text>
         </TouchableOpacity>
       </View>
@@ -122,11 +122,13 @@ const mapStateToProps = (state) => {
   const challenges = state.challenges.challenges;
   const challengesTicker = state.challengesTicker;
   const selectedChallengeIndex = state.challenges.selectedChallengeIndex;
+  const language = state.globals.language;
 
   return {
     selectedChallengeIndex,
     challenges,
     challengesTicker,
+    language,
   };
 };
 export default connect(mapStateToProps)(ChallengeHeader);

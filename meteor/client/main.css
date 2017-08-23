@@ -7,6 +7,14 @@ body {
   font-family: Helvetica, "Helvetica Neue", Arial, sans-serif;
 }
 
+a {
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
 table {
   border-collapse: collapse;
 }
@@ -34,6 +42,15 @@ th {
   text-align: left;
   text-transform: capitalize;
   border-bottom-width: 1px;
+}
+
+table.tableFullBorder td {
+  border-bottom-width: 1px;
+}
+
+table.tableFullBorder th,
+table.tableFullBorder td {
+  border-color: #a29f9f;
 }
 
 body {

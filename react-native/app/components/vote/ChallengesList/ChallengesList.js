@@ -35,6 +35,7 @@ class ChallengesList extends Component {
   render() {
     const isLoading = this.props.isLoading;
     const isError = this.props.isError;
+    const language = this.props.language;
     const listData = new Array(this.props.challenges.length);
 
     for (let i = 0; i < this.props.challenges.length; i += 1) {
@@ -52,7 +53,7 @@ class ChallengesList extends Component {
         isFinished: isFinished(myChallenge),
         endString: myEndString,
         tickerString: entry.tickerString,
-        title: myChallenge.title,
+        title: myChallenge.title[language],
         answer: this.getAnswer(myChallenge),
       };
     }
