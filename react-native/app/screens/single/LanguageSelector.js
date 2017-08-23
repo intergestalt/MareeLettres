@@ -139,7 +139,6 @@ class LanguageSelector extends Component {
     }).start();
   }
   onRelease(param) {
-    console.log('RELEASE BUTTON');
     this.setState({ enabled: true });
     const sel = this.state.selected;
     sel[param] = false;
@@ -156,16 +155,12 @@ class LanguageSelector extends Component {
   }
 
   setIconLayout(event, index) {
-    console.log('BaseZone');
-    console.log(event.nativeEvent.layout);
     const pos = this.state.iconPos;
     const centerDx = event.nativeEvent.layout.width / 2;
     const centerDy = event.nativeEvent.layout.height / 2;
     const myX = event.nativeEvent.layout.x + centerDx;
     let myY = event.nativeEvent.layout.y + centerDy;
     myY += screenHeight / 2;
-    console.log(`X: ${myX}`);
-    console.log(`y: ${myY}`);
     pos[index] = {
       x: myX,
       y: myY,
@@ -180,7 +175,6 @@ class LanguageSelector extends Component {
       onStartShouldSetPanResponder: () => false,
       onMoveShouldSetPanResponder: () => true,
       onPanResponderMove: (e, gesture) => {
-        console.log(`${gesture.moveX} : ${gesture.moveY}`);
         if (!this.state.enabled) {
           this.setState({ movingStarted: true });
           const myDx = gesture.dx / 1.2;

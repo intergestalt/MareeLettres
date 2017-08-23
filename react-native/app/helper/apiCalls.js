@@ -47,12 +47,16 @@ export const callOneChallenge = (action) => {
 export const callProposals = (action) => {
   let url = null;
   if (action.proposalView === PROPOSAL_VIEWS.TINDER) {
+    url = `${config.API_PREFIX}tinder/${action.challengeId}/${action.originId}?limit=${action.limit}`;
     url = `${config.API_PREFIX}challenges/${action.challengeId}/proposals?limit=${action.limit}`;
   } else if (action.proposalListMode === PROPOSAL_LIST_MODES.MOST) {
+    url = `${config.API_PREFIX}challenges/${action.challengeId}/proposals?limit=${action.limit}&sort=popular`;
     url = `${config.API_PREFIX}challenges/${action.challengeId}/proposals?limit=${action.limit}`;
   } else if (action.proposalListMode === PROPOSAL_LIST_MODES.NEWEST) {
+    url = `${config.API_PREFIX}challenges/${action.challengeId}/proposals?limit=${action.limit}&sort=newest`;
     url = `${config.API_PREFIX}challenges/${action.challengeId}/proposals?limit=${action.limit}`;
   } else if (action.proposalListMode === PROPOSAL_LIST_MODES.TRENDING) {
+    url = `${config.API_PREFIX}challenges/${action.challengeId}/proposals?limit=${action.limit}&sort=trending`;
     url = `${config.API_PREFIX}challenges/${action.challengeId}/proposals?limit=${action.limit}`;
   }
   console.log('API CALL: callProposals');
