@@ -22,11 +22,16 @@ class QRCodeBox extends Component {
 }
 
 const mapStateToProps = (state) => {
-  const input = state.user.origin_id;
+  try {
+    const input = state.user.origin_id;
 
-  return {
-    input,
+    return {
+      input,
+    };
+  } catch (e) {
+    console.log('QRCodeBox');
+    console.log(e); throw e;
   }
-}
+};
 
 export default connect(mapStateToProps)(QRCodeBox);

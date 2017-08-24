@@ -1,9 +1,11 @@
 import {
   SWAP_LANGUAGE,
+  SET_LANGUAGE,
   SET_PROPOSAL_VIEW,
   SET_CHALLENGE_VIEW,
   SET_PROPOSAL_LIST_MODE,
 } from '../actions/general';
+
 import initialState from '../config/initialState';
 import I18n from '../i18n/i18n';
 
@@ -23,6 +25,12 @@ export default (state = initialState.globals, action) => {
         ...state,
         language: swapLanguage(state, action),
       };
+    case SET_LANGUAGE: {
+      return {
+        ...state,
+        language: action.language,
+      };
+    }
     case SET_PROPOSAL_VIEW: {
       return {
         ...state,
@@ -41,6 +49,7 @@ export default (state = initialState.globals, action) => {
         proposalListMode: action.proposalListMode,
       };
     }
+
     default:
       return state;
   }

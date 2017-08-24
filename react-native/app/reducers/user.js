@@ -1,6 +1,7 @@
 import {
   LOAD_USER,
   USER_LOADED,
+  SET_USER,
   LOAD_USER_ERROR,
   USER_SET_ID,
   USER_SET_COORDINATES,
@@ -17,6 +18,8 @@ import {
   USER_SEND_INTERNAL_VOTES,
   USER_INTERNAL_VOTES_SENT,
   USER_SEND_INTERNAL_VOTES_ERROR,
+  SET_USER_IS_LOADING_FROM_STORAGE,
+  SET_USER_LOADED_FROM_STORAGE,
 } from '../actions/user';
 
 import { CHANGE_MAP_REGION } from '../actions/map';
@@ -56,9 +59,22 @@ export default (state = initialState.user, action) => {
       };
       return result;
     }
+
     case LOAD_USER_ERROR: {
       console.log('LOAD_USER_ERROR');
       return state;
+    }
+    case SET_USER: {
+      const user = action.user;
+      return user;
+    }
+    // Redux local storage
+    case SET_USER_IS_LOADING_FROM_STORAGE: {
+      console.log(`SET_USER_IS_LOADING_FROM_STORAGE ${action.yes}`);
+      return { ...state, userIsLoadingFromStorage: action.yes };
+    }
+    case SET_USER_LOADED_FROM_STORAGE: {
+      return { ...state, userLoadedFromStorage: action.yes };
     }
     case CHANGE_MAP_REGION:
       console.log('Reducer: CHANGE_MAP_REGION');

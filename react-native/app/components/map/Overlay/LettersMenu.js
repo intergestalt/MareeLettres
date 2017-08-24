@@ -16,11 +16,11 @@ class LettersMenu extends Component {
   };
 
   render() {
-    let length = 4 - this.props.secondary_letters.length;
-    let blank_letters = [];
+    const length = 4 - this.props.secondary_letters.length;
+    const blank_letters = [];
 
     if (length > 0) {
-      for (var i=0; i<length; i+=1) {
+      for (let i = 0; i < length; i += 1) {
         blank_letters.push('');
       }
     }
@@ -30,44 +30,30 @@ class LettersMenu extends Component {
         <View style={styles.letters__item__you}>
           <Text style={styles.letters__label__you}>You</Text>
           <Letter
-            character = {this.props.primary_letter}
-            selected = {this.props.letters_selected.mine}
-            index = {-1}
-            navigation = {this.props.navigation}
+            character={this.props.primary_letter}
+            selected={this.props.letters_selected.mine}
+            index={-1}
+            navigation={this.props.navigation}
             main
-            />
+          />
         </View>
         <View style={styles.letters__item__friends}>
           <Text style={styles.letters__label__friends}>Letters from friends</Text>
           <View style={styles.letters__row}>
-            {
-              this.props.secondary_letters.map((item, i) => {
-                if (i < 4) {
-                  return (
-                    <Letter
-                      key = {i}
-                      index = {i}
-                      id = {item._id}
-                      character = {item.character}
-                      selected = {this.props.letters_selected.friends[i]}
-                      />
-                  );
-                }
-              })
-            }
-            {
-              blank_letters.map((item, i) => {
+            {this.props.secondary_letters.map((item, i) => {
+              if (i < 4) {
                 return (
                   <Letter
-                    key = {i}
-                    index = {-1}
-                    id = {item._id}
-                    character = {''}
-                    selected = {false}
-                    />
-                )
-              })
-            }
+                    key={i}
+                    index={i}
+                    id={item._id}
+                    character={item.character}
+                    selected={this.props.letters_selected.friends[i]}
+                  />
+                );
+              }
+            })}
+            {blank_letters.map((item, i) => <Letter key={i} index={-1} id={item._id} character={''} selected={false} />)}
           </View>
         </View>
       </View>
@@ -76,13 +62,20 @@ class LettersMenu extends Component {
 }
 
 const mapStateToProps = (state) => {
-  const primary_letter = state.user.primary_letter.character;
-  const secondary_letters = state.user.secondary_letters;
-  const letters_selected = state.user.map.letters_selected;
+  try {
+    const primary_letter = state.user.primary_letter.character;
+    const secondary_letters = state.user.secondary_letters;
+    const letters_selected = state.user.map.letters_selected;
 
-  return {
-    primary_letter, secondary_letters, letters_selected
+    return {
+      primary_letter,
+      secondary_letters,
+      letters_selected,
+    };
+  } catch (e) {
+    console.log('LettersMenu');
+    console.log(e); throw e;
   }
-}
+};
 
 export default connect(mapStateToProps)(LettersMenu);

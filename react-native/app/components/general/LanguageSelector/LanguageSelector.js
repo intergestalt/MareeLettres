@@ -39,10 +39,15 @@ class LanguageSelector extends Component {
   }
 }
 const mapStateToProps = (state) => {
-  const language = state.globals.language;
+  try {
+    const language = state.globals.language;
 
-  return {
-    language,
-  };
+    return {
+      language,
+    };
+  } catch (e) {
+    console.log('LanguageSelector');
+    console.log(e); throw e;
+  }
 };
 export default connect(mapStateToProps)(LanguageSelector);

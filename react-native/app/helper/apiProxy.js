@@ -1,6 +1,5 @@
 import { loadContent } from '../actions/content';
-import { loadUser } from '../actions/user';
-import { userSendInternalVotes } from '../actions/user';
+import { userSendInternalVotes, loadUser } from '../actions/user';
 import { loadChallenge, loadChallenges } from '../actions/challenges';
 import { loadProposals } from '../actions/proposals';
 import { loadLetters } from '../actions/letters';

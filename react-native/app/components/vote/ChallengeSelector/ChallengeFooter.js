@@ -77,14 +77,19 @@ class ChallengeFooter extends Component {
   }
 }
 const mapStateToProps = (state) => {
-  const challenges = state.challenges.challenges;
-  const selectedChallengeIndex = state.challenges.selectedChallengeIndex;
-  const proposalView = state.globals.proposalView;
+  try {
+    const challenges = state.challenges.challenges;
+    const selectedChallengeIndex = state.challenges.selectedChallengeIndex;
+    const proposalView = state.globals.proposalView;
 
-  return {
-    selectedChallengeIndex,
-    challenges,
-    proposalView,
-  };
+    return {
+      selectedChallengeIndex,
+      challenges,
+      proposalView,
+    };
+  } catch (e) {
+    console.log('ChallengeFooter');
+    console.log(e); throw e;
+  }
 };
 export default connect(mapStateToProps)(ChallengeFooter);

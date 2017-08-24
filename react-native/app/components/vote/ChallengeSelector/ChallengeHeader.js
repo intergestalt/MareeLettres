@@ -8,7 +8,7 @@ class ChallengeHeader extends Component {
   static propTypes = {
     challengeOffset: PropTypes.number,
     challenges: PropTypes.array,
-    challengesTicker: PropTypes.array,
+    challengesTicker: PropTypes.object,
     selectedChallengeIndex: PropTypes.number,
     onHeaderPress: PropTypes.func,
     onUpPress: PropTypes.func,
@@ -119,16 +119,21 @@ class ChallengeHeader extends Component {
   }
 }
 const mapStateToProps = (state) => {
-  const challenges = state.challenges.challenges;
-  const challengesTicker = state.challengesTicker;
-  const selectedChallengeIndex = state.challenges.selectedChallengeIndex;
-  const language = state.globals.language;
+  try {
+    const challenges = state.challenges.challenges;
+    const challengesTicker = state.challengesTicker;
+    const selectedChallengeIndex = state.challenges.selectedChallengeIndex;
+    const language = state.globals.language;
 
-  return {
-    selectedChallengeIndex,
-    challenges,
-    challengesTicker,
-    language,
-  };
+    return {
+      selectedChallengeIndex,
+      challenges,
+      challengesTicker,
+      language,
+    };
+  } catch (e) {
+    console.log('ChallengeHeader');
+    console.log(e); throw e;
+  }
 };
 export default connect(mapStateToProps)(ChallengeHeader);

@@ -9,11 +9,11 @@ import { getProposalList } from '../../../helper/proposalsHelper';
 class ProposalTinder extends Component {
   static propTypes = {
     panResponderContent: PropTypes.object,
-    myTinderStyle: PropTypes.object,
+    myTinderStyle: PropTypes.array,
     proposalIndex: PropTypes.number,
     proposal: PropTypes.object,
-    noOpacity: PropTypes.number,
-    yesOpacity: PropTypes.number,
+    noOpacity: PropTypes.object,
+    yesOpacity: PropTypes.object,
     isLoading: PropTypes.bool,
     isError: PropTypes.bool,
     challengeOffset: PropTypes.number,
@@ -132,24 +132,29 @@ class ProposalTinder extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  const challenges = state.challenges.challenges;
-  const selectedChallengeIndex = state.challenges.selectedChallengeIndex;
-  const challengeIndex = selectedChallengeIndex + ownProps.challengeOffset;
-  const id = challenges[challengeIndex]._id;
+  try {
+    const challenges = state.challenges.challenges;
+    const selectedChallengeIndex = state.challenges.selectedChallengeIndex;
+    const challengeIndex = selectedChallengeIndex + ownProps.challengeOffset;
+    const id = challenges[challengeIndex]._id;
 
-  const proposalView = state.globals.proposalView;
-  const proposalListMode = state.globals.proposalListMode;
-  // all 4 lists
-  const p = state.proposals[id];
+    const proposalView = state.globals.proposalView;
+    const proposalListMode = state.globals.proposalListMode;
+    // all 4 lists
+    const p = state.proposals[id];
 
-  const proposals = getProposalList(p, proposalView, proposalListMode);
-  const isError = proposals.isError;
-  const isLoading = proposals.isLoading;
-  const proposal = proposals.proposals[ownProps.proposalIndex];
-  return {
-    proposal,
-    isError,
-    isLoading,
-  };
+    const proposals = getProposalList(p, proposalView, proposalListMode);
+    const isError = proposals.isError;
+    const isLoading = proposals.isLoading;
+    const proposal = proposals.proposals[ownProps.proposalIndex];
+    return {
+      proposal,
+      isError,
+      isLoading,
+    };
+  } catch (e) {
+    console.log('ProposalTinder');
+    console.log(e); throw e;
+  }
 };
 export default connect(mapStateToProps)(ProposalTinder);

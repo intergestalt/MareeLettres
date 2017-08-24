@@ -17,20 +17,22 @@ class QRCodeGet extends Component {
     return (
       <Screen backgroundColor={'#00aaaa'}>
         <StatusBar />
-        <QRCodeScanScreen
-          navigation={this.props.navigation}
-          input={this.props.uniqueId}
-          />
+        <QRCodeScanScreen navigation={this.props.navigation} input={this.props.uniqueId} />
       </Screen>
     );
   }
 }
 
 const mapStateToProps = (state) => {
-  const uniqueId = state.user.id;
-  return {
-    uniqueId,
-  };
+  try {
+    const uniqueId = state.user.id;
+    return {
+      uniqueId,
+    };
+  } catch (e) {
+    console.log('QRCodeGet');
+    console.log(e);
+    throw e;
+  }
 };
-
 export default connect(mapStateToProps)(QRCodeGet);

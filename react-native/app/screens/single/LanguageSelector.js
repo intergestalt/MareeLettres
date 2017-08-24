@@ -1,11 +1,15 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { PanResponder, Animated, TouchableOpacity, StatusBar, View, Text } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { LinearGradient } from 'expo';
+import { connect } from 'react-redux';
 
 import { Screen } from '../../components/general/Container';
 import { screenWidth, screenHeight } from '../../helper/screen';
 import { navigateToVote } from '../../helper/navigationProxy';
+import { setLanguage } from '../../actions/general';
+import store from '../../config/store';
+import I18n from '../../i18n/i18n';
 
 const styles = EStyleSheet.create({
   container: {
@@ -103,9 +107,13 @@ function getDuration(x1, y1, x2 = 0, y2 = 0) {
   return duration;
 }
 class LanguageSelector extends Component {
+  static propTypes = {
+    language: PropTypes.string,
+  };
   constructor(props) {
     super(props);
     this.setIconLayout = this.setIconLayout.bind(this);
+    I18n.locale = this.props.language;
 
     const selected = [false, false];
     const iconPos = new Array(2);
@@ -135,6 +143,14 @@ class LanguageSelector extends Component {
     this.setState({ choosen: param });
     this.setState({ secondChoosen: second });
     this.setState({ selected: sel });
+
+    if (param === 1) {
+      I18n.locale = 'en';
+      store.dispatch(setLanguage('en'));
+    } else {
+      I18n.locale = 'fr';
+      store.dispatch(setLanguage('fr'));
+    }
 
     Animated.timing(this.state.scale, {
       toValue: 1.2,
@@ -236,7 +252,14 @@ class LanguageSelector extends Component {
             }),
           ]).start(() => {
             if (moved > 0.5) {
-              navigateToVote(this.props);
+              if (this.state.choosen === 0) {
+                store.dispatch(setLanguage('fr'));
+              } else {
+                store.dispatch(setLanguage('en'));
+              }
+              setTimeout(() => {
+                navigateToVote(this.props);
+              }, 500);
             } else {
               const sel = this.state.selected;
               sel[this.state.choosen] = false;
@@ -287,7 +310,7 @@ class LanguageSelector extends Component {
             <StatusBar hidden />
             <View style={styles.dropzone}>
               <Animated.Text style={myDrop}>
-                {'Drag here to choose your language'.toUpperCase()}
+                {I18n.t('language_drag_and_drop').toUpperCase()}
               </Animated.Text>
             </View>
 
@@ -324,4 +347,16 @@ class LanguageSelector extends Component {
   }
 }
 
-export default LanguageSelector;
+const mapStateToProps = (state) => {
+  try {
+    return {
+      language: state.globals.language,
+    };
+  } catch (e) {
+    console.log('LanguageSelector');
+    console.log(e);
+    console.log(e);
+    throw e;
+  }
+};
+export default connect(mapStateToProps)(LanguageSelector);

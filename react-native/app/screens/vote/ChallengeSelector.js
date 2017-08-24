@@ -64,15 +64,21 @@ class ChallengeSelector extends Component {
   }
 }
 const mapStateToProps = (state) => {
-  const challenges = state.challenges.challenges;
-  const isLoadingChallenges = state.challenges.isLoading;
-  const isErrorLoadingChallenges = state.challenges.isError;
-  const language = state.globals.language;
-  return {
-    challenges,
-    isLoadingChallenges,
-    isErrorLoadingChallenges,
-    language,
-  };
+  try {
+    const challenges = state.challenges.challenges;
+    const isLoadingChallenges = state.challenges.isLoading;
+    const isErrorLoadingChallenges = state.challenges.isError;
+    const language = state.globals.language;
+    return {
+      challenges,
+      isLoadingChallenges,
+      isErrorLoadingChallenges,
+      language,
+    };
+  } catch (e) {
+    console.log('ChallengeSelector');
+    console.log(e);
+    throw e;
+  }
 };
 export default connect(mapStateToProps)(ChallengeSelector);

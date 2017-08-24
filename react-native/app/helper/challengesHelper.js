@@ -5,8 +5,10 @@ import { setChallengesId, setChallengesIndex } from '../actions/challenges';
 import { LOAD_CONFIG } from '../config/config';
 
 export function manageChallenges() {
+  // Always
+  loadChallengesServiceProxy(false, LOAD_CONFIG.LOAD_QUIET_CHALLENGES_LIST);
   if (store.getState().globals.challengeView === CHALLENGE_VIEWS.LIST) {
-    loadChallengesServiceProxy(false, LOAD_CONFIG.LOAD_QUIET_CHALLENGES_LIST);
+    // Reset State
     store.dispatch(setChallengesId(null));
     store.dispatch(setChallengesIndex(-1));
   }

@@ -13,12 +13,12 @@ class LetterSelectorWindow extends Component {
   static propTypes = {
     navigation: PropTypes.object,
     myLetter: PropTypes.string,
-  }
+  };
 
   onPress = () => {
     getUserLetterProxy();
     navigateToMapOverview(this.props);
-  }
+  };
 
   handleBackPress() {
     navigateToMapOverview(this.props);
@@ -28,25 +28,28 @@ class LetterSelectorWindow extends Component {
     return (
       <View style={styles.container}>
         <BackSimple onPress={() => this.handleBackPress()} />
-        <Text style={styles.text}>My letter is: {this.props.myLetter}</Text>
-        <Button
-          title={'Get random letter !'}
-          onPress={this.onPress}
-          />
-        <Text>
-          Todo: replace with keyboard component
+        <Text style={styles.text}>
+          My letter is: {this.props.myLetter}
         </Text>
+        <Button title={'Get random letter !'} onPress={this.onPress} />
+        <Text>Todo: replace with keyboard component</Text>
       </View>
-    )
+    );
   }
 }
 
 const mapStateToProps = (state) => {
-  const myLetter = state.user.primary_letter.character;
+  try {
+    const myLetter = state.user.primary_letter.character;
 
-  return {
-    myLetter
+    return {
+      myLetter,
+    };
+  } catch (e) {
+    console.log('LetterSelectorWindow');
+    console.log(e);
+    throw e;
   }
-}
+};
 
 export default connect(mapStateToProps)(LetterSelectorWindow);

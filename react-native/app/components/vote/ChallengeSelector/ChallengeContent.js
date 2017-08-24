@@ -21,7 +21,7 @@ class ChallengeContent extends Component {
     challengeOffset: PropTypes.number,
     selectedChallengeIndex: PropTypes.number,
     challenges: PropTypes.array,
-    proposals: PropTypes.object,
+    proposals: PropTypes.array,
     proposalView: PropTypes.string,
     isLoading: PropTypes.bool,
     isError: PropTypes.bool,
@@ -153,7 +153,7 @@ class ChallengeContent extends Component {
     const id = this.props.challenges[this.props.selectedChallengeIndex]._id;
     const length = this.props.proposals.length;
     if (length > LOAD_CONFIG.PROPOSAL_RELOAD_TINDER_OFFSET) return;
-    const limit = LOAD_CONFIG.DEFAULT_PROPOSAL_LIMIT;
+    const limit = LOAD_CONFIG.DEFAULT_PROPOSAL_TINDER_LIMIT;
 
     let force = false;
     let lastNotLoad = true;
@@ -299,37 +299,42 @@ class ChallengeContent extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  const challenges = state.challenges.challenges;
-  const selectedChallengeIndex = state.challenges.selectedChallengeIndex;
-  const proposalView = state.globals.proposalView;
-  const proposalListMode = state.globals.proposalListMode;
-  let proposals = null;
-  let isError = false;
-  let isLoading = false;
-  let lastLoaded = 1;
-  if (selectedChallengeIndex !== -1) {
-    const id = challenges[selectedChallengeIndex + ownProps.challengeOffset]._id;
-    if (id) {
-      // all 4 lists
-      const p = state.proposals[id];
-      // get the correct list
-      const p2 = getProposalList(p, proposalView, proposalListMode);
-      proposals = p2.proposals;
-      isError = p2.isError;
-      isLoading = p2.isLoading;
-      lastLoaded = p2.lastLoaded;
+  try {
+    const challenges = state.challenges.challenges;
+    const selectedChallengeIndex = state.challenges.selectedChallengeIndex;
+    const proposalView = state.globals.proposalView;
+    const proposalListMode = state.globals.proposalListMode;
+    let proposals = null;
+    let isError = false;
+    let isLoading = false;
+    let lastLoaded = 1;
+    if (selectedChallengeIndex !== -1) {
+      const id = challenges[selectedChallengeIndex + ownProps.challengeOffset]._id;
+      if (id) {
+        // all 4 lists
+        const p = state.proposals[id];
+        // get the correct list
+        const p2 = getProposalList(p, proposalView, proposalListMode);
+        proposals = p2.proposals;
+        isError = p2.isError;
+        isLoading = p2.isLoading;
+        lastLoaded = p2.lastLoaded;
+      }
     }
-  }
 
-  return {
-    selectedChallengeIndex,
-    challenges,
-    proposals,
-    proposalView,
-    proposalListMode,
-    isError,
-    isLoading,
-    lastLoaded,
-  };
+    return {
+      selectedChallengeIndex,
+      challenges,
+      proposals,
+      proposalView,
+      proposalListMode,
+      isError,
+      isLoading,
+      lastLoaded,
+    };
+  } catch (e) {
+    console.log('ChallengeContent');
+    console.log(e); throw e;
+  }
 };
 export default connect(mapStateToProps)(ChallengeContent);
