@@ -57,13 +57,18 @@ class InfoBox extends Component {
 }
 
 const mapStateToProps = (state) => {
-  const isLoading = state.content.isLoading;
-  return {
-    language: state.globals.language,
-    isError: state.content.isError,
-    isLoading: state.content.isLoading,
-    howto: state.content.content.howto,
-    about: state.content.content.about,
-  };
+  try {
+    const isLoading = state.content.isLoading;
+    return {
+      language: state.globals.language,
+      isError: state.content.isError,
+      isLoading: state.content.isLoading,
+      howto: state.content.content.howto,
+      about: state.content.content.about,
+    };
+  } catch (e) {
+    console.log('InfoBox');
+    console.log(e); throw e;
+  }
 };
 export default connect(mapStateToProps)(InfoBox);

@@ -61,11 +61,16 @@ class ChallengeDetail extends Component {
   }
 }
 const mapStateToProps = (state) => {
-  const challenges = state.challenges.challenges;
-  const selectedChallengeIndex = state.challenges.selectedChallengeIndex;
-  return {
-    selectedChallengeIndex,
-    challenges,
-  };
+  try {
+    const challenges = state.challenges.challenges;
+    const selectedChallengeIndex = state.challenges.selectedChallengeIndex;
+    return {
+      selectedChallengeIndex,
+      challenges,
+    };
+  } catch (e) {
+    console.log('ChallengeDetail');
+    console.log(e); throw e;
+  }
 };
 export default connect(mapStateToProps)(ChallengeDetail);

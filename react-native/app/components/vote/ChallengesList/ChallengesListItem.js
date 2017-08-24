@@ -57,9 +57,14 @@ class ChallengesListItem extends Component {
 }
 
 const mapStateToProps = (state) => {
-  const language = state.globals.language;
-  return {
-    language,
-  };
+  try {
+    const language = state.globals.language;
+    return {
+      language,
+    };
+  } catch (e) {
+    console.log('ChallengesListItem');
+    console.log(e); throw e;
+  }
 };
 export default connect(mapStateToProps)(ChallengesListItem);

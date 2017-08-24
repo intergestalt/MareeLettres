@@ -1,11 +1,11 @@
-import React, { Component, PropTypes } from 'react';
+import React, { PureComponent, PropTypes } from 'react';
 import { TouchableOpacity, View, Text } from 'react-native';
 import { connect } from 'react-redux';
 
 import { styles } from './';
 import { PROPOSAL_LIST_MODES } from '../../../consts';
 
-class ProposalListHeader extends Component {
+class ProposalListHeader extends PureComponent {
   static propTypes = {
     onMostPress: PropTypes.func,
     onNewestPress: PropTypes.func,
@@ -55,10 +55,15 @@ class ProposalListHeader extends Component {
 }
 
 const mapStateToProps = (state) => {
-  const proposalListMode = state.globals.proposalListMode;
+  try {
+    const proposalListMode = state.globals.proposalListMode;
 
-  return {
-    proposalListMode,
-  };
+    return {
+      proposalListMode,
+    };
+  } catch (e) {
+    console.log('ProposalListHeader');
+    console.log(e); throw e;
+  }
 };
 export default connect(mapStateToProps)(ProposalListHeader);

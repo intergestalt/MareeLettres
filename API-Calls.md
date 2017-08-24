@@ -2,21 +2,32 @@
 
 Always: For every call: Only if the isInternalLoading flag is false. To assure, the API is not called twice
 
+#user
+- After App start.
+Condition: Only if user was not loaded from Disc
+
 #Content
 
+- After App start.
+Condition: Always
 - Navigate to Info screen
 Condition: If timeout or content empty (first loaded)
 
 
 #Challenges
 
+- After App start.
+Condition: Always
 - Challenges List did mount
 - Navigate to Challenges List via Tab 
 - Navigate to Challenges List via Challenge Selector
+- Navigate to Challenge Selector via Tab
+- Navigate to Challenge Selector via Challenges List
+??? Navigate within Challenge Selector
 Condition: If timeout or content empty (first loaded)
 
 
-#Challange
+#Challenge
 
 - In Challenges List 
 - In Challenge Selector
@@ -28,6 +39,7 @@ Comment: Check if challenge is stil existing. If not: navigate to first item, if
 
 - Navigate to Challenge Selector via Tab
 - Navigate to Challenge Selector via Challenges List
+- Navigate within Challenge Selector
 - Select Tinder Mode
 - Select List Mode
 - Change List View (Most, Trending, Newest)
@@ -54,5 +66,4 @@ Always: Only if there are internal votes not sent
 Condition: There are more then n votes. Or: The last vote was some seconds ago.
 - If there is a navigation
 - If the application goes to background
-- If the application comes to foreground
 - If the app starts (should be the same as last point)

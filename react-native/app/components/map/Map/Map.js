@@ -18,7 +18,7 @@ class Map extends Component {
   };
 
   onPress = (e) => {
-    let region = e.nativeEvent;
+    const region = e.nativeEvent;
     // on map press
   };
 
@@ -34,81 +34,69 @@ class Map extends Component {
     console.log('MAP RENDERED');
 
     return (
-      <View style = {styles.container}>
+      <View style={styles.container}>
         <MapView
-          onRegionChange = {this.onRegionChange}
-          onRegionChangeComplete = {this.onRegionChangeComplete}
-          onPress = {this.onPress}
-          provider = {MapView.PROVIDER_GOOGLE}
-          style = {styles.container}
-          initialRegion = {{ ...this.props.coordinates }}
-          rotateEnabled = {false}
-    	  customMapStyle={mapstyles}
+          onRegionChange={this.onRegionChange}
+          onRegionChangeComplete={this.onRegionChangeComplete}
+          onPress={this.onPress}
+          provider={MapView.PROVIDER_GOOGLE}
+          style={styles.container}
+          initialRegion={{ ...this.props.coordinates }}
+          rotateEnabled={false}
+          customMapStyle={mapstyles}
         >
+          <MapView.Circle center={{ ...this.props.coordinates }} radius={1} strokeColor={'#fff'} />
           <MapView.Circle
-            center = {{ ...this.props.coordinates }}
-            radius = {1}
-            strokeColor = {'#fff'}
-            />
-          <MapView.Circle
-            center = {{ ...this.props.coordinates }}
-            radius = { this.props.dropzone_radius }
-            strokeColor = { 'rgba(255,255,255,0.25)' }
-            fillColor = { 'rgba(255,255,255,0.1)' }
-            />
+            center={{ ...this.props.coordinates }}
+            radius={this.props.dropzone_radius}
+            strokeColor={'rgba(255,255,255,0.25)'}
+            fillColor={'rgba(255,255,255,0.1)'}
+          />
           <MapView.Marker
             title={'drop_zone'}
             coordinate={{
               latitude: this.props.coordinates.latitude + 0.00005,
               longitude: this.props.coordinates.longitude,
             }}
-            >
-            <Text style={styles.letter_dropzone}>
-              Drop Zone
-            </Text>
+          >
+            <Text style={styles.letter_dropzone}>Drop Zone</Text>
           </MapView.Marker>
 
-          {
-            this.props.my_letters.map((item, i) => {
-              // prototype fade function
-              // TODO: shift to reducer, remove invisible letters
+          {this.props.my_letters.map((item, i) => {
+            // prototype fade function
+            // TODO: shift to reducer, remove invisible letters
 
-              let t = (new Date()).getTime() - (new Date(item.last_used_at)).getTime();
-              let opacity = 1 - (t / 60000);
-              if (opacity < 0) {
-                opacity = 0;
-              }
+            const t = new Date().getTime() - new Date(item.last_used_at).getTime();
+            let opacity = 1 - t / 60000;
+            if (opacity < 0) {
+              opacity = 0;
+            }
 
+            return (
+              <MapView.Marker
+                key={i}
+                coordinate={{ latitude: item.coords.lat, longitude: item.coords.lng }}
+              >
+                <Text style={[styles.letter, { opacity }]}>
+                  {item.character}
+                </Text>
+              </MapView.Marker>
+            );
+          })}
+          {this.props.letters.map((item, i) => {
+            if (i < 30) {
               return (
                 <MapView.Marker
                   key={i}
-                  coordinate={{latitude:item.coords.lat, longitude:item.coords.lng}}
-                  ><Text style={[
-                      styles.letter,
-                      {opacity: opacity}
-                    ]}>
+                  coordinate={{ latitude: item.coords.lat, longitude: item.coords.lng }}
+                >
+                  <Text style={styles.letter}>
                     {item.character}
                   </Text>
                 </MapView.Marker>
               );
-            })
-          }
-          {
-            this.props.letters.map((item, i) => {
-              if (i < 30) {
-                return (
-                  <MapView.Marker
-                    key={i}
-                    coordinate={{latitude:item.coords.lat, longitude:item.coords.lng}}
-                    ><Text style={styles.letter}>
-                      {item.character}
-                    </Text>
-                  </MapView.Marker>
-                );
-              }
-            })
-          }
-
+            }
+          })}
         </MapView>
       </View>
     );
@@ -116,15 +104,24 @@ class Map extends Component {
 }
 
 const mapStateToProps = (state) => {
-  const origin_id = state.user.origin_id;
-  const letters = state.letters.content;
-  const my_letters = state.myLetters.content;
-  const coordinates = state.user.coordinates;
-  const dropzone_radius = state.user.map.dropzone_radius;
+  try {
+    const origin_id = state.user.origin_id;
+    const letters = state.letters.content;
+    const my_letters = state.myLetters.content;
+    const coordinates = state.user.coordinates;
+    const dropzone_radius = state.user.map.dropzone_radius;
 
-  return {
-    origin_id, letters, my_letters, coordinates, dropzone_radius,
-  };
+    return {
+      origin_id,
+      letters,
+      my_letters,
+      coordinates,
+      dropzone_radius,
+    };
+  } catch (e) {
+    console.log('Map');
+    console.log(e); throw e;
+  }
 };
 
 export default connect(mapStateToProps)(Map);

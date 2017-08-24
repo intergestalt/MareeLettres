@@ -1,5 +1,5 @@
 import React, { PureComponent, PropTypes } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 
 import { styles } from './';
@@ -37,6 +37,11 @@ class ProposalListItem extends PureComponent {
       <View style={styles.itemContainer}>
         <View style={styles.itemLeft}>
           <VoteMark onPress={this.props.onNoPress} size="l" active value={noNum} type="no" />
+          {/*  <TouchableOpacity onPress={this.props.onNoPress}>
+            {noNum === 1
+              ? <Text style={{ color: '#FF0000' }}>NO</Text>
+              : <Text style={{ color: '#000000' }}>NO</Text>}
+          </TouchableOpacity> */}
         </View>
         <View style={styles.itemCenter}>
           <Text style={styles.text}>
@@ -44,6 +49,11 @@ class ProposalListItem extends PureComponent {
           </Text>
         </View>
         <View style={styles.itemRight}>
+          {/*   <TouchableOpacity onPress={this.props.onYesPress}>
+            {yesNum === 1
+              ? <Text style={{ color: '#88FF00' }}>YES</Text>
+              : <Text style={{ color: '#000000' }}>YES</Text>}
+          </TouchableOpacity> */}
           <VoteMark onPress={this.props.onYesPress} size="l" active value={yesNum} type="yes" />
         </View>
       </View>
@@ -52,35 +62,40 @@ class ProposalListItem extends PureComponent {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  const votes = state.user.votes;
-  const internalVotes = state.user.internalVotes.internalVotes;
+  try {
+    const votes = state.user.votes;
+    const internalVotes = state.user.internalVotes.internalVotes;
 
-  const id = ownProps.data._id;
-  const vote = votes[id];
-  const internalVote = internalVotes[id];
-  let yes = false;
-  let no = false;
-  if (vote) {
-    if (vote.bool) {
-      yes = true;
-      no = false;
-    } else {
-      yes = false;
-      no = true;
+    const id = ownProps.data._id;
+    const vote = votes[id];
+    const internalVote = internalVotes[id];
+    let yes = false;
+    let no = false;
+    if (vote) {
+      if (vote.bool) {
+        yes = true;
+        no = false;
+      } else {
+        yes = false;
+        no = true;
+      }
     }
-  }
-  if (internalVote) {
-    if (internalVote.bool) {
-      yes = true;
-      no = false;
-    } else {
-      yes = false;
-      no = true;
+    if (internalVote) {
+      if (internalVote.bool) {
+        yes = true;
+        no = false;
+      } else {
+        yes = false;
+        no = true;
+      }
     }
+    return {
+      yes,
+      no,
+    };
+  } catch (e) {
+    console.log('ProposalListItem');
+    console.log(e); throw e;
   }
-  return {
-    yes,
-    no,
-  };
 };
 export default connect(mapStateToProps)(ProposalListItem);

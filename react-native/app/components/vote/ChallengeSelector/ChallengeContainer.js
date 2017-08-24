@@ -320,14 +320,19 @@ class ChallengeContainer extends Component {
 }
 
 const mapStateToProps = (state) => {
-  const challenges = state.challenges.challenges;
-  const selectedChallengeIndex = state.challenges.selectedChallengeIndex;
-  const challengeView = state.globals.challengeView;
+  try {
+    const challenges = state.challenges.challenges;
+    const selectedChallengeIndex = state.challenges.selectedChallengeIndex;
+    const challengeView = state.globals.challengeView;
 
-  return {
-    selectedChallengeIndex,
-    challenges,
-    challengeView,
-  };
+    return {
+      selectedChallengeIndex,
+      challenges,
+      challengeView,
+    };
+  } catch (e) {
+    console.log('ChallengeContainer');
+    console.log(e); throw e;
+  }
 };
 export default connect(mapStateToProps)(ChallengeContainer);

@@ -79,6 +79,7 @@ export function navigateToChallengeSelector(props, id) {
   }
   store.dispatch(setChallengeView(CHALLENGE_VIEWS.DETAIL));
   store.dispatch(setChallengesId(id));
+  manageChallenges();
   manageProposals();
   startChallengeTicker();
   sendInternalVotesServiceProxy(true);

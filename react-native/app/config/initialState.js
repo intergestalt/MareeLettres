@@ -24,7 +24,16 @@ const lngDelta = 0.001;
 //    newState = { myReducer: 'my_value' }
 
 export default {
+  globals: {
+    language: 'fr',
+    proposalView: PROPOSAL_VIEWS.LIST,
+    proposalListMode: PROPOSAL_LIST_MODES.MOST,
+    challengeView: CHALLENGE_VIEWS.LIST,
+  },
+
   user: {
+    userIsLoadingFromStorage: false,
+    userLoadedFromStorage: false,
     origin_id: originId,
     created_at: sampleDate,
     last_seen: sampleDate,
@@ -81,13 +90,6 @@ export default {
       internalVotes: {},
     },
     banned: false,
-  },
-
-  globals: {
-    language: 'fr',
-    proposalView: PROPOSAL_VIEWS.LIST,
-    proposalListMode: PROPOSAL_LIST_MODES.MOST,
-    challengeView: CHALLENGE_VIEWS.LIST,
   },
 
   challenges: {

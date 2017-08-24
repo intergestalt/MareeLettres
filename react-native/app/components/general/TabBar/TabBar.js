@@ -93,11 +93,16 @@ class TabBar extends Component {
 }
 
 const mapStateToProps = (state) => {
-  const showTabBar = state.globals.showTabBar;
+  try {
+    const showTabBar = state.globals.showTabBar;
 
-  return {
-    showTabBar,
-  };
+    return {
+      showTabBar,
+    };
+  } catch (e) {
+    console.log('TabBar');
+    console.log(e); throw e;
+  }
 };
 
 export default connect(mapStateToProps)(TabBar);

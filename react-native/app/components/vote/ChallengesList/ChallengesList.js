@@ -91,17 +91,22 @@ class ChallengesList extends Component {
 }
 
 const mapStateToProps = (state) => {
-  const challenges = state.challenges.challenges;
-  const challengesTicker = state.challengesTicker;
-  const isLoading = state.challenges.isLoading;
-  const isError = state.challenges.isError;
-  const language = state.globals.language;
-  return {
-    challenges,
-    challengesTicker,
-    isLoading,
-    isError,
-    language,
-  };
+  try {
+    const challenges = state.challenges.challenges;
+    const challengesTicker = state.challengesTicker;
+    const isLoading = state.challenges.isLoading;
+    const isError = state.challenges.isError;
+    const language = state.globals.language;
+    return {
+      challenges,
+      challengesTicker,
+      isLoading,
+      isError,
+      language,
+    };
+  } catch (e) {
+    console.log('ChallengesList');
+    console.log(e); throw e;
+  }
 };
 export default connect(mapStateToProps)(ChallengesList);

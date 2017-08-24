@@ -1,6 +1,7 @@
 import { callLoadUser, callSendUserVotes } from '../helper/apiCalls';
 
 export const LOAD_USER = 'LOAD_USER';
+export const SET_USER = 'SET_USER';
 export const USER_LOADED = 'USER_LOADED';
 export const LOAD_USER_ERROR = 'LOAD_USER_ERROR';
 export const USER_SET_ID = 'USER_SET_ID';
@@ -20,6 +21,13 @@ export const USER_VOTE_INTERNAL = 'USER_VOTE_INTERNAL';
 export const USER_SEND_INTERNAL_VOTES = 'USER_SEND_INTERNAL_VOTES';
 export const USER_INTERNAL_VOTES_SENT = 'USER_INTERNAL_VOTES_SENT';
 export const USER_SEND_INTERNAL_VOTES_ERROR = 'USER_SEND_INTERNAL_VOTES_ERROR';
+export const SET_USER_IS_LOADING_FROM_STORAGE = 'SET_USER_IS_LOADING_FROM_STORAGE';
+export const SET_USER_LOADED_FROM_STORAGE = 'SET_USER_LOADED_FROM_STORAGE';
+
+export const setUser = user => ({
+  type: SET_USER,
+  user,
+});
 
 export const loadUser = originId => ({
   type: LOAD_USER,
@@ -28,7 +36,14 @@ export const loadUser = originId => ({
   apiCall: callLoadUser,
   originId,
 });
-
+export const setUserIsLoadingFromStorage = yes => ({
+  type: SET_USER_IS_LOADING_FROM_STORAGE,
+  yes,
+});
+export const setUserLoadedFromStorage = yes => ({
+  type: SET_USER_LOADED_FROM_STORAGE,
+  yes,
+});
 export const getUserLetter = () => ({
   type: USER_GET_LETTER,
   errorEvent: USER_UPDATE_ERROR,
