@@ -95,7 +95,7 @@ JsonRoutes.add('post', `${Meteor.settings.public.api_prefix}players/:origin_id/v
     JsonRoutes.sendResult(res, error_options);
   }
 
-  const pastVotes = pastVotesResult.votes;
+  const pastVotes = pastVotesResult ? pastVotesResult.votes : {};
 
   const result = Players.update({ origin_id }, { $set: setQueryParams }); // TODO check result
 
