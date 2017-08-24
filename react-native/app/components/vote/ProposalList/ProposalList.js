@@ -16,7 +16,7 @@ import { deleteProposalFromTinderList } from '../../../actions/proposals';
 class ProposalList extends Component {
   static propTypes = {
     challenges: PropTypes.array,
-    proposals: PropTypes.object,
+    proposals: PropTypes.array,
     selectedChallengeIndex: PropTypes.number,
     onMostPress: PropTypes.func,
     onTrendingPress: PropTypes.func,
@@ -52,7 +52,7 @@ class ProposalList extends Component {
     }
 
     const id = this.props.challenges[this.props.selectedChallengeIndex]._id;
-    const limit = this.props.proposals.length + LOAD_CONFIG.DEFAULT_PROPOSAL_LIMIT;
+    const limit = this.props.proposals.length + LOAD_CONFIG.DEFAULT_PROPOSAL_NEW_BATCH;
     let force = false;
     let lastNotLoad = true;
     if (limit > this.props.lastLimit) {
@@ -134,6 +134,7 @@ class ProposalList extends Component {
           </View>
           <View pointerEvents={listEnabled} style={styles.listContainer}>
             <FlatList
+              initialNumToRender={7}
               ref={myRefCallback}
               data={this.props.proposals}
               renderItem={({ item }) =>
