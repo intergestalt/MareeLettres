@@ -22,8 +22,8 @@ some of the used tools / requirements:
 
 ```
 cd shared/maree-lettres-shared
-npm install
-npm run build
+yarn install
+yarn run build
 ```
 
 ### setup and run mobile app

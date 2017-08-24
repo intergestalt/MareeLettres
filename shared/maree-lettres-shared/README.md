@@ -4,19 +4,19 @@ Shared code for MareeLettres (private module)
 
 ## develop
 
-`npm run dev`
+`yarn run dev`
 
 ## test 
 
 (recommended to run the code outside of a project at all)
 
-`npm run test`
+`yarn run test`
 
 ## installation module in the other projects
 
 add `"maree-lettres-shared": "file:../shared/maree-lettres-shared"` to dependencies in package.json
 
-`npm install`
+`yarn install`
 
 ## update module 
 

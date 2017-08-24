@@ -4,7 +4,7 @@ import { Meteor } from 'meteor/meteor';
 import { Random } from 'meteor/random';
 import moment from 'moment';
 
-import { OriginId } from 'maree-lettres-shared';
+import { OriginId, AvailableLetters } from 'maree-lettres-shared';
 
 import { Challenges } from '../../api/challenges/challenges';
 import { Proposals } from '../../api/proposals/proposals';
@@ -45,6 +45,7 @@ Meteor.startup(() => {
             en: `Question #${i} [EN]`,
             fr: `Question #${i} [FR]`,
           },
+          letters: AvailableLetters.proposal,
           votes_amount: 0,
           proposals_amount: 0,
           start_date: moment().add(i - 3, 'days').toDate(),
@@ -59,7 +60,7 @@ Meteor.startup(() => {
             for (let j = 1; j <= amount; j++) {
               Proposals.insert({
                 _id: `fixture_${i}_${j}`,
-                text: `${j} ${shuffleString('ABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHAAEE       ')}`,
+                text: `${j} ${shuffleString(`${AvailableLetters.proposal}       `)}`,
                 challenge_id: id,
                 score: 0, // parseInt(10 * Math.random()),
                 votes_amount: 0, // parseInt(10 * Math.random()),
@@ -90,7 +91,7 @@ Meteor.startup(() => {
     console.log('Seeding Letters');
     for (let i = 1; i <= 50; i++) {
       Letters.insert({
-        character: shuffleString('ABCDEFGHIJKLMNOPQRSTUVWXYZ?:*').charAt(0),
+        character: shuffleString(AvailableLetters.map).charAt(0),
         coords: {
           lat: 52.46 + Math.random() * 0.06, // Berlin
           lng: 13.38 + Math.random() * 0.1, // Berlin
