@@ -47,8 +47,6 @@ const OriginId = {
     const dec = this.decryptRaw(origin_id);
     const origin = this.splitParts(dec).origin;
 
-    console.log(origin);
-
     return origin;
   },
 
