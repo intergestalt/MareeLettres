@@ -1,7 +1,7 @@
+import { NavigationActions } from 'react-navigation';
+
 import { loadContentServiceProxy, sendInternalVotesServiceProxy } from './apiProxy';
 import { stopChallengeTicker, startChallengeTicker } from './ticker';
-
-// import { NavigationActions } from 'react-navigation';
 import { setChallengeView } from '../actions/general';
 import { setChallengesId } from '../actions/challenges';
 import { manageChallenges } from './challengesHelper';
@@ -11,7 +11,19 @@ import { CHALLENGE_VIEWS } from '../consts';
 
 // Navigation
 
-// 1. Main Pages
+// rootNavigator
+
+export function navigateToLanguageSelector(props) {
+  const resetAction = NavigationActions.reset({
+    index: 1,
+    actions: [
+      NavigationActions.navigate({ routeName: 'Root' }),
+      NavigationActions.navigate({ routeName: 'LanguageSelector' }),
+    ],
+  });
+  props.navigation.dispatch(resetAction);
+}
+// Main Pages
 
 export function navigateToInfo(props) {
   stopChallengeTicker();
@@ -32,14 +44,21 @@ export function navigateToStream(props) {
   props.navigation.navigate('Stream');
 }
 
-export function navigateToVote(props) {
+function preNavigateToVote() {
   manageChallenges();
   manageProposals();
   startChallengeTicker();
   sendInternalVotesServiceProxy(true);
-  props.navigation.navigate('Vote');
 }
 
+export function navigateToVote(props) {
+  preNavigateToVote();
+  props.navigation.navigate('Vote');
+}
+export function popToLanguageSelector(props) {
+  preNavigateToVote();
+  props.navigation.goBack();
+}
 // SubPages
 // Map Stack SubPages
 

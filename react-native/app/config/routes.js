@@ -1,7 +1,8 @@
 import { TabNavigator, StackNavigator } from 'react-navigation';
-// import { Easing, Animated } from 'react-native';
 
+import SplashScreenB from '../screens/single/SplashScreenB';
 import LanguageSelector from '../screens/single/LanguageSelector';
+
 import Stream from '../screens/single/Stream';
 import Challenges from '../screens/vote/Challenges';
 import ChallengeSelector from '../screens/vote/ChallengeSelector';
@@ -15,7 +16,28 @@ import QRCodeGet from '../screens/map/QRCodeGet';
 import QRCodeSend from '../screens/map/QRCodeSend';
 
 import { TabBar } from '../components/general/TabBar';
+import { myRootTransitionConfig } from '../helper/customTransitions';
 
+const VoteStack = StackNavigator(
+  {
+    Challenges: {
+      screen: Challenges,
+    },
+    ChallengeSelector: {
+      screen: ChallengeSelector,
+    },
+    Submit: {
+      screen: Submit,
+    },
+  },
+  {
+    headerMode: 'none',
+    mode: 'modal',
+    navigationOptions: {
+      gesturesEnabled: false,
+    },
+  },
+);
 const MapStack = StackNavigator(
   {
     MapOverview: {
@@ -32,27 +54,6 @@ const MapStack = StackNavigator(
     },
     QRCodeSend: {
       screen: QRCodeSend,
-    },
-  },
-  {
-    headerMode: 'none',
-    mode: 'modal',
-    navigationOptions: {
-      gesturesEnabled: false,
-    },
-  },
-);
-
-const VoteStack = StackNavigator(
-  {
-    Challenges: {
-      screen: Challenges,
-    },
-    ChallengeSelector: {
-      screen: ChallengeSelector,
-    },
-    Submit: {
-      screen: Submit,
     },
   },
   {
@@ -96,6 +97,12 @@ const tabNavigator = TabNavigator(
 // for language selection at start
 const rootNavigator = StackNavigator(
   {
+    SplashScreenB: {
+      screen: SplashScreenB,
+      navigationOptions: {
+        header: null,
+      },
+    },
     LanguageSelector: {
       screen: LanguageSelector,
       navigationOptions: {
@@ -115,7 +122,16 @@ const rootNavigator = StackNavigator(
     navigationOptions: {
       gesturesEnabled: false,
     },
+    // Disable all animations
+    //   transitionConfig: () => ({ screenInterpolator: () => null }),
+    // Use My Custum Transition
+    transitionConfig: myRootTransitionConfig,
+    initialRouteName: 'SplashScreenB',
   },
 );
-
+const defaultGetStateForAction = rootNavigator.router.getStateForAction;
+rootNavigator.router.getStateForAction = (action, state) => {
+  const result = defaultGetStateForAction(action, state);
+  return result;
+};
 export default rootNavigator;

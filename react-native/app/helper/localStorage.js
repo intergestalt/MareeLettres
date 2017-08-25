@@ -8,7 +8,7 @@ export async function saveUser() {
 
     const user = store.getState().user;
     await AsyncStorage.setItem('user', JSON.stringify(user));
-    console.log('SAVE USER FROM DISC FINISH');
+    console.log('SAVE USER TO DISC FINISH');
     return true;
   } catch (error) {
     console.log(error);

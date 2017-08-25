@@ -65,6 +65,7 @@ class ChallengeContainer extends Component {
   handleHeaderPressed = () => {
     console.log('PRESS');
     popChallengeSelector(this.props);
+    popChallengeSelector(this.props);
   };
 
   loadProposals(index) {
@@ -333,7 +334,8 @@ const mapStateToProps = (state) => {
     };
   } catch (e) {
     console.log('ChallengeContainer');
-    console.log(e); throw e;
+    console.log(e);
+    throw e;
   }
 };
 export default connect(mapStateToProps)(ChallengeContainer);
