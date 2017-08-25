@@ -10,13 +10,22 @@ import { USER_SEND_INTERNAL_VOTES, LOAD_USER } from '../actions/user';
 function* loadData(action) {
   try {
     const response = yield call(action.apiCall, action);
+    //    console.log('RESPONSE');
+    //    console.log(response);
     const result = yield response.json();
+    //    console.log('RESULT');
+    //    console.log(result);
     if (result.error) {
-      yield put({ type: action.errorEvent, error: result.error });
+      console.log('ERROR 1');
+      console.log(result.error);
+      yield put({ type: action.errorEvent, error: result.error.message });
     } else {
+      //      console.log('SUCCESS');
       yield put({ type: action.successEvent, result, action });
     }
   } catch (error) {
+    console.log('ERROR 2');
+    console.log(error);
     yield put({ type: action.errorEvent, error: error.message });
   }
 }
