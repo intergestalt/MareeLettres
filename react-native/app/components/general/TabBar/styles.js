@@ -2,7 +2,6 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 import { StatusBar } from 'react-native';
 
 const styles = EStyleSheet.create({
-  $backgroundColorMenuItem: 'rgb(245,132,102)',
 
   container: {
     width: '100%',

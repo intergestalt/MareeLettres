@@ -95,3 +95,8 @@ export function popChallengeSelector(props) {
     props.navigation.navigate('Challenges');
   }
 }
+
+export function navigateToSubmit(props, challenge) {
+  console.log(challenge);
+  props.navigation.navigate('Submit', { challenge });
+}

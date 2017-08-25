@@ -5,6 +5,7 @@ import LanguageSelector from '../screens/single/LanguageSelector';
 import Stream from '../screens/single/Stream';
 import Challenges from '../screens/vote/Challenges';
 import ChallengeSelector from '../screens/vote/ChallengeSelector';
+import Submit from '../screens/vote/Submit';
 import Info from '../screens/single/Info';
 
 import MapOverview from '../screens/map/MapOverview';
@@ -49,6 +50,9 @@ const VoteStack = StackNavigator(
     },
     ChallengeSelector: {
       screen: ChallengeSelector,
+    },
+    Submit: {
+      screen: Submit,
     },
   },
   {

@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import styles from './styles';
 import { ChallengeDetail } from './';
 import { screenWidth } from '../../../helper/screen';
-import { popChallengeSelector } from '../../../helper/navigationProxy';
+import { popChallengeSelector, navigateToSubmit } from '../../../helper/navigationProxy';
 import { startChallengeTicker } from '../../../helper/ticker';
 import { setProposalView, setProposalListMode } from '../../../actions/general';
 import { setChallengesId } from '../../../actions/challenges';
@@ -59,6 +59,7 @@ class ChallengeContainer extends Component {
   }
   handleCommitPress() {
     console.log('handleCommitPress');
+    navigateToSubmit(this.props, this.props.challenges[this.props.selectedChallengeIndex]);
   }
 
   handleHeaderPressed = () => {
