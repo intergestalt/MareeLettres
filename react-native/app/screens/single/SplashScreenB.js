@@ -71,7 +71,6 @@ class SplashScreenB extends Component {
     console.log(this.ready());
     if (this.ready()) {
       clearInterval(this.tickerId);
-      console.log('GOGOGO');
       navigateToLanguageSelector(this.props);
     }
   }

@@ -99,14 +99,14 @@ const rootNavigator = StackNavigator(
         header: null,
       },
     },
-    Root: {
-      screen: tabNavigator,
+    LanguageSelector: {
+      screen: LanguageSelector,
       navigationOptions: {
         header: null,
       },
     },
-    LanguageSelector: {
-      screen: LanguageSelector,
+    Root: {
+      screen: tabNavigator,
       navigationOptions: {
         header: null,
       },

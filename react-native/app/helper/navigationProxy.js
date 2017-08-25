@@ -14,7 +14,6 @@ import { CHALLENGE_VIEWS } from '../consts';
 // rootNavigator
 
 export function navigateToLanguageSelector(props) {
-  // NavigationActions.navigate({ routeName: 'LanguageSelector' });
   const resetAction = NavigationActions.reset({
     index: 1,
     actions: [
