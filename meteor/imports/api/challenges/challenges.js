@@ -24,6 +24,10 @@ const ChallengesSchema = new SimpleSchema({
   title: {
     type: MultilingualStringSchema,
   },
+  letters: {
+    type: String,
+    label: 'List of the available letters',
+  },
   start_date: {
     type: Date,
     label: 'The date at which voting starts',

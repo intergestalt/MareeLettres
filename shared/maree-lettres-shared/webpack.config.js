@@ -7,14 +7,19 @@ const env = require('yargs').argv.env; // use --env with webpack 2
 
 let libraryName = 'maree-lettres-shared';
 
-let plugins = [], outputFile;
+let plugins = [],
+  outputFile;
 
+/*
 if (env === 'build') {
   plugins.push(new UglifyJsPlugin({ minimize: true }));
   outputFile = libraryName + '.min.js';
 } else {
   outputFile = libraryName + '.js';
 }
+*/
+
+outputFile = libraryName + '.js';
 
 const config = {
   entry: __dirname + '/src/index.js',

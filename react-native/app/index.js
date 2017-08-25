@@ -1,6 +1,7 @@
 import React from 'react';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { Provider } from 'react-redux';
+import Expo from 'expo';
 
 import Navigator from './config/routes';
 import store from './config/store';
@@ -11,6 +12,8 @@ import { screenHeight } from './helper/screen';
 // import That from '../../meteor/exports';
 
 // console.log(That);
+
+Expo.ScreenOrientation.allow(Expo.ScreenOrientation.Orientation.PORTRAIT);
 
 EStyleSheet.build({
   $backgroundColor: '#DDDDDD',

@@ -43,6 +43,9 @@ const styles = EStyleSheet.create({
     color: 'white',
     fontSize: '4.5rem',
     fontFamily: 'impact',
+    textShadowOffset: { width: 1, height: 1 },
+    textShadowColor: 'black',
+    textShadowRadius: 2,
   },
   langActive: {
     transform: [{ scale: 1.2 }], // animate this
@@ -307,7 +310,7 @@ class LanguageSelector extends Component {
             <StatusBar hidden />
             <View style={styles.dropzone}>
               <Animated.Text style={myDrop}>
-                {I18n.t('language_drag_and_drop')}
+                {I18n.t('language_drag_and_drop').toUpperCase()}
               </Animated.Text>
             </View>
 

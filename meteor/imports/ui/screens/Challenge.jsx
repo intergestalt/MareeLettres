@@ -4,7 +4,7 @@ import { Meteor } from 'meteor/meteor';
 import AutoField from 'uniforms-unstyled/AutoField';
 import AutoForm from 'uniforms-unstyled/AutoForm';
 import SubmitField from 'uniforms-unstyled/SubmitField';
-import { OriginId } from 'maree-lettres-shared';
+import { OriginId, AvailableLetters } from 'maree-lettres-shared';
 
 import { Challenges, ChallengesSchema } from '../../api/challenges/challenges';
 import { Proposals } from '../../api/proposals/proposals';
@@ -39,6 +39,8 @@ class Challenge extends Component {
         model={this.props.challenge}
       >
         <AutoField name="title" />
+        <AutoField name="letters" />
+        <small>Full set: <span className="impact">{AvailableLetters.proposal}</span></small>
         <AutoField name="start_date" />
         <AutoField name="end_date" />
         <AutoField name="proposals_end_date" />

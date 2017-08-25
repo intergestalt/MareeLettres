@@ -18,12 +18,12 @@ some of the used tools / requirements:
 - react-native-scripts
 - meteor
 
-### workaround for babel export
+### setup shared repo (workaround for babel export)
 
 ```
 cd shared/maree-lettres-shared
-npm run dev # (you can ctrl-c when it starts watching for file changes)
-npm run build
+yarn install
+yarn run build
 ```
 
 ### setup and run mobile app
