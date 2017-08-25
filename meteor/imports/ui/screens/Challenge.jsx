@@ -4,6 +4,7 @@ import { Meteor } from 'meteor/meteor';
 import AutoField from 'uniforms-unstyled/AutoField';
 import AutoForm from 'uniforms-unstyled/AutoForm';
 import SubmitField from 'uniforms-unstyled/SubmitField';
+import ErrorsField from 'uniforms-unstyled/ErrorsField';
 import { OriginId, AvailableLetters } from 'maree-lettres-shared';
 
 import { Challenges, ChallengesSchema } from '../../api/challenges/challenges';
@@ -24,6 +25,7 @@ class Challenge extends Component {
       $set: {
         'title.en': doc.title.en,
         'title.fr': doc.title.fr,
+        letters: doc.letters,
         start_date: doc.start_date,
         end_date: doc.end_date,
         proposals_end_date: doc.proposals_end_date,
@@ -40,10 +42,13 @@ class Challenge extends Component {
       >
         <AutoField name="title" />
         <AutoField name="letters" />
-        <small>Full set: <span className="impact">{AvailableLetters.proposal}</span></small>
+        <small>
+          Full set: <span className="impact">{AvailableLetters.proposal}</span>
+        </small>
         <AutoField name="start_date" />
         <AutoField name="end_date" />
         <AutoField name="proposals_end_date" />
+        <ErrorsField />
         <SubmitField />
       </AutoForm>
     );

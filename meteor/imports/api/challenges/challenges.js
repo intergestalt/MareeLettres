@@ -1,5 +1,6 @@
 import { Mongo } from 'meteor/mongo';
 import SimpleSchema from 'simpl-schema';
+import { AvailableLetters } from 'maree-lettres-shared';
 
 SimpleSchema.extendOptions(['description']);
 
@@ -27,6 +28,20 @@ const ChallengesSchema = new SimpleSchema({
   letters: {
     type: String,
     label: 'List of the available letters',
+    defaultValue: AvailableLetters.proposal,
+    min: 1,
+    max: AvailableLetters.proposal.length,
+    custom() {
+      const letters = this.value;
+      let available = AvailableLetters.proposal;
+      for (let i = 0, len = letters.length; i < len; i++) {
+        const letter = letters[i];
+        if (available.length === 0) return SimpleSchema.ErrorTypes.VALUE_NOT_ALLOWED;
+        const pos = available.indexOf(letter);
+        if (pos < 0) return SimpleSchema.ErrorTypes.VALUE_NOT_ALLOWED;
+        available = available.slice(0, pos) + available.slice(pos + 1, available.length);
+      }
+    },
   },
   start_date: {
     type: Date,
@@ -51,3 +66,7 @@ const ChallengesSchema = new SimpleSchema({
 });
 
 export { Challenges, ChallengesSchema };
+
+RegExp.escape = function (s) {
+  return s.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+};
