@@ -10,12 +10,13 @@ function loadProposals(offset) {
   const challenges = store.getState().challenges.challenges;
   if (index < 0 || index > challenges.length - 1) return;
   const id = challenges[index]._id;
-  loadProposalsServiceProxy(
-    false,
-    id,
-    LOAD_CONFIG.DEFAULT_PROPOSAL_LIMIT,
-    LOAD_CONFIG.LOAD_QUIET_TO_CHALLENGE_SELECTOR,
-  );
+  let limit = -1;
+  if (store.getState().globals.proposalView === PROPOSAL_VIEWS.LIST) {
+    limit = LOAD_CONFIG.DEFAULT_PROPOSAL_LIST_LIMIT;
+  } else {
+    limit = LOAD_CONFIG.DEFAULT_PROPOSAL_TINDER_LIMIT;
+  }
+  loadProposalsServiceProxy(false, id, limit, LOAD_CONFIG.LOAD_QUIET_TO_CHALLENGE_SELECTOR);
 }
 
 export function manageProposals() {
@@ -131,4 +132,15 @@ export function mergeProposalList(oldList, newList, proposalView) {
     return mergeProposalListList(oldList, newList);
   }
   return mergeProposalListTinder(oldList, newList);
+}
+
+export function cutProposalList(oldList, proposalView) {
+  const myList = [];
+  if (proposalView === PROPOSAL_VIEWS.LIST) {
+    myList.length = LOAD_CONFIG.DEFAULT_PROPOSAL_LIST_LIMIT;
+  } else {
+    myList.length = LOAD_CONFIG.DEFAULT_PROPOSAL_TINDER_LIMIT;
+  }
+
+  return myList;
 }

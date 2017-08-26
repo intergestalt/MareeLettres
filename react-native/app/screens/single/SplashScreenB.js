@@ -16,7 +16,7 @@ import { Screen } from '../../components/general/Container';
 
 const styles = EStyleSheet.create({
   container: {
-    backgroundColor: 'rgb(0,0,67)',
+    backgroundColor: '#cccccc',
   },
 });
 

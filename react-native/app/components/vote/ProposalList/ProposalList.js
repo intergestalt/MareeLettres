@@ -30,8 +30,6 @@ class ProposalList extends PureComponent {
     setFlatlistRef: PropTypes.func,
     listEnabled: PropTypes.bool,
     dispatch: PropTypes.func,
-    proposalListMode: PropTypes.string,
-    proposalView: PropTypes.string,
   };
   constructor(props) {
     super(props);
@@ -207,8 +205,6 @@ const mapStateToProps = (state, ownProps) => {
       isPullUpLoading,
       lastLimit,
       lastLoaded,
-      proposalView,
-      proposalListMode,
     };
   } catch (e) {
     console.log('ProposalList');

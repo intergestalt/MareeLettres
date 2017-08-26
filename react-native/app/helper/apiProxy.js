@@ -137,6 +137,7 @@ export function loadProposalsServiceProxy(
 ) {
   const proposalView = store.getState().globals.proposalView;
   const proposalListMode = store.getState().globals.proposalListMode;
+  console.log(`LOAD ${proposalListMode}`);
   // all 4 lists
   const allProposals = store.getState().proposals[challengeId];
   // correct list
@@ -147,7 +148,7 @@ export function loadProposalsServiceProxy(
   }
 
   if (isLoading(list)) {
-    return;
+    return false;
   }
   let doit = checkReload(force, list, LOAD_CONFIG.UPDATE_PROPOSALS_AFTER);
 
@@ -178,7 +179,9 @@ export function loadProposalsServiceProxy(
         pullUpLoading,
       ),
     );
+    return true;
   }
+  return false;
 }
 
 // Load only if there are not enough tinder proposals

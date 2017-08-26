@@ -3,9 +3,10 @@ import {
   PROPOSALS_LOADED,
   NETWORK_ERROR_LOAD_PROPOSALS,
   DELETE_PROPOSAL_FROM_TINDER_LIST,
+  CUT_PROPOSAL_LIST_TO_DEFAULT,
 } from '../actions/proposals';
 import { PROPOSAL_VIEWS } from '../consts/';
-import { DEV_CONFIG } from '../config/config';
+import { DEV_CONFIG, LOAD_CONFIG } from '../config/config';
 
 import initialState from '../config/initialState';
 import {
@@ -13,6 +14,7 @@ import {
   getProposalKey,
   addDefaultStructure,
   mergeProposalList,
+  cutProposalList,
 } from '../helper/proposalsHelper';
 
 function swapArrayElements(arr, indexA, indexB) {
@@ -118,7 +120,6 @@ export default (state = initialState.proposals, action) => {
       const oldProposals = state[action.challengeId];
       oldProposals.isLoading = false;
       oldProposals.isInternalLoading = false;
-      oldProposals.isError = true;
       oldProposals.isError = false;
       oldProposals.isPullDownLoading = false;
       oldProposals.isPullUpLoading = false;
@@ -164,6 +165,31 @@ export default (state = initialState.proposals, action) => {
         tinder: c1,
       };
 
+      const result = {
+        ...state,
+      };
+      result[action.challengeId] = challengeProposals;
+      return result;
+    }
+    case CUT_PROPOSAL_LIST_TO_DEFAULT: {
+      // of all 4 lists
+      const p = state[action.challengeId];
+      // the changed list
+      const proposalList = getProposalList(p, action.proposalView, action.proposalListMode);
+      const cuttedProposalList = cutProposalList(proposalList.proposals, action.proposalView);
+      proposalList.proposals = cuttedProposalList;
+      if (action.proposalView === PROPOSAL_VIEWS.LIST) {
+        proposalList.lastLimit = LOAD_CONFIG.DEFAULT_PROPOSAL_LIST_LIMIT;
+        proposalList.lastLoaded = LOAD_CONFIG.DEFAULT_PROPOSAL_LIST_LIMIT;
+      } else {
+        proposalList.lastLimit = LOAD_CONFIG.DEFAULT_PROPOSAL_TINDER_LIMIT;
+        proposalList.lastLoaded = LOAD_CONFIG.DEFAULT_PROPOSAL_TINDER_LIMIT;
+      }
+      const challengeProposals = {
+        ...p,
+      };
+      const key = getProposalKey(action.proposalView, action.proposalListMode);
+      challengeProposals[key].proposals = cuttedProposalList;
       const result = {
         ...state,
       };

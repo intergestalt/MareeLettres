@@ -129,11 +129,13 @@ class LanguageSelector extends Component {
       iconPos,
     };
 
+    this.didIt = false;
     this.buttonCounter = 0;
     this.panResponder = this.createPanResponder();
   }
 
   onPress(param) {
+    if (this.didIt) return;
     if (!this.state.enabled) return;
     this.setState({ enabled: false });
     const sel = this.state.selected;
@@ -158,6 +160,7 @@ class LanguageSelector extends Component {
     }).start();
   }
   onRelease(param) {
+    if (this.didIt) return;
     this.setState({ enabled: true });
     const sel = this.state.selected;
     sel[param] = false;
@@ -194,7 +197,7 @@ class LanguageSelector extends Component {
       onStartShouldSetPanResponder: () => false,
       onMoveShouldSetPanResponder: () => true,
       onPanResponderMove: (e, gesture) => {
-        if (!this.state.enabled) {
+        if (!this.state.enabled && !this.didIt) {
           this.setState({ movingStarted: true });
           const myDx = gesture.dx / 1.2;
           const myDy = gesture.dy / 1.2;
@@ -211,7 +214,7 @@ class LanguageSelector extends Component {
       },
 
       onPanResponderRelease: (e, gesture) => {
-        if (!this.state.enabled) {
+        if (!this.state.enabled && !this.didIt) {
           const pos = this.state.iconPos[this.state.choosen];
           const destX = screenWidth / 2;
           const destY = screenHeight / 4;
@@ -252,6 +255,7 @@ class LanguageSelector extends Component {
             }),
           ]).start(() => {
             if (moved > 0.5) {
+              this.didIt = true;
               if (this.state.choosen === 0) {
                 store.dispatch(setLanguage('fr'));
               } else {

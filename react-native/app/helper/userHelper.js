@@ -32,9 +32,9 @@ export function reviveLetterMenuProxy(menuIndex, character) {
 
 export function wipeLetterMenuProxy() {
   store.dispatch(wipeLetterMenu());
-};
+}
 
 export function getUserLetterProxy() {
-  console.log('proxy user letter')
+  console.log('proxy user letter');
   store.dispatch(getUserLetter());
-};
+}

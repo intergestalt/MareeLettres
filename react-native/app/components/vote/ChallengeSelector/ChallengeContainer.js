@@ -8,6 +8,8 @@ import { screenWidth } from '../../../helper/screen';
 import { popChallengeSelector, navigateToSubmit } from '../../../helper/navigationProxy';
 import { startChallengeTicker } from '../../../helper/ticker';
 import { setProposalView, setProposalListMode } from '../../../actions/general';
+import { cutProposalListToDefault } from '../../../actions/proposals';
+
 import { setChallengesId } from '../../../actions/challenges';
 import { loadProposalsServiceProxy } from '../../../helper/apiProxy';
 import { upDateSelectedChallengeIndex } from '../../../helper/challengesHelper';
@@ -19,6 +21,9 @@ class ChallengeContainer extends Component {
     dispatch: PropTypes.func,
     challenges: PropTypes.array,
     selectedChallengeIndex: PropTypes.number,
+    selectedChallengeId: PropTypes.number,
+    selectedProposalListMode: PropTypes.string,
+    selectedProposalView: PropTypes.string,
     challengeView: PropTypes.string,
   };
 
@@ -68,46 +73,78 @@ class ChallengeContainer extends Component {
     popChallengeSelector(this.props);
   };
 
-  loadProposals(index) {
+  loadProposals(index, view, listmode) {
     if (index < 0 || index > this.props.challenges.length - 1) return;
-    const id = this.props.challenges[index]._id;
-    loadProposalsServiceProxy(
-      false,
-      id,
-      LOAD_CONFIG.DEFAULT_PROPOSAL_LIMIT,
-      LOAD_CONFIG.LOAD_QUIET_CHALLENGE_SELECTOR,
-    );
+    const proposalId = this.props.challenges[index]._id;
+    let limit = -1;
+    if (view === PROPOSAL_VIEWS.LIST) {
+      limit = LOAD_CONFIG.DEFAULT_PROPOSAL_LIST_LIMIT;
+    } else {
+      limit = LOAD_CONFIG.DEFAULT_PROPOSAL_TINDER_LIMIT;
+    }
+    if (
+      !loadProposalsServiceProxy(
+        false,
+        proposalId,
+        limit,
+        LOAD_CONFIG.LOAD_QUIET_CHALLENGE_SELECTOR,
+      )
+    ) {
+      this.props.dispatch(
+        cutProposalListToDefault(this.props.selectedChallengeId, proposalId, view, listmode),
+      );
+    }
   }
-  loadAllProposals(myIndex) {
-    this.loadProposals(myIndex - 1);
-    this.loadProposals(myIndex);
-    this.loadProposals(myIndex + 1);
+  loadAllProposals(myIndex, view, listmode) {
+    this.loadProposals(myIndex - 1, view, listmode);
+    this.loadProposals(myIndex, view, listmode);
+    this.loadProposals(myIndex + 1, view, listmode);
   }
   handleTinderPress() {
     console.log('handleTinderPress');
     this.props.dispatch(setProposalView(PROPOSAL_VIEWS.TINDER));
-    this.loadAllProposals(this.props.selectedChallengeIndex);
+    this.loadAllProposals(this.props.selectedChallengeIndex, PROPOSAL_VIEWS.TINDER);
   }
 
   handleListPress() {
     console.log('handleListPress');
+    this.resetProposalListPos();
     this.props.dispatch(setProposalView(PROPOSAL_VIEWS.LIST));
-    this.loadAllProposals(this.props.selectedChallengeIndex);
+    this.loadAllProposals(
+      this.props.selectedChallengeIndex,
+      PROPOSAL_VIEWS.LIST,
+      this.props.selectedProposalListMode,
+    );
   }
   onMostPress() {
     console.log('onMostPress');
+    this.resetProposalListPos();
     this.props.dispatch(setProposalListMode(PROPOSAL_LIST_MODES.MOST));
-    this.loadAllProposals(this.props.selectedChallengeIndex);
+    this.loadAllProposals(
+      this.props.selectedChallengeIndex,
+      PROPOSAL_VIEWS.LIST,
+      PROPOSAL_LIST_MODES.MOST,
+    );
   }
   onNewestPress() {
     console.log('onNewestPress');
+    this.resetProposalListPos();
     this.props.dispatch(setProposalListMode(PROPOSAL_LIST_MODES.NEWEST));
-    this.loadAllProposals(this.props.selectedChallengeIndex);
+    this.loadAllProposals(
+      this.props.selectedChallengeIndex,
+      PROPOSAL_VIEWS.LIST,
+      PROPOSAL_LIST_MODES.NEWEST,
+    );
   }
   onTrendingPress() {
     console.log('onTrendingPress');
+    this.resetProposalListPos();
     this.props.dispatch(setProposalListMode(PROPOSAL_LIST_MODES.TRENDING));
-    this.loadAllProposals(this.props.selectedChallengeIndex);
+    this.loadAllProposals(
+      this.props.selectedChallengeIndex,
+      PROPOSAL_VIEWS.LIST,
+      PROPOSAL_LIST_MODES.TRENDING,
+    );
   }
   // Pan Logic
   // Header: Challenge Swipe
@@ -236,7 +273,7 @@ class ChallengeContainer extends Component {
     this.navigate(1);
   }
 
-  navigate(offset) {
+  resetProposalListPos() {
     if (this.flatlistRefLeft) {
       this.flatlistRefLeft.scrollToOffset({ animated: false, offset: 0 });
     }
@@ -246,6 +283,9 @@ class ChallengeContainer extends Component {
     if (this.flatlistRefRight) {
       this.flatlistRefRight.scrollToOffset({ animated: false, offset: 0 });
     }
+  }
+  navigate(offset) {
+    this.resetProposalListPos();
     setTimeout(() => {
       const index = this.props.selectedChallengeIndex + offset;
       let challenge = this.props.challenges[index];
@@ -256,7 +296,11 @@ class ChallengeContainer extends Component {
       }
       this.state.challengeContainerOffsetX.setValue(-screenWidth);
       const newId = challenge._id;
-      this.loadAllProposals(index);
+      this.loadAllProposals(
+        index,
+        this.props.selectedProposalView,
+        this.props.selectedProposalListMode,
+      );
       let t1 = new Date().getTime();
       this.props.dispatch(setChallengesId(newId));
       let t2 = new Date().getTime();
@@ -325,12 +369,17 @@ const mapStateToProps = (state) => {
   try {
     const challenges = state.challenges.challenges;
     const selectedChallengeIndex = state.challenges.selectedChallengeIndex;
+    const selectedChallengeId = state.challenges.selectedChallengeId;
     const challengeView = state.globals.challengeView;
-
+    const selectedProposalView = state.globals.proposalView;
+    const selectedProposalListMode = state.globals.proposalListMode;
     return {
       selectedChallengeIndex,
+      selectedChallengeId,
       challenges,
       challengeView,
+      selectedProposalView,
+      selectedProposalListMode,
     };
   } catch (e) {
     console.log('ChallengeContainer');
