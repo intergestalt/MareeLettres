@@ -44,6 +44,7 @@ export default (state = initialState.globals, action) => {
       };
     }
     case SET_PROPOSAL_LIST_MODE: {
+      console.log(`SET_PROPOSAL_LIST_MODE${action.proposalListMode}`);
       return {
         ...state,
         proposalListMode: action.proposalListMode,

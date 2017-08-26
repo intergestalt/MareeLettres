@@ -30,6 +30,8 @@ class ProposalList extends PureComponent {
     setFlatlistRef: PropTypes.func,
     listEnabled: PropTypes.bool,
     dispatch: PropTypes.func,
+    proposalListMode: PropTypes.string,
+    proposalView: PropTypes.string,
   };
   constructor(props) {
     super(props);
@@ -41,7 +43,7 @@ class ProposalList extends PureComponent {
     loadProposalsServiceProxy(
       true,
       id,
-      LOAD_CONFIG.DEFAULT_PROPOSAL_LIMIT,
+      LOAD_CONFIG.DEFAULT_PROPOSAL_LIST_LIMIT,
       LOAD_CONFIG.LOAD_QUIET_PULL_DOWN_UPDATE,
       true,
     );
@@ -55,6 +57,7 @@ class ProposalList extends PureComponent {
     const limit = this.props.proposals.length + LOAD_CONFIG.DEFAULT_PROPOSAL_NEW_BATCH;
     let force = false;
     let lastNotLoad = true;
+
     if (limit > this.props.lastLimit) {
       force = true;
       lastNotLoad = false;
@@ -204,10 +207,13 @@ const mapStateToProps = (state, ownProps) => {
       isPullUpLoading,
       lastLimit,
       lastLoaded,
+      proposalView,
+      proposalListMode,
     };
   } catch (e) {
     console.log('ProposalList');
-    console.log(e); throw e;
+    console.log(e);
+    throw e;
   }
 };
 export default connect(mapStateToProps)(ProposalList);
