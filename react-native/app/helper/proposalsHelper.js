@@ -135,11 +135,11 @@ export function mergeProposalList(oldList, newList, proposalView) {
 }
 
 export function cutProposalList(oldList, proposalView) {
-  const myList = [];
+  const myList = oldList;
   if (proposalView === PROPOSAL_VIEWS.LIST) {
-    myList.length = LOAD_CONFIG.DEFAULT_PROPOSAL_LIST_LIMIT;
+    myList.length = Math.min(oldList.length, LOAD_CONFIG.DEFAULT_PROPOSAL_LIST_LIMIT);
   } else {
-    myList.length = LOAD_CONFIG.DEFAULT_PROPOSAL_TINDER_LIMIT;
+    myList.length = Math.min(oldList.length, LOAD_CONFIG.DEFAULT_PROPOSAL_TINDER_LIMIT);
   }
 
   return myList;

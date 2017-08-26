@@ -334,7 +334,8 @@ const mapStateToProps = (state, ownProps) => {
     };
   } catch (e) {
     console.log('ChallengeContent');
-    console.log(e); throw e;
+    console.log(e);
+    throw e;
   }
 };
 export default connect(mapStateToProps)(ChallengeContent);

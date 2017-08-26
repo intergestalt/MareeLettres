@@ -301,14 +301,11 @@ class ChallengeContainer extends Component {
         this.props.selectedProposalView,
         this.props.selectedProposalListMode,
       );
-      let t1 = new Date().getTime();
       this.props.dispatch(setChallengesId(newId));
-      let t2 = new Date().getTime();
-      console.log(`Time 1: ${t2 - t1}`);
-      t1 = new Date().getTime();
+      const t1 = new Date().getTime();
       upDateSelectedChallengeIndex();
-      t2 = new Date().getTime();
-      console.log(`Time 2: ${t2 - t1}`);
+      const t2 = new Date().getTime();
+      console.log(`Time For Update List: ${t2 - t1}`);
       this.navigationEnabled = true;
     }, 1);
   }
