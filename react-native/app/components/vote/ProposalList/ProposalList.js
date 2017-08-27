@@ -167,8 +167,8 @@ const mapStateToProps = (state, ownProps) => {
     const selectedChallengeIndex = state.challenges.selectedChallengeIndex;
     const challengeIndex = selectedChallengeIndex + ownProps.challengeOffset;
     const id = challenges[challengeIndex]._id;
-    const proposalView = state.globals.proposalView;
-    const proposalListMode = state.globals.proposalListMode;
+    const proposalView = state.challenges.proposalView;
+    const proposalListMode = state.challenges.proposalListMode;
     // all 4 lists
     const p = state.proposals[id];
     const p2 = getProposalList(p, proposalView, proposalListMode);

@@ -1,4 +1,3 @@
-import { upDateSelectedChallengeIndex } from '../helper/challengesHelper';
 import { loadProposalsServiceProxy } from '../helper/apiProxy';
 import store from '../config/store';
 import { PROPOSAL_VIEWS, PROPOSAL_LIST_MODES, CHALLENGE_VIEWS } from '../consts';
@@ -21,9 +20,7 @@ function loadProposals(offset) {
 
 export function manageProposals() {
   // Assumption: Challengeslist is loaded
-  if (store.getState().globals.challengeView === CHALLENGE_VIEWS.DETAIL) {
-    upDateSelectedChallengeIndex();
-
+  if (store.getState().challenges.challengeView === CHALLENGE_VIEWS.DETAIL) {
     loadProposals(-1);
     loadProposals(0);
     loadProposals(1);

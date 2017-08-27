@@ -1,9 +1,7 @@
 export const SWAP_LANGUAGE = 'SWAP_LANGUAGE';
 export const SET_LANGUAGE = 'SET_LANGUAGE';
-export const SET_PROPOSAL_VIEW = 'SET_PROPOSAL_VIEW';
-export const SET_CHALLENGE_VIEW = 'SET_CHALLENGE_VIEW';
-export const SET_PROPOSAL_LIST_MODE = 'SET_PROPOSAL_LIST_MODE';
-
+export const SET_GLOBALS = 'SET_GLOBALS';
+export const SET_GLOBALS_IS_LOADING_FROM_STORAGE = 'SET_GLOBALS_IS_LOADING_FROM_STORAGE';
 export const swapLanguage = () => ({
   type: SWAP_LANGUAGE,
 });
@@ -12,17 +10,12 @@ export const setLanguage = language => ({
   language,
 });
 
-export const setProposalView = proposalView => ({
-  type: SET_PROPOSAL_VIEW,
-  proposalView,
+export const setGlobals = globals => ({
+  type: SET_GLOBALS,
+  globals,
 });
 
-export const setChallengeView = challengeView => ({
-  type: SET_CHALLENGE_VIEW,
-  challengeView,
-});
-
-export const setProposalListMode = proposalListMode => ({
-  type: SET_PROPOSAL_LIST_MODE,
-  proposalListMode,
+export const setGlobalsIsLoadingFromStorage = yes => ({
+  type: SET_GLOBALS_IS_LOADING_FROM_STORAGE,
+  yes,
 });

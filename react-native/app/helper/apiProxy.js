@@ -114,7 +114,7 @@ export function loadChallengesServiceProxy(force, quietLoading = false) {
   }
 }
 
-export function loadChallengeServiceProxy(challengeId) {
+export function loadChallengeServiceProxy(challengeId, props) {
   // ALWAYS AND QUIET. No check of force and time
   const challenges = store.getState().challenges;
   const challenge = getChallengeFromId(challenges, challengeId);
@@ -123,7 +123,7 @@ export function loadChallengeServiceProxy(challengeId) {
     return;
   }
   if (doit) {
-    store.dispatch(loadChallenge(challengeId));
+    store.dispatch(loadChallenge(challengeId, props));
   }
 }
 
@@ -136,8 +136,8 @@ export function loadProposalsServiceProxy(
   pullUpLoading = false,
   lastNotLoad = false,
 ) {
-  const proposalView = store.getState().globals.proposalView;
-  const proposalListMode = store.getState().globals.proposalListMode;
+  const proposalView = store.getState().challenges.proposalView;
+  const proposalListMode = store.getState().challenges.proposalListMode;
   // all 4 lists
   const allProposals = store.getState().proposals[challengeId];
   // correct list

@@ -19,7 +19,7 @@ class ChallengesList extends Component {
   };
 
   componentDidMount() {
-    startChallengeTicker();
+    startChallengeTicker(this.props);
   }
   getAnswer(challenge) {
     let answer = '';
@@ -106,7 +106,8 @@ const mapStateToProps = (state) => {
     };
   } catch (e) {
     console.log('ChallengesList');
-    console.log(e); throw e;
+    console.log(e);
+    throw e;
   }
 };
 export default connect(mapStateToProps)(ChallengesList);

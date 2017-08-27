@@ -56,14 +56,15 @@ class ProposalListHeader extends PureComponent {
 
 const mapStateToProps = (state) => {
   try {
-    const proposalListMode = state.globals.proposalListMode;
+    const proposalListMode = state.challenges.proposalListMode;
 
     return {
       proposalListMode,
     };
   } catch (e) {
     console.log('ProposalListHeader');
-    console.log(e); throw e;
+    console.log(e);
+    throw e;
   }
 };
 export default connect(mapStateToProps)(ProposalListHeader);

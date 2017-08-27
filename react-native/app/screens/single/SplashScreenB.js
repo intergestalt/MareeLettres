@@ -10,10 +10,17 @@ import {
   loadContentServiceProxy,
 } from '../../helper/apiProxy';
 import store from '../../config/store';
-import { loadUser, saveUser } from '../../helper/localStorage';
-import { navigateToLanguageSelector } from '../../helper/navigationProxy';
+import { loadUser, saveAll, loadGlobals } from '../../helper/localStorage';
+import { navigateToLanguageSelector, navigateToRoot } from '../../helper/navigationProxy';
 import { Screen } from '../../components/general/Container';
 
+function existing(str) {
+  if (!str) return false;
+  if (str !== null && str !== '') {
+    return true;
+  }
+  return false;
+}
 const styles = EStyleSheet.create({
   container: {
     backgroundColor: '#cccccc',
@@ -26,6 +33,7 @@ class SplashScreenB extends Component {
     userIsLoadingFromStorage: PropTypes.bool,
     isLoadingContent: PropTypes.bool,
     isLoadingChallenges: PropTypes.bool,
+    isLoadingGlobalsFromStorage: PropTypes.bool,
   };
 
   constructor(props) {
@@ -45,6 +53,8 @@ class SplashScreenB extends Component {
       loadUserServiceProxy(true);
     }
 
+    await loadGlobals();
+
     console.log('Load Challenges');
     loadChallengesServiceProxy(true, true);
     console.log('Load Content');
@@ -63,21 +73,25 @@ class SplashScreenB extends Component {
       this.tickerId = setInterval(() => {
         this.observeState();
       }, 100);
-    }, 1000);
+    }, 1);
   }
 
   observeState() {
-    console.log(this.ready());
     if (this.ready()) {
       clearInterval(this.tickerId);
-      navigateToLanguageSelector(this.props);
+      const language = store.getState().globals.language;
+      if (existing(language)) {
+        navigateToRoot(this.props);
+      } else {
+        navigateToLanguageSelector(this.props);
+      }
     }
   }
   _handleAppStateChange = (nextAppState) => {
     if (nextAppState === 'inactive') {
       // || nextAppState === 'active') { In case of becoming active the ticker will do it.
       sendInternalVotesServiceProxy(true);
-      saveUser();
+      saveAll();
     }
   };
 
@@ -95,6 +109,9 @@ class SplashScreenB extends Component {
       return false;
     }
     if (this.props.isLoadingChallenges) {
+      return false;
+    }
+    if (this.props.isLoadingGlobalsFromStorage) {
       return false;
     }
     return true;
@@ -116,12 +133,14 @@ const mapStateToProps = (state) => {
     const isLoadingContent = state.content.isInternalLoading;
     const isLoadingChallenges = state.challenges.isInternalLoading;
     const isLoadingUserFromStorage = state.user.userIsLoadingFromStorage;
+    const isLoadingGlobalsFromStorage = state.globals.globalsIsLoadingFromStorage;
 
     return {
       isLoadingUser,
       isLoadingUserFromStorage,
       isLoadingContent,
       isLoadingChallenges,
+      isLoadingGlobalsFromStorage,
     };
   } catch (e) {
     console.log('SplashScreenB');

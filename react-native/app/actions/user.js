@@ -24,10 +24,15 @@ export const USER_INTERNAL_VOTES_SENT = 'USER_INTERNAL_VOTES_SENT';
 export const USER_SEND_INTERNAL_VOTES_ERROR = 'USER_SEND_INTERNAL_VOTES_ERROR';
 export const SET_USER_IS_LOADING_FROM_STORAGE = 'SET_USER_IS_LOADING_FROM_STORAGE';
 export const SET_USER_LOADED_FROM_STORAGE = 'SET_USER_LOADED_FROM_STORAGE';
+export const SET_USER_LOADED_FROM_STORAGE_RESET_DEFAULTS = 'SET_USER_LOADED_FROM_STORAGE_RESET_DEFAULTS';
 
 export const setUser = user => ({
   type: SET_USER,
   user,
+});
+
+export const setUserLoadedFromStorageResetDefaults = () => ({
+  type: SET_USER_LOADED_FROM_STORAGE_RESET_DEFAULTS,
 });
 
 export const loadUser = originId => ({

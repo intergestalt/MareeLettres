@@ -36,167 +36,173 @@ function swapSomeElements(arr, count) {
   return res;
 }
 export default (state = initialState.proposals, action) => {
-  switch (action.type) {
-    case LOAD_PROPOSALS: {
-      console.log('LOAD_PROPOSALS');
-      // all 4our lists for this challenge
-      let oldProposals = state[action.challengeId];
-      // No object for this challenge or incomplete object ?
-      oldProposals = addDefaultStructure(oldProposals);
+  try {
+    switch (action.type) {
+      case LOAD_PROPOSALS: {
+        console.log('LOAD_PROPOSALS');
+        // all 4our lists for this challenge
+        let oldProposals = state[action.challengeId];
+        // No object for this challenge or incomplete object ?
+        oldProposals = addDefaultStructure(oldProposals);
 
-      // one of the list depending of what is demanded
+        // one of the list depending of what is demanded
 
-      const oldProposalList = getProposalList(
-        oldProposals,
-        action.proposalView,
-        action.proposalListMode,
-      );
+        const oldProposalList = getProposalList(
+          oldProposals,
+          action.proposalView,
+          action.proposalListMode,
+        );
 
-      if (oldProposalList.proposals.length > 0) {
-        oldProposalList.isLoading = !action.quietLoading;
-      } else {
-        oldProposalList.isLoading = true;
-      }
-      oldProposalList.isInternalLoading = true;
-      oldProposalList.isPullDownLoading = action.pullDownLoading;
-      oldProposalList.isPullUpLoading = action.pullUpLoading;
-      oldProposalList.isError = false;
-
-      const newState = { ...state };
-      newState[action.challengeId] = oldProposals;
-      return newState;
-    }
-    case PROPOSALS_LOADED: {
-      console.log('PROPOSALS_LOADED');
-      const now = new Date();
-
-      // of all 4 lists
-      const p = state[action.action.challengeId];
-      // the changed list
-      const newProposalList = getProposalList(
-        p,
-        action.action.proposalView,
-        action.action.proposalListMode,
-      );
-      const mergedProposalList = mergeProposalList(
-        newProposalList.proposals,
-        action.result.proposals,
-        action.action.proposalView,
-      );
-      newProposalList.proposals = mergedProposalList;
-      if (DEV_CONFIG.SWAP_RELOADED_PROPOSALS) {
-        if (action.action.proposalView === PROPOSAL_VIEWS.LIST) {
-          newProposalList.proposals = swapSomeElements(
-            newProposalList.proposals,
-            DEV_CONFIG.SWAP_RELOADED_PROPOSALS_COUNT,
-          );
+        if (oldProposalList.proposals.length > 0) {
+          oldProposalList.isLoading = !action.quietLoading;
+        } else {
+          oldProposalList.isLoading = true;
         }
+        oldProposalList.isInternalLoading = true;
+        oldProposalList.isPullDownLoading = action.pullDownLoading;
+        oldProposalList.isPullUpLoading = action.pullUpLoading;
+        oldProposalList.isError = false;
+
+        const newState = { ...state };
+        newState[action.challengeId] = oldProposals;
+        return newState;
       }
-      newProposalList.lastLimit = action.action.limit;
-      newProposalList.lastLoaded = action.result.proposals.length;
-      newProposalList.isLoading = false;
-      newProposalList.isInternalLoading = false;
-      newProposalList.isError = false;
-      newProposalList.isPullDownLoading = false;
-      newProposalList.isPullUpLoading = false;
-      newProposalList.time = now.getTime();
-      const key = getProposalKey(action.action.proposalView, action.action.proposalListMode);
+      case PROPOSALS_LOADED: {
+        console.log('PROPOSALS_LOADED');
+        const now = new Date();
 
-      // New object
-      const challengeProposals = {
-        ...p,
-      };
-      challengeProposals[key] = newProposalList;
-
-      const result = {
-        ...state,
-      };
-
-      result[action.action.challengeId] = challengeProposals;
-      return result;
-    }
-    case NETWORK_ERROR_LOAD_PROPOSALS: {
-      console.log('NETWORK_ERROR_LOAD_PROPOSALS');
-      const oldProposals = state[action.challengeId];
-      oldProposals.isLoading = false;
-      oldProposals.isInternalLoading = false;
-      oldProposals.isError = false;
-      oldProposals.isPullDownLoading = false;
-      oldProposals.isPullUpLoading = false;
-      const result = {
-        ...state,
-      };
-      result[action.challengeId] = oldProposals;
-
-      return result;
-    }
-    case DELETE_PROPOSAL_FROM_TINDER_LIST: {
-      const proposalId = action.proposalId;
-
-      // of all 4 lists
-      const p = state[action.challengeId];
-      // correct List
-      const listToChange = getProposalList(p, PROPOSAL_VIEWS.TINDER);
-      const oldProposals = listToChange.proposals;
-
-      if (!proposalId) {
-        oldProposals.shift();
-      } else {
-        let index = -1;
-        for (let i = 0; i < oldProposals.length; i += 1) {
-          const id = oldProposals[i]._id;
-          if (id === proposalId) {
-            index = i;
+        // of all 4 lists
+        const p = state[action.action.challengeId];
+        // the changed list
+        const newProposalList = getProposalList(
+          p,
+          action.action.proposalView,
+          action.action.proposalListMode,
+        );
+        const mergedProposalList = mergeProposalList(
+          newProposalList.proposals,
+          action.result.proposals,
+          action.action.proposalView,
+        );
+        newProposalList.proposals = mergedProposalList;
+        if (DEV_CONFIG.SWAP_RELOADED_PROPOSALS) {
+          if (action.action.proposalView === PROPOSAL_VIEWS.LIST) {
+            newProposalList.proposals = swapSomeElements(
+              newProposalList.proposals,
+              DEV_CONFIG.SWAP_RELOADED_PROPOSALS_COUNT,
+            );
           }
         }
-        if (index >= 0) {
-          oldProposals.splice(index, 1);
+        newProposalList.lastLimit = action.action.limit;
+        newProposalList.lastLoaded = action.result.proposals.length;
+        newProposalList.isLoading = false;
+        newProposalList.isInternalLoading = false;
+        newProposalList.isError = false;
+        newProposalList.isPullDownLoading = false;
+        newProposalList.isPullUpLoading = false;
+        newProposalList.time = now.getTime();
+        const key = getProposalKey(action.action.proposalView, action.action.proposalListMode);
+
+        // New object
+        const challengeProposals = {
+          ...p,
+        };
+        challengeProposals[key] = newProposalList;
+
+        const result = {
+          ...state,
+        };
+
+        result[action.action.challengeId] = challengeProposals;
+        return result;
+      }
+      case NETWORK_ERROR_LOAD_PROPOSALS: {
+        console.log('NETWORK_ERROR_LOAD_PROPOSALS');
+        const oldProposals = state[action.challengeId];
+        oldProposals.isLoading = false;
+        oldProposals.isInternalLoading = false;
+        oldProposals.isError = false;
+        oldProposals.isPullDownLoading = false;
+        oldProposals.isPullUpLoading = false;
+        const result = {
+          ...state,
+        };
+        result[action.challengeId] = oldProposals;
+
+        return result;
+      }
+      case DELETE_PROPOSAL_FROM_TINDER_LIST: {
+        const proposalId = action.proposalId;
+
+        // of all 4 lists
+        const p = state[action.challengeId];
+        // correct List
+        const listToChange = getProposalList(p, PROPOSAL_VIEWS.TINDER);
+        const oldProposals = listToChange.proposals;
+
+        if (!proposalId) {
+          oldProposals.shift();
+        } else {
+          let index = -1;
+          for (let i = 0; i < oldProposals.length; i += 1) {
+            const id = oldProposals[i]._id;
+            if (id === proposalId) {
+              index = i;
+            }
+          }
+          if (index >= 0) {
+            oldProposals.splice(index, 1);
+          }
         }
+
+        const p1 = getProposalList(p, PROPOSAL_VIEWS.TINDER);
+        const c1 = {
+          ...p1,
+          proposals: Array.from(oldProposals),
+        };
+
+        const challengeProposals = {
+          ...p,
+          tinder: c1,
+        };
+
+        const result = {
+          ...state,
+        };
+        result[action.challengeId] = challengeProposals;
+        return result;
       }
-
-      const p1 = getProposalList(p, PROPOSAL_VIEWS.TINDER);
-      const c1 = {
-        ...p1,
-        proposals: Array.from(oldProposals),
-      };
-
-      const challengeProposals = {
-        ...p,
-        tinder: c1,
-      };
-
-      const result = {
-        ...state,
-      };
-      result[action.challengeId] = challengeProposals;
-      return result;
-    }
-    case CUT_PROPOSAL_LIST_TO_DEFAULT: {
-      // of all 4 lists
-      const p = state[action.challengeId];
-      // the changed list
-      const proposalList = getProposalList(p, action.proposalView, action.proposalListMode);
-      const cuttedProposalList = cutProposalList(proposalList.proposals, action.proposalView);
-      proposalList.proposals = cuttedProposalList;
-      if (action.proposalView === PROPOSAL_VIEWS.LIST) {
-        proposalList.lastLimit = LOAD_CONFIG.DEFAULT_PROPOSAL_LIST_LIMIT;
-        proposalList.lastLoaded = LOAD_CONFIG.DEFAULT_PROPOSAL_LIST_LIMIT;
-      } else {
-        proposalList.lastLimit = LOAD_CONFIG.DEFAULT_PROPOSAL_TINDER_LIMIT;
-        proposalList.lastLoaded = LOAD_CONFIG.DEFAULT_PROPOSAL_TINDER_LIMIT;
+      case CUT_PROPOSAL_LIST_TO_DEFAULT: {
+        // of all 4 lists
+        const p = state[action.challengeId];
+        // the changed list
+        const proposalList = getProposalList(p, action.proposalView, action.proposalListMode);
+        const cuttedProposalList = cutProposalList(proposalList.proposals, action.proposalView);
+        proposalList.proposals = cuttedProposalList;
+        if (action.proposalView === PROPOSAL_VIEWS.LIST) {
+          proposalList.lastLimit = LOAD_CONFIG.DEFAULT_PROPOSAL_LIST_LIMIT;
+          proposalList.lastLoaded = LOAD_CONFIG.DEFAULT_PROPOSAL_LIST_LIMIT;
+        } else {
+          proposalList.lastLimit = LOAD_CONFIG.DEFAULT_PROPOSAL_TINDER_LIMIT;
+          proposalList.lastLoaded = LOAD_CONFIG.DEFAULT_PROPOSAL_TINDER_LIMIT;
+        }
+        const challengeProposals = {
+          ...p,
+        };
+        const key = getProposalKey(action.proposalView, action.proposalListMode);
+        challengeProposals[key].proposals = cuttedProposalList;
+        const result = {
+          ...state,
+        };
+        result[action.challengeId] = challengeProposals;
+        return result;
       }
-      const challengeProposals = {
-        ...p,
-      };
-      const key = getProposalKey(action.proposalView, action.proposalListMode);
-      challengeProposals[key].proposals = cuttedProposalList;
-      const result = {
-        ...state,
-      };
-      result[action.challengeId] = challengeProposals;
-      return result;
+      default:
+        return state;
     }
-    default:
-      return state;
+  } catch (e) {
+    console.log('Reducer proposals');
+    console.log(e);
+    throw e;
   }
 };
