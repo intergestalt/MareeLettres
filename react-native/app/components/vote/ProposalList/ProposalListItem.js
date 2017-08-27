@@ -95,7 +95,8 @@ const mapStateToProps = (state, ownProps) => {
     };
   } catch (e) {
     console.log('ProposalListItem');
-    console.log(e); throw e;
+    console.log(e);
+    throw e;
   }
 };
 export default connect(mapStateToProps)(ProposalListItem);

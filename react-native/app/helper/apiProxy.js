@@ -137,7 +137,6 @@ export function loadProposalsServiceProxy(
 ) {
   const proposalView = store.getState().globals.proposalView;
   const proposalListMode = store.getState().globals.proposalListMode;
-  console.log(`LOAD ${proposalListMode}`);
   // all 4 lists
   const allProposals = store.getState().proposals[challengeId];
   // correct list
@@ -184,57 +183,6 @@ export function loadProposalsServiceProxy(
   return false;
 }
 
-// Load only if there are not enough tinder proposals
-export function loadTinderProposalsServiceProxy(challengeId, limit, force, lastNotLoad) {
-  const originId = store.getState().user.origin_id;
-  const proposalView = PROPOSAL_VIEWS.TINDER;
-  const proposalListMode = null;
-  // all 4 lists
-  const allProposals = store.getState().proposals[challengeId];
-  // correct list
-
-  let list = null;
-  if (allProposals) {
-    list = getProposalList(allProposals, proposalView, proposalListMode);
-  }
-  // If enough tinder proposals: DONT
-  if (list.proposals.length > LOAD_CONFIG.PROPOSAL_RELOAD_TINDER_OFFSET) {
-    return;
-  }
-  if (isLoading(list)) {
-    return;
-  }
-
-  // IF NOT: Check force, timout
-  let doit = checkReload(force, list, LOAD_CONFIG.UPDATE_PROPOSALS_AFTER);
-
-  // FIRST LOAD??? Only if nothing is loaded the last time.
-  if (emptyOrNull(list)) {
-    if (!lastNotLoad) {
-      doit = true;
-    }
-  }
-  if (list.proposals.length <= LOAD_CONFIG.PROPOSAL_RELOAD_TINDER_OFFSET) {
-    doit = true;
-  } else {
-    doit = false;
-  }
-
-  if (doit) {
-    store.dispatch(
-      loadProposals(
-        originId,
-        challengeId,
-        proposalView,
-        proposalListMode,
-        limit,
-        true,
-        false,
-        false,
-      ),
-    );
-  }
-}
 export function loadLettersServiceProxy() {
   store.dispatch(loadLetters());
 }

@@ -5,10 +5,7 @@ import { connect } from 'react-redux';
 import { ProposalListItem, ProposalListHeader, styles } from './';
 import { Separator } from '../ChallengesList/';
 import { getProposalList } from '../../../helper/proposalsHelper';
-import {
-  loadProposalsServiceProxy,
-  loadTinderProposalsServiceProxy,
-} from '../../../helper/apiProxy';
+import { loadProposalsServiceProxy } from '../../../helper/apiProxy';
 import { LOAD_CONFIG } from '../../../config/config';
 import { userVoteInternal } from '../../../actions/user';
 import { deleteProposalFromTinderList } from '../../../actions/proposals';
@@ -84,18 +81,6 @@ class ProposalList extends PureComponent {
   onVotePress(proposalId, challengeId, yes) {
     this.props.dispatch(userVoteInternal(proposalId, yes));
     this.props.dispatch(deleteProposalFromTinderList(challengeId, proposalId));
-    let force = false;
-    let lastNotLoad = true;
-    if (this.props.lastLoaded > 0) {
-      force = true;
-      lastNotLoad = false;
-    }
-    loadTinderProposalsServiceProxy(
-      challengeId,
-      LOAD_CONFIG.DEFAULT_PROPOSAL_TINDER_LIMIT,
-      force,
-      lastNotLoad,
-    );
   }
 
   getChallenge() {

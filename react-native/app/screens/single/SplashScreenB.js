@@ -41,7 +41,7 @@ class SplashScreenB extends Component {
     await loadUser();
     const loaded = store.getState().user.userLoadedFromStorage;
     if (!loaded) {
-      console.log('NO USER ON DISC!');
+      console.log('LOAD FROM WWW');
       loadUserServiceProxy(true);
     }
 
@@ -59,12 +59,11 @@ class SplashScreenB extends Component {
     this.setState({ isFontsReady: true });
   }
   componentDidMount() {
-    console.log('SET INTERVALL');
     setTimeout(() => {
       this.tickerId = setInterval(() => {
         this.observeState();
       }, 100);
-    }, 5000);
+    }, 1000);
   }
 
   observeState() {
