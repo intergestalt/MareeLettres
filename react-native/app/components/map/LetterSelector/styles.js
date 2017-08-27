@@ -10,7 +10,7 @@ export default EStyleSheet.create({
     color: 'black',
     fontSize: '1.2rem',
     fontFamily: 'impact',
-    paddingBottom: 12,
+    paddingBottom: 18,
   },
   keyboard: {
     width: '100%',

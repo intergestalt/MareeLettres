@@ -23,7 +23,9 @@ class QRCodeBox extends Component {
 
 const mapStateToProps = (state) => {
   try {
-    const input = state.user.origin_id;
+    // TODO map to user state.user.origin_id; or transaction id
+    const salt = '1337_SALT';
+    const input = state.user.primary_letter.character + salt;
 
     return {
       input,

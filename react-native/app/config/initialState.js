@@ -8,8 +8,8 @@ const originId = OriginId.generateFromDeviceId(Expo.Constants.deviceId);
 const sampleDate = new Date().toISOString();
 const lat = 52.4972;
 const lng = 13.4377;
-const latDelta = 0.001;
-const lngDelta = 0.001;
+const latDelta = 0.0008;
+const lngDelta = 0.0008;
 const dropZoneRadius = 30;
 
 export default {
