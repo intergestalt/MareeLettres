@@ -44,9 +44,10 @@ export const setUserLoadedFromStorage = yes => ({
   type: SET_USER_LOADED_FROM_STORAGE,
   yes,
 });
-export const getUserLetter = () => ({
+export const setUserLetter = (char) => ({
   type: USER_GET_LETTER,
   errorEvent: USER_UPDATE_ERROR,
+  character: char,
 });
 
 export const setUserId = () => ({

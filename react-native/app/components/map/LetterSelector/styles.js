@@ -10,5 +10,21 @@ export default EStyleSheet.create({
     color: 'black',
     fontSize: '1.2rem',
     fontFamily: 'impact',
-  }
+    paddingBottom: 12,
+  },
+  keyboard: {
+    width: '100%',
+  },
+  keyboard__row: {
+    width: '100%',
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
+  },
+  key: {
+    fontFamily: 'impact',
+    fontSize: '1.8rem',
+    color: 'black',
+    padding: 6,
+  },
 });

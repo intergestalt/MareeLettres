@@ -33,6 +33,37 @@ class Map extends Component {
   render() {
     console.log('MAP RENDERED');
 
+    const myLetters = this.props.my_letters.map((item, i) => {
+      const t = new Date().getTime() - new Date(item.last_used_at).getTime();
+      let opacity = Math.max(0, 1 - t / 60000);
+
+      return (
+        <MapView.Marker
+          key={i}
+          coordinate={{ latitude: item.coords.lat, longitude: item.coords.lng }}
+        >
+          <Text style={[styles.letter, { opacity }]}>
+            {item.character}
+          </Text>
+        </MapView.Marker>
+      );
+    });
+    
+    const mapLetters = this.props.letters.map((item, i) => {
+      if (i < 30) {
+        return (
+          <MapView.Marker
+            key={i}
+            coordinate={{ latitude: item.coords.lat, longitude: item.coords.lng }}
+          >
+            <Text style={styles.letter}>
+              {item.character}
+            </Text>
+          </MapView.Marker>
+        );
+      }
+    })
+
     return (
       <View style={styles.container}>
         <MapView
@@ -62,41 +93,8 @@ class Map extends Component {
             <Text style={styles.letter_dropzone}>Drop Zone</Text>
           </MapView.Marker>
 
-          {this.props.my_letters.map((item, i) => {
-            // prototype fade function
-            // TODO: shift to reducer, remove invisible letters
-
-            const t = new Date().getTime() - new Date(item.last_used_at).getTime();
-            let opacity = 1 - t / 60000;
-            if (opacity < 0) {
-              opacity = 0;
-            }
-
-            return (
-              <MapView.Marker
-                key={i}
-                coordinate={{ latitude: item.coords.lat, longitude: item.coords.lng }}
-              >
-                <Text style={[styles.letter, { opacity }]}>
-                  {item.character}
-                </Text>
-              </MapView.Marker>
-            );
-          })}
-          {this.props.letters.map((item, i) => {
-            if (i < 30) {
-              return (
-                <MapView.Marker
-                  key={i}
-                  coordinate={{ latitude: item.coords.lat, longitude: item.coords.lng }}
-                >
-                  <Text style={styles.letter}>
-                    {item.character}
-                  </Text>
-                </MapView.Marker>
-              );
-            }
-          })}
+          { mapLetters }
+          { myLetters }
         </MapView>
       </View>
     );

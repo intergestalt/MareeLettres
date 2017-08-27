@@ -89,42 +89,11 @@ export default (state = initialState.user, action) => {
     case USER_GET_LETTER: {
       console.log('Reducer: USER_GET_LETTER');
 
-      // get random letter for now
-      // TODO: replace with keyboard component
-      const letters = [
-        'A',
-        'B',
-        'C',
-        'D',
-        'E',
-        'F',
-        'G',
-        'H',
-        'I',
-        'J',
-        'K',
-        'L',
-        'M',
-        'N',
-        'O',
-        'P',
-        'Q',
-        'R',
-        'S',
-        'T',
-        'U',
-        'V',
-        'W',
-        'X',
-        'Y',
-        'Z',
-      ];
-      const char = letters[Math.floor(Math.random() * 26)];
       return {
         ...state,
         primary_letter: {
           ...state.primary_letter,
-          character: char,
+          character: action.character,
         },
       };
     }

@@ -8,7 +8,7 @@ import {
   reviveLetterMenu,
   wipeLetterMenu,
   deleteLetters,
-  getUserLetter,
+  setUserLetter,
   binLetter,
 } from '../actions/user';
 
@@ -34,7 +34,6 @@ export function wipeLetterMenuProxy() {
   store.dispatch(wipeLetterMenu());
 }
 
-export function getUserLetterProxy() {
-  console.log('proxy user letter');
-  store.dispatch(getUserLetter());
+export function setUserLetterProxy(char) {
+  store.dispatch(setUserLetter(char));
 }
