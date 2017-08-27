@@ -4,7 +4,6 @@ import {
   SET_USER,
   LOAD_USER_ERROR,
   USER_SET_ID,
-  USER_SET_COORDINATES,
   USER_SET_SECONDARY_LETTERS,
   USER_SET_PRIMARY_LETTER,
   USER_DELETE_LETTERS,
@@ -14,15 +13,17 @@ import {
   USER_UPDATE_ERROR,
   USER_GET_LETTER,
   USER_BIN_LETTER,
+  USER_ADD_FRIEND_LETTER,
   USER_VOTE_INTERNAL,
   USER_SEND_INTERNAL_VOTES,
   USER_INTERNAL_VOTES_SENT,
   USER_SEND_INTERNAL_VOTES_ERROR,
   SET_USER_IS_LOADING_FROM_STORAGE,
   SET_USER_LOADED_FROM_STORAGE,
+  SET_USER_LOADED_FROM_STORAGE_RESET_DEFAULTS,
 } from '../actions/user';
 
-import { CHANGE_MAP_REGION } from '../actions/map';
+import { CHANGE_MAP_REGION, USER_SET_COORDINATES } from '../actions/map';
 
 import initialState from '../config/initialState';
 import { saveUser } from '../helper/localStorage';
@@ -45,22 +46,108 @@ export default (state = initialState.user, action) => {
         };
         return result;
       }
-      case USER_LOADED: {
-        console.log('USER_LOADED');
-        const newVotes = {};
-        const proposalIds = Object.keys(action.result.votes);
 
-        for (let i = 0; i < proposalIds.length; i += 1) {
-          const proposalId = proposalIds[i];
-          newVotes[proposalId] = { bool: action.result.votes[proposalId] };
+    case LOAD_USER_ERROR: {
+      console.log('LOAD_USER_ERROR');
+      return state;
+    }
+    case SET_USER: {
+      console.log('REDUCER: SET_USER');
+      const user = action.user;
+      return user;
+    }
+    // Redux local storage
+    case SET_USER_IS_LOADING_FROM_STORAGE: {
+      console.log(`SET_USER_IS_LOADING_FROM_STORAGE ${action.yes}`);
+      return { ...state, userIsLoadingFromStorage: action.yes };
+    }
+
+    case SET_USER_LOADED_FROM_STORAGE: {
+      return {
+        ...state,
+        userLoadedFromStorage: action.yes
+      };
+    }
+
+    case SET_USER_LOADED_FROM_STORAGE_RESET_DEFAULTS: {
+      // reset values that were on a timeout when app closed
+
+      console.log('Reducer: SET_USER_LOADED_FROM_STORAGE_RESET_DEFAULTS');
+      return {
+        ...state,
+        map: {
+          ...state.map,
+          letters_selected: {
+            ...state.map.letters_selected,
+            mine: false,
+            friends: [false, false, false, false],
+          }
         }
-        const result = {
-          ...state,
-          votes: newVotes,
-          isInternalLoading: false,
-        };
-        return result;
       }
+    };
+
+    case CHANGE_MAP_REGION:
+      console.log('Reducer: CHANGE_MAP_REGION');
+      return {
+        ...state,
+        map: {
+          ...state.map,
+          coordinates: action.region,
+        },
+      };
+
+    case USER_GET_LETTER: {
+      console.log('Reducer: USER_GET_LETTER');
+
+      return {
+        ...state,
+        primary_letter: {
+          ...state.primary_letter,
+          character: action.character,
+        },
+      };
+    }
+
+    case USER_ADD_FRIEND_LETTER: {
+      console.log('Reducer: USER_ADD_FRIEND_LETTER');
+
+      // prevent bad characters, TODO: remove (API res trusted)
+      if (!action.character.match(/[a-z]/i)) {
+        return state;
+      }
+
+      let letters = [ ...state.secondary_letters ];
+      letters.unshift({
+        character: action.character,
+        acquired_at: (new Date()).toISOString,
+        last_used_at: (new Date()).toISOString,
+      });
+
+      // delete extra letters
+      letters.splice(4, 4);
+
+      return {
+        ...state,
+        secondary_letters: [ ...letters ],
+      }
+    }
+
+    case USER_LOADED: {
+      console.log('USER_LOADED 13337 !');
+      const newVotes = {};
+      const proposalIds = Object.keys(action.result.votes);
+
+      for (let i = 0; i < proposalIds.length; i += 1) {
+        const proposalId = proposalIds[i];
+        newVotes[proposalId] = { bool: action.result.votes[proposalId] };
+      }
+      const result = {
+        ...state,
+        votes: newVotes,
+        isInternalLoading: false,
+      };
+      return result;
+    }
 
       case LOAD_USER_ERROR: {
         console.log('LOAD_USER_ERROR');
@@ -90,50 +177,7 @@ export default (state = initialState.user, action) => {
         saveUser(result);
         return result;
       }
-      case USER_GET_LETTER: {
-        console.log('Reducer: USER_GET_LETTER');
 
-        // get random letter for now
-        // TODO: replace with keyboard component
-        const letters = [
-          'A',
-          'B',
-          'C',
-          'D',
-          'E',
-          'F',
-          'G',
-          'H',
-          'I',
-          'J',
-          'K',
-          'L',
-          'M',
-          'N',
-          'O',
-          'P',
-          'Q',
-          'R',
-          'S',
-          'T',
-          'U',
-          'V',
-          'W',
-          'X',
-          'Y',
-          'Z',
-        ];
-        const char = letters[Math.floor(Math.random() * 26)];
-        const result = {
-          ...state,
-          primary_letter: {
-            ...state.primary_letter,
-            character: char,
-          },
-        };
-        saveUser(result);
-        return result;
-      }
       case USER_UPDATE_LETTER_MENU: {
         console.log('Reducer: USER_UPDATE_LETTER_MENU');
 
@@ -231,9 +275,16 @@ export default (state = initialState.user, action) => {
         console.log('Reducer: USER_SET_ID');
         return state;
 
-      case USER_SET_COORDINATES:
-        console.log('Reducer: USER_SET_COORDINATES');
-        return state;
+    case USER_SET_COORDINATES:
+      console.log('Reducer: USER_SET_COORDINATES');
+      return {
+        ...state,
+        coordinates: {
+          ...state.coordinates,
+          latitude: action.lat,
+          longitude: action.lng,
+        }
+      };
 
       case USER_SET_PRIMARY_LETTER:
         console.log('Reducer: USER_SET_PRIMARY_LETTER');

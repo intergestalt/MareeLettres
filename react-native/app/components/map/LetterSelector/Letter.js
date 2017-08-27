@@ -1,5 +1,5 @@
 import React, { PropTypes, Component } from 'react';
-import { View, Text, Button } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 
 import { BackSimple } from '../../general/BackButton';
@@ -7,7 +7,7 @@ import { BackSimple } from '../../general/BackButton';
 import styles from './styles';
 
 import { navigateToMapOverview } from '../../../helper/navigationProxy';
-import { getUserLetterProxy } from '../../../helper/userHelper';
+import { setUserLetterProxy } from '../../../helper/userHelper';
 
 class LetterSelectorWindow extends Component {
   static propTypes = {
@@ -15,8 +15,8 @@ class LetterSelectorWindow extends Component {
     myLetter: PropTypes.string,
   };
 
-  onPress = () => {
-    getUserLetterProxy();
+  onPress = (char) => {
+    setUserLetterProxy(char);
     navigateToMapOverview(this.props);
   };
 
@@ -24,15 +24,42 @@ class LetterSelectorWindow extends Component {
     navigateToMapOverview(this.props);
   }
 
+  keyboard(item, i) {
+    return (
+      <TouchableOpacity key={i} onPress={() => this.onPress(item)}>
+        <Text style={styles.key}>{ item }</Text>
+      </TouchableOpacity>
+    );
+  }
+
   render() {
+    // available letters
+    let rowTop = ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'];
+    let rowMid = ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L'];
+    let rowBottom = ['Z', 'X', 'C', 'V', 'B', 'N', 'M'];
+
+    // format
+    rowTop = rowTop.map((item, i) => this.keyboard(item, i));
+    rowMid = rowMid.map((item, i) => this.keyboard(item, i));
+    rowBottom = rowBottom.map((item, i) => this.keyboard(item, i));
+
     return (
       <View style={styles.container}>
         <BackSimple onPress={() => this.handleBackPress()} />
         <Text style={styles.text}>
-          My letter is: {this.props.myLetter}
+          Choose Your Letter:
         </Text>
-        <Button title={'Get random letter !'} onPress={this.onPress} />
-        <Text>Todo: replace with keyboard component</Text>
+        <View style={styles.keyboard}>
+          <View style={styles.keyboard__row}>
+            { rowTop }
+          </View>
+          <View style={styles.keyboard__row}>
+            { rowMid }
+          </View>
+          <View style={styles.keyboard__row}>
+            { rowBottom }
+          </View>
+        </View>
       </View>
     );
   }

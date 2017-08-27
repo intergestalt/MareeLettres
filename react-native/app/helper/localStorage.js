@@ -1,6 +1,6 @@
 import { AsyncStorage } from 'react-native';
 import store from '../config/store';
-import { setUser, setUserIsLoadingFromStorage, setUserLoadedFromStorage } from '../actions/user';
+import { setUser, setUserIsLoadingFromStorage, setUserLoadedFromStorage, setUserLoadedFromStorageResetDefaults } from '../actions/user';
 import { setGlobals, setGlobalsIsLoadingFromStorage } from '../actions/general';
 
 function existing(str) {
@@ -36,6 +36,7 @@ export async function loadUser() {
       store.dispatch(setUser(user));
       store.dispatch(setUserIsLoadingFromStorage(false));
       store.dispatch(setUserLoadedFromStorage(true));
+      store.dispatch(setUserLoadedFromStorageResetDefaults());
       return;
     }
     store.dispatch(setUserIsLoadingFromStorage(false));

@@ -1,11 +1,10 @@
 import React, { Component, PropTypes } from 'react';
 import { View, Text } from 'react-native';
 import MapView from 'react-native-maps';
-
-import { changeMapRegionProxy } from '../../../helper/mapHelper';
-
+import { changeMapRegionProxy, setUserCoordinatesProxy } from '../../../helper/mapHelper';
 import { connect } from 'react-redux';
 import { styles, mapstyles } from './styles';
+import Exponent from 'expo';
 
 class Map extends Component {
   static propTypes = {
@@ -16,6 +15,42 @@ class Map extends Component {
     dropzone_radius: PropTypes.number,
     coordinates: PropTypes.object,
   };
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      lat: this.props.coordinates.latitude,
+      lng: this.props.coordinates.longitude,
+      set: false,
+    };
+  }
+
+  async _getPlayerCoords() {
+    const {Location, Permissions} = Exponent;
+    const {status} = await Permissions.askAsync(Permissions.LOCATION);
+    if (status === 'granted') {
+      Location.getCurrentPositionAsync().then((res) => {
+        setUserCoordinatesProxy(res.coords.latitude, res.coords.longitude);
+
+        if (!this.state.set) {
+          // go to my coordinates once
+          this._map._component.animateToCoordinate({
+              latitude: res.coords.latitude,
+              longitude: res.coords.longitude,
+            }, 1
+          );
+        }
+        this.setState({lng: res.coords.longitude, lat: res.coords.latitude, set: true});
+      });
+    } else {
+      throw new Error('Location permission not granted');
+    }
+  }
+
+  componentDidMount() {
+    this._getPlayerCoords();
+  }
 
   onPress = (e) => {
     const region = e.nativeEvent;
@@ -33,71 +68,85 @@ class Map extends Component {
   render() {
     console.log('MAP RENDERED');
 
+    const myLetters = this.props.my_letters.map((item, i) => {
+      const t = new Date().getTime() - new Date(item.last_used_at).getTime();
+      const opacity = Math.max(0.25, 1 - t / 60000);
+
+      return (
+        <MapView.Marker
+          key={i}
+          coordinate={{ latitude: item.coords.lat, longitude: item.coords.lng }}
+        >
+          <Text style={[styles.letter, { opacity }]}>
+            {item.character}
+          </Text>
+        </MapView.Marker>
+      );
+    });
+    const mapLetters = this.props.letters.map((item, i) => {
+      // TODO: remove check (clean up server)
+      if (typeof(item.coords.lat) !== 'string') {
+        return (
+          <MapView.Marker
+            key={i}
+            coordinate={{ latitude: item.coords.lat, longitude: item.coords.lng }}
+          >
+            <Text style={styles.letter}>
+              {item.character}
+            </Text>
+          </MapView.Marker>
+        );
+      }
+    })
+
     return (
       <View style={styles.container}>
-        <MapView
+        <MapView.Animated
+          ref={(input) => { this._map = input; }}
           onRegionChange={this.onRegionChange}
           onRegionChangeComplete={this.onRegionChangeComplete}
           onPress={this.onPress}
           provider={MapView.PROVIDER_GOOGLE}
           style={styles.container}
-          initialRegion={{ ...this.props.coordinates }}
+          initialRegion={{
+            latitude: this.state.lat,
+            longitude: this.state.lng,
+            latitudeDelta: this.props.coordinates.latitudeDelta,
+            longitudeDelta: this.props.coordinates.longitudeDelta,
+          }}
           rotateEnabled={false}
           customMapStyle={mapstyles}
         >
-          <MapView.Circle center={{ ...this.props.coordinates }} radius={1} strokeColor={'#fff'} />
+
+          { mapLetters }
+          { myLetters }
+
           <MapView.Circle
-            center={{ ...this.props.coordinates }}
+            center={{
+              latitude: this.state.lat,
+              longitude: this.state.lng
+            }}
+            radius={1}
+            strokeColor={'#fff'}
+            />
+          <MapView.Circle
+            center={{
+              latitude: this.state.lat,
+              longitude: this.state.lng,
+            }}
             radius={this.props.dropzone_radius}
             strokeColor={'rgba(255,255,255,0.25)'}
-            fillColor={'rgba(255,255,255,0.1)'}
-          />
+            fillColor={'rgba(255,255,255,0.1)'} />
           <MapView.Marker
             title={'drop_zone'}
             coordinate={{
-              latitude: this.props.coordinates.latitude + 0.00005,
-              longitude: this.props.coordinates.longitude,
-            }}
-          >
+              latitude: this.state.lat + 0.00005,
+              longitude: this.state.lng,
+            }} >
             <Text style={styles.letter_dropzone}>Drop Zone</Text>
           </MapView.Marker>
 
-          {this.props.my_letters.map((item, i) => {
-            // prototype fade function
-            // TODO: shift to reducer, remove invisible letters
-
-            const t = new Date().getTime() - new Date(item.last_used_at).getTime();
-            let opacity = 1 - t / 60000;
-            if (opacity < 0) {
-              opacity = 0;
-            }
-
-            return (
-              <MapView.Marker
-                key={i}
-                coordinate={{ latitude: item.coords.lat, longitude: item.coords.lng }}
-              >
-                <Text style={[styles.letter, { opacity }]}>
-                  {item.character}
-                </Text>
-              </MapView.Marker>
-            );
-          })}
-          {this.props.letters.map((item, i) => {
-            if (i < 30) {
-              return (
-                <MapView.Marker
-                  key={i}
-                  coordinate={{ latitude: item.coords.lat, longitude: item.coords.lng }}
-                >
-                  <Text style={styles.letter}>
-                    {item.character}
-                  </Text>
-                </MapView.Marker>
-              );
-            }
-          })}
-        </MapView>
+        </MapView.Animated>
       </View>
     );
   }
