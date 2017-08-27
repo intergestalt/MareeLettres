@@ -53,22 +53,7 @@ export default {
     },
     secondary_letters: [
       {
-        character: 'L',
-        acquired_at: sampleDate,
-        last_used_at: sampleDate,
-      },
-      {
-        character: 'O',
-        acquired_at: sampleDate,
-        last_used_at: sampleDate,
-      },
-      {
-        character: 'V',
-        acquired_at: sampleDate,
-        last_used_at: sampleDate,
-      },
-      {
-        character: 'E',
+        character: 'A',
         acquired_at: sampleDate,
         last_used_at: sampleDate,
       },

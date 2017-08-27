@@ -4,6 +4,7 @@ import { View, Text, PanResponder, Animated, TouchableOpacity, Dimensions } from
 import { updateLetterMenuProxy, reviveLetterMenuProxy, binLetterProxy } from '../../../helper/userHelper';
 import { putLetterOnMapProxy } from '../../../helper/mapHelper';
 import { navigateToLetterSelector } from '../../../helper/navigationProxy';
+import { postLetterServiceProxy } from '../../../helper/apiProxy';
 
 import { connect } from 'react-redux';
 
@@ -135,9 +136,12 @@ class Letter extends Component {
       return false;
     }
 
-    // put letter on map
+    // put letter on local map
     putLetterOnMapProxy(this.props.character, lat, lng);
     updateLetterMenuProxy(this.props.index);
+
+    // send to server
+    postLetterServiceProxy(this.props.character, lat, lng);
 
     // set timer to reactivate letter
     if (!this.props.main) {

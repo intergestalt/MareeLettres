@@ -35,7 +35,7 @@ class Map extends Component {
 
     const myLetters = this.props.my_letters.map((item, i) => {
       const t = new Date().getTime() - new Date(item.last_used_at).getTime();
-      let opacity = Math.max(0, 1 - t / 60000);
+      let opacity = Math.max(0.1, 1 - t / 60000);
 
       return (
         <MapView.Marker
@@ -48,9 +48,9 @@ class Map extends Component {
         </MapView.Marker>
       );
     });
-    
+
     const mapLetters = this.props.letters.map((item, i) => {
-      if (i < 30) {
+      //if (i < 30) {
         return (
           <MapView.Marker
             key={i}
@@ -61,7 +61,7 @@ class Map extends Component {
             </Text>
           </MapView.Marker>
         );
-      }
+      //}
     })
 
     return (

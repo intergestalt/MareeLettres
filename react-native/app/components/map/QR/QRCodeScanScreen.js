@@ -58,7 +58,9 @@ class QRCodeScanScreen extends Component {
             ? <Text>Permission not granted</Text>
             : <BarCodeScanner
                 onBarCodeRead={this.handleQRCode}
-                style={styles.QRReader} />
+                style={styles.QRReader}
+                barCodeTypes={[BarCodeScanner.Constants.BarCodeType.qr]}
+                />
         }
 
         <Text style={styles.textWhite}>
