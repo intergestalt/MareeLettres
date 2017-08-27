@@ -128,10 +128,10 @@ class Letter extends Component {
     let lng = c.longitude + tx * c.longitudeDelta;
 
     // check if letter inside drop-zone
-    const approxMetresPerLngDeg = Math.abs(111132.954 * Math.cos(lat));
+    const approxMetresPerLatDeg = Math.abs(111132.954 - 559.822 * Math.cos(2 * lat) + 1.175 * Math.cos(4 * lat));
     let mag = Math.sqrt(Math.pow(lat - user.coordinates.latitude, 2) + Math.pow(lng - user.coordinates.longitude, 2));
 
-    if (mag * approxMetresPerLngDeg > user.map.dropzone_radius) {
+    if (mag * approxMetresPerLatDeg > user.map.dropzone_radius) {
       return false;
     }
 
