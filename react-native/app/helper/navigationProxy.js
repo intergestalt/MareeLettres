@@ -80,13 +80,6 @@ export function navigateToQRCodeGet(props) {
 
 export function navigateToQRCodeSend(props) {
   props.navigation.navigate('QRCodeSend');
-
-  /*
-  const navigateAction = NavigationActions.navigate({
-    routeName: 'QRCodeSend',
-    params: {visible: false},
-  });
-  props.navigation.dispatch(navigateAction); */
 }
 
 // Vote Stack

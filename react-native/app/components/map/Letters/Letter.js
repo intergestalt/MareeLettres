@@ -5,6 +5,8 @@ import { updateLetterMenuProxy, reviveLetterMenuProxy, binLetterProxy } from '..
 import { putLetterOnMapProxy } from '../../../helper/mapHelper';
 import { navigateToLetterSelector } from '../../../helper/navigationProxy';
 
+import { connect } from 'react-redux';
+
 import styles from './styles';
 
 class Letter extends Component {
@@ -15,6 +17,9 @@ class Letter extends Component {
     id: PropTypes.string,
     main: PropTypes.bool,
     index: PropTypes.number,
+    user: PropTypes.object,
+    mapLat: PropTypes.number,
+    mapLng: PropTypes.number,
   }
 
   constructor(props){
@@ -30,18 +35,7 @@ class Letter extends Component {
       this.panResponder = PanResponder.create({
           onStartShouldSetPanResponder : () => true,
           onPanResponderStart : () => {
-            Animated.timing(
-              this.state.font.size, {
-                toValue: 100,
-                duration: 1
-              },
-            ).start();
-            Animated.timing(
-              this.state.font.colour, {
-                toValue: 100,
-                duration: 1
-              },
-            ).start();
+            this.selectedFont();
           },
           onPanResponderMove : Animated.event([null,{
             dx: this.state.pan.x,
@@ -50,63 +44,99 @@ class Letter extends Component {
           onPanResponderRelease : (e, gesture) => {
             if (this.isDropZone(gesture)){
               if (!this.props.selected) {
-                // letter enabled, place on map, reset
-                Animated.timing(
-                  this.state.pan, {
-                    toValue: {x:0, y:0},
-                    duration: 1
-                  },
-                ).start();
-                this.onDrop(gesture.moveX, gesture.moveY);
+                // check if letter in dropzone, place letter, reset
+                if (this.onDrop(gesture.moveX, gesture.moveY)) {
+                  this.snapToStart();
+                } else {
+                  this.springToStart();
+                }
               } else {
                 // letter disabled, reset
-                Animated.spring(
-                  this.state.pan,
-                  {toValue:{x:0,y:0}}
-                ).start();
+                this.springToStart();
               }
             } else if (this.isBin(gesture)) {
               // snap to start, destroy
-              Animated.timing(
-                this.state.pan, {
-                  toValue: {x:0, y:0},
-                  duration: 1
-                },
-              ).start();
+              this.snapToStart();
               this.onBin();
             } else {
               // do nothing, reset
-              Animated.spring(
-                  this.state.pan,
-                  {toValue:{x:0,y:0}}
-              ).start();
+              this.springToStart();
             }
 
             // reset font
-            Animated.timing(
-              this.state.font.size, {
-                toValue: 0,
-                duration: 1
-              },
-            ).start();
-            Animated.timing(
-              this.state.font.colour, {
-                toValue: 0,
-                duration: 1
-              },
-            ).start();
+            this.resetFont();
           }
       });
+  }
+
+  selectedFont() {
+    Animated.timing(
+      this.state.font.size, {
+        toValue: 100,
+        duration: 1
+      },
+    ).start();
+    Animated.timing(
+      this.state.font.colour, {
+        toValue: 100,
+        duration: 1
+      },
+    ).start();
+  }
+
+  resetFont() {
+    Animated.timing(
+      this.state.font.size, {
+        toValue: 0,
+        duration: 1
+      },
+    ).start();
+    Animated.timing(
+      this.state.font.colour, {
+        toValue: 0,
+        duration: 1
+      },
+    ).start();
+  }
+
+  snapToStart() {
+    Animated.timing(
+      this.state.pan, {
+        toValue: {x:0, y:0},
+        duration: 1
+      },
+    ).start();
+  }
+
+  springToStart() {
+    Animated.spring(
+      this.state.pan,
+      {toValue:{x:0,y:0}}
+    ).start();
   }
 
   onDrop(x, y) {
     // normalise coordinates and put in range [-1, 1]
     let win = Dimensions.get('window');
     let tx = ((x / win.width) - 0.5) * 1;
-    let ty = (((y - 60) / (win.height - 230) - 0.5)) * -1;
+    let ty = (((y - 60) / (win.height - 230) - 0.5)) * -1; // TODO convert 60, 230 (element heights) to global vars
+
+    // convert to world coordinates
+    let user = this.props.user;
+    let c = user.map.coordinates;
+    let lat = c.latitude + ty * c.latitudeDelta;
+    let lng = c.longitude + tx * c.longitudeDelta;
+
+    // check if letter inside drop-zone
+    const approxMetresPerLngDeg = Math.abs(111132.954 * Math.cos(lat));
+    let mag = Math.sqrt(Math.pow(lat - user.coordinates.latitude, 2) + Math.pow(lng - user.coordinates.longitude, 2));
+
+    if (mag * approxMetresPerLngDeg > user.map.dropzone_radius) {
+      return false;
+    }
 
     // put letter on map
-    putLetterOnMapProxy(this.props.character, tx, ty);
+    putLetterOnMapProxy(this.props.character, lat, lng);
     updateLetterMenuProxy(this.props.index);
 
     // set timer to reactivate letter
@@ -120,6 +150,9 @@ class Letter extends Component {
         reviveLetterMenuProxy(index, char);
       }, 10000);
     };
+
+    // success
+    return true;
   }
 
   onBin = () => {
@@ -245,4 +278,16 @@ class Letter extends Component {
   }
 };
 
-export default Letter;
+const mapStateToProps = (state) => {
+    const user = state.user;
+    const mapLat = state.user.map.coordinates.latitude;
+    const mapLng = state.user.map.coordinates.longitude;
+
+    return ({
+      user,
+      mapLat,
+      mapLng,
+    });
+}
+
+export default connect(mapStateToProps)(Letter);

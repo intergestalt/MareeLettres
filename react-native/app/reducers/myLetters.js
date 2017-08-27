@@ -19,11 +19,7 @@ export default (state = initialState.myLetters, action) => {
     case PUT_LETTER_ON_MAP:
       console.log('Reducer: PUT_LETTER_ON_MAP');
 
-      // calculate lat & long
-      let user = store.getState().user;
-      let c = user.map.coordinates;
-      let lat = c.latitude + action.y * c.latitudeDelta;
-      let lng = c.longitude + action.x * c.longitudeDelta;
+      const user = store.getState().user;
 
       return {
         ...state,
@@ -33,8 +29,8 @@ export default (state = initialState.myLetters, action) => {
             _id: user.origin_id,
             character: action.character,
             coords: {
-              lat: lat,
-              lng: lng,
+              lat: action.x,
+              lng: action.y,
             },
             acquired_at: 0,
             last_used_at: (new Date()).toISOString(),
