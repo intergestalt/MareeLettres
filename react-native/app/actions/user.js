@@ -16,6 +16,7 @@ export const USER_WIPE_LETTER_MENU = 'USER_WIPE_LETTER_MENU';
 export const USER_GET_LETTER = 'USER_GET_LETTER';
 export const USER_REVIVE_LETTER_MENU = 'USER_REVIVE_LETTER_MENU';
 export const USER_BIN_LETTER = 'USER_BIN_LETTER';
+export const USER_ADD_FRIEND_LETTER = 'USER_ADD_FRIEND_LETTER';
 
 export const USER_VOTE_INTERNAL = 'USER_VOTE_INTERNAL';
 export const USER_SEND_INTERNAL_VOTES = 'USER_SEND_INTERNAL_VOTES';
@@ -97,6 +98,12 @@ export const binLetter = menuIndex => ({
 export const wipeLetterMenu = () => ({
   type: USER_WIPE_LETTER_MENU,
   error: USER_UPDATE_ERROR,
+});
+
+export const addFriendLetter = (character) => ({
+  type: USER_ADD_FRIEND_LETTER,
+  error: USER_UPDATE_ERROR,
+  character: character,
 });
 
 // Voteing

@@ -14,6 +14,7 @@ import {
   USER_UPDATE_ERROR,
   USER_GET_LETTER,
   USER_BIN_LETTER,
+  USER_ADD_FRIEND_LETTER,
   USER_VOTE_INTERNAL,
   USER_SEND_INTERNAL_VOTES,
   USER_INTERNAL_VOTES_SENT,
@@ -97,6 +98,31 @@ export default (state = initialState.user, action) => {
         },
       };
     }
+
+    case USER_ADD_FRIEND_LETTER: {
+      console.log('Reducer: USER_ADD_FRIEND_LETTER');
+
+      // prevent bad characters, TODO: remove (API res is trusted)
+      if (!action.character.match(/[a-z]/i)) {
+        return state;
+      }
+
+      let letters = [ ...state.secondary_letters ];
+      letters.unshift({
+        character: action.character,
+        acquired_at: (new Date()).toISOString,
+        last_used_at: (new Date()).toISOString,
+      });
+
+      // delete extra letters
+      letters.splice(4, 4);
+
+      return {
+        ...state,
+        secondary_letters: [ ...letters ],
+      }
+    }
+
     case USER_UPDATE_LETTER_MENU: {
       console.log('Reducer: USER_UPDATE_LETTER_MENU');
 

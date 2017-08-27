@@ -10,6 +10,7 @@ import {
   deleteLetters,
   setUserLetter,
   binLetter,
+  addFriendLetter
 } from '../actions/user';
 
 import store from '../config/store';
@@ -28,6 +29,10 @@ export function updateLetterMenuProxy(menuIndex) {
 
 export function reviveLetterMenuProxy(menuIndex, character) {
   store.dispatch(reviveLetterMenu(menuIndex, character));
+}
+
+export function addFriendLetterProxy(character) {
+  store.dispatch(addFriendLetter(character))
 }
 
 export function wipeLetterMenuProxy() {

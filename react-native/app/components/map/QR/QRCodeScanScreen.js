@@ -6,6 +6,7 @@ import QRCodeBox from './QRCode';
 import styles from './styles';
 
 import { navigateToMapOverview } from '../../../helper/navigationProxy';
+import { addFriendLetterProxy } from '../../../helper/userHelper';
 import { BarCodeScanner, Permissions } from 'expo';
 
 class QRCodeScanScreen extends Component {
@@ -31,9 +32,13 @@ class QRCodeScanScreen extends Component {
   }
 
   handleQRCode = result => {
-    console.log(result.data);
-    if (result.data !== this.state.lastScanned) {
-      this.setState({ lastScanned: result.data })
+    let char = result.data.charAt(0);
+
+    // prevent multiple scans
+    if (char !== this.state.lastScanned) {
+      navigateToMapOverview(this.props);
+      addFriendLetterProxy(char);
+      this.setState({ lastScanned: char });
     }
   };
 
@@ -64,7 +69,7 @@ class QRCodeScanScreen extends Component {
 
         {
           this.state.lastScanned === null
-          ? <Text style={styles.devMessage}>Hello devs, scan something!</Text>
+          ? <Text style={styles.devMessage}></Text>
           : <Text style={styles.devMessage}>{this.state.lastScanned}</Text>
         }
       </View>
