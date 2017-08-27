@@ -25,7 +25,8 @@ const lngDelta = 0.001;
 
 export default {
   globals: {
-    language: 'fr',
+    globalsIsLoadingFromStorage: false,
+    language: null,
   },
 
   user: {

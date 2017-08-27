@@ -1,7 +1,13 @@
-import { SWAP_LANGUAGE, SET_LANGUAGE } from '../actions/general';
+import {
+  SWAP_LANGUAGE,
+  SET_LANGUAGE,
+  SET_GLOBALS_IS_LOADING_FROM_STORAGE,
+  SET_GLOBALS,
+} from '../actions/general';
 
 import initialState from '../config/initialState';
 import I18n from '../i18n/i18n';
+import { saveGlobals } from '../helper/localStorage';
 
 const swapLanguage = (state) => {
   let newLanguage = 'en';
@@ -15,18 +21,30 @@ const swapLanguage = (state) => {
 export default (state = initialState.globals, action) => {
   try {
     switch (action.type) {
-      case SWAP_LANGUAGE:
-        return {
+      case SWAP_LANGUAGE: {
+        const result = {
           ...state,
           language: swapLanguage(state, action),
         };
+        saveGlobals(result);
+        return result;
+      }
       case SET_LANGUAGE: {
-        return {
+        const result = {
           ...state,
           language: action.language,
         };
+        saveGlobals(result);
+        return result;
       }
-
+      case SET_GLOBALS: {
+        const globals = action.globals;
+        return globals;
+      }
+      // Redux local storage
+      case SET_GLOBALS_IS_LOADING_FROM_STORAGE: {
+        return { ...state, globalsIsLoadingFromStorage: action.yes };
+      }
       default:
         return state;
     }

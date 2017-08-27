@@ -61,13 +61,10 @@ class ChallengeContainer extends Component {
     console.log('handleSharePress');
   }
   handleCommitPress() {
-    console.log('handleCommitPress');
     navigateToSubmit(this.props, this.props.challenges[this.props.selectedChallengeIndex]);
   }
 
   handleHeaderPressed = () => {
-    console.log('PRESS');
-    popChallengeSelector(this.props);
     popChallengeSelector(this.props);
   };
 
@@ -99,13 +96,11 @@ class ChallengeContainer extends Component {
     this.loadProposals(myIndex + 1, view, listmode);
   }
   handleTinderPress() {
-    console.log('handleTinderPress');
     this.props.dispatch(setProposalView(PROPOSAL_VIEWS.TINDER));
     this.loadAllProposals(this.props.selectedChallengeIndex, PROPOSAL_VIEWS.TINDER);
   }
 
   handleListPress() {
-    console.log('handleListPress');
     this.resetProposalListPos();
     this.props.dispatch(setProposalView(PROPOSAL_VIEWS.LIST));
     this.loadAllProposals(
@@ -115,7 +110,6 @@ class ChallengeContainer extends Component {
     );
   }
   onMostPress() {
-    console.log('onMostPress');
     this.resetProposalListPos();
     this.props.dispatch(setProposalListMode(PROPOSAL_LIST_MODES.MOST));
     this.loadAllProposals(
@@ -125,7 +119,6 @@ class ChallengeContainer extends Component {
     );
   }
   onNewestPress() {
-    console.log('onNewestPress');
     this.resetProposalListPos();
     this.props.dispatch(setProposalListMode(PROPOSAL_LIST_MODES.NEWEST));
     this.loadAllProposals(
@@ -135,7 +128,6 @@ class ChallengeContainer extends Component {
     );
   }
   onTrendingPress() {
-    console.log('onTrendingPress');
     this.resetProposalListPos();
     this.props.dispatch(setProposalListMode(PROPOSAL_LIST_MODES.TRENDING));
     this.loadAllProposals(

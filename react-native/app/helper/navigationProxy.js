@@ -22,6 +22,14 @@ export function navigateToLanguageSelector(props) {
   });
   props.navigation.dispatch(resetAction);
 }
+export function navigateToRoot(props) {
+  const resetAction = NavigationActions.reset({
+    index: 0,
+    actions: [NavigationActions.navigate({ routeName: 'Root' })],
+  });
+  props.navigation.dispatch(resetAction);
+}
+
 // Main Pages
 
 export function navigateToInfo(props) {
@@ -54,10 +62,11 @@ export function navigateToVote(props) {
   preNavigateToVote(props);
   props.navigation.navigate('Vote');
 }
-export function popToLanguageSelector(props) {
+export function popLanguageSelector(props) {
   preNavigateToVote(props);
   props.navigation.goBack();
 }
+
 // SubPages
 // Map Stack SubPages
 
@@ -122,7 +131,6 @@ export function popChallengeSelector(props, withDispatch = true) {
     manageChallenges();
     sendInternalVotesServiceProxy(true);
   }
-
   if (!props.navigation.goBack()) {
     props.navigation.navigate('Challenges');
   }

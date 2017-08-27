@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 
 import { Screen } from '../../components/general/Container';
 import { screenWidth, screenHeight } from '../../helper/screen';
-import { popToLanguageSelector } from '../../helper/navigationProxy';
+import { popLanguageSelector } from '../../helper/navigationProxy';
 import { setLanguage } from '../../actions/general';
 import store from '../../config/store';
 import I18n from '../../i18n/i18n';
@@ -262,7 +262,7 @@ class LanguageSelector extends Component {
                 store.dispatch(setLanguage('en'));
               }
               setTimeout(() => {
-                popToLanguageSelector(this.props);
+                popLanguageSelector(this.props);
               }, 500);
             } else {
               const sel = this.state.selected;

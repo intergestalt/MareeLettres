@@ -25,6 +25,7 @@ import {
 import { CHANGE_MAP_REGION } from '../actions/map';
 
 import initialState from '../config/initialState';
+import { saveUser } from '../helper/localStorage';
 
 // const selectMenuItem = (state, index) => {};
 
@@ -77,16 +78,18 @@ export default (state = initialState.user, action) => {
       case SET_USER_LOADED_FROM_STORAGE: {
         return { ...state, userLoadedFromStorage: action.yes };
       }
-      case CHANGE_MAP_REGION:
+      case CHANGE_MAP_REGION: {
         console.log('Reducer: CHANGE_MAP_REGION');
-        return {
+        const result = {
           ...state,
           map: {
             ...state.map,
             coordinates: action.region,
           },
         };
-
+        saveUser(result);
+        return result;
+      }
       case USER_GET_LETTER: {
         console.log('Reducer: USER_GET_LETTER');
 
@@ -121,13 +124,15 @@ export default (state = initialState.user, action) => {
           'Z',
         ];
         const char = letters[Math.floor(Math.random() * 26)];
-        return {
+        const result = {
           ...state,
           primary_letter: {
             ...state.primary_letter,
             character: char,
           },
         };
+        saveUser(result);
+        return result;
       }
       case USER_UPDATE_LETTER_MENU: {
         console.log('Reducer: USER_UPDATE_LETTER_MENU');
@@ -138,7 +143,7 @@ export default (state = initialState.user, action) => {
         const newFriends = [...state.map.letters_selected.friends];
         newFriends[action.menuIndex] = true;
 
-        return {
+        const result = {
           ...state,
           map: {
             ...state.map,
@@ -148,6 +153,8 @@ export default (state = initialState.user, action) => {
             },
           },
         };
+        saveUser(result);
+        return result;
       }
       case USER_REVIVE_LETTER_MENU: {
         console.log('Reducer: USER_REVIVE_LETTER_MENU');
@@ -171,7 +178,7 @@ export default (state = initialState.user, action) => {
           }
         }
 
-        return {
+        const result = {
           ...state,
           map: {
             ...state.map,
@@ -181,6 +188,8 @@ export default (state = initialState.user, action) => {
             },
           },
         };
+        saveUser(result);
+        return result;
       }
 
       case USER_BIN_LETTER: {
@@ -195,15 +204,17 @@ export default (state = initialState.user, action) => {
           }
         }
 
-        return {
+        const result = {
           ...state,
           secondary_letters: [...newLetters],
         };
+        saveUser(result);
+        return result;
       }
 
-      case USER_WIPE_LETTER_MENU:
+      case USER_WIPE_LETTER_MENU: {
         console.log('Reducer: USER_WIPE_LETTER_MENU');
-        return {
+        const result = {
           ...state,
           map: {
             ...state.map,
@@ -213,7 +224,9 @@ export default (state = initialState.user, action) => {
             },
           },
         };
-
+        saveUser(result);
+        return result;
+      }
       case USER_SET_ID:
         console.log('Reducer: USER_SET_ID');
         return state;
@@ -230,13 +243,15 @@ export default (state = initialState.user, action) => {
         console.log('Reducer: USER_SET_SECONDARY_LETTERS');
         return state;
 
-      case USER_DELETE_LETTERS:
+      case USER_DELETE_LETTERS: {
         console.log('Reducer: USER_DELETE_LETTERS');
-        return {
+        const result = {
           ...state,
           secondary_letters: [],
         };
-
+        saveUser(result);
+        return result;
+      }
       case USER_UPDATE_ERROR:
         console.log('Reducer: USER_UPDATE_ERROR');
         return state;
@@ -254,6 +269,7 @@ export default (state = initialState.user, action) => {
             time: new Date().getTime(),
           },
         };
+        saveUser(result);
         return result;
       }
       case USER_SEND_INTERNAL_VOTES: {
@@ -286,6 +302,7 @@ export default (state = initialState.user, action) => {
           internalVotes: myInternalVotes,
           votes: myVotes,
         };
+        saveUser(result);
         return result;
       }
       case USER_SEND_INTERNAL_VOTES_ERROR: {
