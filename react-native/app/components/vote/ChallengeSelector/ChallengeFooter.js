@@ -80,7 +80,7 @@ const mapStateToProps = (state) => {
   try {
     const challenges = state.challenges.challenges;
     const selectedChallengeIndex = state.challenges.selectedChallengeIndex;
-    const proposalView = state.globals.proposalView;
+    const proposalView = state.challenges.proposalView;
 
     return {
       selectedChallengeIndex,
@@ -89,7 +89,8 @@ const mapStateToProps = (state) => {
     };
   } catch (e) {
     console.log('ChallengeFooter');
-    console.log(e); throw e;
+    console.log(e);
+    throw e;
   }
 };
 export default connect(mapStateToProps)(ChallengeFooter);

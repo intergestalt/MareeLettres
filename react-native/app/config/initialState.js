@@ -26,9 +26,6 @@ const lngDelta = 0.001;
 export default {
   globals: {
     language: 'fr',
-    proposalView: PROPOSAL_VIEWS.LIST,
-    proposalListMode: PROPOSAL_LIST_MODES.MOST,
-    challengeView: CHALLENGE_VIEWS.LIST,
   },
 
   user: {
@@ -93,6 +90,9 @@ export default {
   },
 
   challenges: {
+    challengeView: CHALLENGE_VIEWS.LIST,
+    proposalView: PROPOSAL_VIEWS.LIST,
+    proposalListMode: PROPOSAL_LIST_MODES.MOST,
     selectedChallengeId: null,
     selectedChallengeIndex: -1,
     isLoading: false,

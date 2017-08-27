@@ -6,14 +6,13 @@ import styles from './styles';
 import { ChallengeDetail } from './';
 import { screenWidth } from '../../../helper/screen';
 import { popChallengeSelector, navigateToSubmit } from '../../../helper/navigationProxy';
-import { startChallengeTicker } from '../../../helper/ticker';
-import { setProposalView, setProposalListMode } from '../../../actions/general';
-import { cutProposalListToDefault } from '../../../actions/proposals';
+import { handleChallengeIsNotExisting } from '../../../helper/challengesHelper';
 
-import { setChallengesId } from '../../../actions/challenges';
+import { startChallengeTicker } from '../../../helper/ticker';
+import { cutProposalListToDefault } from '../../../actions/proposals';
+import { setChallengeId, setProposalListMode, setProposalView } from '../../../actions/challenges';
 import { loadProposalsServiceProxy } from '../../../helper/apiProxy';
-import { upDateSelectedChallengeIndex } from '../../../helper/challengesHelper';
-import { PROPOSAL_VIEWS, PROPOSAL_LIST_MODES, CHALLENGE_VIEWS } from '../../../consts';
+import { PROPOSAL_VIEWS, PROPOSAL_LIST_MODES } from '../../../consts';
 import { LOAD_CONFIG } from '../../../config/config';
 
 class ChallengeContainer extends Component {
@@ -24,7 +23,6 @@ class ChallengeContainer extends Component {
     selectedChallengeId: PropTypes.number,
     selectedProposalListMode: PropTypes.string,
     selectedProposalView: PropTypes.string,
-    challengeView: PropTypes.string,
   };
 
   constructor(props) {
@@ -56,7 +54,7 @@ class ChallengeContainer extends Component {
     this.panResponderHeader = this.createPanResponderHeader();
   }
   componentDidMount() {
-    startChallengeTicker();
+    startChallengeTicker(this.props);
   }
 
   handleSharePress() {
@@ -301,9 +299,9 @@ class ChallengeContainer extends Component {
         this.props.selectedProposalView,
         this.props.selectedProposalListMode,
       );
-      this.props.dispatch(setChallengesId(newId));
       const t1 = new Date().getTime();
-      upDateSelectedChallengeIndex();
+      handleChallengeIsNotExisting(this.props, newId);
+      this.props.dispatch(setChallengeId(newId));
       const t2 = new Date().getTime();
       console.log(`Time For Update List: ${t2 - t1}`);
       this.navigationEnabled = true;
@@ -322,12 +320,6 @@ class ChallengeContainer extends Component {
 
   // Render
   render() {
-    if (this.props.selectedChallengeIndex === -1) {
-      if (this.props.challengeView === CHALLENGE_VIEWS.DETAIL) {
-        popChallengeSelector(this.props);
-      }
-    }
-
     const myStyle = [styles.challengeContainer, { left: this.state.challengeContainerOffsetX }];
     return (
       <Animated.View style={myStyle}>
@@ -367,14 +359,12 @@ const mapStateToProps = (state) => {
     const challenges = state.challenges.challenges;
     const selectedChallengeIndex = state.challenges.selectedChallengeIndex;
     const selectedChallengeId = state.challenges.selectedChallengeId;
-    const challengeView = state.globals.challengeView;
-    const selectedProposalView = state.globals.proposalView;
-    const selectedProposalListMode = state.globals.proposalListMode;
+    const selectedProposalView = state.challenges.proposalView;
+    const selectedProposalListMode = state.challenges.proposalListMode;
     return {
       selectedChallengeIndex,
       selectedChallengeId,
       challenges,
-      challengeView,
       selectedProposalView,
       selectedProposalListMode,
     };

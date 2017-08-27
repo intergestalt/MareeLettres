@@ -138,8 +138,8 @@ const mapStateToProps = (state, ownProps) => {
     const challengeIndex = selectedChallengeIndex + ownProps.challengeOffset;
     const id = challenges[challengeIndex]._id;
 
-    const proposalView = state.globals.proposalView;
-    const proposalListMode = state.globals.proposalListMode;
+    const proposalView = state.challenges.proposalView;
+    const proposalListMode = state.challenges.proposalListMode;
     // all 4 lists
     const p = state.proposals[id];
 
@@ -154,7 +154,8 @@ const mapStateToProps = (state, ownProps) => {
     };
   } catch (e) {
     console.log('ProposalTinder');
-    console.log(e); throw e;
+    console.log(e);
+    throw e;
   }
 };
 export default connect(mapStateToProps)(ProposalTinder);

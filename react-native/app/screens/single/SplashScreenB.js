@@ -67,7 +67,6 @@ class SplashScreenB extends Component {
   }
 
   observeState() {
-    console.log(this.ready());
     if (this.ready()) {
       clearInterval(this.tickerId);
       navigateToLanguageSelector(this.props);

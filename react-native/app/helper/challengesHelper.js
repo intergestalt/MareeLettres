@@ -1,22 +1,21 @@
 import store from '../config/store';
 import { loadChallengesServiceProxy } from './apiProxy';
+import { popChallengeSelector } from './navigationProxy';
+
 import { CHALLENGE_VIEWS } from '../consts';
-import { setChallengesId, setChallengesIndex } from '../actions/challenges';
+import { setChallengeId } from '../actions/challenges';
 import { LOAD_CONFIG } from '../config/config';
 
 export function manageChallenges() {
   // Always
   loadChallengesServiceProxy(false, LOAD_CONFIG.LOAD_QUIET_CHALLENGES_LIST);
-  if (store.getState().globals.challengeView === CHALLENGE_VIEWS.LIST) {
+  if (store.getState().challenges.challengeView === CHALLENGE_VIEWS.LIST) {
     // Reset State
-    store.dispatch(setChallengesId(null));
-    store.dispatch(setChallengesIndex(-1));
+    store.dispatch(setChallengeId(null));
   }
 }
-
-export function upDateSelectedChallengeIndex() {
+export function getSelectedChallengeIndex(id) {
   let index = -1;
-  const id = store.getState().challenges.selectedChallengeId;
 
   const challenges = store.getState().challenges.challenges;
   for (let i = 0; i < challenges.length; i += 1) {
@@ -25,19 +24,18 @@ export function upDateSelectedChallengeIndex() {
       index = i;
     }
   }
+  return index;
+}
 
+export function handleChallengeIsNotExisting(props, id) {
+  const index = getSelectedChallengeIndex(id);
   if (index === -1) {
-    if (challenges.length > 0) {
-      index = 0;
-      store.dispatch(setChallengesId(challenges[0]._id));
-    } else {
-      store.dispatch(setChallengesId(null));
-      store.dispatch(setChallengesIndex(-1));
-      return;
+    if (store.getState().challenges.challengeView === CHALLENGE_VIEWS.DETAIL) {
+      popChallengeSelector(props);
     }
   }
-  store.dispatch(setChallengesIndex(index));
 }
+
 export function getChallengeFromId(challenges, id) {
   for (let i = 0; i < challenges.length; i += 1) {
     const challenge = challenges[i];

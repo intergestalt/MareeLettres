@@ -302,8 +302,8 @@ const mapStateToProps = (state, ownProps) => {
   try {
     const challenges = state.challenges.challenges;
     const selectedChallengeIndex = state.challenges.selectedChallengeIndex;
-    const proposalView = state.globals.proposalView;
-    const proposalListMode = state.globals.proposalListMode;
+    const proposalView = state.challenges.proposalView;
+    const proposalListMode = state.challenges.proposalListMode;
     let proposals = null;
     let isError = false;
     let isLoading = false;

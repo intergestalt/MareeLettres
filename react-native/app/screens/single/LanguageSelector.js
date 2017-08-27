@@ -359,7 +359,6 @@ const mapStateToProps = (state) => {
   } catch (e) {
     console.log('LanguageSelector');
     console.log(e);
-    console.log(e);
     throw e;
   }
 };

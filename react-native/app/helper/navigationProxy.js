@@ -2,9 +2,8 @@ import { NavigationActions } from 'react-navigation';
 
 import { loadContentServiceProxy, sendInternalVotesServiceProxy } from './apiProxy';
 import { stopChallengeTicker, startChallengeTicker } from './ticker';
-import { setChallengeView } from '../actions/general';
-import { setChallengesId } from '../actions/challenges';
-import { manageChallenges } from './challengesHelper';
+import { setChallengeId, setChallengeView } from '../actions/challenges';
+import { manageChallenges, getSelectedChallengeIndex } from './challengesHelper';
 import { manageProposals } from './proposalsHelper';
 import store from '../config/store';
 import { CHALLENGE_VIEWS } from '../consts';
@@ -44,19 +43,19 @@ export function navigateToStream(props) {
   props.navigation.navigate('Stream');
 }
 
-function preNavigateToVote() {
+function preNavigateToVote(props) {
   manageChallenges();
   manageProposals();
-  startChallengeTicker();
+  startChallengeTicker(props);
   sendInternalVotesServiceProxy(true);
 }
 
 export function navigateToVote(props) {
-  preNavigateToVote();
+  preNavigateToVote(props);
   props.navigation.navigate('Vote');
 }
 export function popToLanguageSelector(props) {
-  preNavigateToVote();
+  preNavigateToVote(props);
   props.navigation.goBack();
 }
 // SubPages
@@ -92,23 +91,37 @@ export function navigateToQRCodeSend(props) {
 // Vote Stack
 
 export function navigateToChallengeSelector(props, id) {
-  const mode = store.getState().globals.challengeView;
+  const mode = store.getState().challenges.challengeView;
   if (mode === CHALLENGE_VIEWS.DETAIL) {
     return;
   }
+  const index = getSelectedChallengeIndex(id);
+  if (index === -1) {
+    return;
+  }
+  props.dispatch(setChallengeId(id));
+  if (store.getState().challenges.selectedChallengeIndex === -1) {
+    return;
+  }
   store.dispatch(setChallengeView(CHALLENGE_VIEWS.DETAIL));
-  store.dispatch(setChallengesId(id));
+
   manageChallenges();
   manageProposals();
-  startChallengeTicker();
+  startChallengeTicker(props);
   sendInternalVotesServiceProxy(true);
-  props.navigation.navigate('ChallengeSelector', { id });
+  props.navigation.navigate('ChallengeSelector');
 }
 
-export function popChallengeSelector(props) {
-  store.dispatch(setChallengeView(CHALLENGE_VIEWS.LIST));
-  manageChallenges();
-  sendInternalVotesServiceProxy(true);
+export function popChallengeSelector(props, withDispatch = true) {
+  const mode = store.getState().challenges.challengeView;
+  if (mode === CHALLENGE_VIEWS.LIST) {
+    return;
+  }
+  if (withDispatch) {
+    store.dispatch(setChallengeView(CHALLENGE_VIEWS.LIST));
+    manageChallenges();
+    sendInternalVotesServiceProxy(true);
+  }
 
   if (!props.navigation.goBack()) {
     props.navigation.navigate('Challenges');
@@ -116,6 +129,5 @@ export function popChallengeSelector(props) {
 }
 
 export function navigateToSubmit(props, challenge) {
-  console.log(challenge);
   props.navigation.navigate('Submit', { challenge });
 }

@@ -8,7 +8,7 @@ import { DEV_CONFIG } from '../config/config';
 let tickerStarted = false;
 let timerId = null;
 
-function tickerData() {
+function tickerData(props) {
   const state = store.getState();
   // get old finished
   const wasFinished = new Array(state.challenges.challenges.length);
@@ -29,7 +29,7 @@ function tickerData() {
     const myChallenge = state.challenges.challenges[i];
     if (!myChallenge.isInternalLoading) {
       if (!wasFinished[i] && isFinished(myChallenge)) {
-        loadChallengeServiceProxy(myChallenge._id);
+        loadChallengeServiceProxy(myChallenge._id, props);
       }
     }
   }
@@ -39,8 +39,8 @@ function sendInternalVotes() {
   sendInternalVotesServiceProxy(false);
 }
 
-function tick() {
-  tickerData();
+function tick(props) {
+  tickerData(props);
   sendInternalVotes();
 }
 export function stopChallengeTicker() {
@@ -51,12 +51,12 @@ export function stopChallengeTicker() {
     tickerStarted = false;
   }
 }
-export function startChallengeTicker() {
+export function startChallengeTicker(props) {
   if (!tickerStarted) {
     tickerStarted = true;
     if (DEV_CONFIG.TICKER_ENABELD) {
       timerId = setInterval(() => {
-        tick();
+        tick(props);
       }, 1000);
     }
   }

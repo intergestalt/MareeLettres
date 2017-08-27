@@ -1,10 +1,4 @@
-import {
-  SWAP_LANGUAGE,
-  SET_LANGUAGE,
-  SET_PROPOSAL_VIEW,
-  SET_CHALLENGE_VIEW,
-  SET_PROPOSAL_LIST_MODE,
-} from '../actions/general';
+import { SWAP_LANGUAGE, SET_LANGUAGE } from '../actions/general';
 
 import initialState from '../config/initialState';
 import I18n from '../i18n/i18n';
@@ -19,38 +13,26 @@ const swapLanguage = (state) => {
 };
 
 export default (state = initialState.globals, action) => {
-  switch (action.type) {
-    case SWAP_LANGUAGE:
-      return {
-        ...state,
-        language: swapLanguage(state, action),
-      };
-    case SET_LANGUAGE: {
-      return {
-        ...state,
-        language: action.language,
-      };
-    }
-    case SET_PROPOSAL_VIEW: {
-      return {
-        ...state,
-        proposalView: action.proposalView,
-      };
-    }
-    case SET_CHALLENGE_VIEW: {
-      return {
-        ...state,
-        challengeView: action.challengeView,
-      };
-    }
-    case SET_PROPOSAL_LIST_MODE: {
-      return {
-        ...state,
-        proposalListMode: action.proposalListMode,
-      };
-    }
+  try {
+    switch (action.type) {
+      case SWAP_LANGUAGE:
+        return {
+          ...state,
+          language: swapLanguage(state, action),
+        };
+      case SET_LANGUAGE: {
+        return {
+          ...state,
+          language: action.language,
+        };
+      }
 
-    default:
-      return state;
+      default:
+        return state;
+    }
+  } catch (e) {
+    console.log('Reducer globals');
+    console.log(e);
+    throw e;
   }
 };

@@ -8,8 +8,10 @@ export const LOAD_CHALLENGE = 'LOAD_CHALLENGE';
 export const CHALLENGE_LOADED = 'CHALLENGE_LOADED';
 export const NETWORK_ERROR_LOAD_CHALLENGE = 'NETWORK_ERROR_LOAD_CHALLENGE';
 
-export const SET_CHALLENGES_ID = 'SET_CHALLENGES_DATE_ID';
-export const SET_CHALLENGES_INDEX = 'SET_CHALLENGES_INDEX';
+export const SET_CHALLENGE_ID = 'SET_CHALLENGE_ID';
+export const SET_CHALLENGE_VIEW = 'SET_CHALLENGE_VIEW';
+export const SET_PROPOSAL_VIEW = 'SET_PROPOSAL_VIEW';
+export const SET_PROPOSAL_LIST_MODE = 'SET_PROPOSAL_LIST_MODE';
 
 export const loadChallenges = (quietLoading = false) => ({
   type: LOAD_CHALLENGES,
@@ -19,19 +21,30 @@ export const loadChallenges = (quietLoading = false) => ({
   apiCall: callAllChallenges,
 });
 
-export const loadChallenge = challengeId => ({
+export const loadChallenge = (challengeId, props) => ({
   type: LOAD_CHALLENGE,
   successEvent: CHALLENGE_LOADED,
   errorEvent: NETWORK_ERROR_LOAD_CHALLENGE,
   apiCall: callOneChallenge,
   challengeId,
+  props,
 });
 
-export const setChallengesId = id => ({
-  type: SET_CHALLENGES_ID,
+export const setChallengeId = id => ({
+  type: SET_CHALLENGE_ID,
   challengeId: id,
 });
-export const setChallengesIndex = index => ({
-  type: SET_CHALLENGES_INDEX,
-  challengeIndex: index,
+export const setChallengeView = challengeView => ({
+  type: SET_CHALLENGE_VIEW,
+  challengeView,
+});
+
+export const setProposalView = proposalView => ({
+  type: SET_PROPOSAL_VIEW,
+  proposalView,
+});
+
+export const setProposalListMode = proposalListMode => ({
+  type: SET_PROPOSAL_LIST_MODE,
+  proposalListMode,
 });
