@@ -6,8 +6,8 @@ import { PROPOSAL_LIST_MODES, CHALLENGE_VIEWS, PROPOSAL_VIEWS } from '../consts'
 
 const originId = OriginId.generateFromDeviceId(Expo.Constants.deviceId);
 const sampleDate = new Date().toISOString();
-const lat = 52.4972;
-const lng = 13.4377;
+const lat = 48.8566;
+const lng = 2.3522;
 const latDelta = 0.0008;
 const lngDelta = 0.0008;
 const dropZoneRadius = 30;

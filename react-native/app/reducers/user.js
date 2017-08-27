@@ -4,7 +4,6 @@ import {
   SET_USER,
   LOAD_USER_ERROR,
   USER_SET_ID,
-  USER_SET_COORDINATES,
   USER_SET_SECONDARY_LETTERS,
   USER_SET_PRIMARY_LETTER,
   USER_DELETE_LETTERS,
@@ -23,7 +22,7 @@ import {
   SET_USER_LOADED_FROM_STORAGE,
 } from '../actions/user';
 
-import { CHANGE_MAP_REGION } from '../actions/map';
+import { CHANGE_MAP_REGION, USER_SET_COORDINATES } from '../actions/map';
 
 import initialState from '../config/initialState';
 
@@ -74,9 +73,11 @@ export default (state = initialState.user, action) => {
       console.log(`SET_USER_IS_LOADING_FROM_STORAGE ${action.yes}`);
       return { ...state, userIsLoadingFromStorage: action.yes };
     }
+
     case SET_USER_LOADED_FROM_STORAGE: {
       return { ...state, userLoadedFromStorage: action.yes };
     }
+
     case CHANGE_MAP_REGION:
       console.log('Reducer: CHANGE_MAP_REGION');
       return {
@@ -214,7 +215,14 @@ export default (state = initialState.user, action) => {
 
     case USER_SET_COORDINATES:
       console.log('Reducer: USER_SET_COORDINATES');
-      return state;
+      return {
+        ...state,
+        coordinates: {
+          ...state.coordinates,
+          latitude: action.lat,
+          longitude: action.lng,
+        }
+      };
 
     case USER_SET_PRIMARY_LETTER:
       console.log('Reducer: USER_SET_PRIMARY_LETTER');
