@@ -138,7 +138,7 @@ IDEA: Allow both verbs, GET and PATCH, but only URL-Cache GET?
 ```
 {
   transnaction_id: 12345
-  transaction_url: http://mareedeslettres.fr/x/12345
+  transaction_url: http://lettres.paris/x/12345
 }
 ```
 #### GET api/players/:player_id/letters/receive/:transaction_id
