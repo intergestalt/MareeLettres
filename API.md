@@ -109,7 +109,7 @@ NOTE: assuming no date/time discrepancies, using UTC ISODate
 #### GET api/letters?centerLat=...&centerLng=...&radius=...
 Get letters in radius
 
-#### GET api/letters?since=:seconds
+#### GET api/letters?limit_seconds=:seconds
 Get the new letters placed withing the last :seconds
 
 NOTE: Choose :seconds from a limited set. For example always use 5 seconds. Or only use 5 or 10 seconds. This is to leverage caching, which happens per URL.
