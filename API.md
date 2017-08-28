@@ -109,8 +109,8 @@ NOTE: assuming no date/time discrepancies, using UTC ISODate
 #### GET api/letters?centerLat=...&centerLng=...&radius=...
 Get letters in radius
 
-#### GET api/letters?limit_seconds=:seconds
-Get the new letters placed withing the last :seconds
+#### GET api/letters?interval
+Get the new letters placed withing the last interval. see: config -> map_update_interval
 
 NOTE: Choose :seconds from a limited set. For example always use 5 seconds. Or only use 5 or 10 seconds. This is to leverage caching, which happens per URL.
 
