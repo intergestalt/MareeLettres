@@ -14,6 +14,26 @@ const lngDelta = 0.0008;
 const dropZoneRadius = 30;
 
 export default {
+  config: {
+    isLoading: false,
+    isInternalLoading: false,
+    currentConfig: null,
+    config: {
+      name: 'default',
+      proposals_auto_accept: true,
+      track_player_movements: true,
+      tinder_proposals_regeneration_interval: 300,
+      map_update_interval: 10,
+      map_update_latency: 2,
+      map_cache_update_interval: 10,
+      map_query_update_latency: 1,
+      map_letter_decay_time: 30,
+      map_letter_regeneration_time_primary: 5,
+      map_letter_regeneration_time_secondary: 5,
+      map_letter_transfer_timeout: 60,
+      map_drop_zone_radius: 10,
+    },
+  },
   globals: {
     globalsIsLoadingFromStorage: false,
     language: null,

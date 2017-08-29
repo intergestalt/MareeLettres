@@ -8,6 +8,7 @@ import {
 } from '../actions/user';
 import { setGlobals, setGlobalsIsLoadingFromStorage } from '../actions/general';
 import { setContent, setContentIsLoadingFromStorage } from '../actions/content';
+import { setConfig, setConfigIsLoadingFromStorage } from '../actions/config';
 import { setChallenges, setChallengesIsLoadingFromStorage } from '../actions/challenges';
 import { setProposals, setProposalsIsLoadingFromStorage } from '../actions/proposals';
 import { setLetters, setLettersIsLoadingFromStorage } from '../actions/letters';
@@ -43,7 +44,13 @@ function cleanContent(content) {
 
   return item;
 }
+function cleanConfig(content) {
+  let item = content;
+  item.configIsLoadingFromStorage = false;
+  item = normalClean(item);
 
+  return item;
+}
 function cleanGlobals(globals) {
   let item = globals;
   item.globalsIsLoadingFromStorage = false;
@@ -247,6 +254,36 @@ export async function loadContentFromStorage() {
       store.dispatch(setContent(content));
     }
     store.dispatch(setContentIsLoadingFromStorage(false));
+  } catch (error) {
+    console.log(error);
+  }
+}
+export async function saveConfigToStorage(config) {
+  try {
+    let myConfig = null;
+    if (config) {
+      myConfig = config;
+    } else {
+      myConfig = store.getState().config;
+    }
+    await AsyncStorage.setItem('config', JSON.stringify(myConfig));
+    return true;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+}
+export async function loadConfigFromStorage() {
+  try {
+    store.dispatch(setConfigIsLoadingFromStorage(true));
+    const configStr = await AsyncStorage.getItem('config');
+
+    if (existing(configStr)) {
+      let config = JSON.parse(configStr);
+      config = cleanConfig(config);
+      store.dispatch(setConfig(config));
+    }
+    store.dispatch(setConfigIsLoadingFromStorage(false));
   } catch (error) {
     console.log(error);
   }

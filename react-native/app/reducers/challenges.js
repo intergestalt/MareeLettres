@@ -211,7 +211,6 @@ export default (state = initialState.challenges, action) => {
         challenges = addDefaultStructure(challenges);
         let challengeView = state.challengeView;
         if (listIsEmpty(challenges.challenges)) {
-          console.log(challenges);
           challengeView = CHALLENGE_VIEWS.LIST;
           popChallengeSelector(action.props, false);
         }

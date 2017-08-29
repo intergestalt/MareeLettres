@@ -2,8 +2,7 @@ import { loadContent } from '../actions/content';
 import { userSendInternalVotes, loadUser } from '../actions/user';
 import { loadChallenge, loadChallenges } from '../actions/challenges';
 import { loadProposals } from '../actions/proposals';
-import { loadLetters } from '../actions/letters';
-import { postLetter } from '../actions/letters';
+import { loadLetters, postLetter } from '../actions/letters';
 import store from '../config/store';
 import { getProposalList } from '../helper/proposalsHelper';
 import { getChallengeFromId } from '../helper/challengesHelper';
@@ -191,10 +190,10 @@ export function postLetterServiceProxy(character, lat, lng) {
   const user = store.getState().user;
   const body = {
     origin_id: user.origin_id,
-    character: character,
-    lat: lat,
-    lng: lng,
-    created_at: (new Date()).toISOString()
+    character,
+    lat,
+    lng,
+    created_at: new Date().toISOString(),
   };
 
   store.dispatch(postLetter(body));

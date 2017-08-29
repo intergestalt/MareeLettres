@@ -10,12 +10,7 @@ import { handleChallengeIsNotExisting } from '../../../helper/challengesHelper';
 
 import { startChallengeTicker } from '../../../helper/ticker';
 import { cutProposalListToDefault } from '../../../actions/proposals';
-import {
-  setChallengeId,
-  setProposalListMode,
-  setProposalView,
-  setChallenges,
-} from '../../../actions/challenges';
+import { setChallengeId, setProposalListMode, setProposalView } from '../../../actions/challenges';
 import { loadProposalsServiceProxy } from '../../../helper/apiProxy';
 import { PROPOSAL_VIEWS, PROPOSAL_LIST_MODES } from '../../../consts';
 import { LOAD_CONFIG } from '../../../config/config';

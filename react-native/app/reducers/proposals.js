@@ -182,7 +182,6 @@ export default (state = initialState.proposals, action) => {
         const p = state[action.challengeId];
         // the changed list
         const proposalList = getProposalList(p, action.proposalView, action.proposalListMode);
-        console.log('CUT THE LIST');
         const cuttedProposalList = cutProposalList(proposalList.proposals, action.proposalView);
         proposalList.proposals = cuttedProposalList;
         proposalList.lastLoaded = 1;

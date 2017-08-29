@@ -6,7 +6,6 @@ import { Font } from 'expo';
 import {
   loadUserServiceProxy,
   loadChallengesServiceProxy,
-  sendInternalVotesServiceProxy,
   loadContentServiceProxy,
 } from '../../helper/apiProxy';
 import store from '../../config/store';
@@ -57,11 +56,9 @@ class SplashScreenB extends Component {
   }
 
   async componentWillMount() {
-    console.log('LOAD USER FROM DISC');
     await loadUserFromStorage();
     const loaded = store.getState().user.userLoadedFromStorage;
     if (!loaded) {
-      console.log('LOAD FROM WWW');
       loadUserServiceProxy(true);
     }
     await loadGlobalsFromStorage();
@@ -70,13 +67,9 @@ class SplashScreenB extends Component {
     await loadContentFromStorage();
     await loadLettersFromStorage();
     await loadMyLettersFromStorage();
-    console.log(store.getState());
 
-    console.log('Load Challenges');
     loadChallengesServiceProxy(true, true);
-    console.log('Load Content');
     loadContentServiceProxy(true, true);
-    console.log('Load Font');
     await Font.loadAsync({
       normal: require('../../assets/fonts/ArialMonospacedMTPro.ttf'),
       bold: require('../../assets/fonts/ArialMonospacedMTPro-Bld.ttf'),
@@ -103,12 +96,6 @@ class SplashScreenB extends Component {
       }
     }
   }
-  _handleAppStateChange = (nextAppState) => {
-    if (nextAppState === 'inactive') {
-      // || nextAppState === 'active') { In case of becoming active the ticker will do it.
-      sendInternalVotesServiceProxy(true);
-    }
-  };
 
   ready() {
     if (this.props.isLoadingUserFromStorage) {
