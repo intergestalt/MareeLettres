@@ -97,7 +97,6 @@ export default {
     selectedChallengeId: null,
     selectedChallengeIndex: -1,
     isLoading: false,
-    isError: false,
     isInternalLoading: false,
     time: 0,
     challenges: [],
@@ -110,7 +109,6 @@ export default {
   content: {
     isLoading: false,
     isInternalLoading: false,
-    isError: false,
     time: 0,
     content: {},
   },
@@ -118,13 +116,11 @@ export default {
   letters: {
     isLoading: false,
     isInternalLoading: false,
-    isError: false,
     content: [],
   },
 
   myLetters: {
     isLoading: false,
-    isError: false,
     content: [],
   },
   // "_id": "pgYw8TzdLc8NQfdzw",

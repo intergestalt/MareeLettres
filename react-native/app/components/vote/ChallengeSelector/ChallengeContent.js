@@ -14,6 +14,7 @@ import { PROPOSAL_VIEWS } from '../../../consts/';
 import { getProposalList } from '../../../helper/proposalsHelper';
 import { loadProposalsServiceProxy } from '../../../helper/apiProxy';
 import { LOAD_CONFIG } from '../../../config/config';
+import { listIsEmpty } from '../../../helper/helper';
 
 class ChallengeContent extends Component {
   static propTypes = {
@@ -24,7 +25,6 @@ class ChallengeContent extends Component {
     proposals: PropTypes.array,
     proposalView: PropTypes.string,
     isLoading: PropTypes.bool,
-    isError: PropTypes.bool,
     onMostPress: PropTypes.func,
     onTrendingPress: PropTypes.func,
     onNewestPress: PropTypes.func,
@@ -190,6 +190,14 @@ class ChallengeContent extends Component {
       </View>
     );
   }
+
+  colors = {
+    yes: 'green',
+    no: 'red',
+    neutral: 'black',
+    inactive: '#535353',
+  };
+
   renderTinder() {
     let backTinder = null;
     let frontTinder = null;
@@ -225,6 +233,11 @@ class ChallengeContent extends Component {
         extrapolate: 'clamp',
       });
 
+      const textColor = this.state.tinderContainerOffset.x.interpolate({
+        inputRange: [-screenWidth / 8, 0, screenWidth / 8],
+        outputRange: [this.colors.no, this.colors.neutral, this.colors.yes],
+        extrapolate: 'clamp',
+      });
       frontTinder = (
         <ProposalTinder
           panResponderContent={this.panResponderContent}
@@ -232,6 +245,7 @@ class ChallengeContent extends Component {
           challengeOffset={this.props.challengeOffset}
           noOpacity={noOpacity}
           yesOpacity={yesOpacity}
+          textColor={textColor}
           proposalIndex={0}
         />
       );
@@ -267,10 +281,10 @@ class ChallengeContent extends Component {
       </View>
     );
   }
-  renderError() {
+  renderEmptyList() {
     return (
       <View style={styles.challengeContent}>
-        <Text>ERROR...</Text>
+        <Text>Empty Proposal List...</Text>
       </View>
     );
   }
@@ -282,15 +296,16 @@ class ChallengeContent extends Component {
     );
   }
   render() {
-    if (this.props.isError) {
-      return this.renderError();
-    }
     if (this.props.isLoading) {
       return this.renderLoading();
     }
     if (this.isFinished()) {
       return this.renderFinished();
     }
+    if (listIsEmpty(this.props.proposals)) {
+      return this.renderEmptyList();
+    }
+
     if (this.props.proposalView === PROPOSAL_VIEWS.TINDER) {
       return this.renderTinder();
     }
@@ -305,7 +320,6 @@ const mapStateToProps = (state, ownProps) => {
     const proposalView = state.challenges.proposalView;
     const proposalListMode = state.challenges.proposalListMode;
     let proposals = null;
-    let isError = false;
     let isLoading = false;
     let lastLoaded = 1;
     if (selectedChallengeIndex !== -1) {
@@ -316,7 +330,6 @@ const mapStateToProps = (state, ownProps) => {
         // get the correct list
         const p2 = getProposalList(p, proposalView, proposalListMode);
         proposals = p2.proposals;
-        isError = p2.isError;
         isLoading = p2.isLoading;
         lastLoaded = p2.lastLoaded;
       }
@@ -328,7 +341,6 @@ const mapStateToProps = (state, ownProps) => {
       proposals,
       proposalView,
       proposalListMode,
-      isError,
       isLoading,
       lastLoaded,
     };

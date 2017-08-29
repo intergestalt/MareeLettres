@@ -1,10 +1,10 @@
-import React, { Component, PropTypes } from 'react';
+import React, { PureComponent, PropTypes } from 'react';
 import { View, TouchableOpacity, Text } from 'react-native';
 import { connect } from 'react-redux';
 
 import styles from './styles';
 
-class ChallengeHeader extends Component {
+class ChallengeHeader extends PureComponent {
   static propTypes = {
     challengeOffset: PropTypes.number,
     challenges: PropTypes.array,
@@ -133,7 +133,8 @@ const mapStateToProps = (state) => {
     };
   } catch (e) {
     console.log('ChallengeHeader');
-    console.log(e); throw e;
+    console.log(e);
+    throw e;
   }
 };
 export default connect(mapStateToProps)(ChallengeHeader);

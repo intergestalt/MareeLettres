@@ -4,9 +4,12 @@ import {
   NETWORK_ERROR_LOAD_PROPOSALS,
   DELETE_PROPOSAL_FROM_TINDER_LIST,
   CUT_PROPOSAL_LIST_TO_DEFAULT,
+  SET_PROPOSALS_IS_LOADING_FROM_STORAGE,
+  SET_PROPOSALS,
 } from '../actions/proposals';
 import { PROPOSAL_VIEWS } from '../consts/';
-import { DEV_CONFIG, LOAD_CONFIG } from '../config/config';
+import { DEV_CONFIG } from '../config/config';
+import { saveProposalsToStorage } from '../helper/localStorage';
 
 import initialState from '../config/initialState';
 import {
@@ -16,6 +19,7 @@ import {
   mergeProposalList,
   cutProposalList,
 } from '../helper/proposalsHelper';
+import { listIsEmpty } from '../helper/helper';
 
 function swapArrayElements(arr, indexA, indexB) {
   const res = arr;
@@ -53,7 +57,7 @@ export default (state = initialState.proposals, action) => {
           action.proposalListMode,
         );
 
-        if (oldProposalList.proposals.length > 0) {
+        if (!listIsEmpty(oldProposalList.proposals)) {
           oldProposalList.isLoading = !action.quietLoading;
         } else {
           oldProposalList.isLoading = true;
@@ -61,7 +65,6 @@ export default (state = initialState.proposals, action) => {
         oldProposalList.isInternalLoading = true;
         oldProposalList.isPullDownLoading = action.pullDownLoading;
         oldProposalList.isPullUpLoading = action.pullUpLoading;
-        oldProposalList.isError = false;
 
         const newState = { ...state };
         newState[action.challengeId] = oldProposals;
@@ -97,7 +100,6 @@ export default (state = initialState.proposals, action) => {
         newProposalList.lastLoaded = action.result.proposals.length;
         newProposalList.isLoading = false;
         newProposalList.isInternalLoading = false;
-        newProposalList.isError = false;
         newProposalList.isPullDownLoading = false;
         newProposalList.isPullUpLoading = false;
         newProposalList.time = now.getTime();
@@ -114,14 +116,15 @@ export default (state = initialState.proposals, action) => {
         };
 
         result[action.action.challengeId] = challengeProposals;
+        saveProposalsToStorage(result);
         return result;
       }
       case NETWORK_ERROR_LOAD_PROPOSALS: {
         console.log('NETWORK_ERROR_LOAD_PROPOSALS');
+        console.log(action.error);
         const oldProposals = state[action.challengeId];
         oldProposals.isLoading = false;
         oldProposals.isInternalLoading = false;
-        oldProposals.isError = false;
         oldProposals.isPullDownLoading = false;
         oldProposals.isPullUpLoading = false;
         const result = {
@@ -170,6 +173,8 @@ export default (state = initialState.proposals, action) => {
           ...state,
         };
         result[action.challengeId] = challengeProposals;
+        saveProposalsToStorage(result);
+
         return result;
       }
       case CUT_PROPOSAL_LIST_TO_DEFAULT: {
@@ -177,15 +182,12 @@ export default (state = initialState.proposals, action) => {
         const p = state[action.challengeId];
         // the changed list
         const proposalList = getProposalList(p, action.proposalView, action.proposalListMode);
+        console.log('CUT THE LIST');
         const cuttedProposalList = cutProposalList(proposalList.proposals, action.proposalView);
         proposalList.proposals = cuttedProposalList;
-        if (action.proposalView === PROPOSAL_VIEWS.LIST) {
-          proposalList.lastLimit = LOAD_CONFIG.DEFAULT_PROPOSAL_LIST_LIMIT;
-          proposalList.lastLoaded = LOAD_CONFIG.DEFAULT_PROPOSAL_LIST_LIMIT;
-        } else {
-          proposalList.lastLimit = LOAD_CONFIG.DEFAULT_PROPOSAL_TINDER_LIMIT;
-          proposalList.lastLoaded = LOAD_CONFIG.DEFAULT_PROPOSAL_TINDER_LIMIT;
-        }
+        proposalList.lastLoaded = 1;
+        proposalList.lastLimit = 0;
+
         const challengeProposals = {
           ...p,
         };
@@ -195,6 +197,23 @@ export default (state = initialState.proposals, action) => {
           ...state,
         };
         result[action.challengeId] = challengeProposals;
+        saveProposalsToStorage(result);
+
+        return result;
+      }
+      case SET_PROPOSALS: {
+        const proposals = action.proposals;
+        return proposals;
+      }
+      // Redux local storage
+      case SET_PROPOSALS_IS_LOADING_FROM_STORAGE: {
+        if (action.yes) {
+          return { ...state, proposalsIsLoadingFromStorage: true };
+        }
+        const result = { ...state };
+        if (result.proposalsIsLoadingFromStorage) {
+          delete result.proposalsIsLoadingFromStorage;
+        }
         return result;
       }
       default:

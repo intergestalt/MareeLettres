@@ -51,7 +51,6 @@ function getDefaultEntry() {
   result.challenges = [];
   result.isLoading = false;
   result.isInternalLoading = false;
-  result.isError = false;
   result.time = 0;
   result.selectedChallengeId = null;
   result.time = -1;

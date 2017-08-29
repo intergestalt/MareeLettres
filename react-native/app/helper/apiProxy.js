@@ -7,7 +7,6 @@ import store from '../config/store';
 import { getProposalList } from '../helper/proposalsHelper';
 import { getChallengeFromId } from '../helper/challengesHelper';
 import { LOAD_CONFIG } from '../config/config';
-import { PROPOSAL_VIEWS } from '../consts';
 
 function isLoading(item) {
   if (item) {

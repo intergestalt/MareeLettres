@@ -13,6 +13,9 @@ export const SET_CHALLENGE_VIEW = 'SET_CHALLENGE_VIEW';
 export const SET_PROPOSAL_VIEW = 'SET_PROPOSAL_VIEW';
 export const SET_PROPOSAL_LIST_MODE = 'SET_PROPOSAL_LIST_MODE';
 
+export const SET_CHALLENGES = 'SET_CHALLENGES';
+export const SET_CHALLENGES_IS_LOADING_FROM_STORAGE = 'SET_CHALLENGES_IS_LOADING_FROM_STORAGE';
+
 export const loadChallenges = (quietLoading = false) => ({
   type: LOAD_CHALLENGES,
   successEvent: CHALLENGES_LOADED,
@@ -47,4 +50,14 @@ export const setProposalView = proposalView => ({
 export const setProposalListMode = proposalListMode => ({
   type: SET_PROPOSAL_LIST_MODE,
   proposalListMode,
+});
+
+export const setChallenges = challenges => ({
+  type: SET_CHALLENGES,
+  challenges,
+});
+
+export const setChallengesIsLoadingFromStorage = yes => ({
+  type: SET_CHALLENGES_IS_LOADING_FROM_STORAGE,
+  yes,
 });

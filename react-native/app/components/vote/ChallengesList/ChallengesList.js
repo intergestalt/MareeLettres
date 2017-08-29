@@ -8,10 +8,10 @@ import styles from './styles';
 import { navigateToChallengeSelector } from '../../../helper/navigationProxy';
 import { startChallengeTicker } from '../../../helper/ticker';
 import { isFinished } from '../../../helper/dateFunctions';
+import { listIsEmpty } from '../../../helper/helper';
 
 class ChallengesList extends Component {
   static propTypes = {
-    isError: PropTypes.bool,
     isLoading: PropTypes.bool,
     language: PropTypes.string,
     challenges: PropTypes.array,
@@ -30,11 +30,35 @@ class ChallengesList extends Component {
     return answer;
   }
   handlePressRow = (item) => {
+    console.log(`handlePressRow ${item.id}`);
     navigateToChallengeSelector(this.props, item.id);
   };
+
+  renderIsLoading() {
+    return (
+      <View style={styles.container}>
+        <Text>Loading Challenges...</Text>
+      </View>
+    );
+  }
+  renderIsEmpty() {
+    return (
+      <View style={styles.container}>
+        <Text>Empty Challenges...</Text>
+      </View>
+    );
+  }
   render() {
     const isLoading = this.props.isLoading;
-    const isError = this.props.isError;
+
+    if (isLoading) {
+      return this.renderIsLoading();
+    }
+
+    if (listIsEmpty(this.props.challenges)) {
+      return this.renderIsEmpty();
+    }
+
     const language = this.props.language;
     const listData = new Array(this.props.challenges.length);
 
@@ -57,34 +81,20 @@ class ChallengesList extends Component {
         answer: this.getAnswer(myChallenge),
       };
     }
-    if (!isLoading && !isError) {
-      return (
-        <View style={styles.container}>
-          <FlatList
-            data={listData}
-            renderItem={({ item }) =>
-              <ChallengesListItem
-                language={this.props.language}
-                data={item}
-                onPress={() => this.handlePressRow(item)}
-              />}
-            keyExtractor={item => item.id}
-            ItemSeparatorComponent={Separator}
-          />
-        </View>
-      );
-    }
-    if (isLoading) {
-      return (
-        <View style={styles.container}>
-          <Text>Loading Challenges...</Text>
-        </View>
-      );
-    }
-    // Else: isError==true
+
     return (
       <View style={styles.container}>
-        <Text>ERROR!</Text>
+        <FlatList
+          data={listData}
+          renderItem={({ item }) =>
+            <ChallengesListItem
+              language={this.props.language}
+              data={item}
+              onPress={() => this.handlePressRow(item)}
+            />}
+          keyExtractor={item => item.id}
+          ItemSeparatorComponent={Separator}
+        />
       </View>
     );
   }
@@ -95,13 +105,11 @@ const mapStateToProps = (state) => {
     const challenges = state.challenges.challenges;
     const challengesTicker = state.challengesTicker;
     const isLoading = state.challenges.isLoading;
-    const isError = state.challenges.isError;
     const language = state.globals.language;
     return {
       challenges,
       challengesTicker,
       isLoading,
-      isError,
       language,
     };
   } catch (e) {

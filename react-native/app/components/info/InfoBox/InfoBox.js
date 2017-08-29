@@ -7,11 +7,11 @@ import { LanguageSelector } from '../../general/LanguageSelector';
 import styles from './styles';
 import markdownStyles from '../../../config/markdown';
 import I18n from '../../../i18n/i18n';
+import { isEmptyContent } from '../../../helper/helper';
 
 class InfoBox extends Component {
   static propTypes = {
     language: PropTypes.string,
-    isError: PropTypes.bool,
     isLoading: PropTypes.bool,
     about: PropTypes.object,
     howto: PropTypes.object,
@@ -20,14 +20,19 @@ class InfoBox extends Component {
     super(props);
     I18n.locale = this.props.language;
   }
+
+  renderEmpty() {
+    return (
+      <View style={styles.container}>
+        <LanguageSelector />
+        <Text>Empty</Text>
+      </View>
+    );
+  }
+
   render() {
-    if (this.props.isError) {
-      return (
-        <View style={styles.container}>
-          <LanguageSelector />
-          <Text>ERROR</Text>
-        </View>
-      );
+    if (isEmptyContent(this.props.howto, this.props.about, this.props.language)) {
+      return this.renderEmpty();
     }
     return (
       <View style={styles.container}>
@@ -58,17 +63,16 @@ class InfoBox extends Component {
 
 const mapStateToProps = (state) => {
   try {
-    const isLoading = state.content.isLoading;
     return {
       language: state.globals.language,
-      isError: state.content.isError,
       isLoading: state.content.isLoading,
       howto: state.content.content.howto,
       about: state.content.content.about,
     };
   } catch (e) {
     console.log('InfoBox');
-    console.log(e); throw e;
+    console.log(e);
+    throw e;
   }
 };
 export default connect(mapStateToProps)(InfoBox);

@@ -25,7 +25,7 @@ import {
 import { CHANGE_MAP_REGION } from '../actions/map';
 
 import initialState from '../config/initialState';
-import { saveUser } from '../helper/localStorage';
+import { saveUserToStorage } from '../helper/localStorage';
 
 // const selectMenuItem = (state, index) => {};
 
@@ -36,10 +36,6 @@ export default (state = initialState.user, action) => {
         console.log('LOAD USER');
         const result = {
           ...state,
-          /*   internalVotes: {
-          internalVotes: {},
-          isInternalLoading: false,
-        }, */
           votes: {},
           isInternalLoading: true,
         };
@@ -87,7 +83,7 @@ export default (state = initialState.user, action) => {
             coordinates: action.region,
           },
         };
-        saveUser(result);
+        saveUserToStorage(result);
         return result;
       }
       case USER_GET_LETTER: {
@@ -131,7 +127,7 @@ export default (state = initialState.user, action) => {
             character: char,
           },
         };
-        saveUser(result);
+        saveUserToStorage(result);
         return result;
       }
       case USER_UPDATE_LETTER_MENU: {
@@ -153,7 +149,7 @@ export default (state = initialState.user, action) => {
             },
           },
         };
-        saveUser(result);
+        saveUserToStorage(result);
         return result;
       }
       case USER_REVIVE_LETTER_MENU: {
@@ -188,7 +184,7 @@ export default (state = initialState.user, action) => {
             },
           },
         };
-        saveUser(result);
+        saveUserToStorage(result);
         return result;
       }
 
@@ -208,7 +204,7 @@ export default (state = initialState.user, action) => {
           ...state,
           secondary_letters: [...newLetters],
         };
-        saveUser(result);
+        saveUserToStorage(result);
         return result;
       }
 
@@ -224,7 +220,7 @@ export default (state = initialState.user, action) => {
             },
           },
         };
-        saveUser(result);
+        saveUserToStorage(result);
         return result;
       }
       case USER_SET_ID:
@@ -249,7 +245,7 @@ export default (state = initialState.user, action) => {
           ...state,
           secondary_letters: [],
         };
-        saveUser(result);
+        saveUserToStorage(result);
         return result;
       }
       case USER_UPDATE_ERROR:
@@ -269,7 +265,7 @@ export default (state = initialState.user, action) => {
             time: new Date().getTime(),
           },
         };
-        saveUser(result);
+        saveUserToStorage(result);
         return result;
       }
       case USER_SEND_INTERNAL_VOTES: {
@@ -302,7 +298,7 @@ export default (state = initialState.user, action) => {
           internalVotes: myInternalVotes,
           votes: myVotes,
         };
-        saveUser(result);
+        saveUserToStorage(result);
         return result;
       }
       case USER_SEND_INTERNAL_VOTES_ERROR: {

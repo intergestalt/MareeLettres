@@ -10,7 +10,15 @@ import {
   loadContentServiceProxy,
 } from '../../helper/apiProxy';
 import store from '../../config/store';
-import { loadUser, saveAll, loadGlobals } from '../../helper/localStorage';
+import {
+  loadUserFromStorage,
+  loadGlobalsFromStorage,
+  loadContentFromStorage,
+  loadChallengesFromStorage,
+  loadProposalsFromStorage,
+  loadLettersFromStorage,
+  loadMyLettersFromStorage,
+} from '../../helper/localStorage';
 import { navigateToLanguageSelector, navigateToRoot } from '../../helper/navigationProxy';
 import { Screen } from '../../components/general/Container';
 
@@ -30,10 +38,14 @@ const styles = EStyleSheet.create({
 class SplashScreenB extends Component {
   static propTypes = {
     isLoadingUser: PropTypes.bool,
-    userIsLoadingFromStorage: PropTypes.bool,
     isLoadingContent: PropTypes.bool,
     isLoadingChallenges: PropTypes.bool,
+    isLoadingUserFromStorage: PropTypes.bool,
     isLoadingGlobalsFromStorage: PropTypes.bool,
+    isLoadingChallengesFromStorage: PropTypes.bool,
+    isLoadingProposalsFromStorage: PropTypes.bool,
+    isLoadingLettersFromStorage: PropTypes.bool,
+    isLoadingMyLettersFromStorage: PropTypes.bool,
   };
 
   constructor(props) {
@@ -46,20 +58,25 @@ class SplashScreenB extends Component {
 
   async componentWillMount() {
     console.log('LOAD USER FROM DISC');
-    await loadUser();
+    await loadUserFromStorage();
     const loaded = store.getState().user.userLoadedFromStorage;
     if (!loaded) {
       console.log('LOAD FROM WWW');
       loadUserServiceProxy(true);
     }
 
-    await loadGlobals();
+    await loadGlobalsFromStorage();
+    await loadChallengesFromStorage();
+    await loadProposalsFromStorage();
+    await loadContentFromStorage();
+    await loadLettersFromStorage();
+    await loadMyLettersFromStorage();
+    console.log(store.getState());
 
     console.log('Load Challenges');
     loadChallengesServiceProxy(true, true);
     console.log('Load Content');
     loadContentServiceProxy(true, true);
-
     console.log('Load Font');
     await Font.loadAsync({
       normal: require('../../assets/fonts/ArialMonospacedMTPro.ttf'),
@@ -91,14 +108,29 @@ class SplashScreenB extends Component {
     if (nextAppState === 'inactive') {
       // || nextAppState === 'active') { In case of becoming active the ticker will do it.
       sendInternalVotesServiceProxy(true);
-      saveAll();
     }
   };
 
   ready() {
-    if (this.props.userIsLoadingFromStorage) {
+    if (this.props.isLoadingUserFromStorage) {
       return false;
     }
+    if (this.props.isLoadingGlobalsFromStorage) {
+      return false;
+    }
+    if (this.props.isLoadingChallengesFromStorage) {
+      return false;
+    }
+    if (this.props.isLoadingProposalsFromStorage) {
+      return false;
+    }
+    if (this.props.isLoadingLettersFromStorage) {
+      return false;
+    }
+    if (this.props.isLoadingMyLettersFromStorage) {
+      return false;
+    }
+
     if (!this.state.isFontsReady) {
       return false;
     }
@@ -111,9 +143,7 @@ class SplashScreenB extends Component {
     if (this.props.isLoadingChallenges) {
       return false;
     }
-    if (this.props.isLoadingGlobalsFromStorage) {
-      return false;
-    }
+
     return true;
   }
 
@@ -134,13 +164,24 @@ const mapStateToProps = (state) => {
     const isLoadingChallenges = state.challenges.isInternalLoading;
     const isLoadingUserFromStorage = state.user.userIsLoadingFromStorage;
     const isLoadingGlobalsFromStorage = state.globals.globalsIsLoadingFromStorage;
+    const isLoadingChallengesFromStorage = state.challenges.challengesIsLoadingFromStorage;
+    let isLoadingProposalsFromStorage = false;
+    if (state.proposals.proposalsIsLoadingFromStorage) {
+      isLoadingProposalsFromStorage = true;
+    }
+    const isLoadingLettersFromStorage = state.letters.lettersIsLoadingFromStorage;
+    const isLoadingMyLettersFromStorage = state.myLetters.myLettersIsLoadingFromStorage;
 
     return {
       isLoadingUser,
-      isLoadingUserFromStorage,
       isLoadingContent,
       isLoadingChallenges,
+      isLoadingUserFromStorage,
       isLoadingGlobalsFromStorage,
+      isLoadingChallengesFromStorage,
+      isLoadingProposalsFromStorage,
+      isLoadingLettersFromStorage,
+      isLoadingMyLettersFromStorage,
     };
   } catch (e) {
     console.log('SplashScreenB');

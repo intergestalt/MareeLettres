@@ -1,15 +1,30 @@
-import { LOAD_CONTENT, CONTENT_LOADED, NETWORK_ERROR_LOAD_CONTENT } from '../actions/content';
+import {
+  LOAD_CONTENT,
+  CONTENT_LOADED,
+  NETWORK_ERROR_LOAD_CONTENT,
+  SET_CONTENT_IS_LOADING_FROM_STORAGE,
+  SET_CONTENT,
+} from '../actions/content';
 
 import initialState from '../config/initialState';
+import { saveContentToStorage } from '../helper/localStorage';
+import { isEmptyContent } from '../helper/helper';
 
 export default (state = initialState.content, action) => {
   try {
     switch (action.type) {
       case LOAD_CONTENT: {
+        let isLoading = !action.quietLoading;
+        if (isEmptyContent(state.howto, state.about, 'fr')) {
+          isLoading = true;
+        }
+        if (isEmptyContent(state.howto, state.about, 'en')) {
+          isLoading = true;
+        }
+
         const res = {
-          isLoading: !action.quietLoading,
+          isLoading,
           isInternalLoading: true,
-          isError: false,
           time: 0,
           content: state.content,
         };
@@ -27,22 +42,27 @@ export default (state = initialState.content, action) => {
         const res = {
           isLoading: false,
           isInternalLoading: false,
-          isError: false,
           time: now.getTime(),
           content,
         };
+        saveContentToStorage(res);
         return res;
       }
       case NETWORK_ERROR_LOAD_CONTENT: {
-        const now = new Date();
+        console.log('NETWORK_ERROR_LOAD_CONTENT');
+        console.log(action.error);
         return {
           isLoading: false,
           isInternalLoading: false,
-          isError: true,
-          time: now.getTime(),
-          content: [],
-          error: action.error,
         };
+      }
+      case SET_CONTENT: {
+        const content = action.content;
+        return content;
+      }
+      // Redux local storage
+      case SET_CONTENT_IS_LOADING_FROM_STORAGE: {
+        return { ...state, contentIsLoadingFromStorage: action.yes };
       }
       default:
         return state;

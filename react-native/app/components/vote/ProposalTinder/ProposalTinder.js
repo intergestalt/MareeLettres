@@ -15,24 +15,60 @@ class ProposalTinder extends Component {
     noOpacity: PropTypes.object,
     yesOpacity: PropTypes.object,
     isLoading: PropTypes.bool,
-    isError: PropTypes.bool,
     challengeOffset: PropTypes.number,
+    textColor: PropTypes.object,
   };
+  renderIsLoading() {
+    return (
+      <View style={styles.container}>
+        <Text>Loading...</Text>
+      </View>
+    );
+  }
+  renderNoTinder(myStyle) {
+    return (
+      <View style={myStyle}>
+        <Text>Nothing to Swipe</Text>
+      </View>
+    );
+  }
 
   render() {
     let myStyle = null;
     let noContainer = null;
     let yesContainer = null;
+    let textContainer = null;
 
-    if (this.props.proposalIndex === 0 && this.props.proposal) {
-      // Foreground
+    let foreground = false;
+    if (this.props.proposalIndex === 0) {
+      foreground = true;
+    }
+    let proposalExists = false;
+    if (this.props.proposal) {
+      proposalExists = true;
+    }
+    let center = false;
+    if (this.props.challengeOffset === 0) {
+      center = true;
+    }
+    if (foreground && proposalExists) {
       myStyle = styles.container;
     } else {
-      // BAckground
       myStyle = styles.containerBackground;
     }
-    if (this.props.proposalIndex === 0 && this.props.proposal && this.props.challengeOffset === 0) {
-      // Foreground or neighbour
+    if (foreground && this.props.isLoading) {
+      return this.renderIsLoading();
+    }
+
+    if (foreground && proposalExists && center) {
+      // Foreground and Center Challenge (That one actually visible end editable)
+      // =>  Two Votmarks at the same place to change color. Animated View to do this
+
+      textContainer = (
+        <Animated.Text style={[styles.text, { color: this.props.textColor }]}>
+          {this.props.proposal.text}
+        </Animated.Text>
+      );
       noContainer = (
         <View style={styles.noContainer1}>
           <View style={styles.noContainer2}>
@@ -58,7 +94,13 @@ class ProposalTinder extends Component {
         </View>
       );
     } else {
-      // BAckground or neighbour
+      // Background or neighbour (not visible, but rendered to swipe challenges left and right)
+      // => One Votemark, no AnimatedView
+      textContainer = (
+        <Text style={styles.text}>
+          {this.props.proposal.text}
+        </Text>
+      );
       noContainer = (
         <View style={styles.noContainer1}>
           <View style={styles.noContainer2}>
@@ -74,60 +116,36 @@ class ProposalTinder extends Component {
         </View>
       );
     }
-    let tinder = null;
-    if (!this.props.isLoading && !this.props.isError) {
-      if (this.props.proposal) {
-        tinder = (
-          <View style={myStyle}>
-            <View style={styles.topContainer}>
-              <Text style={styles.text}>
-                {this.props.proposal.text}
-              </Text>
-            </View>
-            <View style={styles.bottomContainer}>
-              {noContainer}
-              {yesContainer}
-            </View>
-          </View>
-        );
-      } else {
-        tinder = (
-          <View style={myStyle}>
-            <Text>Nothing to Swipe</Text>
-          </View>
-        );
-      }
-      if (
-        this.props.proposalIndex === 0 &&
-        this.props.proposal &&
-        this.props.challengeOffset === 0
-      ) {
-        return (
-          <Animated.View
-            {...this.props.panResponderContent.panHandlers}
-            style={this.props.myTinderStyle}
-          >
-            {tinder}
-          </Animated.View>
-        );
-      }
-      return tinder;
-    }
-    /*  <Test /> */
 
-    if (this.props.isLoading) {
-      return (
+    let tinder = null;
+    if (proposalExists) {
+      tinder = (
         <View style={myStyle}>
-          <Text>Loading...</Text>
+          <View style={styles.topContainer}>
+            {textContainer}
+          </View>
+          <View style={styles.bottomContainer}>
+            {noContainer}
+            {yesContainer}
+          </View>
         </View>
       );
+    } else {
+      tinder = this.renderNoTinder(myStyle);
     }
-    // Else: isError==true
-    return (
-      <View style={myStyle}>
-        <Text>ERROR!</Text>
-      </View>
-    );
+    if (foreground && proposalExists && center) {
+      // Foreground, existing and it is the center challenge => Animated Container
+      return (
+        <Animated.View
+          {...this.props.panResponderContent.panHandlers}
+          style={this.props.myTinderStyle}
+        >
+          {tinder}
+        </Animated.View>
+      );
+    }
+    //      return just the tinder, without animation
+    return tinder;
   }
 }
 
@@ -144,12 +162,10 @@ const mapStateToProps = (state, ownProps) => {
     const p = state.proposals[id];
 
     const proposals = getProposalList(p, proposalView, proposalListMode);
-    const isError = proposals.isError;
     const isLoading = proposals.isLoading;
     const proposal = proposals.proposals[ownProps.proposalIndex];
     return {
       proposal,
-      isError,
       isLoading,
     };
   } catch (e) {

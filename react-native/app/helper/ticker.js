@@ -40,24 +40,23 @@ function sendInternalVotes() {
 }
 
 function tick(props) {
-  tickerData(props);
+  if (DEV_CONFIG.TICKER_ENABELD) {
+    tickerData(props);
+  }
+
   sendInternalVotes();
 }
 export function stopChallengeTicker() {
   if (tickerStarted) {
-    if (DEV_CONFIG.TICKER_ENABELD) {
-      clearInterval(timerId);
-    }
+    clearInterval(timerId);
     tickerStarted = false;
   }
 }
 export function startChallengeTicker(props) {
   if (!tickerStarted) {
     tickerStarted = true;
-    if (DEV_CONFIG.TICKER_ENABELD) {
-      timerId = setInterval(() => {
-        tick(props);
-      }, 1000);
-    }
+    timerId = setInterval(() => {
+      tick(props);
+    }, 1000);
   }
 }

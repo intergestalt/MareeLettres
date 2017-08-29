@@ -7,7 +7,7 @@ import {
 
 import initialState from '../config/initialState';
 import I18n from '../i18n/i18n';
-import { saveGlobals } from '../helper/localStorage';
+import { saveGlobalsToStorage } from '../helper/localStorage';
 
 const swapLanguage = (state) => {
   let newLanguage = 'en';
@@ -26,7 +26,7 @@ export default (state = initialState.globals, action) => {
           ...state,
           language: swapLanguage(state, action),
         };
-        saveGlobals(result);
+        saveGlobalsToStorage(result);
         return result;
       }
       case SET_LANGUAGE: {
@@ -34,7 +34,7 @@ export default (state = initialState.globals, action) => {
           ...state,
           language: action.language,
         };
-        saveGlobals(result);
+        saveGlobalsToStorage(result);
         return result;
       }
       case SET_GLOBALS: {

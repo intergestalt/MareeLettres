@@ -2,6 +2,7 @@ import { loadProposalsServiceProxy } from '../helper/apiProxy';
 import store from '../config/store';
 import { PROPOSAL_VIEWS, PROPOSAL_LIST_MODES, CHALLENGE_VIEWS } from '../consts';
 import { LOAD_CONFIG } from '../config/config';
+import { listIsEmpty } from './helper';
 
 function loadProposals(offset) {
   const challengeIndex = store.getState().challenges.selectedChallengeIndex;
@@ -10,11 +11,12 @@ function loadProposals(offset) {
   if (index < 0 || index > challenges.length - 1) return;
   const id = challenges[index]._id;
   let limit = -1;
-  if (store.getState().globals.proposalView === PROPOSAL_VIEWS.LIST) {
+  if (store.getState().challenges.proposalView === PROPOSAL_VIEWS.LIST) {
     limit = LOAD_CONFIG.DEFAULT_PROPOSAL_LIST_LIMIT;
   } else {
     limit = LOAD_CONFIG.DEFAULT_PROPOSAL_TINDER_LIMIT;
   }
+
   loadProposalsServiceProxy(false, id, limit, LOAD_CONFIG.LOAD_QUIET_TO_CHALLENGE_SELECTOR);
 }
 
@@ -61,7 +63,6 @@ function getDefaultEntry() {
   result.proposals = [];
   result.isLoading = false;
   result.isInternalLoading = false;
-  result.isError = false;
   result.isPullDownLoading = false;
   result.isPullUpLoading = false;
   result.lastLimit = 0;
@@ -125,6 +126,9 @@ function mergeProposalListTinder(oldList, newList) {
 }
 
 export function mergeProposalList(oldList, newList, proposalView) {
+  if (listIsEmpty(oldList)) {
+    return newList;
+  }
   if (proposalView === PROPOSAL_VIEWS.LIST) {
     return mergeProposalListList(oldList, newList);
   }
@@ -132,6 +136,10 @@ export function mergeProposalList(oldList, newList, proposalView) {
 }
 
 export function cutProposalList(oldList, proposalView) {
+  if (listIsEmpty(oldList)) {
+    return oldList;
+  }
+
   const myList = oldList;
   if (proposalView === PROPOSAL_VIEWS.LIST) {
     myList.length = Math.min(oldList.length, LOAD_CONFIG.DEFAULT_PROPOSAL_LIST_LIMIT);

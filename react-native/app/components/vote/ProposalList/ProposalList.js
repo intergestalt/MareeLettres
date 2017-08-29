@@ -9,6 +9,7 @@ import { loadProposalsServiceProxy } from '../../../helper/apiProxy';
 import { LOAD_CONFIG } from '../../../config/config';
 import { userVoteInternal } from '../../../actions/user';
 import { deleteProposalFromTinderList } from '../../../actions/proposals';
+import { listIsEmpty } from '../../../helper/helper';
 
 class ProposalList extends PureComponent {
   static propTypes = {
@@ -19,11 +20,9 @@ class ProposalList extends PureComponent {
     onTrendingPress: PropTypes.func,
     onNewestPress: PropTypes.func,
     isLoading: PropTypes.bool,
-    isError: PropTypes.bool,
     isPullDownLoading: PropTypes.bool,
     isPullUpLoading: PropTypes.bool,
     lastLimit: PropTypes.number,
-    lastLoaded: PropTypes.number,
     setFlatlistRef: PropTypes.func,
     listEnabled: PropTypes.bool,
     dispatch: PropTypes.func,
@@ -35,6 +34,7 @@ class ProposalList extends PureComponent {
   }
   onPullDownRefresh() {
     const id = this.props.challenges[this.props.selectedChallengeIndex]._id;
+
     loadProposalsServiceProxy(
       true,
       id,
@@ -47,16 +47,15 @@ class ProposalList extends PureComponent {
     if (this.props.isPullUpLoading) {
       return;
     }
-
     const id = this.props.challenges[this.props.selectedChallengeIndex]._id;
     const limit = this.props.proposals.length + LOAD_CONFIG.DEFAULT_PROPOSAL_NEW_BATCH;
     let force = false;
     let lastNotLoad = true;
-
     if (limit > this.props.lastLimit) {
       force = true;
       lastNotLoad = false;
     }
+
     loadProposalsServiceProxy(
       force,
       id,
@@ -97,6 +96,21 @@ class ProposalList extends PureComponent {
 
     return null;
   }
+
+  renderIsLoading() {
+    return (
+      <View style={styles.container}>
+        <Text>Loading...</Text>
+      </View>
+    );
+  }
+  renderIsEmpty() {
+    return (
+      <View style={styles.container}>
+        <Text>Loading...</Text>
+      </View>
+    );
+  }
   render() {
     let myRefCallback = null;
     if (this.props.setFlatlistRef) {
@@ -108,54 +122,46 @@ class ProposalList extends PureComponent {
     if (!this.props.listEnabled) {
       listEnabled = 'none';
     }
-    if (!this.props.isLoading && !this.props.isError) {
-      return (
-        <View style={styles.container}>
-          <View style={styles.headerContainer}>
-            <ProposalListHeader
-              onMostPress={this.props.onMostPress}
-              onTrendingPress={this.props.onTrendingPress}
-              onNewestPress={this.props.onNewestPress}
-            />
-          </View>
-          <View pointerEvents={listEnabled} style={styles.listContainer}>
-            <FlatList
-              initialNumToRender={7}
-              ref={myRefCallback}
-              data={this.props.proposals}
-              renderItem={({ item }) =>
-                <ProposalListItem
-                  onNoPress={() => this.onNoPress(item)}
-                  onYesPress={() => this.onYesPress(item)}
-                  data={item}
-                />}
-              keyExtractor={item => item._id}
-              ItemSeparatorComponent={Separator}
-              refreshControl={
-                <RefreshControl
-                  refreshing={this.props.isPullDownLoading}
-                  onRefresh={this.onPullDownRefresh}
-                />
-              }
-              onEndReachedThreshold={LOAD_CONFIG.PROPOSAL_RELOAD_LIST_OFFSET}
-              onEndReached={this.onEndReached}
-              ListFooterComponent={this.renderFooter()}
-            />
-          </View>
-        </View>
-      );
-    }
     if (this.props.isLoading) {
-      return (
-        <View style={styles.container}>
-          <Text>Loading...</Text>
-        </View>
-      );
+      return this.renderIsLoading();
     }
-    // Else: isError==true
+
+    if (listIsEmpty(this.props.proposals)) {
+      return this.renderIsEmpty();
+    }
     return (
       <View style={styles.container}>
-        <Text>ERROR!</Text>
+        <View style={styles.headerContainer}>
+          <ProposalListHeader
+            onMostPress={this.props.onMostPress}
+            onTrendingPress={this.props.onTrendingPress}
+            onNewestPress={this.props.onNewestPress}
+          />
+        </View>
+        <View pointerEvents={listEnabled} style={styles.listContainer}>
+          <FlatList
+            initialNumToRender={7}
+            ref={myRefCallback}
+            data={this.props.proposals}
+            renderItem={({ item }) =>
+              <ProposalListItem
+                onNoPress={() => this.onNoPress(item)}
+                onYesPress={() => this.onYesPress(item)}
+                data={item}
+              />}
+            keyExtractor={item => item._id}
+            ItemSeparatorComponent={Separator}
+            refreshControl={
+              <RefreshControl
+                refreshing={this.props.isPullDownLoading}
+                onRefresh={this.onPullDownRefresh}
+              />
+            }
+            onEndReachedThreshold={LOAD_CONFIG.PROPOSAL_RELOAD_LIST_OFFSET}
+            onEndReached={this.onEndReached}
+            ListFooterComponent={this.renderFooter()}
+          />
+        </View>
       </View>
     );
   }
@@ -175,21 +181,17 @@ const mapStateToProps = (state, ownProps) => {
 
     const proposals = p2.proposals;
     const isLoading = p2.isLoading;
-    const isError = p2.isError;
     const isPullDownLoading = p2.isPullDownLoading;
     const isPullUpLoading = p2.isPullUpLoading;
     const lastLimit = p2.lastLimit;
-    const lastLoaded = p2.lastLoaded;
     return {
       challenges,
       proposals,
       selectedChallengeIndex,
       isLoading,
-      isError,
       isPullDownLoading,
       isPullUpLoading,
       lastLimit,
-      lastLoaded,
     };
   } catch (e) {
     console.log('ProposalList');

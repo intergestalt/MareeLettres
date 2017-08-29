@@ -9,14 +9,17 @@ import {
   SET_CHALLENGE_ID,
   SET_PROPOSAL_VIEW,
   SET_PROPOSAL_LIST_MODE,
+  SET_CHALLENGES_IS_LOADING_FROM_STORAGE,
+  SET_CHALLENGES,
 } from '../actions/challenges';
 import { CHALLENGE_VIEWS } from '../consts';
-
 import { DEV_CONFIG } from '../config/config';
+import { saveChallengesToStorage } from '../helper/localStorage';
 
 import { addDefaultStructure, getSelectedChallengeIndex } from '../helper/challengesHelper';
 import { popChallengeSelector } from '../helper/navigationProxy';
 import initialState from '../config/initialState';
+import { listIsEmpty } from '../helper/helper';
 
 export default (state = initialState.challenges, action) => {
   try {
@@ -25,13 +28,12 @@ export default (state = initialState.challenges, action) => {
         let oldChallenges = state;
         oldChallenges = addDefaultStructure(oldChallenges);
 
-        if (oldChallenges.challenges.length > 0) {
+        if (!listIsEmpty(oldChallenges.challenges)) {
           oldChallenges.isLoading = !action.quietLoading;
         } else {
           oldChallenges.isLoading = true;
         }
         oldChallenges.isInternalLoading = true;
-        oldChallenges.isError = false;
         return oldChallenges;
       }
       case CHALLENGES_LOADED: {
@@ -51,7 +53,6 @@ export default (state = initialState.challenges, action) => {
             ...entry,
             isLoading: false,
             isInternalLoading: false,
-            isError: false,
             voteNum: i + 1,
           };
           challenges.push(newEntry);
@@ -60,20 +61,20 @@ export default (state = initialState.challenges, action) => {
           ...state,
           isLoading: false,
           isInternalLoading: false,
-          isError: false,
           time: now.getTime(),
           challenges,
         };
+        saveChallengesToStorage(result);
+
         return result;
       }
       case NETWORK_ERROR_LOAD_CHALLENGES: {
+        console.log('NETWORK_ERROR_LOAD_CHALLENGES');
+        console.log(action.error);
         return {
+          ...state,
           isLoading: false,
           isInternalLoading: false,
-          isError: true,
-          time: state.time,
-          challenges: [],
-          error: action.error,
         };
       }
       case LOAD_CHALLENGE: {
@@ -148,6 +149,7 @@ export default (state = initialState.challenges, action) => {
               challengeView,
             };
 
+            saveChallengesToStorage(newState);
             return newState;
           }
         }
@@ -158,10 +160,13 @@ export default (state = initialState.challenges, action) => {
         return state;
       }
       case SET_CHALLENGE_VIEW: {
-        return {
+        const result = {
           ...state,
           challengeView: action.challengeView,
         };
+        saveChallengesToStorage(result);
+
+        return result;
       }
       case SET_CHALLENGE_ID: {
         let challengeId = action.challengeId;
@@ -174,20 +179,33 @@ export default (state = initialState.challenges, action) => {
           selectedChallengeId: challengeId,
           selectedChallengeIndex: challengeIndex,
         };
+
         return newState;
       }
       case SET_PROPOSAL_VIEW: {
-        return {
+        const result = {
           ...state,
           proposalView: action.proposalView,
         };
+        saveChallengesToStorage(result);
+        return result;
       }
 
       case SET_PROPOSAL_LIST_MODE: {
-        return {
+        const result = {
           ...state,
           proposalListMode: action.proposalListMode,
         };
+        saveChallengesToStorage(result);
+        return result;
+      }
+      case SET_CHALLENGES: {
+        const challenges = action.challenges;
+        return challenges;
+      }
+      // Redux local storage
+      case SET_CHALLENGES_IS_LOADING_FROM_STORAGE: {
+        return { ...state, challengesIsLoadingFromStorage: action.yes };
       }
       default:
         return state;

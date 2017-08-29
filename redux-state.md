@@ -16,7 +16,6 @@ This is the structure of the state:
     "challenges":[{
             "_id": "fixture_1",
             "end_date": "2017-08-18T16:09:56.582Z",
-            "isError": false,
             "isInternalLoading": false,     //flag for loading quiet or not.
             "isLoading": false,             //flag for displaying. False in case of quiet load
             "proposals_amount": 170,
@@ -40,13 +39,14 @@ This is the structure of the state:
         },
         ...
     ],
-    "isError": false,
     "isInternalLoading": false,  //flag for loading quiet or not.
     "isLoading": false,         //flag for displaying. False in case of quiet load
     "selectedChallengeId": "fixture_6",  //null if nothing is selected
-    "selectedChallengeIndex": 5,        // -1 if nothing is selected. Always synchron to Id
+    "selectedChallengeIndex": 5,        // -1 if nothing is selected. Always synchron to Id     "challengeView": "detail",  //detail or list
+    "proposalListMode": "most",     //most, newest or trending
+    "proposalView": "list",             //list or tinder  
     "time": 1503312576795,              // Last time this list was fetched
-  },
+ },
   "challengesTicker":  {
     "fixture_1":  {
       "endStringEn": "Ended on Aug 18 at 6:09pm",
@@ -70,21 +70,16 @@ This is the structure of the state:
        },
       ...
     },
-    "isError": false,
     "isInternalLoading": false,
     "isLoading": false,
     "time": 1503313175582,
   },
   "globals": {
-    "challengeView": "detail",  //detail or list
     "language": "fr",
-    "proposalListMode": "most",     //most, newest or trending
-    "proposalView": "list",             //list or tinder
   },
   "proposals":  {
     "fixture_10":  {
       "listMost":  {
-        "isError": false,
         "isInternalLoading": false,
         "isLoading": false,
         "isPullDownLoading": false,
@@ -209,13 +204,11 @@ This is the structure of the state:
         },
         ...
     ],
-    "isError": false,
     "isInternalLoading": false,
     "isLoading": false,
   },
   "myLetters": {
     "content": [],
-    "isError": false,
     "isLoading": true,
   },
 }

@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { Animated, PanResponder } from 'react-native';
+import { View, Animated, PanResponder } from 'react-native';
 import { connect } from 'react-redux';
 
 import styles from './styles';
@@ -14,9 +14,11 @@ import { setChallengeId, setProposalListMode, setProposalView } from '../../../a
 import { loadProposalsServiceProxy } from '../../../helper/apiProxy';
 import { PROPOSAL_VIEWS, PROPOSAL_LIST_MODES } from '../../../consts';
 import { LOAD_CONFIG } from '../../../config/config';
+import { listIsEmpty } from '../../../helper/helper';
 
 class ChallengeContainer extends Component {
   static propTypes = {
+    isLoading: PropTypes.bool,
     dispatch: PropTypes.func,
     challenges: PropTypes.array,
     selectedChallengeIndex: PropTypes.number,
@@ -309,10 +311,38 @@ class ChallengeContainer extends Component {
   setFlatlistRefRight(ref) {
     this.flatlistRefRight = ref;
   }
-
+  renderIsLoading() {
+    return (
+      <View style={styles.container}>
+        <Text>Loading Challenges...</Text>
+      </View>
+    );
+  }
+  renderIsEmpty() {
+    return (
+      <View style={styles.container}>
+        <Text>Empty Challenges...</Text>
+      </View>
+    );
+  }
   // Render
   render() {
-    const myStyle = [styles.challengeContainer, { left: this.state.challengeContainerOffsetX }];
+    if (this.props.isLoading) {
+      return this.renderIsLoading();
+    }
+    if (listIsEmpty(this.props.challenges)) {
+      return this.renderIsEmpty();
+    }
+    const myStyle = [
+      styles.challengeContainer,
+      {
+        transform: [
+          {
+            translateX: this.state.challengeContainerOffsetX,
+          },
+        ],
+      },
+    ];
     return (
       <Animated.View style={myStyle}>
         <ChallengeDetail
@@ -353,12 +383,15 @@ const mapStateToProps = (state) => {
     const selectedChallengeId = state.challenges.selectedChallengeId;
     const selectedProposalView = state.challenges.proposalView;
     const selectedProposalListMode = state.challenges.proposalListMode;
+    const isLoading = state.challenges.isLoading;
+
     return {
       selectedChallengeIndex,
       selectedChallengeId,
       challenges,
       selectedProposalView,
       selectedProposalListMode,
+      isLoading,
     };
   } catch (e) {
     console.log('ChallengeContainer');
