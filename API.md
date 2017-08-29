@@ -102,17 +102,14 @@ FAIL:
 ```
 NOTE: assuming no date/time discrepancies, using UTC ISODate
 
-
+#### GET api/letters?interval
+Get the new letters that are placed withing the last interval. see: config -> map_update_interval
+Update map by polling every map_update_interval seconds.
 
 ## (discussion / to do)
 
 #### GET api/letters?centerLat=...&centerLng=...&radius=...
 Get letters in radius
-
-#### GET api/letters?interval
-Get the new letters placed withing the last interval. see: config -> map_update_interval
-
-NOTE: Choose :seconds from a limited set. For example always use 5 seconds. Or only use 5 or 10 seconds. This is to leverage caching, which happens per URL.
 
 #### GET api/letters
 The GET letters request should allow transmission of player coordinates
