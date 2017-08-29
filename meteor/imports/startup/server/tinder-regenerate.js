@@ -1,6 +1,7 @@
 import { Meteor } from 'meteor/meteor';
+import currentSystemConfig from './system-config';
 
-const interval = global.currentSystemConfig.tinder_proposals_regeneration_interval;
+const interval = currentSystemConfig.getConfig().tinder_proposals_regeneration_interval;
 
 const runRegenerateTinder = function () {
   // console.log('run tinder regeneration');

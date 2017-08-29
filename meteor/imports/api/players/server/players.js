@@ -4,6 +4,7 @@ import { OriginId } from 'maree-lettres-shared';
 
 import { Players } from '../players';
 import { Proposals } from '../../proposals/proposals';
+import currentSystemConfig from '../../../startup/server/system-config';
 
 Meteor.publish(
   'get.players',
@@ -49,9 +50,13 @@ JsonRoutes.add('get', `${Meteor.settings.public.api_prefix}players/:origin_id`, 
     JsonRoutes.sendResult(res, error_options);
   } */
 
-  const options = {
-    data: player,
+  let options = {
+    data: {...player}
   };
+
+  //if (player.new) {
+    options = currentSystemConfig.addToResponseOptions(options)
+  //}
 
   JsonRoutes.sendResult(res, options);
 });

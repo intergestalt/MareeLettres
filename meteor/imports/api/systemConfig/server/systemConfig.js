@@ -1,5 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import { SystemConfig } from '../systemConfig';
+import currentSystemConfig from '../../../startup/server/system-config';
 
 Meteor.publish('get.systemConfig', function getSystemConfig() {
   return SystemConfig.find();
@@ -8,7 +9,7 @@ Meteor.publish('get.systemConfig', function getSystemConfig() {
 // ; charset=utf-8
 
 JsonRoutes.add('get', `${Meteor.settings.public.api_prefix}config`, function (req, res, next) {
-  JsonRoutes.sendResult(res, {
-    data: global.currentSystemConfig,
-  });
+  options = {}
+  options = currentSystemConfig.addToResponseOptions(options)
+  JsonRoutes.sendResult(res, options);
 });
