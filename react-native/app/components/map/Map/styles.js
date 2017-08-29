@@ -20,6 +20,16 @@ const styles = EStyleSheet.create({
 		color: 'rgb(245,132,102)',
 		fontSize: 18,
   },
+	button: {
+		padding: 8,
+		fontFamily: 'impact',
+		fontSize: '1.2rem',
+		color: 'white',
+		backgroundColor: 'transparent',
+		position: 'absolute',
+		right: '0%',
+		bottom: '0%',
+	}
 });
 
 const mapstyles = [

@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 import MapView from 'react-native-maps';
 import { changeMapRegionProxy, setUserCoordinatesProxy } from '../../../helper/mapHelper';
 import { connect } from 'react-redux';
@@ -31,6 +31,8 @@ class Map extends Component {
     const {status} = await Permissions.askAsync(Permissions.LOCATION);
     if (status === 'granted') {
       Location.getCurrentPositionAsync().then((res) => {
+        //res.coords.latitude = 52.49330866968013;
+        //res.coords.longitude = 13.436372637748718;
         setUserCoordinatesProxy(res.coords.latitude, res.coords.longitude);
 
         if (!this.state.set) {
@@ -53,8 +55,7 @@ class Map extends Component {
   }
 
   onPress = (e) => {
-    const region = e.nativeEvent;
-    // on map press
+    // const region = e.nativeEvent;
   };
 
   onRegionChange = (region) => {
@@ -64,6 +65,13 @@ class Map extends Component {
   onRegionChangeComplete = (region) => {
     changeMapRegionProxy(region);
   };
+
+  centreMap = () => {
+    this._map._component.animateToRegion({
+        ...this.props.coordinates
+      }, 300
+    );
+  }
 
   render() {
     console.log('MAP RENDERED');
@@ -84,19 +92,21 @@ class Map extends Component {
       );
     });
     const mapLetters = this.props.letters.map((item, i) => {
-      // TODO: remove check (clean up server)
-      if (typeof(item.coords.lat) !== 'string') {
-        return (
-          <MapView.Marker
-            key={i}
-            coordinate={{ latitude: item.coords.lat, longitude: item.coords.lng }}
-          >
-            <Text style={styles.letter}>
-              {item.character}
-            </Text>
-          </MapView.Marker>
-        );
-      }
+      return (
+        <MapView.Marker
+          key={i}
+          coordinate={{
+            latitude: item.coords.lat,
+            longitude: item.coords.lng,
+            longitudeDelta: 0.01,
+            latitudeDelta: 0.01,
+          }}
+        >
+          <Text style={styles.letter}>
+            {item.character}
+          </Text>
+        </MapView.Marker>
+      );
     })
 
     return (
@@ -147,6 +157,11 @@ class Map extends Component {
           </MapView.Marker>
 
         </MapView.Animated>
+        <TouchableOpacity onPress={this.centreMap}>
+          <Text style={styles.button}>
+            CENTRE MAP
+          </Text>
+        </TouchableOpacity>
       </View>
     );
   }

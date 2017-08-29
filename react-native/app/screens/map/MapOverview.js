@@ -3,12 +3,14 @@ import { StatusBar } from 'react-native';
 
 import { Screen } from '../../components/general/Container';
 import { TabBar } from '../../components/general/TabBar';
-
 import { Map } from '../../components/map/Map';
 import { LettersMenu, CameraButton, MapScreenMenu } from '../../components/map/Overlay';
 
 import { loadLettersServiceProxy } from '../../helper/apiProxy';
 import { loadMyLettersProxy } from '../../helper/mapHelper';
+
+// NOTE: rm camera until properly implemented
+// <CameraButton navigation={this.props.navigation} />
 
 class MapOverview extends Component {
   static propTypes = {
@@ -25,7 +27,6 @@ class MapOverview extends Component {
       <Screen backgroundColor={'#00aaaa'}>
         <StatusBar />
         <Map navigation={this.props.navigation} />
-        <CameraButton navigation={this.props.navigation} />
         <LettersMenu
           navigation={this.props.navigation}
           />
