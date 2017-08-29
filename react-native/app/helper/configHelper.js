@@ -16,6 +16,4 @@ export function writeDynamicConfig(config) {
     console.log(`${key.toUpperCase()} = ${config.config[key]}`);
     addEntry(config, key);
   }
-  // addEntry(config, 'request_timeout');
-  // addEntry(config, 'delay_config_call');
 }
