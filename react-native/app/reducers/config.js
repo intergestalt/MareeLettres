@@ -4,7 +4,7 @@ import {
   NETWORK_ERROR_LOAD_CONFIG,
   SET_CONFIG_IS_LOADING_FROM_STORAGE,
   SET_CONFIG,
-} from '../actions/content';
+} from '../actions/config';
 
 import initialState from '../config/initialState';
 import { saveConfigToStorage } from '../helper/localStorage';
@@ -34,7 +34,7 @@ export default (state = initialState.config, action) => {
         const now = new Date();
         const res = {
           ...state,
-          currentConfig: action.action.currentConfig,
+          currentConfig: action.action.newConfig,
           isLoading: false,
           isInternalLoading: false,
           time: now.getTime(),

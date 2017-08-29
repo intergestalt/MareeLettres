@@ -54,7 +54,6 @@ export default (state = initialState.user, action) => {
       }
       // Redux local storage
       case SET_USER_IS_LOADING_FROM_STORAGE: {
-        console.log(`SET_USER_IS_LOADING_FROM_STORAGE ${action.yes}`);
         return { ...state, userIsLoadingFromStorage: action.yes };
       }
 
