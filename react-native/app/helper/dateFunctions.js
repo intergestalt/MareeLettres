@@ -244,5 +244,6 @@ export function getChallengesTickerData(challengeState) {
     newChallengeTickerData = getChallengeTickerData(endDate);
     newChallengesTickerData[myChallenge._id] = newChallengeTickerData;
   }
+
   return newChallengesTickerData;
 }

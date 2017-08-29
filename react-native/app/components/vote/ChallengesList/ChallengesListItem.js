@@ -12,7 +12,6 @@ class ChallengesListItem extends Component {
   };
 
   render() {
-    const language = this.props.language;
     return (
       <View style={styles.itemContainer}>
         {!this.props.data.isLoading
@@ -64,7 +63,8 @@ const mapStateToProps = (state) => {
     };
   } catch (e) {
     console.log('ChallengesListItem');
-    console.log(e); throw e;
+    console.log(e);
+    throw e;
   }
 };
 export default connect(mapStateToProps)(ChallengesListItem);
