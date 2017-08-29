@@ -16,6 +16,7 @@ export const USER_WIPE_LETTER_MENU = 'USER_WIPE_LETTER_MENU';
 export const USER_GET_LETTER = 'USER_GET_LETTER';
 export const USER_REVIVE_LETTER_MENU = 'USER_REVIVE_LETTER_MENU';
 export const USER_BIN_LETTER = 'USER_BIN_LETTER';
+export const USER_ADD_FRIEND_LETTER = 'USER_ADD_FRIEND_LETTER';
 
 export const USER_VOTE_INTERNAL = 'USER_VOTE_INTERNAL';
 export const USER_SEND_INTERNAL_VOTES = 'USER_SEND_INTERNAL_VOTES';
@@ -23,10 +24,15 @@ export const USER_INTERNAL_VOTES_SENT = 'USER_INTERNAL_VOTES_SENT';
 export const USER_SEND_INTERNAL_VOTES_ERROR = 'USER_SEND_INTERNAL_VOTES_ERROR';
 export const SET_USER_IS_LOADING_FROM_STORAGE = 'SET_USER_IS_LOADING_FROM_STORAGE';
 export const SET_USER_LOADED_FROM_STORAGE = 'SET_USER_LOADED_FROM_STORAGE';
+export const SET_USER_LOADED_FROM_STORAGE_RESET_DEFAULTS = 'SET_USER_LOADED_FROM_STORAGE_RESET_DEFAULTS';
 
 export const setUser = user => ({
   type: SET_USER,
   user,
+});
+
+export const setUserLoadedFromStorageResetDefaults = () => ({
+  type: SET_USER_LOADED_FROM_STORAGE_RESET_DEFAULTS,
 });
 
 export const loadUser = originId => ({
@@ -44,9 +50,10 @@ export const setUserLoadedFromStorage = yes => ({
   type: SET_USER_LOADED_FROM_STORAGE,
   yes,
 });
-export const getUserLetter = () => ({
+export const setUserLetter = (char) => ({
   type: USER_GET_LETTER,
   errorEvent: USER_UPDATE_ERROR,
+  character: char,
 });
 
 export const setUserId = () => ({
@@ -96,6 +103,12 @@ export const binLetter = menuIndex => ({
 export const wipeLetterMenu = () => ({
   type: USER_WIPE_LETTER_MENU,
   error: USER_UPDATE_ERROR,
+});
+
+export const addFriendLetter = (character) => ({
+  type: USER_ADD_FRIEND_LETTER,
+  error: USER_UPDATE_ERROR,
+  character: character,
 });
 
 // Voteing

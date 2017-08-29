@@ -8,8 +8,9 @@ import {
   reviveLetterMenu,
   wipeLetterMenu,
   deleteLetters,
-  getUserLetter,
+  setUserLetter,
   binLetter,
+  addFriendLetter
 } from '../actions/user';
 
 import store from '../config/store';
@@ -30,11 +31,14 @@ export function reviveLetterMenuProxy(menuIndex, character) {
   store.dispatch(reviveLetterMenu(menuIndex, character));
 }
 
+export function addFriendLetterProxy(character) {
+  store.dispatch(addFriendLetter(character))
+}
+
 export function wipeLetterMenuProxy() {
   store.dispatch(wipeLetterMenu());
 }
 
-export function getUserLetterProxy() {
-  console.log('proxy user letter');
-  store.dispatch(getUserLetter());
+export function setUserLetterProxy(char) {
+  store.dispatch(setUserLetter(char));
 }

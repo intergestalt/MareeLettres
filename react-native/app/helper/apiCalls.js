@@ -112,3 +112,22 @@ export const callLetters = () => {
   console.log(url);
   return getPromiseGET(url);
 };
+
+export const callPostLetter = (action) => {
+  const url = `${config.API_PREFIX}letters/`;
+  const body = action.body;
+  const req_body = {
+    letters: [{
+      character: body.character,
+      origin_id: body.origin_id,
+      coords: {
+        lat: body.lat,
+        lng: body.lng
+      },
+      created_at: body.created_at,
+    }]
+  };
+  console.log('API CALL: callPostLetter');
+  console.log(url);
+  return getPromisePOST(url, JSON.stringify(req_body));
+};

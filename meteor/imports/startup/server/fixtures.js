@@ -18,6 +18,8 @@ const SeedChallenges = JSON.parse(Assets.getText('fixtures/challenges.json')).ch
 const contents = ['howto', 'about'];
 
 Meteor.startup(() => {
+  console.log("running fixures")
+
   // Always update default SystemConfig
   const defaultSystemConfig = SystemConfigSchema.clean({});
   SystemConfig.rawCollection().replaceOne({ name: 'default' }, defaultSystemConfig, {
@@ -82,6 +84,7 @@ Meteor.startup(() => {
       Players.insert({
         _id: `fixture_${i}`,
         origin_id: OriginId.generateFromString(`fixture_player_${i}`),
+        created_at: new Date,
         votes: {},
       });
     }

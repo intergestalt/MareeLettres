@@ -102,17 +102,14 @@ FAIL:
 ```
 NOTE: assuming no date/time discrepancies, using UTC ISODate
 
-
+#### GET api/letters?interval
+Get the new letters that are placed withing the last interval. see: config -> map_update_interval
+Update map by polling every map_update_interval seconds.
 
 ## (discussion / to do)
 
 #### GET api/letters?centerLat=...&centerLng=...&radius=...
 Get letters in radius
-
-#### GET api/letters?since=:seconds
-Get the new letters placed withing the last :seconds
-
-NOTE: Choose :seconds from a limited set. For example always use 5 seconds. Or only use 5 or 10 seconds. This is to leverage caching, which happens per URL.
 
 #### GET api/letters
 The GET letters request should allow transmission of player coordinates
@@ -138,7 +135,7 @@ IDEA: Allow both verbs, GET and PATCH, but only URL-Cache GET?
 ```
 {
   transnaction_id: 12345
-  transaction_url: http://mareedeslettres.fr/x/12345
+  transaction_url: http://lettres.paris/x/12345
 }
 ```
 #### GET api/players/:player_id/letters/receive/:transaction_id

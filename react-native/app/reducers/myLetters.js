@@ -13,21 +13,18 @@ import { saveMyLettersToStorage } from '../helper/localStorage';
 export default (state = initialState.myLetters, action) => {
   try {
     switch (action.type) {
-      case LOAD_MY_LETTERS:
+      case LOAD_MY_LETTERS: {
         console.log('Reducer: LOAD_MY_LETTERS');
         return {
           ...state,
           isLoading: true,
         };
+      }
 
       case PUT_LETTER_ON_MAP: {
         console.log('Reducer: PUT_LETTER_ON_MAP');
 
-        // calculate lat & long
         const user = store.getState().user;
-        const c = user.map.coordinates;
-        const lat = c.latitude + action.y * c.latitudeDelta;
-        const lng = c.longitude + action.x * c.longitudeDelta;
 
         const result = {
           ...state,
@@ -37,11 +34,9 @@ export default (state = initialState.myLetters, action) => {
               _id: user.origin_id,
               character: action.character,
               coords: {
-                lat,
-                lng,
+                lat: action.x,
+                lng: action.y,
               },
-              acquired_at: 0,
-              last_used_at: new Date().toISOString(),
             },
           ],
         };

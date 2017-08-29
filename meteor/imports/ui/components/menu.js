@@ -24,6 +24,9 @@ class Menu extends Component {
             <Link to="/admin/proposals">Proposals</Link>
           </li>
           <li>
+            <Link to="/admin/players">Players</Link>
+          </li>
+          <li>
             <Link to="/admin/content">Content</Link>
           </li>
           <li>

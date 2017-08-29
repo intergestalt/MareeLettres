@@ -4,7 +4,7 @@ import { SET_CHALLENGES_DATE_DATA } from '../actions/challengesTicker';
 import { LOAD_CHALLENGES, LOAD_CHALLENGE } from '../actions/challenges';
 import { LOAD_PROPOSALS } from '../actions/proposals';
 import { LOAD_CONTENT } from '../actions/content';
-import { LOAD_LETTERS } from '../actions/letters';
+import { LOAD_LETTERS, POST_LETTER } from '../actions/letters';
 import { USER_SEND_INTERNAL_VOTES, LOAD_USER } from '../actions/user';
 
 function* loadData(action) {
@@ -47,17 +47,17 @@ function* loadDataPlusTicker(action) {
 function* sendData(action) {
   try {
     const response = yield call(action.apiCall, action);
-    // console.log('RESPONSE');
-    // console.log(response);
+    console.log('RESPONSE');
+    console.log(response);
     const result = yield JSON.parse(response);
-    // console.log('RESULT');
-    // console.log(result);
+    console.log('RESULT');
+    console.log(result);
     if (result.error) {
       console.log('ERROR 1');
       console.log(result.error);
       yield put({ type: action.errorEvent, error: result.error.message });
     } else {
-      // console.log('SUCCESS');
+       console.log('SUCCESS');
       yield put({ type: action.successEvent, result, action });
     }
   } catch (error) {
@@ -73,5 +73,6 @@ export default function* rootSaga() {
   yield takeEvery(LOAD_CONTENT, loadData);
   yield takeEvery(USER_SEND_INTERNAL_VOTES, sendData);
   yield takeEvery(LOAD_LETTERS, loadData);
+  yield takeEvery(POST_LETTER, sendData);
   yield takeEvery(LOAD_USER, loadData);
 }

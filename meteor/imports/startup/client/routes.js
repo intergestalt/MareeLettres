@@ -9,6 +9,7 @@ import ContentPage from '../../ui/screens/Content.jsx';
 import StatusPage from '../../ui/screens/Status.jsx';
 import LettersPage from '../../ui/screens/Letters.jsx';
 import ProposalsPage from '../../ui/screens/Proposals.jsx';
+import PlayersPage from '../../ui/screens/Players.jsx';
 
 const renderRoutes = () =>
   <Router history={browserHistory}>
@@ -18,6 +19,7 @@ const renderRoutes = () =>
       <Route name="challenges.index" path="challenges" component={ChallengesIndex} />
       <Route name="challenges.show" path="challenges/:challenge_id" component={Challenge} />
       <Route name="proposals.index" path="proposals" component={ProposalsPage} />
+      <Route name="players.index" path="players" component={PlayersPage} />
       <Route name="content.edit" path="content" component={ContentPage} />
       <Route name="status" path="status" component={StatusPage} />
       <Route name="letters" path="letters" component={LettersPage} />

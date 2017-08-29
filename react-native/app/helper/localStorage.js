@@ -1,6 +1,6 @@
 import { AsyncStorage } from 'react-native';
 import store from '../config/store';
-import { setUser, setUserIsLoadingFromStorage, setUserLoadedFromStorage } from '../actions/user';
+import { setUser, setUserIsLoadingFromStorage, setUserLoadedFromStorage, setUserLoadedFromStorageResetDefaults } from '../actions/user';
 import { setGlobals, setGlobalsIsLoadingFromStorage } from '../actions/general';
 import { setContent, setContentIsLoadingFromStorage } from '../actions/content';
 import { setChallenges, setChallengesIsLoadingFromStorage } from '../actions/challenges';
@@ -174,6 +174,7 @@ export async function loadUserFromStorage() {
       store.dispatch(setUser(user));
       store.dispatch(setUserIsLoadingFromStorage(false));
       store.dispatch(setUserLoadedFromStorage(true));
+      store.dispatch(setUserLoadedFromStorageResetDefaults());
       return;
     }
     store.dispatch(setUserIsLoadingFromStorage(false));

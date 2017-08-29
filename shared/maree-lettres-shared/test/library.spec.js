@@ -1,7 +1,7 @@
 /* global describe, it, before */
 
 import chai from 'chai';
-import { OriginId, DeviceIdException, AvailableLetters } from '../lib/maree-lettres-shared.js';
+import { OriginId, DeviceIdException, AvailableLetters, systemConfigInitial } from '../lib/maree-lettres-shared.js';
 import config from '../src/config.js';
 
 chai.expect();
@@ -71,8 +71,14 @@ describe('when veryfying', () => {
 
 describe('when accessing available proposal letter set', () => {
   it('should return a string', () => {
+    let letters = AvailableLetters.proposal;
 
-    let letters = AvailableLetters.proposal    
     expect(letters).to.be.a('string');
+  });
+});
+
+describe('systemConfigInitial', () => {
+  it('should be an object with a name', () => {
+    expect(systemConfigInitial.name).to.be.a('string');
   });
 });

@@ -1,7 +1,7 @@
 {
   "name": "maree-lettres-shared",
   "private": true,
-  "version": "0.1.1",
+  "version": "0.2.2",
   "description": "shared code for MareeLettres",
   "main": "lib/maree-lettres-shared.js",
   "scripts": {
@@ -25,7 +25,8 @@
     "yargs": "7.1.0"
   },
   "dependencies": {
-    "cryptr": "^2.0.0"
+    "cryptr": "^2.0.0",
+    "simpl-schema": "^0.3.2"
   },
   "license": "no licence"
 }

@@ -9,10 +9,6 @@ import { AppContainer } from './components/general/Container';
 
 import { screenHeight } from './helper/screen';
 
-// import That from '../../meteor/exports';
-
-// console.log(That);
-
 Expo.ScreenOrientation.allow(Expo.ScreenOrientation.Orientation.PORTRAIT);
 
 EStyleSheet.build({
