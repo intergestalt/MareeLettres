@@ -1,6 +1,11 @@
 import { AsyncStorage } from 'react-native';
 import store from '../config/store';
-import { setUser, setUserIsLoadingFromStorage, setUserLoadedFromStorage, setUserLoadedFromStorageResetDefaults } from '../actions/user';
+import {
+  setUser,
+  setUserIsLoadingFromStorage,
+  setUserLoadedFromStorage,
+  setUserLoadedFromStorageResetDefaults,
+} from '../actions/user';
 import { setGlobals, setGlobalsIsLoadingFromStorage } from '../actions/general';
 import { setContent, setContentIsLoadingFromStorage } from '../actions/content';
 import { setChallenges, setChallengesIsLoadingFromStorage } from '../actions/challenges';

@@ -64,7 +64,6 @@ class SplashScreenB extends Component {
       console.log('LOAD FROM WWW');
       loadUserServiceProxy(true);
     }
-
     await loadGlobalsFromStorage();
     await loadChallengesFromStorage(this.props);
     await loadProposalsFromStorage();
