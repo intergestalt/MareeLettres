@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { Meteor } from 'meteor/meteor';
 import { Link } from 'react-router';
-import { OriginId } from 'maree-lettres-shared';
+
+import PlayerCell from './PlayerCell'
 
 class ProposalEntry extends Component {
   constructor(props) {
@@ -14,13 +15,7 @@ class ProposalEntry extends Component {
     return (
       <tr key={proposal._id}>
         <td>
-          <code>
-            {OriginId.getOrigin(proposal.origin_id)}
-            <br />
-            <small>
-              {proposal.origin_id}
-            </small>
-          </code>
+          <PlayerCell origin_id={proposal.origin_id} />
         </td>
         <td>
           <tt>
