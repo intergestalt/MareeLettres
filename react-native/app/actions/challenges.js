@@ -33,9 +33,10 @@ export const loadChallenge = (challengeId, props) => ({
   props,
 });
 
-export const setChallengeId = id => ({
+export const setChallengeId = (id, props) => ({
   type: SET_CHALLENGE_ID,
   challengeId: id,
+  props,
 });
 export const setChallengeView = challengeView => ({
   type: SET_CHALLENGE_VIEW,
@@ -52,9 +53,10 @@ export const setProposalListMode = proposalListMode => ({
   proposalListMode,
 });
 
-export const setChallenges = challenges => ({
+export const setChallenges = (challenges, props) => ({
   type: SET_CHALLENGES,
   challenges,
+  props,
 });
 
 export const setChallengesIsLoadingFromStorage = yes => ({

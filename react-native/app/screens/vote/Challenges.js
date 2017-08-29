@@ -11,7 +11,7 @@ class Challenges extends Component {
   };
 
   componentDidMount() {
-    manageChallenges();
+    manageChallenges(this.props);
   }
 
   render() {

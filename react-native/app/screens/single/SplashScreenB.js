@@ -66,7 +66,7 @@ class SplashScreenB extends Component {
     }
 
     await loadGlobalsFromStorage();
-    await loadChallengesFromStorage();
+    await loadChallengesFromStorage(this.props);
     await loadProposalsFromStorage();
     await loadContentFromStorage();
     await loadLettersFromStorage();

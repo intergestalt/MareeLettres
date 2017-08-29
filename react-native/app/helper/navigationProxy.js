@@ -52,7 +52,7 @@ export function navigateToStream(props) {
 }
 
 function preNavigateToVote(props) {
-  manageChallenges();
+  manageChallenges(props);
   manageProposals();
   startChallengeTicker(props);
   sendInternalVotesServiceProxy(true);
@@ -108,13 +108,13 @@ export function navigateToChallengeSelector(props, id) {
   if (index === -1) {
     return;
   }
-  props.dispatch(setChallengeId(id));
+  props.dispatch(setChallengeId(id, props));
   if (store.getState().challenges.selectedChallengeIndex === -1) {
     return;
   }
   store.dispatch(setChallengeView(CHALLENGE_VIEWS.DETAIL));
 
-  manageChallenges();
+  manageChallenges(props);
   manageProposals();
   startChallengeTicker(props);
   sendInternalVotesServiceProxy(true);
@@ -128,7 +128,7 @@ export function popChallengeSelector(props, withDispatch = true) {
   }
   if (withDispatch) {
     store.dispatch(setChallengeView(CHALLENGE_VIEWS.LIST));
-    manageChallenges();
+    manageChallenges(props);
     sendInternalVotesServiceProxy(true);
   }
   if (!props.navigation.goBack()) {

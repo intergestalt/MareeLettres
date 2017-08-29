@@ -169,17 +169,24 @@ export default (state = initialState.challenges, action) => {
         return result;
       }
       case SET_CHALLENGE_ID: {
+        let challengeView = state.challengeView;
         let challengeId = action.challengeId;
         const challengeIndex = getSelectedChallengeIndex(challengeId);
         if (challengeIndex === -1) {
           challengeId = null;
         }
+
+        if (challengeIndex === -1) {
+          challengeView = CHALLENGE_VIEWS.LIST;
+
+          popChallengeSelector(action.props, false);
+        }
         const newState = {
           ...state,
+          challengeView,
           selectedChallengeId: challengeId,
           selectedChallengeIndex: challengeIndex,
         };
-
         return newState;
       }
       case SET_PROPOSAL_VIEW: {
@@ -200,8 +207,19 @@ export default (state = initialState.challenges, action) => {
         return result;
       }
       case SET_CHALLENGES: {
-        const challenges = action.challenges;
-        return challenges;
+        let challenges = action.challenges;
+        challenges = addDefaultStructure(challenges);
+        let challengeView = state.challengeView;
+        if (listIsEmpty(challenges.challenges)) {
+          console.log(challenges);
+          challengeView = CHALLENGE_VIEWS.LIST;
+          popChallengeSelector(action.props, false);
+        }
+        const result = {
+          ...challenges,
+          challengeView,
+        };
+        return result;
       }
       // Redux local storage
       case SET_CHALLENGES_IS_LOADING_FROM_STORAGE: {

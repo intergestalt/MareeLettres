@@ -2,16 +2,16 @@ import store from '../config/store';
 import { loadChallengesServiceProxy } from './apiProxy';
 import { popChallengeSelector } from './navigationProxy';
 
-import { CHALLENGE_VIEWS } from '../consts';
+import { CHALLENGE_VIEWS, PROPOSAL_LIST_MODES, PROPOSAL_VIEWS } from '../consts';
 import { setChallengeId } from '../actions/challenges';
 import { LOAD_CONFIG } from '../config/config';
 
-export function manageChallenges() {
+export function manageChallenges(props) {
   // Always
   loadChallengesServiceProxy(false, LOAD_CONFIG.LOAD_QUIET_CHALLENGES_LIST);
   if (store.getState().challenges.challengeView === CHALLENGE_VIEWS.LIST) {
     // Reset State
-    store.dispatch(setChallengeId(null));
+    store.dispatch(setChallengeId(null, props));
   }
 }
 export function getSelectedChallengeIndex(id) {
@@ -51,14 +51,17 @@ function getDefaultEntry() {
   result.challenges = [];
   result.isLoading = false;
   result.isInternalLoading = false;
-  result.time = 0;
   result.selectedChallengeId = null;
-  result.time = -1;
+  result.selectedChallengeIndex = -1;
+  result.proposalListMode = PROPOSAL_LIST_MODES.MOST;
+  result.proposalView = PROPOSAL_VIEWS.LIST;
+  result.challengeView = CHALLENGE_VIEWS.LIST;
+  result.time = 0;
   return result;
 }
 
 export function addDefaultStructure(challenges) {
-  if (!challenges) {
+  if (!challenges || Object.keys(challenges).length === 0) {
     return getDefaultEntry();
   }
   return challenges;

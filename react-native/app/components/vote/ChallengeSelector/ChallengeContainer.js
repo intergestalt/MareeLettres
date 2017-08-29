@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { View, Animated, PanResponder } from 'react-native';
+import { Text, View, Animated, PanResponder } from 'react-native';
 import { connect } from 'react-redux';
 
 import styles from './styles';
@@ -10,7 +10,12 @@ import { handleChallengeIsNotExisting } from '../../../helper/challengesHelper';
 
 import { startChallengeTicker } from '../../../helper/ticker';
 import { cutProposalListToDefault } from '../../../actions/proposals';
-import { setChallengeId, setProposalListMode, setProposalView } from '../../../actions/challenges';
+import {
+  setChallengeId,
+  setProposalListMode,
+  setProposalView,
+  setChallenges,
+} from '../../../actions/challenges';
 import { loadProposalsServiceProxy } from '../../../helper/apiProxy';
 import { PROPOSAL_VIEWS, PROPOSAL_LIST_MODES } from '../../../consts';
 import { LOAD_CONFIG } from '../../../config/config';
@@ -295,7 +300,7 @@ class ChallengeContainer extends Component {
       );
       const t1 = new Date().getTime();
       handleChallengeIsNotExisting(this.props, newId);
-      this.props.dispatch(setChallengeId(newId));
+      this.props.dispatch(setChallengeId(newId, this.props));
       const t2 = new Date().getTime();
       console.log(`Time For Update List: ${t2 - t1}`);
       this.navigationEnabled = true;

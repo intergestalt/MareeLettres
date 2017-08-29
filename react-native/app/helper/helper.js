@@ -3,6 +3,7 @@ export function listIsEmpty(list) {
   if (list.length === 0) return true;
   return false;
 }
+
 export function isEmpty(item) {
   if (!item) return true;
   if (item === '') return true;

@@ -262,7 +262,7 @@ export async function saveChallengesToStorage(challenges) {
   }
 }
 
-export async function loadChallengesFromStorage() {
+export async function loadChallengesFromStorage(props) {
   try {
     store.dispatch(setChallengesIsLoadingFromStorage(true));
     const challengesStr = await AsyncStorage.getItem('challenges');
@@ -270,7 +270,7 @@ export async function loadChallengesFromStorage() {
     if (existing(challengesStr)) {
       let challenges = JSON.parse(challengesStr);
       challenges = cleanChallenges(challenges);
-      store.dispatch(setChallenges(challenges));
+      store.dispatch(setChallenges(challenges, props));
     }
     store.dispatch(setChallengesIsLoadingFromStorage(false));
   } catch (error) {
