@@ -17,6 +17,7 @@ import {
   loadProposalsFromStorage,
   loadLettersFromStorage,
   loadMyLettersFromStorage,
+  loadConfigFromStorage,
 } from '../../helper/localStorage';
 import { navigateToLanguageSelector, navigateToRoot } from '../../helper/navigationProxy';
 import { Screen } from '../../components/general/Container';
@@ -41,6 +42,8 @@ class SplashScreenB extends Component {
     isLoadingChallenges: PropTypes.bool,
     isLoadingUserFromStorage: PropTypes.bool,
     isLoadingGlobalsFromStorage: PropTypes.bool,
+    isLoadingContentFromStorage: PropTypes.bool,
+    isLoadingConfigFromStorage: PropTypes.bool,
     isLoadingChallengesFromStorage: PropTypes.bool,
     isLoadingProposalsFromStorage: PropTypes.bool,
     isLoadingLettersFromStorage: PropTypes.bool,
@@ -65,6 +68,7 @@ class SplashScreenB extends Component {
     await loadChallengesFromStorage(this.props);
     await loadProposalsFromStorage();
     await loadContentFromStorage();
+    await loadConfigFromStorage();
     await loadLettersFromStorage();
     await loadMyLettersFromStorage();
 
@@ -102,6 +106,12 @@ class SplashScreenB extends Component {
       return false;
     }
     if (this.props.isLoadingGlobalsFromStorage) {
+      return false;
+    }
+    if (this.props.isLoadingContentFromStorage) {
+      return false;
+    }
+    if (this.props.isLoadingConfigFromStorage) {
       return false;
     }
     if (this.props.isLoadingChallengesFromStorage) {
@@ -150,6 +160,8 @@ const mapStateToProps = (state) => {
     const isLoadingChallenges = state.challenges.isInternalLoading;
     const isLoadingUserFromStorage = state.user.userIsLoadingFromStorage;
     const isLoadingGlobalsFromStorage = state.globals.globalsIsLoadingFromStorage;
+    const isLoadingContentFromStorage = state.content.contentIsLoadingFromStorage;
+    const isLoadingConfigFromStorage = state.config.configIsLoadingFromStorage;
     const isLoadingChallengesFromStorage = state.challenges.challengesIsLoadingFromStorage;
     let isLoadingProposalsFromStorage = false;
     if (state.proposals.proposalsIsLoadingFromStorage) {
@@ -164,6 +176,8 @@ const mapStateToProps = (state) => {
       isLoadingChallenges,
       isLoadingUserFromStorage,
       isLoadingGlobalsFromStorage,
+      isLoadingConfigFromStorage,
+      isLoadingContentFromStorage,
       isLoadingChallengesFromStorage,
       isLoadingProposalsFromStorage,
       isLoadingLettersFromStorage,
