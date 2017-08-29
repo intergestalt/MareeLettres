@@ -1,5 +1,6 @@
 import Expo from 'expo';
-import { OriginId } from 'maree-lettres-shared';
+import { OriginId, systemConfigInitial } from 'maree-lettres-shared';
+
 import { PROPOSAL_LIST_MODES, CHALLENGE_VIEWS, PROPOSAL_VIEWS } from '../consts';
 
 // for testing
@@ -76,6 +77,8 @@ export default {
     time: 0,
     challenges: [],
   },
+
+  systemConfig: systemConfigInitial,
 
   challengesTicker: {},
 
