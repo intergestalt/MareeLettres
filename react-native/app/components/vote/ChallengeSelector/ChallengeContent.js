@@ -13,7 +13,7 @@ import { userVoteInternal } from '../../../actions/user';
 import { PROPOSAL_VIEWS } from '../../../consts/';
 import { getProposalList } from '../../../helper/proposalsHelper';
 import { loadProposalsServiceProxy } from '../../../helper/apiProxy';
-import { LOAD_CONFIG } from '../../../config/config';
+import { DYNAMIC_CONFIG } from '../../../config/config';
 import { listIsEmpty } from '../../../helper/helper';
 
 class ChallengeContent extends Component {
@@ -152,8 +152,8 @@ class ChallengeContent extends Component {
   checkToLoadMoreProposals() {
     const id = this.props.challenges[this.props.selectedChallengeIndex]._id;
     const length = this.props.proposals.length;
-    if (length > LOAD_CONFIG.PROPOSAL_RELOAD_TINDER_OFFSET) return;
-    const limit = LOAD_CONFIG.DEFAULT_PROPOSAL_TINDER_LIMIT;
+    if (length > DYNAMIC_CONFIG.PROPOSAL_RELOAD_TINDER_OFFSET) return;
+    const limit = DYNAMIC_CONFIG.DEFAULT_PROPOSAL_TINDER_LIMIT;
 
     let force = false;
     let lastNotLoad = true;
@@ -166,7 +166,7 @@ class ChallengeContent extends Component {
       force,
       id,
       limit,
-      LOAD_CONFIG.LOAD_QUIET_TINDER,
+      DYNAMIC_CONFIG.LOAD_QUIET_TINDER.bool,
       false,
       false,
       lastNotLoad,

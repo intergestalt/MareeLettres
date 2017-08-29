@@ -30,32 +30,40 @@ export default {
   API_PREFIX: `${serverProtocol}://${serverAddress}/api/`,
 };
 
-// Some load cnfig
+/* Just a placeholder for all the state.config.
+  Everything is loaded inside with keys of state to upper case.
+  be sure to have the used keys inside initial state. They are not deleted,
+  even if not comming via API
 
-export const LOAD_CONFIG = {
-  REQUEST_TIMEOUT: 10000,
-  DEFAULT_PROPOSAL_LIST_LIMIT: 10,
-  DEFAULT_PROPOSAL_NEW_BATCH: 30, // For List reload, if scrolling reached ends
-  PROPOSAL_RELOAD_LIST_OFFSET: 0.8,
-  DEFAULT_PROPOSAL_TINDER_LIMIT: 30,
-  PROPOSAL_RELOAD_TINDER_OFFSET: 10,
-  INTERNAL_VOTES_OFFSET: 9,
+Usage:
+import { DYNAMIC_CONFIG } from './config';
+DYNAMIC_CONFIG.REQUEST_TIMEOUT;
+*/
+// class DynamicConfig {}
+export const DYNAMIC_CONFIG = {
+  REQUEST_TIMEOUT: null,
+  DEFAULT_PROPOSAL_LIST_LIMIT: null,
+  DEFAULT_PROPOSAL_NEW_BATCH: null, // For List reload, if scrolling reached ends
+  PROPOSAL_RELOAD_LIST_OFFSET: null,
+  DEFAULT_PROPOSAL_TINDER_LIMIT: null,
+  PROPOSAL_RELOAD_TINDER_OFFSET: null,
+  INTERNAL_VOTES_OFFSET: null,
 
   // Proposals
   // On Press of the list types or list vs tinder button
-  LOAD_QUIET_CHALLENGE_SELECTOR: true,
+  LOAD_QUIET_CHALLENGE_SELECTOR: null,
   // On Press on the challenge List.
-  LOAD_QUIET_TO_CHALLENGE_SELECTOR: true,
-  LOAD_QUIET_PULL_DOWN_UPDATE: true,
-  LOAD_QUIET_PULL_UP_UPDATE: true,
-  LOAD_QUIET_TINDER: true,
+  LOAD_QUIET_TO_CHALLENGE_SELECTOR: null,
+  LOAD_QUIET_PULL_DOWN_UPDATE: null,
+  LOAD_QUIET_PULL_UP_UPDATE: null,
+  LOAD_QUIET_TINDER: null,
 
-  LOAD_QUIET_CHALLENGES_LIST: true,
+  LOAD_QUIET_CHALLENGES_LIST: null,
 
-  UPDATE_CHALLENGES_AFTER: 100000,
-  UPDATE_PROPOSALS_AFTER: 100000,
-  UPDATE_CONTENT_AFTER: 100000,
-  SEND_INTERNAL_VOTES_AFTER: 10000,
+  UPDATE_CHALLENGES_AFTER: null,
+  UPDATE_PROPOSALS_AFTER: null,
+  UPDATE_CONTENT_AFTER: null,
+  SEND_INTERNAL_VOTES_AFTER: null,
 };
 
 export const DEV_CONFIG = {

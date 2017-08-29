@@ -4,11 +4,12 @@ import { SET_CHALLENGES_DATE_DATA } from '../actions/challengesTicker';
 import { LOAD_CHALLENGES, LOAD_CHALLENGE } from '../actions/challenges';
 import { LOAD_PROPOSALS } from '../actions/proposals';
 import { LOAD_CONTENT } from '../actions/content';
-import { LOAD_CONFIG, CONFIG_LOADED, NETWORK_ERROR_CONFIG_LOADED } from '../actions/config';
+import { LOAD_CONFIG } from '../actions/config';
 import { LOAD_LETTERS, POST_LETTER } from '../actions/letters';
 import { USER_SEND_INTERNAL_VOTES, LOAD_USER } from '../actions/user';
-import { callConfig } from '../helper/apiCalls';
+import { getZuffiDelayForApi } from '../helper/helper';
 import store from '../config/store';
+import { loadConfigServiceProxy } from '../helper/apiProxy';
 
 function* loadData(action) {
   try {
@@ -28,13 +29,9 @@ function* loadData(action) {
           const currentConfig = config.currentConfig;
           // If new Config available or no config loaded at all. (Should not happen)
           if (!currentConfig || currentConfig !== result.current_config) {
-            yield put({
-              type: LOAD_CONFIG,
-              successEvent: CONFIG_LOADED,
-              errorEvent: NETWORK_ERROR_CONFIG_LOADED,
-              apiCall: callConfig,
-              newConfig: result.current_config,
-            });
+            yield setTimeout(() => {
+              loadConfigServiceProxy(result.current_config);
+            }, getZuffiDelayForApi());
           }
         }
       }

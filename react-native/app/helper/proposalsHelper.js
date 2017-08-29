@@ -1,7 +1,7 @@
 import { loadProposalsServiceProxy } from '../helper/apiProxy';
 import store from '../config/store';
 import { PROPOSAL_VIEWS, PROPOSAL_LIST_MODES, CHALLENGE_VIEWS } from '../consts';
-import { LOAD_CONFIG } from '../config/config';
+import { DYNAMIC_CONFIG } from '../config/config';
 import { listIsEmpty } from './helper';
 
 function loadProposals(offset) {
@@ -12,12 +12,12 @@ function loadProposals(offset) {
   const id = challenges[index]._id;
   let limit = -1;
   if (store.getState().challenges.proposalView === PROPOSAL_VIEWS.LIST) {
-    limit = LOAD_CONFIG.DEFAULT_PROPOSAL_LIST_LIMIT;
+    limit = DYNAMIC_CONFIG.DEFAULT_PROPOSAL_LIST_LIMIT;
   } else {
-    limit = LOAD_CONFIG.DEFAULT_PROPOSAL_TINDER_LIMIT;
+    limit = DYNAMIC_CONFIG.DEFAULT_PROPOSAL_TINDER_LIMIT;
   }
 
-  loadProposalsServiceProxy(false, id, limit, LOAD_CONFIG.LOAD_QUIET_TO_CHALLENGE_SELECTOR);
+  loadProposalsServiceProxy(false, id, limit, DYNAMIC_CONFIG.LOAD_QUIET_TO_CHALLENGE_SELECTOR.bool);
 }
 
 export function manageProposals() {
@@ -142,9 +142,9 @@ export function cutProposalList(oldList, proposalView) {
 
   const myList = oldList;
   if (proposalView === PROPOSAL_VIEWS.LIST) {
-    myList.length = Math.min(oldList.length, LOAD_CONFIG.DEFAULT_PROPOSAL_LIST_LIMIT);
+    myList.length = Math.min(oldList.length, DYNAMIC_CONFIG.DEFAULT_PROPOSAL_LIST_LIMIT);
   } else {
-    myList.length = Math.min(oldList.length, LOAD_CONFIG.DEFAULT_PROPOSAL_TINDER_LIMIT);
+    myList.length = Math.min(oldList.length, DYNAMIC_CONFIG.DEFAULT_PROPOSAL_TINDER_LIMIT);
   }
 
   return myList;

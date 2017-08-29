@@ -9,6 +9,7 @@ import {
 import initialState from '../config/initialState';
 import { saveConfigToStorage } from '../helper/localStorage';
 import { objectIsEmpty } from '../helper/helper';
+import { writeDynamicConfig } from '../helper/configHelper';
 
 export default (state = initialState.config, action) => {
   try {
@@ -30,17 +31,18 @@ export default (state = initialState.config, action) => {
         return res;
       }
       case CONFIG_LOADED: {
-        console.log(`CONFIG_LOADED ${action.action.currentConfig}`);
+        console.log(`CONFIG_LOADED ${action.action.newConfig}`);
         const now = new Date();
         const res = {
           ...state,
-          currentConfig: action.action.newConfig,
+          currentConfig: null, // action.action.newConfig
           isLoading: false,
           isInternalLoading: false,
           time: now.getTime(),
-          config: action.result.config,
+          config: { ...state.config, ...action.result.config, delay_config_call: 100000 },
         };
         saveConfigToStorage(res);
+        writeDynamicConfig(res);
         return res;
       }
       case NETWORK_ERROR_LOAD_CONFIG: {
@@ -54,6 +56,7 @@ export default (state = initialState.config, action) => {
       }
       case SET_CONFIG: {
         const config = action.config;
+        writeDynamicConfig(config);
         return config;
       }
       // Redux local storage

@@ -4,11 +4,11 @@ import { popChallengeSelector } from './navigationProxy';
 
 import { CHALLENGE_VIEWS, PROPOSAL_LIST_MODES, PROPOSAL_VIEWS } from '../consts';
 import { setChallengeId } from '../actions/challenges';
-import { LOAD_CONFIG } from '../config/config';
+import { DYNAMIC_CONFIG } from '../config/config';
 
 export function manageChallenges(props) {
   // Always
-  loadChallengesServiceProxy(false, LOAD_CONFIG.LOAD_QUIET_CHALLENGES_LIST);
+  loadChallengesServiceProxy(false, DYNAMIC_CONFIG.LOAD_QUIET_CHALLENGES_LIST.bool);
   if (store.getState().challenges.challengeView === CHALLENGE_VIEWS.LIST) {
     // Reset State
     store.dispatch(setChallengeId(null, props));

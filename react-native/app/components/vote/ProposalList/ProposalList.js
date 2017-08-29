@@ -6,7 +6,7 @@ import { ProposalListItem, ProposalListHeader, styles } from './';
 import { Separator } from '../ChallengesList/';
 import { getProposalList } from '../../../helper/proposalsHelper';
 import { loadProposalsServiceProxy } from '../../../helper/apiProxy';
-import { LOAD_CONFIG } from '../../../config/config';
+import { DYNAMIC_CONFIG } from '../../../config/config';
 import { userVoteInternal } from '../../../actions/user';
 import { deleteProposalFromTinderList } from '../../../actions/proposals';
 import { listIsEmpty } from '../../../helper/helper';
@@ -38,8 +38,8 @@ class ProposalList extends PureComponent {
     loadProposalsServiceProxy(
       true,
       id,
-      LOAD_CONFIG.DEFAULT_PROPOSAL_LIST_LIMIT,
-      LOAD_CONFIG.LOAD_QUIET_PULL_DOWN_UPDATE,
+      DYNAMIC_CONFIG.DEFAULT_PROPOSAL_LIST_LIMIT,
+      DYNAMIC_CONFIG.LOAD_QUIET_PULL_DOWN_UPDATE.bool,
       true,
     );
   }
@@ -48,7 +48,7 @@ class ProposalList extends PureComponent {
       return;
     }
     const id = this.props.challenges[this.props.selectedChallengeIndex]._id;
-    const limit = this.props.proposals.length + LOAD_CONFIG.DEFAULT_PROPOSAL_NEW_BATCH;
+    const limit = this.props.proposals.length + DYNAMIC_CONFIG.DEFAULT_PROPOSAL_NEW_BATCH;
     let force = false;
     let lastNotLoad = true;
     if (limit > this.props.lastLimit) {
@@ -60,7 +60,7 @@ class ProposalList extends PureComponent {
       force,
       id,
       limit,
-      LOAD_CONFIG.LOAD_QUIET_PULL_DOWN_UPDATE,
+      DYNAMIC_CONFIG.LOAD_QUIET_PULL_UP_UPDATE.bool,
       false,
       true,
       lastNotLoad,
@@ -157,7 +157,7 @@ class ProposalList extends PureComponent {
                 onRefresh={this.onPullDownRefresh}
               />
             }
-            onEndReachedThreshold={LOAD_CONFIG.PROPOSAL_RELOAD_LIST_OFFSET}
+            onEndReachedThreshold={DYNAMIC_CONFIG.PROPOSAL_RELOAD_LIST_OFFSET}
             onEndReached={this.onEndReached}
             ListFooterComponent={this.renderFooter()}
           />

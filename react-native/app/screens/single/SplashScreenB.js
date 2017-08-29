@@ -20,6 +20,7 @@ import {
   loadConfigFromStorage,
 } from '../../helper/localStorage';
 import { navigateToLanguageSelector, navigateToRoot } from '../../helper/navigationProxy';
+import { writeDynamicConfig } from '../../helper/configHelper';
 import { Screen } from '../../components/general/Container';
 
 function existing(str) {
@@ -59,11 +60,14 @@ class SplashScreenB extends Component {
   }
 
   async componentWillMount() {
+    writeDynamicConfig(store.getState().config);
+
     await loadUserFromStorage();
     const loaded = store.getState().user.userLoadedFromStorage;
     if (!loaded) {
       loadUserServiceProxy(true);
     }
+
     await loadGlobalsFromStorage();
     await loadChallengesFromStorage(this.props);
     await loadProposalsFromStorage();

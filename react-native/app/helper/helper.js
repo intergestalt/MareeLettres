@@ -1,3 +1,5 @@
+import { DYNAMIC_CONFIG } from '../config/config';
+
 export function listIsEmpty(list) {
   if (!list) return true;
   if (list.length === 0) return true;
@@ -32,4 +34,14 @@ export function isEmptyContent(howto, about, language) {
     }
   }
   return false;
+}
+
+export function getZuffiDelayForApi() {
+  let res = Math.random() * DYNAMIC_CONFIG.DELAY_CONFIG_CALL;
+  res = Math.round(res);
+  if (res < 0) res = 0;
+  if (res > DYNAMIC_CONFIG.DELAY_CONFIG_CALL) {
+    res = DYNAMIC_CONFIG.DELAY_CONFIG_CALL;
+  }
+  return res;
 }

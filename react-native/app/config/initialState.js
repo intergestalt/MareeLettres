@@ -32,6 +32,32 @@ export default {
       map_letter_regeneration_time_secondary: 5,
       map_letter_transfer_timeout: 60,
       map_drop_zone_radius: 10,
+
+      // Not sent by API, but they are not overwrittem
+      request_timeout: 10000,
+      delay_config_call: 5000,
+
+      default_proposal_list_limit: 10,
+      default_proposal_new_batch: 30, // For List reload, if scrolling reached ends
+      proposal_reload_list_offset: 0.8,
+      default_proposal_tinder_limit: 30,
+      proposal_reload_tinder_offset: 10,
+      internal_votes_offset: 9,
+
+      // Proposals
+      // On Press of the list types or list vs tinder button
+      load_quiet_challenge_selector: { bool: true },
+      // On Press on the challenge List.
+      load_quiet_to_challenge_selector: { bool: true },
+      load_quiet_pull_down_update: { bool: true },
+      load_quiet_pull_up_update: { bool: true },
+      load_quiet_tinder: { bool: true },
+      load_quiet_challenges_list: { bool: true },
+
+      update_challenges_after: 100000,
+      update_proposals_after: 100000,
+      update_content_after: 100000,
+      send_internal_votes_after: 10000,
     },
   },
   globals: {
@@ -96,8 +122,6 @@ export default {
     time: 0,
     challenges: [],
   },
-
-  systemConfig: systemConfigInitial,
 
   challengesTicker: {},
 

@@ -13,7 +13,7 @@ import { cutProposalListToDefault } from '../../../actions/proposals';
 import { setChallengeId, setProposalListMode, setProposalView } from '../../../actions/challenges';
 import { loadProposalsServiceProxy } from '../../../helper/apiProxy';
 import { PROPOSAL_VIEWS, PROPOSAL_LIST_MODES } from '../../../consts';
-import { LOAD_CONFIG } from '../../../config/config';
+import { DYNAMIC_CONFIG } from '../../../config/config';
 import { listIsEmpty } from '../../../helper/helper';
 
 class ChallengeContainer extends Component {
@@ -75,16 +75,16 @@ class ChallengeContainer extends Component {
     const proposalId = this.props.challenges[index]._id;
     let limit = -1;
     if (view === PROPOSAL_VIEWS.LIST) {
-      limit = LOAD_CONFIG.DEFAULT_PROPOSAL_LIST_LIMIT;
+      limit = DYNAMIC_CONFIG.DEFAULT_PROPOSAL_LIST_LIMIT;
     } else {
-      limit = LOAD_CONFIG.DEFAULT_PROPOSAL_TINDER_LIMIT;
+      limit = DYNAMIC_CONFIG.DEFAULT_PROPOSAL_TINDER_LIMIT;
     }
     if (
       !loadProposalsServiceProxy(
         false,
         proposalId,
         limit,
-        LOAD_CONFIG.LOAD_QUIET_CHALLENGE_SELECTOR,
+        DYNAMIC_CONFIG.LOAD_QUIET_CHALLENGE_SELECTOR.bool,
       )
     ) {
       this.props.dispatch(

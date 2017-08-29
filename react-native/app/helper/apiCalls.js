@@ -1,4 +1,4 @@
-import config, { LOAD_CONFIG } from '../config/config';
+import config, { DYNAMIC_CONFIG } from '../config/config';
 import { PROPOSAL_LIST_MODES, PROPOSAL_VIEWS } from '../consts';
 
 function getPromiseGET(url) {
@@ -13,7 +13,7 @@ function getPromiseGET(url) {
         }
       }
     };
-    xhr.timeout = LOAD_CONFIG.REQUEST_TIMEOUT;
+    xhr.timeout = DYNAMIC_CONFIG.REQUEST_TIMEOUT;
     xhr.open('GET', url);
     xhr.send();
   });
@@ -31,7 +31,7 @@ function getPromisePOST(url, body) {
       }
     };
     xhr.open('POST', url);
-    xhr.timeout = LOAD_CONFIG.REQUEST_TIMEOUT;
+    xhr.timeout = DYNAMIC_CONFIG.REQUEST_TIMEOUT;
     xhr.setRequestHeader('Content-Type', 'application/json');
     xhr.send(body);
   });

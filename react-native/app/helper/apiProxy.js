@@ -1,4 +1,5 @@
 import { loadContent } from '../actions/content';
+import { loadConfig } from '../actions/config';
 import { userSendInternalVotes, loadUser } from '../actions/user';
 import { loadChallenge, loadChallenges } from '../actions/challenges';
 import { loadProposals } from '../actions/proposals';
@@ -6,7 +7,7 @@ import { loadLetters, postLetter } from '../actions/letters';
 import store from '../config/store';
 import { getProposalList } from '../helper/proposalsHelper';
 import { getChallengeFromId } from '../helper/challengesHelper';
-import { LOAD_CONFIG } from '../config/config';
+import { DYNAMIC_CONFIG } from '../config/config';
 
 function isLoading(item) {
   if (item) {
@@ -56,7 +57,7 @@ export function loadUserServiceProxy(force) {
     return;
   }
 
-  let doit = checkReload(force, user, LOAD_CONFIG.UPDATE_CONTENT_AFTER);
+  let doit = checkReload(force, user, DYNAMIC_CONFIG.UPDATE_CONTENT_AFTER);
 
   if (emptyOrNull(user)) {
     doit = true;
@@ -75,7 +76,7 @@ export function loadContentServiceProxy(force, quietLoading = false) {
     return;
   }
 
-  let doit = checkReload(force, content, LOAD_CONFIG.UPDATE_CONTENT_AFTER);
+  let doit = checkReload(force, content, DYNAMIC_CONFIG.UPDATE_CONTENT_AFTER);
 
   let myQuiet = quietLoading;
   if (emptyOrNull(content)) {
@@ -90,14 +91,21 @@ export function loadContentServiceProxy(force, quietLoading = false) {
     store.dispatch(loadContent(myQuiet));
   }
 }
+export function loadConfigServiceProxy(newConfig) {
+  const config = store.getState().config;
+  if (isLoading(config)) {
+    return;
+  }
 
+  store.dispatch(loadConfig(newConfig));
+}
 export function loadChallengesServiceProxy(force, quietLoading = false) {
   const challenges = store.getState().challenges;
 
   if (isLoading(challenges)) {
     return;
   }
-  let doit = checkReload(force, challenges, LOAD_CONFIG.UPDATE_CHALLENGES_AFTER);
+  let doit = checkReload(force, challenges, DYNAMIC_CONFIG.UPDATE_CHALLENGES_AFTER);
 
   let myQuiet = quietLoading;
   if (emptyOrNull(challenges)) {
@@ -148,7 +156,7 @@ export function loadProposalsServiceProxy(
   if (isLoading(list)) {
     return false;
   }
-  let doit = checkReload(force, list, LOAD_CONFIG.UPDATE_PROPOSALS_AFTER);
+  let doit = checkReload(force, list, DYNAMIC_CONFIG.UPDATE_PROPOSALS_AFTER);
 
   let myQuiet = quietLoading;
   // FIRST LOAD??? Only if nothing is loaded the last time.
@@ -206,7 +214,7 @@ export function sendInternalVotesServiceProxy(force) {
     return;
   }
   // force oder timout
-  let doit = checkReload(force, internalVotes, LOAD_CONFIG.SEND_INTERNAL_VOTES_AFTER);
+  let doit = checkReload(force, internalVotes, DYNAMIC_CONFIG.SEND_INTERNAL_VOTES_AFTER);
 
   // Do not send if there is nothing to sent
   if (emptyOrNull(internalVotes)) {
@@ -215,7 +223,7 @@ export function sendInternalVotesServiceProxy(force) {
     return;
   }
   // if there are more then n internal vots doit
-  if (Object.keys(internalVotes.internalVotes).length >= LOAD_CONFIG.INTERNAL_VOTES_OFFSET) {
+  if (Object.keys(internalVotes.internalVotes).length >= DYNAMIC_CONFIG.INTERNAL_VOTES_OFFSET) {
     doit = true;
   }
   if (doit) {
