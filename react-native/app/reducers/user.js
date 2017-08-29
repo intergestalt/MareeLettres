@@ -20,7 +20,7 @@ import {
   USER_SEND_INTERNAL_VOTES_ERROR,
   SET_USER_IS_LOADING_FROM_STORAGE,
   SET_USER_LOADED_FROM_STORAGE,
-  SET_USER_LOADED_FROM_STORAGE_RESET_DEFAULTS,
+  // SET_USER_LOADED_FROM_STORAGE_RESET_DEFAULTS,
 } from '../actions/user';
 
 import { CHANGE_MAP_REGION, USER_SET_COORDINATES } from '../actions/map';
@@ -64,7 +64,7 @@ export default (state = initialState.user, action) => {
         };
       }
 
-      case SET_USER_LOADED_FROM_STORAGE_RESET_DEFAULTS: {
+      /* case SET_USER_LOADED_FROM_STORAGE_RESET_DEFAULTS: {
         // reset values that were on a timeout when app closed
 
         console.log('Reducer: SET_USER_LOADED_FROM_STORAGE_RESET_DEFAULTS');
@@ -79,7 +79,7 @@ export default (state = initialState.user, action) => {
             },
           },
         };
-      }
+      } */
 
       case CHANGE_MAP_REGION: {
         console.log('Reducer: CHANGE_MAP_REGION');

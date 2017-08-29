@@ -4,7 +4,7 @@ import {
   setUser,
   setUserIsLoadingFromStorage,
   setUserLoadedFromStorage,
-  setUserLoadedFromStorageResetDefaults,
+  // setUserLoadedFromStorageResetDefaults,
 } from '../actions/user';
 import { setGlobals, setGlobalsIsLoadingFromStorage } from '../actions/general';
 import { setContent, setContentIsLoadingFromStorage } from '../actions/content';
@@ -35,6 +35,16 @@ function cleanUser(user) {
   let item = user;
   item.userIsLoadingFromStorage = false;
   item = normalClean(item);
+
+  const map = {
+    ...item.map,
+    letters_selected: {
+      ...item.map.letters_selected,
+      mine: false,
+      friends: [false, false, false, false],
+    },
+  };
+  item.map = map;
   return item;
 }
 function cleanContent(content) {
@@ -186,7 +196,7 @@ export async function loadUserFromStorage() {
       store.dispatch(setUser(user));
       store.dispatch(setUserIsLoadingFromStorage(false));
       store.dispatch(setUserLoadedFromStorage(true));
-      store.dispatch(setUserLoadedFromStorageResetDefaults());
+      // store.dispatch(setUserLoadedFromStorageResetDefaults());
       return;
     }
     store.dispatch(setUserIsLoadingFromStorage(false));
