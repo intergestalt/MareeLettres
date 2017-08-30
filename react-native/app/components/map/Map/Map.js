@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 import MapView from 'react-native-maps';
 import { changeMapRegionProxy, setUserCoordinatesProxy } from '../../../helper/mapHelper';
 import { connect } from 'react-redux';
@@ -10,10 +10,13 @@ class Map extends Component {
   static propTypes = {
     navigation: PropTypes.object,
     origin_id: PropTypes.string,
-    letters: PropTypes.array,
-    my_letters: PropTypes.array,
+    letters: PropTypes.object,
+    my_letters: PropTypes.object,
     dropzone_radius: PropTypes.number,
     coordinates: PropTypes.object,
+    letter_decay_time: PropTypes.number,
+    initial_delta: PropTypes.number,
+    track_player_movements: PropTypes.bool,
   };
 
   constructor(props) {
@@ -22,26 +25,28 @@ class Map extends Component {
     this.state = {
       lat: this.props.coordinates.latitude,
       lng: this.props.coordinates.longitude,
-      set: false,
+      initialCentre: false,
     };
   }
 
   async _getPlayerCoords() {
     const {Location, Permissions} = Exponent;
     const {status} = await Permissions.askAsync(Permissions.LOCATION);
-    if (status === 'granted') {
-      Location.getCurrentPositionAsync().then((res) => {
-        setUserCoordinatesProxy(res.coords.latitude, res.coords.longitude);
 
-        if (!this.state.set) {
-          // go to my coordinates once
-          this._map._component.animateToCoordinate({
-              latitude: res.coords.latitude,
-              longitude: res.coords.longitude,
-            }, 1
-          );
+    if (status === 'granted') {
+      Location.getCurrentPositionAsync({enableHighAccuracy: true}).then((res) => {
+        //res.coords.latitude = 52.49330866968013;
+        //res.coords.longitude = 13.436372637748718;
+
+        setUserCoordinatesProxy(res.coords.latitude, res.coords.longitude);
+        this.setState({lng: res.coords.longitude, lat: res.coords.latitude});
+
+        if (!this.state.initialCentre) {
+          this.centreZoomMap();
+          this.setState({initialCentre: true});
+        } else {
+          this.centreMap();
         }
-        this.setState({lng: res.coords.longitude, lat: res.coords.latitude, set: true});
       });
     } else {
       throw new Error('Location permission not granted');
@@ -50,11 +55,20 @@ class Map extends Component {
 
   componentDidMount() {
     this._getPlayerCoords();
+    this.pollPlayerCoords();
+  }
+
+  pollPlayerCoords() {
+    if (this.props.track_player_movements) {
+      setInterval(() => {
+          this._getPlayerCoords();
+        }, 3000
+      );
+    }
   }
 
   onPress = (e) => {
-    const region = e.nativeEvent;
-    // on map press
+    // const region = e.nativeEvent;
   };
 
   onRegionChange = (region) => {
@@ -65,39 +79,46 @@ class Map extends Component {
     changeMapRegionProxy(region);
   };
 
-  render() {
-    console.log('MAP RENDERED');
+  centreMap = () => {
+    this._map._component.animateToCoordinate({
+        ...this.props.coordinates,
+      }, 600
+    );
+  }
 
-    const myLetters = this.props.my_letters.map((item, i) => {
-      const t = new Date().getTime() - new Date(item.last_used_at).getTime();
-      const opacity = Math.max(0.25, 1 - t / 60000);
+  centreZoomMap = () => {
+    this._map._component.animateToRegion({
+        ...this.props.coordinates,
+        latitudeDelta: this.props.initial_delta,
+        longitudeDelta: this.props.initial_delta,
+      }, 300
+    );
+  }
 
-      return (
-        <MapView.Marker
-          key={i}
-          coordinate={{ latitude: item.coords.lat, longitude: item.coords.lng }}
-        >
-          <Text style={[styles.letter, { opacity }]}>
-            {item.character}
-          </Text>
-        </MapView.Marker>
-      );
-    });
-    const mapLetters = this.props.letters.map((item, i) => {
-      // TODO: remove check (clean up server)
-      if (typeof(item.coords.lat) !== 'string') {
-        return (
-          <MapView.Marker
-            key={i}
-            coordinate={{ latitude: item.coords.lat, longitude: item.coords.lng }}
-          >
-            <Text style={styles.letter}>
+  mapLettersToMarkers(item, index) {
+    const t = new Date().getTime() - new Date(item.created_at).getTime();
+    const opacity = Math.max(0, 1 - t / this.props.letter_decay_time);
+
+    return (
+      opacity != 0
+        ? <MapView.Marker key={index}
+            coordinate={{ latitude: item.coords.lat, longitude: item.coords.lng }}>
+            <Text style={[styles.letter, {opacity}]}>
               {item.character}
             </Text>
           </MapView.Marker>
-        );
-      }
-    })
+        : null
+    );
+  }
+
+  render() {
+    // convert letter objects into component array
+    const mapLetters = Object.keys(this.props.letters).map((key, index) =>
+      this.mapLettersToMarkers(this.props.letters[key], index)
+    );
+    const myLetters = Object.keys(this.props.my_letters).map((key, index) =>
+      this.mapLettersToMarkers(this.props.my_letters[key], index)
+    );
 
     return (
       <View style={styles.container}>
@@ -111,8 +132,8 @@ class Map extends Component {
           initialRegion={{
             latitude: this.state.lat,
             longitude: this.state.lng,
-            latitudeDelta: this.props.coordinates.latitudeDelta,
-            longitudeDelta: this.props.coordinates.longitudeDelta,
+            latitudeDelta: this.props.initial_delta,
+            longitudeDelta: this.props.initial_delta,
           }}
           rotateEnabled={false}
           customMapStyle={mapstyles}
@@ -124,14 +145,6 @@ class Map extends Component {
           <MapView.Circle
             center={{
               latitude: this.state.lat,
-              longitude: this.state.lng
-            }}
-            radius={1}
-            strokeColor={'#fff'}
-            />
-          <MapView.Circle
-            center={{
-              latitude: this.state.lat,
               longitude: this.state.lng,
             }}
             radius={this.props.dropzone_radius}
@@ -140,13 +153,18 @@ class Map extends Component {
           <MapView.Marker
             title={'drop_zone'}
             coordinate={{
-              latitude: this.state.lat + 0.00005,
+              latitude: this.state.lat + 0.00003,
               longitude: this.state.lng,
             }} >
             <Text style={styles.letter_dropzone}>Drop Zone</Text>
           </MapView.Marker>
 
         </MapView.Animated>
+        <TouchableOpacity onPress={this.centreZoomMap}>
+          <Text style={styles.button}>
+            CENTRE MAP
+          </Text>
+        </TouchableOpacity>
       </View>
     );
   }
@@ -155,10 +173,13 @@ class Map extends Component {
 const mapStateToProps = (state) => {
   try {
     const origin_id = state.user.origin_id;
+    const letter_decay_time = state.config.config.map_letter_decay_time * 1000;
     const letters = state.letters.content;
     const my_letters = state.myLetters.content;
     const coordinates = state.user.coordinates;
-    const dropzone_radius = state.user.map.dropzone_radius;
+    const dropzone_radius = state.config.config.map_drop_zone_radius;
+    const initial_delta = dropzone_radius / 30000;
+    const track_player_movements = state.config.config.track_player_movements;
 
     return {
       origin_id,
@@ -166,6 +187,9 @@ const mapStateToProps = (state) => {
       my_letters,
       coordinates,
       dropzone_radius,
+      letter_decay_time,
+      initial_delta,
+      track_player_movements,
     };
   } catch (e) {
     console.log('Map');

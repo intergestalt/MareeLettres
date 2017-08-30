@@ -5,9 +5,8 @@ the redux state has different sections:
 - challengesTicker: An object of all ticker strings for the challenges. Key: challengeId
 - proposals: List of the proposals. Key: challengeId. 4 lists per challenge (tinder, trending, most, newest)
 - user: User specific data.
-- letters: ???
-- myLetters: ???
-
+- letters: an object containing letters (on the map)
+- myLetters: an object containing letters (placed by player)
 
 This is the structure of the state:
 

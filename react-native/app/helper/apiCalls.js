@@ -110,6 +110,13 @@ export const callLetters = () => {
   return getPromiseGET(url);
 };
 
+export const callLettersInterval = () => {
+  const url = `${config.API_PREFIX}letters?interval`;
+  console.log('API CALL: callLettersInterval');
+  console.log(url);
+  return getPromiseGET(url);
+};
+
 export const callPostLetter = (action) => {
   const url = `${config.API_PREFIX}letters/`;
   const body = action.body;

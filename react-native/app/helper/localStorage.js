@@ -48,6 +48,7 @@ function cleanUser(user) {
   item.map = map;
   return item;
 }
+
 function cleanContent(content) {
   let item = content;
   item.contentIsLoadingFromStorage = false;
@@ -55,6 +56,7 @@ function cleanContent(content) {
 
   return item;
 }
+
 function cleanConfig(content) {
   let item = content;
   item.configIsLoadingFromStorage = false;
@@ -62,6 +64,7 @@ function cleanConfig(content) {
 
   return item;
 }
+
 function cleanGlobals(globals) {
   let item = globals;
   item.globalsIsLoadingFromStorage = false;
@@ -72,15 +75,22 @@ function cleanGlobals(globals) {
 
 function cleanLetters(letters) {
   let item = letters;
+
   item.lettersIsLoadingFromStorage = false;
-  item = normalClean(item);
+  item.isInternalLoading = false;
+  item.isLoading = false;
+  item.content = {};
 
   return item;
 }
+
 function cleanMyLetters(myLetters) {
   let item = myLetters;
+
   item.myLettersIsLoadingFromStorage = false;
-  item = normalClean(item);
+  item.lettersIsLoadingFromStorage = false;
+  item.isLoading = false;
+  item.content = {};
 
   return item;
 }

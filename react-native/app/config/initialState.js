@@ -3,15 +3,8 @@ import { OriginId, systemConfigInitial } from 'maree-lettres-shared';
 
 import { PROPOSAL_LIST_MODES, CHALLENGE_VIEWS, PROPOSAL_VIEWS } from '../consts';
 
-// for testing
-
 const originId = OriginId.generateFromDeviceId(Expo.Constants.deviceId);
 const sampleDate = new Date().toISOString();
-const lat = 48.8566;
-const lng = 2.3522;
-const latDelta = 0.0008;
-const lngDelta = 0.0008;
-const dropZoneRadius = 30;
 
 export default {
   config: {
@@ -73,18 +66,18 @@ export default {
     created_at: sampleDate,
     last_seen: sampleDate,
     coordinates: {
-      latitude: lat,
-      longitude: lng,
-      latitudeDelta: latDelta,
-      longitudeDelta: lngDelta,
+      latitude: 48.8566,
+      longitude: 2.3522,
+      latitudeDelta: 0.0004,
+      longitudeDelta: 0.0004,
     },
     map: {
-      dropzone_radius: dropZoneRadius,
+      dropzone_radius: 10,
       coordinates: {
-        latitude: lat,
-        longitude: lng,
-        latitudeDelta: latDelta,
-        longitudeDelta: lngDelta,
+        latitude: 48.8566,
+        longitude: 2.3522,
+        latitudeDelta: 0.0004,
+        longitudeDelta: 0.0004,
       },
       letters_selected: {
         mine: false,
@@ -138,11 +131,11 @@ export default {
   letters: {
     isLoading: false,
     isInternalLoading: false,
-    content: [],
+    content: {}
   },
 
   myLetters: {
     isLoading: false,
-    content: [],
+    content: {},
   },
 };
