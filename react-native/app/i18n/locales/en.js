@@ -5,4 +5,5 @@ export default {
   reload_challenges: 'The challenges are not loaded yet. Press to Reload',
   reload_proposals: 'The proposals are not loaded yet. Press to Reload',
   reload_content: 'The content is not loaded yet. Press to Reload',
+  reload_user: 'User could not be loaded or created. NET IS GOOD',
 };

@@ -5,4 +5,5 @@ export default {
   reload_challenges: 'The baguettes are not eaten yet. Presser pour manger',
   reload_proposals: 'The fromage is not eaten yet. Presser pour manger',
   reload_content: 'FRANZMANN CONTENT RELOAD',
+  reload_user: 'User could not be loaded or created. NET PLEASE',
 };
