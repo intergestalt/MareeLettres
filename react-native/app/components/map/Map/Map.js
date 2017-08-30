@@ -34,8 +34,8 @@ class Map extends Component {
 
     if (status === 'granted') {
       Location.getCurrentPositionAsync().then((res) => {
-        res.coords.latitude = 52.49330866968013;
-        res.coords.longitude = 13.436372637748718;
+        //res.coords.latitude = 52.49330866968013;
+        //res.coords.longitude = 13.436372637748718;
 
         setUserCoordinatesProxy(res.coords.latitude, res.coords.longitude);
         this.setState({lng: res.coords.longitude, lat: res.coords.latitude});

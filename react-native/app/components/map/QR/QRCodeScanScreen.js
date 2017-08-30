@@ -18,10 +18,16 @@ class QRCodeScanScreen extends Component {
   state = {
     hasCameraPermission: null,
     lastScanned: null,
+    disabled: true,
   };
 
   componentDidMount() {
+    this.setState({disabled: false});
     this.requestCameraPermission();
+  }
+
+  componentWillUnmount() {
+    this.setState({disabled: true});
   }
 
   requestCameraPermission = async () => {
@@ -43,8 +49,13 @@ class QRCodeScanScreen extends Component {
   };
 
   handleBackPress() {
+    this.setState({disabled: true});
     navigateToMapOverview(this.props);
   };
+
+  componentWillBlur() {
+    console.log('will blur');
+  }
 
   render() {
     return (
@@ -52,15 +63,15 @@ class QRCodeScanScreen extends Component {
         <BackSimple colour='white' onPress={() => this.handleBackPress()} />
 
         {
-          this.state.hasCameraPermission === null
-          ? <Text>Waiting for permission</Text>
-          : this.state.hasCameraPermission === false
-            ? <Text>Permission not granted</Text>
-            : <BarCodeScanner
-                onBarCodeRead={this.handleQRCode}
-                style={styles.QRReader}
-                barCodeTypes={[BarCodeScanner.Constants.BarCodeType.qr]}
-                />
+          this.state.hasCameraPermission === null || this.state.disabled
+            ? <Text>Waiting for permission</Text>
+            : this.state.hasCameraPermission === false
+              ? <Text></Text>
+              : <BarCodeScanner
+                  onBarCodeRead={this.handleQRCode}
+                  style={styles.QRReader}
+                  barCodeTypes={[BarCodeScanner.Constants.BarCodeType.qr]}
+                  />
         }
 
         <Text style={styles.textWhite}>
@@ -71,8 +82,8 @@ class QRCodeScanScreen extends Component {
 
         {
           this.state.lastScanned === null
-          ? <Text style={styles.devMessage}></Text>
-          : <Text style={styles.devMessage}>{this.state.lastScanned}</Text>
+            ? <Text style={styles.devMessage}></Text>
+            : <Text style={styles.devMessage}>{this.state.lastScanned}</Text>
         }
       </View>
     );
