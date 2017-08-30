@@ -6,6 +6,8 @@ import { isFinished } from '../../../helper/dateFunctions';
 import styles from './styles';
 import { PROPOSAL_VIEWS } from '../../../consts';
 
+import I18n from '../../../i18n/i18n';
+
 class ChallengeFooter extends Component {
   static propTypes = {
     challengeOffset: PropTypes.number,
@@ -40,7 +42,8 @@ class ChallengeFooter extends Component {
       <View style={styles.challengeFooter}>
         <View style={styles.challengeFooterFinished}>
           <TouchableOpacity onPress={this.props.handleSharePress}>
-            <Text style={styles.challengeFooterText}>Share</Text>
+            <Text style={styles.challengeFooterText}>{I18n.t('share_button')}</Text>
+            /* TODO: overview and status options here */
           </TouchableOpacity>
         </View>
       </View>
@@ -49,10 +52,10 @@ class ChallengeFooter extends Component {
   renderTinderButton() {
     return this.props.proposalView === PROPOSAL_VIEWS.TINDER
       ? <TouchableOpacity onPress={this.props.handleListPress}>
-        <Text style={styles.challengeFooterText}>List</Text>
+        <Text style={styles.challengeFooterText}>{I18n.t('overview_button')}</Text>
       </TouchableOpacity>
       : <TouchableOpacity onPress={this.props.handleTinderPress}>
-        <Text style={styles.challengeFooterText}>Tinder</Text>
+        <Text style={styles.challengeFooterText}>{I18n.t('tinder_button')}</Text>
       </TouchableOpacity>;
   }
 
@@ -62,7 +65,7 @@ class ChallengeFooter extends Component {
         <View style={styles.challengeFooterUnfinished}>
           {this.renderTinderButton()}
           <TouchableOpacity onPress={this.props.handleCommitPress}>
-            <Text style={styles.challengeFooterText}>Commit</Text>
+            <Text style={styles.challengeFooterText}>{I18n.t('suggest_button')}</Text>
           </TouchableOpacity>
         </View>
       </View>
