@@ -15,6 +15,21 @@ const monthNamesEn = [
   'Dec',
 ];
 
+const monthNamesFr = [
+  'Jan',
+  'Fév',
+  'Mar',
+  'Avr',
+  'Mai',
+  'Jun',
+  'Jul',
+  'Aoû',
+  'Sep',
+  'Oct',
+  'Nov',
+  'Déc',
+];
+
 export const TICKER_END = '(00:00:00)';
 
 function getParisTime(date) {
@@ -58,10 +73,10 @@ function formatDateEn(date, finished, sameDay, sameYear) {
   let result = '';
   if (finished) {
     // Past
-    result = 'Ended ';
+    result = 'Voting ended ';
   } else {
     // futur
-    result = 'Ends ';
+    result = 'Voting ends ';
   }
 
   // Today or not today
@@ -113,7 +128,51 @@ function formatDateEn(date, finished, sameDay, sameYear) {
 }
 
 function formatDateFr(date, finished, sameDay, sameYear) {
-  return formatDateEn(date, finished, sameDay, sameYear);
+    const year = date.getUTCFullYear();
+  const month = date.getUTCMonth();
+  const day = date.getUTCDate();
+  let hours = date.getUTCHours();
+  const min = date.getUTCMinutes();
+
+  let result = '';
+  if (finished) {
+    // Past
+    result = 'Vote ended ';
+  } else {
+    // futur
+    result = 'Vote terminé ';
+  }
+
+  // Today or not today
+  if (sameDay) {
+    // Today
+    result += "aujourd'hui ";
+  } else {
+    // Not Today
+    result += 'le ';
+    result += `${monthNamesFr[month]} `;
+    if (day < 10) {
+      result += '0';
+    }
+    result += `${day} `;
+    if (!sameYear) {
+      result += year;
+      result += ' ';
+    }
+  }
+
+  result += 'à ';
+
+  result += hours;
+  if (min !== 0) {
+    result += ':';
+    if (min < 10) {
+      result += '0';
+    }
+    result += min;
+  }
+
+  return result;
 }
 
 export function formatDate(endUTC, nowUTC, locale) {

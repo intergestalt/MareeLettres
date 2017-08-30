@@ -22,27 +22,34 @@ const styles = EStyleSheet.create({
 
   topContainer: {
     position: 'relative',
-    flex: 0.5,
+    flex: 0.65,
     justifyContent: 'center',
     alignItems: 'center',
   },
   bottomContainer: {
     flexDirection: 'row',
     position: 'relative',
-    flex: 0.5,
+    flex: 0.35,
     justifyContent: 'space-around',
-    alignItems: 'center',
+    alignItems: 'flex-start',
+    paddingHorizontal: '$proposalPaddingHorizontal',
   },
-  noContainer1: {
+  markContainer1: {
     position: 'relative',
+    width: '10%', // correct value would be the width of the actual VoteMark. But doesn't matter
   },
-  noContainer2: {
+  markContainer2: {
     position: 'absolute',
+    top: 0,
   },
   text: {
     fontSize: '1.5rem',
     textAlign: 'center',
     fontFamily: 'impact',
+    paddingHorizontal: '$proposalPaddingHorizontal',
   },
+  voteMark: {
+    alignSelf: 'center',
+  }
 });
 export default styles;

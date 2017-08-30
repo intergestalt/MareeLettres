@@ -5,6 +5,8 @@ import { connect } from 'react-redux';
 import { styles } from './';
 import { PROPOSAL_LIST_MODES } from '../../../consts';
 
+import I18n from '../../../i18n/i18n';
+
 class ProposalListHeader extends PureComponent {
   static propTypes = {
     onMostPress: PropTypes.func,
@@ -16,28 +18,28 @@ class ProposalListHeader extends PureComponent {
   render() {
     let most = (
       <TouchableOpacity onPress={this.props.onMostPress}>
-        <Text style={styles.listHeaderLink}>Most Votes</Text>
+        <Text style={styles.listHeaderLink}>{I18n.t('proposal_list_header_most')}</Text>
       </TouchableOpacity>
     );
     let newest = (
       <TouchableOpacity onPress={this.props.onNewestPress}>
-        <Text style={styles.listHeaderLink}>Newest</Text>
+        <Text style={styles.listHeaderLink}>{I18n.t('proposal_list_header_newest')}</Text>
       </TouchableOpacity>
     );
     let trending = (
       <TouchableOpacity onPress={this.props.onTrendingPress}>
-        <Text style={styles.listHeaderLink}>Trending</Text>
+        <Text style={styles.listHeaderLink}>{I18n.t('proposal_list_header_trending')}</Text>
       </TouchableOpacity>
     );
 
     if (this.props.proposalListMode === PROPOSAL_LIST_MODES.MOST) {
-      most = <Text style={styles.listHeaderText}>Most Votes</Text>;
+      most = <Text style={styles.listHeaderText}>{I18n.t('proposal_list_header_most')}</Text>;
     } else if (this.props.proposalListMode === PROPOSAL_LIST_MODES.NEWEST) {
-      newest = <Text style={styles.listHeaderText}>Newest</Text>;
+      newest = <Text style={styles.listHeaderText}>{I18n.t('proposal_list_header_newest')}</Text>;
     } else if (this.props.proposalListMode === PROPOSAL_LIST_MODES.TRENDING) {
       trending = (
         <Text style={styles.listHeaderText} t>
-          Trending
+          {I18n.t('proposal_list_header_trending')}
         </Text>
       );
     }

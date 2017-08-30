@@ -4,6 +4,7 @@ import styles from './styles';
 import { connect } from 'react-redux';
 
 import { Letter } from '../Letters';
+import I18n from '../../../i18n/i18n';
 
 class LettersMenu extends Component {
   static propTypes = {
@@ -38,7 +39,7 @@ class LettersMenu extends Component {
           />
         </View>
         <View style={styles.letters__item__friends}>
-          <Text style={styles.letters__label__friends}>Letters from friends</Text>
+          <Text style={styles.letters__label__friends}>{I18n.t('map_letter_friends_label')}</Text>
           <View style={styles.letters__row}>
             {this.props.secondary_letters.map((item, i) => {
               if (i < 4) {

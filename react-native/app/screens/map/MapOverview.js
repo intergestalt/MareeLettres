@@ -26,6 +26,7 @@ componentDidUpdate() { console.log('UPDATE !'); }
   }
 
   pollLetters() {
+    console.ignoredYellowBox = ['Setting a timer'];
     setInterval(() => {
         loadLettersIntervalServiceProxy(this.props);
       },

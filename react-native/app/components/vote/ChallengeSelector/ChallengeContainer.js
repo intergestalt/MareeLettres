@@ -23,7 +23,7 @@ class ChallengeContainer extends Component {
     dispatch: PropTypes.func,
     challenges: PropTypes.array,
     selectedChallengeIndex: PropTypes.number,
-    selectedChallengeId: PropTypes.number,
+    selectedChallengeId: PropTypes.string,
     selectedProposalListMode: PropTypes.string,
     selectedProposalView: PropTypes.string,
   };

@@ -3,20 +3,20 @@ import { View, Text, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 
 import { styles } from './';
-import { VoteMark } from '../VoteMark/';
+import { VoteMark, VoteMarkPanel } from '../VoteMark/';
 
 class ProposalListItem extends PureComponent {
   static propTypes = {
     yes: PropTypes.bool,
     no: PropTypes.bool,
-    data: PropTypes.object,
+    proposal: PropTypes.object,
     onYesPress: PropTypes.func,
     onNoPress: PropTypes.func,
   };
   /* getAnswer() {
     let answer = '';
-    if (this.props.data) {
-      const winning = this.props.data.winningProposal;
+    if (this.props.proposal) {
+      const winning = this.props.proposal.winningProposal;
       if (winning) {
         answer = winning.text;
       }
@@ -45,8 +45,9 @@ class ProposalListItem extends PureComponent {
         </View>
         <View style={styles.itemCenter}>
           <Text style={styles.text}>
-            {this.props.data.text}
+            {this.props.proposal.text}
           </Text>
+          <VoteMarkPanel style={styles.voteMarkPanel} yes_amount={this.props.proposal.yes_votes} no_amount={this.props.proposal.no_votes} />
         </View>
         <View style={styles.itemRight}>
           {/*   <TouchableOpacity onPress={this.props.onYesPress}>
@@ -66,7 +67,7 @@ const mapStateToProps = (state, ownProps) => {
     const votes = state.user.votes;
     const internalVotes = state.user.internalVotes.internalVotes;
 
-    const id = ownProps.data._id;
+    const id = ownProps.proposal._id;
     const vote = votes[id];
     const internalVote = internalVotes[id];
     let yes = false;

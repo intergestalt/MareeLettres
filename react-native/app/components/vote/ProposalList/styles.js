@@ -42,6 +42,7 @@ const styles = EStyleSheet.create({
     position: 'relative',
     flex: 0.6,
     padding: 40,
+    alignItems: 'center',
   },
   itemRight: {
     position: 'relative',
@@ -54,7 +55,6 @@ const styles = EStyleSheet.create({
     textAlign: 'center',
     fontFamily: 'impact',
   },
-
   listHeader: {
     flexDirection: 'row',
     justifyContent: 'space-around',
@@ -73,5 +73,6 @@ const styles = EStyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  voteMarkPanel: {}
 });
 export default styles;
