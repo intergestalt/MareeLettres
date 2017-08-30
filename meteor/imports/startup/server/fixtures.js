@@ -21,10 +21,13 @@ Meteor.startup(() => {
   console.log("running fixures")
 
   // Always update default SystemConfig
+  console.log("resetting default config in db")
   const defaultSystemConfig = SystemConfigSchema.clean({});
-  SystemConfig.rawCollection().replaceOne({ name: 'default' }, defaultSystemConfig, {
+  SystemConfig.remove({ name: 'default' })
+  SystemConfig.insert(defaultSystemConfig, ...{ name: "default" })
+  /*SystemConfig.rawCollection().replaceOne({ name: 'default' }, defaultSystemConfig, {
     upsert: true,
-  });
+  });*/
 
   contents.forEach((content) => {
     if (Content.find(content).count() === 0) {

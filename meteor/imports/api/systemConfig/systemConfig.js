@@ -5,7 +5,7 @@ const SystemConfig = new Mongo.Collection('system_config');
 
 SystemConfig.allow({
   insert: () => false,
-  update: () => false,
+  update: () => true,
   remove: () => false,
 });
 

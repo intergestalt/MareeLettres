@@ -6,6 +6,7 @@ import Home from '../../ui/screens/Home.jsx';
 import ChallengesIndex from '../../ui/screens/Challenges.jsx';
 import Challenge from '../../ui/screens/Challenge.jsx';
 import ContentPage from '../../ui/screens/Content.jsx';
+import ConfigPage from '../../ui/screens/Config.jsx';
 import StatusPage from '../../ui/screens/Status.jsx';
 import LettersPage from '../../ui/screens/Letters.jsx';
 import ProposalsPage from '../../ui/screens/Proposals.jsx';
@@ -23,6 +24,7 @@ const renderRoutes = () =>
       <Route name="content.edit" path="content" component={ContentPage} />
       <Route name="status" path="status" component={StatusPage} />
       <Route name="letters" path="letters" component={LettersPage} />
+      <Route name="config" path="config" component={ConfigPage} />
     </Route>
   </Router>;
 
