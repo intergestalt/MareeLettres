@@ -64,7 +64,7 @@ const SystemConfigSchema = new SimpleSchema(
       description: 'Map: For how long a letter share QR code is valid'
     },
     map_drop_zone_radius: {
-      type: Number,
+      type: SimpleSchema.Integer,
       defaultValue: 50,
       description: 'Map: Radius of the drop zone in meters'
     }

@@ -21,6 +21,7 @@ Meteor.startup(() => {
   console.log("running fixures")
 
   // Always update default SystemConfig
+  console.log("resetting default config in db")
   const defaultSystemConfig = SystemConfigSchema.clean({});
   SystemConfig.remove({ name: 'default' })
   SystemConfig.insert(defaultSystemConfig, ...{ name: "default" })

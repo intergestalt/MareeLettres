@@ -6,6 +6,10 @@ Meteor.publish('get.configs', function getSystemConfig() {
   return SystemConfig.find();
 });
 
+Meteor.publish('get.config.latest', function getSystemConfig() {
+  return SystemConfig.find({}, { sort: { updated_at: 1 }, limit: 1 });
+});
+
 // ; charset=utf-8
 
 JsonRoutes.add('get', `${Meteor.settings.public.api_prefix}config`, function (req, res, next) {
