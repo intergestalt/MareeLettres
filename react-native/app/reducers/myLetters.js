@@ -46,6 +46,7 @@ export default (state = initialState.myLetters, action) => {
       }
       case CLEAR_MY_LETTERS: {
         console.log('Reducer: CLEAR_MY_LETTERS');
+
         const result = {
           ...state,
           content: {},

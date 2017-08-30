@@ -25,7 +25,6 @@ class Map extends Component {
     this.state = {
       lat: this.props.coordinates.latitude,
       lng: this.props.coordinates.longitude,
-      initialCentre: false,
     };
   }
 
@@ -37,16 +36,9 @@ class Map extends Component {
       Location.getCurrentPositionAsync({enableHighAccuracy: true}).then((res) => {
         //res.coords.latitude = 52.49330866968013;
         //res.coords.longitude = 13.436372637748718;
-
         setUserCoordinatesProxy(res.coords.latitude, res.coords.longitude);
         this.setState({lng: res.coords.longitude, lat: res.coords.latitude});
-
-        if (!this.state.initialCentre) {
-          this.centreZoomMap();
-          this.setState({initialCentre: true});
-        } else {
-          this.centreMap();
-        }
+        this.centreZoomMap();
       });
     } else {
       throw new Error('Location permission not granted');
@@ -55,16 +47,6 @@ class Map extends Component {
 
   componentDidMount() {
     this._getPlayerCoords();
-    this.pollPlayerCoords();
-  }
-
-  pollPlayerCoords() {
-    if (this.props.track_player_movements) {
-      setInterval(() => {
-          this._getPlayerCoords();
-        }, 3000
-      );
-    }
   }
 
   onPress = (e) => {
@@ -93,6 +75,10 @@ class Map extends Component {
         longitudeDelta: this.props.initial_delta,
       }, 300
     );
+  }
+
+  onCentreMapButton = () => {
+    this._getPlayerCoords();
   }
 
   mapLettersToMarkers(item, index) {
@@ -147,6 +133,13 @@ class Map extends Component {
               latitude: this.state.lat,
               longitude: this.state.lng,
             }}
+            radius={0.2}
+            strokeColor={'rgba(255,255,255,0.25)'} />
+          <MapView.Circle
+            center={{
+              latitude: this.state.lat,
+              longitude: this.state.lng,
+            }}
             radius={this.props.dropzone_radius}
             strokeColor={'rgba(255,255,255,0.25)'}
             fillColor={'rgba(255,255,255,0.1)'} />
@@ -160,7 +153,7 @@ class Map extends Component {
           </MapView.Marker>
 
         </MapView.Animated>
-        <TouchableOpacity onPress={this.centreZoomMap}>
+        <TouchableOpacity onPress={this.onCentreMapButton}>
           <Text style={styles.button}>
             CENTRE MAP
           </Text>

@@ -38,7 +38,7 @@ class QRCodeScanScreen extends Component {
   }
 
   handleQRCode = result => {
-    let char = result.data.charAt(0);
+    let char = result.data.charAt(result.data.length - 1);
 
     // prevent multiple scans
     if (char !== this.state.lastScanned) {
