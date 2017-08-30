@@ -209,8 +209,11 @@ export async function loadUserFromStorage() {
       store.dispatch(setUserIsLoadingFromStorage(false));
       store.dispatch(setUserLoadedFromStorage(true));
       // store.dispatch(setUserLoadedFromStorageResetDefaults());
+      console.log('USER LOADED FROM STORAGE');
       return;
     }
+    console.log('USER NOT EXISTING IN STORAGE');
+
     store.dispatch(setUserIsLoadingFromStorage(false));
     store.dispatch(setUserLoadedFromStorage(false));
   } catch (error) {
@@ -243,6 +246,9 @@ export async function loadGlobalsFromStorage() {
       let globals = JSON.parse(globalsStr);
       globals = cleanGlobals(globals);
       store.dispatch(setGlobals(globals));
+      console.log('GLOBALS LOADED FROM STORAGE');
+    } else {
+      console.log('GLOBALS NOT EXISTING IN STORAGE');
     }
     store.dispatch(setGlobalsIsLoadingFromStorage(false));
   } catch (error) {
@@ -274,6 +280,9 @@ export async function loadContentFromStorage() {
       let content = JSON.parse(contentStr);
       content = cleanContent(content);
       store.dispatch(setContent(content));
+      console.log('CONTENT LOADED FROM STORAGE');
+    } else {
+      console.log('CONTENT NOT EXISTING IN STORAGE');
     }
     store.dispatch(setContentIsLoadingFromStorage(false));
   } catch (error) {
@@ -304,6 +313,9 @@ export async function loadConfigFromStorage() {
       let config = JSON.parse(configStr);
       config = cleanConfig(config);
       store.dispatch(setConfig(config));
+      console.log('CONFIG LOADED FROM STORAGE');
+    } else {
+      console.log('CONFIG NOT EXISTING IN STORAGE');
     }
     store.dispatch(setConfigIsLoadingFromStorage(false));
   } catch (error) {
@@ -336,6 +348,9 @@ export async function loadChallengesFromStorage(props) {
       let challenges = JSON.parse(challengesStr);
       challenges = cleanChallenges(challenges);
       store.dispatch(setChallenges(challenges, props));
+      console.log('CHALLENGES LOADED FROM STORAGE');
+    } else {
+      console.log('CHALLENGES NOT EXISTING IN STORAGE');
     }
     store.dispatch(setChallengesDateData());
     store.dispatch(setChallengesIsLoadingFromStorage(false));
@@ -369,6 +384,9 @@ export async function loadProposalsFromStorage() {
       proposals = cutProposals(proposals);
       proposals = cleanProposals(proposals);
       store.dispatch(setProposals(proposals));
+      console.log('PROPOSALS LOADED FROM STORAGE');
+    } else {
+      console.log('PROPOSALS NOT EXISTING IN STORAGE');
     }
     store.dispatch(setProposalsIsLoadingFromStorage(false));
   } catch (error) {
@@ -399,7 +417,10 @@ export async function loadLettersFromStorage() {
     if (existing(lettersStr)) {
       let letters = JSON.parse(lettersStr);
       letters = cleanLetters(letters);
+      console.log('LETTERS LOADED FROM STORAGE');
       store.dispatch(setLetters(letters));
+    } else {
+      console.log('LETTERS NOT EXISTING IN STORAGE');
     }
     store.dispatch(setLettersIsLoadingFromStorage(false));
   } catch (error) {
@@ -430,9 +451,23 @@ export async function loadMyLettersFromStorage() {
       let myLetters = JSON.parse(myLettersStr);
       myLetters = cleanMyLetters(myLetters);
       store.dispatch(setMyLetters(myLetters));
+      console.log('MYLETTERS LOADED FROM STORAGE');
+    } else {
+      console.log('MYLETTERS NOT EXISTING IN STORAGE');
     }
     store.dispatch(setMyLettersIsLoadingFromStorage(false));
   } catch (error) {
     console.log(error);
   }
+}
+
+export async function deleteAllFromStorage() {
+  await AsyncStorage.setItem('user', '');
+  await AsyncStorage.setItem('globals', '');
+  await AsyncStorage.setItem('config', '');
+  await AsyncStorage.setItem('content', '');
+  await AsyncStorage.setItem('challenges', '');
+  await AsyncStorage.setItem('proposals', '');
+  await AsyncStorage.setItem('letters', '');
+  await AsyncStorage.setItem('myLetters', '');
 }

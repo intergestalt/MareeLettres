@@ -16,6 +16,7 @@ import { PROPOSAL_VIEWS, PROPOSAL_LIST_MODES } from '../../../consts';
 import { DYNAMIC_CONFIG } from '../../../config/config';
 import { listIsEmpty } from '../../../helper/helper';
 import { ReloadButton } from '../../../components/general/ReloadButton';
+import { deleteAllFromStorage } from '../../../helper/localStorage';
 
 class ChallengeContainer extends Component {
   static propTypes = {
@@ -63,6 +64,7 @@ class ChallengeContainer extends Component {
 
   handleSharePress() {
     console.log('handleSharePress');
+    deleteAllFromStorage();
   }
   handleCommitPress() {
     navigateToSubmit(this.props, this.props.challenges[this.props.selectedChallengeIndex]);
