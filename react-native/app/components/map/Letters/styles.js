@@ -11,11 +11,13 @@ export default EStyleSheet.create({
     color: '#000',
     textAlign: 'center',
     backgroundColor: 'transparent',
+    fontFamily: 'impact',
   },
   disabled: {
     opacity: 0.5,
     textAlign: 'center',
     backgroundColor: 'transparent',
+    fontFamily: 'impact',
   },
   letter_area: {
     width: 40,
