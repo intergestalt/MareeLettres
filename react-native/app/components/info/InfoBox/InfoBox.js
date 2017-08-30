@@ -42,18 +42,12 @@ class InfoBox extends Component {
       <View style={styles.container}>
         <LanguageSelector />
         <ScrollView showsVerticalScrollIndicator={false}>
-          <Text style={styles.infoHeadline}>
-            {I18n.t('info_howto_title')}
-          </Text>
-          {!this.props.isLoading
+          {/*!this.props.isLoading
             ? <Markdown styles={markdownStyles}>
               {this.props.language === 'fr' ? this.props.howto.fr : this.props.howto.en}
             </Markdown>
-            : <ActivityIndicator />}
+            : <ActivityIndicator />*/}
 
-          <Text style={styles.infoHeadline}>
-            {I18n.t('info_about_title')}
-          </Text>
           {!this.props.isLoading
             ? <Markdown styles={markdownStyles}>
               {this.props.language === 'fr' ? this.props.about.fr : this.props.about.en}

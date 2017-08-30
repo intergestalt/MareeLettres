@@ -27447,7 +27447,7 @@ exports.systemConfigInitial = exports.SystemConfigSchema = undefined;
 
 var _systemConfig = __webpack_require__(170);
 
-var systemConfigInitial = _systemConfig.SystemConfigSchema.clean({});
+var systemConfigInitial = {}; /* SystemConfigSchema.clean({}); */
 
 exports.SystemConfigSchema = _systemConfig.SystemConfigSchema;
 exports.systemConfigInitial = systemConfigInitial;

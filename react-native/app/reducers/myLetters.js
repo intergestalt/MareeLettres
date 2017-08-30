@@ -4,6 +4,7 @@ import {
   LOAD_MY_LETTERS,
   SET_MY_LETTERS_IS_LOADING_FROM_STORAGE,
   SET_MY_LETTERS,
+  CLEAR_MY_LETTERS,
 } from '../actions/map';
 
 import initialState from '../config/initialState';
@@ -20,25 +21,35 @@ export default (state = initialState.myLetters, action) => {
           isLoading: true,
         };
       }
-
       case PUT_LETTER_ON_MAP: {
         console.log('Reducer: PUT_LETTER_ON_MAP');
 
         const user = store.getState().user;
+        let newContent = {...state.content};
+        let id = user.origin_id + '_' + Object.keys(newContent).length;
+
+        newContent[id] = {
+          _id: user.origin_id,
+          character: action.character,
+          coords: {
+            lat: action.x,
+            lng: action.y,
+          },
+          created_at: new Date().toISOString(),
+        };
+        const result = {
+          ...state,
+          content: newContent,
+        };
+        saveMyLettersToStorage(result);
+        return result;
+      }
+      case CLEAR_MY_LETTERS: {
+        console.log('Reducer: CLEAR_MY_LETTERS');
 
         const result = {
           ...state,
-          content: [
-            ...state.content,
-            {
-              _id: user.origin_id,
-              character: action.character,
-              coords: {
-                lat: action.x,
-                lng: action.y,
-              },
-            },
-          ],
+          content: {},
         };
         saveMyLettersToStorage(result);
         return result;

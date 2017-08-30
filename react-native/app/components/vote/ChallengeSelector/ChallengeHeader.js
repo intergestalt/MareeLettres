@@ -88,7 +88,7 @@ class ChallengeHeader extends PureComponent {
       <View style={styles.headerTextContainer}>
         <TouchableOpacity delayPressIn={30} onPress={this.props.onHeaderPress}>
           <Text style={styles.headerText}>
-            VOTE #{challenge.voteNum}
+            TOPIC #{challenge.voteNum}
           </Text>
           <Text style={styles.headerText}>
             {myEndString}
