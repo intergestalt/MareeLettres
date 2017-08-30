@@ -8,7 +8,7 @@ const styles = EStyleSheet.create({
   letter: {
     fontWeight: 'bold',
 		color: 'white',
-		fontSize: 16,
+		fontFamily: 'impact',
   },
 	letter_dropzone: {
 		fontWeight: 'normal',
