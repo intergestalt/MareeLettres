@@ -22,9 +22,11 @@ Meteor.startup(() => {
 
   // Always update default SystemConfig
   const defaultSystemConfig = SystemConfigSchema.clean({});
-  SystemConfig.rawCollection().replaceOne({ name: 'default' }, defaultSystemConfig, {
+  SystemConfig.remove({ name: 'default' })
+  SystemConfig.insert(defaultSystemConfig, ...{ name: "default" })
+  /*SystemConfig.rawCollection().replaceOne({ name: 'default' }, defaultSystemConfig, {
     upsert: true,
-  });
+  });*/
 
   contents.forEach((content) => {
     if (Content.find(content).count() === 0) {

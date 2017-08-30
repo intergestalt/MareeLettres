@@ -2,7 +2,7 @@ import { Meteor } from 'meteor/meteor';
 import { SystemConfig } from '../systemConfig';
 import currentSystemConfig from '../../../startup/server/system-config';
 
-Meteor.publish('get.systemConfig', function getSystemConfig() {
+Meteor.publish('get.configs', function getSystemConfig() {
   return SystemConfig.find();
 });
 

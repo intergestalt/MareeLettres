@@ -40,7 +40,7 @@ class SysConf {
     console.log('reloading system config.');
 
     if (result) {
-      current = current;
+      current = result;
       cached_at = new Date();
       updated_at = new Date(); // TODO: update and extract last changed date
       digest = hash.sha1(current);
