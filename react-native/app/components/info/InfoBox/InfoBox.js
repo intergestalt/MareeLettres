@@ -8,6 +8,8 @@ import styles from './styles';
 import markdownStyles from '../../../config/markdown';
 import I18n from '../../../i18n/i18n';
 import { isEmptyContent } from '../../../helper/helper';
+import { ReloadButton } from '../../../components/general/ReloadButton';
+import { loadContentServiceProxy } from '../../../helper/apiProxy';
 
 class InfoBox extends Component {
   static propTypes = {
@@ -21,15 +23,17 @@ class InfoBox extends Component {
     I18n.locale = this.props.language;
   }
 
+  handleReloadPressPress = () => {
+    loadContentServiceProxy(true, false);
+  };
+
   renderEmpty() {
     return (
       <View style={styles.container}>
-        <LanguageSelector />
-        <Text>Empty</Text>
+        <ReloadButton textKey="reload_content" onReload={this.handleReloadPressPress} />
       </View>
     );
   }
-
   render() {
     if (isEmptyContent(this.props.howto, this.props.about, this.props.language)) {
       return this.renderEmpty();

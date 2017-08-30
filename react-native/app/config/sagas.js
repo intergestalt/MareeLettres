@@ -19,7 +19,7 @@ function* loadData(action) {
     if (result.error) {
       console.log('ERROR 1');
       console.log(result.error);
-      yield put({ type: action.errorEvent, error: result.error.message });
+      yield put({ type: action.errorEvent, action, error: result.error.message });
     } else {
       // Eventually other actions
       // 1. Load CONFIG?
@@ -48,7 +48,7 @@ function* loadData(action) {
   } catch (error) {
     console.log('ERROR 2');
     console.log(error);
-    yield put({ type: action.errorEvent, error: error.message });
+    yield put({ type: action.errorEvent, action, error });
   }
 }
 

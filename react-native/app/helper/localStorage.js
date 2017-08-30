@@ -15,6 +15,7 @@ import { setLetters, setLettersIsLoadingFromStorage } from '../actions/letters';
 import { setMyLetters, setMyLettersIsLoadingFromStorage } from '../actions/map';
 import { cutProposalList } from './proposalsHelper';
 import { PROPOSAL_VIEWS, CHALLENGE_VIEWS, PROPOSAL_LIST_MODES } from '../consts';
+import { setChallengesDateData } from '../actions/challengesTicker';
 
 function existing(str) {
   if (!str) return false;
@@ -335,6 +336,7 @@ export async function loadChallengesFromStorage(props) {
       challenges = cleanChallenges(challenges);
       store.dispatch(setChallenges(challenges, props));
     }
+    store.dispatch(setChallengesDateData());
     store.dispatch(setChallengesIsLoadingFromStorage(false));
   } catch (error) {
     console.log(error);

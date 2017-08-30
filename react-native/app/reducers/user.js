@@ -43,13 +43,36 @@ export default (state = initialState.user, action) => {
         return result;
       }
 
+      case USER_LOADED: {
+        console.log('USER_LOADED');
+
+        const newVotes = {};
+        const proposalIds = Object.keys(action.result.votes);
+
+        for (let i = 0; i < proposalIds.length; i += 1) {
+          const proposalId = proposalIds[i];
+          newVotes[proposalId] = { bool: action.result.votes[proposalId] };
+        }
+        const result = {
+          ...state,
+          isDefaultUser: false,
+          votes: newVotes,
+          isInternalLoading: false,
+        };
+        return result;
+      }
       case LOAD_USER_ERROR: {
         console.log('LOAD_USER_ERROR');
-        return state;
+        return {
+          ...state,
+          isLoading: false,
+          isInternalLoading: false,
+        };
       }
       case SET_USER: {
         console.log('REDUCER: SET_USER');
         const user = action.user;
+        user.isDefaultUser = false;
         return user;
       }
       // Redux local storage
@@ -117,23 +140,6 @@ export default (state = initialState.user, action) => {
           ...state,
           secondary_letters: [...letters],
         };
-      }
-
-      case USER_LOADED: {
-        console.log('USER_LOADED 13337 !');
-        const newVotes = {};
-        const proposalIds = Object.keys(action.result.votes);
-
-        for (let i = 0; i < proposalIds.length; i += 1) {
-          const proposalId = proposalIds[i];
-          newVotes[proposalId] = { bool: action.result.votes[proposalId] };
-        }
-        const result = {
-          ...state,
-          votes: newVotes,
-          isInternalLoading: false,
-        };
-        return result;
       }
 
       case USER_GET_LETTER: {

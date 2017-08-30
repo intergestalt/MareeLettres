@@ -9,7 +9,6 @@ import { loadProposalsServiceProxy } from '../../../helper/apiProxy';
 import { DYNAMIC_CONFIG } from '../../../config/config';
 import { userVoteInternal } from '../../../actions/user';
 import { deleteProposalFromTinderList } from '../../../actions/proposals';
-import { listIsEmpty } from '../../../helper/helper';
 
 class ProposalList extends PureComponent {
   static propTypes = {
@@ -19,7 +18,6 @@ class ProposalList extends PureComponent {
     onMostPress: PropTypes.func,
     onTrendingPress: PropTypes.func,
     onNewestPress: PropTypes.func,
-    isLoading: PropTypes.bool,
     isPullDownLoading: PropTypes.bool,
     isPullUpLoading: PropTypes.bool,
     lastLimit: PropTypes.number,
@@ -97,20 +95,6 @@ class ProposalList extends PureComponent {
     return null;
   }
 
-  renderIsLoading() {
-    return (
-      <View style={styles.container}>
-        <Text>Loading...</Text>
-      </View>
-    );
-  }
-  renderIsEmpty() {
-    return (
-      <View style={styles.container}>
-        <Text>Loading...</Text>
-      </View>
-    );
-  }
   render() {
     let myRefCallback = null;
     if (this.props.setFlatlistRef) {
@@ -122,13 +106,7 @@ class ProposalList extends PureComponent {
     if (!this.props.listEnabled) {
       listEnabled = 'none';
     }
-    if (this.props.isLoading) {
-      return this.renderIsLoading();
-    }
 
-    if (listIsEmpty(this.props.proposals)) {
-      return this.renderIsEmpty();
-    }
     return (
       <View style={styles.container}>
         <View style={styles.headerContainer}>
@@ -180,7 +158,6 @@ const mapStateToProps = (state, ownProps) => {
     const p2 = getProposalList(p, proposalView, proposalListMode);
 
     const proposals = p2.proposals;
-    const isLoading = p2.isLoading;
     const isPullDownLoading = p2.isPullDownLoading;
     const isPullUpLoading = p2.isPullUpLoading;
     const lastLimit = p2.lastLimit;
@@ -188,7 +165,6 @@ const mapStateToProps = (state, ownProps) => {
       challenges,
       proposals,
       selectedChallengeIndex,
-      isLoading,
       isPullDownLoading,
       isPullUpLoading,
       lastLimit,

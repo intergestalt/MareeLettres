@@ -15,6 +15,7 @@ import { getProposalList } from '../../../helper/proposalsHelper';
 import { loadProposalsServiceProxy } from '../../../helper/apiProxy';
 import { DYNAMIC_CONFIG } from '../../../config/config';
 import { listIsEmpty } from '../../../helper/helper';
+import { ReloadButton } from '../../../components/general/ReloadButton';
 
 class ChallengeContent extends Component {
   static propTypes = {
@@ -31,12 +32,14 @@ class ChallengeContent extends Component {
     lastLoaded: PropTypes.number,
     setFlatlistRef: PropTypes.func,
     listEnabled: PropTypes.bool,
+    challengeId: PropTypes.string,
   };
   constructor(props) {
     super(props);
     this.tinderVote = this.tinderVote.bind(this);
     this.tinderVoteYes = this.tinderVoteYes.bind(this);
     this.tinderVoteNo = this.tinderVoteNo.bind(this);
+    this.handleReloadPressPress = this.handleReloadPressPress.bind(this);
 
     this.state = {
       tinderContainerOffset: new Animated.ValueXY({ x: 0, y: 0 }),
@@ -281,13 +284,25 @@ class ChallengeContent extends Component {
       </View>
     );
   }
+
+  handleReloadPressPress = () => {
+    let limit = null;
+    if (this.props.proposalView === PROPOSAL_VIEWS.LIST) {
+      limit = DYNAMIC_CONFIG.DEFAULT_PROPOSAL_LIST_LIMIT;
+    } else {
+      limit = DYNAMIC_CONFIG.DEFAULT_PROPOSAL_TINDER_LIMIT;
+    }
+    loadProposalsServiceProxy(true, this.props.challengeId, limit);
+  };
+
   renderEmptyList() {
     return (
       <View style={styles.challengeContent}>
-        <Text>Empty Proposal List...</Text>
+        <ReloadButton textKey="reload_proposals" onReload={this.handleReloadPressPress} />
       </View>
     );
   }
+
   renderLoading() {
     return (
       <View style={styles.challengeContent}>
@@ -317,16 +332,17 @@ const mapStateToProps = (state, ownProps) => {
   try {
     const challenges = state.challenges.challenges;
     const selectedChallengeIndex = state.challenges.selectedChallengeIndex;
+    let challengeId = null;
     const proposalView = state.challenges.proposalView;
     const proposalListMode = state.challenges.proposalListMode;
     let proposals = null;
     let isLoading = false;
     let lastLoaded = 1;
     if (selectedChallengeIndex !== -1) {
-      const id = challenges[selectedChallengeIndex + ownProps.challengeOffset]._id;
-      if (id) {
+      challengeId = challenges[selectedChallengeIndex + ownProps.challengeOffset]._id;
+      if (challengeId) {
         // all 4 lists
-        const p = state.proposals[id];
+        const p = state.proposals[challengeId];
         // get the correct list
         const p2 = getProposalList(p, proposalView, proposalListMode);
         proposals = p2.proposals;
@@ -343,6 +359,7 @@ const mapStateToProps = (state, ownProps) => {
       proposalListMode,
       isLoading,
       lastLoaded,
+      challengeId,
     };
   } catch (e) {
     console.log('ChallengeContent');

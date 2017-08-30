@@ -11,10 +11,11 @@ import { handleChallengeIsNotExisting } from '../../../helper/challengesHelper';
 import { startChallengeTicker } from '../../../helper/ticker';
 import { cutProposalListToDefault } from '../../../actions/proposals';
 import { setChallengeId, setProposalListMode, setProposalView } from '../../../actions/challenges';
-import { loadProposalsServiceProxy } from '../../../helper/apiProxy';
+import { loadProposalsServiceProxy, loadChallengesServiceProxy } from '../../../helper/apiProxy';
 import { PROPOSAL_VIEWS, PROPOSAL_LIST_MODES } from '../../../consts';
 import { DYNAMIC_CONFIG } from '../../../config/config';
 import { listIsEmpty } from '../../../helper/helper';
+import { ReloadButton } from '../../../components/general/ReloadButton';
 
 class ChallengeContainer extends Component {
   static propTypes = {
@@ -35,6 +36,7 @@ class ChallengeContainer extends Component {
     this.navigateUpPress = this.navigateUpPress.bind(this);
     this.navigateDownPress = this.navigateDownPress.bind(this);
 
+    this.handleReloadPressPress = this.handleReloadPressPress.bind(this);
     this.handleSharePress = this.handleSharePress.bind(this);
     this.handleTinderPress = this.handleTinderPress.bind(this);
     this.handleListPress = this.handleListPress.bind(this);
@@ -318,10 +320,15 @@ class ChallengeContainer extends Component {
       </View>
     );
   }
+  handleReloadPressPress = () => {
+    loadChallengesServiceProxy(true, false);
+  };
+
   renderIsEmpty() {
+    // Should not Happen, but safety first
     return (
       <View style={styles.container}>
-        <Text>Empty Challenges...</Text>
+        <ReloadButton textKey="reload_challenges" onReload={this.handleReloadPressPress} />
       </View>
     );
   }
@@ -331,6 +338,7 @@ class ChallengeContainer extends Component {
       return this.renderIsLoading();
     }
     if (listIsEmpty(this.props.challenges)) {
+      // SHOULD NOT HAPPEN
       return this.renderIsEmpty();
     }
     const myStyle = [

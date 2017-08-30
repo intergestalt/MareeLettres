@@ -2,6 +2,7 @@ import config, { DYNAMIC_CONFIG } from '../config/config';
 import { PROPOSAL_LIST_MODES, PROPOSAL_VIEWS } from '../consts';
 
 function getPromiseGET(url) {
+  console.log(url);
   const xhr = new XMLHttpRequest();
   return new Promise((resolve, reject) => {
     xhr.onreadystatechange = function () {
@@ -19,6 +20,7 @@ function getPromiseGET(url) {
   });
 }
 function getPromisePOST(url, body) {
+  console.log(url);
   const xhr = new XMLHttpRequest();
   return new Promise((resolve, reject) => {
     xhr.onreadystatechange = function () {
@@ -40,15 +42,12 @@ function getPromisePOST(url, body) {
 export const callLoadUser = (action) => {
   const url = `${config.API_PREFIX}players/${action.originId}`;
   console.log('API CALL: callLoadUser');
-  console.log(url);
-  // WAS: return fetch(url);
   return getPromiseGET(url);
 };
 
 export const callSendUserVotes = (action) => {
   const url = `${config.API_PREFIX}players/${action.originId}/votes`;
   console.log('API CALL: callSendUserVotes');
-  console.log(url);
   const body = {};
   const votes = {};
   const proposalIds = Object.keys(action.internalVotes.internalVotes);
@@ -59,64 +58,55 @@ export const callSendUserVotes = (action) => {
   }
   body.votes = votes;
   return getPromisePOST(url, JSON.stringify(body));
-  /*  WAS: return fetch(url, {
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    method: 'POST',
-    body: JSON.stringify(body),
-  }); */
 };
 
 export const callAllChallenges = () => {
   const url = `${config.API_PREFIX}challenges/`;
   console.log('API CALL: callAllChallenges');
-  console.log(url);
+
   return getPromiseGET(url);
 };
 
 export const callOneChallenge = (action) => {
   const url = `${config.API_PREFIX}challenges/${action.challengeId}`;
   console.log('API CALL: callOneChallenge');
-  console.log(url);
+
   return getPromiseGET(url);
 };
 
 export const callProposals = (action) => {
   let url = null;
+  console.log(action);
   if (action.proposalView === PROPOSAL_VIEWS.TINDER) {
     url = `${config.API_PREFIX}tinder/${action.challengeId}/${action.originId}?limit=${action.limit}`;
   } else if (action.proposalListMode === PROPOSAL_LIST_MODES.MOST) {
     url = `${config.API_PREFIX}challenges/${action.challengeId}/proposals?limit=${action.limit}&sort=popular`;
-    // url = 'http://www.magazinredaktion.tk/timeout.php';
   } else if (action.proposalListMode === PROPOSAL_LIST_MODES.NEWEST) {
     url = `${config.API_PREFIX}challenges/${action.challengeId}/proposals?limit=${action.limit}&sort=newest`;
   } else if (action.proposalListMode === PROPOSAL_LIST_MODES.TRENDING) {
     url = `${config.API_PREFIX}challenges/${action.challengeId}/proposals?limit=${action.limit}&sort=trending`;
   }
   console.log('API CALL: callProposals');
-  console.log(url);
+  // url = 'http://www.magazinredaktion.tk/timeout.php';
+
   return getPromiseGET(url);
 };
 
 export const callConfig = () => {
   const url = `${config.API_PREFIX}config/`;
   console.log('API CALL: callConfig');
-  console.log(url);
   return getPromiseGET(url);
 };
 
 export const callAllContent = () => {
   const url = `${config.API_PREFIX}content/`;
   console.log('API CALL: callAllContent');
-  console.log(url);
   return getPromiseGET(url);
 };
 
 export const callLetters = () => {
   const url = `${config.API_PREFIX}letters/`;
   console.log('API CALL: callLetters');
-  console.log(url);
   return getPromiseGET(url);
 };
 
@@ -144,6 +134,5 @@ export const callPostLetter = (action) => {
     ],
   };
   console.log('API CALL: callPostLetter');
-  console.log(url);
   return getPromisePOST(url, JSON.stringify(req_body));
 };

@@ -52,6 +52,7 @@ export default (state = initialState.content, action) => {
         console.log('NETWORK_ERROR_LOAD_CONTENT');
         console.log(action.error);
         return {
+          ...state,
           isLoading: false,
           isInternalLoading: false,
         };

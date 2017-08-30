@@ -4,11 +4,13 @@ import { connect } from 'react-redux';
 
 import Separator from './Separator';
 import ChallengesListItem from './ChallengesListItem';
+import { ReloadButton } from '../../../components/general/ReloadButton';
 import styles from './styles';
 import { navigateToChallengeSelector } from '../../../helper/navigationProxy';
 import { startChallengeTicker } from '../../../helper/ticker';
 import { isFinished } from '../../../helper/dateFunctions';
 import { listIsEmpty } from '../../../helper/helper';
+import { loadChallengesServiceProxy, loadUserServiceProxy } from '../../../helper/apiProxy';
 
 class ChallengesList extends Component {
   static propTypes = {
@@ -16,11 +18,17 @@ class ChallengesList extends Component {
     language: PropTypes.string,
     challenges: PropTypes.array,
     challengesTicker: PropTypes.object,
+    isDefaultUser: PropTypes.bool,
   };
-
+  constructor(props) {
+    super(props);
+    this.handleReloadUserPressPress = this.handleReloadUserPressPress.bind(this);
+    this.handleReloadChallengesPressPress = this.handleReloadChallengesPressPress.bind(this);
+  }
   componentDidMount() {
     startChallengeTicker(this.props);
   }
+
   getAnswer(challenge) {
     let answer = '';
     const winning = challenge.winningProposal;
@@ -41,10 +49,28 @@ class ChallengesList extends Component {
       </View>
     );
   }
+
+  handleReloadChallengesPressPress = () => {
+    loadChallengesServiceProxy(true, false);
+  };
   renderIsEmpty() {
     return (
       <View style={styles.container}>
-        <Text>Empty Challenges...</Text>
+        <ReloadButton
+          textKey="reload_challenges"
+          onReload={this.handleReloadChallengesPressPress}
+        />
+      </View>
+    );
+  }
+
+  handleReloadUserPressPress = () => {
+    loadUserServiceProxy(true);
+  };
+  renderNoUser() {
+    return (
+      <View style={styles.container}>
+        <ReloadButton textKey="reload_user" onReload={this.handleReloadUserPressPress} />
       </View>
     );
   }
@@ -53,6 +79,9 @@ class ChallengesList extends Component {
 
     if (isLoading) {
       return this.renderIsLoading();
+    }
+    if (this.props.isDefaultUser) {
+      return this.renderNoUser();
     }
 
     if (listIsEmpty(this.props.challenges)) {
@@ -106,11 +135,13 @@ const mapStateToProps = (state) => {
     const challengesTicker = state.challengesTicker;
     const isLoading = state.challenges.isLoading;
     const language = state.globals.language;
+    const isDefaultUser = state.user.isDefaultUser;
     return {
       challenges,
       challengesTicker,
       isLoading,
       language,
+      isDefaultUser,
     };
   } catch (e) {
     console.log('ChallengesList');

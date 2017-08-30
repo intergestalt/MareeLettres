@@ -25,6 +25,7 @@ export default (state = initialState.challenges, action) => {
   try {
     switch (action.type) {
       case LOAD_CHALLENGES: {
+        console.log('LOAD_CHALLENGES');
         let oldChallenges = state;
         oldChallenges = addDefaultStructure(oldChallenges);
 
@@ -37,6 +38,7 @@ export default (state = initialState.challenges, action) => {
         return oldChallenges;
       }
       case CHALLENGES_LOADED: {
+        console.log('CHALLENGES_LOADED');
         const now = new Date();
         const challenges = [];
         for (let i = 0; i < action.result.challenges.length; i += 1) {
@@ -70,9 +72,10 @@ export default (state = initialState.challenges, action) => {
       }
       case NETWORK_ERROR_LOAD_CHALLENGES: {
         console.log('NETWORK_ERROR_LOAD_CHALLENGES');
-        console.log(action.error);
+        let oldChallenges = state;
+        oldChallenges = addDefaultStructure(oldChallenges);
         return {
-          ...state,
+          ...oldChallenges,
           isLoading: false,
           isInternalLoading: false,
         };
