@@ -8,6 +8,7 @@ import store from './config/store';
 import { AppContainer } from './components/general/Container';
 
 import { screenHeight } from './helper/screen';
+import { AlertProvider } from './components/general/Alert';
 
 Expo.ScreenOrientation.allow(Expo.ScreenOrientation.Orientation.PORTRAIT);
 
@@ -27,9 +28,9 @@ const configureScene = () => ({
 
 export default () =>
   <Provider store={store}>
-    <AppContainer>
-      <Navigator
-        configureScene={configureScene}
-        />
-    </AppContainer>
+    <AlertProvider>
+      <AppContainer>
+        <Navigator configureScene={configureScene} />
+      </AppContainer>
+    </AlertProvider>
   </Provider>;

@@ -6,4 +6,6 @@ export default {
   reload_proposals: 'The proposals are not loaded yet. Press to Reload',
   reload_content: 'The content is not loaded yet. Press to Reload',
   reload_user: 'User could not be loaded or created. NET IS GOOD',
+  network_error:
+    'There is no net at the moment. Please do something about this. Or this message will be shwon forever!',
 };
