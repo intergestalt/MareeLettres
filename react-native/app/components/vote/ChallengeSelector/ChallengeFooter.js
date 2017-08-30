@@ -43,7 +43,7 @@ class ChallengeFooter extends Component {
         <View style={styles.challengeFooterFinished}>
           <TouchableOpacity onPress={this.props.handleSharePress}>
             <Text style={styles.challengeFooterText}>{I18n.t('share_button')}</Text>
-            /* TODO: overview and status options here */
+            {/* TODO: overview and status options here */}
           </TouchableOpacity>
         </View>
       </View>
