@@ -11,14 +11,6 @@ do
 	echo waiting for 4:44...
 	at 4:44
 
-	cd $TMPDIR
-	rm -rf MareeLettres
-	git clone https://github.com/intergestalt/MareeLettres.git 
-	cd MareeLettres
-	cd react-native
-	yarn install
-	exp logout
-	exp login -u retani -p MareeLettres0710 --non-interactive && exp publish
-	cd $TMPDIR
+	./publish_from_github.command
 
 done
