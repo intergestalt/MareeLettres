@@ -1,5 +1,5 @@
 import Expo from 'expo';
-import { OriginId, systemConfigInitial } from 'maree-lettres-shared';
+import { OriginId /*, systemConfigInitial */ } from 'maree-lettres-shared';
 
 import { PROPOSAL_LIST_MODES, CHALLENGE_VIEWS, PROPOSAL_VIEWS } from '../consts';
 
