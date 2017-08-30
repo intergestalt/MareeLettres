@@ -3,6 +3,8 @@ import { View, TouchableOpacity, Text } from 'react-native';
 import { connect } from 'react-redux';
 
 import styles from './styles';
+import listStyles from '../ChallengesList/styles';
+
 
 class ChallengeHeader extends PureComponent {
   static propTypes = {

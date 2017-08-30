@@ -3,7 +3,7 @@ import { Animated, View, Text } from 'react-native';
 import { connect } from 'react-redux';
 
 import styles from './styles';
-import { VoteMark } from '../VoteMark/';
+import { VoteMark, VoteMarkPanel } from '../VoteMark/';
 import { getProposalList } from '../../../helper/proposalsHelper';
 import { ReloadButton } from '../../../components/general/ReloadButton';
 
@@ -71,11 +71,11 @@ class ProposalTinder extends Component {
         </Animated.Text>
       );
       noContainer = (
-        <View style={styles.noContainer1}>
-          <View style={styles.noContainer2}>
+        <View style={styles.markContainer1}>
+          <View style={styles.markContainer2}>
             <VoteMark size="l" active value={0} type="no" />
           </View>
-          <View style={styles.noContainer2}>
+          <View style={styles.markContainer2}>
             <Animated.View style={{ opacity: this.props.noOpacity }}>
               <VoteMark size="l" active value={1} type="no" />
             </Animated.View>
@@ -83,11 +83,11 @@ class ProposalTinder extends Component {
         </View>
       );
       yesContainer = (
-        <View style={styles.noContainer1}>
-          <View style={styles.noContainer2}>
+        <View style={styles.markContainer1}>
+          <View style={styles.markContainer2}>
             <VoteMark size="l" active value={0} type="yes" />
           </View>
-          <View style={styles.noContainer2}>
+          <View style={styles.markContainer2}>
             <Animated.View style={{ opacity: this.props.yesOpacity }}>
               <VoteMark size="l" active value={1} type="yes" />
             </Animated.View>
@@ -103,15 +103,15 @@ class ProposalTinder extends Component {
         </Text>
       );
       noContainer = (
-        <View style={styles.noContainer1}>
-          <View style={styles.noContainer2}>
+        <View style={styles.markContainer1}>
+          <View style={styles.markContainer2}>
             <VoteMark size="l" active value={0} type="no" />
           </View>
         </View>
       );
       yesContainer = (
-        <View style={styles.noContainer1}>
-          <View style={styles.noContainer2}>
+        <View style={styles.markContainer1}>
+          <View style={styles.markContainer2}>
             <VoteMark size="l" active value={0} type="yes" />
           </View>
         </View>
@@ -124,6 +124,7 @@ class ProposalTinder extends Component {
         <View style={myStyle}>
           <View style={styles.topContainer}>
             {textContainer}
+            { /* <VoteMarkPanel style={styles.voteMark} yes_amount={this.props.proposal.yes_votes} no_amount={this.props.proposal.no_votes} /> */}
           </View>
           <View style={styles.bottomContainer}>
             {noContainer}

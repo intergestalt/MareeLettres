@@ -125,7 +125,7 @@ class ProposalList extends PureComponent {
               <ProposalListItem
                 onNoPress={() => this.onNoPress(item)}
                 onYesPress={() => this.onYesPress(item)}
-                data={item}
+                proposal={item}
               />}
             keyExtractor={item => item._id}
             ItemSeparatorComponent={Separator}
