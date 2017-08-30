@@ -24,7 +24,7 @@ export default {
   reload_challenges: 'The topics are not loaded yet. Press to Reload',
   reload_proposals: 'The suggestions are not loaded yet. Press to Reload',
   reload_content: 'The content is not loaded yet. Press to Reload',
-  reload_user: 'User could not be loaded or created. Net is good.',
+  reload_user: 'User could not be loaded or created. Check your network connection.',
 
   map_drop_zone: 'Drop Zone',
   map_give_letter_button: 'Give your letter',
@@ -36,6 +36,5 @@ export default {
   map_scan_qr_instruction: "Scan your friend's QR code to get their letter.",
 
   info_about_title: 'NUIT BLANCHE',
-  info_howto_title: 'THE IDEA'
-  
+  info_howto_title: 'THE IDEA',
 };

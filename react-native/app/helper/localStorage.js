@@ -69,12 +69,13 @@ function cleanGlobals(globals) {
   let item = globals;
   item.globalsIsLoadingFromStorage = false;
   item = normalClean(item);
-
+  item.isNetworkError = false;
+  item.networkErrorMessageKey = null;
   return item;
 }
 
 function cleanLetters(letters) {
-  let item = letters;
+  const item = letters;
 
   item.lettersIsLoadingFromStorage = false;
   item.isInternalLoading = false;
@@ -85,7 +86,7 @@ function cleanLetters(letters) {
 }
 
 function cleanMyLetters(myLetters) {
-  let item = myLetters;
+  const item = myLetters;
 
   item.myLettersIsLoadingFromStorage = false;
   item.lettersIsLoadingFromStorage = false;

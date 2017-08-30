@@ -121,20 +121,23 @@ class Map extends Component {
             latitudeDelta: this.props.initial_delta,
             longitudeDelta: this.props.initial_delta,
           }}
+          showsIndoorLevelPicker={false}
+          showsIndoors={false}
           rotateEnabled={false}
+          showsPointsOfInterest={false}
           customMapStyle={mapstyles}
         >
 
           { mapLetters }
           { myLetters }
 
-          <MapView.Circle
+          {/*<MapView.Circle
             center={{
               latitude: this.state.lat,
               longitude: this.state.lng,
             }}
             radius={0.2}
-            strokeColor={'rgba(255,255,255,0.25)'} />
+            strokeColor={'rgba(255,255,255,0.25)'} />*/}
           <MapView.Circle
             center={{
               latitude: this.state.lat,
@@ -143,14 +146,14 @@ class Map extends Component {
             radius={this.props.dropzone_radius}
             strokeColor={'rgba(255,255,255,0.25)'}
             fillColor={'rgba(255,255,255,0.1)'} />
-          <MapView.Marker
+          {/*<MapView.Marker
             title={'drop_zone'}
             coordinate={{
               latitude: this.state.lat + 0.00003,
               longitude: this.state.lng,
             }} >
             <Text style={styles.letter_dropzone}>Drop Zone</Text>
-          </MapView.Marker>
+          </MapView.Marker>*/}
 
         </MapView.Animated>
         <TouchableOpacity onPress={this.onCentreMapButton}>

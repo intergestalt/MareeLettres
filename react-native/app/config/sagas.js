@@ -1,6 +1,7 @@
 import { takeEvery, call, put } from 'redux-saga/effects';
 
 import { SET_CHALLENGES_DATE_DATA } from '../actions/challengesTicker';
+import { SET_NET_WORK_ERROR } from '../actions/general';
 import { LOAD_CHALLENGES, LOAD_CHALLENGE } from '../actions/challenges';
 import { LOAD_PROPOSALS } from '../actions/proposals';
 import { LOAD_CONTENT } from '../actions/content';
@@ -20,6 +21,11 @@ function* loadData(action) {
       console.log('ERROR 1');
       console.log(result.error);
       yield put({ type: action.errorEvent, action, error: result.error.message });
+      yield put({
+        type: SET_NET_WORK_ERROR,
+        yes: true,
+        messageKey: 'network_error',
+      });
     } else {
       // Eventually other actions
       // 1. Load CONFIG?
@@ -49,6 +55,11 @@ function* loadData(action) {
     console.log('ERROR 2');
     console.log(error);
     yield put({ type: action.errorEvent, action, error });
+    yield put({
+      type: SET_NET_WORK_ERROR,
+      yes: true,
+      messageKey: 'network_error',
+    });
   }
 }
 

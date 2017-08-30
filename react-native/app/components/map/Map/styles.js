@@ -158,45 +158,42 @@ const mapstyles = [
     "featureType": "poi",
     "elementType": "geometry",
     "stylers": [
-      {
-        "color": "#283d6a"
-      }
+      { "visibility": "off" }
+    ]
+  },
+  {
+    "featureType": "poi",
+    "elementType": "labels.icon",
+    "stylers": [
+      { "visibility": "off" }
     ]
   },
   {
     "featureType": "poi",
     "elementType": "labels.text.fill",
     "stylers": [
-      {
-        "color": "#6f9ba5"
-      }
+        { "visibility": "off" }
     ]
   },
   {
     "featureType": "poi",
     "elementType": "labels.text.stroke",
     "stylers": [
-      {
-        "color": "#1d2c4d"
-      }
+        { "visibility": "off" }
     ]
   },
   {
     "featureType": "poi.park",
     "elementType": "geometry.fill",
     "stylers": [
-      {
-        "color": "#023e58"
-      }
+      { "visibility": "off" }
     ]
   },
   {
     "featureType": "poi.park",
     "elementType": "labels.text.fill",
     "stylers": [
-      {
-        "color": "#3C7680"
-      }
+      { "visibility": "off" }
     ]
   },
   {
@@ -264,20 +261,23 @@ const mapstyles = [
   },
   {
     "featureType": "transit",
+    "elementType": "labels.icon",
+    "stylers": [
+      { "visibility": "off" }
+    ]
+  },
+  {
+    "featureType": "transit",
     "elementType": "labels.text.fill",
     "stylers": [
-      {
-        "color": "#98a5be"
-      }
+      { "visibility": "off" }
     ]
   },
   {
     "featureType": "transit",
     "elementType": "labels.text.stroke",
     "stylers": [
-      {
-        "color": "#1d2c4d"
-      }
+      { "visibility": "off" }
     ]
   },
   {
@@ -293,9 +293,7 @@ const mapstyles = [
     "featureType": "transit.station",
     "elementType": "geometry",
     "stylers": [
-      {
-        "color": "#3a4762"
-      }
+      { "visibility": "off" }
     ]
   },
   {

@@ -3,6 +3,7 @@ import {
   SET_LANGUAGE,
   SET_GLOBALS_IS_LOADING_FROM_STORAGE,
   SET_GLOBALS,
+  SET_NET_WORK_ERROR,
 } from '../actions/general';
 
 import initialState from '../config/initialState';
@@ -44,6 +45,10 @@ export default (state = initialState.globals, action) => {
       // Redux local storage
       case SET_GLOBALS_IS_LOADING_FROM_STORAGE: {
         return { ...state, globalsIsLoadingFromStorage: action.yes };
+      }
+
+      case SET_NET_WORK_ERROR: {
+        return { ...state, isNetworkError: action.yes, networkErrorMessageKey: action.messageKey };
       }
       default:
         return state;
