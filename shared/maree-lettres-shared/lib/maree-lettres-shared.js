@@ -27514,7 +27514,7 @@ var SystemConfigSchema = new _simplSchema2.default({
   },
   map_letter_decay_time: {
     type: _simplSchema2.default.Integer,
-    defaultValue: 30,
+    defaultValue: 300,
     description: 'Map: Letter Decay Time (seconds)'
   },
   map_letter_regeneration_time_primary: {

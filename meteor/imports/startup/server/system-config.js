@@ -69,7 +69,7 @@ class SysConf {
     if (!options.data) {
       options.data = {};
     }
-    // TODO: check if config has changed since last transmission
+
     options.data.config = current;
 
     return options;
