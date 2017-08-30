@@ -36,6 +36,5 @@ export default {
   map_scan_qr_instruction: "Scan your friend's QR code to get their letter.",
 
   info_about_title: 'NUIT BLANCHE',
-  info_howto_title: 'THE IDEA'
-  
+  info_howto_title: 'THE IDEA',
 };

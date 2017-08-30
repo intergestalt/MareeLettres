@@ -36,7 +36,7 @@
     "color-interpolate": "^1.0.2",
     "ex-react-native-i18n": "^0.0.3",
     "expo": "^19.0.1",
-    "hoist-non-react-statics": "1.2.0",
+    "hoist-non-react-statics": "2.3.0",
     "maree-lettres-shared": "../shared/maree-lettres-shared",
     "prop-types": "^15.5.10",
     "react": "react@16.0.0-alpha.12",

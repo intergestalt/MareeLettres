@@ -36,6 +36,7 @@ export default {
   map_scan_qr_instruction: 'Scannez les flashcodes de vos amis pour obtenir leurs lettres.',
 
   info_about_title: 'NUIT BLANCHE FR',
-  info_howto_title: 'THE IDEA FR'
-  
+  info_howto_title: 'THE IDEA FR',
+  network_error:
+    'There is no baguette at the moment. Please buy one. Or this message will be shwon forever!',
 };
