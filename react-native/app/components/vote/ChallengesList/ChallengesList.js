@@ -4,11 +4,13 @@ import { connect } from 'react-redux';
 
 import Separator from './Separator';
 import ChallengesListItem from './ChallengesListItem';
+import { ReloadButton } from '../../../components/general/ReloadButton';
 import styles from './styles';
 import { navigateToChallengeSelector } from '../../../helper/navigationProxy';
 import { startChallengeTicker } from '../../../helper/ticker';
 import { isFinished } from '../../../helper/dateFunctions';
 import { listIsEmpty } from '../../../helper/helper';
+import { loadChallengesServiceProxy } from '../../../helper/apiProxy';
 
 class ChallengesList extends Component {
   static propTypes = {
@@ -17,10 +19,14 @@ class ChallengesList extends Component {
     challenges: PropTypes.array,
     challengesTicker: PropTypes.object,
   };
-
+  constructor(props) {
+    super(props);
+    this.handleReloadPressPress = this.handleReloadPressPress.bind(this);
+  }
   componentDidMount() {
     startChallengeTicker(this.props);
   }
+
   getAnswer(challenge) {
     let answer = '';
     const winning = challenge.winningProposal;
@@ -41,10 +47,14 @@ class ChallengesList extends Component {
       </View>
     );
   }
+
+  handleReloadPressPress = () => {
+    loadChallengesServiceProxy(true, false);
+  };
   renderIsEmpty() {
     return (
       <View style={styles.container}>
-        <Text>Empty Challenges...</Text>
+        <ReloadButton textKey="reload_challenges" onReload={this.handleReloadPressPress} />
       </View>
     );
   }

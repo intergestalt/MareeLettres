@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import styles from './styles';
 import { VoteMark } from '../VoteMark/';
 import { getProposalList } from '../../../helper/proposalsHelper';
+import { ReloadButton } from '../../../components/general/ReloadButton';
 
 class ProposalTinder extends Component {
   static propTypes = {
@@ -28,7 +29,7 @@ class ProposalTinder extends Component {
   renderNoTinder(myStyle) {
     return (
       <View style={myStyle}>
-        <Text>Nothing to Swipe</Text>
+        <ReloadButton textKey="reload_proposals" onReload={null} />
       </View>
     );
   }
@@ -93,7 +94,7 @@ class ProposalTinder extends Component {
           </View>
         </View>
       );
-    } else {
+    } else if (proposalExists) {
       // Background or neighbour (not visible, but rendered to swipe challenges left and right)
       // => One Votemark, no AnimatedView
       textContainer = (

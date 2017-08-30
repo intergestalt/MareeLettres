@@ -45,7 +45,11 @@ export default (state = initialState.user, action) => {
 
       case LOAD_USER_ERROR: {
         console.log('LOAD_USER_ERROR');
-        return state;
+        return {
+          ...state,
+          isLoading: false,
+          isInternalLoading: false,
+        };
       }
       case SET_USER: {
         console.log('REDUCER: SET_USER');

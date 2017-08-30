@@ -121,17 +121,33 @@ export default (state = initialState.proposals, action) => {
       }
       case NETWORK_ERROR_LOAD_PROPOSALS: {
         console.log('NETWORK_ERROR_LOAD_PROPOSALS');
-        console.log(action.error);
-        const oldProposals = state[action.challengeId];
+
+        // all 4 lists
+        const p = state[action.action.challengeId];
+        let oldProposals = getProposalList(
+          p,
+          action.action.proposalView,
+          action.action.proposalListMode,
+        );
+        oldProposals = addDefaultStructure(oldProposals);
+
         oldProposals.isLoading = false;
         oldProposals.isInternalLoading = false;
         oldProposals.isPullDownLoading = false;
         oldProposals.isPullUpLoading = false;
+        oldProposals.lastLimit = 0;
+        oldProposals.lastLoaded = 1;
+
+        const challengeProposals = {
+          ...p,
+        };
+        const key = getProposalKey(action.action.proposalView, action.action.proposalListMode);
+        challengeProposals[key] = oldProposals;
+
         const result = {
           ...state,
         };
-        result[action.challengeId] = oldProposals;
-
+        result[action.challengeId] = challengeProposals;
         return result;
       }
       case DELETE_PROPOSAL_FROM_TINDER_LIST: {

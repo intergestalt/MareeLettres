@@ -106,7 +106,6 @@ export function loadChallengesServiceProxy(force, quietLoading = false) {
     return;
   }
   let doit = checkReload(force, challenges, DYNAMIC_CONFIG.UPDATE_CHALLENGES_AFTER);
-
   let myQuiet = quietLoading;
   if (emptyOrNull(challenges)) {
     myQuiet = false;
