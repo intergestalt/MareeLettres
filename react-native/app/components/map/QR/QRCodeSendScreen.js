@@ -9,6 +9,8 @@ import styles from './styles';
 
 import { navigateToMapOverview } from '../../../helper/navigationProxy';
 
+import I18n from '../../../i18n/i18n';
+
 class QRCodeSendScreen extends Component {
   static propTypes = {
     navigation: PropTypes.object,
@@ -23,7 +25,7 @@ class QRCodeSendScreen extends Component {
       <View style={styles.container}>
         <BackSimple onPress={() => this.handleBackPress()} />
         <Text style={styles.text}>
-          Let your friends scan your QR Code
+          {I18n.t('map_show_qr_instruction')}
         </Text>
         <QRCodeBox />
       </View>

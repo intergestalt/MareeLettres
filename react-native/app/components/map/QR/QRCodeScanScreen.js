@@ -9,6 +9,8 @@ import { navigateToMapOverview } from '../../../helper/navigationProxy';
 import { addFriendLetterProxy } from '../../../helper/userHelper';
 import { BarCodeScanner, Permissions } from 'expo';
 
+import I18n from '../../../i18n/i18n';
+
 class QRCodeScanScreen extends Component {
   static PropTypes = {
     navigation: PropTypes.object,
@@ -75,9 +77,7 @@ class QRCodeScanScreen extends Component {
         }
 
         <Text style={styles.textWhite}>
-          Scan your friends’ QR
-          code to receive their
-          letter!
+          {I18n.t('map_scan_qr_instruction')}
         </Text>
 
         {

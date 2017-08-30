@@ -26,6 +26,15 @@ export default {
   reload_content: 'The content is not loaded yet. Press to Reload FR',
   reload_user: 'User could not be loaded or created. Net is good. FR',
 
+  map_drop_zone: 'Zone Drop',
+  map_give_letter_button: 'Offrez votre lettre',
+  map_get_letter_button: 'Obtenir des lettres',
+  map_trash_letter_button: 'Glissez ici pour annuler',
+  map_you_label: 'Vous',
+  map_letter_friends_label: 'Amis Lettres',
+  map_show_qr_instruction: 'Montrez ce code à vos amis.',
+  map_scan_qr_instruction: 'Scannez les flashcodes de vos amis pour obtenir leurs lettres.',
+
   info_about_title: 'NUIT BLANCHE FR',
   info_howto_title: 'THE IDEA FR'
   

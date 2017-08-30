@@ -26,6 +26,15 @@ export default {
   reload_content: 'The content is not loaded yet. Press to Reload',
   reload_user: 'User could not be loaded or created. Net is good.',
 
+  map_drop_zone: 'Drop Zone',
+  map_give_letter_button: 'Give your letter',
+  map_get_letter_button: 'Get letters',
+  map_trash_letter_button: 'Drag here to remove',
+  map_you_label: 'You',
+  map_letter_friends_label: 'Letter Friends',
+  map_show_qr_instruction: 'Ask your friends to scan this code.',
+  map_scan_qr_instruction: "Scan your friend's QR code to get their letter.",
+
   info_about_title: 'NUIT BLANCHE',
   info_howto_title: 'THE IDEA'
   
