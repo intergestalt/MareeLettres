@@ -97,7 +97,33 @@ export function addDefaultStructure(proposals) {
 }
 
 function mergeProposalListList(oldList, newList) {
-  return newList;
+  // just ignore the old list, but delete the user vote
+  const internalVotes = store.getState().user.internalVotes.internalVotes;
+  const votes = store.getState().user.votes;
+
+  const result = oldList;
+  // insert all new Elements after
+  for (let i = 0; i < newList.length; i += 1) {
+    const entry = newList[i];
+    const key = entry._id;
+    if (internalVotes[key]) {
+      if (internalVotes[key].bool) {
+        entry.yes_votes -= 1;
+      } else {
+        entry.no_votes -= 1;
+      }
+    }
+    if (votes[key]) {
+      if (votes[key].bool) {
+        entry.yes_votes -= 1;
+      } else {
+        entry.no_votes -= 1;
+      }
+    }
+
+    result.push(entry);
+  }
+  return result;
 }
 function mergeProposalListTinder(oldList, newList) {
   const internalVotes = store.getState().user.internalVotes.internalVotes;
