@@ -34,38 +34,35 @@ class Letter extends Component {
           }
       };
       this.panResponder = PanResponder.create({
-          onStartShouldSetPanResponder : () => true,
-          onPanResponderStart : () => {
+          onStartShouldSetPanResponder: () => true,
+          onPanResponderStart: () => {
             this.selectedFont();
           },
-          onPanResponderMove : Animated.event([null,{
-            dx: this.state.pan.x,
-            dy: this.state.pan.y
-          }]),
-          onPanResponderRelease : (e, gesture) => {
-            if (this.isDropZone(gesture)){
+          onPanResponderMove: Animated.event([
+            null, {
+              dx: this.state.pan.x,
+              dy: this.state.pan.y
+            }
+          ]),
+          onPanResponderRelease: (e, gesture) => {
+            this.resetFont();
+
+            if (this.isLetterOverMap(gesture)){
               if (!this.props.selected) {
-                // check if letter in dropzone, place letter, reset
                 if (this.onDrop(gesture.moveX, gesture.moveY)) {
                   this.snapToStart();
                 } else {
                   this.springToStart();
                 }
               } else {
-                // letter disabled, reset
                 this.springToStart();
               }
-            } else if (this.isBin(gesture)) {
-              // snap to start, destroy
+            } else if (this.isLetterOverBin(gesture)) {
               this.snapToStart();
-              this.onBin();
+              this.destroyLetter();
             } else {
-              // do nothing, reset
               this.springToStart();
             }
-
-            // reset font
-            this.resetFont();
           }
       });
   }
@@ -75,13 +72,13 @@ class Letter extends Component {
       this.state.font.size, {
         toValue: 100,
         duration: 1
-      },
+      }
     ).start();
     Animated.timing(
       this.state.font.colour, {
         toValue: 100,
         duration: 1
-      },
+      }
     ).start();
   }
 
@@ -117,92 +114,74 @@ class Letter extends Component {
   }
 
   onDrop(x, y) {
-    // normalise coordinates and put in range [-1, 1]
-    let win = Dimensions.get('window');
-    let tx = ((x / win.width) - 0.5) * 1;
-    let ty = (((y - 60) / (win.height - 230) - 0.5)) * -1; // TODO convert 60, 230 (element heights) to global vars
+    // convert screen coordinates to range [-1, 1]
+    const win = Dimensions.get('window');
+    const tx = ((x / win.width) - 0.5) * 1;
+    const ty = (((y - 60) / (win.height - 230) - 0.5)) * -1;
 
-    // convert to world coordinates
-    let user = this.props.user;
-    let c = user.map.coordinates;
-    let lat = c.latitude + ty * c.latitudeDelta;
-    let lng = c.longitude + tx * c.longitudeDelta;
+    // convert screen coordinates to map coordinates lat/lng
+    const user = this.props.user;
+    const c = user.map.coordinates;
+    const lat = c.latitude + ty * c.latitudeDelta;
+    const lng = c.longitude + tx * c.longitudeDelta;
 
-    // check if letter inside drop-zone
-    const approxMetresPerLatDeg = Math.abs(111132.954 - 559.822 * Math.cos(2 * lat) + 1.175 * Math.cos(4 * lat));
-    let mag = Math.sqrt(Math.pow(lat - user.coordinates.latitude, 2) + Math.pow(lng - user.coordinates.longitude, 2));
+    // check if inside dropzone, return if not
+    const dz = user.coordinates;
+    const dLat = Math.abs(dz.latitude - lat) * 111320;
+    const dLng = Math.abs(dz.longitude - lng) * (111320 * Math.cos(dz.latitude * Math.PI / 180.));
+    const distance = Math.sqrt(Math.pow(dLat, 2) + Math.pow(dLng, 2));
 
-    if (mag * approxMetresPerLatDeg > user.map.dropzone_radius) {
+    if (distance > user.map.dropzone_radius) {
       return false;
     }
 
-    // put letter on local map
+    // put letter on local map & send to server
     putLetterOnMapProxy(this.props.character, lat, lng);
     updateLetterMenuProxy(this.props.index);
-
-    // send to server
     postLetterServiceProxy(this.props.character, lat, lng);
 
-    // set timer to reactivate letter
+    // set a timer to re-activate letter
     if (!this.props.main) {
       let index = this.props.index;
       let char  = this.props.character;
 
-      // NOTE: time will be inconsistent during development due to difference
-      // between expo computer clock and device clock
       setTimeout(() => {
         reviveLetterMenuProxy(index, char);
       }, 10000);
     };
 
-    // success
     return true;
   }
 
-  onBin = () => {
-    // put letter in bin !
+  destroyLetter = () => {
     binLetterProxy(this.props.index);
   }
 
-  onPress = () => {
-    navigateToLetterSelector(this.props);
-  }
-
-  isBin(gesture) {
-    // check if letter is in rubbish bin
-
-    let inBin = false;
-
+  isLetterOverBin(gesture) {
     if (!this.props.main) {
       let win = Dimensions.get('window');
       if (gesture.moveY > win.height - 60 && gesture.moveX > win.width * 0.66) {
-        inBin = true;
+        return true;
       }
     }
 
-    return inBin;
+    return false;
   }
 
-  isDropZone(gesture){
-    // check if letter is over map
-
-    let win = Dimensions.get('window');
-
-    if (gesture.moveY < win.height - 170) {
+  isLetterOverMap(gesture) {
+    if (gesture.moveY < Dimensions.get('window').height - 170) {
       return true;
     } else {
       return false;
     }
   }
 
+  onPress = () => {
+    navigateToLetterSelector(this.props);
+  }
+
   render() {
     // colour animation
-    /*
-    let colour = this.state.text.colour.interpolate({
-      inputRange: [0, 100],
-      outputRange: ['rgba(0,0,0,1)', 'rgba(255,255,255,1)']
-    });
-    */
     let size = this.state.font.size.interpolate({
       inputRange: [0, 100],
       outputRange: [14, 24]
@@ -224,28 +203,28 @@ class Letter extends Component {
       <View style = {styles.background_main}>
         {
           this.props.character === '...'
-          ? <TouchableOpacity
-              onPress={this.onPress}
-              style={styles.letter_area}>
-              <Text style={styles.disabled}>
-                {'...'}
-              </Text>
-            </TouchableOpacity>
-          : <Animated.View
-              {...this.panResponder.panHandlers}
-              style = {[
-                this.state.pan.getLayout(),
-                styles.letter_area,
-              ]}>
-                <Animated.Text style={[
-                    styles.letter, {
-                      color: colour,
-                      fontSize: size,
-                    }
-                  ]}>
-                  {this.props.character}
-                </Animated.Text>
-            </Animated.View>
+            ? <TouchableOpacity
+                onPress={this.onPress}
+                style={styles.letter_area}>
+                <Text style={styles.disabled}>
+                  {'...'}
+                </Text>
+              </TouchableOpacity>
+            : <Animated.View
+                {...this.panResponder.panHandlers}
+                style = {[
+                  this.state.pan.getLayout(),
+                  styles.letter_area,
+                ]}>
+                  <Animated.Text style={[
+                      styles.letter, {
+                        color: colour,
+                        fontSize: size,
+                      }
+                    ]}>
+                    {this.props.character}
+                  </Animated.Text>
+              </Animated.View>
           }
       </View>
     );

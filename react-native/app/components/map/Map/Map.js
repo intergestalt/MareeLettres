@@ -29,6 +29,7 @@ class Map extends Component {
   async _getPlayerCoords() {
     const {Location, Permissions} = Exponent;
     const {status} = await Permissions.askAsync(Permissions.LOCATION);
+
     if (status === 'granted') {
       Location.getCurrentPositionAsync().then((res) => {
         //res.coords.latitude = 52.49330866968013;
