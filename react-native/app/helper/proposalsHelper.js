@@ -98,7 +98,6 @@ export function addDefaultStructure(proposals) {
 
 function mergeProposalListList(oldList, newList) {
   // just ignore the old list, but delete the user vote
-  const internalVotes = store.getState().user.internalVotes.internalVotes;
   const votes = store.getState().user.votes;
 
   const result = oldList;
