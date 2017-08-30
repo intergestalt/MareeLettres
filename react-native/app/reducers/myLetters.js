@@ -20,25 +20,25 @@ export default (state = initialState.myLetters, action) => {
           isLoading: true,
         };
       }
-
       case PUT_LETTER_ON_MAP: {
         console.log('Reducer: PUT_LETTER_ON_MAP');
 
         const user = store.getState().user;
+        let newContent = {...state.content};
+        let id = user.origin_id + '_' + Object.keys(newContent).length;
 
+        newContent[id] = {
+          _id: user.origin_id,
+          character: action.character,
+          coords: {
+            lat: action.x,
+            lng: action.y,
+          },
+          created_at: new Date().toISOString,
+        };
         const result = {
           ...state,
-          content: [
-            ...state.content,
-            {
-              _id: user.origin_id,
-              character: action.character,
-              coords: {
-                lat: action.x,
-                lng: action.y,
-              },
-            },
-          ],
+          content: newContent,
         };
         saveMyLettersToStorage(result);
         return result;

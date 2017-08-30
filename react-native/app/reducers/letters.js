@@ -13,28 +13,35 @@ import initialState from '../config/initialState';
 const letters = (state = initialState.letters, action) => {
   try {
     switch (action.type) {
-      case LOAD_LETTERS:
+      case LOAD_LETTERS: {
         console.log('Reducer: LOAD_LETTERS');
         return {
           ...state,
           isLoading: true,
           isInternalLoading: true,
-          content: [],
         };
-
+      }
       case SUCCESS_LETTERS: {
         console.log('Reducer: SUCCESS_LETTERS');
+
+        let newContent = {...state.content};
+
+        for (let i=0; i<action.result.letters.length; i+=1) {
+          if (!newContent[action.result.letters[i]._id]) {
+            newContent[action.result.letters[i]._id] = action.result.letters[i];
+          }
+        }
+
         const result = {
           ...state,
           isLoading: false,
           isInternalLoading: false,
-          content: action.result.letters,
+          content: newContent,
         };
         saveLettersToStorage(result);
-
         return result;
       }
-      case NETWORK_ERROR_LOAD_LETTERS:
+      case NETWORK_ERROR_LOAD_LETTERS: {
         console.log('Reducer: NETWORK_ERROR_LOAD_LETTERS');
         console.log(action.error);
         return {
@@ -42,6 +49,7 @@ const letters = (state = initialState.letters, action) => {
           isLoading: false,
           isInternalLoading: false,
         };
+      }
       case SET_LETTERS: {
         const myLetters = action.letters;
         return myLetters;

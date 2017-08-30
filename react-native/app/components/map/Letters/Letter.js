@@ -21,6 +21,7 @@ class Letter extends Component {
     user: PropTypes.object,
     mapLat: PropTypes.number,
     mapLng: PropTypes.number,
+    dropzone_radius: PropTypes.number,
   }
 
   constructor(props){
@@ -131,7 +132,7 @@ class Letter extends Component {
     const dLng = Math.abs(dz.longitude - lng) * (111320 * Math.cos(dz.latitude * Math.PI / 180.));
     const distance = Math.sqrt(Math.pow(dLat, 2) + Math.pow(dLng, 2));
 
-    if (distance > user.map.dropzone_radius) {
+    if (distance > this.props.dropzone_radius) {
       return false;
     }
 
@@ -265,11 +266,13 @@ const mapStateToProps = (state) => {
     const user = state.user;
     const mapLat = state.user.map.coordinates.latitude;
     const mapLng = state.user.map.coordinates.longitude;
+    const dropzone_radius = state.config.config.map_drop_zone_radius;
 
     return ({
       user,
       mapLat,
       mapLng,
+      dropzone_radius,
     });
 }
 

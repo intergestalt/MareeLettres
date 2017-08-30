@@ -10,10 +10,12 @@ class Map extends Component {
   static propTypes = {
     navigation: PropTypes.object,
     origin_id: PropTypes.string,
-    letters: PropTypes.array,
-    my_letters: PropTypes.array,
+    letters: PropTypes.object,
+    my_letters: PropTypes.object,
     dropzone_radius: PropTypes.number,
     coordinates: PropTypes.object,
+    letter_decay_time: PropTypes.number,
+    initial_delta: PropTypes.number,
   };
 
   constructor(props) {
@@ -22,7 +24,7 @@ class Map extends Component {
     this.state = {
       lat: this.props.coordinates.latitude,
       lng: this.props.coordinates.longitude,
-      set: false,
+      centreOnce: false,
     };
   }
 
@@ -32,19 +34,16 @@ class Map extends Component {
 
     if (status === 'granted') {
       Location.getCurrentPositionAsync().then((res) => {
-        //res.coords.latitude = 52.49330866968013;
-        //res.coords.longitude = 13.436372637748718;
-        setUserCoordinatesProxy(res.coords.latitude, res.coords.longitude);
+        res.coords.latitude = 52.49330866968013;
+        res.coords.longitude = 13.436372637748718;
 
-        if (!this.state.set) {
-          // go to my coordinates once
-          this._map._component.animateToCoordinate({
-              latitude: res.coords.latitude,
-              longitude: res.coords.longitude,
-            }, 1
-          );
+        setUserCoordinatesProxy(res.coords.latitude, res.coords.longitude);
+        this.setState({lng: res.coords.longitude, lat: res.coords.latitude});
+
+        if (!this.state.centreOnce) {
+          this.centreMap();
+          this.setState({centreOnce: true});
         }
-        this.setState({lng: res.coords.longitude, lat: res.coords.latitude, set: true});
       });
     } else {
       throw new Error('Location permission not granted');
@@ -69,46 +68,35 @@ class Map extends Component {
 
   centreMap = () => {
     this._map._component.animateToRegion({
-        ...this.props.coordinates
+        ...this.props.coordinates,
+        latitudeDelta: this.props.initial_delta,
+        longitudeDelta: this.props.initial_delta,
       }, 300
     );
   }
 
+  mapLettersToMarkers(item, index) {
+    const t = new Date().getTime() - new Date(item.created_at).getTime();
+    const opacity = Math.max(0.25, 1 - t / this.props.letter_decay_time);
+
+    return (
+      <MapView.Marker key={index}
+        coordinate={{ latitude: item.coords.lat, longitude: item.coords.lng }}>
+        <Text style={[styles.letter, { opacity }]}>
+          {item.character}
+        </Text>
+      </MapView.Marker>
+    );
+  }
+
   render() {
-    console.log('MAP RENDERED');
-
-    const myLetters = this.props.my_letters.map((item, i) => {
-      const t = new Date().getTime() - new Date(item.last_used_at).getTime();
-      const opacity = Math.max(0.25, 1 - t / 60000);
-
-      return (
-        <MapView.Marker
-          key={i}
-          coordinate={{ latitude: item.coords.lat, longitude: item.coords.lng }}
-        >
-          <Text style={[styles.letter, { opacity }]}>
-            {item.character}
-          </Text>
-        </MapView.Marker>
-      );
-    });
-    const mapLetters = this.props.letters.map((item, i) => {
-      return (
-        <MapView.Marker
-          key={i}
-          coordinate={{
-            latitude: item.coords.lat,
-            longitude: item.coords.lng,
-            longitudeDelta: 0.01,
-            latitudeDelta: 0.01,
-          }}
-        >
-          <Text style={styles.letter}>
-            {item.character}
-          </Text>
-        </MapView.Marker>
-      );
-    })
+    // convert letter objects into component array
+    const mapLetters = Object.keys(this.props.letters).map((key, index) =>
+      this.mapLettersToMarkers(this.props.letters[key], index)
+    );
+    const myLetters = Object.keys(this.props.my_letters).map((key, index) =>
+      this.mapLettersToMarkers(this.props.my_letters[key], index)
+    );
 
     return (
       <View style={styles.container}>
@@ -122,8 +110,8 @@ class Map extends Component {
           initialRegion={{
             latitude: this.state.lat,
             longitude: this.state.lng,
-            latitudeDelta: this.props.coordinates.latitudeDelta,
-            longitudeDelta: this.props.coordinates.longitudeDelta,
+            latitudeDelta: this.props.initial_delta,
+            longitudeDelta: this.props.initial_delta,
           }}
           rotateEnabled={false}
           customMapStyle={mapstyles}
@@ -171,10 +159,12 @@ class Map extends Component {
 const mapStateToProps = (state) => {
   try {
     const origin_id = state.user.origin_id;
+    const letter_decay_time = state.config.config.map_letter_decay_time * 60000;
     const letters = state.letters.content;
     const my_letters = state.myLetters.content;
     const coordinates = state.user.coordinates;
-    const dropzone_radius = state.user.map.dropzone_radius;
+    const dropzone_radius = state.config.config.map_drop_zone_radius;
+    const initial_delta = dropzone_radius / 30000;
 
     return {
       origin_id,
@@ -182,6 +172,8 @@ const mapStateToProps = (state) => {
       my_letters,
       coordinates,
       dropzone_radius,
+      letter_decay_time,
+      initial_delta,
     };
   } catch (e) {
     console.log('Map');
