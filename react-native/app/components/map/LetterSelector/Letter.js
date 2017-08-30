@@ -36,7 +36,7 @@ class LetterSelectorWindow extends Component {
     // available letters
     let rowTop = ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'];
     let rowMid = ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L'];
-    let rowBottom = ['Z', 'X', 'C', 'V', 'B', 'N', 'M'];
+    let rowBottom = ['Z', 'X', 'C', 'V', 'B', 'N', 'M', '?', ':', '*'];
 
     // format
     rowTop = rowTop.map((item, i) => this.keyboard(item, i));

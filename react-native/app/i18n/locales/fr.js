@@ -24,7 +24,7 @@ export default {
   reload_challenges: 'The topics are not loaded yet. Press to Reload FR',
   reload_proposals: 'The suggestions are not loaded yet. Press to Reload FR',
   reload_content: 'The content is not loaded yet. Press to Reload FR',
-  reload_user: 'User could not be loaded or created. Net is good. FR',
+  reload_user: 'User could not be loaded or created. Check your network connection. FR',
 
   map_drop_zone: 'Zone Drop',
   map_give_letter_button: 'Offrez votre lettre',
