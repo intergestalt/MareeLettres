@@ -27514,7 +27514,7 @@ var SystemConfigSchema = new _simplSchema2.default({
   },
   map_letter_decay_time: {
     type: _simplSchema2.default.Integer,
-    defaultValue: 300,
+    defaultValue: 1800,
     description: 'Map: Letter Decay Time (seconds)'
   },
   map_letter_regeneration_time_primary: {
@@ -27534,7 +27534,7 @@ var SystemConfigSchema = new _simplSchema2.default({
   },
   map_drop_zone_radius: {
     type: Number,
-    defaultValue: 10,
+    defaultValue: 50,
     description: 'Map: Radius of the drop zone in meters'
   }
 }, { clean: { getAutovalues: true } });
