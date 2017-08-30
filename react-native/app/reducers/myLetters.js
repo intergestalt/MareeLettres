@@ -4,6 +4,7 @@ import {
   LOAD_MY_LETTERS,
   SET_MY_LETTERS_IS_LOADING_FROM_STORAGE,
   SET_MY_LETTERS,
+  CLEAR_MY_LETTERS,
 } from '../actions/map';
 
 import initialState from '../config/initialState';
@@ -34,11 +35,20 @@ export default (state = initialState.myLetters, action) => {
             lat: action.x,
             lng: action.y,
           },
-          created_at: new Date().toISOString,
+          created_at: new Date().toISOString(),
         };
         const result = {
           ...state,
           content: newContent,
+        };
+        saveMyLettersToStorage(result);
+        return result;
+      }
+      case CLEAR_MY_LETTERS: {
+        console.log('Reducer: CLEAR_MY_LETTERS');
+        const result = {
+          ...state,
+          content: {},
         };
         saveMyLettersToStorage(result);
         return result;

@@ -3,7 +3,7 @@ import { loadConfig } from '../actions/config';
 import { userSendInternalVotes, loadUser } from '../actions/user';
 import { loadChallenge, loadChallenges } from '../actions/challenges';
 import { loadProposals } from '../actions/proposals';
-import { loadLetters, postLetter } from '../actions/letters';
+import { loadLetters, postLetter, loadLettersInterval } from '../actions/letters';
 import store from '../config/store';
 import { getProposalList } from '../helper/proposalsHelper';
 import { getChallengeFromId } from '../helper/challengesHelper';
@@ -192,6 +192,10 @@ export function loadProposalsServiceProxy(
 
 export function loadLettersServiceProxy() {
   store.dispatch(loadLetters());
+}
+
+export function loadLettersIntervalServiceProxy() {
+  store.dispatch(loadLettersInterval());
 }
 
 export function postLetterServiceProxy(character, lat, lng) {

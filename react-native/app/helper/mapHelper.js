@@ -3,9 +3,14 @@ import {
   putLetterOnMap,
   loadMyLetters,
   setUserCoordinates,
+  clearMyLetters
 } from '../actions/map';
 
 import store from '../config/store';
+
+export function clearMyLettersProxy() {
+  store.dispatch(clearMyLetters());
+}
 
 export function changeMapRegionProxy(region) {
   store.dispatch(changeMapRegion(region));

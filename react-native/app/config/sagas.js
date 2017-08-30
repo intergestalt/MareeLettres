@@ -5,11 +5,12 @@ import { LOAD_CHALLENGES, LOAD_CHALLENGE } from '../actions/challenges';
 import { LOAD_PROPOSALS } from '../actions/proposals';
 import { LOAD_CONTENT } from '../actions/content';
 import { LOAD_CONFIG } from '../actions/config';
-import { LOAD_LETTERS, POST_LETTER } from '../actions/letters';
+import { LOAD_LETTERS, POST_LETTER, LOAD_LETTERS_INTERVAL } from '../actions/letters';
 import { USER_SEND_INTERNAL_VOTES, LOAD_USER } from '../actions/user';
 import { getZuffiDelayForApi } from '../helper/helper';
 import store from '../config/store';
 import { loadConfigServiceProxy } from '../helper/apiProxy';
+import { clearMyLettersProxy } from '../helper/mapHelper';
 
 function* loadData(action) {
   try {
@@ -35,6 +36,10 @@ function* loadData(action) {
           }
         }
       }
+
+      if (action.type === LOAD_LETTERS_INTERVAL || action.type === LOAD_LETTERS) {
+        clearMyLettersProxy();
+      }
       // If loading Challanges: Set also the date data with new times...
       if (action.type === LOAD_CHALLENGES) yield put({ type: SET_CHALLENGES_DATE_DATA, result });
 
@@ -55,6 +60,7 @@ export default function* rootSaga() {
   yield takeEvery(LOAD_CONFIG, loadData);
   yield takeEvery(USER_SEND_INTERNAL_VOTES, loadData);
   yield takeEvery(LOAD_LETTERS, loadData);
+  yield takeEvery(LOAD_LETTERS_INTERVAL, loadData);
   yield takeEvery(POST_LETTER, loadData);
   yield takeEvery(LOAD_USER, loadData);
 }

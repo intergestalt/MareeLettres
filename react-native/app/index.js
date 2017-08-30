@@ -28,6 +28,8 @@ const configureScene = () => ({
 export default () =>
   <Provider store={store}>
     <AppContainer>
-      <Navigator configureScene={configureScene} />
+      <Navigator
+        configureScene={configureScene}
+        />
     </AppContainer>
   </Provider>;

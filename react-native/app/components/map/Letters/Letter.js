@@ -22,6 +22,8 @@ class Letter extends Component {
     mapLat: PropTypes.number,
     mapLng: PropTypes.number,
     dropzone_radius: PropTypes.number,
+    regen_time_primary: PropTypes.number,
+    regen_time_secondary: PropTypes.number,
   }
 
   constructor(props){
@@ -148,7 +150,7 @@ class Letter extends Component {
 
       setTimeout(() => {
         reviveLetterMenuProxy(index, char);
-      }, 10000);
+      }, this.props.regen_time_secondary);
     };
 
     return true;
@@ -267,12 +269,16 @@ const mapStateToProps = (state) => {
     const mapLat = state.user.map.coordinates.latitude;
     const mapLng = state.user.map.coordinates.longitude;
     const dropzone_radius = state.config.config.map_drop_zone_radius;
+    const regen_time_primary = 1000 * state.config.config.map_letter_regeneration_time_primary;
+    const regen_time_secondary = 1000 * state.config.config.map_letter_regeneration_time_secondary;
 
     return ({
       user,
       mapLat,
       mapLng,
       dropzone_radius,
+      regen_time_primary,
+      regen_time_secondary,
     });
 }
 

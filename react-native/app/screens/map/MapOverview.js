@@ -1,13 +1,13 @@
 import React, { PropTypes, Component } from 'react';
 import { StatusBar } from 'react-native';
+import { connect } from 'react-redux';
 
 import { Screen } from '../../components/general/Container';
 import { TabBar } from '../../components/general/TabBar';
 import { Map } from '../../components/map/Map';
 import { LettersMenu, CameraButton, MapScreenMenu } from '../../components/map/Overlay';
 
-import { loadLettersServiceProxy } from '../../helper/apiProxy';
-import { loadMyLettersProxy } from '../../helper/mapHelper';
+import { loadLettersServiceProxy, loadLettersIntervalServiceProxy } from '../../helper/apiProxy';
 
 // NOTE: rm camera until properly implemented
 // <CameraButton navigation={this.props.navigation} />
@@ -15,11 +15,22 @@ import { loadMyLettersProxy } from '../../helper/mapHelper';
 class MapOverview extends Component {
   static propTypes = {
     navigation: PropTypes.object,
+    interval: PropTypes.number,
   }
+
+componentDidUpdate() { console.log('UPDATE !'); }
 
   componentDidMount() {
     loadLettersServiceProxy(this.props);
-    loadMyLettersProxy(this.props);
+    this.pollLetters();
+  }
+
+  pollLetters() {
+    setInterval(() => {
+        loadLettersIntervalServiceProxy(this.props);
+      },
+      this.props.interval
+    );
   }
 
   render() {
@@ -36,4 +47,12 @@ class MapOverview extends Component {
   }
 }
 
-export default MapOverview;
+const mapStateToProps = (state) => {
+  const interval = state.config.config.map_update_interval * 1000;
+
+  return {
+    interval
+  };
+}
+
+export default connect(mapStateToProps)(MapOverview);
