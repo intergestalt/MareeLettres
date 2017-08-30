@@ -187,7 +187,7 @@ class Letter extends Component {
     // colour animation
     let size = this.state.font.size.interpolate({
       inputRange: [0, 100],
-      outputRange: [14, 24]
+      outputRange: [26, 36]
     });
     let colour = this.state.font.colour.interpolate({
       inputRange: [0, 100],
