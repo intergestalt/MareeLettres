@@ -9,6 +9,8 @@ import {
   navigateToInfo,
 } from '../../../helper/navigationProxy';
 
+import I18n from '../../../i18n/i18n';
+
 import styles from './styles';
 
 class TabBar extends Component {
@@ -60,30 +62,30 @@ class TabBar extends Component {
           <View style={[styles.tab, styles.tabFirst]}>
             {!voteSelected
               ? <TouchableOpacity onPress={this.handleVotePress}>
-                <Text style={styles.text}>ABC</Text>
+                <Text style={styles.text}>{I18n.t('top_menu_option_1')}</Text>
               </TouchableOpacity>
-              : <Text style={styles.textHigh}>ABC</Text>}
+              : <Text style={styles.textHigh}>{I18n.t('top_menu_option_1')}</Text>}
           </View>
           <View style={styles.tab}>
             {!becomeSelected
               ? <TouchableOpacity onPress={this.handleBecomePress} style={styles.touchable}>
-                <Text style={styles.text}>MAP</Text>
+                <Text style={styles.text}>{I18n.t('top_menu_option_2')}</Text>
               </TouchableOpacity>
-              : <Text style={styles.textHigh}>MAP</Text>}
+              : <Text style={styles.textHigh}>{I18n.t('top_menu_option_2')}</Text>}
           </View>
           <View style={styles.tab}>
             {!streamSelected
               ? <TouchableOpacity onPress={this.handleStreamPress}>
-                <Text style={styles.text}>IMG</Text>
+                <Text style={styles.text}>{I18n.t('top_menu_option_3')}</Text>
               </TouchableOpacity>
-              : <Text style={styles.textHigh}>IMG</Text>}
+              : <Text style={styles.textHigh}>{I18n.t('top_menu_option_3')}</Text>}
           </View>
           <View style={styles.tab}>
             {!infoSelected
               ? <TouchableOpacity onPress={this.handleInfoPress}>
-                <Text style={styles.text}>INFO</Text>
+                <Text style={styles.text}>{I18n.t('top_menu_option_4')}</Text>
               </TouchableOpacity>
-              : <Text style={styles.textHigh}>INFO</Text>}
+              : <Text style={styles.textHigh}>{I18n.t('top_menu_option_4')}</Text>}
           </View>
         </View>
       );

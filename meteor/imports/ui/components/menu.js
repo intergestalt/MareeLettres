@@ -27,13 +27,16 @@ class Menu extends Component {
             <Link to="/admin/players">Players</Link>
           </li>
           <li>
+            <Link to="/admin/letters">Letters</Link>
+          </li>
+          <li>
             <Link to="/admin/content">Content</Link>
           </li>
           <li>
             <Link to="/admin/status">Status</Link>
           </li>
           <li>
-            <Link to="/admin/letters">Letters</Link>
+            <Link to="/admin/config">Config</Link>
           </li>
         </ul>
         <ConnectionStatus fullWidth />

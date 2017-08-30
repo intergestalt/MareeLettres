@@ -8,6 +8,7 @@ import store from './config/store';
 import { AppContainer } from './components/general/Container';
 
 import { screenHeight } from './helper/screen';
+import { AlertProvider } from './components/general/Alert';
 
 Expo.ScreenOrientation.allow(Expo.ScreenOrientation.Orientation.PORTRAIT);
 
@@ -16,6 +17,7 @@ EStyleSheet.build({
   $backgroundColorMenuItem: 'rgb(245,132,102)',
   $highlightDraggingLetterColor: 'rgb(245,132,102)',
   $strokeWidth: '0.1rem',
+  $proposalPaddingHorizontal: '10%',
   outline: 0, // set to 1 to see the elements boundaries
   rem: screenHeight > 800 ? 24 : screenHeight > 600 ? 20 : 16,
 });
@@ -27,9 +29,9 @@ const configureScene = () => ({
 
 export default () =>
   <Provider store={store}>
-    <AppContainer>
-      <Navigator
-        configureScene={configureScene}
-        />
-    </AppContainer>
+    <AlertProvider>
+      <AppContainer>
+        <Navigator configureScene={configureScene} />
+      </AppContainer>
+    </AlertProvider>
   </Provider>;

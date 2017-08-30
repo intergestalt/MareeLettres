@@ -45,7 +45,7 @@ const SystemConfigSchema = new SimpleSchema(
     },
     map_letter_decay_time: {
       type: SimpleSchema.Integer,
-      defaultValue: 30,
+      defaultValue: 1800,
       description: 'Map: Letter Decay Time (seconds)'
     },
     map_letter_regeneration_time_primary: {
@@ -64,8 +64,8 @@ const SystemConfigSchema = new SimpleSchema(
       description: 'Map: For how long a letter share QR code is valid'
     },
     map_drop_zone_radius: {
-      type: Number,
-      defaultValue: 10,
+      type: SimpleSchema.Integer,
+      defaultValue: 50,
       description: 'Map: Radius of the drop zone in meters'
     }
   },

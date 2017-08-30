@@ -20,9 +20,10 @@ class SysConf {
   }
 
   update() {
-    const query = {}; // TODO: acitve:true or whatever way to chose the current config
+    const query = {};
+    const options = { sort: { updated_at: 1 }, limit: 1 }
 
-    const meta = SystemConfig.findOne(query, { fields: { _id: 1, updated_at: 1, name: 1 } });
+    const meta = SystemConfig.findOne(query, { ...options, fields: { _id: 1, updated_at: 1, name: 1 } });
 
     if (!meta) {
       console.log('no config available in db');
@@ -35,14 +36,14 @@ class SysConf {
       return; // nothing changed, nothing to do
     }
 
-    const result = SystemConfig.findOne(query, { fields: { _id: 0, name: 0 } });
+    const result = SystemConfig.findOne(query, { ...options, fields: { _id: 0, name: 0 } });
 
     console.log('reloading system config.');
 
     if (result) {
-      current = current;
+      current = result;
       cached_at = new Date();
-      updated_at = new Date(); // TODO: update and extract last changed date
+      updated_at = result.updated_at;
       digest = hash.sha1(current);
       db_digest = new_db_digest;
 
@@ -69,7 +70,7 @@ class SysConf {
     if (!options.data) {
       options.data = {};
     }
-    // TODO: check if config has changed since last transmission
+
     options.data.config = current;
 
     return options;

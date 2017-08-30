@@ -2,8 +2,12 @@ import { Meteor } from 'meteor/meteor';
 import { SystemConfig } from '../systemConfig';
 import currentSystemConfig from '../../../startup/server/system-config';
 
-Meteor.publish('get.systemConfig', function getSystemConfig() {
+Meteor.publish('get.configs', function getSystemConfig() {
   return SystemConfig.find();
+});
+
+Meteor.publish('get.config.latest', function getSystemConfig() {
+  return SystemConfig.find({}, { sort: { updated_at: 1 }, limit: 1 });
 });
 
 // ; charset=utf-8

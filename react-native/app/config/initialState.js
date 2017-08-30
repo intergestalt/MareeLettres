@@ -1,5 +1,5 @@
 import Expo from 'expo';
-import { OriginId /*, systemConfigInitial */ } from 'maree-lettres-shared';
+import { OriginId /* , systemConfigInitial */ } from 'maree-lettres-shared';
 
 import { PROPOSAL_LIST_MODES, CHALLENGE_VIEWS, PROPOSAL_VIEWS } from '../consts';
 
@@ -55,6 +55,8 @@ export default {
   },
   globals: {
     globalsIsLoadingFromStorage: false,
+    isNetworkError: false,
+    networkErrorMessageKey: null,
     language: null,
   },
 
@@ -91,11 +93,11 @@ export default {
       last_used_at: sampleDate,
     },
     secondary_letters: [
-      {
+      /*{
         character: 'A',
         acquired_at: sampleDate,
         last_used_at: sampleDate,
-      },
+      },*/
     ],
     votes: {},
     internalVotes: {
@@ -131,7 +133,7 @@ export default {
   letters: {
     isLoading: false,
     isInternalLoading: false,
-    content: {}
+    content: {},
   },
 
   myLetters: {
