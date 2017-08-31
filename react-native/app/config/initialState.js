@@ -28,7 +28,7 @@ export default {
       map_letter_base_size: 5,
 
       // MAP ZOOM
-      map_delta_initial: 20, // map zoom relative to dropzone size, 1 = drop zone is fullscreen
+      map_delta_initial: 2, // map zoom relative to dropzone size, 1 = drop zone is fullscreen
       map_delta_max: 10, // maximum map zoom relative to drop zone size
 
       // Not sent by API, but they are not overwrittem
