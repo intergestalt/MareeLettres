@@ -7,9 +7,10 @@ import { TabBar } from '../../components/general/TabBar';
 import { VoteMark, VoteMarkPanel } from '../../components/vote/VoteMark';
 
 const Stream = props =>
-  <Screen centerContent backgroundColor="#4488ff">
+  <Screen centerContent backgroundColor="#fff">
     <StatusBar />
-    <Text>LIVE STREAM DUMMY</Text>
+    <Text>To come: News Feed from Twitter</Text>
+    {/*<Text>LIVE STREAM DUMMY</Text>
 
     <VoteMark size="s" type="yes" />
     <VoteMark size="m" type="no" />
@@ -19,7 +20,7 @@ const Stream = props =>
     <VoteMark size="l" active value={0.5} type="no" />
     <VoteMarkPanel yes_amount={100} no_amount={50} />
 
-    <TabBar navigation={props.navigation} />
+    <TabBar navigation={props.navigation} />*/}
   </Screen>;
 
 Stream.propTypes = {

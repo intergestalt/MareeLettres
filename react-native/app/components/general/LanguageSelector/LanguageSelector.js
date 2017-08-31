@@ -23,17 +23,17 @@ class LanguageSelector extends Component {
     }
     return (
       <View style={styles.container}>
-        {!isEng
-          ? <TouchableOpacity onPress={this.handleSwapLanguagePress}>
-            <Text style={styles.paragraph}>ENG</Text>
-          </TouchableOpacity>
-          : <Text style={styles.paragraphHigh}>ENG</Text>}
-        <Text style={styles.paragraphHigh}> / </Text>
         {isEng
           ? <TouchableOpacity onPress={this.handleSwapLanguagePress}>
             <Text style={styles.paragraph}>FR</Text>
           </TouchableOpacity>
           : <Text style={styles.paragraphHigh}>FR</Text>}
+        <Text style={[styles.paragraphHigh, styles.divider]}> / </Text>
+        {!isEng
+          ? <TouchableOpacity onPress={this.handleSwapLanguagePress}>
+            <Text style={styles.paragraph}>EN</Text>
+          </TouchableOpacity>
+          : <Text style={styles.paragraphHigh}>EN</Text>}
       </View>
     );
   }
