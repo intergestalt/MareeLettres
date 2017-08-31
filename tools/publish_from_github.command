@@ -12,4 +12,6 @@ cd react-native
 yarn install
 exp logout
 exp login -u retani -p MareeLettres0710 --non-interactive && exp publish
+cd $TMPDIR
+rm -rf MareeLettres
 say -v Alex "Expo publish done"

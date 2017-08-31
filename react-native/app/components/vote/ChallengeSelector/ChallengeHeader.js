@@ -2,9 +2,9 @@ import React, { PureComponent, PropTypes } from 'react';
 import { View, TouchableOpacity, Text } from 'react-native';
 import { connect } from 'react-redux';
 
-import styles from './styles';
-import listStyles from '../ChallengesList/styles';
+import { ChallengeHeadActive, ChallengeHeadInactive } from './../ChallengesList';
 
+import styles from './styles';
 
 class ChallengeHeader extends PureComponent {
   static propTypes = {
@@ -84,21 +84,20 @@ class ChallengeHeader extends PureComponent {
       myEndString = challengeTickerData.endStringFr;
     }
 
+    const standardizedChallenge = {
+      ...challenge,
+      ...challengeTickerData,
+      endString: myEndString,
+      title: challenge.title[this.props.language],
+    }
+
     const contentMiddle = (
       <View style={styles.headerTextContainer}>
         <TouchableOpacity delayPressIn={30} onPress={this.props.onHeaderPress}>
-          <Text style={styles.headerText}>
-            TOPIC #{challenge.voteNum}
-          </Text>
-          <Text style={styles.headerText}>
-            {myEndString}
-          </Text>
-          <Text style={styles.headerText}>
-            {challengeTickerData.tickerString}
-          </Text>
-          <Text style={styles.headerText}>
-            {this.getChallenge().title[this.props.language]}
-          </Text>
+          {!challenge.isFinished
+            ? <ChallengeHeadActive data={standardizedChallenge} />
+            : <ChallengeHeadInactive data={standardizedChallenge} />
+          }
         </TouchableOpacity>
       </View>
     );

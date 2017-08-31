@@ -3,7 +3,7 @@ import { takeEvery, call, put } from 'redux-saga/effects';
 import { SET_CHALLENGES_DATE_DATA } from '../actions/challengesTicker';
 import { SET_NET_WORK_ERROR } from '../actions/general';
 import { LOAD_CHALLENGES, LOAD_CHALLENGE } from '../actions/challenges';
-import { LOAD_PROPOSALS } from '../actions/proposals';
+import { LOAD_PROPOSALS, POST_PROPOSAL } from '../actions/proposals';
 import { LOAD_CONTENT } from '../actions/content';
 import { LOAD_CONFIG } from '../actions/config';
 import { LOAD_LETTERS, POST_LETTER, LOAD_LETTERS_INTERVAL } from '../actions/letters';
@@ -16,6 +16,7 @@ import { clearMyLettersProxy } from '../helper/mapHelper';
 function* loadData(action) {
   try {
     const response = yield call(action.apiCall, action);
+    console.log(response);
     const result = yield JSON.parse(response);
     if (result.error) {
       console.log('ERROR 1');
@@ -74,4 +75,5 @@ export default function* rootSaga() {
   yield takeEvery(LOAD_LETTERS_INTERVAL, loadData);
   yield takeEvery(POST_LETTER, loadData);
   yield takeEvery(LOAD_USER, loadData);
+  yield takeEvery(POST_PROPOSAL, loadData);
 }

@@ -14,6 +14,7 @@ class Map extends Component {
     my_letters: PropTypes.object,
     dropzone_radius: PropTypes.number,
     coordinates: PropTypes.object,
+    map_coordinates: PropTypes.object,
     letter_decay_time: PropTypes.number,
     initial_delta: PropTypes.number,
     track_player_movements: PropTypes.bool,
@@ -25,6 +26,7 @@ class Map extends Component {
     this.state = {
       lat: this.props.coordinates.latitude,
       lng: this.props.coordinates.longitude,
+      letter_size: 12
     };
   }
 
@@ -54,7 +56,11 @@ class Map extends Component {
   };
 
   onRegionChange = (region) => {
-    // on map drag
+    const size = parseFloat((12 / (1200 * region.latitudeDelta)).toFixed(1));
+
+    if (size != this.state.letter_size) {
+      this.setState({letter_size: size});
+    }
   };
 
   onRegionChangeComplete = (region) => {
@@ -86,10 +92,14 @@ class Map extends Component {
     const opacity = Math.max(0, 1 - t / this.props.letter_decay_time);
 
     return (
-      opacity != 0
+      opacity != 0 && this.props.map_coordinates.longitudeDelta < 0.2
         ? <MapView.Marker key={index}
             coordinate={{ latitude: item.coords.lat, longitude: item.coords.lng }}>
-            <Text style={[styles.letter, {opacity}]}>
+            <Text style={[
+              styles.letter,
+              {opacity},
+              {fontSize: this.state.letter_size}
+            ]}>
               {item.character}
             </Text>
           </MapView.Marker>
@@ -156,8 +166,8 @@ class Map extends Component {
           </MapView.Marker>*/}
 
         </MapView.Animated>
-        <TouchableOpacity onPress={this.onCentreMapButton}>
-          <Text style={styles.button}>
+        <TouchableOpacity style={styles.button} onPress={this.onCentreMapButton}>
+          <Text style={styles.button_text}>
             CENTRE MAP
           </Text>
         </TouchableOpacity>
@@ -173,8 +183,9 @@ const mapStateToProps = (state) => {
     const letters = state.letters.content;
     const my_letters = state.myLetters.content;
     const coordinates = state.user.coordinates;
+    const map_coordinates = state.user.map.coordinates;
     const dropzone_radius = state.config.config.map_drop_zone_radius;
-    const initial_delta = dropzone_radius / 30000;
+    const initial_delta = dropzone_radius / 35000;
     const track_player_movements = state.config.config.track_player_movements;
 
     return {
@@ -182,6 +193,7 @@ const mapStateToProps = (state) => {
       letters,
       my_letters,
       coordinates,
+      map_coordinates,
       dropzone_radius,
       letter_decay_time,
       initial_delta,

@@ -4,11 +4,12 @@ const styles = EStyleSheet.create({
 	container: {
     flex: 1,
     width: '100%',
+		zIndex: -1,
   },
   letter: {
     fontWeight: 'bold',
 		color: 'white',
-		fontSize: 16,
+		fontFamily: 'impact',
   },
 	letter_dropzone: {
 		fontWeight: 'normal',
@@ -21,14 +22,18 @@ const styles = EStyleSheet.create({
 		fontSize: 18,
   },
 	button: {
+		backgroundColor: 'transparent',
+		position: 'absolute',
+		right: '0%',
+		bottom: '0%',
+		zIndex: 10,
+	},
+	button_text: {
 		padding: 8,
 		fontFamily: 'impact',
 		fontSize: '1.2rem',
 		color: 'white',
 		backgroundColor: 'transparent',
-		position: 'absolute',
-		right: '0%',
-		bottom: '0%',
 	}
 });
 

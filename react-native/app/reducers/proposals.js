@@ -6,6 +6,7 @@ import {
   CUT_PROPOSAL_LIST_TO_DEFAULT,
   SET_PROPOSALS_IS_LOADING_FROM_STORAGE,
   SET_PROPOSALS,
+  POST_PROPOSAL
 } from '../actions/proposals';
 import { PROPOSAL_VIEWS } from '../consts/';
 import { DEV_CONFIG } from '../config/config';
@@ -229,6 +230,13 @@ export default (state = initialState.proposals, action) => {
         if (result.proposalsIsLoadingFromStorage) {
           delete result.proposalsIsLoadingFromStorage;
         }
+        return result;
+      }
+      case POST_PROPOSAL: {
+        console.log('Reducer: POST_PROPOSAL');
+        const result = {
+          ...state
+        };
         return result;
       }
       default:
