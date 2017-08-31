@@ -166,8 +166,8 @@ class Map extends Component {
           </MapView.Marker>*/}
 
         </MapView.Animated>
-        <TouchableOpacity onPress={this.onCentreMapButton}>
-          <Text style={styles.button}>
+        <TouchableOpacity style={styles.button} onPress={this.onCentreMapButton}>
+          <Text style={styles.button_text}>
             CENTRE MAP
           </Text>
         </TouchableOpacity>

@@ -18,14 +18,38 @@ class LettersMenu extends Component {
 
   render() {
     const length = 4 - this.props.secondary_letters.length;
-    const blank_letters = [];
+    const blanks = [];
 
     if (length > 0) {
       for (let i = 0; i < length; i += 1) {
-        blank_letters.push('');
+        blanks.push('');
       }
     }
 
+    const secondary_letters = this.props.secondary_letters.map((item, i) => {
+      if (i < 4) {
+        return (
+          <Letter
+            key={i}
+            index={i}
+            id={item._id}
+            character={item.character}
+            selected={this.props.letters_selected.friends[i]}
+            />
+        );
+      }
+    });
+
+    const blank_letters = blanks.map((item, i) =>
+      <Letter
+        key={i}
+        index={-1}
+        id={item._id}
+        character={''}
+        selected={false}
+        />
+    );
+    
     return (
       <View style={styles.letters__container}>
         <View style={styles.letters__item__you}>
@@ -41,20 +65,8 @@ class LettersMenu extends Component {
         <View style={styles.letters__item__friends}>
           <Text style={styles.letters__label__friends}>{I18n.t('map_letter_friends_label')}</Text>
           <View style={styles.letters__row}>
-            {this.props.secondary_letters.map((item, i) => {
-              if (i < 4) {
-                return (
-                  <Letter
-                    key={i}
-                    index={i}
-                    id={item._id}
-                    character={item.character}
-                    selected={this.props.letters_selected.friends[i]}
-                  />
-                );
-              }
-            })}
-            {blank_letters.map((item, i) => <Letter key={i} index={-1} id={item._id} character={''} selected={false} />)}
+            { secondary_letters }
+            { blank_letters }
           </View>
         </View>
       </View>

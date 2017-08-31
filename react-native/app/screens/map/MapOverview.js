@@ -18,8 +18,6 @@ class MapOverview extends Component {
     interval: PropTypes.number,
   }
 
-componentDidUpdate() { console.log('UPDATE !'); }
-
   componentDidMount() {
     loadLettersServiceProxy(this.props);
     this.pollLetters();
@@ -39,9 +37,7 @@ componentDidUpdate() { console.log('UPDATE !'); }
       <Screen backgroundColor={'#00aaaa'}>
         <StatusBar />
         <Map navigation={this.props.navigation} />
-        <LettersMenu
-          navigation={this.props.navigation}
-          />
+        <LettersMenu navigation={this.props.navigation}/>
         <MapScreenMenu navigation={this.props.navigation} />
       </Screen>
     );

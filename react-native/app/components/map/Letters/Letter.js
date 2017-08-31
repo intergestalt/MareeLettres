@@ -203,7 +203,7 @@ class Letter extends Component {
 
   renderYou(size, colour) {
     return (
-      <View style = {styles.background_main}>
+      <View style = {styles.container_main}>
         {
           this.props.character === '...'
             ? <TouchableOpacity
@@ -223,6 +223,7 @@ class Letter extends Component {
                       styles.letter, {
                         color: colour,
                         fontSize: size,
+
                       }
                     ]}>
                     {this.props.character}
@@ -236,11 +237,13 @@ class Letter extends Component {
   renderFriends(size, colour) {
     if (this.props.index == -1) {
       return (
-        <View style = {styles.background_secondary} />
+        <View style = {styles.container_secondary} />
       );
     } else {
       return (
-        <View style = {styles.background_secondary}>
+        <View style = {[
+          styles.container_secondary,
+        ]}>
             <Animated.View
               {...this.panResponder.panHandlers}
               style = {[
