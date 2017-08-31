@@ -1,10 +1,11 @@
-import React from 'react';
-import { View } from 'react-native';
+import React, { Component, PropTypes } from 'react';
+import { View, Text } from 'react-native';
+import { connect } from 'react-redux';
 
 import I18n from '../../../i18n/i18n';
 import styles from './styles';
 
-class ChallengesListItem extends Component {
+class ChallengeHeadActive extends Component {
   static propTypes = {
     data: PropTypes.object,
   };
@@ -33,5 +34,18 @@ class ChallengesListItem extends Component {
   }
 }
 
+const mapStateToProps = (state) => {
+  try {
+    const language = state.globals.language;
 
-export default ChallengeHeadActive;
+    return {
+      language,
+    };
+  } catch (e) {
+    console.log('ChallengeHeadActive');
+    console.log(e);
+    throw e;
+  }
+};
+export default connect(mapStateToProps)(ChallengeHeadActive);
+

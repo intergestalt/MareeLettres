@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 import I18n from '../../../i18n/i18n';
 
-import { ChallengeHeadActive } from './';
+import { ChallengeHeadActive, ChallengeHeadInactive } from './';
 
 import styles from './styles';
 
@@ -22,21 +22,9 @@ class ChallengesListItem extends Component {
         {!this.props.data.isLoading
           ? <TouchableOpacity onPress={this.props.onPress}>
             {!this.props.data.isFinished
-              ? <ChallengeHeadActive challenge={this.props.data} />
-              : <View style={styles.row}>
-                <Text style={styles.title}>
-                  {I18n.t('challenge')} #{this.props.data.voteNum}
-                </Text>
-                <Text style={styles.ticker}>
-                  {this.props.data.endString}
-                </Text>
-                <Text style={styles.title}>
-                  {this.props.data.title}
-                </Text>
-                <Text style={styles.answer}>
-                  {this.props.data.answer}
-                </Text>
-              </View>}
+              ? <ChallengeHeadActive data={this.props.data} />
+              : <ChallengeHeadInactive data={this.props.data} />
+            }
           </TouchableOpacity>
           : <View style={styles.row}>
             <Text style={styles.title}>RELOAD ITEM</Text>
