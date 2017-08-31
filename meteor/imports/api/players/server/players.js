@@ -1,10 +1,9 @@
 import { Meteor } from 'meteor/meteor';
 
-import { OriginId } from 'maree-lettres-shared';
-
 import { Players } from '../players';
 import { Proposals } from '../../proposals/proposals';
 import currentSystemConfig from '../../../startup/server/system-config';
+import RequestHelpers from '../../../helpers/RequestHelpers';
 
 Meteor.publish(
   'get.players',
@@ -24,7 +23,7 @@ JsonRoutes.add('get', `${Meteor.settings.public.api_prefix}players/:origin_id`, 
   res,
   next,
 ) {
-  const origin_id = request_check_origin(req, res, next);
+  const origin_id = RequestHelpers.request_check_origin(req, res, next);
 
   let player = Players.findOne({ origin_id });
 
@@ -51,11 +50,11 @@ JsonRoutes.add('get', `${Meteor.settings.public.api_prefix}players/:origin_id`, 
   } */
 
   let options = {
-    data: {...player}
+    data: { ...player }
   };
 
   //if (player.new) {
-    options = currentSystemConfig.addToResponseOptions(options)
+  options = currentSystemConfig.addToResponseOptions(options)
   //}
 
   JsonRoutes.sendResult(res, options);
@@ -66,7 +65,7 @@ JsonRoutes.add('post', `${Meteor.settings.public.api_prefix}players/:origin_id/v
   res,
   next,
 ) {
-  const origin_id = request_check_origin(req, res, next);
+  const origin_id = RequestHelpers.request_check_origin(req, res, next);
 
   // console.log(req);
 
@@ -146,34 +145,3 @@ JsonRoutes.add('post', `${Meteor.settings.public.api_prefix}players/:origin_id/v
   JsonRoutes.sendResult(res, options);
 });
 
-const request_check_origin = function (req, res, next) {
-  const origin_id = req.params.origin_id;
-
-  // console.log(origin_id);
-
-  if (!origin_id) {
-    error_options = {
-      code: 400,
-      data: {
-        error: 'id-required',
-        reason: 'origin_id is required',
-      },
-    };
-    JsonRoutes.sendResult(res, error_options);
-  }
-
-  // console.log(OriginId.verify(origin_id));
-
-  if (!OriginId.verify(origin_id)) {
-    error_options = {
-      code: 401,
-      data: {
-        error: 'id-invalid',
-        reason: 'origin_id is not valid',
-      },
-    };
-    JsonRoutes.sendResult(res, error_options);
-  }
-
-  return origin_id;
-};
