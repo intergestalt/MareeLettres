@@ -27,6 +27,7 @@ class Letter extends Component {
     regen_time_primary: PropTypes.number,
     regen_time_secondary: PropTypes.number,
     map_delta_max: PropTypes.number,
+    letter_base_size: PropTypes.number
   }
 
   constructor(props){
@@ -35,7 +36,7 @@ class Letter extends Component {
       this.state = {
           pan: new Animated.ValueXY(),
           letter_size: 26,
-          animated_letter_size: 12,
+          animated_letter_size: this.props.letter_base_size * 5,
           delta_max: this.metresToDelta(this.props.dropzone_radius * this.props.map_delta_max),
           letter_offset: 64,
           font: {
@@ -176,10 +177,10 @@ class Letter extends Component {
       return false;
     } else {
       if(user.map.tutorialState == 'welcome') {
-        this.props.alertWithType('info', 'Excellent work!', 'Want to write with different letters? Get letters from your friends by scanning their QR code. Tap the Get Letters below.');  
+        this.props.alertWithType('info', 'Excellent work!', 'Want to write with different letters? Get letters from your friends by scanning their QR code. Tap the Get Letters below.');
         // todo: change tutorialState
       }
-      
+
     }
     // put letter on local map & send to server
     putLetterOnMapProxy(this.props.character, lat, lng);
@@ -333,6 +334,7 @@ const mapStateToProps = (state) => {
 
     // TODO get from config
     const map_delta_max = state.config.config.map_delta_max || 10;
+    const letter_base_size = state.config.config.map_letter_base_size || 5;
 
     return ({
       user,
@@ -340,6 +342,7 @@ const mapStateToProps = (state) => {
       mapLng,
       map_delta,
       map_delta_max,
+      letter_base_size,
       dropzone_radius,
       regen_time_primary,
       regen_time_secondary,
