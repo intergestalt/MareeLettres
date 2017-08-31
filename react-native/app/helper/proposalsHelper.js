@@ -100,8 +100,8 @@ function mergeProposalListList(oldList, newList) {
   // just ignore the old list, but delete the user vote
   const votes = store.getState().user.votes;
 
-  const result = oldList;
-  // insert all new Elements after
+  const result = {};
+  // insert all new Elements after adding user votes
   for (let i = 0; i < newList.length; i += 1) {
     const entry = newList[i];
     const key = entry._id;
