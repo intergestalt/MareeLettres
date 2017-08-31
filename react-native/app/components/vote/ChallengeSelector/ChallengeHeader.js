@@ -3,6 +3,7 @@ import { View, TouchableOpacity, Text } from 'react-native';
 import { connect } from 'react-redux';
 
 import { ChallengeHeadActive, ChallengeHeadInactive } from './../ChallengesList';
+import { isFinished } from '../../../helper/dateFunctions';
 
 import styles from './styles';
 
@@ -94,7 +95,7 @@ class ChallengeHeader extends PureComponent {
     const contentMiddle = (
       <View style={styles.headerTextContainer}>
         <TouchableOpacity delayPressIn={30} onPress={this.props.onHeaderPress}>
-          {!challenge.isFinished
+          {!isFinished(challenge)
             ? <ChallengeHeadActive data={standardizedChallenge} />
             : <ChallengeHeadInactive data={standardizedChallenge} />
           }

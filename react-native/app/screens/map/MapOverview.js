@@ -27,7 +27,7 @@ class MapOverview extends Component {
 
     const user = this.props.user;
     if(user.map.tutorialStatus == 'welcome') {
-      this.props.alertWithType('info', 'Welcome to the FLUX!', 'To choose YOUR letter, tap on the plus symbol right under the field YOU.');
+      this.props.alertWithType('info', 'Welcome to the FLUX!', 'To choose YOUR letter, tap on the + symbol right under You.');
       setUserMapTutorialStatusProxy('step2');
     }
   }
