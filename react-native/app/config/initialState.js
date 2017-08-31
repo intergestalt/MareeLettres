@@ -29,6 +29,9 @@ export default {
       map_max_zoom_level: 20,
       map_letter_base_size: 5,
 
+      map_delta_initial: 2, // multiplies map_drop_zone_radius. when delta = 1, dropzone touches edges of screen
+      map_delta_max: 14, // delta at which letters cannot be placed or seen
+
       // Not sent by API, but they are not overwrittem
       request_timeout: 10000,
       delay_config_call: 5000,
