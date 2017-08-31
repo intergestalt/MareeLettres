@@ -137,10 +137,10 @@ function formatDateFr(date, finished, sameDay, sameYear) {
   let result = '';
   if (finished) {
     // Past
-    result = 'Vote ended ';
+    result = 'Vote terminé ';
   } else {
     // futur
-    result = 'Vote terminé ';
+    result = 'Vote se terminant ';
   }
 
   // Today or not today

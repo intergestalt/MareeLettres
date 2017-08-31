@@ -4,6 +4,8 @@ import { StatusBar, Text } from 'react-native';
 import { Screen } from '../../components/general/Container';
 import { ProposalSubmitter } from '../../components/vote/Submit';
 
+import SimpleSubmit from '../../components/vote/SimpleSubmit';
+
 class Submit extends Component {
   static propTypes = {
     navigation: PropTypes.object,
@@ -19,7 +21,8 @@ class Submit extends Component {
     return (
       <Screen centerContent>
         <StatusBar />
-        <ProposalSubmitter challenge={challenge} />
+        {/*<ProposalSubmitter challenge={challenge} />*/}
+        <SimpleSubmit challenge={challenge}/>
       </Screen>
     );
   }
