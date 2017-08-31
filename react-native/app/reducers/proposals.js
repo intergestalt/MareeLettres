@@ -234,10 +234,7 @@ export default (state = initialState.proposals, action) => {
       }
       case POST_PROPOSAL: {
         console.log('Reducer: POST_PROPOSAL');
-        const result = {
-          ...state
-        };
-        return result;
+        return state;
       }
       default:
         return state;

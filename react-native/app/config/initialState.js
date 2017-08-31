@@ -88,10 +88,11 @@ export default {
         mine: false,
         friends: [false, false, false, false],
       },
+      tutorialStatus: 'welcome'
     },
     primary_letter: {
       _id: originId,
-      character: '...',
+      character: '+',
       acquired_at: sampleDate,
       last_used_at: sampleDate,
     },

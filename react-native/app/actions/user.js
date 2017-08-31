@@ -17,6 +17,7 @@ export const USER_GET_LETTER = 'USER_GET_LETTER';
 export const USER_REVIVE_LETTER_MENU = 'USER_REVIVE_LETTER_MENU';
 export const USER_BIN_LETTER = 'USER_BIN_LETTER';
 export const USER_ADD_FRIEND_LETTER = 'USER_ADD_FRIEND_LETTER';
+export const USER_SET_MAP_TUTORIAL_STATUS = 'USER_SET_MAP_TUTORIAL_STATUS';
 
 export const USER_VOTE_INTERNAL = 'USER_VOTE_INTERNAL';
 export const USER_SEND_INTERNAL_VOTES = 'USER_SEND_INTERNAL_VOTES';
@@ -92,6 +93,12 @@ export const reviveLetterMenu = (menuIndex, character) => ({
   errorEvent: USER_UPDATE_ERROR,
   menuIndex,
   character,
+});
+
+export const setUserMapTutorialStatus = (status) => ({
+  type: USER_SET_MAP_TUTORIAL_STATUS,
+  errorEvent: USER_UPDATE_ERROR,
+  status
 });
 
 export const binLetter = menuIndex => ({

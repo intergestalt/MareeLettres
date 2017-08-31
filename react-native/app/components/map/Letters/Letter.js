@@ -138,13 +138,17 @@ class Letter extends Component {
     const dLng = Math.abs(dz.longitude - lng) * (111320 * Math.cos(dz.latitude * Math.PI / 180.));
     const distance = Math.sqrt(Math.pow(dLat, 2) + Math.pow(dLng, 2));
 
+    console.log("on drop");
     if (distance > this.props.dropzone_radius) {
       this.props.alertWithType('info', 'Too far away', "You cannot write outside the circle around you. Move your body to get closer!");
       return false;
     } else {
-      this.props.alertWithType('info', 'Well done', "Good drop!");
+      if(user.map.tutorialState == 'welcome') {
+        this.props.alertWithType('info', 'Excellent work!', 'Want to write with different letters? Get letters from your friends by scanning their QR code. Tap the Get Letters below.');  
+        // todo: change tutorialState
+      }
+      
     }
-
     // put letter on local map & send to server
     putLetterOnMapProxy(this.props.character, lat, lng);
     updateLetterMenuProxy(this.props.index);
@@ -212,12 +216,12 @@ class Letter extends Component {
     return (
       <View style = {styles.container_main}>
         {
-          this.props.character === '...'
+          this.props.character === '+'
             ? <TouchableOpacity
                 onPress={this.onPress}
                 style={styles.letter_area}>
                 <Text style={styles.disabled}>
-                  {'...'}
+                  {'+'}
                 </Text>
               </TouchableOpacity>
             : <Animated.View

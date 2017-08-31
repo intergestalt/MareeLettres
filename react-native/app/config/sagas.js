@@ -1,4 +1,4 @@
-import { takeEvery, call, put } from 'redux-saga/effects';
+import { takeEvery, all, call, put } from 'redux-saga/effects';
 
 import { SET_CHALLENGES_DATE_DATA } from '../actions/challengesTicker';
 import { SET_NET_WORK_ERROR } from '../actions/general';
@@ -17,7 +17,8 @@ function* loadData(action) {
   try {
     const response = yield call(action.apiCall, action);
     console.log(response);
-    const result = yield JSON.parse(response);
+    //const result = yield JSON.parse(response);
+    const result = JSON.parse(response);
     if (result.error) {
       console.log('ERROR 1');
       console.log(result.error);

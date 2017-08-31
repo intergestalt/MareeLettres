@@ -1,23 +1,27 @@
 # MAREE DES LETTRES
 
-Welcome to Marée Des Lettres, a playful art installation along the Seine. Starting at Nuit Blanche, letters will appear along the river - in big physical form and virtually on a collaborative map. In a space once dedicatd to cars going from A to B, let's play with vehicles of meaning from A to Z! Read on to find out about the different ways to play. Enjoy!"
+Bienvenue sur Marée Des Lettres, une installation artistique participative sur les rives de Seine. A partir de Nuit Blanche 2017, des lettres vont apparaître le long de la Seine. Dans un site anciennelent dédié à la circulation automobile pour relier un point A à un point B, venez jouer avec des symboles de A à Z! Vous trouverez ici les différents moyens de jouer. Amusez-vous bien!
 
-## THE BIG LETTERS
+## LES GRANDES LETTRES
 
-There are 42 big letters and 3 special characters you can chose from to form words and sentences. The letters will be rearanged throughout Nuit Blanche in a series of votes about different questions. The last vote will determine how the letters stay for the next 4 weeks."
+42 lettres géantes et 3 symboles seront installés sur les Rives de Seine à Paris pour Nuit Blanche. Pour quoi faire? Que signifieront-elles? Vous pouvez SOUMETTRE vos propositions et VOTER pour les autres. Les lettres seront réagencées tout au long de Nuit Blanche.
 
-## HOW TO VOTE
+## COMMENT VOTER
 
-You can vote on every answer that was submitted! Go to the ABC section of the app and select a question you find interesting. Then swipe through the stack of answers presented to you. If you are a more organized person, you can also tap on the OVERVIEW button to vote from a complete list of answers. Pull down the list to refresh the current voting data. You can change your mind any time!"
+Vous pouvez voter pour les propositions des autres! Rendez-vous sur l'onglet ABC et choisissez le thème qui vous plait. Balayez ensuite chaque proposition. Si vous préférez voir la liste complète vous pouvez le faire directement depuis l'onglet OVERVIEW. Glissez vers le bas pour actualiser la liste. Vous pouvez changer d'avis et revoter quand vous voulez!
 
-## HOW TO SUBMIT AN ANSWER
+## COMMENT PROPOSER UN AGENCEMENT
 
-You can submit one answer per vote. Select the questioon you want to answer and tap on SUBMIT. Now you can arrange the letters as you wish! Submissions close 15 minutes before end of voting. Please keep in mind that each submission will be reviewed to conform to our community guidelines. If you submit an answer that was already submitted, your answers will be combined and this answer gets an extra 5 votes!
+Vous pouvez proposer un agencement de lettres par thème. Choisissez le thème que vous souhaitez et cliquez sur SOUMETTRE. Vous pouvez ensuite assembler les lettres comme bon vous semble! Vous pouvez faire une proposition jusqu'à 15 minutes avant la fin du vote. Gardez à l'esprit que chaque proposition est préalablement validée avant diffusion dans le respect des valeurs du projet. Si votre proposition est dientique à celle faite par quelqu'un d'autre, elles seront mutualisées et gagneront un bonus de 5 !
 
-## WINNING A VOTE
+## COMMENT GAGNER
 
-At the end of each voting phase, the answer with the biggest difference between positive and negative votes wins. We score each answer by subtracting the negative votes from the positive votes. For example, if an answer has 67 positive votes and 12 negative votes, it has a score of 55 and is better than an answer with 390 positive votes and 412 negative votes (score: -22)."
+A chaque fin de session de vote, la proposition qui comptabilise le plus grand écart entre votre positifs et négatifs l'emporte. Le score final est obtenu en soutrayant le nombre de votes négatifs du total de positifs. Par exemple, si une proposition obtient 67 votes positifs et 12 négatifs elle obtient un score de 55 soit mieux qu'une proposition qui aurait 390 positifs et 412 négatifs (score = -22).
 
-## THE LETTER MAP
+## LE FLUX DES LETTRES
 
-Marée des Lettres is not only about the big letters! All along the Seine and beyond you can find your own area to continously express your thoughts and ideas. Go to the MAP section and chose which letter you want to be for the next 24 hours. You can now write this letter on the map. Move around in the real world to find just the right place to add your letter. Team up with friends and strangers to exchange letters! But watch out, letters only stay on the map for a certain amount of time. Use the camera function to take pictures of yourself with the letters around you."
+En plus des lettres géantes il y a le FLUX DES LETTRES ! Le long de la Seine et au-delà vous pouvez trouver votre propre site pour exprimer en continu vos idées. Devenez vous-même une lettre ! Rendez-vous sur la section FLUX DES LETTRES et choisissez quelle lettre vous souhaitez être pour les 24h à venir. Vous pourrez alors placer cette lettre sur la carte. Déplacez-vous dans la vie réelle pour trouver le bon endroit où la placer. Constituez des équipes avec des amis ou des inconnus pour échanger des lettres! Attention, les lettres resteront visibles sur la carte que pendant un temps limité. Utilisez la fonction APPAREIL PHOTO pour prendre des photos de vous entouré des lettres."
+
+## VALEURS DU PROJET
+
+En utilisant cette application vous acceptez de respecter les principes suivant : vous êtes invités à faire preuve de créativité, d'humour, d'originalité... mais s'il-vous-plait pas de publicité, de propos agressifs contre des personnes ou des groupes, pas de données personnelles, de propos à teneur raciste, sexiste, homophobe ou autres horreurs de ce genre. Un représentant de la Ville de Paris commanditaire du projet aura le dernier mot pour en valider la soumission au vote ou la retirer de l'application.

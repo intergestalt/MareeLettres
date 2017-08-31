@@ -10,7 +10,8 @@ import {
   deleteLetters,
   setUserLetter,
   binLetter,
-  addFriendLetter
+  addFriendLetter,
+  setUserMapTutorialStatus
 } from '../actions/user';
 
 import store from '../config/store';
@@ -41,4 +42,8 @@ export function wipeLetterMenuProxy() {
 
 export function setUserLetterProxy(char) {
   store.dispatch(setUserLetter(char));
+}
+
+export function setUserMapTutorialStatusProxy(char) {
+  store.dispatch(setUserMapTutorialStatus(char));
 }
