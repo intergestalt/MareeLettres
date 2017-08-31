@@ -4,19 +4,25 @@ const styles = EStyleSheet.create({
   container: {
     justifyContent: 'center',
     alignItems: 'center',
-    height: '20%',
+    height: '10%',
     flexDirection: 'row',
   },
   paragraph: {
-    fontSize: '2rem',
+    fontSize: '1rem',
     textAlign: 'center',
     color: '#888888',
   },
   paragraphHigh: {
-    fontSize: '2rem',
+    fontSize: '1rem',
     textAlign: 'center',
     color: '#000000',
+    fontWeight: 'bold'
   },
+  divider: {
+    width: "2rem",
+    textAlign: 'center',
+    paddingRight: "0.2rem"
+  }
 });
 
 export default styles;

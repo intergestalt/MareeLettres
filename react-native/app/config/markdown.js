@@ -2,16 +2,32 @@ export default {
   heading1: {
     fontSize: 32,
     fontWeight: 'bold',
-    color: '#FF0000',
+    color: '#000',
+    fontFamily: 'impact',
+    textAlign: 'center',
+    marginTop: '2%',
+    marginBottom: '7%'
+  },
+  heading2: {
+    fontSize: 32,
+    fontWeight: 'bold',
+    color: '#000',
+    fontFamily: 'impact',
+    textAlign: 'center',
+    marginTop: '7%',
+    marginBottom: '7%'
   },
   link: {
-    color: 'pink',
+    textDecorationLine: 'underline'
   },
   mailTo: {
-    color: 'orange',
+    textDecorationLine: 'underline'
   },
   paragraph: {
-    color: '#00FF00',
+    color: '#000',
+    fontFamily: 'normal',
+    textAlign: 'center',
+    paddingHorizontal: '5%'
   },
   text: {},
 };

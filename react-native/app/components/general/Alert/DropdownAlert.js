@@ -64,6 +64,7 @@ const gradientColors = [
   '#5D5A71',
   '#5B5971',
 ];
+gradientColors.reverse();
 
 export default class DropdownAlert extends Component {
   static propTypes = {
@@ -371,11 +372,11 @@ export default class DropdownAlert extends Component {
     if (this.props.enableCancel) {
       return (
         <TouchableOpacity onPress={onPress}>
-          <Text style={style}>XXX</Text>
+          <Text style={style}>X</Text>
         </TouchableOpacity>
       );
     }
-    return <Text style={style}>XXX</Text>;
+    return <Text style={style}>X</Text>;
   }
   renderDropDown(isOpen) {
     if (isOpen == true) {
