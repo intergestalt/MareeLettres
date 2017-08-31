@@ -93,6 +93,7 @@ JsonRoutes.add(
       p.created_at = new Date();
       p._id = new Mongo.ObjectID()._str; // TODO use MD5 with challenge_id and origin_id or similar to ensure that there is only one proposal per challenge and player
       p.origin_id = RequestHelpers.request_check_origin(req, res, next, proposal.origin_id);
+      p.challenge_id = proposal.challenge_id;
       p.in_review = true;
       p.text = proposal.text;
       data.push({ '_id': p._id });
