@@ -17916,7 +17916,14 @@ var OriginId = {
     return encrypted;
   },
   verify: function verify(origin_id) {
-    var dec = this.decryptRaw(origin_id);
+    var dec = '';
+
+    try {
+      dec = this.decryptRaw(origin_id);
+    } catch (err) {
+      return false;
+    }
+
     var code = this.splitParts(dec).code;
 
     return code === _config2.default.user_key_phone_code || code === _config2.default.user_key_other_code;
@@ -27533,7 +27540,7 @@ var SystemConfigSchema = new _simplSchema2.default({
     description: 'Map: For how long a letter share QR code is valid'
   },
   map_drop_zone_radius: {
-    type: Number,
+    type: _simplSchema2.default.Integer,
     defaultValue: 50,
     description: 'Map: Radius of the drop zone in meters'
   }

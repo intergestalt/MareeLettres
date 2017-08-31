@@ -37,7 +37,14 @@ const OriginId = {
   },
 
   verify(origin_id) {
-    const dec = this.decryptRaw(origin_id);
+    let dec = '';
+
+    try {
+      dec = this.decryptRaw(origin_id);
+    } catch (err) {
+      return false;
+    }
+
     const code = this.splitParts(dec).code;
 
     return code === config.user_key_phone_code || code === config.user_key_other_code;
