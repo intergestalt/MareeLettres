@@ -4,6 +4,7 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 export default EStyleSheet.create({
   containerStyle: {
     paddingTop: Platform.OS === 'android' ? 0 : 20,
+    paddingHorizontal: '2rem',
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
@@ -14,17 +15,21 @@ export default EStyleSheet.create({
     position: 'relative',
     fontSize: '1rem',
     textAlign: 'center',
-    color: '#0055AA',
-    fontFamily: 'impact',
+    color: '#ffffff',
+    fontFamily: 'normal',
   },
   messageStyle: {
+    fontFamily: 'normal',
     fontSize: '1rem',
     textAlign: 'center',
-    color: '#888888',
+    color: '#ffffff',
   },
-  button: {
+  buttonStyle: {
+    paddingTop: 10,
+    paddingBottom: 10,
+    fontWeight: 'bold',
     fontSize: '1rem',
     textAlign: 'center',
-    color: '#00AA55',
+    color: '#ffffff',
   },
 });
