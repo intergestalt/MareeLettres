@@ -41,6 +41,11 @@ DYNAMIC_CONFIG.REQUEST_TIMEOUT;
 */
 // class DynamicConfig {}
 export const DYNAMIC_CONFIG = {
+  // MAP 
+  MAP_LETTER_BASE_SIZE: null,
+  MAP_DELTA_INITIAL: null,
+  MAP_DELTA_MAX: null,
+
   REQUEST_TIMEOUT: null,
   DEFAULT_PROPOSAL_LIST_LIMIT: null,
   DEFAULT_PROPOSAL_NEW_BATCH: null, // For List reload, if scrolling reached ends

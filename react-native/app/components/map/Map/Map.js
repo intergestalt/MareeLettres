@@ -61,7 +61,7 @@ class Map extends Component {
   };
 
   onRegionChange = (region) => {
-    const size = parseFloat((12 / (1200 * region.latitudeDelta)).toFixed(1));
+    const size = parseFloat(((this.props.letter_base_size * 5) / (1200 * region.latitudeDelta)).toFixed(1));
 
     if (size != this.state.letter_size) {
       this.setState({ letter_size: size });
@@ -110,7 +110,7 @@ class Map extends Component {
           <Text style={[
             styles.letter,
             { opacity },
-            { fontSize: this.state.letter_size * this.props.letter_base_size / 2 }
+            { fontSize: this.state.letter_size }
           ]}>
             {item.character}
           </Text>
@@ -186,13 +186,14 @@ const mapStateToProps = (state) => {
     const map_coordinates = state.user.map.coordinates;
     const dropzone_radius = state.config.config.map_drop_zone_radius;
     const track_player_movements = state.config.config.track_player_movements;
-    const min_zoom_level = state.config.config.map_min_zoom_level;
-    const max_zoom_level = state.config.config.map_max_zoom_level;
-    const letter_base_size = state.config.config.map_letter_base_size;
 
-    // TODO: connect to config, remove defaults
+    // ZOOM SETUP
+    // TODO: connect to config, remove conditionals
+    const letter_base_size = state.config.config.map_letter_base_size || 5;
     const map_delta_initial = state.config.config.map_delta_initial || 2;
     const map_delta_max = state.config.config.map_delta_max || 10;
+
+    console.log(state.config.config)
 
     return {
       origin_id,
@@ -203,8 +204,6 @@ const mapStateToProps = (state) => {
       dropzone_radius,
       letter_decay_time,
       track_player_movements,
-      min_zoom_level,
-      max_zoom_level,
       letter_base_size,
       map_delta_max,
       map_delta_initial,
