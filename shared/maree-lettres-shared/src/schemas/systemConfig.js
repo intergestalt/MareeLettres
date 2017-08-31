@@ -67,6 +67,25 @@ const SystemConfigSchema = new SimpleSchema(
       type: SimpleSchema.Integer,
       defaultValue: 50,
       description: 'Map: Radius of the drop zone in meters'
+    },
+    map_min_zoom_level: {
+      type: SimpleSchema.Integer,
+      defaultValue: 0,
+      min: 0,
+      max: 19,
+      description: 'Map: Minimum Zoom Level'
+    },
+    map_max_zoom_level: {
+      type: SimpleSchema.Integer,
+      defaultValue: 20,
+      min: 1,
+      max: 20,
+      description: 'Map: Maximum Zoom Level'
+    },
+    map_letter_base_size: {
+      type: Number,
+      defaultValue: 5,
+      description: 'Map: Letter size in meters'
     }
   },
   { clean: { getAutovalues: true } }
