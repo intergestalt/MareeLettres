@@ -7,6 +7,7 @@ import { navigateToLetterSelector } from '../../../helper/navigationProxy';
 import { postLetterServiceProxy } from '../../../helper/apiProxy';
 
 import { connect } from 'react-redux';
+import { connectAlert } from '../../../components/general/Alert';
 
 import styles from './styles';
 
@@ -117,6 +118,9 @@ class Letter extends Component {
   }
 
   onDrop(x, y) {
+
+    
+
     // convert screen coordinates to range [-1, 1]
     const win = Dimensions.get('window');
     const tx = ((x / win.width) - 0.5) * 1;
@@ -135,7 +139,10 @@ class Letter extends Component {
     const distance = Math.sqrt(Math.pow(dLat, 2) + Math.pow(dLng, 2));
 
     if (distance > this.props.dropzone_radius) {
+      this.props.alertWithType('info', 'Too far away', "You cannot write outside the circle around you. Move your body to get closer!");
       return false;
+    } else {
+      this.props.alertWithType('info', 'Well done', "Good drop!");
     }
 
     // put letter on local map & send to server
@@ -285,4 +292,4 @@ const mapStateToProps = (state) => {
     });
 }
 
-export default connect(mapStateToProps)(Letter);
+export default connect(mapStateToProps)(connectAlert(Letter));

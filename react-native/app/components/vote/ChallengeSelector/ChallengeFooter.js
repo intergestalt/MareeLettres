@@ -51,10 +51,10 @@ class ChallengeFooter extends Component {
   }
   renderTinderButton() {
     return this.props.proposalView === PROPOSAL_VIEWS.TINDER
-      ? <TouchableOpacity onPress={this.props.handleListPress}>
+      ? <TouchableOpacity style={styles.footerButton} onPress={this.props.handleListPress}>
         <Text style={styles.challengeFooterText}>{I18n.t('overview_button')}</Text>
       </TouchableOpacity>
-      : <TouchableOpacity onPress={this.props.handleTinderPress}>
+      : <TouchableOpacity style={styles.footerButton} onPress={this.props.handleTinderPress}>
         <Text style={styles.challengeFooterText}>{I18n.t('tinder_button')}</Text>
       </TouchableOpacity>;
   }
@@ -63,8 +63,10 @@ class ChallengeFooter extends Component {
     return (
       <View style={styles.challengeFooter}>
         <View style={styles.challengeFooterUnfinished}>
+          
           {this.renderTinderButton()}
-          <TouchableOpacity onPress={this.props.handleCommitPress}>
+          
+          <TouchableOpacity style={[styles.footerButton, styles.footerButtonRight]} onPress={this.props.handleCommitPress}>
             <Text style={styles.challengeFooterText}>{I18n.t('suggest_button')}</Text>
           </TouchableOpacity>
         </View>
