@@ -136,3 +136,21 @@ export const callPostLetter = (action) => {
   console.log('API CALL: callPostLetter');
   return getPromisePOST(url, JSON.stringify(req_body));
 };
+
+export const callPostProposal = (action) => {
+  const url = `${config.API_PREFIX}proposals/`;
+  const body = action.body;
+  const req_body = {
+    proposals: [
+      {
+        origin_id: body.origin_id,
+        text: body.text,
+        challenge_id: body.challenge_id,
+        created_at: body.created_at,
+      },
+    ],
+  };
+  console.log('API CALL: callPostProposal');
+  return getPromisePOST(url, JSON.stringify(req_body));
+};
+

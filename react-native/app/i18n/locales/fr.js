@@ -37,6 +37,6 @@ export default {
 
   info_about_title: 'NUIT BLANCHE FR',
   info_howto_title: 'THE IDEA FR',
-  network_error:
-    'There is no baguette at the moment. Please buy one. Or this message will be shwon forever!',
+  
+  network_error: 'Network error. Please check your internet connection.',
 };
