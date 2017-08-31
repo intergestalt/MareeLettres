@@ -14,7 +14,7 @@ export default EStyleSheet.create({
     fontFamily: 'impact',
   },
   disabled: {
-    opacity: 0.5,
+    opacity: 1,
     textAlign: 'center',
     backgroundColor: 'transparent',
     fontFamily: 'impact',

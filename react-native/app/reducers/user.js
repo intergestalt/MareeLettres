@@ -20,6 +20,7 @@ import {
   USER_SEND_INTERNAL_VOTES_ERROR,
   SET_USER_IS_LOADING_FROM_STORAGE,
   SET_USER_LOADED_FROM_STORAGE,
+  USER_SET_MAP_TUTORIAL_STATUS,
   // SET_USER_LOADED_FROM_STORAGE_RESET_DEFAULTS,
 } from '../actions/user';
 
@@ -342,6 +343,19 @@ export default (state = initialState.user, action) => {
           ...state,
           myInternalVotes,
         };
+        return result;
+      }
+      case USER_SET_MAP_TUTORIAL_STATUS: {
+        console.log('USER_SET_MAP_TUTORIAL_STATUS');
+        const result = {
+          ...state,
+          map: {
+            ...state.map,
+            tutorialStatus: action.status
+          },
+        };
+        console.log(result);
+        saveUserToStorage(result);
         return result;
       }
 
