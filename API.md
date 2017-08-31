@@ -106,6 +106,47 @@ NOTE: assuming no date/time discrepancies, using UTC ISODate
 Get the new letters that are placed withing the last interval. see: config -> map_update_interval
 Update map by polling every map_update_interval seconds.
 
+#### POST api/proposals
+Place a new proposal
+
+##### request body
+```
+{ proposals: 
+  [
+    {
+      challenge_id: ...
+      origin_id: ...
+      text: ...
+      created_at: ...
+    },
+    ...
+  ]
+}
+```
+
+#### response body
+
+OK:
+```
+{
+proposals: [
+    {
+      _id: ...
+    }
+  ]
+}
+```
+
+
+FAIL:
+```
+{
+  error:...
+}
+```
+
+
+
 ## (discussion / to do)
 
 #### GET api/letters?centerLat=...&centerLng=...&radius=...
@@ -152,7 +193,5 @@ IDEA: Allow both verbs, GET and PATCH, but only URL-Cache GET?
 #### more
 
 GET proposal (proposal_id)
-
-POST proposal (challenge, origin_id, text)
 
 GET letters (center, width, height)
