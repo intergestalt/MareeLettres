@@ -23,11 +23,10 @@ export default EStyleSheet.create({
     width: 40,
     height: 40,
     borderRadius: 40,
-    zIndex: 1,
     alignItems: 'center',
     justifyContent: 'center',
   },
-  background_main: {
+  container_main: {
     flex: 1,
     backgroundColor: '$grey',
     alignItems: 'center',
@@ -36,7 +35,7 @@ export default EStyleSheet.create({
     margin: '$margin',
     marginTop: '$marginHalf',
   },
-  background_secondary: {
+  container_secondary: {
     flex: 1,
     backgroundColor: '$grey',
     alignItems: 'center',
