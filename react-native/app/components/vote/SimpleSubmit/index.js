@@ -20,6 +20,8 @@ class SimpleSubmit extends Component {
   render() {
     return (
       <View style={{padding: 10}}>
+        
+        
         <TextInput
           style={{height: 40}}
           placeholder="Type your proposal here"
