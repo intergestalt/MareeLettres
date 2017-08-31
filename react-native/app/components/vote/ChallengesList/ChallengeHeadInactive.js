@@ -19,7 +19,7 @@ class ChallengeHeadInactive extends Component {
           {this.props.data.endString}
         </Text>
         <Text style={styles.title}>
-          {this.props.data.title}
+          {this.props.data.title ? this.props.data.title.toUpperCase() : "-"}
         </Text>
         <Text style={styles.answer}>
           {this.props.data.answer}

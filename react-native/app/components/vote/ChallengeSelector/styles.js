@@ -8,7 +8,6 @@ const styles = EStyleSheet.create({
 
   // All 3 CHallenges
   challengeContainer: {
-    backgroundColor: '#7700FF',
     flexDirection: 'row',
     width: '$swipeWidth*3',
     flex: 1,
@@ -17,7 +16,6 @@ const styles = EStyleSheet.create({
   // 1 Challange, but three of this in a row.
   detailContainer: {
     flexDirection: 'column',
-    backgroundColor: '#00FF00',
     width: '$swipeWidth',
     left: 0,
   },
@@ -48,33 +46,30 @@ const styles = EStyleSheet.create({
   // Header
 
   headerDownContainer: {
-    backgroundColor: '#555599',
     flex: 0.12,
   },
   headerTextContainer: {
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#5555FF',
     flex: 0.76,
   },
   headerUpContainer: {
-    backgroundColor: '#555500',
     flex: 0.12,
   },
   headerNavContainer: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#FF0000',
+    backgroundColor: 'transparent',
   },
 
   headerText: {
-    color: '#aaaa00',
+    color: 'black',
     textAlign: 'center',
     fontSize: 18,
   },
   headerNav: {
-    color: '#aaaa00',
+    color: 'black',
     textAlign: 'center',
     fontSize: 40,
   },
@@ -88,7 +83,6 @@ const styles = EStyleSheet.create({
     bottom: 0,
     flex: 1,
     overflow: 'hidden',
-    backgroundColor: '#aa00aa',
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -100,7 +94,8 @@ const styles = EStyleSheet.create({
   },
 
   contentText: {
-    color: '#aa00aa',
+    color: 'black',
+    fontFamily: 'impact',
     fontSize: 25,
     textAlign: 'center',
   },

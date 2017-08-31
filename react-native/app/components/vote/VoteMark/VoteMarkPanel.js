@@ -19,13 +19,13 @@ class VoteMarkPanel extends Component {
     return (
       <View style={styles.panel}>
         <Text style={styles.panelText1}>
-          {this.props.yes_amount}
-        </Text>
-        <VoteMark type="yes" />
-        <Text style={styles.panelText2}>
           {this.props.no_amount}
         </Text>
         <VoteMark type="no" />
+        <Text style={styles.panelText2}>
+          {this.props.yes_amount}
+        </Text>
+        <VoteMark type="yes" />
       </View>
     );
   }
