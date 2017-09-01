@@ -1,40 +1,40 @@
 import EStyleSheet from 'react-native-extended-stylesheet';
 
 const styles = EStyleSheet.create({
-	container: {
+  container: {
     flex: 1,
     width: '100%',
-		zIndex: -1,
+    zIndex: -1,
   },
   letter: {
     fontWeight: 'bold',
-		color: 'white',
-		fontFamily: 'impact',
+    color: 'white',
+    fontFamily: 'impact',
   },
-	letter_dropzone: {
-		fontWeight: 'normal',
-		color: 'rgba(255,255,255,0.5)',
-		fontSize: 12,
-	},
-	letter_draggable: {
+  letter_dropzone: {
+    fontWeight: 'normal',
+    color: 'rgba(255,255,255,0.5)',
+    fontSize: 12,
+  },
+  letter_draggable: {
     fontWeight: 'bold',
-		color: 'rgb(245,132,102)',
-		fontSize: 18,
+    color: 'rgb(245,132,102)',
+    fontSize: 18,
   },
-	button: {
-		backgroundColor: 'transparent',
-		position: 'absolute',
-		right: '0%',
-		bottom: '0%',
-		zIndex: 10,
-	},
-	button_text: {
-		padding: 8,
-		fontFamily: 'impact',
-		fontSize: '1.2rem',
-		color: 'white',
-		backgroundColor: 'transparent',
-	}
+  button: {
+    backgroundColor: 'transparent',
+    position: 'absolute',
+    right: '0%',
+    bottom: '0%',
+    zIndex: 10,
+  },
+  button_text: {
+    padding: 8,
+    fontFamily: 'impact',
+    fontSize: '1.2rem',
+    color: 'white',
+    backgroundColor: 'transparent',
+  }
 });
 
 const mapstyles = [
@@ -177,14 +177,14 @@ const mapstyles = [
     "featureType": "poi",
     "elementType": "labels.text.fill",
     "stylers": [
-        { "visibility": "off" }
+      { "visibility": "off" }
     ]
   },
   {
     "featureType": "poi",
     "elementType": "labels.text.stroke",
     "stylers": [
-        { "visibility": "off" }
+      { "visibility": "off" }
     ]
   },
   {
@@ -290,7 +290,7 @@ const mapstyles = [
     "elementType": "geometry.fill",
     "stylers": [
       {
-        "color": "#283d6a"
+        "color": "#333"
       }
     ]
   },

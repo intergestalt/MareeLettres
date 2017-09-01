@@ -40,7 +40,7 @@ const styles = EStyleSheet.create({
   },
   challengeFooter: {
     position: 'relative',
-    flex: 0.075,
+    height: '3rem',
   },
 
   // Header
@@ -85,6 +85,7 @@ const styles = EStyleSheet.create({
     overflow: 'hidden',
     alignItems: 'center',
     justifyContent: 'center',
+    backgroundColor: '#fff'
   },
 
   tinderBoxToMove: {
@@ -107,26 +108,45 @@ const styles = EStyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#777700',
+
+    borderTopWidth: 1,
+    borderStyle: 'solid',
+    borderColor: '#000',
   },
 
   challengeFooterUnfinished: {
     flex: 1,
     flexDirection: 'row',
+  },
+
+  footerButton: {
+    borderTopWidth: 1,
+    borderStyle: 'solid',
+    borderColor: '#000',
+    flex: 0.5,
     alignItems: 'center',
-    justifyContent: 'space-around',
-    backgroundColor: '#777700',
-    paddingHorizontal: 10,
+    justifyContent: 'center',
+    backgroundColor: '#fff'
+  },
+
+  footerButtonRight: {
+    borderLeftWidth: 1,
+    borderStyle: 'solid',
+    borderColor: '#000',
   },
 
   challengeFooterText: {
-    color: '#aaaa00',
-    fontSize: 24,
+    position: 'relative',
+    top: '0.15rem',
+    color: '#000',
+    fontFamily: 'normal',
+    fontSize: '1rem',
   },
 
   challengeFooterTextHigh: {
-    color: '#333333',
+    color: '#000',
     fontSize: 24,
+    fontFamily: 'normal',
   },
 });
 

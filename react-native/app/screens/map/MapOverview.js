@@ -8,6 +8,9 @@ import { Map } from '../../components/map/Map';
 import { LettersMenu, CameraButton, MapScreenMenu } from '../../components/map/Overlay';
 
 import { loadLettersServiceProxy, loadLettersIntervalServiceProxy } from '../../helper/apiProxy';
+import { connectAlert } from '../../components/general/Alert';
+
+import { setUserMapTutorialStatusProxy } from '../../helper/userHelper';
 
 // NOTE: rm camera until properly implemented
 // <CameraButton navigation={this.props.navigation} />
@@ -21,6 +24,12 @@ class MapOverview extends Component {
   componentDidMount() {
     loadLettersServiceProxy(this.props);
     this.pollLetters();
+
+    const user = this.props.user;
+    if(user.map.tutorialStatus == 'welcome') {
+      this.props.alertWithType('info', 'Welcome to the FLUX!', 'To choose YOUR letter, tap on the + symbol right under You.');
+      setUserMapTutorialStatusProxy('step2');
+    }
   }
 
   pollLetters() {
@@ -46,10 +55,12 @@ class MapOverview extends Component {
 
 const mapStateToProps = (state) => {
   const interval = state.config.config.map_update_interval * 1000;
+  const user = state.user;
 
   return {
-    interval
+    interval,
+    user
   };
 }
 
-export default connect(mapStateToProps)(MapOverview);
+export default connect(mapStateToProps)(connectAlert(MapOverview));

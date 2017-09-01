@@ -25,6 +25,11 @@ export default {
       map_letter_regeneration_time_secondary: 5,
       map_letter_transfer_timeout: 60,
       map_drop_zone_radius: 10,
+      map_letter_base_size: 5,
+
+      // MAP ZOOM
+      map_delta_initial: 2, // map zoom relative to dropzone size, 1 = drop zone is fullscreen
+      map_delta_max: 10, // maximum map zoom relative to drop zone size
 
       // Not sent by API, but they are not overwrittem
       request_timeout: 10000,
@@ -85,10 +90,11 @@ export default {
         mine: false,
         friends: [false, false, false, false],
       },
+      tutorialStatus: 'welcome'
     },
     primary_letter: {
       _id: originId,
-      character: '...',
+      character: '+',
       acquired_at: sampleDate,
       last_used_at: sampleDate,
     },

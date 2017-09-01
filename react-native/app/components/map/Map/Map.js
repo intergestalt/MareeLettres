@@ -18,6 +18,8 @@ class Map extends Component {
     letter_decay_time: PropTypes.number,
     initial_delta: PropTypes.number,
     track_player_movements: PropTypes.bool,
+    map_delta_max: PropTypes.number,
+    map_delta_initial: PropTypes.number,
   };
 
   constructor(props) {
@@ -26,20 +28,23 @@ class Map extends Component {
     this.state = {
       lat: this.props.coordinates.latitude,
       lng: this.props.coordinates.longitude,
-      letter_size: 12
+      letter_size: 12,
+      delta_initial: this.metresToDelta(this.props.dropzone_radius * this.props.map_delta_initial),
+      delta_max: this.metresToDelta(this.props.dropzone_radius * this.props.map_delta_max),
     };
+
+    console.log('STATE', this.state);
   }
 
   async _getPlayerCoords() {
-    const {Location, Permissions} = Exponent;
-    const {status} = await Permissions.askAsync(Permissions.LOCATION);
+    const { Location, Permissions } = Exponent;
+    const { status } = await Permissions.askAsync(Permissions.LOCATION);
 
     if (status === 'granted') {
-      Location.getCurrentPositionAsync({enableHighAccuracy: true}).then((res) => {
-        //res.coords.latitude = 52.49330866968013;
-        //res.coords.longitude = 13.436372637748718;
+      Location.getCurrentPositionAsync({ enableHighAccuracy: true }).then((res) => {
+        //res.coords.latitude = 52.49330866968013; res.coords.longitude = 13.436372637748718;
         setUserCoordinatesProxy(res.coords.latitude, res.coords.longitude);
-        this.setState({lng: res.coords.longitude, lat: res.coords.latitude});
+        this.setState({ lng: res.coords.longitude, lat: res.coords.latitude });
         this.centreZoomMap();
       });
     } else {
@@ -56,30 +61,37 @@ class Map extends Component {
   };
 
   onRegionChange = (region) => {
-    const size = parseFloat((12 / (1200 * region.latitudeDelta)).toFixed(1));
+    const size = parseFloat(((this.props.letter_base_size * 5) / (1200 * region.latitudeDelta)).toFixed(1));
 
     if (size != this.state.letter_size) {
-      this.setState({letter_size: size});
+      this.setState({ letter_size: size });
     }
   };
 
   onRegionChangeComplete = (region) => {
     changeMapRegionProxy(region);
-  };
+  }
+
+  metresToDelta = (m) => {
+    // convert metres to ~map delta
+    const delta = m / (111320 * Math.cos(this.props.map_coordinates.latitude * Math.PI / 180));
+
+    return delta;
+  }
 
   centreMap = () => {
     this._map._component.animateToCoordinate({
-        ...this.props.coordinates,
-      }, 600
+      ...this.props.coordinates,
+    }, 600
     );
   }
 
   centreZoomMap = () => {
     this._map._component.animateToRegion({
-        ...this.props.coordinates,
-        latitudeDelta: this.props.initial_delta,
-        longitudeDelta: this.props.initial_delta,
-      }, 300
+      ...this.props.coordinates,
+      latitudeDelta: this.state.delta_initial,
+      longitudeDelta: this.state.delta_initial,
+    }, 300
     );
   }
 
@@ -92,17 +104,17 @@ class Map extends Component {
     const opacity = Math.max(0, 1 - t / this.props.letter_decay_time);
 
     return (
-      opacity != 0 && this.props.map_coordinates.longitudeDelta < 0.2
+      opacity != 0 && this.props.map_coordinates.longitudeDelta <= this.state.delta_max
         ? <MapView.Marker key={index}
-            coordinate={{ latitude: item.coords.lat, longitude: item.coords.lng }}>
-            <Text style={[
-              styles.letter,
-              {opacity},
-              {fontSize: this.state.letter_size}
-            ]}>
-              {item.character}
-            </Text>
-          </MapView.Marker>
+          coordinate={{ latitude: item.coords.lat, longitude: item.coords.lng }}>
+          <Text style={[
+            styles.letter,
+            { opacity },
+            { fontSize: this.state.letter_size }
+          ]}>
+            {item.character}
+          </Text>
+        </MapView.Marker>
         : null
     );
   }
@@ -128,26 +140,22 @@ class Map extends Component {
           initialRegion={{
             latitude: this.state.lat,
             longitude: this.state.lng,
-            latitudeDelta: this.props.initial_delta,
-            longitudeDelta: this.props.initial_delta,
+            latitudeDelta: this.state.delta_initial,
+            longitudeDelta: this.state.delta_initial,
           }}
           showsIndoorLevelPicker={false}
           showsIndoors={false}
           rotateEnabled={false}
           showsPointsOfInterest={false}
+          minZoomLevel={this.props.min_zoom_level}
+          maxZoomLevel={this.props.max_zoom_level}
+          liteMode={true}
           customMapStyle={mapstyles}
         >
 
-          { mapLetters }
-          { myLetters }
+          {mapLetters}
+          {myLetters}
 
-          {/*<MapView.Circle
-            center={{
-              latitude: this.state.lat,
-              longitude: this.state.lng,
-            }}
-            radius={0.2}
-            strokeColor={'rgba(255,255,255,0.25)'} />*/}
           <MapView.Circle
             center={{
               latitude: this.state.lat,
@@ -156,14 +164,6 @@ class Map extends Component {
             radius={this.props.dropzone_radius}
             strokeColor={'rgba(255,255,255,0.25)'}
             fillColor={'rgba(255,255,255,0.1)'} />
-          {/*<MapView.Marker
-            title={'drop_zone'}
-            coordinate={{
-              latitude: this.state.lat + 0.00003,
-              longitude: this.state.lng,
-            }} >
-            <Text style={styles.letter_dropzone}>Drop Zone</Text>
-          </MapView.Marker>*/}
 
         </MapView.Animated>
         <TouchableOpacity style={styles.button} onPress={this.onCentreMapButton}>
@@ -185,8 +185,15 @@ const mapStateToProps = (state) => {
     const coordinates = state.user.coordinates;
     const map_coordinates = state.user.map.coordinates;
     const dropzone_radius = state.config.config.map_drop_zone_radius;
-    const initial_delta = dropzone_radius / 35000;
     const track_player_movements = state.config.config.track_player_movements;
+
+    // ZOOM SETUP
+    // TODO: connect to config, remove conditionals
+    const letter_base_size = state.config.config.map_letter_base_size || 5;
+    const map_delta_initial = state.config.config.map_delta_initial || 2;
+    const map_delta_max = state.config.config.map_delta_max || 10;
+
+    console.log(state.config.config)
 
     return {
       origin_id,
@@ -196,8 +203,10 @@ const mapStateToProps = (state) => {
       map_coordinates,
       dropzone_radius,
       letter_decay_time,
-      initial_delta,
       track_player_movements,
+      letter_base_size,
+      map_delta_max,
+      map_delta_initial,
     };
   } catch (e) {
     console.log('Map');

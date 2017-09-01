@@ -1,6 +1,6 @@
 /* BEGIN SET YOUR LOCAL IP ADDRESS HERE */
 
-//const DEV_MAREE_SERVER_ADDRESS = `${Expo.Constants.linkingUri.match(/:\/\/(.*):/)[1]}:3000`;
+// const DEV_MAREE_SERVER_ADDRESS = `${Expo.Constants.linkingUri.match(/:\/\/(.*):/)[1]}:3000`;
 const DEV_MAREE_SERVER_ADDRESS = 'maree.herokuapp.com';
 
 /* END SET YOUR LOCAL IP ADDRESS HERE */
@@ -41,6 +41,11 @@ DYNAMIC_CONFIG.REQUEST_TIMEOUT;
 */
 // class DynamicConfig {}
 export const DYNAMIC_CONFIG = {
+  // MAP 
+  MAP_LETTER_BASE_SIZE: null,
+  MAP_DELTA_INITIAL: null,
+  MAP_DELTA_MAX: null,
+
   REQUEST_TIMEOUT: null,
   DEFAULT_PROPOSAL_LIST_LIMIT: null,
   DEFAULT_PROPOSAL_NEW_BATCH: null, // For List reload, if scrolling reached ends

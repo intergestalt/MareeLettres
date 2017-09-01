@@ -1,6 +1,9 @@
 import { Meteor } from 'meteor/meteor';
-import { Proposals } from '../proposals';
+
+import { Proposals, ProposalsSchema } from '../proposals';
 import { Challenges } from '../../challenges/challenges';
+import RequestHelpers from '../../../helpers/RequestHelpers';
+
 
 import _ from 'underscore';
 
@@ -70,20 +73,48 @@ JsonRoutes.add(
 );
 
 JsonRoutes.add(
-  // deprecated
-  'get',
-  `${Meteor.settings.public.api_prefix}challenges/:0/proposals/limit/:1`,
-  function (req, res, next) {
-    const challenge_id = req.params[0];
-    const limit = parseInt(req.params[1]);
+  'post',
+  `${Meteor.settings.public.api_prefix}proposals`, function (req, res, next) {
 
-    JsonRoutes.sendResult(res, {
-      data: {
-        proposals: Proposals.find({ challenge_id }, { limit }).fetch(),
-      },
-    });
-  },
-);
+    const proposals = req.body.proposals;
+
+    if (!Array.isArray(proposals) || proposals.length === 0) {
+      JsonRoutesError(res, 400, 'missing-proposals');
+    }
+
+    // TODO validate input with ProposalsSchema
+
+    const bulk = Proposals.rawCollection().initializeUnorderedBulkOp();
+
+    const data = [];
+
+    proposals.forEach(function (proposal) {
+      const p = ProposalsSchema.clean({})
+      p.created_at = new Date();
+      p._id = new Mongo.ObjectID()._str; // TODO use MD5 with challenge_id and origin_id or similar to ensure that there is only one proposal per challenge and player
+      p.origin_id = RequestHelpers.request_check_origin(req, res, next, proposal.origin_id);
+      p.challenge_id = proposal.challenge_id;
+      p.in_review = true;
+      p.text = proposal.text;
+      data.push({ '_id': p._id });
+      bulk.insert(p);
+    }, this);
+
+    const result = bulk.execute();
+
+    /*
+    proposals.forEach(function (proposal) {
+      proposal.created_at = new Date();
+      proposals.insert(proposal);
+    }, this);
+  */
+
+    const options = {
+      data,
+    };
+
+    JsonRoutes.sendResult(res, options);
+  });
 
 JsonRoutes.add(
   'get',

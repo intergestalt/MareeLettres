@@ -17916,7 +17916,14 @@ var OriginId = {
     return encrypted;
   },
   verify: function verify(origin_id) {
-    var dec = this.decryptRaw(origin_id);
+    var dec = '';
+
+    try {
+      dec = this.decryptRaw(origin_id);
+    } catch (err) {
+      return false;
+    }
+
     var code = this.splitParts(dec).code;
 
     return code === _config2.default.user_key_phone_code || code === _config2.default.user_key_other_code;
@@ -27533,9 +27540,28 @@ var SystemConfigSchema = new _simplSchema2.default({
     description: 'Map: For how long a letter share QR code is valid'
   },
   map_drop_zone_radius: {
-    type: Number,
+    type: _simplSchema2.default.Integer,
     defaultValue: 50,
     description: 'Map: Radius of the drop zone in meters'
+  },
+  map_min_zoom_level: {
+    type: _simplSchema2.default.Integer,
+    defaultValue: 0,
+    min: 0,
+    max: 19,
+    description: 'Map: Minimum Zoom Level'
+  },
+  map_max_zoom_level: {
+    type: _simplSchema2.default.Integer,
+    defaultValue: 20,
+    min: 1,
+    max: 20,
+    description: 'Map: Maximum Zoom Level'
+  },
+  map_letter_base_size: {
+    type: Number,
+    defaultValue: 5,
+    description: 'Map: Letter size in meters'
   }
 }, { clean: { getAutovalues: true } });
 
