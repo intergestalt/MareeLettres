@@ -22,7 +22,7 @@ export default {
   share_button: 'SHARE',
 
   reload_challenges: 'The topics are not loaded yet. Press to Reload',
-  reload_proposals: 'The suggestions are not loaded yet. Press to Reload',
+  reload_proposals: 'No suggestions found. Press to Reload',
   reload_content: 'The content is not loaded yet. Press to Reload',
   reload_user: 'User could not be loaded or created. Check your network connection.',
 
