@@ -55,7 +55,7 @@ class LettersMenu extends Component {
     return (
       <View style={styles.letters__container}>
         <View style={styles.letters__item__you}>
-          <Text style={styles.letters__label__you}>You</Text>
+          
           <Letter
             character={this.props.primary_letter}
             selected={this.props.letters_selected.mine}
@@ -63,13 +63,14 @@ class LettersMenu extends Component {
             navigation={this.props.navigation}
             main
           />
+          <Text style={styles.letters__label__you}>You</Text>
         </View>
         <View style={styles.letters__item__friends}>
-          <Text style={styles.letters__label__friends}>{I18n.t('map_letter_friends_label')}</Text>
           <View style={styles.letters__row}>
             { secondary_letters }
             { blank_letters }
           </View>
+          <Text style={styles.letters__label__friends}>{I18n.t('map_letter_friends_label')}</Text>
         </View>
       </View>
     );

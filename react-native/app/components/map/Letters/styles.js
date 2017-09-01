@@ -3,7 +3,7 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 export default EStyleSheet.create({
   $grey: '#eeeeee',
   $margin: 12,
-  $marginHalf: 6,
+  $marginHalf: 12,
   $padding: 20,
   $indexLetter: 1000,
 
@@ -34,6 +34,7 @@ export default EStyleSheet.create({
     display: 'flex',
     margin: '$margin',
     marginTop: '$marginHalf',
+    marginBottom: 0,
   },
   container_secondary: {
     flex: 1,
@@ -42,7 +43,7 @@ export default EStyleSheet.create({
     justifyContent: 'center',
     marginTop: '$marginHalf',
     marginRight: '$margin',
-    marginBottom: '$margin',
+    marginBottom: 0,
   },
   draggable: {
     position: 'absolute',
