@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity, Animated } from 'react-native';
 import MapView from 'react-native-maps';
 import { changeMapRegionProxy, setUserCoordinatesProxy } from '../../../helper/mapHelper';
 import { connect } from 'react-redux';
@@ -22,6 +22,9 @@ class Map extends Component {
     track_player_movements: PropTypes.bool,
     map_delta_max: PropTypes.number,
     map_delta_initial: PropTypes.number,
+    letter_base_size: PropTypes.number,
+    min_zoom_level: PropTypes.number,
+    max_zoom_level: PropTypes.number,
   };
 
   constructor(props) {
@@ -33,6 +36,7 @@ class Map extends Component {
       letter_size: 12,
       delta_initial: this.metresToDelta(this.props.dropzone_radius * this.props.map_delta_initial),
       delta_max: this.metresToDelta(this.props.dropzone_radius * this.props.map_delta_max),
+      blink: new Animated.Value(0),
     };
   }
 
@@ -52,18 +56,28 @@ class Map extends Component {
     }
   }
 
-  componentDidMount() {
-    this._getPlayerCoords();
+  cycleAnimation() {
+    Animated.sequence([
+      Animated.timing(this.state.blink, {
+        toValue: 1,
+        duration: 500
+      }),
+      Animated.timing(this.state.blink, {
+        toValue: 0,
+        duration: 500
+      })
+    ]).start(() => {
+      this.cycleAnimation();
+    });
   }
 
-  onPress = (e) => {
-    // const region = e.nativeEvent;
-  };
+  componentDidMount() {
+    this._getPlayerCoords();
+    this.cycleAnimation();
+  }
 
   onRegionChange = (region) => {
-    const size = parseFloat(((DYNAMIC_CONFIG.MAP_LETTER_BASE_SIZE * 5) / (1200 * region.latitudeDelta)).toFixed(1));
-
-    console.log('DC', DYNAMIC_CONFIG.MAP_LETTER_BASE_SIZE);
+    const size = parseFloat(((this.props.letter_base_size * 5) / (1200 * region.latitudeDelta)).toFixed(1));
 
     if (size != this.state.letter_size) {
       this.setState({ letter_size: size });
@@ -93,30 +107,34 @@ class Map extends Component {
       ...this.props.coordinates,
       latitudeDelta: this.state.delta_initial,
       longitudeDelta: this.state.delta_initial,
-    }, 300
-    );
+    }, 300);
   }
 
   onCentreMapButton = () => {
     this._getPlayerCoords();
   }
 
-  mapLettersToMarkers(item, index) {
+  mapLettersToMarkers(item, index, blink) {
     const t = new Date().getTime() - new Date(item.created_at).getTime();
     const opacity = Math.max(0, 1 - t / this.props.letter_decay_time);
 
     return (
       opacity != 0 && this.props.map_coordinates.longitudeDelta <= this.state.delta_max
-        ? <MapView.Marker key={index}
-          coordinate={{ latitude: item.coords.lat, longitude: item.coords.lng }}>
-          <Text style={[
-            styles.letter,
-            { opacity },
-            { fontSize: this.state.letter_size }
-          ]}>
-            {item.character}
-          </Text>
-        </MapView.Marker>
+        ? <MapView.Marker
+            key={index}
+            coordinate={{ latitude: item.coords.lat, longitude: item.coords.lng }}>
+            { !blink
+              ? <Text
+                  style={[styles.letter, {opacity}, {fontSize: this.state.letter_size}]}>
+                  {item.character}
+                </Text>
+              : <Animated.Text
+                  style={[styles.letter, {opacity: this.state.blink}, {fontSize: this.state.letter_size}]}
+                  >
+                  {item.character}
+                </Animated.Text>
+            }
+          </MapView.Marker>
         : null
     );
   }
@@ -124,10 +142,10 @@ class Map extends Component {
   render() {
     // convert letter objects into component array
     const mapLetters = Object.keys(this.props.letters).map((key, index) =>
-      this.mapLettersToMarkers(this.props.letters[key], index)
+      this.mapLettersToMarkers(this.props.letters[key], index, false)
     );
     const myLetters = Object.keys(this.props.my_letters).map((key, index) =>
-      this.mapLettersToMarkers(this.props.my_letters[key], index)
+      this.mapLettersToMarkers(this.props.my_letters[key], index, true)
     );
 
     return (
@@ -136,28 +154,23 @@ class Map extends Component {
           ref={(input) => { this._map = input; }}
           onRegionChange={this.onRegionChange}
           onRegionChangeComplete={this.onRegionChangeComplete}
-          onPress={this.onPress}
           provider={MapView.PROVIDER_GOOGLE}
           style={styles.container}
           initialRegion={{
             latitude: this.state.lat,
             longitude: this.state.lng,
             latitudeDelta: this.state.delta_initial,
-            longitudeDelta: this.state.delta_initial,
+            longitudeDelta: this.state.delta_initial
           }}
           showsIndoorLevelPicker={false}
           showsIndoors={false}
           rotateEnabled={false}
-          showsPointsOfInterest={false}
           minZoomLevel={this.props.min_zoom_level}
           maxZoomLevel={this.props.max_zoom_level}
-          liteMode={true}
           customMapStyle={mapstyles}
         >
-
-          {mapLetters}
-          {myLetters}
-
+          { mapLetters }
+          { myLetters }
           <MapView.Circle
             center={{
               latitude: this.state.lat,
@@ -165,7 +178,8 @@ class Map extends Component {
             }}
             radius={this.props.dropzone_radius}
             strokeColor={'rgba(255,255,255,0.25)'}
-            fillColor={'rgba(255,255,255,0.1)'} />
+            fillColor={'rgba(255,255,255,0.1)'}
+            />
 
         </MapView.Animated>
         <TouchableOpacity style={styles.button} onPress={this.onCentreMapButton}>
@@ -191,8 +205,8 @@ const mapStateToProps = (state) => {
     const letter_base_size = state.config.config.map_letter_base_size;
     const map_delta_initial = state.config.config.map_delta_initial;
     const map_delta_max = state.config.config.map_delta_max;
-
-    console.log(state.config.config)
+    const min_zoom_level = state.config.config.map_min_zoom_level;
+    const max_zoom_level = state.config.config.map_max_zoom_level;
 
     return {
       origin_id,
@@ -206,10 +220,12 @@ const mapStateToProps = (state) => {
       letter_base_size,
       map_delta_max,
       map_delta_initial,
+      min_zoom_level,
+      max_zoom_level,
     };
   } catch (e) {
-    console.log('Map');
-    console.log(e); throw e;
+    console.log('Map Error', e);
+    throw e;
   }
 };
 
