@@ -21,8 +21,8 @@ class Submit extends Component {
     return (
       <Screen centerContent>
         <StatusBar />
-        {/*<ProposalSubmitter challenge={challenge} />*/}
-        <SimpleSubmit challenge={challenge}/>
+        <ProposalSubmitter challenge={challenge} />
+        {/* <SimpleSubmit challenge={challenge}/> */}
       </Screen>
     );
   }

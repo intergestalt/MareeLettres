@@ -93,11 +93,11 @@ export default {
       last_used_at: sampleDate,
     },
     secondary_letters: [
-      /*{
+      /* {
         character: 'A',
         acquired_at: sampleDate,
         last_used_at: sampleDate,
-      },*/
+      }, */
     ],
     votes: {},
     internalVotes: {
