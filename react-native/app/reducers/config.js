@@ -39,7 +39,7 @@ export default (state = initialState.config, action) => {
           isLoading: false,
           isInternalLoading: false,
           time: now.getTime(),
-          config: { ...state.config, ...action.result.config, delay_config_call: 100000 },
+          config: { ...state.config, ...action.result.config },
         };
         saveConfigToStorage(res);
         writeDynamicConfig(res);
@@ -56,8 +56,12 @@ export default (state = initialState.config, action) => {
       }
       case SET_CONFIG: {
         const config = action.config;
+        const res = {
+          ...config,
+          config: { ...state.config, ...config.config },
+        };
         writeDynamicConfig(config);
-        return config;
+        return res;
       }
       // Redux local storage
       case SET_CONFIG_IS_LOADING_FROM_STORAGE: {
