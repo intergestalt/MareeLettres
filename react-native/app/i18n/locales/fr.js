@@ -13,7 +13,7 @@ export default {
   proposal_list_header_newest: 'Dernier',
   proposal_list_header_trending: 'Tendances',
 
-  overview_button: 'TOUT VOIR',
+  overview_button: 'LISTE',
   status_button: 'ETAT',
   tinder_button: 'BALAYER',
   suggest_button: 'PROPOSE',
