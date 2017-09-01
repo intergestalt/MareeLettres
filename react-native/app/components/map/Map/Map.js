@@ -6,6 +6,8 @@ import { connect } from 'react-redux';
 import { styles, mapstyles } from './styles';
 import Exponent from 'expo';
 
+import { DYNAMIC_CONFIG } from '../../../config/config';
+
 class Map extends Component {
   static propTypes = {
     navigation: PropTypes.object,
@@ -32,8 +34,6 @@ class Map extends Component {
       delta_initial: this.metresToDelta(this.props.dropzone_radius * this.props.map_delta_initial),
       delta_max: this.metresToDelta(this.props.dropzone_radius * this.props.map_delta_max),
     };
-
-    console.log('STATE', this.state);
   }
 
   async _getPlayerCoords() {
@@ -61,7 +61,9 @@ class Map extends Component {
   };
 
   onRegionChange = (region) => {
-    const size = parseFloat(((this.props.letter_base_size * 5) / (1200 * region.latitudeDelta)).toFixed(1));
+    const size = parseFloat(((DYNAMIC_CONFIG.MAP_LETTER_BASE_SIZE * 5) / (1200 * region.latitudeDelta)).toFixed(1));
+
+    console.log('DC', DYNAMIC_CONFIG.MAP_LETTER_BASE_SIZE);
 
     if (size != this.state.letter_size) {
       this.setState({ letter_size: size });
@@ -186,12 +188,9 @@ const mapStateToProps = (state) => {
     const map_coordinates = state.user.map.coordinates;
     const dropzone_radius = state.config.config.map_drop_zone_radius;
     const track_player_movements = state.config.config.track_player_movements;
-
-    // ZOOM SETUP
-    // TODO: connect to config, remove conditionals
-    const letter_base_size = state.config.config.map_letter_base_size || 5;
-    const map_delta_initial = state.config.config.map_delta_initial || 2;
-    const map_delta_max = state.config.config.map_delta_max || 10;
+    const letter_base_size = state.config.config.map_letter_base_size;
+    const map_delta_initial = state.config.config.map_delta_initial;
+    const map_delta_max = state.config.config.map_delta_max;
 
     console.log(state.config.config)
 

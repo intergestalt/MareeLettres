@@ -14,6 +14,7 @@ import { setUserMapTutorialStatusProxy } from '../../helper/userHelper';
 
 // NOTE: rm camera until properly implemented
 // <CameraButton navigation={this.props.navigation} />
+// <MapScreenMenu navigation={this.props.navigation} />
 
 class MapOverview extends Component {
   static propTypes = {
@@ -47,7 +48,6 @@ class MapOverview extends Component {
         <StatusBar />
         <Map navigation={this.props.navigation} />
         <LettersMenu navigation={this.props.navigation}/>
-        <MapScreenMenu navigation={this.props.navigation} />
       </Screen>
     );
   }
