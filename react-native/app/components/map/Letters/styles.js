@@ -8,13 +8,14 @@ export default EStyleSheet.create({
   $indexLetter: 1000,
 
   letter: {
+    opacity: 1,
     color: '#000',
     textAlign: 'center',
     backgroundColor: 'transparent',
     fontFamily: 'impact',
   },
   disabled: {
-    opacity: 1,
+    opacity: 0.6,
     textAlign: 'center',
     backgroundColor: 'transparent',
     fontFamily: 'impact',
