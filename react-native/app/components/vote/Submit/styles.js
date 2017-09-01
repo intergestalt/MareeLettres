@@ -6,7 +6,9 @@ const aspect_ratio_factor = 558 / 35; // equals to 35pt height on iPhone SE. the
 const em = Dimensions.get('window').height / aspect_ratio_factor;
 
 const styles = EStyleSheet.create({
-  container: {},
+  container: { flex: 1, flexDirection: 'column' },
+  dragContainer: { flex: 1 },
+  submitContainer: {},
   title: {
     fontFamily: 'normal',
     fontSize: '1rem',
