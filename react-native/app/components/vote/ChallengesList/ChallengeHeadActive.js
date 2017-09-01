@@ -14,11 +14,8 @@ class ChallengeHeadActive extends Component {
     return (
       <View style={styles.row}>
         <Text style={styles.title}>
-          {I18n.t('challenge')} #{this.props.data.voteNum}
+          {this.props.data.title ? this.props.data.title.toUpperCase() : "-"}
         </Text>
-        {/*<Text style={styles.ticker}>
-          {this.props.data.endString}
-        </Text>*/}
         <View style={styles.tickerContainer}>
           <Text style={styles.liveSpacer}>{I18n.t('live_indicator')}</Text>
           <Text style={styles.ticker}>
@@ -26,9 +23,6 @@ class ChallengeHeadActive extends Component {
           </Text>
           <Text style={styles.live}>{I18n.t('live_indicator')}</Text>
         </View>
-        <Text style={styles.title}>
-          {this.props.data.title ? this.props.data.title.toUpperCase() : "-"}
-        </Text>
       </View>
     )
   }
