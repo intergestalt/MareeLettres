@@ -133,7 +133,7 @@ class ProposalTinder extends Component {
         </View>
       );
     } else {
-      tinder = this.renderNoTinder(myStyle);
+      tinder = this.renderNoTinder(styles.error);
     }
     if (foreground && proposalExists && center) {
       // Foreground, existing and it is the center challenge => Animated Container

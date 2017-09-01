@@ -10,9 +10,9 @@ const styles = EStyleSheet.create({
   text: {
     color: 'black',
     fontSize: '1rem',
-    lineHeight: '2rem',
+    lineHeight: '1rem',
     textAlign: 'center',
-    fontFamily: 'impact',
+    fontFamily: 'normal',
   },
 });
 
