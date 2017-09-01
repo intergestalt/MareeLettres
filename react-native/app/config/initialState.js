@@ -26,8 +26,6 @@ export default {
       map_letter_transfer_timeout: 60,
       map_drop_zone_radius: 10,
       map_letter_base_size: 5,
-
-      // MAP ZOOM
       map_delta_initial: 2, // map zoom relative to dropzone size, 1 = drop zone is fullscreen
       map_delta_max: 10, // maximum map zoom relative to drop zone size
 

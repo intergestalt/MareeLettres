@@ -1,15 +1,17 @@
 import React, { Component, PropTypes } from 'react';
 import { View, Text, PanResponder, Animated, TouchableOpacity, Dimensions } from 'react-native';
+//import { StatusBar } from 'react-native';
 
 import { updateLetterMenuProxy, reviveLetterMenuProxy, binLetterProxy } from '../../../helper/userHelper';
 import { putLetterOnMapProxy } from '../../../helper/mapHelper';
-import { navigateToLetterSelector } from '../../../helper/navigationProxy';
+import { navigateToLetterSelector, navigateToQRCodeGet, navigateToQRCodeSend } from '../../../helper/navigationProxy';
 import { postLetterServiceProxy } from '../../../helper/apiProxy';
 
 import { connect } from 'react-redux';
 import { connectAlert } from '../../../components/general/Alert';
 
 import styles from './styles';
+import styles_menu from '../Overlay/styles';
 
 class Letter extends Component {
   static propTypes = {
@@ -38,7 +40,7 @@ class Letter extends Component {
           letter_size: 26,
           animated_letter_size: this.props.letter_base_size * 5,
           delta_max: this.metresToDelta(this.props.dropzone_radius * this.props.map_delta_max),
-          letter_offset: 64,
+          letter_offset: 50,
           font: {
             size: new Animated.Value(0),
             colour: new Animated.Value(0),
@@ -58,10 +60,9 @@ class Letter extends Component {
           ]),
           onPanResponderRelease: (e, gesture) => {
             this.resetFont();
-
             if (this.isLetterOverMap(gesture)){
               if (!this.props.selected) {
-                if (this.onDrop(e.nativeEvent.pageX, e.nativeEvent.pageY)) {
+                if (this.onDrop(gesture.moveX, gesture.moveY)) {
                   this.snapToStart();
                 } else {
                   this.springToStart();
@@ -69,10 +70,14 @@ class Letter extends Component {
               } else {
                 this.springToStart();
               }
-            } else if (this.isLetterOverBin(gesture)) {
-              this.snapToStart();
-              this.destroyLetter();
             } else {
+              if (gesture.moveX < 10 && gesture.moveY < 10) {
+                if (this.props.main) {
+                  this.openQRCodeSend();
+                } else {
+                  this.openQRCodeGet();
+                }
+              }
               this.springToStart();
             }
           }
@@ -144,9 +149,22 @@ class Letter extends Component {
     return delta;
   }
 
+  isLetterOverMap(gesture) {
+    const y = gesture.moveY;
+    const x = gesture.moveX;
+
+    if (x == 0 && y == 0) {
+      return false;
+    } else if (y < (Dimensions.get('window').height - styles_menu.$lettersHeight - 20)) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   onDrop(x, y) {
-    //TODO revise for precision
-    y -= this.state.letter_offset / 2;
+    //TODO: remove x,y and add draggable coordinate for better accuracy
+    y -= this.state.letter_offset / 3;
     x -= 6;
 
     if (this.props.map_delta > this.state.delta_max) {
@@ -154,10 +172,14 @@ class Letter extends Component {
       return false;
     }
 
+    // heights TODO replace 60 with $tabBarHeight or something
+    const barHeight = 60; //(StatusBar.currentHeight || 20) + 60;
+    const menuHeight = styles_menu.$lettersHeight;
+
     // convert screen coordinates to range [-1, 1]
     const win = Dimensions.get('window');
     const tx = ((x / win.width) - 0.5) * 1;
-    const ty = (((y - 60) / (win.height - 230) - 0.5)) * -1;
+    const ty = (((y - barHeight) / (win.height - barHeight - menuHeight) - 0.5)) * -1;
 
     // convert screen coordinates to map coordinates lat/lng
     const user = this.props.user;
@@ -205,8 +227,9 @@ class Letter extends Component {
   }
 
   isLetterOverBin(gesture) {
-    const y = gesture.moveY;
+    return false;
 
+    const y = gesture.moveY;
     if (!this.props.main) {
       let win = Dimensions.get('window');
       if (gesture.moveY > win.height - 60 && gesture.moveX > win.width * 0.66) {
@@ -217,18 +240,16 @@ class Letter extends Component {
     return false;
   }
 
-  isLetterOverMap(gesture) {
-    const y = gesture.moveY - this.state.letter_offset;
-
-    if (y < Dimensions.get('window').height - 170) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-
   onPress = () => {
     navigateToLetterSelector(this.props);
+  }
+
+  openQRCodeGet = () => {
+    navigateToQRCodeGet(this.props);
+  }
+
+  openQRCodeSend = () => {
+    navigateToQRCodeSend(this.props);
   }
 
   render() {
@@ -292,7 +313,12 @@ class Letter extends Component {
   renderFriends(size, colour, pan, offset) {
     if (this.props.index == -1) {
       return (
-        <View style = {styles.container_secondary} />
+        <View style = {styles.container_secondary}>
+          <TouchableOpacity
+            onPress={this.openQRCodeGet}
+            style={styles.letter_area}>
+          </TouchableOpacity>
+        </View>
       );
     } else {
       return (

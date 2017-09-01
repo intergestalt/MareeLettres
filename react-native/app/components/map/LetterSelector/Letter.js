@@ -9,6 +9,8 @@ import styles from './styles';
 import { navigateToMapOverview } from '../../../helper/navigationProxy';
 import { setUserLetterProxy } from '../../../helper/userHelper';
 
+// NOTE: THIS IS THE LETTER SELECTION SCREEN
+
 class LetterSelectorWindow extends Component {
   static propTypes = {
     navigation: PropTypes.object,
