@@ -7,7 +7,7 @@ import { ProposalSubmitter } from '../../components/vote/Submit';
 import SimpleSubmit from '../../components/vote/SimpleSubmit';
 import { BackSimple } from '../../components/general/BackButton';
 
-import { NavigationActions } from 'react-navigation'
+import { NavigationActions } from 'react-navigation';
 
 class Submit extends Component {
   constructor(props) {
@@ -23,9 +23,9 @@ class Submit extends Component {
   // TODO: hide TabBar, see TabBar.js -> showTabBar
 
   handleBackPress() {
-    console.log("back");
-    const backAction = NavigationActions.back({})
-    this.props.navigation.dispatch(backAction)
+    console.log('back');
+    const backAction = NavigationActions.back({});
+    this.props.navigation.dispatch(backAction);
   }
 
   componentDidMount() {}
@@ -35,9 +35,9 @@ class Submit extends Component {
     return (
       <Screen centerContent>
         <StatusBar />
-        <BackSimple colour='black' onPress={() => this.handleBackPress()} />
-        {/*<ProposalSubmitter challenge={challenge} />*/}
-        <SimpleSubmit challenge={challenge}/>
+        <BackSimple colour="black" onPress={() => this.handleBackPress()} />
+        {/* <ProposalSubmitter challenge={challenge} /> */}
+        <SimpleSubmit challenge={challenge} />
       </Screen>
     );
   }

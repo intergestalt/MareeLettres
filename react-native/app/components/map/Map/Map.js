@@ -6,6 +6,8 @@ import { connect } from 'react-redux';
 import { styles, mapstyles } from './styles';
 import Exponent from 'expo';
 
+import { DYNAMIC_CONFIG } from '../../../config/config';
+
 class Map extends Component {
   static propTypes = {
     navigation: PropTypes.object,
@@ -32,19 +34,17 @@ class Map extends Component {
       delta_initial: this.metresToDelta(this.props.dropzone_radius * this.props.map_delta_initial),
       delta_max: this.metresToDelta(this.props.dropzone_radius * this.props.map_delta_max),
     };
-
-    console.log('STATE', this.state);
   }
 
   async _getPlayerCoords() {
-    const {Location, Permissions} = Exponent;
-    const {status} = await Permissions.askAsync(Permissions.LOCATION);
+    const { Location, Permissions } = Exponent;
+    const { status } = await Permissions.askAsync(Permissions.LOCATION);
 
     if (status === 'granted') {
-      Location.getCurrentPositionAsync({enableHighAccuracy: true}).then((res) => {
+      Location.getCurrentPositionAsync({ enableHighAccuracy: true }).then((res) => {
         //res.coords.latitude = 52.49330866968013; res.coords.longitude = 13.436372637748718;
         setUserCoordinatesProxy(res.coords.latitude, res.coords.longitude);
-        this.setState({lng: res.coords.longitude, lat: res.coords.latitude});
+        this.setState({ lng: res.coords.longitude, lat: res.coords.latitude });
         this.centreZoomMap();
       });
     } else {
@@ -61,10 +61,12 @@ class Map extends Component {
   };
 
   onRegionChange = (region) => {
-    const size = parseFloat((12 / (1200 * region.latitudeDelta)).toFixed(1));
+    const size = parseFloat(((DYNAMIC_CONFIG.MAP_LETTER_BASE_SIZE * 5) / (1200 * region.latitudeDelta)).toFixed(1));
+
+    console.log('DC', DYNAMIC_CONFIG.MAP_LETTER_BASE_SIZE);
 
     if (size != this.state.letter_size) {
-      this.setState({letter_size: size});
+      this.setState({ letter_size: size });
     }
   };
 
@@ -81,17 +83,17 @@ class Map extends Component {
 
   centreMap = () => {
     this._map._component.animateToCoordinate({
-        ...this.props.coordinates,
-      }, 600
+      ...this.props.coordinates,
+    }, 600
     );
   }
 
   centreZoomMap = () => {
     this._map._component.animateToRegion({
-        ...this.props.coordinates,
-        latitudeDelta: this.state.delta_initial,
-        longitudeDelta: this.state.delta_initial,
-      }, 300
+      ...this.props.coordinates,
+      latitudeDelta: this.state.delta_initial,
+      longitudeDelta: this.state.delta_initial,
+    }, 300
     );
   }
 
@@ -106,15 +108,15 @@ class Map extends Component {
     return (
       opacity != 0 && this.props.map_coordinates.longitudeDelta <= this.state.delta_max
         ? <MapView.Marker key={index}
-            coordinate={{ latitude: item.coords.lat, longitude: item.coords.lng }}>
-            <Text style={[
-              styles.letter,
-              {opacity},
-              {fontSize: this.state.letter_size}
-            ]}>
-              {item.character}
-            </Text>
-          </MapView.Marker>
+          coordinate={{ latitude: item.coords.lat, longitude: item.coords.lng }}>
+          <Text style={[
+            styles.letter,
+            { opacity },
+            { fontSize: this.state.letter_size }
+          ]}>
+            {item.character}
+          </Text>
+        </MapView.Marker>
         : null
     );
   }
@@ -131,7 +133,7 @@ class Map extends Component {
     return (
       <View style={styles.container}>
         <MapView.Animated
-          ref={(input) => {this._map = input;}}
+          ref={(input) => { this._map = input; }}
           onRegionChange={this.onRegionChange}
           onRegionChangeComplete={this.onRegionChangeComplete}
           onPress={this.onPress}
@@ -147,11 +149,14 @@ class Map extends Component {
           showsIndoors={false}
           rotateEnabled={false}
           showsPointsOfInterest={false}
+          minZoomLevel={this.props.min_zoom_level}
+          maxZoomLevel={this.props.max_zoom_level}
+          liteMode={true}
           customMapStyle={mapstyles}
         >
 
-          { mapLetters }
-          { myLetters }
+          {mapLetters}
+          {myLetters}
 
           <MapView.Circle
             center={{
@@ -183,10 +188,11 @@ const mapStateToProps = (state) => {
     const map_coordinates = state.user.map.coordinates;
     const dropzone_radius = state.config.config.map_drop_zone_radius;
     const track_player_movements = state.config.config.track_player_movements;
+    const letter_base_size = state.config.config.map_letter_base_size;
+    const map_delta_initial = state.config.config.map_delta_initial;
+    const map_delta_max = state.config.config.map_delta_max;
 
-    // TODO: connect to config, remove defaults
-    const map_delta_initial = state.config.config.map_delta_initial || 2;
-    const map_delta_max = state.config.config.map_delta_max || 10;
+    console.log(state.config.config)
 
     return {
       origin_id,
@@ -197,6 +203,7 @@ const mapStateToProps = (state) => {
       dropzone_radius,
       letter_decay_time,
       track_player_movements,
+      letter_base_size,
       map_delta_max,
       map_delta_initial,
     };

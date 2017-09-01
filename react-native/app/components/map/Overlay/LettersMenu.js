@@ -35,6 +35,7 @@ class LettersMenu extends Component {
             id={item._id}
             character={item.character}
             selected={this.props.letters_selected.friends[i]}
+            navigation={this.props.navigation}
             />
         );
       }
@@ -47,9 +48,10 @@ class LettersMenu extends Component {
         id={item._id}
         character={''}
         selected={false}
+        navigation={this.props.navigation}
         />
     );
-    
+
     return (
       <View style={styles.letters__container}>
         <View style={styles.letters__item__you}>
