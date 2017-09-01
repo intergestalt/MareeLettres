@@ -36,7 +36,7 @@ class MapOverview extends Component {
   pollLetters() {
     console.ignoredYellowBox = ['Setting a timer'];
     setInterval(() => {
-        //loadLettersIntervalServiceProxy(this.props);
+        loadLettersIntervalServiceProxy(this.props);
       },
       this.props.interval
     );
