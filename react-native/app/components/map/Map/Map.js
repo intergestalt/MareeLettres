@@ -22,6 +22,9 @@ class Map extends Component {
     track_player_movements: PropTypes.bool,
     map_delta_max: PropTypes.number,
     map_delta_initial: PropTypes.number,
+    letter_base_size: PropTypes.number,
+    min_zoom_level: PropTypes.number,
+    max_zoom_level: PropTypes.number,
   };
 
   constructor(props) {
@@ -56,14 +59,8 @@ class Map extends Component {
     this._getPlayerCoords();
   }
 
-  onPress = (e) => {
-    // const region = e.nativeEvent;
-  };
-
   onRegionChange = (region) => {
-    const size = parseFloat(((DYNAMIC_CONFIG.MAP_LETTER_BASE_SIZE * 5) / (1200 * region.latitudeDelta)).toFixed(1));
-
-    console.log('DC', DYNAMIC_CONFIG.MAP_LETTER_BASE_SIZE);
+    const size = parseFloat(((this.props.letter_base_size * 5) / (1200 * region.latitudeDelta)).toFixed(1));
 
     if (size != this.state.letter_size) {
       this.setState({ letter_size: size });
@@ -93,8 +90,7 @@ class Map extends Component {
       ...this.props.coordinates,
       latitudeDelta: this.state.delta_initial,
       longitudeDelta: this.state.delta_initial,
-    }, 300
-    );
+    }, 300);
   }
 
   onCentreMapButton = () => {
@@ -136,28 +132,23 @@ class Map extends Component {
           ref={(input) => { this._map = input; }}
           onRegionChange={this.onRegionChange}
           onRegionChangeComplete={this.onRegionChangeComplete}
-          onPress={this.onPress}
           provider={MapView.PROVIDER_GOOGLE}
           style={styles.container}
           initialRegion={{
             latitude: this.state.lat,
             longitude: this.state.lng,
             latitudeDelta: this.state.delta_initial,
-            longitudeDelta: this.state.delta_initial,
+            longitudeDelta: this.state.delta_initial
           }}
           showsIndoorLevelPicker={false}
           showsIndoors={false}
           rotateEnabled={false}
-          showsPointsOfInterest={false}
           minZoomLevel={this.props.min_zoom_level}
           maxZoomLevel={this.props.max_zoom_level}
-          liteMode={true}
           customMapStyle={mapstyles}
         >
-
-          {mapLetters}
-          {myLetters}
-
+          { mapLetters }
+          { myLetters }
           <MapView.Circle
             center={{
               latitude: this.state.lat,
@@ -165,7 +156,8 @@ class Map extends Component {
             }}
             radius={this.props.dropzone_radius}
             strokeColor={'rgba(255,255,255,0.25)'}
-            fillColor={'rgba(255,255,255,0.1)'} />
+            fillColor={'rgba(255,255,255,0.1)'}
+            />
 
         </MapView.Animated>
         <TouchableOpacity style={styles.button} onPress={this.onCentreMapButton}>
@@ -191,8 +183,8 @@ const mapStateToProps = (state) => {
     const letter_base_size = state.config.config.map_letter_base_size;
     const map_delta_initial = state.config.config.map_delta_initial;
     const map_delta_max = state.config.config.map_delta_max;
-
-    console.log(state.config.config)
+    const min_zoom_level = state.config.config.map_min_zoom_level;
+    const max_zoom_level = state.config.config.map_max_zoom_level;
 
     return {
       origin_id,
@@ -206,10 +198,12 @@ const mapStateToProps = (state) => {
       letter_base_size,
       map_delta_max,
       map_delta_initial,
+      min_zoom_level,
+      max_zoom_level,
     };
   } catch (e) {
-    console.log('Map');
-    console.log(e); throw e;
+    console.log('Map Error', e);
+    throw e;
   }
 };
 

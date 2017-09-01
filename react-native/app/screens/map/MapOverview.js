@@ -12,7 +12,7 @@ import { connectAlert } from '../../components/general/Alert';
 
 import { setUserMapTutorialStatusProxy } from '../../helper/userHelper';
 
-// NOTE: rm camera until properly implemented
+// NOTE: rm camera until ready, rm map bottom menu
 // <CameraButton navigation={this.props.navigation} />
 // <MapScreenMenu navigation={this.props.navigation} />
 
