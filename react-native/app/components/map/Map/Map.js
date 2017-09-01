@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity, Animated } from 'react-native';
 import MapView from 'react-native-maps';
 import { changeMapRegionProxy, setUserCoordinatesProxy } from '../../../helper/mapHelper';
 import { connect } from 'react-redux';
@@ -36,6 +36,7 @@ class Map extends Component {
       letter_size: 12,
       delta_initial: this.metresToDelta(this.props.dropzone_radius * this.props.map_delta_initial),
       delta_max: this.metresToDelta(this.props.dropzone_radius * this.props.map_delta_max),
+      blink: new Animated.Value(0),
     };
   }
 
@@ -55,8 +56,24 @@ class Map extends Component {
     }
   }
 
+  cycleAnimation() {
+    Animated.sequence([
+      Animated.timing(this.state.blink, {
+        toValue: 1,
+        duration: 500
+      }),
+      Animated.timing(this.state.blink, {
+        toValue: 0,
+        duration: 500
+      })
+    ]).start(() => {
+      this.cycleAnimation();
+    });
+  }
+
   componentDidMount() {
     this._getPlayerCoords();
+    this.cycleAnimation();
   }
 
   onRegionChange = (region) => {
@@ -97,22 +114,27 @@ class Map extends Component {
     this._getPlayerCoords();
   }
 
-  mapLettersToMarkers(item, index) {
+  mapLettersToMarkers(item, index, blink) {
     const t = new Date().getTime() - new Date(item.created_at).getTime();
     const opacity = Math.max(0, 1 - t / this.props.letter_decay_time);
 
     return (
       opacity != 0 && this.props.map_coordinates.longitudeDelta <= this.state.delta_max
-        ? <MapView.Marker key={index}
-          coordinate={{ latitude: item.coords.lat, longitude: item.coords.lng }}>
-          <Text style={[
-            styles.letter,
-            { opacity },
-            { fontSize: this.state.letter_size }
-          ]}>
-            {item.character}
-          </Text>
-        </MapView.Marker>
+        ? <MapView.Marker
+            key={index}
+            coordinate={{ latitude: item.coords.lat, longitude: item.coords.lng }}>
+            { !blink
+              ? <Text
+                  style={[styles.letter, {opacity}, {fontSize: this.state.letter_size}]}>
+                  {item.character}
+                </Text>
+              : <Animated.Text
+                  style={[styles.letter, {opacity: this.state.blink}, {fontSize: this.state.letter_size}]}
+                  >
+                  {item.character}
+                </Animated.Text>
+            }
+          </MapView.Marker>
         : null
     );
   }
@@ -120,10 +142,10 @@ class Map extends Component {
   render() {
     // convert letter objects into component array
     const mapLetters = Object.keys(this.props.letters).map((key, index) =>
-      this.mapLettersToMarkers(this.props.letters[key], index)
+      this.mapLettersToMarkers(this.props.letters[key], index, false)
     );
     const myLetters = Object.keys(this.props.my_letters).map((key, index) =>
-      this.mapLettersToMarkers(this.props.my_letters[key], index)
+      this.mapLettersToMarkers(this.props.my_letters[key], index, true)
     );
 
     return (

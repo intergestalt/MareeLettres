@@ -334,7 +334,8 @@ class Letter extends Component {
                 <Animated.Text style={[
                   this.props.selected
                     ? styles.disabled
-                    : styles.letter, {
+                    : styles.letter
+                  , {
                     color: colour,
                     fontSize: size,
                     marginBottom: offset,
