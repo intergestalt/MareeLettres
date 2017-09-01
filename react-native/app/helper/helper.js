@@ -1,4 +1,5 @@
 import { DYNAMIC_CONFIG } from '../config/config';
+import { screenHeight } from '../helper/screen';
 
 export function listIsEmpty(list) {
   if (!list) return true;
@@ -44,4 +45,15 @@ export function getZuffiDelayForApi() {
     res = DYNAMIC_CONFIG.DELAY_CONFIG_CALL;
   }
   return res;
+}
+
+export function getDuration(x1, y1, x2 = 0, y2 = 0) {
+  const dx = x2 - x1;
+  const dy = y2 - y1;
+  const a = dx * dx;
+  const b = dy * dy;
+  const dist = Math.round(Math.sqrt(a + b));
+  const f = dist / screenHeight;
+  const duration = Math.round(f * 1000);
+  return duration;
 }

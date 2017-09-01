@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 
 import { Screen } from '../../components/general/Container';
 import { screenWidth, screenHeight } from '../../helper/screen';
+import { getDuration } from '../../helper/helper';
 import { popLanguageSelector } from '../../helper/navigationProxy';
 import { setLanguage } from '../../actions/general';
 import store from '../../config/store';
@@ -96,16 +97,6 @@ const gradientColors = [
   '#5B5971',
 ];
 
-function getDuration(x1, y1, x2 = 0, y2 = 0) {
-  const dx = x2 - x1;
-  const dy = y2 - y1;
-  const a = dx * dx;
-  const b = dy * dy;
-  const dist = Math.round(Math.sqrt(a + b));
-  const f = dist / screenHeight;
-  const duration = Math.round(f * 1000);
-  return duration;
-}
 class LanguageSelector extends Component {
   static propTypes = {
     language: PropTypes.string,

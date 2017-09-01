@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { View, Text, Image } from 'react-native';
+import { View, Text } from 'react-native';
 import { connect } from 'react-redux';
 
 import DraggableLetter from './DraggableLetter';
@@ -10,15 +10,29 @@ class Keyboard extends Component {
   static propTypes = {
     letters: PropTypes.array,
     language: PropTypes.string,
+    layoutCallback: PropTypes.func,
   };
 
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {};
   }
 
   render() {
-    const letters = this.props.letters.map(letter => <DraggableLetter {...letter} color="black" />);
+    const letters = [];
+    for (let i = 0; i < this.props.letters.length; i += 1) {
+      const letter = this.props.letters[i];
+      letters.push(
+        <DraggableLetter
+          {...letter}
+          layoutCallback={this.props.layoutCallback}
+          index={i}
+          type={1}
+          color="black"
+        />,
+      );
+    }
+
     // const last_letters = letters.splice(-3);
     return (
       <View style={styles.keyboard}>

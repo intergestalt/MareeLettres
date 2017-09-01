@@ -35,9 +35,9 @@ class Submit extends Component {
     return (
       <Screen centerContent>
         <StatusBar />
-        <BackSimple colour="black" onPress={() => this.handleBackPress()} />
-        {/* <ProposalSubmitter challenge={challenge} /> */}
-        <SimpleSubmit challenge={challenge} />
+        {/* <BackSimple colour="black" onPress={() => this.handleBackPress()} /> */}
+        <ProposalSubmitter challenge={challenge} />
+        {/* <SimpleSubmit challenge={challenge} /> */}
       </Screen>
     );
   }
