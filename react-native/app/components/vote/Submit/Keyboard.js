@@ -25,8 +25,8 @@ class Keyboard extends Component {
       letters.push(
         <DraggableLetter
           {...letter}
+          mykey={letter.key}
           layoutCallback={this.props.layoutCallback}
-          index={i}
           type={1}
           color="black"
         />,
@@ -37,11 +37,11 @@ class Keyboard extends Component {
     return (
       <View style={styles.keyboard}>
         {letters}
-        <Text style={styles.letter}>
+        {/* <Text style={styles.letter}>
           <Text style={styles.space}>
             {'SPACE'}
           </Text>
-        </Text>
+        </Text> */}
       </View>
     );
   }

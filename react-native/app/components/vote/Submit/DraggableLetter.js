@@ -15,10 +15,11 @@ class DraggableLetter extends Component {
     colorFrom: PropTypes.string,
     layoutCallback: PropTypes.func,
     opacity: PropTypes.number,
-    index: PropTypes.number,
     colorScale: PropTypes.number,
     cursor: PropTypes.bool,
     cursorHidden: PropTypes.bool,
+    space: PropTypes.bool,
+    mykey: PropTypes.number,
     type: PropTypes.number, // 0=Writingarea, 1=Keyboard, 2=Dragqueen
   };
 
@@ -42,6 +43,7 @@ class DraggableLetter extends Component {
     if (this.props.cursor) {
       myStyle = {
         opacity,
+        outline: 1,
         backgroundColor: 'transparent',
         transform: [
           {
@@ -51,10 +53,18 @@ class DraggableLetter extends Component {
       };
       cursorColor = '#aa00FF';
     }
+    let myCharacter = this.props.character;
+    if (this.props.space && this.props.type === 1) {
+      myCharacter = 'SPACE';
+      myStyle = { ...myStyle, opacity: 0.5 };
+    }
+    if (this.props.space && this.props.cursor && this.props.type === 0) {
+      myCharacter = '_';
+    }
     return (
       <Animated.View
         style={myStyle}
-        onLayout={event => this.props.layoutCallback(event, this.props.index, this.props.type)}
+        onLayout={event => this.props.layoutCallback(event, this.props.mykey)}
       >
         <Text
           style={[
@@ -63,7 +73,7 @@ class DraggableLetter extends Component {
             this.props.active ? styles.letterActive : null,
           ]}
         >
-          {this.props.cursor ? this.props.character : this.props.character}
+          {this.props.cursor ? myCharacter : myCharacter}
         </Text>
       </Animated.View>
     );
@@ -94,11 +104,17 @@ class DraggableLetter extends Component {
         top: this.state.dragQueenPos.y,
       },
     ];
-
+    let myCharacter = this.props.character;
+    if (this.props.space) {
+      myCharacter = 'SPACE';
+    }
     return (
-      <Animated.View style={myViewStyle}>
+      <Animated.View
+        onLayout={event => this.props.layoutCallback(event, this.props.mykey)}
+        style={myViewStyle}
+      >
         <Animated.Text style={myLetterStyle}>
-          {this.props.character}
+          {myCharacter}
         </Animated.Text>
       </Animated.View>
     );

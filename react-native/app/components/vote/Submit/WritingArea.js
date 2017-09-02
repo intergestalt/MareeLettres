@@ -24,13 +24,14 @@ class WritingArea extends Component {
 
   render() {
     const letters = [];
+
     for (let i = 0; i < this.props.letters.length; i += 1) {
       const letter = this.props.letters[i];
       letters.push(
         <DraggableLetter
           {...letter}
+          mykey={letter.key}
           layoutCallback={this.props.layoutCallback}
-          index={i}
           type={0}
           color="white"
         />,
