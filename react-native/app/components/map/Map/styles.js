@@ -1,6 +1,9 @@
 import EStyleSheet from 'react-native-extended-stylesheet';
+import letterstyles from '../Overlay/styles';
 
 const styles = EStyleSheet.create({
+  $drop_zone_border: 'rgba(255,255,255,0.25)',
+  $drop_zone_background: 'rgba(255,255,255,0.1)',
   container: {
     flex: 1,
     width: '100%',
@@ -25,7 +28,7 @@ const styles = EStyleSheet.create({
     backgroundColor: 'transparent',
     position: 'absolute',
     right: '0%',
-    bottom: '0%',
+    top: letterstyles.$menuHeight,
     zIndex: 10,
   },
   button_text: {
@@ -34,7 +37,15 @@ const styles = EStyleSheet.create({
     fontSize: '1.2rem',
     color: 'white',
     backgroundColor: 'transparent',
-  }
+  },
+  proxy_letter: {
+    position: 'absolute',
+    fontWeight: 'bold',
+    color: 'white',
+    fontFamily: 'impact',
+    backgroundColor: 'transparent',
+    padding: 0,
+  },
 });
 
 const mapstyles = [

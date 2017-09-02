@@ -21,6 +21,9 @@ import {
   SET_USER_IS_LOADING_FROM_STORAGE,
   SET_USER_LOADED_FROM_STORAGE,
   USER_SET_MAP_TUTORIAL_STATUS,
+  PROXY_LETTER_POSITION,
+  PROXY_LETTER_CHARACTER,
+  PROXY_LETTER_ERROR,
   // SET_USER_LOADED_FROM_STORAGE_RESET_DEFAULTS,
 } from '../actions/user';
 
@@ -88,22 +91,39 @@ export default (state = initialState.user, action) => {
         };
       }
 
-      /* case SET_USER_LOADED_FROM_STORAGE_RESET_DEFAULTS: {
-        // reset values that were on a timeout when app closed
-
-        console.log('Reducer: SET_USER_LOADED_FROM_STORAGE_RESET_DEFAULTS');
+      case PROXY_LETTER_CHARACTER: {
+        console.log('Reducer', action.type);
         return {
           ...state,
           map: {
             ...state.map,
-            letters_selected: {
-              ...state.map.letters_selected,
-              mine: false,
-              friends: [false, false, false, false],
-            },
-          },
-        };
-      } */
+            proxy_letter: {
+              ...state.map.proxy_letter,
+              character: action.character,
+            }
+          }
+        }
+      }
+
+      case PROXY_LETTER_POSITION: {
+        console.log('Reducer', action.type);
+        return {
+          ...state,
+          map: {
+            ...state.map,
+            proxy_letter: {
+              ...state.map.proxy_letter,
+              x: action.x,
+              y: action.y,
+            }
+          }
+        }
+      }
+
+      case PROXY_LETTER_ERROR: {
+        console.log('Reducer', action.type);
+        return state;
+      }
 
       case CHANGE_MAP_REGION: {
         console.log('Reducer: CHANGE_MAP_REGION');
@@ -146,7 +166,7 @@ export default (state = initialState.user, action) => {
       case USER_GET_LETTER: {
         console.log('Reducer: USER_GET_LETTER');
 
-        const char = action.character; 
+        const char = action.character;
         const result = {
           ...state,
           primary_letter: {
