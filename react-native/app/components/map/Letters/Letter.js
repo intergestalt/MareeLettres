@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { View, Text, PanResponder, Animated, TouchableOpacity, Dimensions } from 'react-native';
 //import { StatusBar } from 'react-native';
 
-import { updateLetterMenuProxy, reviveLetterMenuProxy, binLetterProxy } from '../../../helper/userHelper';
+import { updateLetterMenuProxy, reviveLetterMenuProxy, binLetterProxy, proxyLetterPositionProxy, proxyLetterCharacterProxy } from '../../../helper/userHelper';
 import { putLetterOnMapProxy } from '../../../helper/mapHelper';
 import { navigateToLetterSelector, navigateToQRCodeGet, navigateToQRCodeSend } from '../../../helper/navigationProxy';
 import { postLetterServiceProxy } from '../../../helper/apiProxy';
@@ -40,7 +40,11 @@ class Letter extends Component {
           letter_size: 26,
           animated_letter_size: this.props.letter_base_size * 5,
           delta_max: this.metresToDelta(this.props.dropzone_radius * this.props.map_delta_max),
-          letter_offset: 50,
+          status_bar_height: 60,
+          letter_offset:  {
+            x: 0,
+            y: -20,
+          },
           font: {
             size: new Animated.Value(0),
             colour: new Animated.Value(0),
@@ -51,15 +55,23 @@ class Letter extends Component {
           onStartShouldSetPanResponder: () => true,
           onPanResponderStart: () => {
             this.selectedFont();
+            proxyLetterCharacterProxy(this.props.character);
           },
-          onPanResponderMove: Animated.event([
-            null, {
-              dx: this.state.pan.x,
-              dy: this.state.pan.y
-            }
-          ]),
+          onPanResponderMove: (e, gesture) => {
+            proxyLetterPositionProxy(
+              gesture.moveX + this.state.letter_offset.x,
+              gesture.moveY - this.state.status_bar_height + this.state.letter_offset.y
+            );
+            /*Animated.event([null, {
+                dx: this.state.pan.x,
+                dy: this.state.pan.y
+              }
+            ])*/
+          },
           onPanResponderRelease: (e, gesture) => {
             this.resetFont();
+            proxyLetterPositionProxy(0, 0);
+
             if (this.isLetterOverMap(gesture)){
               if (!this.props.selected) {
                 if (this.onDrop(gesture.moveX, gesture.moveY)) {
@@ -163,23 +175,18 @@ class Letter extends Component {
   }
 
   onDrop(x, y) {
-    //TODO: remove x,y and add draggable coordinate for better accuracy
-    y -= this.state.letter_offset / 3;
-    x -= 6;
+    y += this.state.letter_offset.y;
+    x += this.state.letter_offset.x;
 
     if (this.props.map_delta > this.state.delta_max) {
       this.props.alertWithType('info', 'Too far away', "Zoom in to the circle place letters!");
       return false;
     }
 
-    // heights TODO replace 60 with $tabBarHeight or something
-    const barHeight = 60; //(StatusBar.currentHeight || 20) + 60;
-    const menuHeight = styles_menu.$lettersHeight;
-
     // convert screen coordinates to range [-1, 1]
     const win = Dimensions.get('window');
     const tx = ((x / win.width) - 0.5) * 1;
-    const ty = (((y - barHeight) / (win.height - barHeight - menuHeight) - 0.5)) * -1;
+    const ty = (((y - this.state.status_bar_height) / (win.height - this.state.status_bar_height - styles_menu.$lettersHeight) - 0.5)) * -1;
 
     // convert screen coordinates to map coordinates lat/lng
     const user = this.props.user;
@@ -193,7 +200,6 @@ class Letter extends Component {
     const dLng = Math.abs(dz.longitude - lng) * (111319.9 * Math.cos(dz.latitude * Math.PI / 180.));
     const distance = Math.sqrt(Math.pow(dLat, 2) + Math.pow(dLng, 2));
 
-    console.log("on drop");
     if (distance > this.props.dropzone_radius) {
       this.props.alertWithType('info', 'Too far away', "You cannot write outside the circle around you. Move your body to get closer!");
       return false;
@@ -292,7 +298,7 @@ class Letter extends Component {
             : <Animated.View
                 {...this.panResponder.panHandlers}
                 style = {[
-                  pan,
+                  //pan,
                   styles.letter_area,
                 ]}>
                   <Animated.Text style={[
@@ -305,7 +311,7 @@ class Letter extends Component {
                     {this.props.character}
                   </Animated.Text>
               </Animated.View>
-          }
+        }
       </View>
     );
   }
@@ -328,7 +334,7 @@ class Letter extends Component {
             <Animated.View
               {...this.panResponder.panHandlers}
               style = {[
-                pan,
+                //pan,
                 styles.letter_area,
               ]}>
                 <Animated.Text style={[
@@ -360,8 +366,8 @@ const mapStateToProps = (state) => {
     const regen_time_secondary = 1000 * state.config.config.map_letter_regeneration_time_secondary;
 
     // TODO get from config
-    const map_delta_max = state.config.config.map_delta_max || 10;
-    const letter_base_size = state.config.config.map_letter_base_size || 5;
+    const map_delta_max = state.config.config.map_delta_max;
+    const letter_base_size = state.config.config.map_letter_base_size;
 
     return ({
       user,

@@ -24,9 +24,9 @@ export default {
       map_letter_regeneration_time_primary: 5,
       map_letter_regeneration_time_secondary: 5,
       map_letter_transfer_timeout: 60,
-      map_drop_zone_radius: 10,
+      map_drop_zone_radius: 20,
       map_letter_base_size: 5,
-      map_delta_initial: 2, // map zoom relative to dropzone size, 1 = drop zone is fullscreen
+      map_delta_initial: 2.5, // map zoom relative to dropzone size, 1 = drop zone is fullscreen
       map_delta_max: 10, // maximum map zoom relative to drop zone size
       map_min_zoom_level: 0, // NOTE: this is not used to set initial zoom, use map_delta_initial
       map_max_zoom_level: 20,
@@ -79,7 +79,6 @@ export default {
       longitudeDelta: 0.0004,
     },
     map: {
-      dropzone_radius: 10,
       coordinates: {
         latitude: 48.8566,
         longitude: 2.3522,
@@ -90,6 +89,15 @@ export default {
         mine: false,
         friends: [false, false, false, false],
       },
+      proxy_letter: {
+        character: '+', // workaround for android map bugs
+        x: 0,
+        y: 0,
+        coordinates: {
+          lat: 0,
+          lng: 0
+        },
+      },
       tutorialStatus: 'welcome'
     },
     primary_letter: {
@@ -98,13 +106,7 @@ export default {
       acquired_at: sampleDate,
       last_used_at: sampleDate,
     },
-    secondary_letters: [
-      /* {
-        character: 'A',
-        acquired_at: sampleDate,
-        last_used_at: sampleDate,
-      }, */
-    ],
+    secondary_letters: [],
     votes: {},
     internalVotes: {
       isInternalLoading: false,

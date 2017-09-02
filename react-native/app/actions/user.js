@@ -25,6 +25,12 @@ export const USER_INTERNAL_VOTES_SENT = 'USER_INTERNAL_VOTES_SENT';
 export const USER_SEND_INTERNAL_VOTES_ERROR = 'USER_SEND_INTERNAL_VOTES_ERROR';
 export const SET_USER_IS_LOADING_FROM_STORAGE = 'SET_USER_IS_LOADING_FROM_STORAGE';
 export const SET_USER_LOADED_FROM_STORAGE = 'SET_USER_LOADED_FROM_STORAGE';
+
+// proxy letter (android map letter fix)
+export const PROXY_LETTER_POSITION = 'PROXY_LETTER_POSITION';
+export const PROXY_LETTER_CHARACTER = 'PROXY_LETTER_CHARACTER';
+export const PROXY_LETTER_ERROR = 'PROXY_LETTER_ERROR';
+
 // export const SET_USER_LOADED_FROM_STORAGE_RESET_DEFAULTS = 'SET_USER_LOADED_FROM_STORAGE_RESET_DEFAULTS';
 
 export const setUser = user => ({
@@ -61,6 +67,19 @@ export const setUserId = () => ({
   type: USER_SET_ID,
   errorEvent: USER_UPDATE_ERROR,
 });
+
+export const proxyLetterPosition = (x, y) => ({
+  type: PROXY_LETTER_POSITION,
+  error: PROXY_LETTER_ERROR,
+  x: x,
+  y: y,
+})
+
+export const proxyLetterCharacter = char => ({
+  type: PROXY_LETTER_CHARACTER,
+  error: PROXY_LETTER_ERROR,
+  character: char,
+})
 
 export const setUserCoordinates = () => ({
   type: USER_SET_COORDINATES,
