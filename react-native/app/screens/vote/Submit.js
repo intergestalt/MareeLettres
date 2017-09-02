@@ -28,7 +28,7 @@ class Submit extends Component {
     this.props.navigation.dispatch(backAction);
   }
 
-  componentDidMount() {}
+  componentDidMount() { }
 
   render() {
     const challenge = this.props.navigation.state.params.challenge;
@@ -36,8 +36,8 @@ class Submit extends Component {
       <Screen centerContent>
         <StatusBar />
         <BackSimple colour="black" onPress={() => this.handleBackPress()} />
-        {/*<ProposalSubmitter challenge={challenge} />*/}
-        <SimpleSubmit challenge={challenge} />
+        <ProposalSubmitter challenge={challenge} />
+        {/*<SimpleSubmit challenge={challenge} />*/}
       </Screen>
     );
   }
