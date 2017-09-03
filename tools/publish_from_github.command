@@ -1,4 +1,6 @@
 #!/bin/bash
+set -e
+SAY="New version of Maree des Lettres is now published"
 
 cd $TMPDIR
 rm -rf MareeLettres
@@ -14,4 +16,4 @@ exp logout
 exp login -u retani -p MareeLettres0710 --non-interactive && exp publish
 cd $TMPDIR
 rm -rf MareeLettres
-say -v Alex "Expo publish done"
+say -v Tom $SAY || say $SAY
