@@ -42,16 +42,17 @@ class Letter extends Component {
 
       this.state = {
         panning: false,
+        layout: null,
         position: {x: this.props.position.x, y: this.props.position.y},
         pan: new Animated.ValueXY({x:0, y:0}),
         letter_size: 26,
         offset_bottom: 18,
         animated_letter_size: this.props.letter_base_size * 5,
         delta_max: this.metresToDelta(this.props.dropzone_radius * this.props.map_delta_max),
-        status_bar_height: 55 + (StatusBar.currentHeight || 20),
+        //status_bar_height: 55 + (StatusBar.currentHeight || 20), not neaded anymore
         letter_offset: {
-          x: -20,
-          y: -40
+          x: 0,
+          y: -50,
         },
         font: {
           size: new Animated.Value(0),
@@ -67,18 +68,29 @@ class Letter extends Component {
             this.animateSelectedFont();
           },
           onPanResponderMove: (e, gesture) => {
-            const win = Dimensions.get('window');
-            const x = gesture.moveX - this.props.position.x + this.state.letter_offset.x;
-            const y = gesture.moveY - (win.height - this.state.offset_bottom) + this.state.letter_offset.y;
-
-            this.animateTranslate(x, y);
+            // simplify - just use gesture difference for pan directly
+            this.animateTranslate(gesture.dx, gesture.dy + this.state.letter_offset.y);
           },
           onPanResponderRelease: (e, gesture) => {
-            const x = gesture.moveX + styles.$letterWidth / 2 + this.state.letter_offset.x;
-            const y = gesture.moveY + this.state.letter_offset.y;
+            console.log("RELEASE after pan:");
+            console.log(gesture.dx);
+            console.log(gesture.dy);
+
+            // convert to top/left coordinates relative to map and centered in letter
+            console.log("this letters layout:");
+            console.log(this.state.layout);
+            console.log("the maps layout:");
+            console.log(this.props.user.map.layout);
+            console.log("window:")
+            const win = Dimensions.get('window');
+            console.log(win);
+
+            let x = gesture.dx + this.props.position.x + this.state.layout.width / 2;
+            let y = gesture.dy + this.state.letter_offset.y + (win.height - this.state.offset_bottom - this.state.layout.height / 2) - this.props.user.map.layout.yOffset;
 
             this.setState({panning: false});
             this.animateResetFont();
+            this.onDrop(x, y);
 
             // check if letter is dropped on map area
             if (this.isLetterOverMap(x, y)){
@@ -95,7 +107,7 @@ class Letter extends Component {
               }
             } else {
               // if letter is tapped (or dropped in place)
-              if (gesture.moveX < 10 && gesture.moveY < 10) {
+              if (gesture.dx < 10 && gesture.dy < 10) {
                 // open the relevant screen
                 if (this.props.primary) {
                   if (this.props.character === '+') {
@@ -123,6 +135,12 @@ class Letter extends Component {
     return (check.y >= -0.5 && check.y <= 0.5);
   }
 
+  onLayout = (event) => {
+    console.log("Letter onLayout");
+    console.log(event.nativeEvent.layout);
+    this.setState({layout: event.nativeEvent.layout});
+  }
+
   onDrop(x, y) {
     // letter on-release event
     // check if user has zoomed out too far
@@ -131,6 +149,8 @@ class Letter extends Component {
       return false;
     }
 
+    console.log("onDrop");
+    
     // convert native screen to normalised screen
     const screen = this.nativeScreenToXY(x, y);
 
@@ -190,16 +210,34 @@ class Letter extends Component {
     return delta;
   }
 
-  nativeScreenToXY(nativeX, nativeY) {
-    // convert native screen space to normalised screen space
-    // result will be in the range [-0.5, 0.5]
-    const win = Dimensions.get('window');
-    const x = (nativeX / win.width) - 0.5;
-    const y = (((nativeY - this.state.status_bar_height) / (win.height - this.state.status_bar_height - styles_menu.$lettersHeight) - 0.5)) * -1;
+  // convert native screen space to normalised screen space
+  // result will be in the range [-0.5, 0.5]
+  // changed to take in XY coordinates from top left corner of map
+  nativeScreenToXY(mapX, mapY) {
+    
+    // new version using layout of map view
+    console.log("nativeScreenToXY");
+    let x = (mapX / this.props.user.map.layout.width) - 0.5;
+    let y = (mapY / this.props.user.map.layout.height) - 0.5;
+    console.log(mapX + ", " + mapY + " -> " + x + ", " + y);
 
     return {x: x, y: y};
   }
 
+  xyToLatLng(x, y) {
+    console.log("region");
+    console.log(this.props.user.map.coordinates);
+    // convert screen space to world coordinates
+    // to be on screen, input x, y should be in the range [-0.5, 0.5]
+    const c = this.props.user.map.coordinates;
+    const lng = c.longitude + x * c.longitudeDelta;
+    const lat = c.latitude - y * c.latitudeDelta;
+
+    return {lat: lat, lng: lng};
+  }
+
+  // deprecated - where is this used?
+  /*
   xyToNativeScreen(x, y) {
     // convert normalised screen space to native screen space
     const win = Dimensions.get('window');
@@ -207,24 +245,14 @@ class Letter extends Component {
     const nativeY = (y * -1) * (win.height - this.state.status_bar_height - styles_menu.$lettersHeight) + this.state.status_bar_height;
 
     return {x: nativeX, y: nativeY}
-  }
-
-  xyToLatLng(x, y) {
-    // convert screen space to world coordinates
-    // to be on screen, input x, y should be in the range [-0.5, 0.5]
-    const c = this.props.user.map.coordinates;
-    const lng = c.longitude + x * c.longitudeDelta;
-    const lat = c.latitude + y * c.latitudeDelta;
-
-    return {lat: lat, lng: lng};
-  }
+  }*/
 
   latLngToXY(lat, lng) {
     // convert world coordinates to screen space
     // if coordinate is on screen, the return range will be [-0.5, 0.5]
     const c = this.props.user.map.coordinates;
-    const x = (lng - c.longitude) / c.longitudeDelta;
-    const y = (lat - c.latitude) / c.latitudeDelta;
+    let x = (lng - c.longitude) / c.longitudeDelta;
+    let y = (lat + c.latitude) / c.latitudeDelta;
 
     return {x: x, y: y};
   }
@@ -345,7 +373,7 @@ class Letter extends Component {
     let pan = this.state.pan.getLayout();
 
     return (
-      <Animated.View
+      <Animated.View onLayout={this.onLayout}
         {...this.panResponder.panHandlers}
         style={[
           styles.letter_view, {

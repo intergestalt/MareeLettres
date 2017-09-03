@@ -7,7 +7,7 @@ import { Letter } from '../Letters';
 import { LettersMenu } from '../Overlay';
 import { styles, mapstyles } from './styles';
 import styles_menu from '../Overlay/styles';
-import { changeMapRegionProxy, setUserCoordinatesProxy } from '../../../helper/mapHelper';
+import { changeMapRegionProxy, changeMapLayoutProxy, setUserCoordinatesProxy } from '../../../helper/mapHelper';
 
 class Map extends Component {
   static propTypes = {
@@ -74,10 +74,36 @@ class Map extends Component {
     // placeholder
   };
 
+  onLayout = (event) => {
+    
+    console.log("MapView onLayout");
+    let layout = event.nativeEvent.layout;
+    
+        if(this.refs.mapContainer) {
+            this.refs.mapContainer.measure( (fx, fy, width, height, px, py) => {
+            console.log("mapContainer measured");
+            console.log('Component width is: ' + width);
+            console.log('Component height is: ' + height);
+            console.log('X offset to frame: ' + fx);
+            console.log('Y offset to frame: ' + fy);
+            console.log('X offset to page: ' + px);
+            console.log('Y offset to page: ' + py);
+
+            layout.yOffset = py;
+            console.log(layout);
+            changeMapLayoutProxy(layout);
+          });        
+        }
+
+  };
+
   onRegionChangeComplete = (region) => {
     // recalculate the letter size
+    console.log(region);
+
     changeMapRegionProxy(region);
     this.setMapLetterSize(region);
+        
   }
 
   setMapLetterSize = (region) => {
@@ -127,6 +153,7 @@ class Map extends Component {
       opacity != 0 && this.props.map.coordinates.longitudeDelta <= this.state.delta_max
         ? <MapView.Marker
             key={index}
+            anchor={{x:0.5, y:0.5}}
             coordinate={{latitude: item.coords.lat, longitude: item.coords.lng}}>
             {!blink
               ? <Text style={[styles.letter, {opacity}, {fontSize: this.state.letter_size}]}>
@@ -182,8 +209,8 @@ class Map extends Component {
     ].map((item, index) => this.mapMenuLetters(item, index));
 
     return (
-      <View style={styles.container}>
-        <MapView.Animated
+      <View style={styles.container} ref="mapContainer">
+        <MapView.Animated ref="map" onLayout={this.onLayout}
           ref={(input) => { this._map = input; }}
           onRegionChange={this.onRegionChange}
           onRegionChangeComplete={this.onRegionChangeComplete}
@@ -200,7 +227,7 @@ class Map extends Component {
           customMapStyle={mapstyles}
           showsIndoorLevelPicker={false}
           showsIndoors={false}
-          rotateEnabled={false}
+          rotateEnabled={false}          
         >
           { mapLetters }
           { myLetters }

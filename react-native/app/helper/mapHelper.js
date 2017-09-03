@@ -1,5 +1,6 @@
 import {
   changeMapRegion,
+  changeMapLayout,
   putLetterOnMap,
   loadMyLetters,
   setUserCoordinates,
@@ -14,6 +15,10 @@ export function clearMyLettersProxy() {
 
 export function changeMapRegionProxy(region) {
   store.dispatch(changeMapRegion(region));
+}
+
+export function changeMapLayoutProxy(layout) {
+  store.dispatch(changeMapLayout(layout));
 }
 
 export function putLetterOnMapProxy(character, x, y) {
