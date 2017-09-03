@@ -18,6 +18,7 @@ export const USER_REVIVE_LETTER_MENU = 'USER_REVIVE_LETTER_MENU';
 export const USER_BIN_LETTER = 'USER_BIN_LETTER';
 export const USER_ADD_FRIEND_LETTER = 'USER_ADD_FRIEND_LETTER';
 export const USER_SET_MAP_TUTORIAL_STATUS = 'USER_SET_MAP_TUTORIAL_STATUS';
+export const USER_FLAG_LETTER_FOR_OVERWRITE = 'USER_FLAG_LETTER_FOR_OVERWRITE';
 
 export const USER_VOTE_INTERNAL = 'USER_VOTE_INTERNAL';
 export const USER_SEND_INTERNAL_VOTES = 'USER_SEND_INTERNAL_VOTES';
@@ -25,11 +26,6 @@ export const USER_INTERNAL_VOTES_SENT = 'USER_INTERNAL_VOTES_SENT';
 export const USER_SEND_INTERNAL_VOTES_ERROR = 'USER_SEND_INTERNAL_VOTES_ERROR';
 export const SET_USER_IS_LOADING_FROM_STORAGE = 'SET_USER_IS_LOADING_FROM_STORAGE';
 export const SET_USER_LOADED_FROM_STORAGE = 'SET_USER_LOADED_FROM_STORAGE';
-
-// proxy letter (android map letter fix)
-export const PROXY_LETTER_POSITION = 'PROXY_LETTER_POSITION';
-export const PROXY_LETTER_CHARACTER = 'PROXY_LETTER_CHARACTER';
-export const PROXY_LETTER_ERROR = 'PROXY_LETTER_ERROR';
 
 // export const SET_USER_LOADED_FROM_STORAGE_RESET_DEFAULTS = 'SET_USER_LOADED_FROM_STORAGE_RESET_DEFAULTS';
 
@@ -68,17 +64,9 @@ export const setUserId = () => ({
   errorEvent: USER_UPDATE_ERROR,
 });
 
-export const proxyLetterPosition = (x, y) => ({
-  type: PROXY_LETTER_POSITION,
-  error: PROXY_LETTER_ERROR,
-  x: x,
-  y: y,
-})
-
-export const proxyLetterCharacter = char => ({
-  type: PROXY_LETTER_CHARACTER,
-  error: PROXY_LETTER_ERROR,
-  character: char,
+export const flagLetterForOverwrite = (menuIndex) => ({
+  type: USER_FLAG_LETTER_FOR_OVERWRITE,
+  menuIndex: menuIndex,
 })
 
 export const setUserCoordinates = () => ({
@@ -134,7 +122,7 @@ export const wipeLetterMenu = () => ({
 export const addFriendLetter = character => ({
   type: USER_ADD_FRIEND_LETTER,
   error: USER_UPDATE_ERROR,
-  character,
+  character: character,
 });
 
 // Voteing

@@ -27562,6 +27562,20 @@ var SystemConfigSchema = new _simplSchema2.default({
     type: Number,
     defaultValue: 5,
     description: 'Map: Letter size in meters'
+  },
+  map_delta_initial: {
+    type: Number,
+    defaultValue: 2,
+    min: 0,
+    max: 10,
+    description: 'Map: Initial zoom relative to drop zone size'
+  },
+  map_delta_max: {
+    type: Number,
+    defaultValue: 10,
+    min: 1,
+    max: 20,
+    description: 'Map: Maximum zoom at which player can place letters, relative to drop zone size'
   }
 }, { clean: { getAutovalues: true } });
 

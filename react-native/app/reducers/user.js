@@ -21,9 +21,7 @@ import {
   SET_USER_IS_LOADING_FROM_STORAGE,
   SET_USER_LOADED_FROM_STORAGE,
   USER_SET_MAP_TUTORIAL_STATUS,
-  PROXY_LETTER_POSITION,
-  PROXY_LETTER_CHARACTER,
-  PROXY_LETTER_ERROR,
+  USER_FLAG_LETTER_FOR_OVERWRITE
   // SET_USER_LOADED_FROM_STORAGE_RESET_DEFAULTS,
 } from '../actions/user';
 
@@ -91,40 +89,6 @@ export default (state = initialState.user, action) => {
         };
       }
 
-      case PROXY_LETTER_CHARACTER: {
-        console.log('Reducer', action.type);
-        return {
-          ...state,
-          map: {
-            ...state.map,
-            proxy_letter: {
-              ...state.map.proxy_letter,
-              character: action.character,
-            }
-          }
-        }
-      }
-
-      case PROXY_LETTER_POSITION: {
-        console.log('Reducer', action.type);
-        return {
-          ...state,
-          map: {
-            ...state.map,
-            proxy_letter: {
-              ...state.map.proxy_letter,
-              x: action.x,
-              y: action.y,
-            }
-          }
-        }
-      }
-
-      case PROXY_LETTER_ERROR: {
-        console.log('Reducer', action.type);
-        return state;
-      }
-
       case CHANGE_MAP_REGION: {
         console.log('Reducer: CHANGE_MAP_REGION');
         const result = {
@@ -147,90 +111,74 @@ export default (state = initialState.user, action) => {
           return state;
         }
 
-        const letters = [...state.secondary_letters];
-        letters.unshift({
-          character: action.character,
-          acquired_at: new Date().toISOString,
-          last_used_at: new Date().toISOString,
-        });
+        let result = { ...state };
 
-        // delete extra letters
-        letters.splice(4, 4);
+        if (result.secondary_letter_1.overwrite) {
+          result.secondary_letter_1.character = action.character;
+          result.secondary_letter_1.disabled = false;
+        } else if (result.secondary_letter_2.overwrite) {
+          result.secondary_letter_2.character = action.character;
+          result.secondary_letter_2.disabled = false;
+        } else if (result.secondary_letter_3.overwrite) {
+          result.secondary_letter_3.character = action.character;
+          result.secondary_letter_3.disabled = false;
+        } else if (result.secondary_letter_4.overwrite) {
+          result.secondary_letter_4.character = action.character;
+          result.secondary_letter_4.disabled = false;
+        }
 
-        return {
-          ...state,
-          secondary_letters: [...letters],
-        };
+        saveUserToStorage(result);
+        return result;
       }
 
       case USER_GET_LETTER: {
         console.log('Reducer: USER_GET_LETTER');
 
-        const char = action.character;
         const result = {
           ...state,
           primary_letter: {
             ...state.primary_letter,
-            character: char,
+            character: action.character,
           },
         };
         saveUserToStorage(result);
         return result;
       }
+
       case USER_UPDATE_LETTER_MENU: {
         console.log('Reducer: USER_UPDATE_LETTER_MENU');
 
-        if (action.menuIndex < 0) {
-          return state;
-        }
-        const newFriends = [...state.map.letters_selected.friends];
-        newFriends[action.menuIndex] = true;
+        let result = {...state};
 
-        const result = {
-          ...state,
-          map: {
-            ...state.map,
-            letters_selected: {
-              mine: state.map.letters_selected.mine,
-              friends: newFriends,
-            },
-          },
-        };
+        if (action.menuIndex === 1) {
+          result.secondary_letter_1.disabled = true;
+        } else if (action.menuIndex === 2) {
+          result.secondary_letter_2.disabled = true;
+        } else if (action.menuIndex === 3) {
+          result.secondary_letter_3.disabled = true;
+        } else {
+          result.secondary_letter_4.disabled = true;
+        }
+
         saveUserToStorage(result);
         return result;
       }
+
       case USER_REVIVE_LETTER_MENU: {
         console.log('Reducer: USER_REVIVE_LETTER_MENU');
 
-        const letters = state.secondary_letters;
-        const friends = [...state.map.letters_selected.friends];
+        let result = {...state};
 
-        if (
-          letters.length > action.menuIndex &&
-          letters[action.menuIndex].character === action.character
-        ) {
-          friends[action.menuIndex] = false;
-        } else {
-          // case user deletes a letter (altering index)
-          // TODO: change key to transaction_id when it's implemented
-
-          for (let i = 0; i < letters.length; i += 1) {
-            if (i < 4 && letters[i].character === action.character) {
-              friends[i] = false;
-            }
-          }
+        if (action.menuIndex === 1) {
+          result.secondary_letter_1.disabled = false;
+        } else if (action.menuIndex === 2) {
+          result.secondary_letter_2.disabled = false;
+        } else if (action.menuIndex === 3) {
+          result.secondary_letter_4.disabled = false;
+        } else if (action.menuIndex === 4) {
+          result.secondary_letter_4.disabled = false;
         }
 
-        const result = {
-          ...state,
-          map: {
-            ...state.map,
-            letters_selected: {
-              ...state.map.letters_selected,
-              friends,
-            },
-          },
-        };
         saveUserToStorage(result);
         return result;
       }
@@ -238,38 +186,39 @@ export default (state = initialState.user, action) => {
       case USER_BIN_LETTER: {
         console.log('Reducer: USER_BIN_LETTER');
 
-        const letters = [...state.secondary_letters];
-        const newLetters = [];
+        let result = {...state};
 
-        for (let i = 0; i < letters.length; i += 1) {
-          if (i !== action.menuIndex) {
-            newLetters.push(letters[i]);
-          }
+        if (action.menuIndex === 1) {
+          result.secondary_letter_1.character = '';
+          result.secondary_letter_1.disabled = false;
+        } else if (action.menuIndex === 2) {
+          result.secondary_letter_2.character = '';
+          result.secondary_letter_2.disabled = false;
+        } else if (action.menuIndex === 3) {
+          result.secondary_letter_3.character = '';
+          result.secondary_letter_4.disabled = false;
+        } else if (action.menuIndex === 4) {
+          result.secondary_letter_4.character = '';
+          result.secondary_letter_4.disabled = false;
         }
 
-        const result = {
-          ...state,
-          secondary_letters: [...newLetters],
-        };
         saveUserToStorage(result);
         return result;
       }
 
-      case USER_WIPE_LETTER_MENU: {
-        console.log('Reducer: USER_WIPE_LETTER_MENU');
-        const result = {
-          ...state,
-          map: {
-            ...state.map,
-            lettersSelected: {
-              mine: false,
-              friends: [false, false, false, false],
-            },
-          },
-        };
-        saveUserToStorage(result);
+      case USER_FLAG_LETTER_FOR_OVERWRITE: {
+        console.log('Reducer: USER_FLAG_LETTER_FOR_OVERWRITE');
+
+        let result = {...state};
+
+        result.secondary_letter_1.overwrite = (action.menuIndex === 1) ? true : false;
+        result.secondary_letter_2.overwrite = (action.menuIndex === 2) ? true : false;
+        result.secondary_letter_3.overwrite = (action.menuIndex === 3) ? true : false;
+        result.secondary_letter_4.overwrite = (action.menuIndex === 4) ? true : false;
+
         return result;
       }
+
       case USER_SET_ID:
         console.log('Reducer: USER_SET_ID');
         return state;
@@ -285,23 +234,6 @@ export default (state = initialState.user, action) => {
           },
         };
 
-      case USER_SET_PRIMARY_LETTER:
-        console.log('Reducer: USER_SET_PRIMARY_LETTER');
-        return state;
-
-      case USER_SET_SECONDARY_LETTERS:
-        console.log('Reducer: USER_SET_SECONDARY_LETTERS');
-        return state;
-
-      case USER_DELETE_LETTERS: {
-        console.log('Reducer: USER_DELETE_LETTERS');
-        const result = {
-          ...state,
-          secondary_letters: [],
-        };
-        saveUserToStorage(result);
-        return result;
-      }
       case USER_UPDATE_ERROR:
         console.log('Reducer: USER_UPDATE_ERROR');
         return state;

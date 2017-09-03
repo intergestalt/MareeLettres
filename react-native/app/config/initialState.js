@@ -85,19 +85,6 @@ export default {
         latitudeDelta: 0.0004,
         longitudeDelta: 0.0004,
       },
-      letters_selected: {
-        mine: false,
-        friends: [false, false, false, false],
-      },
-      proxy_letter: {
-        character: '+', // workaround for android map bugs
-        x: 0,
-        y: 0,
-        coordinates: {
-          lat: 0,
-          lng: 0
-        },
-      },
       tutorialStatus: 'welcome'
     },
     primary_letter: {
@@ -105,8 +92,28 @@ export default {
       character: '+',
       acquired_at: sampleDate,
       last_used_at: sampleDate,
+      disabled: false,
     },
-    secondary_letters: [],
+    secondary_letter_1: {
+      character: '',
+      disabled: false,
+      overwrite: false,
+    },
+    secondary_letter_2: {
+      character: '',
+      disabled: false,
+      overwrite: false,
+    },
+    secondary_letter_3: {
+      character: '',
+      disabled: false,
+      overwrite: false,
+    },
+    secondary_letter_4: {
+      character: '',
+      disabled: false,
+      overwrite: false,
+    },
     votes: {},
     internalVotes: {
       isInternalLoading: false,

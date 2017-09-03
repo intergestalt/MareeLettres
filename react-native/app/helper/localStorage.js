@@ -37,15 +37,27 @@ function cleanUser(user) {
   item.userIsLoadingFromStorage = false;
   item = normalClean(item);
 
-  const map = {
-    ...item.map,
-    letters_selected: {
-      ...item.map.letters_selected,
-      mine: false,
-      friends: [false, false, false, false],
-    },
+  item.primary_letter = {
+    ...item.primary_letter,
+    disabled: false,
   };
-  item.map = map;
+  item.secondary_letter_1 = {
+    ...item.secondary_letter_1,
+    disabled: false,
+  };
+  item.secondary_letter_2 = {
+    ...item.secondary_letter_2,
+    disabled: false,
+  };
+  item.secondary_letter_3 = {
+    ...item.secondary_letter_3,
+    disabled: false,
+  };
+  item.secondary_letter_4 = {
+    ...item.secondary_letter_4,
+    disabled: false,
+  };
+
   return item;
 }
 
