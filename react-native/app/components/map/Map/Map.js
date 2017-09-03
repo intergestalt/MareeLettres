@@ -1,12 +1,13 @@
 import React, { Component, PropTypes } from 'react';
 import { View, Text, TouchableOpacity, Animated, Dimensions } from 'react-native';
 import MapView from 'react-native-maps';
-import { changeMapRegionProxy, setUserCoordinatesProxy } from '../../../helper/mapHelper';
 import { connect } from 'react-redux';
-import { styles, mapstyles } from './styles';
 import Exponent from 'expo';
+import { Letter } from '../Letters';
 import { LettersMenu } from '../Overlay';
+import { styles, mapstyles } from './styles';
 import styles_menu from '../Overlay/styles';
+import { changeMapRegionProxy, setUserCoordinatesProxy } from '../../../helper/mapHelper';
 
 class Map extends Component {
   static propTypes = {
@@ -48,6 +49,7 @@ class Map extends Component {
   }
 
   cycleAnimation() {
+    // blinking animation (link to opacity)
     Animated.sequence([
       Animated.timing(this.state.blink, {
         toValue: 1,
@@ -63,37 +65,40 @@ class Map extends Component {
   }
 
   componentDidMount() {
+    // get the player GPS and begin blinking animation
     this._getPlayerCoords();
     this.cycleAnimation();
   }
 
   onRegionChange = (region) => {
-
+    // placeholder
   };
 
   onRegionChangeComplete = (region) => {
+    // recalculate the letter size
     changeMapRegionProxy(region);
     this.setMapLetterSize(region);
   }
 
   setMapLetterSize = (region) => {
+    // rough font size corresponding to world metres
     const size = parseFloat(
       ((this.props.config.map_letter_base_size * 5) / (1200 * region.latitudeDelta)).toFixed(1)
     );
 
     if (size != this.state.letter_size) {
-      this.setState({ letter_size: size });
+      this.setState({letter_size: size});
     }
   }
 
   metresToDelta = (m) => {
     // convert metres to ~map delta
     const delta = m / (111320 * Math.cos(this.props.map.coordinates.latitude * Math.PI / 180));
-
     return delta;
   }
 
   centreMap = () => {
+    // use inbuilt animation function
     this._map._component.animateToCoordinate({
       ...this.props.user.coordinates,
     }, 600
@@ -101,6 +106,7 @@ class Map extends Component {
   }
 
   centreZoomMap = () => {
+    // use inbuilt animation + zoom function
     this._map._component.animateToRegion({
       ...this.props.user.coordinates,
       latitudeDelta: this.state.delta_initial,
@@ -109,6 +115,7 @@ class Map extends Component {
   }
 
   onCentreMapButton = () => {
+    // ask the phone for new GPS
     this._getPlayerCoords();
   }
 
@@ -134,57 +141,29 @@ class Map extends Component {
     );
   }
 
-  getProxyMapLetter() {
-    if (this.props.map.proxy_letter.x == 0) {
-      return (
-        <MapView.Marker
-          coordinate={{latitude: this.props.user.coordinates.latitude, longitude: this.props.user.coordinates.longitude}}>
-          <Text style={[{opacity: 0}]}>
-            {char}
-          </Text>
-        </MapView.Marker>
-      );
+  mapMenuLetters(item, index) {
+    const win = Dimensions.get('window');
+    const step = win.width / 6;
+
+    if (index == 0) {
+      x = step - 20;
+    } else {
+      x = step * (index + 1);
     }
 
-    const x = this.props.map.proxy_letter.x;
-    const y = this.props.map.proxy_letter.y;
-    const char = this.props.map.proxy_letter.character;
-    const status_bar_height = 60;
-
-    // convert screen coordinates to range [-1, 1]
-    const win = Dimensions.get('window');
-    const tx = ((x / win.width) - 0.5) * 1;
-    const ty = ((y / (win.height - status_bar_height - styles_menu.$lettersHeight) - 0.5)) * -1;
-
-    // convert screen coordinates to map coordinates lat/lng
-    const c = this.props.map.coordinates;
-    const lat = c.latitude + ty * c.latitudeDelta;
-    const lng = c.longitude + tx * c.longitudeDelta;
-
     return (
-      <MapView.Marker
-        coordinate={{latitude: lat, longitude: lng}}>
-        <Animated.Text style={[styles.letter, {opacity: this.state.blink}, {fontSize: this.state.letter_size}]}>
-          {char}
-        </Animated.Text>
-      </MapView.Marker>
+      <Letter
+        character={item.character}
+        position={{x:x, y:0}}
+        key={index}
+        index={index}
+        navigation={this.props.navigation}
+        disabled={item.disabled}
+        primary={index === 0}
+        secondary={index !== 0}
+        />
     )
   }
-
-  /*
-  getProxyLetter() {
-    return (
-      <Text style={[
-        styles.proxy_letter, {
-          fontSize: this.state.letter_size,
-          left: this.props.map.proxy_letter.x,
-          top: this.props.map.proxy_letter.y,
-        }]} >
-        { this.props.map.proxy_letter.character }
-      </Text>
-    )
-  }
-  */
 
   render() {
     // convert letter objects into component array
@@ -194,8 +173,13 @@ class Map extends Component {
     const myLetters = Object.keys(this.props.my_letters.content).map((key, index) =>
       this.mapLettersToMarkers(this.props.my_letters.content[key], index, true)
     );
-    //const proxyLetter = this.getProxyLetter();
-    const proxyMapLetter = this.getProxyMapLetter();
+    const menuLetters = [
+      this.props.user.primary_letter,
+      this.props.user.secondary_letter_1,
+      this.props.user.secondary_letter_2,
+      this.props.user.secondary_letter_3,
+      this.props.user.secondary_letter_4
+    ].map((item, index) => this.mapMenuLetters(item, index));
 
     return (
       <View style={styles.container}>
@@ -220,7 +204,6 @@ class Map extends Component {
         >
           { mapLetters }
           { myLetters }
-          { proxyMapLetter }
 
           <MapView.Circle
             center={{latitude: this.state.lat, longitude: this.state.lng}}
@@ -235,8 +218,9 @@ class Map extends Component {
             CENTRE MAP
           </Text>
         </TouchableOpacity>
-
         <LettersMenu navigation={this.props.navigation} />
+
+        { menuLetters }
       </View>
     );
   }
