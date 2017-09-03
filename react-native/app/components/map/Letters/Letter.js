@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { View, Text, PanResponder, Animated, TouchableOpacity, Dimensions } from 'react-native';
 //import { StatusBar } from 'react-native';
 
-import { updateLetterMenuProxy, reviveLetterMenuProxy, binLetterProxy, proxyLetterPositionProxy, proxyLetterCharacterProxy } from '../../../helper/userHelper';
+import { updateLetterMenuProxy, reviveLetterMenuProxy, binLetterProxy, flagLetterForOverwriteProxy } from '../../../helper/userHelper';
 import { putLetterOnMapProxy } from '../../../helper/mapHelper';
 import { navigateToLetterSelector, navigateToQRCodeGet, navigateToQRCodeSend } from '../../../helper/navigationProxy';
 import { postLetterServiceProxy } from '../../../helper/apiProxy';
@@ -12,15 +12,20 @@ import { connectAlert } from '../../../components/general/Alert';
 
 import styles from './styles';
 import styles_menu from '../Overlay/styles';
+import { StatusBar } from 'react-native';
 
 class Letter extends Component {
   static propTypes = {
+    // props from Map.js
     navigation: PropTypes.object,
     character: PropTypes.string,
-    selected: PropTypes.bool,
-    id: PropTypes.string,
-    main: PropTypes.bool,
+    disabled: PropTypes.bool,
+    position: PropTypes.object,
     index: PropTypes.number,
+    primary: PropTypes.bool,
+    secondary: PropTypes.bool,
+
+    // props from connect
     user: PropTypes.object,
     mapLat: PropTypes.number,
     mapLng: PropTypes.number,
@@ -36,186 +41,131 @@ class Letter extends Component {
       super(props);
 
       this.state = {
-          pan: new Animated.ValueXY(),
-          letter_size: 26,
-          animated_letter_size: this.props.letter_base_size * 5,
-          delta_max: this.metresToDelta(this.props.dropzone_radius * this.props.map_delta_max),
-          status_bar_height: 60,
-          letter_offset:  {
-            x: 0,
-            y: -20,
-          },
-          font: {
-            size: new Animated.Value(0),
-            colour: new Animated.Value(0),
-            letter_offset: new Animated.Value(0),
-          }
+        panning: false,
+        position: {x: this.props.position.x, y: this.props.position.y},
+        pan: new Animated.ValueXY({x:0, y:0}),
+        letter_size: 26,
+        offset_bottom: 18,
+        animated_letter_size: this.props.letter_base_size * 5,
+        delta_max: this.metresToDelta(this.props.dropzone_radius * this.props.map_delta_max),
+        status_bar_height: 55 + (StatusBar.currentHeight || 20),
+        letter_offset: {
+          x: -20,
+          y: -40
+        },
+        font: {
+          size: new Animated.Value(0),
+          colour: new Animated.Value(0),
+          letter_offset: new Animated.Value(0),
+        }
       };
       this.panResponder = PanResponder.create({
           onStartShouldSetPanResponder: () => true,
-          onPanResponderStart: () => {
-            this.selectedFont();
-            proxyLetterCharacterProxy(this.props.character);
+          onMoveShouldSetPanResponder: () => true,
+          onPanResponderStart: (e) => {
+            this.setState({panning: true});
+            this.animateSelectedFont();
           },
           onPanResponderMove: (e, gesture) => {
-            proxyLetterPositionProxy(
-              gesture.moveX + this.state.letter_offset.x,
-              gesture.moveY - this.state.status_bar_height + this.state.letter_offset.y
-            );
-            /*Animated.event([null, {
-                dx: this.state.pan.x,
-                dy: this.state.pan.y
-              }
-            ])*/
+            const win = Dimensions.get('window');
+            const x = gesture.moveX - this.props.position.x + this.state.letter_offset.x;
+            const y = gesture.moveY - (win.height - this.state.offset_bottom) + this.state.letter_offset.y;
+
+            this.animateTranslate(x, y);
           },
           onPanResponderRelease: (e, gesture) => {
-            this.resetFont();
-            proxyLetterPositionProxy(0, 0);
+            const x = gesture.moveX + styles.$letterWidth / 2 + this.state.letter_offset.x;
+            const y = gesture.moveY + this.state.letter_offset.y;
 
-            if (this.isLetterOverMap(gesture)){
-              if (!this.props.selected) {
-                if (this.onDrop(gesture.moveX, gesture.moveY)) {
-                  this.snapToStart();
+            this.setState({panning: false});
+            this.animateResetFont();
+
+            // check if letter is dropped on map area
+            if (this.isLetterOverMap(x, y)){
+              // check if letter is disabled
+              if (!this.props.disabled) {
+                // try to place letter on map
+                if (this.onDrop(x, y)) {
+                  this.animateSnapToStart();
                 } else {
-                  this.springToStart();
+                  this.animateSpringToStart();
                 }
               } else {
-                this.springToStart();
+                this.animateSpringToStart();
               }
             } else {
+              // if letter is tapped (or dropped in place)
               if (gesture.moveX < 10 && gesture.moveY < 10) {
-                if (this.props.main) {
-                  this.openQRCodeSend();
+                // open the relevant screen
+                if (this.props.primary) {
+                  if (this.props.character === '+') {
+                    this.navigateLetterSelector();
+                  } else {
+                    this.navigateQRCodeSend();
+                  }
                 } else {
-                  this.openQRCodeGet();
+                  this.navigateQRCodeGet();
                 }
               }
-              this.springToStart();
+              // reset
+              this.animateSpringToStart();
             }
           }
       });
   }
 
-  selectedFont() {
-    Animated.timing(
-      this.state.font.size, {
-        toValue: 100,
-        duration: 1
-      }
-    ).start();
-    Animated.timing(
-      this.state.font.colour, {
-        toValue: 100,
-        duration: 1
-      }
-    ).start();
-    Animated.timing(
-      this.state.font.letter_offset, {
-        toValue: 100,
-        duration: 1
-      }
-    ).start();
-  }
+  // DROP HANDLERS
 
-  resetFont() {
-    Animated.timing(
-      this.state.font.size, {
-        toValue: 0,
-        duration: 1
-      },
-    ).start();
-    Animated.timing(
-      this.state.font.colour, {
-        toValue: 0,
-        duration: 1
-      },
-    ).start();
-    Animated.timing(
-      this.state.font.letter_offset, {
-        toValue: 0,
-        duration: 1
-      },
-    ).start();
-  }
+  isLetterOverMap(x, y) {
+    // check if letter is over map
+    const check = this.nativeScreenToXY(x, y);
 
-  snapToStart() {
-    Animated.timing(
-      this.state.pan, {
-        toValue: {x:0, y:0},
-        duration: 1
-      },
-    ).start();
-  }
-
-  springToStart() {
-    Animated.spring(
-      this.state.pan,
-      {toValue:{x:0,y:0}}
-    ).start();
-  }
-
-  metresToDelta = (m) => {
-    // convert metres to ~map delta
-    const delta = m / (111320 * Math.cos(this.props.mapLat * Math.PI / 180));
-
-    return delta;
-  }
-
-  isLetterOverMap(gesture) {
-    const y = gesture.moveY;
-    const x = gesture.moveX;
-
-    if (x == 0 && y == 0) {
-      return false;
-    } else if (y < (Dimensions.get('window').height - styles_menu.$lettersHeight - 20)) {
-      return true;
-    } else {
-      return false;
-    }
+    return (check.y >= -0.5 && check.y <= 0.5);
   }
 
   onDrop(x, y) {
-    y += this.state.letter_offset.y;
-    x += this.state.letter_offset.x;
-
+    // letter on-release event
+    // check if user has zoomed out too far
     if (this.props.map_delta > this.state.delta_max) {
       this.props.alertWithType('info', 'Too far away', "Zoom in to the circle place letters!");
       return false;
     }
 
-    // convert screen coordinates to range [-1, 1]
-    const win = Dimensions.get('window');
-    const tx = ((x / win.width) - 0.5) * 1;
-    const ty = (((y - this.state.status_bar_height) / (win.height - this.state.status_bar_height - styles_menu.$lettersHeight) - 0.5)) * -1;
+    // convert native screen to normalised screen
+    const screen = this.nativeScreenToXY(x, y);
 
-    // convert screen coordinates to map coordinates lat/lng
-    const user = this.props.user;
-    const c = user.map.coordinates;
-    const lat = c.latitude + ty * c.latitudeDelta;
-    const lng = c.longitude + tx * c.longitudeDelta;
+    // convert screen to world coordinates
+    const coords = this.xyToLatLng(screen.x, screen.y);
 
-    // check if inside dropzone, return if not
-    const dz = user.coordinates;
-    const dLat = Math.abs(dz.latitude - lat) * 111319.9;
-    const dLng = Math.abs(dz.longitude - lng) * (111319.9 * Math.cos(dz.latitude * Math.PI / 180.));
-    const distance = Math.sqrt(Math.pow(dLat, 2) + Math.pow(dLng, 2));
+    // get ~ distance from centre of drop zone
+    const distance = this.getDistanceBetweenCoordinates(coords.lat, coords.lng, this.props.user.coordinates.latitude, this.props.user.coordinates.longitude);
 
-    if (distance > this.props.dropzone_radius) {
+    // respond if user missed the zone
+    if (distance > this.props.dropzone_radius + 2) {
       this.props.alertWithType('info', 'Too far away', "You cannot write outside the circle around you. Move your body to get closer!");
       return false;
     } else {
-      if(user.map.tutorialState == 'welcome') {
+      if (this.props.user.map.tutorialState == 'welcome') {
         this.props.alertWithType('info', 'Excellent work!', 'Want to write with different letters? Get letters from your friends by scanning their QR code. Tap the Get Letters below.');
         // todo: change tutorialState
       }
-
     }
-    // put letter on local map & send to server
+
+    // send to server
+    this.placeLetterOnMap(coords.lat, coords.lng);
+
+    return true;
+  }
+
+  // API CALLS & INTERFACE
+
+  placeLetterOnMap(lat, lng) {
+    // send to server & put letter in temporary array
     putLetterOnMapProxy(this.props.character, lat, lng);
     updateLetterMenuProxy(this.props.index);
     postLetterServiceProxy(this.props.character, lat, lng);
 
-    // set a timer to re-activate letter
+    // if letter disabled, set timer to re-enable
     if (!this.props.main) {
       let index = this.props.index;
       let char  = this.props.character;
@@ -224,37 +174,159 @@ class Letter extends Component {
         reviveLetterMenuProxy(index, char);
       }, this.props.regen_time_secondary);
     };
-
-    return true;
   }
 
   destroyLetter = () => {
+    // remove letter from state.user
     binLetterProxy(this.props.index);
   }
 
-  isLetterOverBin(gesture) {
-    return false;
+  // MATHS
 
-    const y = gesture.moveY;
-    if (!this.props.main) {
-      let win = Dimensions.get('window');
-      if (gesture.moveY > win.height - 60 && gesture.moveX > win.width * 0.66) {
-        return true;
-      }
-    }
+  metresToDelta = (m) => {
+    // convert metres to ~ map delta (degrees)
+    const delta = m / (111320 * Math.cos(this.props.mapLat * Math.PI / 180));
 
-    return false;
+    return delta;
   }
 
-  onPress = () => {
+  nativeScreenToXY(nativeX, nativeY) {
+    // convert native screen space to normalised screen space
+    // result will be in the range [-0.5, 0.5]
+    const win = Dimensions.get('window');
+    const x = (nativeX / win.width) - 0.5;
+    const y = (((nativeY - this.state.status_bar_height) / (win.height - this.state.status_bar_height - styles_menu.$lettersHeight) - 0.5)) * -1;
+
+    return {x: x, y: y};
+  }
+
+  xyToNativeScreen(x, y) {
+    // convert normalised screen space to native screen space
+    const win = Dimensions.get('window');
+    const nativeX = (x + 0.5) * win.width;
+    const nativeY = (y * -1) * (win.height - this.state.status_bar_height - styles_menu.$lettersHeight) + this.state.status_bar_height;
+
+    return {x: nativeX, y: nativeY}
+  }
+
+  xyToLatLng(x, y) {
+    // convert screen space to world coordinates
+    // to be on screen, input x, y should be in the range [-0.5, 0.5]
+    const c = this.props.user.map.coordinates;
+    const lng = c.longitude + x * c.longitudeDelta;
+    const lat = c.latitude + y * c.latitudeDelta;
+
+    return {lat: lat, lng: lng};
+  }
+
+  latLngToXY(lat, lng) {
+    // convert world coordinates to screen space
+    // if coordinate is on screen, the return range will be [-0.5, 0.5]
+    const c = this.props.user.map.coordinates;
+    const x = (lng - c.longitude) / c.longitudeDelta;
+    const y = (lat - c.latitude) / c.latitudeDelta;
+
+    return {x: x, y: y};
+  }
+
+  getDistanceBetweenCoordinates(lat0, lng0, lat1, lng1) {
+    // get ~ distance between coordinates on a smooth sphere
+    const dLat = Math.abs(lat1 - lat0) * 111319.9;
+    const dLng = Math.abs(lng1 - lng0) * (111319.9 * Math.cos(lat1 * Math.PI / 180.));
+    const distance = Math.sqrt(Math.pow(dLat, 2) + Math.pow(dLng, 2));
+
+    return distance;
+  }
+
+  // ANIMATIONS
+
+  animateTranslate(x, y) {
+    // translate the letter
+    this.state.pan.setValue({
+      x: x,
+      y: y
+    });
+  }
+
+  animateSelectedFont() {
+    // change colour & size when letter dragged
+    Animated.timing(
+      this.state.font.size, {
+        toValue: 100,
+        duration: 1
+      }
+    ).start();
+    Animated.timing(
+      this.state.font.colour, {
+        toValue: 100,
+        duration: 1
+      }
+    ).start();
+    Animated.timing(
+      this.state.font.letter_offset, {
+        toValue: 100,
+        duration: 1
+      }
+    ).start();
+  }
+
+  animateResetFont() {
+    // reset to default font colour/ size
+    Animated.timing(
+      this.state.font.size, {
+        toValue: 0,
+        duration: 1
+      },
+    ).start();
+    Animated.timing(
+      this.state.font.colour, {
+        toValue: 0,
+        duration: 1
+      },
+    ).start();
+    Animated.timing(
+      this.state.font.letter_offset, {
+        toValue: 0,
+        duration: 1
+      },
+    ).start();
+  }
+
+  animateSnapToStart() {
+    // snap letter to original place (not animated)
+    Animated.timing(
+      this.state.pan, {
+        toValue: {x:0, y:0},
+        duration: 1
+      },
+    ).start();
+  }
+
+  animateSpringToStart() {
+    // spring letter to its original position (animated)
+    Animated.spring(
+      this.state.pan,
+      {toValue:{x:0,y:0}}
+    ).start();
+  }
+
+  // NAVIGATION
+
+  navigateLetterSelector = () => {
+    // open letter selection screen
     navigateToLetterSelector(this.props);
   }
 
-  openQRCodeGet = () => {
+  navigateQRCodeGet = () => {
+    // open QR code scanner
+    if (this.props.secondary) {
+      flagLetterForOverwriteProxy(this.props.index);
+    }
     navigateToQRCodeGet(this.props);
   }
 
-  openQRCodeSend = () => {
+  navigateQRCodeSend = () => {
+    // generate a QR code screen
     navigateToQRCodeSend(this.props);
   }
 
@@ -271,88 +343,33 @@ class Letter extends Component {
       outputRange: ['rgb(0,0,0)', 'rgb(255,255,255)']
     });
     let pan = this.state.pan.getLayout();
-    let offset = this.state.font.letter_offset.interpolate({
-      inputRange: [0, 100],
-      outputRange: [0, this.state.letter_offset]
-    });
 
-    if (this.props.main) {
-      return this.renderYou(size, colour, pan, offset);
-    } else {
-      return this.renderFriends(size, colour, pan, offset);
-    }
-  }
-
-  renderYou(size, colour, pan, offset) {
     return (
-      <View style = {styles.container_main}>
-        {
-          this.props.character === '+'
-            ? <TouchableOpacity
-                onPress={this.onPress}
-                style={styles.letter_area}>
-                <Text style={styles.disabled}>
-                  {'+'}
-                </Text>
-              </TouchableOpacity>
-            : <Animated.View
-                {...this.panResponder.panHandlers}
-                style = {[
-                  //pan,
-                  styles.letter_area,
-                ]}>
-                  <Animated.Text style={[
-                      styles.letter, {
-                        color: colour,
-                        fontSize: size,
-                        marginBottom: offset,
-                      }
-                    ]}>
-                    {this.props.character}
-                  </Animated.Text>
-              </Animated.View>
-        }
-      </View>
+      <Animated.View
+        {...this.panResponder.panHandlers}
+        style={[
+          styles.letter_view, {
+          position: 'absolute',
+          left: this.props.position.x,
+          bottom: this.state.offset_bottom,
+          transform: [{
+              translateX: this.state.pan.x
+            },{
+              translateY: this.state.pan.y
+          }]
+        }]}>
+        <Animated.Text style={[
+          styles.letter,
+          {
+            color: colour,
+            fontSize: size,
+            opacity: this.props.disabled ? 0.5 : 1
+          }
+          ]}>
+          {this.props.character}
+        </Animated.Text>
+      </Animated.View>
     );
-  }
-
-  renderFriends(size, colour, pan, offset) {
-    if (this.props.index == -1) {
-      return (
-        <View style = {styles.container_secondary}>
-          <TouchableOpacity
-            onPress={this.openQRCodeGet}
-            style={styles.letter_area}>
-          </TouchableOpacity>
-        </View>
-      );
-    } else {
-      return (
-        <View style = {[
-          styles.container_secondary,
-        ]}>
-            <Animated.View
-              {...this.panResponder.panHandlers}
-              style = {[
-                //pan,
-                styles.letter_area,
-              ]}>
-                <Animated.Text style={[
-                  this.props.selected
-                    ? styles.disabled
-                    : styles.letter
-                  , {
-                    color: colour,
-                    fontSize: size,
-                    marginBottom: offset,
-                  }
-                ]}>
-                  {this.props.character}
-                </Animated.Text>
-            </Animated.View>
-        </View>
-      );
-    }
   }
 };
 
@@ -364,8 +381,6 @@ const mapStateToProps = (state) => {
     const dropzone_radius = state.config.config.map_drop_zone_radius;
     const regen_time_primary = 1000 * state.config.config.map_letter_regeneration_time_primary;
     const regen_time_secondary = 1000 * state.config.config.map_letter_regeneration_time_secondary;
-
-    // TODO get from config
     const map_delta_max = state.config.config.map_delta_max;
     const letter_base_size = state.config.config.map_letter_base_size;
 

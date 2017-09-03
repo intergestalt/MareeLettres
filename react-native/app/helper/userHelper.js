@@ -10,20 +10,15 @@ import {
   deleteLetters,
   setUserLetter,
   binLetter,
-  proxyLetterPosition,
-  proxyLetterCharacter,
+  flagLetterForOverwrite,
   addFriendLetter,
   setUserMapTutorialStatus,
 } from '../actions/user';
 
 import store from '../config/store';
 
-export function proxyLetterPositionProxy(x, y) {
-  store.dispatch(proxyLetterPosition(x, y));
-}
-
-export function proxyLetterCharacterProxy(char) {
-  store.dispatch(proxyLetterCharacter(char));
+export function flagLetterForOverwriteProxy(menuIndex) {
+  store.dispatch(flagLetterForOverwrite(menuIndex))
 }
 
 export function deleteLettersProxy() {

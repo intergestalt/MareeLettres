@@ -6,26 +6,33 @@ export default EStyleSheet.create({
   $marginHalf: 6,
   $padding: 20,
   $indexLetter: 1000,
+//  $outline: true,
+  $letterWidth: 40,
+  $letterHeight: 50,
+  $letterDraggedHeight: 80,
+  $letterDraggedWidth: 80,
 
   letter: {
     opacity: 1,
     color: '#000',
-    textAlign: 'center',
     backgroundColor: 'transparent',
     fontFamily: 'impact',
   },
-  disabled: {
-    opacity: 0.6,
-    textAlign: 'center',
+  letter_view: {
     backgroundColor: 'transparent',
-    fontFamily: 'impact',
-  },
-  letter_area: {
-    width: 40,
-    height: 40,
-    borderRadius: 40,
+    width: '$letterWidth',
+    height: '$letterHeight',
+    display: 'flex',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'center'
+  },
+  letter_view_dragged: {
+    backgroundColor: 'transparent',
+    width: '$letterDraggedWidth',
+    height: '$letterDraggedHeight',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center'
   },
   container_main: {
     flex: 1,
