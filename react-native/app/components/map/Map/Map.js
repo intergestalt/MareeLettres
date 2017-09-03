@@ -8,6 +8,7 @@ import { LettersMenu } from '../Overlay';
 import { styles, mapstyles } from './styles';
 import styles_menu from '../Overlay/styles';
 import { changeMapRegionProxy, changeMapLayoutProxy, setUserCoordinatesProxy } from '../../../helper/mapHelper';
+import { Font } from 'expo';
 
 class Map extends Component {
   static propTypes = {
@@ -29,6 +30,7 @@ class Map extends Component {
       delta_initial: this.metresToDelta(this.props.config.map_drop_zone_radius * this.props.config.map_delta_initial),
       delta_max: this.metresToDelta(this.props.config.map_drop_zone_radius * this.props.config.map_delta_max),
       blink: new Animated.Value(0),
+      isFontsReady: false
     };
   }
 
@@ -68,6 +70,14 @@ class Map extends Component {
     // get the player GPS and begin blinking animation
     this._getPlayerCoords();
     this.cycleAnimation();
+
+    Font.loadAsync({
+      impact: require('../../../assets/fonts/impact.ttf'),
+    }).then(()=>{
+      console.log("font loaded");
+      this.setState({ isFontsReady: true });  
+    });
+    
   }
 
   onRegionChange = (region) => {
@@ -75,35 +85,20 @@ class Map extends Component {
   };
 
   onLayout = (event) => {
-    
-    console.log("MapView onLayout");
-    let layout = event.nativeEvent.layout;
-    
-        if(this.refs.mapContainer) {
-            this.refs.mapContainer.measure( (fx, fy, width, height, px, py) => {
-            console.log("mapContainer measured");
-            console.log('Component width is: ' + width);
-            console.log('Component height is: ' + height);
-            console.log('X offset to frame: ' + fx);
-            console.log('Y offset to frame: ' + fy);
-            console.log('X offset to page: ' + px);
-            console.log('Y offset to page: ' + py);
-
-            layout.yOffset = py;
-            console.log(layout);
-            changeMapLayoutProxy(layout);
-          });        
-        }
+    let layout = event.nativeEvent.layout;    
+    if(this.refs.mapContainer) {
+        this.refs.mapContainer.measure( (fx, fy, width, height, px, py) => {
+        layout.yOffset = py;
+        changeMapLayoutProxy(layout);
+      });        
+    }
 
   };
 
   onRegionChangeComplete = (region) => {
-    // recalculate the letter size
-    console.log(region);
-
     changeMapRegionProxy(region);
+    // recalculate the letter size
     this.setMapLetterSize(region);
-        
   }
 
   setMapLetterSize = (region) => {
@@ -150,7 +145,7 @@ class Map extends Component {
     const opacity = Math.max(0, 1 - t / (1000 * this.props.config.map_letter_decay_time));
 
     return (
-      opacity != 0 && this.props.map.coordinates.longitudeDelta <= this.state.delta_max
+      opacity != 0 && this.props.map.coordinates.longitudeDelta <= this.state.delta_max && this.state.isFontsReady
         ? <MapView.Marker
             key={index}
             anchor={{x:0.5, y:0.5}}
@@ -266,7 +261,7 @@ const mapStateToProps = (state) => {
       map,
       config,
       letters,
-      my_letters,
+      my_letters
     };
   } catch (e) {
     console.log('Map Error', e);

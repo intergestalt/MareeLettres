@@ -72,7 +72,7 @@ class Letter extends Component {
             this.animateTranslate(gesture.dx, gesture.dy + this.state.letter_offset.y);
           },
           onPanResponderRelease: (e, gesture) => {
-            console.log("RELEASE after pan:");
+            /*console.log("RELEASE after pan:");
             console.log(gesture.dx);
             console.log(gesture.dy);
 
@@ -81,9 +81,9 @@ class Letter extends Component {
             console.log(this.state.layout);
             console.log("the maps layout:");
             console.log(this.props.user.map.layout);
-            console.log("window:")
+            console.log("window:")*/
             const win = Dimensions.get('window');
-            console.log(win);
+            //console.log(win);
 
             let x = gesture.dx + this.props.position.x + this.state.layout.width / 2;
             let y = gesture.dy + this.state.letter_offset.y + (win.height - this.state.offset_bottom - this.state.layout.height / 2) - this.props.user.map.layout.yOffset;
@@ -136,8 +136,8 @@ class Letter extends Component {
   }
 
   onLayout = (event) => {
-    console.log("Letter onLayout");
-    console.log(event.nativeEvent.layout);
+    //console.log("Letter onLayout");
+    //console.log(event.nativeEvent.layout);
     this.setState({layout: event.nativeEvent.layout});
   }
 
@@ -149,7 +149,7 @@ class Letter extends Component {
       return false;
     }
 
-    console.log("onDrop");
+    //console.log("onDrop");
     
     // convert native screen to normalised screen
     const screen = this.nativeScreenToXY(x, y);
@@ -216,17 +216,17 @@ class Letter extends Component {
   nativeScreenToXY(mapX, mapY) {
     
     // new version using layout of map view
-    console.log("nativeScreenToXY");
+    // console.log("nativeScreenToXY");
     let x = (mapX / this.props.user.map.layout.width) - 0.5;
     let y = (mapY / this.props.user.map.layout.height) - 0.5;
-    console.log(mapX + ", " + mapY + " -> " + x + ", " + y);
+    // console.log(mapX + ", " + mapY + " -> " + x + ", " + y);
 
     return {x: x, y: y};
   }
 
   xyToLatLng(x, y) {
-    console.log("region");
-    console.log(this.props.user.map.coordinates);
+    // console.log("region");
+    // console.log(this.props.user.map.coordinates);
     // convert screen space to world coordinates
     // to be on screen, input x, y should be in the range [-0.5, 0.5]
     const c = this.props.user.map.coordinates;
