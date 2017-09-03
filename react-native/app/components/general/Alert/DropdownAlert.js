@@ -372,11 +372,11 @@ export default class DropdownAlert extends Component {
     if (this.props.enableCancel) {
       return (
         <TouchableOpacity onPress={onPress}>
-          <Text style={style}>X</Text>
+          <Text style={style}>x</Text>
         </TouchableOpacity>
       );
     }
-    return <Text style={style}>X</Text>;
+    return <Text style={style}>x</Text>;
   }
   renderDropDown(isOpen) {
     if (isOpen == true) {
