@@ -46,7 +46,8 @@ class QRCodeScanScreen extends Component {
 
     // prevent multiple scans
     if (char !== this.state.lastScanned) {
-      navigateToMapOverview(this.props);
+      //navigateToMapOverview(this.props);
+      dispatchBackAction(this.props);
       addFriendLetterProxy(char);
       this.setState({ lastScanned: char });
     }
