@@ -6,6 +6,7 @@ export const SET_MY_LETTERS = 'SET_MY_LETTERS';
 export const CLEAR_MY_LETTERS = 'CLEAR_MY_LETTERS';
 export const SET_MY_LETTERS_IS_LOADING_FROM_STORAGE = 'SET_MY_LETTERS_IS_LOADING_FROM_STORAGE';
 export const USER_SET_COORDINATES = 'USER_SET_COORDINATES';
+export const CHANGE_MAP_LAYOUT = 'CHANGE_MAP_LAYOUT';
 
 export const clearMyLetters = () => ({
   type: CLEAR_MY_LETTERS,
@@ -18,6 +19,11 @@ export const loadMyLetters = () => ({
 export const changeMapRegion = region => ({
   type: CHANGE_MAP_REGION,
   region,
+});
+
+export const changeMapLayout = layout => ({
+  type: CHANGE_MAP_LAYOUT,
+  layout,
 });
 
 export const setUserCoordinates = (lat, lng) => ({

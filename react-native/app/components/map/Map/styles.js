@@ -12,7 +12,7 @@ const styles = EStyleSheet.create({
     zIndex: -1,
   },
   letter: {
-    fontWeight: 'bold',
+    //fontWeight: 'bold',
     color: 'white',
     fontFamily: 'impact',
   },

@@ -25,7 +25,7 @@ import {
   // SET_USER_LOADED_FROM_STORAGE_RESET_DEFAULTS,
 } from '../actions/user';
 
-import { CHANGE_MAP_REGION, USER_SET_COORDINATES } from '../actions/map';
+import { CHANGE_MAP_REGION, CHANGE_MAP_LAYOUT, USER_SET_COORDINATES } from '../actions/map';
 
 import initialState from '../config/initialState';
 import { saveUserToStorage } from '../helper/localStorage';
@@ -96,6 +96,20 @@ export default (state = initialState.user, action) => {
           map: {
             ...state.map,
             coordinates: action.region,
+          },
+        };
+        saveUserToStorage(result);
+
+        return result;
+      }
+
+      case CHANGE_MAP_LAYOUT: {
+        console.log('Reducer: CHANGE_MAP_LAYOUT');
+        const result = {
+          ...state,
+          map: {
+            ...state.map,
+            layout: action.layout,
           },
         };
         saveUserToStorage(result);

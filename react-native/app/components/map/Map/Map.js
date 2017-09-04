@@ -7,7 +7,8 @@ import { Letter } from '../Letters';
 import { LettersMenu, CameraButton } from '../Overlay';
 import { styles, mapstyles } from './styles';
 import styles_menu from '../Overlay/styles';
-import { changeMapRegionProxy, setUserCoordinatesProxy } from '../../../helper/mapHelper';
+import { changeMapRegionProxy, changeMapLayoutProxy, setUserCoordinatesProxy } from '../../../helper/mapHelper';
+import { Font } from 'expo';
 
 class Map extends Component {
   static propTypes = {
@@ -29,6 +30,7 @@ class Map extends Component {
       delta_initial: this.metresToDelta(this.props.config.map_drop_zone_radius * this.props.config.map_delta_initial),
       delta_max: this.metresToDelta(this.props.config.map_drop_zone_radius * this.props.config.map_delta_max),
       blink: new Animated.Value(0),
+      isFontsReady: false
     };
   }
 
@@ -68,15 +70,34 @@ class Map extends Component {
     // get the player GPS and begin blinking animation
     this._getPlayerCoords();
     this.cycleAnimation();
+
+    Font.loadAsync({
+      impact: require('../../../assets/fonts/impact.ttf'),
+    }).then(()=>{
+      console.log("font loaded");
+      this.setState({ isFontsReady: true });  
+    });
+    
   }
 
   onRegionChange = (region) => {
     // placeholder
   };
 
+  onLayout = (event) => {
+    let layout = event.nativeEvent.layout;    
+    if(this.refs.mapContainer) {
+        this.refs.mapContainer.measure( (fx, fy, width, height, px, py) => {
+        layout.yOffset = py;
+        changeMapLayoutProxy(layout);
+      });        
+    }
+
+  };
+
   onRegionChangeComplete = (region) => {
-    // recalculate the letter size
     changeMapRegionProxy(region);
+    // recalculate the letter size
     this.setMapLetterSize(region);
   }
 
@@ -124,19 +145,20 @@ class Map extends Component {
     const opacity = Math.max(0, 1 - t / (1000 * this.props.config.map_letter_decay_time));
 
     return (
-      opacity != 0 && this.props.map.coordinates.longitudeDelta <= this.state.delta_max
+      opacity != 0 && this.props.map.coordinates.longitudeDelta <= this.state.delta_max && this.state.isFontsReady
         ? <MapView.Marker
-          key={index}
-          coordinate={{ latitude: item.coords.lat, longitude: item.coords.lng }}>
-          {!blink
-            ? <Text style={[styles.letter, { opacity }, { fontSize: this.state.letter_size }]}>
-              {item.character}
-            </Text>
-            : <Animated.Text style={[styles.letter, { opacity: this.state.blink }, { fontSize: this.state.letter_size }]}>
-              {item.character}
-            </Animated.Text>
-          }
-        </MapView.Marker>
+            key={index}
+            anchor={{x:0.5, y:0.5}}
+            coordinate={{latitude: item.coords.lat, longitude: item.coords.lng}}>
+            {!blink
+              ? <Text style={[styles.letter, {opacity}, {fontSize: this.state.letter_size}]}>
+                  {item.character}
+                </Text>
+              : <Animated.Text style={[styles.letter, {opacity: this.state.blink}, {fontSize: this.state.letter_size}]}>
+                  {item.character}
+                </Animated.Text>
+            }
+          </MapView.Marker>
         : null
     );
   }
@@ -182,8 +204,8 @@ class Map extends Component {
     ].map((item, index) => this.mapMenuLetters(item, index));
 
     return (
-      <View style={styles.container}>
-        <MapView.Animated
+      <View style={styles.container} ref="mapContainer">
+        <MapView.Animated ref="map" onLayout={this.onLayout}
           ref={(input) => { this._map = input; }}
           onRegionChange={this.onRegionChange}
           onRegionChangeComplete={this.onRegionChangeComplete}
@@ -200,7 +222,7 @@ class Map extends Component {
           customMapStyle={mapstyles}
           showsIndoorLevelPicker={false}
           showsIndoors={false}
-          rotateEnabled={false}
+          rotateEnabled={false}          
         >
           {mapLetters}
           {myLetters}
@@ -242,7 +264,7 @@ const mapStateToProps = (state) => {
       map,
       config,
       letters,
-      my_letters,
+      my_letters
     };
   } catch (e) {
     console.log('Map Error', e);

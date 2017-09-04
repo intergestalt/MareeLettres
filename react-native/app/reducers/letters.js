@@ -47,7 +47,7 @@ const letters = (state = initialState.letters, action) => {
             const t = (new Date()).getTime() - (new Date(letter.created_at)).getTime();
 
             if (t < maxTime) {
-              console.log(maxTime/1000, t/1000)
+              //console.log(maxTime/1000, t/1000)
               newContent[letter._id] = letter;
             }
           }
