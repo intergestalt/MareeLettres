@@ -90,10 +90,9 @@ class Letter extends Component {
 
             this.setState({panning: false});
             this.animateResetFont();
-            this.onDrop(x, y);
-
+            
             // check if letter is dropped on map area
-            if (this.isLetterOverMap(x, y)){
+            if (y < this.props.user.map.layout.height){
               // check if letter is disabled
               if (!this.props.disabled) {
                 // try to place letter on map
@@ -127,14 +126,6 @@ class Letter extends Component {
   }
 
   // DROP HANDLERS
-
-  isLetterOverMap(x, y) {
-    // check if letter is over map
-    const check = this.nativeScreenToXY(x, y);
-
-    return (check.y >= -0.5 && check.y <= 0.5);
-  }
-
   onLayout = (event) => {
     //console.log("Letter onLayout");
     //console.log(event.nativeEvent.layout);
