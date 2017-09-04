@@ -212,10 +212,10 @@ class Map extends Component {
           provider={MapView.PROVIDER_GOOGLE}
           style={styles.container}
           initialRegion={{
-            latitude: this.state.lat,
-            longitude: this.state.lng,
-            latitudeDelta: this.state.delta_initial,
-            longitudeDelta: this.state.delta_initial
+            latitude: this.props.user.map.coordinates.latitude,
+            longitude: this.props.user.map.coordinates.longitude,
+            latitudeDelta: this.props.user.map.coordinates.latitudeDelta,
+            longitudeDelta: this.props.user.map.coordinates.longitudeDelta
           }}
           minZoomLevel={this.props.config.map_min_zoom_level}
           maxZoomLevel={this.props.config.map_max_zoom_level}

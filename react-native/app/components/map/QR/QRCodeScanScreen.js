@@ -5,9 +5,11 @@ import { BackSimple } from '../../general/BackButton';
 import QRCodeBox from './QRCode';
 import styles from './styles';
 
-import { navigateToMapOverview } from '../../../helper/navigationProxy';
+import { dispatchBackAction } from '../../../helper/navigationProxy';
+
 import { addFriendLetterProxy } from '../../../helper/userHelper';
 import { BarCodeScanner, Permissions } from 'expo';
+
 
 import I18n from '../../../i18n/i18n';
 
@@ -52,7 +54,8 @@ class QRCodeScanScreen extends Component {
 
   handleBackPress() {
     this.setState({disabled: true});
-    navigateToMapOverview(this.props);
+    //navigateToMapOverview(this.props);
+    dispatchBackAction(this.props);
   };
 
   componentWillBlur() {
