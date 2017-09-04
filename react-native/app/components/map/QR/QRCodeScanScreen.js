@@ -84,11 +84,11 @@ class QRCodeScanScreen extends Component {
           {I18n.t('map_scan_qr_instruction')}
         </Text>
 
-        {
+        {/*
           this.state.lastScanned === null
             ? <Text style={styles.devMessage}></Text>
             : <Text style={styles.devMessage}>{this.state.lastScanned}</Text>
-        }
+        */}
       </View>
     );
   }
