@@ -105,10 +105,10 @@ Meteor.startup(() => {
         lng: 2.349014,
       }
     }
-    const location = locations.paris; // choose city here
-    const spread_lat = 0.0006;
-    const spread_lng = 0.001;
-    for (let i = 1; i <= 250; i++) {
+    const location = locations.berlin; // choose city here
+    const spread_lat = 0.012;
+    const spread_lng = 0.02;
+    for (let i = 1; i <= 2500; i++) {
       Letters.insert({
         character: shuffleString(AvailableLetters.map).charAt(0),
         coords: {
