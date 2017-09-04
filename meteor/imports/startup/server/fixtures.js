@@ -105,16 +105,17 @@ Meteor.startup(() => {
         lng: 2.349014,
       }
     }
-    const center = locations.paris; // choose city here
-    const spread_lat = 0.06;
-    const spread_lng = 0.1;
+    const location = locations.paris; // choose city here
+    const spread_lat = 0.0006;
+    const spread_lng = 0.001;
     for (let i = 1; i <= 250; i++) {
       Letters.insert({
         character: shuffleString(AvailableLetters.map).charAt(0),
         coords: {
-          lat: center.lat - spread_lat / 2 + Math.random() * spread_lat,
-          lng: center.lng - spread_lng / 2 + Math.random() * spread_lng,
+          lat: location.lat - spread_lat / 2 + Math.random() * spread_lat,
+          lng: location.lng - spread_lng / 2 + Math.random() * spread_lng,
         },
+        created_at: new Date,
       });
     }
   }
