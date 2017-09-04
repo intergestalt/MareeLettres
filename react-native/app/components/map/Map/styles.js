@@ -1,6 +1,8 @@
 import EStyleSheet from 'react-native-extended-stylesheet';
 import letterstyles from '../Overlay/styles';
 
+const menuHeight = letterstyles.$menuHeight;
+
 const styles = EStyleSheet.create({
   $drop_zone_border: 'rgba(255,255,255,0.25)',
   $drop_zone_background: 'rgba(255,255,255,0.1)',
@@ -22,14 +24,19 @@ const styles = EStyleSheet.create({
   letter_draggable: {
     fontWeight: 'bold',
     color: 'rgb(245,132,102)',
-    fontSize: 18,
+    fontSize: '1rem',
   },
   button: {
     backgroundColor: 'transparent',
     position: 'absolute',
     right: '0%',
-    top: letterstyles.$menuHeight,
     zIndex: 10,
+  },
+  buttonCamera: {
+    top: 0,
+  },
+  buttonCentreMap: {
+    top: '2rem',
   },
   button_text: {
     padding: 8,
@@ -326,7 +333,7 @@ const mapstyles = [
     "elementType": "geometry.fill",
     "stylers": [
       {
-        "color": "#f58c64"
+        "color": "transparent"
       }
     ]
   },

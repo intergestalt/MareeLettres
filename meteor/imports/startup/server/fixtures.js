@@ -95,13 +95,27 @@ Meteor.startup(() => {
 
   if (Letters.find().count() === 0) {
     console.log('Seeding Letters');
-    for (let i = 1; i <= 50; i++) {
+    const locations = {
+      berlin: {
+        lat: 52.46,
+        lng: 13.38,
+      },
+      paris: {
+        lat: 48.864716,
+        lng: 2.349014,
+      }
+    }
+    const location = locations.berlin; // choose city here
+    const spread_lat = 0.012;
+    const spread_lng = 0.02;
+    for (let i = 1; i <= 2500; i++) {
       Letters.insert({
         character: shuffleString(AvailableLetters.map).charAt(0),
         coords: {
-          lat: 52.46 + Math.random() * 0.06, // Berlin
-          lng: 13.38 + Math.random() * 0.1, // Berlin
+          lat: location.lat - spread_lat / 2 + Math.random() * spread_lat,
+          lng: location.lng - spread_lng / 2 + Math.random() * spread_lng,
         },
+        created_at: new Date,
       });
     }
   }

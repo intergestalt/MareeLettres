@@ -4,7 +4,7 @@ import MapView from 'react-native-maps';
 import { connect } from 'react-redux';
 import Exponent from 'expo';
 import { Letter } from '../Letters';
-import { LettersMenu } from '../Overlay';
+import { LettersMenu, CameraButton } from '../Overlay';
 import { styles, mapstyles } from './styles';
 import styles_menu from '../Overlay/styles';
 import { changeMapRegionProxy, changeMapLayoutProxy, setUserCoordinatesProxy } from '../../../helper/mapHelper';
@@ -42,7 +42,7 @@ class Map extends Component {
       Location.getCurrentPositionAsync({ enableHighAccuracy: true }).then((res) => {
         //res.coords.latitude = 52.49330866968013; res.coords.longitude = 13.436372637748718;
         setUserCoordinatesProxy(res.coords.latitude, res.coords.longitude);
-        this.setState({lng: res.coords.longitude, lat: res.coords.latitude});
+        this.setState({ lng: res.coords.longitude, lat: res.coords.latitude });
         this.centreZoomMap();
       });
     } else {
@@ -108,7 +108,7 @@ class Map extends Component {
     );
 
     if (size != this.state.letter_size) {
-      this.setState({letter_size: size});
+      this.setState({ letter_size: size });
     }
   }
 
@@ -176,14 +176,14 @@ class Map extends Component {
     return (
       <Letter
         character={item.character}
-        position={{x:x, y:0}}
+        position={{ x: x, y: 0 }}
         key={index}
         index={index}
         navigation={this.props.navigation}
         disabled={item.disabled}
         primary={index === 0}
         secondary={index !== 0}
-        />
+      />
     )
   }
 
@@ -224,25 +224,28 @@ class Map extends Component {
           showsIndoors={false}
           rotateEnabled={false}          
         >
-          { mapLetters }
-          { myLetters }
+          {mapLetters}
+          {myLetters}
 
           <MapView.Circle
-            center={{latitude: this.state.lat, longitude: this.state.lng}}
+            center={{ latitude: this.state.lat, longitude: this.state.lng }}
             radius={this.props.config.map_drop_zone_radius}
             strokeColor={styles.$drop_zone_border}
             fillColor={styles.$drop_zone_background}
-            />
+          />
 
         </MapView.Animated>
-        <TouchableOpacity style={styles.button} onPress={this.onCentreMapButton}>
+
+        <CameraButton navigation={this.props.navigation} />
+
+        <TouchableOpacity style={[styles.button, styles.buttonCentreMap]} onPress={this.onCentreMapButton}>
           <Text style={styles.button_text}>
             CENTRE MAP
           </Text>
         </TouchableOpacity>
         <LettersMenu navigation={this.props.navigation} />
 
-        { menuLetters }
+        {menuLetters}
       </View>
     );
   }

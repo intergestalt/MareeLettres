@@ -5,7 +5,8 @@ const config = {
   user_key_secret: 'kYB1rIzSjbEhKEMAFCvx', // random key used for encryption between server and client
   available_characters_proposals: 'AAABCDEEEEFGHIIJKLLMNNOOPPQQRRSSSTTUUVWXYZ?*:', // all the physical letters
   available_letters_primary: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', // letter vailable for personal choice
-  available_letters_map: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ' // letters allowed on map
+  available_letters_map: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', // letters allowed on map
+  qr_code_prefix: 'http://lettres.paris/'
 };
 
 export default config;
