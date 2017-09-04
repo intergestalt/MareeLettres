@@ -121,9 +121,9 @@ export default (state = initialState.user, action) => {
         console.log('Reducer: USER_ADD_FRIEND_LETTER');
 
         // prevent bad characters, TODO: remove (API res trusted)
-        if (!action.character.match(/[a-z]/i)) {
-          return state;
-        }
+        //if (!action.character.match(/[a-z]/i)) {
+          //return state;
+        //}
 
         let result = { ...state };
 
