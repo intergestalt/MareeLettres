@@ -11,7 +11,7 @@ class LettersPage extends Component {
   constructor(props) {
     super(props);
     this.state = {};
-    this.position = [52.505, 13.45];
+    this.position = [48.864716, 2.349014];
     this.updatePosition = this.updatePosition.bind(this);
   }
 
@@ -32,9 +32,9 @@ class LettersPage extends Component {
         position={l.coords}
       >
         <Popup>
-          <span>
-            {l.character}
-          </span>
+          <div>
+            {JSON.stringify(l)}
+          </div>
         </Popup>
       </Marker>,
     );
