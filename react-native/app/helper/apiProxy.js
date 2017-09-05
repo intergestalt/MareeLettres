@@ -86,7 +86,6 @@ export function loadContentServiceProxy(force, quietLoading = false) {
     myQuiet = false;
     doit = true;
   }
-
   if (doit) {
     store.dispatch(loadContent(myQuiet));
   }

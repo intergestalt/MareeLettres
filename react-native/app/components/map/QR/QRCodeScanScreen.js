@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { View, Text } from 'react-native';
+import { connect } from 'react-redux';
 
 import { BackSimple } from '../../general/BackButton';
 import QRCodeBox from './QRCode';
@@ -10,15 +11,14 @@ import { dispatchBackAction } from '../../../helper/navigationProxy';
 import { addFriendLetterProxy } from '../../../helper/userHelper';
 import { BarCodeScanner, Permissions } from 'expo';
 
-
 import I18n from '../../../i18n/i18n';
 
 class QRCodeScanScreen extends Component {
-  static PropTypes = {
+  static propTypes = {
     navigation: PropTypes.object,
     input: PropTypes.string,
+    language: PropTypes.string,
   };
-
   state = {
     hasCameraPermission: null,
     lastScanned: null,
@@ -26,27 +26,27 @@ class QRCodeScanScreen extends Component {
   };
 
   componentDidMount() {
-    this.setState({disabled: false});
+    this.setState({ disabled: false });
     this.requestCameraPermission();
   }
 
   componentWillUnmount() {
-    this.setState({disabled: true});
+    this.setState({ disabled: true });
   }
 
   requestCameraPermission = async () => {
     const { status } = await Permissions.askAsync(Permissions.CAMERA);
     this.setState({
-      hasCameraPermission: status === 'granted'
-    })
-  }
+      hasCameraPermission: status === 'granted',
+    });
+  };
 
-  handleQRCode = result => {
-    let char = result.data.charAt(result.data.length - 1);
+  handleQRCode = (result) => {
+    const char = result.data.charAt(result.data.length - 1);
 
     // prevent multiple scans
     if (char !== this.state.lastScanned) {
-      //navigateToMapOverview(this.props);
+      // navigateToMapOverview(this.props);
       dispatchBackAction(this.props);
       addFriendLetterProxy(char);
       this.setState({ lastScanned: char });
@@ -54,31 +54,30 @@ class QRCodeScanScreen extends Component {
   };
 
   handleBackPress() {
-    this.setState({disabled: true});
-    //navigateToMapOverview(this.props);
+    this.setState({ disabled: true });
+    // navigateToMapOverview(this.props);
     dispatchBackAction(this.props);
-  };
+  }
 
   componentWillBlur() {
     console.log('will blur');
   }
 
   render() {
+    I18n.locale = this.props.language;
     return (
       <View style={styles.container}>
-        <BackSimple colour='white' onPress={() => this.handleBackPress()} />
+        <BackSimple colour="white" onPress={() => this.handleBackPress()} />
 
-        {
-          this.state.hasCameraPermission === null || this.state.disabled
-            ? <Text>Waiting for permission</Text>
-            : this.state.hasCameraPermission === false
-              ? <Text></Text>
-              : <BarCodeScanner
-                  onBarCodeRead={this.handleQRCode}
-                  style={styles.QRReader}
-                  barCodeTypes={[BarCodeScanner.Constants.BarCodeType.qr]}
-                  />
-        }
+        {this.state.hasCameraPermission === null || this.state.disabled
+          ? <Text>Waiting for permission</Text>
+          : this.state.hasCameraPermission === false
+            ? <Text />
+            : <BarCodeScanner
+              onBarCodeRead={this.handleQRCode}
+              style={styles.QRReader}
+              barCodeTypes={[BarCodeScanner.Constants.BarCodeType.qr]}
+            />}
 
         <Text style={styles.textWhite}>
           {I18n.t('map_scan_qr_instruction')}
@@ -88,4 +87,15 @@ class QRCodeScanScreen extends Component {
   }
 }
 
-export default QRCodeScanScreen;
+const mapStateToProps = (state) => {
+  try {
+    return {
+      language: state.globals.language,
+    };
+  } catch (e) {
+    console.log('QRCodeScanScreen');
+    console.log(e);
+    throw e;
+  }
+};
+export default connect(mapStateToProps)(QRCodeScanScreen);

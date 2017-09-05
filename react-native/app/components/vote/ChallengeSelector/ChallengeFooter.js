@@ -18,6 +18,7 @@ class ChallengeFooter extends Component {
     handleTinderPress: PropTypes.func,
     handleListPress: PropTypes.func,
     handleCommitPress: PropTypes.func,
+    language: PropTypes.string,
   };
 
   getChallengeIndex() {
@@ -42,7 +43,9 @@ class ChallengeFooter extends Component {
       <View style={styles.challengeFooter}>
         <View style={styles.challengeFooterFinished}>
           <TouchableOpacity onPress={this.props.handleSharePress}>
-            <Text style={styles.challengeFooterText}>{I18n.t('share_button')}</Text>
+            <Text style={styles.challengeFooterText}>
+              {I18n.t('share_button')}
+            </Text>
             {/* TODO: overview and status options here */}
           </TouchableOpacity>
         </View>
@@ -52,10 +55,14 @@ class ChallengeFooter extends Component {
   renderTinderButton() {
     return this.props.proposalView === PROPOSAL_VIEWS.TINDER
       ? <TouchableOpacity style={styles.footerButton} onPress={this.props.handleListPress}>
-        <Text style={styles.challengeFooterText}>{I18n.t('overview_button')}</Text>
+        <Text style={styles.challengeFooterText}>
+          {I18n.t('overview_button')}
+        </Text>
       </TouchableOpacity>
       : <TouchableOpacity style={styles.footerButton} onPress={this.props.handleTinderPress}>
-        <Text style={styles.challengeFooterText}>{I18n.t('tinder_button')}</Text>
+        <Text style={styles.challengeFooterText}>
+          {I18n.t('tinder_button')}
+        </Text>
       </TouchableOpacity>;
   }
 
@@ -63,11 +70,15 @@ class ChallengeFooter extends Component {
     return (
       <View style={styles.challengeFooter}>
         <View style={styles.challengeFooterUnfinished}>
-          
           {this.renderTinderButton()}
-          
-          <TouchableOpacity style={[styles.footerButton, styles.footerButtonRight]} onPress={this.props.handleCommitPress}>
-            <Text style={styles.challengeFooterText}>{I18n.t('suggest_button')}</Text>
+
+          <TouchableOpacity
+            style={[styles.footerButton, styles.footerButtonRight]}
+            onPress={this.props.handleCommitPress}
+          >
+            <Text style={styles.challengeFooterText}>
+              {I18n.t('suggest_button')}
+            </Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -75,6 +86,8 @@ class ChallengeFooter extends Component {
   }
 
   render() {
+    I18n.locale = this.props.language;
+
     if (this.isFinished()) {
       return this.renderFinished();
     }
@@ -91,6 +104,7 @@ const mapStateToProps = (state) => {
       selectedChallengeIndex,
       challenges,
       proposalView,
+      language: state.globals.language,
     };
   } catch (e) {
     console.log('ChallengeFooter');
