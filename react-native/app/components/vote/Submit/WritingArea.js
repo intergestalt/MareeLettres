@@ -10,6 +10,7 @@ class WritingArea extends Component {
   static propTypes = {
     title: PropTypes.string,
     language: PropTypes.string,
+    letterColor: PropTypes.string,
     letters: PropTypes.array,
     layoutCallback: PropTypes.func,
     onLayoutCallbackWritingArea: PropTypes.func,
@@ -33,7 +34,7 @@ class WritingArea extends Component {
           mykey={letter.key}
           layoutCallback={this.props.layoutCallback}
           type={0}
-          color="white"
+          color={this.props.letterColor}
         />,
       );
     }
