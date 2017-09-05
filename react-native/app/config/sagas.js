@@ -13,7 +13,7 @@ import store from '../config/store';
 import { loadConfigServiceProxy } from '../helper/apiProxy';
 import { clearMyLettersProxy } from '../helper/mapHelper';
 
-function* loadData(action) {
+const loadData = function* loadData(action) {
   try {
     const response = yield call(action.apiCall, action);
     //console.log(response);
@@ -65,7 +65,7 @@ function* loadData(action) {
   }
 }
 
-export default function* rootSaga() {
+const rootSaga = function* rootSaga() {
   yield takeEvery(LOAD_CHALLENGES, loadData);
   yield takeEvery(LOAD_CHALLENGE, loadData);
   yield takeEvery(LOAD_PROPOSALS, loadData);
@@ -78,3 +78,5 @@ export default function* rootSaga() {
   yield takeEvery(LOAD_USER, loadData);
   yield takeEvery(POST_PROPOSAL, loadData);
 }
+
+export default rootSaga;

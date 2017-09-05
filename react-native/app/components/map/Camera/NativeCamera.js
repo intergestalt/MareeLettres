@@ -33,7 +33,7 @@ class NativeCamera extends Component {
     this.setState({ cameraRollUri: saveResult });
   };
 
-  componentDidMount() {
+  componentWillMount() {
     this.setState({ disabled: false });
     this.requestCameraPermission();
   }
