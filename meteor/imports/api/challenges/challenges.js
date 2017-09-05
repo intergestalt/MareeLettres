@@ -63,6 +63,12 @@ const ChallengesSchema = new SimpleSchema({
     type: Object, // TODO: Add ProposalsSchama here
     optional: true,
   },
+  winningProposalImageUrl: {
+    type: String,
+    optional: true,
+    regEx: SimpleSchema.RegEx.Url,
+    label: "Winning Proposal Image Url"
+  }
 });
 
 export { Challenges, ChallengesSchema };

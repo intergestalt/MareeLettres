@@ -17,7 +17,7 @@ const processWinner = () => {
 
     const winningProposal = Proposals.findOne(
       { challenge_id: doc._id },
-      { sort: { score: -1, votes_number: -1 } },
+      { sort: { score: -1, yes_votes: -1 } },
     ); // TODO: add positiv category as 3rd criterium
     console.log('winning proposal: ', winningProposal);
 
