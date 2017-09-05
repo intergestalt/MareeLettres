@@ -51,7 +51,7 @@ class Map extends Component {
     }
   }
 
-  componentDidMount() {
+  componentWillMount() {
     // get the player GPS and begin blinking animation
     this._getPlayerCoords();
     
@@ -194,15 +194,11 @@ class Map extends Component {
     const mapLetters = [];
     if(this.props.map.coordinates.longitudeDelta <= this.state.delta_max) { // only add markers at all if we are low enough
       Object.keys(this.props.letters.content).forEach((key)=>{
-        if(this.props.letters.content[key].showAsMarker) {
+        if(this.props.letters.content[key].showAsMarker) { // this is set in letters reducer!
           mapLetters.push(this.mapLettersToMarkers(this.props.letters.content[key], this.props.letters.content[key]._id, false));  
         }
       });
     }
-    
-    //console.log(mapLetters.length + " / " + Object.keys(this.props.letters.content).length + " (dropped: " + droppedMarkers + ")");
-    //console.log(this.props.map.coordinates.latitudeDelta);
-    //console.log(this.state.delta_max);
     
     const menuLetters = [
       this.props.user.primary_letter,

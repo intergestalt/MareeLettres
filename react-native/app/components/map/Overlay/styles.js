@@ -52,9 +52,9 @@ export default EStyleSheet.create({
   },
 
   camera__button__text: {
-    fontWeight: 'bold',
     color: '$white',
     fontSize: '1rem',
+    fontFamily: 'impact'
   },
 
   // letters menu

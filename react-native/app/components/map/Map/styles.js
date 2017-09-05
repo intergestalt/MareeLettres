@@ -36,7 +36,7 @@ const styles = EStyleSheet.create({
     top: 0,
   },
   buttonCentreMap: {
-    top: '2rem',
+    bottom: 105,
   },
   button_text: {
     padding: 8,
