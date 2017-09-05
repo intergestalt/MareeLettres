@@ -9,6 +9,7 @@ import { styles, mapstyles } from './styles';
 import styles_menu from '../Overlay/styles';
 import { changeMapRegionProxy, changeMapLayoutProxy, setUserCoordinatesProxy, getDistanceBetweenCoordinates, metresToDelta } from '../../../helper/mapHelper';
 import { loadLettersServiceProxy, loadLettersIntervalServiceProxy } from '../../../helper/apiProxy';
+import { BlinkText } from './BlinkText';
 
 class Map extends Component {
   static propTypes = {
@@ -29,7 +30,6 @@ class Map extends Component {
       letter_size: 12,
       delta_initial: metresToDelta(this.props.config.map_drop_zone_radius * this.props.config.map_delta_initial, this.props.map.coordinates.latitude),
       delta_max: metresToDelta(this.props.config.map_drop_zone_radius * this.props.config.map_delta_max, this.props.map.coordinates.latitude),
-      blink: false,
       isFontsReady: false
     };
   }
@@ -50,18 +50,10 @@ class Map extends Component {
     }
   }
 
-  cycleAnimation() {
-    // blinking animation (link to opacity)
-    setInterval(()=>{
-      this.setState({blink: !this.state.blink});
-    }, 500);
-  }
-
   componentDidMount() {
     // get the player GPS and begin blinking animation
     this._getPlayerCoords();
-    this.cycleAnimation();
-
+    
     loadLettersServiceProxy({
       centerLat:this.props.map.coordinates.latitude, 
       centerLng:this.props.map.coordinates.longitude,
@@ -146,16 +138,7 @@ class Map extends Component {
             key={index}
             anchor={{x:0.5, y:0.5}}
             coordinate={{latitude: item.coords.lat, longitude: item.coords.lng}}>
-            {!blinking
-              ? <Text style={[styles.letter, {opacity}, {fontSize: this.state.letter_size}]}>
-                  {item.character}
-                </Text>
-              : (this.state.blink 
-                ?<Text style={[styles.letter, {fontSize: this.state.letter_size}]}>
-                  {item.character}
-                </Text>
-                : <Text/>)
-            }
+            <BlinkText blinking={blinking} style={[styles.letter, {opacity}, {fontSize: this.state.letter_size}]} text={item.character}/>
           </MapView.Marker>
         : null
     );
@@ -205,22 +188,23 @@ class Map extends Component {
     const markerLimit = 100; // hard limit on markers from server
     let index = 0;
     let counter = 0;
-    if(this.props.map.coordinates.longitudeDelta <= this.state.delta_max) { // only add marker if we are low enough
-     Object.keys(this.props.letters.content).forEach((key)=>{
-      const distance = getDistanceBetweenCoordinates(this.props.map.coordinates.latitude, this.props.map.coordinates.longitude, this.props.letters.content[key].coords.lat, this.props.letters.content[key].coords.lng);
-      if(
-        counter < markerLimit // under the limit
-        && metresToDelta(distance, this.props.map.coordinates.latitude) < this.props.map.coordinates.longitudeDelta // marker is on screen
-      ) {
-          mapLetters.push(this.mapLettersToMarkers(this.props.letters.content[key], index, false));
-          counter++;  
-      }
-      index++;
-    });
-     
+    let droppedMarkers = 0;
+    if(this.props.map.coordinates.longitudeDelta <= this.state.delta_max) { // only add markers at all if we are low enough
+      Object.keys(this.props.letters.content).forEach((key)=>{
+        const distance = getDistanceBetweenCoordinates(this.props.map.coordinates.latitude, this.props.map.coordinates.longitude, this.props.letters.content[key].coords.lat, this.props.letters.content[key].coords.lng);
+        if(metresToDelta(distance, this.props.map.coordinates.latitude) < this.props.map.coordinates.longitudeDelta) { // letter is on screen
+          if(counter < markerLimit) { // under the limit
+            mapLetters.push(this.mapLettersToMarkers(this.props.letters.content[key], index, false));
+            counter++;  
+          } else {
+            droppedMarkers++;
+          }
+        }
+        index++;
+      });
     }
     
-    console.log(mapLetters.length + " / " + Object.keys(this.props.letters.content).length);
+    console.log(mapLetters.length + " / " + Object.keys(this.props.letters.content).length + " (dropped: " + droppedMarkers + ")");
     //console.log(this.props.map.coordinates.latitudeDelta);
     //console.log(this.state.delta_max);
     
@@ -236,7 +220,6 @@ class Map extends Component {
       <View style={styles.container} ref="mapContainer">
         <MapView.Animated ref="map" onLayout={this.onLayout}
           ref={(input) => { this._map = input; }}
-          onRegionChange={this.onRegionChange}
           onRegionChangeComplete={this.onRegionChangeComplete}
           provider={MapView.PROVIDER_GOOGLE}
           style={styles.container}
