@@ -27,7 +27,7 @@ export default {
       map_drop_zone_radius: 20,
       map_letter_base_size: 5,
       map_delta_initial: 2.5, // map zoom relative to dropzone size, 1 = drop zone is fullscreen
-      map_delta_max: 10, // maximum map zoom relative to drop zone size
+      map_delta_max: 9.5, // maximum map zoom relative to drop zone size
       map_min_zoom_level: 0, // NOTE: this is not used to set initial zoom, use map_delta_initial
       map_max_zoom_level: 20,
 

@@ -7,8 +7,8 @@ import { Letter } from '../Letters';
 import { LettersMenu, CameraButton } from '../Overlay';
 import { styles, mapstyles } from './styles';
 import styles_menu from '../Overlay/styles';
-import { changeMapRegionProxy, changeMapLayoutProxy, setUserCoordinatesProxy } from '../../../helper/mapHelper';
-import { Font } from 'expo';
+import { changeMapRegionProxy, changeMapLayoutProxy, setUserCoordinatesProxy, getDistanceBetweenCoordinates, metresToDelta } from '../../../helper/mapHelper';
+import { loadLettersServiceProxy, loadLettersIntervalServiceProxy } from '../../../helper/apiProxy';
 
 class Map extends Component {
   static propTypes = {
@@ -27,9 +27,9 @@ class Map extends Component {
       lat: this.props.user.coordinates.latitude,
       lng: this.props.user.coordinates.longitude,
       letter_size: 12,
-      delta_initial: this.metresToDelta(this.props.config.map_drop_zone_radius * this.props.config.map_delta_initial),
-      delta_max: this.metresToDelta(this.props.config.map_drop_zone_radius * this.props.config.map_delta_max),
-      blink: new Animated.Value(0),
+      delta_initial: metresToDelta(this.props.config.map_drop_zone_radius * this.props.config.map_delta_initial, this.props.map.coordinates.latitude),
+      delta_max: metresToDelta(this.props.config.map_drop_zone_radius * this.props.config.map_delta_max, this.props.map.coordinates.latitude),
+      blink: false,
       isFontsReady: false
     };
   }
@@ -52,18 +52,9 @@ class Map extends Component {
 
   cycleAnimation() {
     // blinking animation (link to opacity)
-    Animated.sequence([
-      Animated.timing(this.state.blink, {
-        toValue: 1,
-        duration: 500
-      }),
-      Animated.timing(this.state.blink, {
-        toValue: 0,
-        duration: 500
-      })
-    ]).start(() => {
-      this.cycleAnimation();
-    });
+    setInterval(()=>{
+      this.setState({blink: !this.state.blink});
+    }, 500);
   }
 
   componentDidMount() {
@@ -71,18 +62,24 @@ class Map extends Component {
     this._getPlayerCoords();
     this.cycleAnimation();
 
-    Font.loadAsync({
-      impact: require('../../../assets/fonts/impact.ttf'),
-    }).then(()=>{
-      console.log("font loaded");
-      this.setState({ isFontsReady: true });  
-    });
-    
+    loadLettersServiceProxy({
+      centerLat:this.props.map.coordinates.latitude, 
+      centerLng:this.props.map.coordinates.longitude,
+      radius:100});
+    this.pollLetters();
   }
 
-  onRegionChange = (region) => {
-    // placeholder
-  };
+  pollLetters() {
+    console.ignoredYellowBox = ['Setting a timer'];
+    setInterval(() => {
+        loadLettersIntervalServiceProxy({
+          centerLat:this.props.map.coordinates.latitude, 
+          centerLng:this.props.map.coordinates.longitude,
+          radius:100});
+        },
+      this.props.interval
+    );
+  }
 
   onLayout = (event) => {
     let layout = event.nativeEvent.layout;    
@@ -96,9 +93,14 @@ class Map extends Component {
   };
 
   onRegionChangeComplete = (region) => {
-    changeMapRegionProxy(region);
-    // recalculate the letter size
-    this.setMapLetterSize(region);
+    if(JSON.stringify(region) !== JSON.stringify(this.props.map.coordinates)) {
+      //console.log("region changed");
+      //console.log(this.props.map.coordinates)
+      //console.log(region);
+      changeMapRegionProxy(region);
+      // recalculate the letter size
+      this.setMapLetterSize(region);
+    }
   }
 
   setMapLetterSize = (region) => {
@@ -110,12 +112,6 @@ class Map extends Component {
     if (size != this.state.letter_size) {
       this.setState({ letter_size: size });
     }
-  }
-
-  metresToDelta = (m) => {
-    // convert metres to ~map delta
-    const delta = m / (111320 * Math.cos(this.props.map.coordinates.latitude * Math.PI / 180));
-    return delta;
   }
 
   centreMap = () => {
@@ -140,23 +136,25 @@ class Map extends Component {
     this._getPlayerCoords();
   }
 
-  mapLettersToMarkers(item, index, blink) {
+  mapLettersToMarkers(item, index, blinking) {
     const t = new Date().getTime() - new Date(item.created_at).getTime();
     const opacity = Math.max(0, 1 - t / (1000 * this.props.config.map_letter_decay_time));
-
+    
     return (
-      opacity != 0 && this.props.map.coordinates.longitudeDelta <= this.state.delta_max && this.state.isFontsReady
+      opacity != 0
         ? <MapView.Marker
             key={index}
             anchor={{x:0.5, y:0.5}}
             coordinate={{latitude: item.coords.lat, longitude: item.coords.lng}}>
-            {!blink
+            {!blinking
               ? <Text style={[styles.letter, {opacity}, {fontSize: this.state.letter_size}]}>
                   {item.character}
                 </Text>
-              : <Animated.Text style={[styles.letter, {opacity: this.state.blink}, {fontSize: this.state.letter_size}]}>
+              : (this.state.blink 
+                ?<Text style={[styles.letter, {fontSize: this.state.letter_size}]}>
                   {item.character}
-                </Animated.Text>
+                </Text>
+                : <Text/>)
             }
           </MapView.Marker>
         : null
@@ -187,14 +185,45 @@ class Map extends Component {
     )
   }
 
+  shouldComponentUpdate(nextProps, nextState) {
+    // todo: only update map when it needs to be updated
+    return true;
+  }
+
   render() {
-    // convert letter objects into component array
-    const mapLetters = Object.keys(this.props.letters.content).map((key, index) =>
-      this.mapLettersToMarkers(this.props.letters.content[key], index, false)
-    );
-    const myLetters = Object.keys(this.props.my_letters.content).map((key, index) =>
+    console.log("RENDER MAP");
+    
+    // convert letter objects into component arrays
+
+    // allow all user created letters onto map
+    const myLetterKeys = Object.keys(this.props.my_letters.content);
+    const myLetters = myLetterKeys.map((key, index) => 
       this.mapLettersToMarkers(this.props.my_letters.content[key], index, true)
     );
+    
+    let mapLetters = [];
+    const markerLimit = 100; // hard limit on markers from server
+    let index = 0;
+    let counter = 0;
+    if(this.props.map.coordinates.longitudeDelta <= this.state.delta_max) { // only add marker if we are low enough
+     Object.keys(this.props.letters.content).forEach((key)=>{
+      const distance = getDistanceBetweenCoordinates(this.props.map.coordinates.latitude, this.props.map.coordinates.longitude, this.props.letters.content[key].coords.lat, this.props.letters.content[key].coords.lng);
+      if(
+        counter < markerLimit // under the limit
+        && metresToDelta(distance, this.props.map.coordinates.latitude) < this.props.map.coordinates.longitudeDelta // marker is on screen
+      ) {
+          mapLetters.push(this.mapLettersToMarkers(this.props.letters.content[key], index, false));
+          counter++;  
+      }
+      index++;
+    });
+     
+    }
+    
+    console.log(mapLetters.length + " / " + Object.keys(this.props.letters.content).length);
+    //console.log(this.props.map.coordinates.latitudeDelta);
+    //console.log(this.state.delta_max);
+    
     const menuLetters = [
       this.props.user.primary_letter,
       this.props.user.secondary_letter_1,
@@ -224,9 +253,9 @@ class Map extends Component {
           showsIndoors={false}
           rotateEnabled={false}          
         >
-          {mapLetters}
           {myLetters}
-
+          {mapLetters}
+          
           <MapView.Circle
             center={{ latitude: this.state.lat, longitude: this.state.lng }}
             radius={this.props.config.map_drop_zone_radius}
@@ -253,6 +282,7 @@ class Map extends Component {
 
 const mapStateToProps = (state) => {
   try {
+    const interval = state.config.config.map_update_interval * 1000;
     const user = state.user;
     const map = state.user.map;
     const config = state.config.config;
@@ -260,6 +290,7 @@ const mapStateToProps = (state) => {
     const my_letters = state.myLetters;
 
     return {
+      interval,
       user,
       map,
       config,
