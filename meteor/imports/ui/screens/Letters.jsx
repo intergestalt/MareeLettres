@@ -5,6 +5,7 @@ import { Map, Marker, Popup, TileLayer } from 'react-leaflet';
 
 import Menu from '../components/menu';
 
+import AdminWrapper from '../components/AdminWrapper';
 import { Letters } from '../../api/letters/letters';
 
 class LettersPage extends Component {
@@ -42,7 +43,7 @@ class LettersPage extends Component {
 
   render() {
     return (
-      <div>
+      <AdminWrapper>
         <Menu />
         <div className="map-container">
           <link
@@ -57,7 +58,7 @@ class LettersPage extends Component {
             {this.renderMarkers()}
           </Map>
         </div>
-      </div>
+      </AdminWrapper>
     );
   }
 }

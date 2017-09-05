@@ -6,6 +6,7 @@ import AutoForm from 'uniforms-unstyled/AutoForm';
 import { Content, ContentSchema } from '../../api/content/content';
 
 import ApiInfo from '../components/ApiInfo';
+import AdminWrapper from '../components/AdminWrapper';
 import Menu from '../components/menu';
 
 class ContentPage extends Component {
@@ -53,13 +54,13 @@ class ContentPage extends Component {
 
   render() {
     return (
-      <div>
+      <AdminWrapper>
         <Menu />
-        <ul>
+        <ul className="content_editor">
           {this.renderContents()}
         </ul>
         <ApiInfo path="content" />
-      </div>
+      </AdminWrapper>
     );
   }
 }

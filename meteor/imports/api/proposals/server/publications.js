@@ -8,6 +8,8 @@ import RequestHelpers from '../../../helpers/RequestHelpers';
 import _ from 'underscore';
 
 Meteor.publish('get.proposals', function getProposals(data) {
+  if (!this.userId) return;
+
   const query = {};
   if (data.challenge_id) query.challenge_id = data.challenge_id;
 
@@ -19,6 +21,8 @@ Meteor.publish('get.proposals', function getProposals(data) {
 });
 
 Meteor.publish('get.proposals/challenge_id', function getProposals(challenge_id) {
+  if (!this.userId) return;
+
   const query = challenge_id ? { challenge_id } : {};
   return Proposals.find(query);
 });

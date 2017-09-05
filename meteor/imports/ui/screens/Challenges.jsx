@@ -8,6 +8,7 @@ import 'moment-timezone';
 import { Challenges } from '../../api/challenges/challenges';
 import { Proposals } from '../../api/proposals/proposals';
 
+import AdminWrapper from '../components/AdminWrapper';
 import Menu from '../components/menu';
 import ApiInfo from '../components/ApiInfo';
 
@@ -82,7 +83,7 @@ class ChallengesIndex extends Component {
 
   render() {
     return (
-      <div>
+      <AdminWrapper>
         <Menu />
         <table className="tableFullBorder">
           <thead>
@@ -103,7 +104,7 @@ class ChallengesIndex extends Component {
           &#8505; <small>All times in Paris time</small>
         </p>
         <ApiInfo path="challenges" />
-      </div>
+      </AdminWrapper>
     );
   }
 }

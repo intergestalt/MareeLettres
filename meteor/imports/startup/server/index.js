@@ -12,7 +12,7 @@ import './system-config';
 
 // web (admin)
 import './fixtures';
-import './accounts';
+import '../both/accounts';
 
 // web (api)
 import './register-rest';
