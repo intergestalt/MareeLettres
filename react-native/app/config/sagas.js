@@ -16,7 +16,7 @@ import { clearMyLettersProxy } from '../helper/mapHelper';
 function* loadData(action) {
   try {
     const response = yield call(action.apiCall, action);
-    console.log(response);
+    //console.log(response);
     //const result = yield JSON.parse(response);
     const result = JSON.parse(response);
     if (result.error) {

@@ -1,13 +1,18 @@
 import EStyleSheet from 'react-native-extended-stylesheet';
+import letterstyles from '../Overlay/styles';
+
+const menuHeight = letterstyles.$menuHeight;
 
 const styles = EStyleSheet.create({
+  $drop_zone_border: 'rgba(255,255,255,0.25)',
+  $drop_zone_background: 'rgba(255,255,255,0.1)',
   container: {
     flex: 1,
     width: '100%',
     zIndex: -1,
   },
   letter: {
-    fontWeight: 'bold',
+    //fontWeight: 'bold',
     color: 'white',
     fontFamily: 'impact',
   },
@@ -19,14 +24,19 @@ const styles = EStyleSheet.create({
   letter_draggable: {
     fontWeight: 'bold',
     color: 'rgb(245,132,102)',
-    fontSize: 18,
+    fontSize: '1rem',
   },
   button: {
     backgroundColor: 'transparent',
     position: 'absolute',
     right: '0%',
-    bottom: '0%',
     zIndex: 10,
+  },
+  buttonCamera: {
+    top: 0,
+  },
+  buttonCentreMap: {
+    top: '2rem',
   },
   button_text: {
     padding: 8,
@@ -34,7 +44,15 @@ const styles = EStyleSheet.create({
     fontSize: '1.2rem',
     color: 'white',
     backgroundColor: 'transparent',
-  }
+  },
+  proxy_letter: {
+    position: 'absolute',
+    fontWeight: 'bold',
+    color: 'white',
+    fontFamily: 'impact',
+    backgroundColor: 'transparent',
+    padding: 0,
+  },
 });
 
 const mapstyles = [
@@ -315,7 +333,7 @@ const mapstyles = [
     "elementType": "geometry.fill",
     "stylers": [
       {
-        "color": "#f58c64"
+        "color": "transparent"
       }
     ]
   },

@@ -24,9 +24,9 @@ export default {
       map_letter_regeneration_time_primary: 5,
       map_letter_regeneration_time_secondary: 5,
       map_letter_transfer_timeout: 60,
-      map_drop_zone_radius: 10,
+      map_drop_zone_radius: 20,
       map_letter_base_size: 5,
-      map_delta_initial: 2, // map zoom relative to dropzone size, 1 = drop zone is fullscreen
+      map_delta_initial: 2.5, // map zoom relative to dropzone size, 1 = drop zone is fullscreen
       map_delta_max: 10, // maximum map zoom relative to drop zone size
       map_min_zoom_level: 0, // NOTE: this is not used to set initial zoom, use map_delta_initial
       map_max_zoom_level: 20,
@@ -79,16 +79,11 @@ export default {
       longitudeDelta: 0.0004,
     },
     map: {
-      dropzone_radius: 10,
       coordinates: {
         latitude: 48.8566,
         longitude: 2.3522,
         latitudeDelta: 0.0004,
         longitudeDelta: 0.0004,
-      },
-      letters_selected: {
-        mine: false,
-        friends: [false, false, false, false],
       },
       tutorialStatus: 'welcome'
     },
@@ -97,14 +92,28 @@ export default {
       character: '+',
       acquired_at: sampleDate,
       last_used_at: sampleDate,
+      disabled: false,
     },
-    secondary_letters: [
-      /* {
-        character: 'A',
-        acquired_at: sampleDate,
-        last_used_at: sampleDate,
-      }, */
-    ],
+    secondary_letter_1: {
+      character: '',
+      disabled: false,
+      overwrite: false,
+    },
+    secondary_letter_2: {
+      character: '',
+      disabled: false,
+      overwrite: false,
+    },
+    secondary_letter_3: {
+      character: '',
+      disabled: false,
+      overwrite: false,
+    },
+    secondary_letter_4: {
+      character: '',
+      disabled: false,
+      overwrite: false,
+    },
     votes: {},
     internalVotes: {
       isInternalLoading: false,

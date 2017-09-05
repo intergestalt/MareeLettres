@@ -74,3 +74,59 @@ body {
   /*font-size: 110%;*/
   opacity: 0.8;
 }
+
+.content_editor {
+  list-style-type: none;
+  margin: 2rem;
+  padding: 0;
+}
+
+.content_editor li {
+  margin:0;
+  padding: 0;
+  margin-bottom: 3rem;
+}
+
+.content_editor form {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.content_editor form > div {
+  width: 50%;
+}
+
+.content_editor form label {
+  display:block;
+  text-transform: uppercase;
+}
+
+.content_editor form textarea {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  min-height: 20rem;
+  font-size: 1rem;
+  padding: 1rem;
+}
+
+.content_editor form > [type="submit"] {
+  flex: 1;
+  width: 100%;
+  margin-top: 1rem;
+}
+
+input[type="submit"] {
+  padding: 10px;
+  border: solid 1px black;
+  border-radius: 1rem;
+  background-color: lightgrey;
+  font-size: 1rem;
+}
+
+input[type="submit"]:hover {
+  background-color: orange;
+  color:black;
+}

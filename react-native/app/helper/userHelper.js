@@ -10,11 +10,16 @@ import {
   deleteLetters,
   setUserLetter,
   binLetter,
+  flagLetterForOverwrite,
   addFriendLetter,
-  setUserMapTutorialStatus
+  setUserMapTutorialStatus,
 } from '../actions/user';
 
 import store from '../config/store';
+
+export function flagLetterForOverwriteProxy(menuIndex) {
+  store.dispatch(flagLetterForOverwrite(menuIndex))
+}
 
 export function deleteLettersProxy() {
   store.dispatch(deleteLetters());

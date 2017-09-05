@@ -1,7 +1,6 @@
 export default {
   heading1: {
     fontSize: 32,
-    fontWeight: 'bold',
     color: '#000',
     fontFamily: 'impact',
     textAlign: 'center',
@@ -10,7 +9,6 @@ export default {
   },
   heading2: {
     fontSize: 32,
-    fontWeight: 'bold',
     color: '#000',
     fontFamily: 'impact',
     textAlign: 'center',

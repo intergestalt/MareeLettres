@@ -6,8 +6,8 @@ import { StatusBar } from 'react-native';
 export default EStyleSheet.create({
   $white: '#ffffff',
   $black: '#000000',
-  $lettersHeight: 110,
-  $menuHeight: 60,
+  $lettersHeight: 105,
+  $menuHeight: 52,
   $padding: 8,
 
   // bottom tab menu
@@ -35,7 +35,9 @@ export default EStyleSheet.create({
 
   menu__text: {
     color: '$black',
-    padding: '$padding',
+    paddingHorizontal: '$padding',
+    paddingTop: 4,
+    paddingBottom: 4,
     textAlign: 'center',
   },
 
@@ -52,6 +54,7 @@ export default EStyleSheet.create({
   camera__button__text: {
     fontWeight: 'bold',
     color: '$white',
+    fontSize: '1rem',
   },
 
   // letters menu

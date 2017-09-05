@@ -7,7 +7,7 @@ import { BackSimple } from '../../general/BackButton';
 
 import styles from './styles';
 
-import { navigateToMapOverview } from '../../../helper/navigationProxy';
+import { dispatchBackAction } from '../../../helper/navigationProxy';
 
 import I18n from '../../../i18n/i18n';
 
@@ -17,7 +17,7 @@ class QRCodeSendScreen extends Component {
   };
 
   handleBackPress() {
-    navigateToMapOverview(this.props);
+    dispatchBackAction(this.props);
   };
 
   render() {

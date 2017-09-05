@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { View, Text, CameraRoll, Image } from 'react-native';
+import { View, Text, CameraRoll, Image, WebView } from 'react-native';
 
 import { Constants, takeSnapshotAsync, Permissions, BarCodeScanner } from 'expo';
 
@@ -11,7 +11,7 @@ import { navigateToMapOverview } from '../../../helper/navigationProxy';
 
 import I18n from '../../../i18n/i18n';
 
-class NativeCamera extends Component {
+class WebCamera extends Component {
   static propTypes = {
     navigation: PropTypes.object,
   }
@@ -74,13 +74,7 @@ class NativeCamera extends Component {
             ? <Text>Waiting for permission</Text>
             : this.state.hasCameraPermission === false
               ? <Text>No permission</Text>
-              : <BarCodeScanner
-                onBarCodeRead={this.handleQRCode}
-                style={styles.QRReader}
-                type="back"
-                torchMode="on"
-                barCodeTypes={[BarCodeScanner.Constants.BarCodeType.qr]}
-              />
+              : <WebView source={require('./cameraDemo.html')} />
         }
 
         <Text style={styles.textWhite}>
@@ -100,4 +94,4 @@ class NativeCamera extends Component {
   }
 }
 
-export default NativeCamera;
+export default WebCamera;

@@ -7,6 +7,8 @@ import styles from './styles';
 import { WritingArea, Keyboard, DraggableLetter } from './index';
 import { getDuration } from '../../../helper/helper';
 
+import { postProposalServiceProxy } from '../../../helper/apiProxy';
+
 const colorWriteArea = '#FFFFFF';
 const colorKeyBoard = '#000000';
 
@@ -804,6 +806,9 @@ class ProposalSubmitter extends Component {
       answer += this.state.lettersWritingArea[i].character;
     }
     console.log(`answer ${answer}`);
+
+    console.log("submitting...");
+    postProposalServiceProxy(this.props.challenge._id, answer);
   }
 
   render() {

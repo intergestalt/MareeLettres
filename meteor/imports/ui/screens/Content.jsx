@@ -55,7 +55,7 @@ class ContentPage extends Component {
     return (
       <div>
         <Menu />
-        <ul>
+        <ul className="content_editor">
           {this.renderContents()}
         </ul>
         <ApiInfo path="content" />

@@ -10,6 +10,11 @@ import { CHALLENGE_VIEWS } from '../consts';
 
 // Navigation
 
+export function dispatchBackAction(props) {
+    const backAction = NavigationActions.back({});
+    props.navigation.dispatch(backAction);
+}
+
 // rootNavigator
 
 export function navigateToLanguageSelector(props) {
