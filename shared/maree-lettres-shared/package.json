@@ -8,6 +8,7 @@
     "build": "webpack --env build",
     "dev": "webpack --progress --colors --watch --env dev",
     "install-server": "cd ../../meteor; npm install maree-lettres-shared",
+    "install-app": "cd ../../react-native; yarn upgrade --offline maree-lettres-shared@../shared/maree-lettres-shared",
     "test": "mocha --compilers js:babel-core/register --colors ./test/*.spec.js",
     "test:watch": "mocha --compilers js:babel-core/register --colors -w ./test/*.spec.js"
   },
@@ -26,8 +27,7 @@
     "yargs": "7.1.0"
   },
   "dependencies": {
-    "cryptr": "^2.0.0",
-    "simpl-schema": "^0.3.2"
+    "cryptr": "^2.0.0"
   },
   "license": "no licence"
 }
