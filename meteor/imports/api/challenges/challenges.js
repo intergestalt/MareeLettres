@@ -2,8 +2,6 @@ import { Mongo } from 'meteor/mongo';
 import SimpleSchema from 'simpl-schema';
 import { AvailableLetters } from 'maree-lettres-shared';
 
-SimpleSchema.extendOptions(['description']);
-
 const Challenges = new Mongo.Collection('challenges');
 
 Challenges.allow({
