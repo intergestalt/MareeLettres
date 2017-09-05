@@ -139,6 +139,11 @@ class Letter extends Component {
       return false;
     }
 
+    if (this.props.blockWriting) {
+      this.props.alertWithType('info', 'Too crowded', "There are too many letters in this area. Please write somewhere else or wait.");
+      return false; 
+    }
+
     //console.log("onDrop");
     
     // convert native screen to normalised screen
@@ -386,6 +391,7 @@ const mapStateToProps = (state) => {
     const regen_time_secondary = 1000 * state.config.config.map_letter_regeneration_time_secondary;
     const map_delta_max = state.config.config.map_delta_max;
     const letter_base_size = state.config.config.map_letter_base_size;
+    const blockWriting = state.letters.blockWriting;
 
     return ({
       user,
@@ -397,6 +403,7 @@ const mapStateToProps = (state) => {
       dropzone_radius,
       regen_time_primary,
       regen_time_secondary,
+      blockWriting
     });
 }
 

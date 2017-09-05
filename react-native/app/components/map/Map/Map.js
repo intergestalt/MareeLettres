@@ -41,6 +41,7 @@ class Map extends Component {
     if (status === 'granted') {
       Location.getCurrentPositionAsync({ enableHighAccuracy: true }).then((res) => {
         //res.coords.latitude = 52.49330866968013; res.coords.longitude = 13.436372637748718;
+        console.log(res);
         setUserCoordinatesProxy(res.coords.latitude, res.coords.longitude);
         this.setState({ lng: res.coords.longitude, lat: res.coords.latitude });
         this.centreZoomMap();
@@ -180,31 +181,20 @@ class Map extends Component {
 
     // allow all user created letters onto map
     const myLetterKeys = Object.keys(this.props.my_letters.content);
-    const myLetters = myLetterKeys.map((key, index) => 
-      this.mapLettersToMarkers(this.props.my_letters.content[key], index, true)
+    const myLetters = myLetterKeys.map((key) => 
+      this.mapLettersToMarkers(this.props.my_letters.content[key], this.props.my_letters.content[key]._id, true)
     );
     
-    let mapLetters = [];
-    const markerLimit = 100; // hard limit on markers from server
-    let index = 0;
-    let counter = 0;
-    let droppedMarkers = 0;
+    const mapLetters = [];
     if(this.props.map.coordinates.longitudeDelta <= this.state.delta_max) { // only add markers at all if we are low enough
       Object.keys(this.props.letters.content).forEach((key)=>{
-        const distance = getDistanceBetweenCoordinates(this.props.map.coordinates.latitude, this.props.map.coordinates.longitude, this.props.letters.content[key].coords.lat, this.props.letters.content[key].coords.lng);
-        if(metresToDelta(distance, this.props.map.coordinates.latitude) < this.props.map.coordinates.longitudeDelta) { // letter is on screen
-          if(counter < markerLimit) { // under the limit
-            mapLetters.push(this.mapLettersToMarkers(this.props.letters.content[key], index, false));
-            counter++;  
-          } else {
-            droppedMarkers++;
-          }
+        if(this.props.letters.content[key].showAsMarker) {
+          mapLetters.push(this.mapLettersToMarkers(this.props.letters.content[key], this.props.letters.content[key]._id, false));  
         }
-        index++;
       });
     }
     
-    console.log(mapLetters.length + " / " + Object.keys(this.props.letters.content).length + " (dropped: " + droppedMarkers + ")");
+    //console.log(mapLetters.length + " / " + Object.keys(this.props.letters.content).length + " (dropped: " + droppedMarkers + ")");
     //console.log(this.props.map.coordinates.latitudeDelta);
     //console.log(this.state.delta_max);
     

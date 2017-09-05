@@ -21,7 +21,7 @@ import {
   SET_USER_IS_LOADING_FROM_STORAGE,
   SET_USER_LOADED_FROM_STORAGE,
   USER_SET_MAP_TUTORIAL_STATUS,
-  USER_FLAG_LETTER_FOR_OVERWRITE
+  USER_FLAG_LETTER_FOR_OVERWRITE,
   // SET_USER_LOADED_FROM_STORAGE_RESET_DEFAULTS,
 } from '../actions/user';
 
@@ -324,7 +324,7 @@ export default (state = initialState.user, action) => {
         saveUserToStorage(result);
         return result;
       }
-
+      
       default:
         return state;
     }

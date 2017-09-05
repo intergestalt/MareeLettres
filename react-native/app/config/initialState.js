@@ -85,7 +85,8 @@ export default {
         latitudeDelta: 0.0004,
         longitudeDelta: 0.0004,
       },
-      tutorialStatus: 'welcome'
+      tutorialStatus: 'welcome',
+      maxMarkers: 200
     },
     primary_letter: {
       _id: originId,

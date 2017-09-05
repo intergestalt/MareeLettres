@@ -14,6 +14,9 @@ import { saveLettersToStorage } from '../helper/localStorage';
 import store from '../config/store';
 import initialState from '../config/initialState';
 
+import { setUserMapWritePermissionProxy } from '../helper/userHelper';
+import { getDistanceBetweenCoordinates, metresToDelta } from '../helper/mapHelper';
+
 const letters = (state = initialState.letters, action) => {
   try {
     switch (action.type) {
@@ -44,6 +47,7 @@ const letters = (state = initialState.letters, action) => {
         for (let i=0; i<action.result.letters.length; i+=1) {
           const letter = action.result.letters[i];
 
+          // add letter if it hasn't been loaded
           if (!newContent[letter._id]) {
             const t = (new Date()).getTime() - (new Date(letter.created_at)).getTime();
 
@@ -54,8 +58,30 @@ const letters = (state = initialState.letters, action) => {
           }
         }
 
+        const currentRegion = store.getState().user.map.coordinates;
+        const markerLimit = store.getState().user.map.maxMarkers; // hard limit on markers from server
+        let counter = 0;
+        let droppedMarkers = 0;
+        
+        // iterate over all letters and mark those that should be drawn on the map as markers
+        Object.keys(newContent).forEach((key)=>{
+          newContent[key].showAsMarker = false;
+          const distance = getDistanceBetweenCoordinates(currentRegion.latitude, currentRegion.longitude, newContent[key].coords.lat, newContent[key].coords.lng);
+          if(metresToDelta(distance, currentRegion.latitude) < currentRegion.latitudeDelta) { // letter is on screen
+            if(counter < markerLimit) { // we can still show markers
+              newContent[key].showAsMarker = true;
+              counter++;  
+            } else {
+              droppedMarkers++;
+            }
+          }
+        });
+
+        console.log(counter + " / " + Object.keys(newContent).length + " (dropped: " + droppedMarkers + ")");
+        
         const result = {
           ...state,
+          blockWriting: droppedMarkers > 0,
           isLoading: false,
           isInternalLoading: false,
           content: newContent,
