@@ -1,9 +1,8 @@
 import { loadContent } from '../actions/content';
 import { loadConfig } from '../actions/config';
-import { postProposal } from '../actions/proposals';
+import { postProposal, loadProposals } from '../actions/proposals';
 import { userSendInternalVotes, loadUser } from '../actions/user';
 import { loadChallenge, loadChallenges } from '../actions/challenges';
-import { loadProposals } from '../actions/proposals';
 import { loadLetters, postLetter, loadLettersInterval } from '../actions/letters';
 import store from '../config/store';
 import { getProposalList } from '../helper/proposalsHelper';
@@ -87,7 +86,6 @@ export function loadContentServiceProxy(force, quietLoading = false) {
     myQuiet = false;
     doit = true;
   }
-
   if (doit) {
     store.dispatch(loadContent(myQuiet));
   }
@@ -194,11 +192,11 @@ export function postProposalServiceProxy(challenge_id, text) {
   const user = store.getState().user;
   const body = {
     origin_id: user.origin_id,
-    challenge_id: challenge_id,
-    text: text,
-    created_at: new Date().toISOString() 
+    challenge_id,
+    text,
+    created_at: new Date().toISOString(),
   };
-  console.log("postProposalServiceProxy");
+  console.log('postProposalServiceProxy');
   console.log(body);
   store.dispatch(postProposal(body));
 }

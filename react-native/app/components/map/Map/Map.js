@@ -19,6 +19,7 @@ class Map extends Component {
     config: PropTypes.object,
     letters: PropTypes.object,
     my_letters: PropTypes.object,
+    language: PropTypes.string,
   };
 
   constructor(props) {
@@ -40,8 +41,6 @@ class Map extends Component {
 
     if (status === 'granted') {
       Location.getCurrentPositionAsync({ enableHighAccuracy: true }).then((res) => {
-        //res.coords.latitude = 52.49330866968013; res.coords.longitude = 13.436372637748718;
-        console.log(res);
         setUserCoordinatesProxy(res.coords.latitude, res.coords.longitude);
         this.setState({ lng: res.coords.longitude, lat: res.coords.latitude });
         this.centreZoomMap();
@@ -75,14 +74,13 @@ class Map extends Component {
   }
 
   onLayout = (event) => {
-    let layout = event.nativeEvent.layout;    
-    if(this.refs.mapContainer) {
-        this.refs.mapContainer.measure( (fx, fy, width, height, px, py) => {
+    const layout = event.nativeEvent.layout;
+    if (this.refs.mapContainer) {
+      this.refs.mapContainer.measure((fx, fy, width, height, px, py) => {
         layout.yOffset = py;
         changeMapLayoutProxy(layout);
-      });        
+      });
     }
-
   };
 
   onRegionChangeComplete = (region) => {
@@ -99,35 +97,40 @@ class Map extends Component {
   setMapLetterSize = (region) => {
     // rough font size corresponding to world metres
     const size = parseFloat(
-      ((this.props.config.map_letter_base_size * 5) / (1200 * region.latitudeDelta)).toFixed(1)
+      (this.props.config.map_letter_base_size * 5 / (1200 * region.latitudeDelta)).toFixed(1),
     );
 
     if (size != this.state.letter_size) {
       this.setState({ letter_size: size });
     }
-  }
+  };
 
   centreMap = () => {
     // use inbuilt animation function
-    this._map._component.animateToCoordinate({
-      ...this.props.user.coordinates,
-    }, 600
+    this._map._component.animateToCoordinate(
+      {
+        ...this.props.user.coordinates,
+      },
+      600,
     );
-  }
+  };
 
   centreZoomMap = () => {
     // use inbuilt animation + zoom function
-    this._map._component.animateToRegion({
-      ...this.props.user.coordinates,
-      latitudeDelta: this.state.delta_initial,
-      longitudeDelta: this.state.delta_initial,
-    }, 300);
-  }
+    this._map._component.animateToRegion(
+      {
+        ...this.props.user.coordinates,
+        latitudeDelta: this.state.delta_initial,
+        longitudeDelta: this.state.delta_initial,
+      },
+      300,
+    );
+  };
 
   onCentreMapButton = () => {
     // ask the phone for new GPS
     this._getPlayerCoords();
-  }
+  };
 
   mapLettersToMarkers(item, index, blinking) {
     const t = new Date().getTime() - new Date(item.created_at).getTime();
@@ -158,7 +161,7 @@ class Map extends Component {
     return (
       <Letter
         character={item.character}
-        position={{ x: x, y: 0 }}
+        position={{ x, y: 0 }}
         key={index}
         index={index}
         navigation={this.props.navigation}
@@ -166,7 +169,7 @@ class Map extends Component {
         primary={index === 0}
         secondary={index !== 0}
       />
-    )
+    );
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -203,7 +206,7 @@ class Map extends Component {
       this.props.user.secondary_letter_1,
       this.props.user.secondary_letter_2,
       this.props.user.secondary_letter_3,
-      this.props.user.secondary_letter_4
+      this.props.user.secondary_letter_4,
     ].map((item, index) => this.mapMenuLetters(item, index));
 
     return (
@@ -217,14 +220,14 @@ class Map extends Component {
             latitude: this.props.user.map.coordinates.latitude,
             longitude: this.props.user.map.coordinates.longitude,
             latitudeDelta: this.props.user.map.coordinates.latitudeDelta,
-            longitudeDelta: this.props.user.map.coordinates.longitudeDelta
+            longitudeDelta: this.props.user.map.coordinates.longitudeDelta,
           }}
           minZoomLevel={this.props.config.map_min_zoom_level}
           maxZoomLevel={this.props.config.map_max_zoom_level}
           customMapStyle={mapstyles}
           showsIndoorLevelPicker={false}
           showsIndoors={false}
-          rotateEnabled={false}          
+          rotateEnabled={false}
         >
           {myLetters}
           {mapLetters}
@@ -235,14 +238,16 @@ class Map extends Component {
             strokeColor={styles.$drop_zone_border}
             fillColor={styles.$drop_zone_background}
           />
-
         </MapView.Animated>
 
         <CameraButton navigation={this.props.navigation} />
 
-        <TouchableOpacity style={[styles.button, styles.buttonCentreMap]} onPress={this.onCentreMapButton}>
+        <TouchableOpacity
+          style={[styles.button, styles.buttonCentreMap]}
+          onPress={this.onCentreMapButton}
+        >
           <Text style={styles.button_text}>
-            CENTRE MAP
+            {I18n.t('center_map').toUpperCase()}
           </Text>
         </TouchableOpacity>
         <LettersMenu navigation={this.props.navigation} />
@@ -268,7 +273,8 @@ const mapStateToProps = (state) => {
       map,
       config,
       letters,
-      my_letters
+      my_letters,
+      language: state.globals.language,
     };
   } catch (e) {
     console.log('Map Error', e);

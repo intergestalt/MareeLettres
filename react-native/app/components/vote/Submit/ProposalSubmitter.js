@@ -11,6 +11,7 @@ import { postProposalServiceProxy } from '../../../helper/apiProxy';
 
 const colorWriteArea = '#FFFFFF';
 const colorKeyBoard = '#000000';
+const colorSpace = '#888888';
 
 class ProposalSubmitter extends Component {
   static propTypes = {
@@ -20,8 +21,6 @@ class ProposalSubmitter extends Component {
 
   constructor(props) {
     super(props);
-    console.log('CONSTRUCTOR');
-
     // I. Bindings
     this.submitPressed = this.submitPressed.bind(this);
     this.onLayoutCallback = this.onLayoutCallback.bind(this);
@@ -35,28 +34,6 @@ class ProposalSubmitter extends Component {
     // The second inner container
     this.onLayoutCallbackWritingArea2 = this.onLayoutCallbackWritingArea2.bind(this);
 
-    // II. Prepare Arrays
-    // all letters from challenge
-    const letters = this.props.challenge.letters;
-    const lettersProperties = [];
-    // convert them
-    for (let i = 0, len = letters.length; i < len; i += 1) {
-      lettersProperties.push({ character: letters[i], key: i, opacity: 1, cursor: false });
-    }
-    lettersProperties.push({
-      character: ' ',
-      key: letters.length,
-      opacity: 1,
-      space: true,
-      cursor: false,
-    });
-
-    // insert them to the array of actually used letters
-    const lettersKeyboard = lettersProperties;
-    // JUst not to have an empty writing area DELETE THIS AFTERWARTS
-    const lettersWritingArea = [];
-    // No letter is dragged at the beginning
-    const dragQueen = null;
     // Arrays for the layout callback: To determin the pos of all letters.
     this.layoutLetters = {};
     this.queensLayout = null;
@@ -83,13 +60,11 @@ class ProposalSubmitter extends Component {
     this.waitForCursorLayout = false;
     this.tickerId = null;
     this.state = {
+      ...this.setInitialLetters(),
       // Type of the dragged Queen. 0: writing area, 1: Keyboard
       // Index in the arrays of letters (Keybard or TextWritingarea)
       dragQueenOffset: new Animated.ValueXY({ x: 0, y: 0 }), // dx & dy of a dragQueen
       dragQueenPos: new Animated.ValueXY({ x: 0, y: 0 }), // start position of a dragQueen
-      lettersKeyboard, // Array to be displayed in Keyboard. (TODO: No Spaces, but one)
-      lettersWritingArea, // Array to be displayed in writing area (TODO: Also spaces)
-      dragQueen, // null if there is no dragQueen
       scaleDragQueen: new Animated.Value(1), // JUst to animate the queen.
       colorScale: new Animated.Value(0),
       colorFrom: colorKeyBoard,
@@ -110,8 +85,6 @@ class ProposalSubmitter extends Component {
       this.resetEverything();
       return;
     }
-    console.log(`letterPos ${this.cursorType} ${this.cursorIndex}`);
-    console.log(letterPos);
     let newDx = letterPos.x - this.initialDragQueenX;
     let newDy = letterPos.y - this.initialDragQueenY;
 
@@ -125,7 +98,6 @@ class ProposalSubmitter extends Component {
 
     const distX = newDx - dx;
     const distY = newDy - dy;
-    console.log(`READY1: ${this.dragPressed}`);
     const duration = getDuration(distX, distY);
     newDy /= 2;
     newDx /= 2;
@@ -178,13 +150,15 @@ class ProposalSubmitter extends Component {
 
       if (type === 0) {
         colour = colorWriteArea;
+      } else if (myLetter.space) {
+        colour = colorSpace;
       } else {
         colour = colorKeyBoard;
       }
       this.setState({
         lettersWritingArea: Array.from(this.state.lettersWritingArea),
         lettersKeyboard: Array.from(this.state.lettersKeyboard),
-        dragQueen: myLetter,
+        dragQueen: { ...myLetter },
         colorFrom: colour,
       });
       this.state.dragQueenPos.setValue({ x: letterPos.x, y: letterPos.y });
@@ -241,17 +215,68 @@ class ProposalSubmitter extends Component {
   onQueensLayoutCallback(event) {
     this.queensLayout = event.nativeEvent.layout;
   }
+
+  setInitialLetters() {
+    // all letters from challenge
+    const letters = this.props.challenge.letters;
+    const lettersProperties = [];
+    // convert them
+    for (let i = 0, len = letters.length; i < len; i += 1) {
+      lettersProperties.push({ character: letters[i], key: i, opacity: 1, cursor: false });
+    }
+    lettersProperties.push({
+      character: ' ',
+      key: letters.length,
+      opacity: 1,
+      space: true,
+      cursor: false,
+    });
+
+    // insert them to the array of actually used letters
+    const lettersKeyboard = lettersProperties;
+    // JUst not to have an empty writing area DELETE THIS AFTERWARTS
+    const lettersWritingArea = [];
+    // No letter is dragged at the beginning
+    const dragQueen = null;
+    const res = {
+      lettersKeyboard, // Array to be displayed in Keyboard. (TODO: No Spaces, but one)
+      lettersWritingArea, // Array to be displayed in writing area (TODO: Also spaces)
+      dragQueen, // null if there is no dragQueen
+    };
+    return res;
+  }
+
+  getSpaceWidth() {
+    const spaceIndex = this.getKeyboardSpaceIndex();
+    const space = this.state.lettersKeyboard[spaceIndex];
+    const key = space.key;
+    const spaceLayout = this.layoutLetters[key];
+    if (spaceLayout) {
+      return spaceLayout.width;
+    }
+    return -1;
+  }
   getLetterPos(type, index) {
     if (!this.testLettersArrayBounds(type, index)) return null;
     let x = 0;
     let y = 0;
     let width = 0;
     if (type === 0) {
-      const key = this.state.lettersWritingArea[index].key;
+      const letter = this.state.lettersWritingArea[index];
+      const key = letter.key;
       if (!this.layoutLetters[key]) return null;
       x = this.layoutLetters[key].x;
       y = this.layoutLetters[key].y + this.writingArea1OffsetY + this.writingArea2OffsetY;
       width = this.layoutLetters[key].width;
+      // recenter if letter is space;
+      if (letter.space) {
+        const spaceWidth = this.getSpaceWidth();
+        if (spaceWidth >= 0) {
+          x -= spaceWidth / 2;
+          x += width / 2;
+          width = spaceWidth;
+        }
+      }
     } else {
       const key = this.state.lettersKeyboard[index].key;
       if (!this.layoutLetters[key]) return null;
@@ -269,17 +294,7 @@ class ProposalSubmitter extends Component {
       if (id > max) max = parseInt(id, 0);
     }
     max += 1;
-    /*    for (let i = 0; i < this.state.lettersKeyboard.length; i += 1) {
-      if (this.state.lettersKeyboard[i].key === max) {
-        console.log('FOUND MAX IN KEYBOARD!');
-      }
-    }
-    for (let i = 0; i < this.state.lettersWritingArea.length; i += 1) {
-      if (this.state.lettersWritingArea[i].key === max) {
-        console.log('FOUND MAX IN WRITING!');
-      }
-    } */
-    console.log(`NEW MAX ${max}`);
+
     return max;
   }
   setCursor(type, index) {
@@ -287,6 +302,9 @@ class ProposalSubmitter extends Component {
       console.log('NO DRAG QUEEN, but SETTIG CURSOR...');
       return;
     }
+
+    let newState = {};
+
     const newIndex = index;
 
     // Check if is the same
@@ -317,10 +335,16 @@ class ProposalSubmitter extends Component {
       this.state.lettersKeyboard[oldIndex].cursor = false;
       this.state.lettersKeyboard[oldIndex].cursorHidden = false;
       keyboardChanged = true;
-      console.log('SPACE DETECTED');
+      console.log('SPACE IN KEY BOARD DETECTED: DONT DELETE OLD CURSOR');
       // spaceDetected=true;
-      newCursor.key = this.getNextKey();
+      const nextKey = this.getNextKey();
+      newCursor.key = nextKey;
+      newState = {
+        ...newState,
+        dragQueen: { ...this.state.dragQueen, key: nextKey },
+      };
     } else {
+      console.log('DELETE OLD CURSOR');
       const changedType = this.deleteCursor();
       if (changedType === 0) {
         writingChanged = true;
@@ -344,7 +368,7 @@ class ProposalSubmitter extends Component {
         keyboardChanged = true;
         // Normal dragback
       } else {
-        console.log('ADD');
+        console.log('ADD NEW CURSOR');
         const changedType = this.addLetter(type, newIndex, newCursor);
         if (changedType === -1) {
           return;
@@ -362,22 +386,23 @@ class ProposalSubmitter extends Component {
     let colour = null;
     if (type === 0) {
       colour = colorWriteArea;
+    } else if (newCursor.space) {
+      colour = colorSpace;
     } else {
       colour = colorKeyBoard;
     }
 
-    let newState = {
+    newState = {
+      ...newState,
       colorFrom: colour,
     };
     if (writingChanged) {
-      // console.log('WRITING CHANGED');
       newState = {
         ...newState,
         lettersWritingArea: Array.from(this.state.lettersWritingArea),
       };
     }
     if (keyboardChanged) {
-      // console.log('KEYBOARD CHANGED');
       newState = {
         ...newState,
         lettersKeyboard: Array.from(this.state.lettersKeyboard),
@@ -393,7 +418,6 @@ class ProposalSubmitter extends Component {
     for (let i = 0; i < this.state.lettersKeyboard.length; i += 1) {
       const letter = this.state.lettersKeyboard[i];
       if (letter.space) {
-        console.log(`FOUND THE SPACE ${i}`);
         return i;
       }
     }
@@ -483,7 +507,6 @@ class ProposalSubmitter extends Component {
     }
     return -1;
   }
-
   getKeyboardPos() {
     for (let i = 0, len = this.state.lettersKeyboard.length; i < len; i += 1) {
       if (this.state.dragQueen.space && this.state.lettersKeyboard[i].space) {
@@ -497,7 +520,7 @@ class ProposalSubmitter extends Component {
   }
   deleteCursor() {
     if (this.cursorIndex !== -1) {
-      console.log('Delete');
+      console.log('Delete Cursor');
       this.removeLetter(this.cursorType, this.cursorIndex);
       return this.cursorType;
     }
@@ -526,7 +549,6 @@ class ProposalSubmitter extends Component {
           const zone = this.getTouchZone(this.touchStartY);
           const index = this.getTouchIndex(zone, this.touchStartX, this.touchStartY);
           if (index !== -1) {
-            console.log(`INTO ${index}`);
             this.onLetterIn(index, zone);
           } else {
             this.resetEverything();
@@ -625,7 +647,6 @@ class ProposalSubmitter extends Component {
   }
 
   observeLayout() {
-    console.log('SCHLAWINER ALARM ');
     if (!this.waitForCursorLayout) {
       console.log('CLOSE TICKER');
       clearInterval(this.tickerId);
@@ -642,6 +663,7 @@ class ProposalSubmitter extends Component {
       this.makeCursorLetter();
     }
   }
+
   // Add letter
   addLetter(type, index, letter) {
     if (!this.testLettersArrayBounds(type, index, 1)) return -1;
@@ -680,6 +702,7 @@ class ProposalSubmitter extends Component {
     }
     return true;
   }
+
   // Show it again
   showLetter(type, index) {
     if (!this.testLettersArrayBounds(type, index)) return;
@@ -713,37 +736,49 @@ class ProposalSubmitter extends Component {
 
     return myLetter;
   }
+  cleanSpaces(trim = false) {
+    let last = false;
+    let go = true;
+    while (go) {
+      last = false;
+      go = false;
+      for (let i = 0; i < this.state.lettersWritingArea.length; i += 1) {
+        const l = this.state.lettersWritingArea[i];
+        if (trim) {
+          if (i === 0 || i === this.state.lettersWritingArea.length - 1) {
+            if (l.space) {
+              this.removeLetter(0, i);
+              go = true;
+              break;
+            }
+          }
+        }
+        go = false;
+        if (l.space) {
+          if (last) {
+            this.removeLetter(0, i);
+            go = true;
+            break;
+          }
+          last = true;
+        } else {
+          last = false;
+        }
+      }
+    }
+  }
+
   makeCursorLetter() {
     console.log('CURSOR TO LETTER');
     if (!this.testLettersArrayBounds(this.cursorType, this.cursorIndex)) {
-      console.log('GO CURSOR 2 LETTER');
       this.resetEverything();
       return;
     }
+    this.cleanSpaces();
     if (this.cursorType === 0) {
       if (this.state.lettersWritingArea[this.cursorIndex]) {
-        console.log('KEYBOARD');
         this.state.lettersWritingArea[this.cursorIndex].cursor = false;
         this.state.lettersWritingArea[this.cursorIndex].cursorHidden = false;
-        if (this.state.lettersWritingArea[this.cursorIndex].space) {
-          console.log('SPACE IT');
-          let spaceNeighbour = false;
-          if (this.cursorIndex > 0) {
-            if (this.state.lettersWritingArea[this.cursorIndex - 1].space) {
-              console.log('SPACE NEIGHBOUR LEFT DETECTED');
-              spaceNeighbour = true;
-            }
-          }
-          if (this.cursorIndex < this.state.lettersWritingArea.length - 1) {
-            if (this.state.lettersWritingArea[this.cursorIndex + 1].space) {
-              console.log('SPACE NEIGHBOUR RIGHT DETECTED');
-              spaceNeighbour = true;
-            }
-          }
-          if (spaceNeighbour) {
-            this.removeLetter(this.cursorType, this.cursorIndex);
-          }
-        }
       } else {
         console.log('Strange Error 1');
       }
@@ -800,14 +835,51 @@ class ProposalSubmitter extends Component {
       });
     }
   }
+  checkAnswer(answer) {
+    const letters = this.props.challenge.letters;
+    if (letters.length === 0) return false;
+    const lettersAvailable = {};
+    for (let i = 0, len = letters.length; i < len; i += 1) {
+      const key = letters[i];
+      let count = lettersAvailable[key];
+      if (!count) {
+        count = 1;
+      } else {
+        count += 1;
+      }
+      lettersAvailable[key] = count;
+    }
+    for (let i = 0, len = answer.length; i < len; i += 1) {
+      const key = answer[i];
+      if (key !== ' ') {
+        let count = lettersAvailable[key];
+        if (!count) {
+          return false;
+        }
+        if (count === 0) {
+          return false;
+        }
+        count -= 1;
+        lettersAvailable[key] = count;
+      }
+    }
+    return true;
+  }
   submitPressed() {
     let answer = '';
+
+    this.cleanSpaces(true);
     for (let i = 0; i < this.state.lettersWritingArea.length; i += 1) {
       answer += this.state.lettersWritingArea[i].character;
     }
     console.log(`answer ${answer}`);
-
-    console.log("submitting...");
+    if (!this.checkAnswer(answer)) {
+      console.log('NOPE');
+      this.setState(this.setInitialLetters());
+      this.resetEverything(false);
+      return;
+    }
+    console.log('submitting...');
     postProposalServiceProxy(this.props.challenge._id, answer);
   }
 
@@ -822,6 +894,7 @@ class ProposalSubmitter extends Component {
         >
           {/* BackButton */}
           <WritingArea
+            letterColor={colorWriteArea}
             layoutCallback={this.onLayoutCallback}
             onLayoutCallbackWritingArea={this.onLayoutCallbackWritingArea}
             onLayoutCallbackWritingArea1={this.onLayoutCallbackWritingArea1}
@@ -829,7 +902,12 @@ class ProposalSubmitter extends Component {
             title={title}
             letters={this.state.lettersWritingArea}
           />
-          <Keyboard layoutCallback={this.onLayoutCallback} letters={this.state.lettersKeyboard} />
+          <Keyboard
+            letterColor={colorKeyBoard}
+            spaceColor={colorSpace}
+            layoutCallback={this.onLayoutCallback}
+            letters={this.state.lettersKeyboard}
+          />
           <DraggableLetter
             {...this.state.dragQueen}
             type={2}
@@ -839,7 +917,6 @@ class ProposalSubmitter extends Component {
             dragQueenOffset={this.state.dragQueenOffset}
             dragQueenPos={this.state.dragQueenPos}
             layoutCallback={this.onQueensLayoutCallback}
-            active
           />
         </View>
         <View style={styles.submitContainer}>

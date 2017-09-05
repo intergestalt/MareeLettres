@@ -37,6 +37,11 @@ export default {
 
   info_about_title: 'NUIT BLANCHE FR',
   info_howto_title: 'THE IDEA FR',
-  
+
   network_error: 'Network error. Please check your internet connection.',
+
+  center_map: 'Centre map',
+  camera_button: 'Camera FR',
+  choose_your_letter: 'Choose Your Letter FR',
+  take_picture: 'Take picture FR',
 };

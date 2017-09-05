@@ -39,4 +39,9 @@ export default {
   info_howto_title: 'THE IDEA',
 
   network_error: 'Network error. Please check your internet connection.',
+
+  center_map: 'Center map',
+  camera_button: 'Camera',
+  choose_your_letter: 'Choose Your Letter',
+  take_picture: 'Take picture',
 };
