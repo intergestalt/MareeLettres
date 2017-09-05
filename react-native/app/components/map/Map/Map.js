@@ -10,6 +10,7 @@ import styles_menu from '../Overlay/styles';
 import { changeMapRegionProxy, changeMapLayoutProxy, setUserCoordinatesProxy, getDistanceBetweenCoordinates, metresToDelta } from '../../../helper/mapHelper';
 import { loadLettersServiceProxy, loadLettersIntervalServiceProxy } from '../../../helper/apiProxy';
 import { BlinkText } from './BlinkText';
+import I18n from '../../../i18n/i18n';
 
 class Map extends Component {
   static propTypes = {
@@ -178,14 +179,16 @@ class Map extends Component {
   }
 
   render() {
+    I18n.locale = this.props.language;
+
     console.log("RENDER MAP");
     
     // convert letter objects into component arrays
 
     // allow all user created letters onto map
     const myLetterKeys = Object.keys(this.props.my_letters.content);
-    const myLetters = myLetterKeys.map((key) => 
-      this.mapLettersToMarkers(this.props.my_letters.content[key], this.props.my_letters.content[key]._id, true)
+    const myLetters = myLetterKeys.map((key, index) => 
+      this.mapLettersToMarkers(this.props.my_letters.content[key], index, true)
     );
     
     const mapLetters = [];
