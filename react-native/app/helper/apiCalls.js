@@ -104,14 +104,27 @@ export const callAllContent = () => {
   return getPromiseGET(url);
 };
 
-export const callLetters = () => {
-  const url = `${config.API_PREFIX}letters/`;
+function locationUrlParams(c, action) {
+  let url = ""; 
+  const body = action.body;
+  if(body) {
+    if(body.centerLat && body.centerLng && body.radius) {
+      // todo: normalize coordinates for caching
+      url = c + `centerLat=${body.centerLat}&centerLng=${body.centerLng}&radius=${body.radius}`;
+    }
+  }
+  return url;
+}
+
+export const callLetters = (action) => {
+  const url = `${config.API_PREFIX}letters/` + locationUrlParams("?", action);
   console.log('API CALL: callLetters');
+  console.log(url);
   return getPromiseGET(url);
 };
 
-export const callLettersInterval = () => {
-  const url = `${config.API_PREFIX}letters?interval`;
+export const callLettersInterval = (action) => {
+  const url = `${config.API_PREFIX}letters?interval` + locationUrlParams("&", action);
   console.log('API CALL: callLettersInterval');
   console.log(url);
   return getPromiseGET(url);

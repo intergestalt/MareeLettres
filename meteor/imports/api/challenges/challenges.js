@@ -8,7 +8,7 @@ const Challenges = new Mongo.Collection('challenges');
 
 Challenges.allow({
   insert: () => false,
-  update: () => true,
+  update: (userId) => (userId || false),
   remove: () => false,
 });
 

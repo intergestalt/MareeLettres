@@ -2,10 +2,12 @@ import { Meteor } from 'meteor/meteor';
 import { Challenges } from '../challenges';
 
 Meteor.publish('get.challenges', function getChallenges() {
+  if (!this.userId) return;
   return Challenges.find();
 });
 
 Meteor.publish('get.challenge', function getChallenges(id) {
+  if (!this.userId) return;
   return Challenges.find(id);
 });
 

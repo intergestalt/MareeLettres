@@ -39,6 +39,7 @@ const letters = (state = initialState.letters, action) => {
 
         const maxTime = 1000 * store.getState().config.config.map_letter_decay_time;
         let newContent = {...state.content};
+        //console.log(newContent);
 
         for (let i=0; i<action.result.letters.length; i+=1) {
           const letter = action.result.letters[i];
@@ -61,6 +62,7 @@ const letters = (state = initialState.letters, action) => {
         };
         saveLettersToStorage(result);
         return result;
+        //return state;
       }
       case NETWORK_ERROR_LOAD_LETTERS_INTERVAL:
       case NETWORK_ERROR_LOAD_LETTERS: {

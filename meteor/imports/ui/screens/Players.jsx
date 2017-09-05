@@ -13,6 +13,7 @@ import { Proposals } from '../../api/proposals/proposals';
 import ProposalEntry from '../components/ProposalEntry';
 import PlayerCell from '../components/PlayerCell'
 
+import AdminWrapper from '../components/AdminWrapper';
 import Menu from '../components/menu';
 
 Session.setDefault('playersListLimit', 100);
@@ -42,7 +43,7 @@ class PlayersPage extends Component {
     }, {
       //accessor: 'secondary_letters', 
       Header: '1',
-      accessor: 'secondary_letters[0]', 
+      accessor: 'secondary_letters[0]',
       //accessor: d => d.secondary_letters[] // Custom value accessors!
     }, {
       Header: 'Last Seen',
@@ -58,14 +59,14 @@ class PlayersPage extends Component {
 
 
     return (
-      <div>
+      <AdminWrapper>
         <Menu />
         <h1>[in progress]</h1>
         <ReactTable
           data={this.props.players}
           columns={columns}
         />
-      </div>
+      </AdminWrapper>
     );
   }
 }
@@ -74,7 +75,7 @@ export default createContainer((props) => {
   console.log(this);
   Meteor.subscribe('get.players', {
     limit: Session.get('playersListLimit'),
-    fields: { origin_id:1, _id:1, last_seen:1, created_at:1, primary_letter:1, secondary_letters:1 },
+    fields: { origin_id: 1, _id: 1, last_seen: 1, created_at: 1, primary_letter: 1, secondary_letters: 1 },
     sort: { last_seen: -1 },
   });
 
