@@ -10,6 +10,7 @@ import { OriginId, AvailableLetters } from 'maree-lettres-shared';
 import { Challenges, ChallengesSchema } from '../../api/challenges/challenges';
 import { Proposals } from '../../api/proposals/proposals';
 
+import AdminWrapper from '../components/AdminWrapper';
 import Menu from '../components/menu';
 
 class Challenge extends Component {
@@ -79,13 +80,13 @@ class Challenge extends Component {
 
   render() {
     return (
-      <div>
+      <AdminWrapper>
         <Menu />
         {this.renderEditForm()}
         {/* <ul>
           {this.renderProposals()}
         </ul> */}
-      </div>
+      </AdminWrapper>
     );
   }
 }

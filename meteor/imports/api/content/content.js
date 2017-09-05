@@ -6,7 +6,7 @@ const Content = new Mongo.Collection('content');
 
 Content.allow({
   insert: () => false,
-  update: () => true,
+  update: () => (userId) => (userId || false),
   remove: () => false,
 });
 

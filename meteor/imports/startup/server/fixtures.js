@@ -20,6 +20,14 @@ const contents = ['web', 'about'];
 Meteor.startup(() => {
   console.log("running fixures")
 
+  if (Meteor.users.find({ username: 'admin' }).count() == 0) {
+    console.log("seeding admin user")
+    Accounts.createUser({
+      username: 'admin',
+      password: 'password'
+    });
+  }
+
   // Always update default SystemConfig
   console.log("resetting default config in db")
   const defaultSystemConfig = SystemConfigSchema.clean({});

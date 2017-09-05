@@ -8,10 +8,12 @@ import RequestHelpers from '../../../helpers/RequestHelpers';
 Meteor.publish(
   'get.players',
   function getPlayers() {
+    if (!this.userId) return;
     return Players.find();
   },
   'get.player',
   function getPlayers(id) {
+    if (!this.userId) return;
     return Players.find(id);
   },
 );

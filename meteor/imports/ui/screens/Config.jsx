@@ -7,6 +7,7 @@ import AutoForm from 'uniforms-unstyled/AutoForm';
 import SubmitField from 'uniforms-unstyled/SubmitField';
 import ErrorsField from 'uniforms-unstyled/ErrorsField';
 
+import AdminWrapper from '../components/AdminWrapper';
 import Menu from '../components/menu';
 import ApiInfo from '../components/ApiInfo';
 
@@ -44,13 +45,13 @@ class ConfigPage extends Component {
 
   render() {
     return (
-      <div>
+      <AdminWrapper>
         <Menu />
         <ul>
           {this.renderConfig()}
         </ul>
         <ApiInfo path="config" />
-      </div>
+      </AdminWrapper>
     );
   }
 }

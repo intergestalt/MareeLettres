@@ -3,7 +3,8 @@ import { Content } from '../content';
 
 Meteor.publish(
   'get.content',
-  function getStatus() {
+  function getContent() {
+    if (!this.userId) return;
     return Content.find();
   },
   {

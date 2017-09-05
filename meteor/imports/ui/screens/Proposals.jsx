@@ -11,6 +11,7 @@ import { Challenges, ChallengesSchema } from '../../api/challenges/challenges';
 import { Proposals } from '../../api/proposals/proposals';
 import ProposalEntry from '../components/ProposalEntry';
 
+import AdminWrapper from '../components/AdminWrapper';
 import Menu from '../components/menu';
 
 Session.setDefault('proposalsListLimit', 100);
@@ -38,7 +39,7 @@ class ProposalsPage extends Component {
 
   render() {
     return (
-      <div>
+      <AdminWrapper>
         <Menu />
         <table>
           <thead>
@@ -58,7 +59,7 @@ class ProposalsPage extends Component {
           {this.renderProposals()}
         </table>
         <button onClick={this.more}>more</button>
-      </div>
+      </AdminWrapper>
     );
   }
 }
