@@ -15,7 +15,7 @@ import { SystemConfig, SystemConfigSchema } from '../../api/systemConfig/systemC
 
 const SeedChallenges = JSON.parse(Assets.getText('fixtures/challenges.json')).challenges;
 
-const contents = ['howto', 'about'];
+const contents = ['web', 'about'];
 
 Meteor.startup(() => {
   console.log("running fixures")
