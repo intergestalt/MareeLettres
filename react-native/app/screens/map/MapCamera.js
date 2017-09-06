@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { Screen } from '../../components/general/Container';
 import { TabBar } from '../../components/general/TabBar';
 
-import { ExpoCamera } from '../../components/map/Camera';
+import ExpoCamera from '../../components/map/Camera/ExpoCamera.js';
 
 class MapCamera extends Component {
   static navigationsOptions = {
