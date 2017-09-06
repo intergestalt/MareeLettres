@@ -1,6 +1,6 @@
 /* BEGIN SET YOUR LOCAL IP ADDRESS HERE */
 
-//const DEV_MAREE_SERVER_ADDRESS = `${Expo.Constants.linkingUri.match(/:\/\/(.*):/)[1]}:3000`;
+// const DEV_MAREE_SERVER_ADDRESS = `${Expo.Constants.linkingUri.match(/:\/\/(.*):/)[1]}:3000`;
 const DEV_MAREE_SERVER_ADDRESS = 'maree.herokuapp.com';
 
 /* END SET YOUR LOCAL IP ADDRESS HERE */
@@ -69,10 +69,10 @@ export const DYNAMIC_CONFIG = {
 export const DEV_CONFIG = {
   USE_CUSTOM_END_DATE: true,
   CUSTOM_END_DATE_ID: 'fixture_2',
-  CUSTOM_END_DATE: '2017-09-09T12:46:50.000Z',
+  CUSTOM_END_DATE: '2017-09-06T14:15:30.000Z',
 
   SWAP_RELOADED_PROPOSALS: false,
   SWAP_RELOADED_PROPOSALS_COUNT: 40,
 
-  TICKER_ENABELD: true,
+  TICKER_ENABELD: false,
 };

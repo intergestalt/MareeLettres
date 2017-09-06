@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from 'react';
+import React, { PureComponent, PropTypes } from 'react';
 import { View, FlatList, Text } from 'react-native';
 import { connect } from 'react-redux';
 
@@ -12,12 +12,12 @@ import { isFinished } from '../../../helper/dateFunctions';
 import { listIsEmpty } from '../../../helper/helper';
 import { loadChallengesServiceProxy, loadUserServiceProxy } from '../../../helper/apiProxy';
 
-class ChallengesList extends Component {
+class ChallengesList extends PureComponent {
   static propTypes = {
     isLoading: PropTypes.bool,
     language: PropTypes.string,
     challenges: PropTypes.array,
-    challengesTicker: PropTypes.object,
+    // challengesTicker: PropTypes.object,
     isDefaultUser: PropTypes.bool,
   };
   constructor(props) {
@@ -53,6 +53,7 @@ class ChallengesList extends Component {
   handleReloadChallengesPressPress = () => {
     loadChallengesServiceProxy(true, false);
   };
+
   renderIsEmpty() {
     return (
       <View style={styles.container}>
@@ -75,6 +76,7 @@ class ChallengesList extends Component {
     );
   }
   render() {
+    console.log('RENDER LIST');
     const isLoading = this.props.isLoading;
 
     if (isLoading) {
@@ -93,19 +95,11 @@ class ChallengesList extends Component {
 
     for (let i = 0; i < this.props.challenges.length; i += 1) {
       const myChallenge = this.props.challenges[i];
-      let myEndString = null;
-      const entry = this.props.challengesTicker[myChallenge._id];
-      if (this.props.language === 'en') {
-        myEndString = entry.endStringEn;
-      } else {
-        myEndString = entry.endStringFr;
-      }
+
       listData[i] = {
         id: myChallenge._id,
+        index: i,
         voteNum: myChallenge.voteNum,
-        isFinished: isFinished(myChallenge),
-        endString: myEndString,
-        tickerString: entry.tickerString,
         title: myChallenge.title[language],
         answer: this.getAnswer(myChallenge),
       };
@@ -131,14 +125,13 @@ class ChallengesList extends Component {
 
 const mapStateToProps = (state) => {
   try {
+    console.log('MAP LIST');
     const challenges = state.challenges.challenges;
-    const challengesTicker = state.challengesTicker;
     const isLoading = state.challenges.isLoading;
     const language = state.globals.language;
     const isDefaultUser = state.user.isDefaultUser;
     return {
       challenges,
-      challengesTicker,
       isLoading,
       language,
       isDefaultUser,
