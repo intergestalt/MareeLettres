@@ -1,6 +1,10 @@
 import SimpleSchema from 'simpl-schema';
+import { systemConfigDefaults } from 'maree-lettres-shared';
 
 SimpleSchema.extendOptions(['title']);
+
+console.log(systemConfigDefaults)
+console.log(systemConfigDefaults.tinder_proposals_regeneration_interval)
 
 const SystemConfigSchema = new SimpleSchema(
     {
@@ -10,96 +14,79 @@ const SystemConfigSchema = new SimpleSchema(
         },
         proposals_auto_accept: {
             type: Boolean,
-            defaultValue: true,
-            title: 'Auto-Accept new proposals, bypass review process'
+            ...systemConfigDefaults.proposals_auto_accept
         },
         track_player_movements: {
             type: Boolean,
-            defaultValue: true,
-            title: 'Constantly update player positions on map'
+            ...systemConfigDefaults.track_player_movements
         },
         tinder_proposals_regeneration_interval: {
             type: SimpleSchema.Integer,
-            defaultValue: 300,
-            title: 'Interval at which TinderProposals get regenerated on Server (seconds)'
+            ...systemConfigDefaults.tinder_proposals_regeneration_interval,
         },
         map_update_interval: {
             type: SimpleSchema.Integer,
-            defaultValue: 10,
-            title: 'Map: Update interval when map screen is open'
+            ...systemConfigDefaults.map_update_interval,
         },
         map_update_latency: {
             type: SimpleSchema.Integer,
-            defaultValue: 2,
-            title: 'Map Server: Extra time to compensate network latency'
+            ...systemConfigDefaults.map_update_latency,
         },
         map_cache_update_interval: {
             type: SimpleSchema.Integer,
-            defaultValue: 10,
-            title: 'Map Server: How often te refresh the map letters cache (<= map_update_interval)'
+            ...systemConfigDefaults.map_cache_update_interval,
         },
         map_query_update_latency: {
             type: SimpleSchema.Integer,
-            defaultValue: 1,
-            title: 'Map Server: How long it takes to query the database'
+            ...systemConfigDefaults.map_query_update_latency,
         },
         map_letter_decay_time: {
             type: SimpleSchema.Integer,
-            defaultValue: 1800,
-            title: 'Map: Letter Decay Time (seconds)'
+            ...systemConfigDefaults.map_letter_decay_time,
         },
         map_letter_regeneration_time_primary: {
             type: SimpleSchema.Integer,
-            defaultValue: 5,
-            title: 'Map: Regeneration time of Primary Letter (seconds)'
+            ...systemConfigDefaults.map_letter_regeneration_time_primary,
         },
         map_letter_regeneration_time_secondary: {
             type: SimpleSchema.Integer,
-            defaultValue: 5,
-            title: 'Map: Regeneration time of Secondary Letters (seconds)'
+            ...systemConfigDefaults.map_letter_regeneration_time_secondary,
         },
         map_letter_transfer_timeout: {
             type: SimpleSchema.Integer,
-            defaultValue: 60,
-            title: 'Map: For how long a letter share QR code is valid'
+            ...systemConfigDefaults.map_letter_transfer_timeout,
         },
         map_drop_zone_radius: {
             type: SimpleSchema.Integer,
-            defaultValue: 50,
-            title: 'Map: Radius of the drop zone in meters'
+            ...systemConfigDefaults.map_drop_zone_radius,
         },
         map_min_zoom_level: {
             type: SimpleSchema.Integer,
-            defaultValue: 0,
             min: 0,
             max: 19,
-            title: 'Map: Minimum Zoom Level'
+            ...systemConfigDefaults.map_min_zoom_level,
         },
         map_max_zoom_level: {
             type: SimpleSchema.Integer,
-            defaultValue: 20,
             min: 1,
             max: 20,
-            title: 'Map: Maximum Zoom Level'
+            ...systemConfigDefaults.map_max_zoom_level,
         },
         map_letter_base_size: {
             type: Number,
-            defaultValue: 5,
-            title: 'Map: Letter size in meters'
+            ...systemConfigDefaults.map_letter_base_size,
         },
         map_delta_initial: {
             type: Number,
-            defaultValue: 2,
             min: 0,
             max: 10,
-            title: 'Map: Initial zoom relative to drop zone size'
+            ...systemConfigDefaults.map_delta_initial,
         },
         map_delta_max: {
             type: Number,
-            defaultValue: 10,
             min: 1,
             max: 20,
-            title: 'Map: Maximum zoom at which player can place letters, relative to drop zone size'
+            ...systemConfigDefaults.map_delta_max,
         }
     },
     { clean: { getAutovalues: true } }

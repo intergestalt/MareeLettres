@@ -2,7 +2,7 @@
 
 import chai from 'chai';
 import { OriginId, DeviceIdException, AvailableLetters } from '../lib/maree-lettres-shared.js';
-import config from '../src/config.js';
+import config from '../src/config/config.js';
 
 chai.expect();
 
