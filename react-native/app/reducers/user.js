@@ -121,11 +121,11 @@ export default (state = initialState.user, action) => {
         console.log('Reducer: USER_ADD_FRIEND_LETTER');
 
         // prevent bad characters, TODO: remove (API res trusted)
-        //if (!action.character.match(/[a-z]/i)) {
-          //return state;
-        //}
+        // if (!action.character.match(/[a-z]/i)) {
+        // return state;
+        // }
 
-        let result = { ...state };
+        const result = { ...state };
 
         if (result.secondary_letter_1.overwrite) {
           result.secondary_letter_1.character = action.character;
@@ -162,7 +162,7 @@ export default (state = initialState.user, action) => {
       case USER_UPDATE_LETTER_MENU: {
         console.log('Reducer: USER_UPDATE_LETTER_MENU');
 
-        let result = {...state};
+        const result = { ...state };
 
         if (action.menuIndex === 1) {
           result.secondary_letter_1.disabled = true;
@@ -181,7 +181,7 @@ export default (state = initialState.user, action) => {
       case USER_REVIVE_LETTER_MENU: {
         console.log('Reducer: USER_REVIVE_LETTER_MENU');
 
-        let result = {...state};
+        const result = { ...state };
 
         if (action.menuIndex === 1) {
           result.secondary_letter_1.disabled = false;
@@ -200,7 +200,7 @@ export default (state = initialState.user, action) => {
       case USER_BIN_LETTER: {
         console.log('Reducer: USER_BIN_LETTER');
 
-        let result = {...state};
+        const result = { ...state };
 
         if (action.menuIndex === 1) {
           result.secondary_letter_1.character = '';
@@ -223,12 +223,12 @@ export default (state = initialState.user, action) => {
       case USER_FLAG_LETTER_FOR_OVERWRITE: {
         console.log('Reducer: USER_FLAG_LETTER_FOR_OVERWRITE');
 
-        let result = {...state};
+        const result = { ...state };
 
-        result.secondary_letter_1.overwrite = (action.menuIndex === 1) ? true : false;
-        result.secondary_letter_2.overwrite = (action.menuIndex === 2) ? true : false;
-        result.secondary_letter_3.overwrite = (action.menuIndex === 3) ? true : false;
-        result.secondary_letter_4.overwrite = (action.menuIndex === 4) ? true : false;
+        result.secondary_letter_1.overwrite = action.menuIndex === 1;
+        result.secondary_letter_2.overwrite = action.menuIndex === 2;
+        result.secondary_letter_3.overwrite = action.menuIndex === 3;
+        result.secondary_letter_4.overwrite = action.menuIndex === 4;
 
         return result;
       }
@@ -317,14 +317,14 @@ export default (state = initialState.user, action) => {
           ...state,
           map: {
             ...state.map,
-            tutorialStatus: action.status
+            tutorialStatus: action.status,
           },
         };
         console.log(result);
         saveUserToStorage(result);
         return result;
       }
-      
+
       default:
         return state;
     }

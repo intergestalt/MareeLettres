@@ -70,7 +70,8 @@ const mapStateToProps = (state) => {
     };
   } catch (e) {
     console.log('ChallengeDetail');
-    console.log(e); throw e;
+    console.log(e);
+    throw e;
   }
 };
 export default connect(mapStateToProps)(ChallengeDetail);

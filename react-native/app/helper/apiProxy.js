@@ -201,11 +201,11 @@ export function postProposalServiceProxy(challenge_id, text) {
   store.dispatch(postProposal(body));
 }
 
-export function loadLettersServiceProxy(body={}) {
+export function loadLettersServiceProxy(body = {}) {
   store.dispatch(loadLetters(body));
 }
 
-export function loadLettersIntervalServiceProxy(body={}) {
+export function loadLettersIntervalServiceProxy(body = {}) {
   store.dispatch(loadLettersInterval(body));
 }
 

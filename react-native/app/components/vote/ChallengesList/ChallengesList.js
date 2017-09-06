@@ -8,7 +8,6 @@ import { ReloadButton } from '../../../components/general/ReloadButton';
 import styles from './styles';
 import { navigateToChallengeSelector } from '../../../helper/navigationProxy';
 import { startChallengeTicker } from '../../../helper/ticker';
-import { isFinished } from '../../../helper/dateFunctions';
 import { listIsEmpty } from '../../../helper/helper';
 import { loadChallengesServiceProxy, loadUserServiceProxy } from '../../../helper/apiProxy';
 
@@ -76,7 +75,6 @@ class ChallengesList extends PureComponent {
     );
   }
   render() {
-    console.log('RENDER LIST');
     const isLoading = this.props.isLoading;
 
     if (isLoading) {
@@ -125,7 +123,6 @@ class ChallengesList extends PureComponent {
 
 const mapStateToProps = (state) => {
   try {
-    console.log('MAP LIST');
     const challenges = state.challenges.challenges;
     const isLoading = state.challenges.isLoading;
     const language = state.globals.language;

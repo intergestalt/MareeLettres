@@ -6,7 +6,7 @@ import {
   CUT_PROPOSAL_LIST_TO_DEFAULT,
   SET_PROPOSALS_IS_LOADING_FROM_STORAGE,
   SET_PROPOSALS,
-  POST_PROPOSAL
+  POST_PROPOSAL,
 } from '../actions/proposals';
 import { PROPOSAL_VIEWS } from '../consts/';
 import { DEV_CONFIG } from '../config/config';
@@ -72,7 +72,7 @@ export default (state = initialState.proposals, action) => {
         return newState;
       }
       case PROPOSALS_LOADED: {
-        console.log('PROPOSALS_LOADED');
+        console.log(`PROPOSALS_LOADED ${action.action.challengeId}`);
         const now = new Date();
 
         // of all 4 lists

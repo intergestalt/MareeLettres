@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { ChallengeHeadActive, ChallengeHeadInactive } from './../ChallengesList';
 
 import styles from './styles';
+import { CHALLENGE_VIEWS } from '../../../consts';
 
 class ChallengeHeader extends PureComponent {
   static propTypes = {
@@ -87,7 +88,10 @@ class ChallengeHeader extends PureComponent {
       <View style={styles.headerTextContainer}>
         <TouchableOpacity delayPressIn={30} onPress={this.props.onHeaderPress}>
           {!challengeTickerData.finished
-            ? <ChallengeHeadActive data={standardizedChallenge} />
+            ? <ChallengeHeadActive
+              callerViewMode={CHALLENGE_VIEWS.DETAIL}
+              data={standardizedChallenge}
+            />
             : <ChallengeHeadInactive data={standardizedChallenge} />}
         </TouchableOpacity>
       </View>
