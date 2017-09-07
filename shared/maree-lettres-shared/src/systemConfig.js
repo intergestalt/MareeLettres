@@ -1,13 +1,15 @@
 import systemConfigDefaults from './config/systemConfigDefaults.js';
 
-systemConfigDefaults.valuesObject = function () {
+const MakeValuesObject = function (defaults) {
     let obj = {};
 
-    Object.keys(this).forEach((key) => {
-        if (typeof this[key] === 'function') return;
-        obj[key] = this[key].defaultValue;
+    Object.keys(defaults).forEach((key) => {
+        if (typeof defaults[key] === 'function') return;
+        obj[key] = defaults[key].defaultValue;
     });
     return obj;
 };
 
-export default systemConfigDefaults;
+const systemConfigInitial = MakeValuesObject(systemConfigDefaults);
+
+export default { systemConfigDefaults, systemConfigInitial };

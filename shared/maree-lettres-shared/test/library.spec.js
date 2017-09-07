@@ -1,7 +1,7 @@
 /* global describe, it, before */
 
 import chai from 'chai';
-import { OriginId, DeviceIdException, AvailableLetters, systemConfigDefaults } from '../lib/maree-lettres-shared.js';
+import { OriginId, DeviceIdException, AvailableLetters, systemConfigInitial } from '../lib/maree-lettres-shared.js';
 import config from '../src/config/config.js';
 
 chai.expect();
@@ -77,10 +77,10 @@ describe('when accessing available proposal letter set', () => {
   });
 });
 
-describe('when getting systemConfig default values', () => {
+describe('when getting systemConfig initial values', () => {
   it('should return the values object', () => {
-    let obj = systemConfigDefaults.valuesObject();
-    console.log(obj)
+    let obj = systemConfigInitial;
+
     expect(obj).to.be.a('object');
   });
 });

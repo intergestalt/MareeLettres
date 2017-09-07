@@ -49,7 +49,7 @@ const systemConfigDefaults = {
     },
     map_min_zoom_level: {
         defaultValue: 0,
-        title: 'Map: Minimum Zoom Level'
+        title: 'Map: Minimum Zoom Level (NOTE: this is not used to set initial zoom, use map_delta_initial)'
     },
     map_max_zoom_level: {
         defaultValue: 20,
@@ -60,12 +60,12 @@ const systemConfigDefaults = {
         title: 'Map: Letter size in meters'
     },
     map_delta_initial: {
-        defaultValue: 2,
-        title: 'Map: Initial zoom relative to drop zone size'
+        defaultValue: 2.5,
+        title: 'Map: map zoom relative to dropzone size, 1 = drop zone is fullscreen'
     },
     map_delta_max: {
-        defaultValue: 10,
-        title: 'Map: Maximum zoom at which player can place letters, relative to drop zone size'
+        defaultValue: 9,
+        title: 'Map: maximum map zoom relative to drop zone size'
     },
     stream_twitter_handle: {
         defaultValue: 'WilliamShatner',

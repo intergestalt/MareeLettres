@@ -13176,7 +13176,7 @@ module.exports = withPublic;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.systemConfigDefaults = exports.QrCode = exports.AvailableLetters = exports.OriginId = undefined;
+exports.systemConfigInitial = exports.systemConfigDefaults = exports.QrCode = exports.AvailableLetters = exports.OriginId = undefined;
 
 var _origin_id = __webpack_require__(76);
 
@@ -13186,14 +13186,11 @@ var _qrCode = __webpack_require__(160);
 
 var _systemConfig = __webpack_require__(161);
 
-var _systemConfig2 = _interopRequireDefault(_systemConfig);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
 exports.OriginId = _origin_id.OriginId;
 exports.AvailableLetters = _letters.AvailableLetters;
 exports.QrCode = _qrCode.QrCode;
-exports.systemConfigDefaults = _systemConfig2.default;
+exports.systemConfigDefaults = _systemConfig.systemConfigDefaults;
+exports.systemConfigInitial = _systemConfig.systemConfigInitial;
 
 /***/ }),
 /* 76 */
@@ -22843,19 +22840,19 @@ var _systemConfigDefaults2 = _interopRequireDefault(_systemConfigDefaults);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-_systemConfigDefaults2.default.valuesObject = function () {
-    var _this = this;
-
+var MakeValuesObject = function MakeValuesObject(defaults) {
     var obj = {};
 
-    Object.keys(this).forEach(function (key) {
-        if (typeof _this[key] === 'function') return;
-        obj[key] = _this[key].defaultValue;
+    Object.keys(defaults).forEach(function (key) {
+        if (typeof defaults[key] === 'function') return;
+        obj[key] = defaults[key].defaultValue;
     });
     return obj;
 };
 
-exports.default = _systemConfigDefaults2.default;
+var systemConfigInitial = MakeValuesObject(_systemConfigDefaults2.default);
+
+exports.default = { systemConfigDefaults: _systemConfigDefaults2.default, systemConfigInitial: systemConfigInitial };
 module.exports = exports['default'];
 
 /***/ }),
@@ -22919,7 +22916,7 @@ var systemConfigDefaults = {
     },
     map_min_zoom_level: {
         defaultValue: 0,
-        title: 'Map: Minimum Zoom Level'
+        title: 'Map: Minimum Zoom Level (NOTE: this is not used to set initial zoom, use map_delta_initial)'
     },
     map_max_zoom_level: {
         defaultValue: 20,
@@ -22930,12 +22927,12 @@ var systemConfigDefaults = {
         title: 'Map: Letter size in meters'
     },
     map_delta_initial: {
-        defaultValue: 2,
-        title: 'Map: Initial zoom relative to drop zone size'
+        defaultValue: 2.5,
+        title: 'Map: map zoom relative to dropzone size, 1 = drop zone is fullscreen'
     },
     map_delta_max: {
-        defaultValue: 10,
-        title: 'Map: Maximum zoom at which player can place letters, relative to drop zone size'
+        defaultValue: 9,
+        title: 'Map: maximum map zoom relative to drop zone size'
     },
     stream_twitter_handle: {
         defaultValue: 'WilliamShatner',
