@@ -18,14 +18,14 @@ add `"maree-lettres-shared": "file:../shared/maree-lettres-shared"` to dependenc
 
 `yarn install`
 
-## update module 
+## update module in projects
+```
+yarn run install-app
+yarn run install-server
+```
 
-Important! Need to run this in each place it is used to activate change (in website, server, app)
+or from the projects:
 
-`npm install maree-lettres-shared`
+npm: `npm run install-shared`
 
-or
-
-`yarn upgrade maree-lettres-shared@../shared/maree-lettres-shared`
-
-Note: Does this work reliably with yarn in dev and prod? https://github.com/yarnpkg/yarn/issues/2165
+yarn: `yarn run install-shared`

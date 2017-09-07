@@ -25,7 +25,8 @@
     "ios": "react-native-scripts ios",
     "test": "node node_modules/jest/bin/jest.js --watch",
     "lint": "eslint app/",
-    "lint:fix": "eslint app/ --fix"
+    "lint:fix": "eslint app/ --fix",
+    "install-shared": "yarn upgrade --offline maree-lettres-shared@../shared/maree-lettres-shared"
   },
   "jest": {
     "preset": "jest-expo"

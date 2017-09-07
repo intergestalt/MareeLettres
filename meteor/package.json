@@ -6,7 +6,8 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "postinstall": "# INFO: Don't worry about the graphql peer dependency. It's not required.",
-    "reset": "meteor reset"
+    "reset": "meteor reset",
+    "install-shared": "npm install maree-lettres-shared"
   },
   "dependencies": {
     "babel-runtime": "^6.18.0",
