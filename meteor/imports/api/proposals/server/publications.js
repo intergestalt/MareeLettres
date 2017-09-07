@@ -44,7 +44,7 @@ JsonRoutes.add(
     const sort_param = req.query.sort; // ?limit=:limit
 
     const sort_modes = {
-      popular: { score: -1 },
+      popular: { score: -1, yes_votes: -1 },
       newest: { created_at: -1 },
       trending: { score_trending: -1 },
     };
