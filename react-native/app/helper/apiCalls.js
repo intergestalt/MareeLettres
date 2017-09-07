@@ -19,6 +19,7 @@ function getPromiseGET(url) {
     xhr.send();
   });
 }
+
 function getPromisePOST(url, body) {
   console.log(url);
   const xhr = new XMLHttpRequest();
@@ -105,7 +106,7 @@ export const callAllContent = () => {
 };
 
 function locationUrlParams(c, action) {
-  let url = ""; 
+  let url = "";
   const body = action.body;
   if(body) {
     if(body.centerLat && body.centerLng && body.radius) {
@@ -167,3 +168,65 @@ export const callPostProposal = (action) => {
   return getPromisePOST(url, JSON.stringify(req_body));
 };
 
+// TWITTER
+
+function getTwitterPromisePOST(url, auth, body) {
+  console.log(url);
+  const xhr = new XMLHttpRequest();
+  return new Promise((resolve, reject) => {
+    xhr.onreadystatechange = function () {
+      if (xhr.readyState === 4) {
+        if (xhr.status === 200) {
+          resolve(xhr.responseText);
+        } else {
+          reject(xhr.responseText);
+        }
+      }
+    };
+    xhr.open('POST', url);
+    xhr.timeout = DYNAMIC_CONFIG.REQUEST_TIMEOUT;
+    xhr.setRequestHeader('Authorization', auth);
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded;charset=UTF-8');
+    xhr.send(body);
+  });
+}
+
+function getTwitterPromiseGET(url, auth) {
+  console.log(url);
+  const xhr = new XMLHttpRequest();
+  return new Promise((resolve, reject) => {
+    xhr.onreadystatechange = function () {
+      if (xhr.readyState === 4) {
+        if (xhr.status === 200) {
+          resolve(xhr.responseText);
+        } else {
+          reject(xhr.responseText);
+        }
+      }
+    };
+    xhr.timeout = DYNAMIC_CONFIG.REQUEST_TIMEOUT;
+    xhr.open('GET', url);
+    xhr.setRequestHeader('Authorization', auth);
+    xhr.send();
+  });
+}
+
+export const callStreamGetAuthToken = () => {
+  const url = `${DYNAMIC_CONFIG.TWITTER_API_ENDPOINT}oauth2/token`;
+  const auth = 'Basic ' + DYNAMIC_CONFIG.TWITTER_AUTH_BASE64;
+  const body = 'grant_type=client_credentials';
+
+  return getTwitterPromisePOST(url, auth, body);
+}
+
+export const callStreamGetTweets = (action) => {
+  const url = `${DYNAMIC_CONFIG.TWITTER_API_ENDPOINT}1.1/statuses/user_timeline.json?count=${DYNAMIC_CONFIG.TWITTER_TWEETS_PER_REQUEST}&screen_name=${DYNAMIC_CONFIG.TWITTER_HANDLE}`;
+  const auth = 'Bearer ' + action.token;
+  return getTwitterPromiseGET(url, auth);
+}
+
+export const callStreamGetTweetsHtml = (action) => {
+  const url = `${DYNAMIC_CONFIG.TWITTER_URL}${DYNAMIC_CONFIG.TWITTER_HANDLE}`;
+  console.log('TWITTER CALL:', url);
+  return getPromiseGET(url);
+}
