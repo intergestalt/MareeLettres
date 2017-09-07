@@ -7,6 +7,7 @@ import { loadLetters, postLetter, loadLettersInterval } from '../actions/letters
 import store from '../config/store';
 import { getProposalList } from '../helper/proposalsHelper';
 import { getChallengeFromId } from '../helper/challengesHelper';
+import { streamGetAuthToken, streamGetTweets, streamGetTweetsHTML } from '../actions/stream';
 import { DYNAMIC_CONFIG } from '../config/config';
 
 function isLoading(item) {
@@ -244,4 +245,16 @@ export function sendInternalVotesServiceProxy(force) {
   if (doit) {
     store.dispatch(userSendInternalVotes(user.origin_id, internalVotes));
   }
+}
+
+export function twitterGetAuth() {
+  store.dispatch(streamGetAuthToken());
+}
+
+export function twitterGetTweets(token) {
+  store.dispatch(streamGetTweets(token));
+}
+
+export function twitterGetTweetsHTML() {
+  store.dispatch(streamGetTweetsHTML());
 }
