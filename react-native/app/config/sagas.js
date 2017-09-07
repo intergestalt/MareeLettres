@@ -8,6 +8,7 @@ import { LOAD_CONTENT } from '../actions/content';
 import { LOAD_CONFIG } from '../actions/config';
 import { LOAD_LETTERS, POST_LETTER, LOAD_LETTERS_INTERVAL } from '../actions/letters';
 import { USER_SEND_INTERNAL_VOTES, LOAD_USER } from '../actions/user';
+import { STREAM_GET_AUTH_TOKEN, STREAM_GET_TWEETS, STREAM_GET_TWEETS_HTML } from '../actions/stream';
 import { getZuffiDelayForApi } from '../helper/helper';
 import store from '../config/store';
 import { loadConfigServiceProxy } from '../helper/apiProxy';
@@ -16,9 +17,11 @@ import { clearMyLettersProxy } from '../helper/mapHelper';
 function* loadData(action) {
   try {
     const response = yield call(action.apiCall, action);
-    // console.log(response);
+    //console.log(response);
     // const result = yield JSON.parse(response);
+
     const result = JSON.parse(response);
+
     if (result.error) {
       console.log('ERROR 1');
       console.log(result.error);
@@ -31,6 +34,7 @@ function* loadData(action) {
     } else {
       // Eventually other actions
       // 1. Load CONFIG?
+
       if (action.type !== LOAD_CONFIG) {
         // only if there is a current_config in answer
         if (result.current_config) {
@@ -66,6 +70,9 @@ function* loadData(action) {
 }
 
 export default function* rootSaga() {
+  yield takeEvery(STREAM_GET_AUTH_TOKEN, loadData);
+  yield takeEvery(STREAM_GET_TWEETS, loadData);
+  yield takeEvery(STREAM_GET_TWEETS_HTML, loadData);
   yield takeEvery(LOAD_CHALLENGES, loadData);
   yield takeEvery(LOAD_CHALLENGE, loadData);
   yield takeEvery(LOAD_PROPOSALS, loadData);

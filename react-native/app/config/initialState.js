@@ -146,6 +146,13 @@ export default {
     content: {},
   },
 
+  stream: {
+    token: false,
+    isLoading: false,
+    isError: false,
+    content: [],
+  },
+
   letters: {
     isLoading: false,
     isInternalLoading: false,

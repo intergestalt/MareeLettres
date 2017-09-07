@@ -7,6 +7,7 @@ import proposals from './proposals';
 import content from './content';
 import myLetters from './myLetters';
 import letters from './letters';
+import stream from './stream';
 import user from './user';
 import config from './config';
 
@@ -18,6 +19,7 @@ export default combineReducers({
   content,
   letters,
   myLetters,
+  stream,
   user,
   config,
 });
