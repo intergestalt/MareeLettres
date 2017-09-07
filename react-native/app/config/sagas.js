@@ -1,6 +1,6 @@
 import { takeEvery, all, call, put } from 'redux-saga/effects';
 
-import { SET_CHALLENGES_DATE_DATA } from '../actions/challengesTicker';
+import { SET_CHALLENGES_TIME_LEFT } from '../actions/challengesTicker';
 import { SET_NET_WORK_ERROR } from '../actions/general';
 import { LOAD_CHALLENGES, LOAD_CHALLENGE } from '../actions/challenges';
 import { LOAD_PROPOSALS, POST_PROPOSAL } from '../actions/proposals';
@@ -16,8 +16,8 @@ import { clearMyLettersProxy } from '../helper/mapHelper';
 function* loadData(action) {
   try {
     const response = yield call(action.apiCall, action);
-    //console.log(response);
-    //const result = yield JSON.parse(response);
+    // console.log(response);
+    // const result = yield JSON.parse(response);
     const result = JSON.parse(response);
     if (result.error) {
       console.log('ERROR 1');
@@ -49,7 +49,7 @@ function* loadData(action) {
         clearMyLettersProxy();
       }
       // If loading Challanges: Set also the date data with new times...
-      if (action.type === LOAD_CHALLENGES) yield put({ type: SET_CHALLENGES_DATE_DATA, result });
+      if (action.type === LOAD_CHALLENGES) yield put({ type: SET_CHALLENGES_TIME_LEFT, result });
 
       yield put({ type: action.successEvent, result, action });
     }

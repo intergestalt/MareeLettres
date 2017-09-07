@@ -1,13 +1,13 @@
-import { SET_CHALLENGES_DATE_DATA } from '../actions/challengesTicker';
+import { SET_CHALLENGES_TIME_LEFT } from '../actions/challengesTicker';
 
 import initialState from '../config/initialState';
-import { getChallengesTickerData } from '../helper/dateFunctions';
+import { getTickerDataChallenges } from '../helper/dateFunctions';
 import store from '../config/store';
 
 export default (state = initialState.challengesTicker, action) => {
   try {
     switch (action.type) {
-      case SET_CHALLENGES_DATE_DATA: {
+      case SET_CHALLENGES_TIME_LEFT: {
         let challengesState = null;
 
         if (action.result) {
@@ -15,8 +15,12 @@ export default (state = initialState.challengesTicker, action) => {
         } else {
           challengesState = store.getState().challenges;
         }
-        const challengesTicker = getChallengesTickerData(challengesState);
-        return challengesTicker;
+        const challengesTicker = getTickerDataChallenges(challengesState, state);
+        const res = {
+          ...state,
+          ...challengesTicker,
+        };
+        return res;
       }
 
       default:

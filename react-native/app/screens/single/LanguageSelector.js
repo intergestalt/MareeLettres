@@ -104,7 +104,6 @@ class LanguageSelector extends Component {
   constructor(props) {
     super(props);
     this.setIconLayout = this.setIconLayout.bind(this);
-    I18n.locale = this.props.language;
 
     const selected = [false, false];
     const iconPos = new Array(2);
@@ -269,6 +268,7 @@ class LanguageSelector extends Component {
   }
 
   render() {
+    I18n.locale = this.props.language;
     const myStyle = {
       transform: [
         { scale: this.state.scale },

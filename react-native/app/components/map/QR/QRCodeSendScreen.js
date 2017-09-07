@@ -14,13 +14,15 @@ import I18n from '../../../i18n/i18n';
 class QRCodeSendScreen extends Component {
   static propTypes = {
     navigation: PropTypes.object,
+    language: PropTypes.string,
   };
 
   handleBackPress() {
     dispatchBackAction(this.props);
-  };
+  }
 
   render() {
+    I18n.locale = this.props.language;
     return (
       <View style={styles.container}>
         <BackSimple onPress={() => this.handleBackPress()} />
@@ -33,5 +35,15 @@ class QRCodeSendScreen extends Component {
   }
 }
 
-
-export default connect()(QRCodeSendScreen);
+const mapStateToProps = (state) => {
+  try {
+    return {
+      language: state.globals.language,
+    };
+  } catch (e) {
+    console.log('QRCodeSendScreen');
+    console.log(e);
+    throw e;
+  }
+};
+export default connect(mapStateToProps)(QRCodeSendScreen);

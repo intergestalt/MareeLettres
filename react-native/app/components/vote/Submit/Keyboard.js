@@ -11,6 +11,8 @@ class Keyboard extends Component {
     letters: PropTypes.array,
     language: PropTypes.string,
     layoutCallback: PropTypes.func,
+    letterColor: PropTypes.string,
+    spaceColor: PropTypes.string,
   };
 
   constructor(props) {
@@ -22,13 +24,17 @@ class Keyboard extends Component {
     const letters = [];
     for (let i = 0; i < this.props.letters.length; i += 1) {
       const letter = this.props.letters[i];
+      let color = this.props.letterColor;
+      if (letter.space) {
+        color = this.props.spaceColor;
+      }
       letters.push(
         <DraggableLetter
           {...letter}
           mykey={letter.key}
           layoutCallback={this.props.layoutCallback}
           type={1}
-          color="black"
+          color={color}
         />,
       );
     }

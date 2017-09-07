@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { ActivityIndicator, ScrollView, View, Text } from 'react-native';
+import { ActivityIndicator, ScrollView, View } from 'react-native';
 import { connect } from 'react-redux';
 import Markdown from 'react-native-simple-markdown';
 
@@ -18,10 +18,6 @@ class InfoBox extends Component {
     about: PropTypes.object,
     howto: PropTypes.object,
   };
-  constructor(props) {
-    super(props);
-    I18n.locale = this.props.language;
-  }
 
   handleReloadPressPress = () => {
     loadContentServiceProxy(true, false);
@@ -35,6 +31,7 @@ class InfoBox extends Component {
     );
   }
   render() {
+    I18n.locale = this.props.language;
     if (isEmptyContent(this.props.howto, this.props.about, this.props.language)) {
       return this.renderEmpty();
     }

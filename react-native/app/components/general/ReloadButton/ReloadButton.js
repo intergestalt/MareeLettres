@@ -11,11 +11,9 @@ class ReloadButton extends Component {
     textKey: PropTypes.string,
     onReload: PropTypes.func,
   };
-  constructor(props) {
-    super(props);
-    I18n.locale = this.props.language;
-  }
+
   render() {
+    I18n.locale = this.props.language;
     return (
       <View style={styles.container}>
         <TouchableOpacity onPress={this.props.onReload}>

@@ -15,13 +15,13 @@ function tickerData(props) {
   for (let i = 0; i < state.challenges.challenges.length; i += 1) {
     const myChallenge = state.challenges.challenges[i];
     const myTickerData = state.challengesTicker[myChallenge._id];
-    if (myTickerData.tickerString === TICKER_END) {
+    if (myTickerData.finished) {
       wasFinished[i] = true;
     } else {
       wasFinished[i] = false;
     }
   }
-
+  // console.log(`TICK ${new Date().getTime()}`);
   store.dispatch(setChallengesDateData());
 
   // check if it is finished now.

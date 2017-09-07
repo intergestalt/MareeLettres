@@ -8,14 +8,13 @@ class DraggableLetter extends Component {
   static propTypes = {
     dragQueenOffset: PropTypes.object,
     dragQueenPos: PropTypes.object,
-    scaleDragQueen: PropTypes.number,
+    scaleDragQueen: PropTypes.object,
     character: PropTypes.string,
-    active: PropTypes.bool,
     color: PropTypes.string,
     colorFrom: PropTypes.string,
     layoutCallback: PropTypes.func,
     opacity: PropTypes.number,
-    colorScale: PropTypes.number,
+    colorScale: PropTypes.object,
     cursor: PropTypes.bool,
     cursorHidden: PropTypes.bool,
     space: PropTypes.bool,
@@ -43,7 +42,6 @@ class DraggableLetter extends Component {
     if (this.props.cursor) {
       myStyle = {
         opacity,
-        outline: 1,
         backgroundColor: 'transparent',
         transform: [
           {
@@ -56,7 +54,7 @@ class DraggableLetter extends Component {
     let myCharacter = this.props.character;
     if (this.props.space && this.props.type === 1) {
       myCharacter = 'SPACE';
-      myStyle = { ...myStyle, opacity: 0.5 };
+      myStyle = { ...myStyle, opacity: 1 };
     }
     if (this.props.space && this.props.cursor && this.props.type === 0) {
       myCharacter = '_';
@@ -66,13 +64,7 @@ class DraggableLetter extends Component {
         style={myStyle}
         onLayout={event => this.props.layoutCallback(event, this.props.mykey)}
       >
-        <Text
-          style={[
-            styles.letter,
-            { color: cursorColor || this.props.color || 'grey' },
-            this.props.active ? styles.letterActive : null,
-          ]}
-        >
+        <Text style={[styles.letter, { color: cursorColor || this.props.color }]}>
           {this.props.cursor ? myCharacter : myCharacter}
         </Text>
       </Animated.View>

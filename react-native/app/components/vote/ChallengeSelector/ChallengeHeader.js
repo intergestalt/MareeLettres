@@ -3,7 +3,6 @@ import { View, TouchableOpacity, Text } from 'react-native';
 import { connect } from 'react-redux';
 
 import { ChallengeHeadActive, ChallengeHeadInactive } from './../ChallengesList';
-import { isFinished } from '../../../helper/dateFunctions';
 
 import styles from './styles';
 
@@ -78,27 +77,18 @@ class ChallengeHeader extends PureComponent {
     );
     const challengeTickerData = this.getChallengeTickerData();
     const challenge = this.getChallenge();
-    let myEndString = null;
-    if (this.props.language === 'en') {
-      myEndString = challengeTickerData.endStringEn;
-    } else {
-      myEndString = challengeTickerData.endStringFr;
-    }
 
     const standardizedChallenge = {
-      ...challenge,
-      ...challengeTickerData,
-      endString: myEndString,
       title: challenge.title[this.props.language],
-    }
+      id: this.getChallenge()._id,
+    };
 
     const contentMiddle = (
       <View style={styles.headerTextContainer}>
         <TouchableOpacity delayPressIn={30} onPress={this.props.onHeaderPress}>
-          {!isFinished(challenge)
+          {!challengeTickerData.finished
             ? <ChallengeHeadActive data={standardizedChallenge} />
-            : <ChallengeHeadInactive data={standardizedChallenge} />
-          }
+            : <ChallengeHeadInactive data={standardizedChallenge} />}
         </TouchableOpacity>
       </View>
     );

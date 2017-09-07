@@ -128,10 +128,10 @@ function formatDateEn(date, finished, sameDay, sameYear) {
 }
 
 function formatDateFr(date, finished, sameDay, sameYear) {
-    const year = date.getUTCFullYear();
+  const year = date.getUTCFullYear();
   const month = date.getUTCMonth();
   const day = date.getUTCDate();
-  let hours = date.getUTCHours();
+  const hours = date.getUTCHours();
   const min = date.getUTCMinutes();
 
   let result = '';
@@ -175,25 +175,7 @@ function formatDateFr(date, finished, sameDay, sameYear) {
   return result;
 }
 
-export function formatDate(endUTC, nowUTC, locale) {
-  let sameYear = false;
-  let sameDay = false;
-
-  const endYear = endUTC.getFullYear();
-  const endMonth = endUTC.getMonth();
-  const endDay = endUTC.getDate();
-
-  const nowYear = nowUTC.getFullYear();
-  const nowMonth = nowUTC.getMonth();
-  const nowDay = nowUTC.getDate();
-
-  if (nowYear === endYear) {
-    sameYear = true;
-    if (nowMonth === endMonth && nowDay === endDay) {
-      sameDay = true;
-    }
-  }
-
+export function formatDate(endUTC, nowUTC, sameYear, sameDay, locale) {
   const endLocal = getParisTime(endUTC);
 
   let finished = true;
@@ -219,7 +201,7 @@ function addNumber(res, num, doublePoint) {
   }
   return result;
 }
-export function formatDiff(diff) {
+export function getTickerString(diff) {
   let myDiff = diff;
   if (myDiff > 0) {
     // Future
@@ -244,24 +226,6 @@ export function formatDiff(diff) {
   return TICKER_END;
 }
 
-export function getDateData(endUTC) {
-  const nowUTC = new Date(); // Now in what time zone ever
-  const mNowUTC = nowUTC.getTime();
-
-  const mEndUTC = endUTC.getTime();
-  const diff = mEndUTC - mNowUTC;
-
-  let finished = false;
-  if (diff <= null) finished = true;
-  const result = {
-    endStringEn: formatDate(endUTC, nowUTC, 'en'),
-    endStringFr: formatDate(endUTC, nowUTC, 'fr'),
-    tickerString: formatDiff(diff),
-    finished,
-  };
-  return result;
-}
-
 export function isFinished(challenge) {
   const endDate = new Date(challenge.end_date);
   const nowUTC = new Date(); // Now in what time zone ever
@@ -275,19 +239,73 @@ export function isFinished(challenge) {
   return finished;
 }
 
-export function getChallengeTickerData(endDate) {
-  const dateData = getDateData(endDate);
+export function getTickerDataChallenge(endUTC, oldEntry) {
+  const nowUTC = new Date(); // Now in what time zone ever
+  const mNowUTC = nowUTC.getTime();
 
-  const newChallengeTickerDate = {
-    endStringFr: dateData.endStringFr,
-    endStringEn: dateData.endStringEn,
-    tickerString: dateData.tickerString,
+  const mEndUTC = endUTC.getTime();
+  const diff = mEndUTC - mNowUTC;
+
+  const endYear = endUTC.getFullYear();
+  const endMonth = endUTC.getMonth();
+  const endDay = endUTC.getDate();
+
+  const nowYear = nowUTC.getFullYear();
+  const nowMonth = nowUTC.getMonth();
+  const nowDay = nowUTC.getDate();
+  let sameYear = false;
+  let sameDay = false;
+
+  if (nowYear === endYear) {
+    sameYear = true;
+    if (nowMonth === endMonth && nowDay === endDay) {
+      sameDay = true;
+    }
+  }
+
+  let finished = false;
+  if (diff <= null) finished = true;
+
+  let endStringEn = null;
+  let endStringFr = null;
+  if (oldEntry) {
+    endStringEn = oldEntry.endStringEn;
+    endStringFr = oldEntry.endStringFr;
+    if (
+      oldEntry.lastFinished !== finished ||
+      oldEntry.lastSameYear !== sameYear ||
+      oldEntry.lastSameDay !== sameDay
+    ) {
+      endStringEn = null;
+      endStringFr = null;
+    }
+  }
+  let entryChanged = false;
+  if (!finished) entryChanged = true;
+  if (!endStringEn || !endStringFr) {
+    endStringEn = formatDate(endUTC, nowUTC, sameYear, sameDay, 'en');
+    endStringFr = formatDate(endUTC, nowUTC, sameYear, sameDay, 'fr');
+    entryChanged = true;
+  }
+  const result = {
+    timeLeft: diff,
+    finished,
+    endStringEn,
+    endStringFr,
+    lastFinished: finished,
+    lastSameYear: sameYear,
+    lastSameDay: sameDay,
+    entryChanged,
   };
+  if (entryChanged) {
+    // console.log('CALCULATE');
+    // console.log(result);
+  }
 
-  return newChallengeTickerDate;
+  return result;
 }
 
-export function getChallengesTickerData(challengeState) {
+export function getTickerDataChallenges(challengeState, oldData) {
   const newChallengesTickerData = {};
   for (let i = 0; i < challengeState.challenges.length; i += 1) {
     const myChallenge = challengeState.challenges[i];
@@ -299,10 +317,14 @@ export function getChallengesTickerData(challengeState) {
       }
     }
 
-    let newChallengeTickerData = null;
-    newChallengeTickerData = getChallengeTickerData(endDate);
-    newChallengesTickerData[myChallenge._id] = newChallengeTickerData;
+    let newTimeLeftForChallenge = null;
+    const oldEntry = oldData[myChallenge._id];
+    newTimeLeftForChallenge = getTickerDataChallenge(endDate, oldEntry);
+    if (newTimeLeftForChallenge.entryChanged) {
+      newChallengesTickerData[myChallenge._id] = newTimeLeftForChallenge;
+      // } else {
+      //   newChallengesTickerData[myChallenge._id] = oldEntry;
+    }
   }
-
   return newChallengesTickerData;
 }

@@ -12,17 +12,19 @@ export const SET_LETTERS = 'SET_LETTERS';
 export const SET_LETTERS_IS_LOADING_FROM_STORAGE = 'SET_LETTERS_IS_LOADING_FROM_STORAGE';
 export const NETWORK_ERROR_POST_LETTER = 'NETWORK_ERROR_POST_LETTER';
 
-export const loadLettersInterval = () => ({
+export const loadLettersInterval = action => ({
   type: LOAD_LETTERS_INTERVAL,
   successEvent: SUCCESS_LETTERS_INTERVAL,
   errorEvent: NETWORK_ERROR_LOAD_LETTERS_INTERVAL,
+  body: action,
   apiCall: callLettersInterval,
 });
 
-export const loadLetters = () => ({
+export const loadLetters = action => ({
   type: LOAD_LETTERS,
   successEvent: SUCCESS_LETTERS,
   errorEvent: NETWORK_ERROR_LOAD_LETTERS,
+  body: action,
   apiCall: callLetters,
 });
 

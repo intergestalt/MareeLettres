@@ -3,7 +3,7 @@ import { View, Text, PanResponder, Animated, TouchableOpacity, Dimensions } from
 //import { StatusBar } from 'react-native';
 
 import { updateLetterMenuProxy, reviveLetterMenuProxy, binLetterProxy, flagLetterForOverwriteProxy } from '../../../helper/userHelper';
-import { putLetterOnMapProxy } from '../../../helper/mapHelper';
+import { putLetterOnMapProxy, getDistanceBetweenCoordinates, metresToDelta } from '../../../helper/mapHelper';
 import { navigateToLetterSelector, navigateToQRCodeGet, navigateToQRCodeSend } from '../../../helper/navigationProxy';
 import { postLetterServiceProxy } from '../../../helper/apiProxy';
 
@@ -48,11 +48,10 @@ class Letter extends Component {
         letter_size: 26,
         offset_bottom: 18,
         animated_letter_size: this.props.letter_base_size * 5,
-        delta_max: this.metresToDelta(this.props.dropzone_radius * this.props.map_delta_max),
-        //status_bar_height: 55 + (StatusBar.currentHeight || 20), not neaded anymore
+        delta_max: metresToDelta(this.props.dropzone_radius * this.props.map_delta_max, this.props.mapLat),
         letter_offset: {
           x: 0,
-          y: -50,
+          y: -50, // to have letter dragged above finger
         },
         font: {
           size: new Animated.Value(0),
@@ -140,6 +139,11 @@ class Letter extends Component {
       return false;
     }
 
+    if (this.props.blockWriting) {
+      this.props.alertWithType('info', 'Too crowded', "There are too many letters in this area. Please write somewhere else or wait.");
+      return false; 
+    }
+
     //console.log("onDrop");
     
     // convert native screen to normalised screen
@@ -149,7 +153,7 @@ class Letter extends Component {
     const coords = this.xyToLatLng(screen.x, screen.y);
 
     // get ~ distance from centre of drop zone
-    const distance = this.getDistanceBetweenCoordinates(coords.lat, coords.lng, this.props.user.coordinates.latitude, this.props.user.coordinates.longitude);
+    const distance = getDistanceBetweenCoordinates(coords.lat, coords.lng, this.props.user.coordinates.latitude, this.props.user.coordinates.longitude);
 
     // respond if user missed the zone
     if (distance > this.props.dropzone_radius + 2) {
@@ -194,13 +198,7 @@ class Letter extends Component {
 
   // MATHS
 
-  metresToDelta = (m) => {
-    // convert metres to ~ map delta (degrees)
-    const delta = m / (111320 * Math.cos(this.props.mapLat * Math.PI / 180));
-
-    return delta;
-  }
-
+  
   // convert native screen space to normalised screen space
   // result will be in the range [-0.5, 0.5]
   // changed to take in XY coordinates from top left corner of map
@@ -246,15 +244,6 @@ class Letter extends Component {
     let y = (lat + c.latitude) / c.latitudeDelta;
 
     return {x: x, y: y};
-  }
-
-  getDistanceBetweenCoordinates(lat0, lng0, lat1, lng1) {
-    // get ~ distance between coordinates on a smooth sphere
-    const dLat = Math.abs(lat1 - lat0) * 111319.9;
-    const dLng = Math.abs(lng1 - lng0) * (111319.9 * Math.cos(lat1 * Math.PI / 180.));
-    const distance = Math.sqrt(Math.pow(dLat, 2) + Math.pow(dLng, 2));
-
-    return distance;
   }
 
   // ANIMATIONS
@@ -402,6 +391,7 @@ const mapStateToProps = (state) => {
     const regen_time_secondary = 1000 * state.config.config.map_letter_regeneration_time_secondary;
     const map_delta_max = state.config.config.map_delta_max;
     const letter_base_size = state.config.config.map_letter_base_size;
+    const blockWriting = state.letters.blockWriting;
 
     return ({
       user,
@@ -413,6 +403,7 @@ const mapStateToProps = (state) => {
       dropzone_radius,
       regen_time_primary,
       regen_time_secondary,
+      blockWriting
     });
 }
 

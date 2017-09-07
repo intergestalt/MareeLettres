@@ -238,7 +238,7 @@ class ChallengeContainer extends Component {
 
     Animated.timing(this.state.challengeContainerOffsetX, {
       toValue: 0,
-      duration: 300,
+      duration: 30000,
     }).start(this.navigateDown);
   }
 
@@ -249,7 +249,7 @@ class ChallengeContainer extends Component {
     this.navigationEnabled = false;
     Animated.timing(this.state.challengeContainerOffsetX, {
       toValue: -2 * screenWidth,
-      duration: 300,
+      duration: 30000,
     }).start(this.navigateUp);
   }
 
