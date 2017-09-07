@@ -1,0 +1,105 @@
+<html>
+  <head>
+    <script>
+
+      TWITTER_HANDLE = 'queen_europe';
+
+    </script>
+    <script type='text/javascript' src='widgets.js'></script>
+    <script type='text/javascript' src='jquery-3.2.1.min.js'></script>
+    <style type='text/css'>
+      @font-face {
+        font-family: fontNormal;
+        src: url(../../assets/fonts/ArialMonospacedMTPro.ttf);
+      }
+      @font-face {
+        font-family: fontBold;
+        src: url(../../assets/fonts/ArialMonospacedMTPro-Bld.ttf);
+      }
+      body, html {
+        margin: 0;
+        padding: 0;
+        font-family: fontNormal;
+      }
+      .hidden {
+        opacity: 0;
+      }
+      #timeline {
+        height: 50vh;
+      }
+      .timeline-Body {
+        border-top: none;
+        border-bottom: none;
+      }
+      .timeline-Tweetlist-tweet {
+        padding: 16px 32px 16px 32px;
+        border-bottom: 1px solid black;
+      }
+      .timeline-Tweet {
+        padding: 0;
+      }
+      .timeline-Tweetlist-name {
+        font-family: fontBold;
+      }
+      .timeline-LoadMore-prompt {
+        border: none;
+        font-family: fontBold;
+        text-transform: uppercase;
+        border-radius: 0;
+        padding: 8px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id='timeline' class='hidden'></div>
+
+    <script type='text/javascript'>
+      var getTimeline = function() {
+          // pull timeline from twitter
+          twttr.widgets.createTimeline(
+            {
+              sourceType: 'profile',
+              screenName: TWITTER_HANDLE
+            },
+            document.getElementById('timeline'),
+            {
+              width: '450',
+              height: '700',
+              related: 'twitterdev,twitterapi'
+            }
+          ).then(function(el){
+            parseTweets(el);
+          });
+      };
+
+      var parseTweets = function(iframe) {
+        // reformat and inject stuff
+        var $doc = $(iframe.contentDocument),
+          tweets = iframe.contentDocument.getElementsByClassName('timeline-Tweetlist-tweet'),
+          styles = document.getElementsByTagName('style'),
+          head = iframe.contentDocument.getElementsByTagName('head')[0];
+
+        // inherit styles from document (allow custom styles)
+        for (var i = 0; i < styles.length; i++) {
+            head.appendChild(styles[i].cloneNode(true));
+        }
+
+        $doc.find('.timeline-Footer').remove();
+        $doc.find('.timeline-Header').remove();
+
+        // swap tweets to #timeline, reveal
+        //$(iframe.contentDocument.body).find('.timeline-Tweetlist').html($('#content').html());
+        $('#timeline').removeClass('hidden');
+      }
+
+      var div = function(className, html) {
+        // create a new div w/ class
+        return $('<div />', {class: className, html: html || ''});
+      }
+
+      window.onload = function() {
+        getTimeline();
+      };
+    </script>
+  </body>
+</html>
