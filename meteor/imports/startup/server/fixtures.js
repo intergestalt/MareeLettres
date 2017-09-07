@@ -80,6 +80,8 @@ Meteor.startup(() => {
                 score_trending: 0,
                 yes_votes: 0,
                 no_votes: 0,
+                in_review: false,
+                blocked: false,
                 origin_id: OriginId.generateFromString(`fixture_player_${j}`),
               });
             }

@@ -1,10 +1,12 @@
 import Expo from 'expo';
-import { OriginId /* , systemConfigInitial */ } from 'maree-lettres-shared';
+import { OriginId, systemConfigInitial } from 'maree-lettres-shared';
 
 import { PROPOSAL_LIST_MODES, CHALLENGE_VIEWS, PROPOSAL_VIEWS } from '../consts';
 
 const originId = OriginId.generateFromDeviceId(Expo.Constants.deviceId);
 const sampleDate = new Date().toISOString();
+
+console.log("initial config: ", systemConfigInitial)
 
 export default {
   config: {
@@ -12,24 +14,15 @@ export default {
     isInternalLoading: false,
     currentConfig: null,
     config: {
-      name: 'default',
-      proposals_auto_accept: true,
-      track_player_movements: true,
-      tinder_proposals_regeneration_interval: 300,
-      map_update_interval: 10,
-      map_update_latency: 2,
-      map_cache_update_interval: 10,
-      map_query_update_latency: 1,
-      map_letter_decay_time: 30,
-      map_letter_regeneration_time_primary: 5,
-      map_letter_regeneration_time_secondary: 5,
-      map_letter_transfer_timeout: 60,
-      map_drop_zone_radius: 20,
-      map_letter_base_size: 5,
-      map_delta_initial: 2.5, // map zoom relative to dropzone size, 1 = drop zone is fullscreen
-      map_delta_max: 9.5, // maximum map zoom relative to drop zone size
-      map_min_zoom_level: 0, // NOTE: this is not used to set initial zoom, use map_delta_initial
-      map_max_zoom_level: 20,
+      // systemConfigInitial
+      // see shared/maree-lettres-shared/src/config/defaultSystemConfig for values and info
+      //
+      // to add or change something:
+      // $ cd shared/maree-lettres-shared/
+      // [ edit src/config/defaultSystemConfig ]
+      // $ yarn run build
+      // $ yarn run install-app
+      ...systemConfigInitial,
 
       // Not sent by API, but they are not overwrittem
       request_timeout: 10000,

@@ -19,7 +19,7 @@ JsonRoutes.add('get', `${Meteor.settings.public.api_prefix}letters`, function (r
   let query = {}
 
   if (interval) { // TODO: use LettersRecent Collection
-    console.log(currentSystemConfig);
+
     const config = currentSystemConfig.getConfig();
     const deltaSeconds = config.map_update_interval + config.map_update_latency + config.map_query_update_latency; // TODO: manage fastly and use map_cache_update_interval
 

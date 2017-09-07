@@ -24,7 +24,10 @@ Get proposals of a challenge
 [ deprecated: GET api/challenges/:id/proposals/limit/:limit (-> change to ?limit=:limit) ]
 
 #### GET api/proposals
-do not use
+do not use (get all proposals)
+
+#### GET api/proposals/:proposal_id
+get one proposal (comes in an array)
 
 #### GET api/tinder/:challenge_id/:origin_id?limit=:limit
 Get tinder proposals for a player

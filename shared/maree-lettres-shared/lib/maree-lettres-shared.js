@@ -13176,7 +13176,7 @@ module.exports = withPublic;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.systemConfigDefaults = exports.QrCode = exports.AvailableLetters = exports.OriginId = undefined;
+exports.systemConfigInitial = exports.systemConfigDefaults = exports.QrCode = exports.AvailableLetters = exports.OriginId = undefined;
 
 var _origin_id = __webpack_require__(76);
 
@@ -13184,16 +13184,13 @@ var _letters = __webpack_require__(159);
 
 var _qrCode = __webpack_require__(160);
 
-var _systemConfigDefaults = __webpack_require__(161);
-
-var _systemConfigDefaults2 = _interopRequireDefault(_systemConfigDefaults);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var _systemConfig = __webpack_require__(161);
 
 exports.OriginId = _origin_id.OriginId;
 exports.AvailableLetters = _letters.AvailableLetters;
 exports.QrCode = _qrCode.QrCode;
-exports.systemConfigDefaults = _systemConfigDefaults2.default;
+exports.systemConfigDefaults = _systemConfig.systemConfigDefaults;
+exports.systemConfigInitial = _systemConfig.systemConfigInitial;
 
 /***/ }),
 /* 76 */
@@ -22836,6 +22833,38 @@ exports.QrCode = QrCode;
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
+
+var _systemConfigDefaults = __webpack_require__(162);
+
+var _systemConfigDefaults2 = _interopRequireDefault(_systemConfigDefaults);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var MakeValuesObject = function MakeValuesObject(defaults) {
+    var obj = {};
+
+    Object.keys(defaults).forEach(function (key) {
+        if (typeof defaults[key] === 'function') return;
+        obj[key] = defaults[key].defaultValue;
+    });
+    return obj;
+};
+
+var systemConfigInitial = MakeValuesObject(_systemConfigDefaults2.default);
+
+exports.default = { systemConfigDefaults: _systemConfigDefaults2.default, systemConfigInitial: systemConfigInitial };
+module.exports = exports['default'];
+
+/***/ }),
+/* 162 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
 var systemConfigDefaults = {
     proposals_auto_accept: {
         defaultValue: true,
@@ -22866,7 +22895,7 @@ var systemConfigDefaults = {
         title: 'Map Server: How long it takes to query the database'
     },
     map_letter_decay_time: {
-        defaultValue: 1800,
+        defaultValue: 5000,
         title: 'Map: Letter Decay Time (seconds)'
     },
     map_letter_regeneration_time_primary: {
@@ -22882,29 +22911,34 @@ var systemConfigDefaults = {
         title: 'Map: For how long a letter share QR code is valid'
     },
     map_drop_zone_radius: {
-        defaultValue: 50,
+        defaultValue: 75,
         title: 'Map: Radius of the drop zone in meters'
     },
     map_min_zoom_level: {
         defaultValue: 0,
-        title: 'Map: Minimum Zoom Level'
+        title: 'Map: Minimum Zoom Level (NOTE: this is not used to set initial zoom, use map_delta_initial)'
     },
     map_max_zoom_level: {
         defaultValue: 20,
         title: 'Map: Maximum Zoom Level'
     },
     map_letter_base_size: {
-        defaultValue: 5,
+        defaultValue: 10,
         title: 'Map: Letter size in meters'
     },
     map_delta_initial: {
-        defaultValue: 2,
-        title: 'Map: Initial zoom relative to drop zone size'
+        defaultValue: 2.5,
+        title: 'Map: map zoom relative to dropzone size, 1 = drop zone is fullscreen'
     },
     map_delta_max: {
-        defaultValue: 10,
-        title: 'Map: Maximum zoom at which player can place letters, relative to drop zone size'
+        defaultValue: 9,
+        title: 'Map: maximum map zoom relative to drop zone size'
+    },
+    stream_twitter_handle: {
+        defaultValue: 'WilliamShatner',
+        title: 'Stream: The twitter handle'
     }
+
 };
 
 exports.default = systemConfigDefaults;

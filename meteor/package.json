@@ -33,6 +33,7 @@
     "react-router-dom": "^4.1.2",
     "react-router-named-routes": "0.0.15",
     "react-table": "^6.5.3",
+    "react-twitter-widgets": "^1.5.0",
     "simpl-schema": "^0.3.1",
     "underscore": "^1.8.3",
     "uniforms": "^1.19.1",

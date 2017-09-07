@@ -10,6 +10,8 @@ Challenges.allow({
   remove: () => false,
 });
 
+SimpleSchema.extendOptions(['title']);
+
 const MultilingualStringSchema = new SimpleSchema({
   en: {
     type: String,
@@ -65,7 +67,15 @@ const ChallengesSchema = new SimpleSchema({
     type: String,
     optional: true,
     regEx: SimpleSchema.RegEx.Url,
-    label: "Winning Proposal Image Url"
+    label: "Winning Proposal Image Url",
+    title: "Shown in App: finished topic single view (Portait format)"
+  },
+  winningProposalDetailImageUrl: {
+    type: String,
+    optional: true,
+    regEx: SimpleSchema.RegEx.Url,
+    label: "Winning Proposal Detail Image Url",
+    title: "Shown in App: finished topics overview (Landscape format)"
   }
 });
 
