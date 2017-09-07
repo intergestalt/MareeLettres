@@ -130,3 +130,9 @@ input[type="submit"]:hover {
   background-color: orange;
   color:black;
 }
+
+.image-preview img {
+  min-width: 100px;
+  width: 8vw;
+  max-width: 200px;
+}
