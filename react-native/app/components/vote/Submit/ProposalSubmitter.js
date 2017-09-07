@@ -8,6 +8,7 @@ import { WritingArea, Keyboard, DraggableLetter } from './index';
 import { getDuration } from '../../../helper/helper';
 
 import { postProposalServiceProxy } from '../../../helper/apiProxy';
+import I18n from '../../../i18n/i18n';
 
 const colorWriteArea = '#FFFFFF';
 const colorKeyBoard = '#000000';
@@ -39,6 +40,8 @@ class ProposalSubmitter extends Component {
     this.queensLayout = null;
     // Will be overwritten by container layout callbacks
     this.writingAreaOffsetY = 0;
+    this.oldDx = 0.0;
+    this.oldDy = 0.0;
     this.writingArea1OffsetY = 0;
     this.writingArea2OffsetY = 0;
     this.dummyDx = 0;
@@ -59,6 +62,8 @@ class ProposalSubmitter extends Component {
     this.dragQueenIndex = -1;
     this.waitForCursorLayout = false;
     this.tickerId = null;
+    this.oldCurserIndex = -1;
+    this.cursorTime = 0;
     this.state = {
       ...this.setInitialLetters(),
       // Type of the dragged Queen. 0: writing area, 1: Keyboard
@@ -210,6 +215,7 @@ class ProposalSubmitter extends Component {
         }
       }
     }
+
     this.layoutLetters[key] = event.nativeEvent.layout;
   }
   onQueensLayoutCallback(event) {
@@ -222,7 +228,13 @@ class ProposalSubmitter extends Component {
     const lettersProperties = [];
     // convert them
     for (let i = 0, len = letters.length; i < len; i += 1) {
-      lettersProperties.push({ character: letters[i], key: i, opacity: 1, cursor: false });
+      lettersProperties.push({
+        character: letters[i],
+        key: i,
+        opacity: 1,
+        cursor: false,
+        space: false,
+      });
     }
     lettersProperties.push({
       character: ' ',
@@ -301,6 +313,12 @@ class ProposalSubmitter extends Component {
     if (!this.state.dragQueen) {
       console.log('NO DRAG QUEEN, but SETTIG CURSOR...');
       return;
+    }
+    if (this.oldCurserIndex === index) {
+      const now = new Date().getTime();
+      if (now - this.cursorTime < 200) {
+        return;
+      }
     }
 
     let newState = {};
@@ -408,6 +426,8 @@ class ProposalSubmitter extends Component {
         lettersKeyboard: Array.from(this.state.lettersKeyboard),
       };
     }
+    this.oldCurserIndex = this.cursorIndex;
+    this.cursorTime = new Date().getTime();
     this.cursorIndex = newCursorIndex;
     this.cursorType = newCursorType;
     this.setState({
@@ -456,44 +476,55 @@ class ProposalSubmitter extends Component {
       const letterH = this.layoutLetters[key].height;
       let letterX2 = letterX1 + letterW;
       const letterY2 = letterY1 + letterH;
-      /* console.log(`${i}: ${letterX1} : ${letterY1}     -    ${letterX2} : ${letterY2}`);
-      console.log(`${posX} : ${posY}`);
-      console.log('   -   '); */
       if (posX >= letterX1 && posX <= letterX2) {
         if (posY >= letterY1 && posY <= letterY2) {
+          /* console.log(`${i}: ${letterX1} : ${letterY1}     -    ${letterX2} : ${letterY2}`);
+          console.log(`${posX} : ${posY}`);
+          console.log('   -   '); */
           // Test if it is a move to direct neighbour.
           // yes => Retest with a protection margin, to avoid blinking
           let blinkProtection = false;
           if (this.cursorType === touchZone) {
-            // To right
             if (!this.testLettersArrayBounds(this.cursorType, this.cursorIndex)) {
               console.log('WHY');
               return -1;
             }
+            // To right
             const cursorKey = letterArray[this.cursorIndex].key;
             if (i === this.cursorIndex + 1) {
               blinkProtection = true;
+              //  console.log('BLINK RIGHT');
               if (!this.layoutLetters[cursorKey]) {
+                //   console.log('NO LAYOUT');
                 return -1;
               }
               const cursorWidth = this.layoutLetters[cursorKey].width;
               letterX1 = letterX2 - cursorWidth;
+              //   console.log(`diff: ${cursorWidth} ${cursorKey}`);
+              //   console.log(`cursorWidth: ${cursorWidth} ${cursorKey}`);
+              //     console.log(
+              //       `NEU: ${i}: ${letterX1} : ${letterY1}     -    ${letterX2} : ${letterY2}`,
+              //     );
               if (posX >= letterX1 && posX <= letterX2) {
                 if (posY >= letterY1 && posY <= letterY2) {
+                  //      console.log('OKAY');
                   return i;
                 }
               }
             }
             // to Left
             if (i === this.cursorIndex - 1) {
+              //     console.log('BLINK LEFT');
               blinkProtection = true;
               if (!this.layoutLetters[cursorKey]) {
+                //      console.log('NO LEYOUT');
                 return -1;
               }
               const cursorWidth = this.layoutLetters[cursorKey].width;
               letterX2 = letterX1 + cursorWidth;
               if (posX >= letterX1 && posX <= letterX2) {
                 if (posY >= letterY1 && posY <= letterY2) {
+                  //        console.log('OKAY');
                   return i;
                 }
               }
@@ -502,6 +533,7 @@ class ProposalSubmitter extends Component {
           if (!blinkProtection) {
             return i;
           }
+          //  console.log('BLINK PROTECTED');
         }
       }
     }
@@ -561,6 +593,16 @@ class ProposalSubmitter extends Component {
       },
       onPanResponderMove: (e, gesture) => {
         try {
+          const deltaX = Math.abs(this.oldDx - gesture.dx);
+          const deltaY = Math.abs(this.oldDy - gesture.dy);
+          //  console.log(`MOVE X ${deltaX} ${this.oldDx - gesture.dx}`);
+          //     console.log(`MOVE Y ${deltaY} ${this.oldDy - gesture.dy}`);
+          if (deltaX < 1 && deltaY < 1) {
+            //     console.log('NO MOVE YET');
+            return;
+          }
+          this.oldDx = gesture.dx;
+          this.oldDy = gesture.dy;
           if (this.dragReleasedButNotFinishedAnimation) {
             console.log('MOVE BUT OLD GESTUR STILL ANIMATES');
             return;
@@ -574,7 +616,7 @@ class ProposalSubmitter extends Component {
             return;
           }
           // absolute Pos.
-
+         // console.log(`${gesture.dx} ${gesture.dy}`);
           const posX = this.touchStartX + gesture.dx;
           const posY = this.touchStartY + gesture.dy;
           const touchZone = this.getTouchZone(posY);
@@ -811,6 +853,10 @@ class ProposalSubmitter extends Component {
     this.waitForState = false;
     this.dummyDx = 0;
     this.dummyDy = 0;
+    this.oldDx = 0.0;
+    this.oldDy = 0.0;
+    this.oldCurserIndex = -1;
+    this.cursorTime = 0;
     if (this.tickerId) {
       clearInterval(this.tickerId);
       this.tickerId = null;
@@ -884,6 +930,7 @@ class ProposalSubmitter extends Component {
   }
 
   render() {
+    I18n.locale = this.props.language;
     const title = this.props.challenge.title[this.props.language];
     return (
       <View style={styles.container}>
@@ -922,7 +969,7 @@ class ProposalSubmitter extends Component {
         <View style={styles.submitContainer}>
           <TouchableOpacity onPress={this.submitPressed} style={styles.submitButton}>
             <Text style={styles.submitButtonText}>
-              {'Submit'.toUpperCase()}
+              {I18n.t('submit_button').toUpperCase()}
             </Text>
           </TouchableOpacity>
         </View>

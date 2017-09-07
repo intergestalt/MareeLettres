@@ -15,3 +15,4 @@ shared/maree-lettres-shared/lib/maree-lettres-shared.min.js
 shared/maree-lettres-shared/lib/maree-lettres-shared.min.js
 react-native/yarn-error.log
 .gitignore
+tools/.expo/settings.json
