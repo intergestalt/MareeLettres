@@ -31,6 +31,7 @@ class Challenge extends Component {
         end_date: doc.end_date,
         proposals_end_date: doc.proposals_end_date,
         'winningProposalImageUrl': doc.winningProposalImageUrl,
+        'winningProposalDetailImageUrl': doc.winningProposalDetailImageUrl,
       },
     });
   }
@@ -51,6 +52,7 @@ class Challenge extends Component {
         <AutoField name="end_date" />
         <AutoField name="proposals_end_date" />
         <AutoField name="winningProposalImageUrl" />
+        <AutoField name="winningProposalDetailImageUrl" />
         <ErrorsField />
         <SubmitField />
       </AutoForm>
