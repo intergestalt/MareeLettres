@@ -15,6 +15,82 @@ a:hover {
   text-decoration: underline;
 }
 
+* {
+  box-sizing: border-box;
+}
+
+/*** general form styles ***/
+
+form {
+  margin: 1rem;
+  border: solid 1px #333;
+  border-radius: 1rem;
+  padding: 1.5rem;
+  background-color: lightyellow;
+}
+
+form > div[id^="uniforms"] > div {
+  margin-left: 1rem;
+}
+
+form [required] > input[type=text] {
+  display:inline;
+}
+
+form [required] > label:after {
+  content: "required";
+  text-transform: uppercase;
+  color: darkred;
+  font-weight: bold;
+  font-size: 70%;
+  padding-left: 1ex;
+}
+
+label {
+  display: block;
+  margin-bottom: 0.2rem;
+}
+
+[type="checkbox"] + label {
+  display: inline;
+}
+
+form div:after {
+  content: attr(title);
+  opacity: 0.7;
+  font-size:70%;
+  display:block;
+  margin-top: 0.2rem;
+}
+
+form > div:not(:first-of-type),
+form > div > div:not(:first-of-type) {
+  margin-top: 1rem;
+}
+
+input:not([type="checkbox"]) {
+  width: 100%;
+  padding:0.25rem;
+  box-sizing: border-box;
+}
+
+input[type="submit"] {
+  padding: 10px;
+  border: solid 1px black;
+  border-radius: 1rem;
+  background-color: lightgrey;
+  font-size: 1rem;
+  margin-top:2rem;
+  cursor: pointer;
+}
+
+input[type="submit"]:hover {
+  background-color: orange;
+  color:black;
+}
+
+/*** END general form styles ***/
+
 table {
   border-collapse: collapse;
 }
@@ -75,6 +151,8 @@ body {
   opacity: 0.8;
 }
 
+/*** BEGIN content editor ***/
+
 .content_editor {
   list-style-type: none;
   margin: 2rem;
@@ -96,6 +174,7 @@ body {
 
 .content_editor form > div {
   width: 50%;
+  margin-top:0;
 }
 
 .content_editor form label {
@@ -115,21 +194,9 @@ body {
 .content_editor form > [type="submit"] {
   flex: 1;
   width: 100%;
-  margin-top: 1rem;
 }
 
-input[type="submit"] {
-  padding: 10px;
-  border: solid 1px black;
-  border-radius: 1rem;
-  background-color: lightgrey;
-  font-size: 1rem;
-}
-
-input[type="submit"]:hover {
-  background-color: orange;
-  color:black;
-}
+/*** END content editor ***/
 
 .image-preview img {
   min-width: 100px;
