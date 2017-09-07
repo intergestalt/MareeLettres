@@ -22895,7 +22895,7 @@ var systemConfigDefaults = {
         title: 'Map Server: How long it takes to query the database'
     },
     map_letter_decay_time: {
-        defaultValue: 1800,
+        defaultValue: 5000,
         title: 'Map: Letter Decay Time (seconds)'
     },
     map_letter_regeneration_time_primary: {
@@ -22911,7 +22911,7 @@ var systemConfigDefaults = {
         title: 'Map: For how long a letter share QR code is valid'
     },
     map_drop_zone_radius: {
-        defaultValue: 50,
+        defaultValue: 75,
         title: 'Map: Radius of the drop zone in meters'
     },
     map_min_zoom_level: {
@@ -22923,7 +22923,7 @@ var systemConfigDefaults = {
         title: 'Map: Maximum Zoom Level'
     },
     map_letter_base_size: {
-        defaultValue: 5,
+        defaultValue: 10,
         title: 'Map: Letter size in meters'
     },
     map_delta_initial: {
