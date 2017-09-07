@@ -33,7 +33,16 @@ class Challenge extends Component {
         'winningProposalImageUrl': doc.winningProposalImageUrl,
         'winningProposalDetailImageUrl': doc.winningProposalDetailImageUrl,
       },
-    });
+    },
+      (error, data) => {
+        if (error) {
+          alert("ERROR - NOT SAVED")
+        }
+        else {
+          this.props.router.push('/admin/challenges')
+        }
+      }
+    );
   }
 
   renderEditForm() {
