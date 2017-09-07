@@ -66,7 +66,12 @@ const systemConfigDefaults = {
     map_delta_max: {
         defaultValue: 10,
         title: 'Map: Maximum zoom at which player can place letters, relative to drop zone size'
+    },
+    stream_twitter_handle: {
+        defaultValue: 'WilliamShatner',
+        title: 'Stream: The twitter handle'
     }
+
 };
 
 export default systemConfigDefaults;

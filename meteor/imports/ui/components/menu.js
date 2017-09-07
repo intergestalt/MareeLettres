@@ -36,6 +36,9 @@ class Menu extends Component {
             <Link to="/admin/status">Status</Link>
           </li>
           <li>
+            <Link to="/admin/feed">Feed</Link>
+          </li>          
+          <li>
             <Link to="/admin/config">Config</Link>
           </li>
         </ul>

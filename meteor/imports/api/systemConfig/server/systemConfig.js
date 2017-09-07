@@ -14,6 +14,13 @@ Meteor.publish('get.config.latest', function getSystemConfig() {
   return SystemConfig.find({}, { sort: { updated_at: 1 }, limit: 1 });
 });
 
+Meteor.publish('get.config.current', function getSystemConfig() {
+  if (!this.userId) return;
+
+  return SystemConfig.find({}, { sort: { updated_at: 1 }, limit: 1 });
+});
+
+
 // ; charset=utf-8
 
 JsonRoutes.add('get', `${Meteor.settings.public.api_prefix}config`, function (req, res, next) {

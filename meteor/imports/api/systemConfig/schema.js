@@ -3,9 +3,6 @@ import { systemConfigDefaults } from 'maree-lettres-shared';
 
 SimpleSchema.extendOptions(['title']);
 
-console.log(systemConfigDefaults)
-console.log(systemConfigDefaults.tinder_proposals_regeneration_interval)
-
 const SystemConfigSchema = new SimpleSchema(
     {
         name: {
@@ -87,7 +84,11 @@ const SystemConfigSchema = new SimpleSchema(
             min: 1,
             max: 20,
             ...systemConfigDefaults.map_delta_max,
-        }
+        },
+        stream_twitter_handle: {
+            type: String,
+            ...systemConfigDefaults.stream_twitter_handle,
+        },
     },
     { clean: { getAutovalues: true } }
 );

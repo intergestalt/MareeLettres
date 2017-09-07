@@ -35,6 +35,15 @@ JsonRoutes.add('get', `${Meteor.settings.public.api_prefix}proposals`, function 
   });
 });
 
+JsonRoutes.add('get', `${Meteor.settings.public.api_prefix}proposals/:proposal_id`, function (req, res, next) {
+  const proposal_id = req.params.proposal_id;
+
+  JsonRoutes.sendResult(res, {
+    data: { proposals: Proposals.find(proposal_id).fetch() },
+  });
+});
+
+
 JsonRoutes.add(
   'get',
   `${Meteor.settings.public.api_prefix}challenges/:challenge_id/proposals`,

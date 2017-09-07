@@ -13184,16 +13184,16 @@ var _letters = __webpack_require__(159);
 
 var _qrCode = __webpack_require__(160);
 
-var _systemConfigDefaults = __webpack_require__(161);
+var _systemConfig = __webpack_require__(161);
 
-var _systemConfigDefaults2 = _interopRequireDefault(_systemConfigDefaults);
+var _systemConfig2 = _interopRequireDefault(_systemConfig);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.OriginId = _origin_id.OriginId;
 exports.AvailableLetters = _letters.AvailableLetters;
 exports.QrCode = _qrCode.QrCode;
-exports.systemConfigDefaults = _systemConfigDefaults2.default;
+exports.systemConfigDefaults = _systemConfig2.default;
 
 /***/ }),
 /* 76 */
@@ -22836,6 +22836,38 @@ exports.QrCode = QrCode;
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
+
+var _systemConfigDefaults = __webpack_require__(162);
+
+var _systemConfigDefaults2 = _interopRequireDefault(_systemConfigDefaults);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+_systemConfigDefaults2.default.valuesObject = function () {
+    var _this = this;
+
+    var obj = {};
+
+    Object.keys(this).forEach(function (key) {
+        if (typeof _this[key] === 'function') return;
+        obj[key] = _this[key].defaultValue;
+    });
+    return obj;
+};
+
+exports.default = _systemConfigDefaults2.default;
+module.exports = exports['default'];
+
+/***/ }),
+/* 162 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
 var systemConfigDefaults = {
     proposals_auto_accept: {
         defaultValue: true,
@@ -22904,7 +22936,12 @@ var systemConfigDefaults = {
     map_delta_max: {
         defaultValue: 10,
         title: 'Map: Maximum zoom at which player can place letters, relative to drop zone size'
+    },
+    stream_twitter_handle: {
+        defaultValue: 'WilliamShatner',
+        title: 'Stream: The twitter handle'
     }
+
 };
 
 exports.default = systemConfigDefaults;

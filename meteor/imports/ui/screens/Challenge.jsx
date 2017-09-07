@@ -95,6 +95,7 @@ class Challenge extends Component {
     return (
       <AdminWrapper>
         <Menu />
+        <h2>Edit Challenge</h2>
         {this.renderEditForm()}
         {/* <ul>
           {this.renderProposals()}
