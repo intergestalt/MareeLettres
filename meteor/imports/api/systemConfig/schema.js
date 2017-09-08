@@ -97,6 +97,10 @@ const SystemConfigSchema = new SimpleSchema(
             type: String,
             ...systemConfigDefaults.stream_twitter_handle,
         },
+        challenge_list_image_url: {
+            type: String,
+            ...systemConfigDefaults.challenge_list_image_url,
+        },
     },
     { clean: { getAutovalues: true } }
 );

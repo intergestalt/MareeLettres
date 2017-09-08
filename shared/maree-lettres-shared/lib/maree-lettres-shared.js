@@ -22939,8 +22939,12 @@ var systemConfigDefaults = {
         title: 'Map: maximum map zoom relative to drop zone size'
     },
     stream_twitter_handle: {
-        defaultValue: 'WilliamShatner',
+        defaultValue: 'Paris',
         title: 'Stream: The twitter handle'
+    },
+    challenge_list_image_url: {
+        defaultValue: 'http://maree.herokuapp.com/img/challenges_start.jpg',
+        title: 'Image for topic list'
     }
 };
 
