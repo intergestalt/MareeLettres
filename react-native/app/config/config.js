@@ -66,6 +66,8 @@ export const DYNAMIC_CONFIG = {
   SEND_INTERNAL_VOTES_AFTER: null,
 
   // Twitter
+  // Twitter API 
+  /// TODO: clean up and remove
   TWITTER_HANDLE: '@WilliamShatner',
   TWITTER_AUTH_BASE64: 'MVJQNVhjMElGQ3FJcmZzc3Q3TXExTmVUSTp0dG5VNFFSVmpBVkdjaVpjZm92cFdzU1JZR09PUGt1amFjWnhsSUJnU1ExdE5sZDkwNw==',
   TWITTER_AUTH_API_KEY: '1RP5Xc0IFCqIrfsst7Mq1NeTI',
