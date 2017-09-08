@@ -54,7 +54,7 @@ function getDefaultEntry() {
   result.selectedChallengeId = null;
   result.selectedChallengeIndex = -1;
   result.proposalListMode = PROPOSAL_LIST_MODES.MOST;
-  result.proposalView = PROPOSAL_VIEWS.LIST;
+  result.proposalView = PROPOSAL_VIEWS.TINDER;
   result.challengeView = CHALLENGE_VIEWS.LIST;
   result.time = 0;
   return result;

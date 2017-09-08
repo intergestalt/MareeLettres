@@ -14,7 +14,7 @@ class ChallengeSelector extends Component {
 
   render() {
     return (
-      <Screen>
+      <Screen navigation={this.props.navigation}>
         <StatusBar />
         <ChallengeContainer
           language={this.props.language}

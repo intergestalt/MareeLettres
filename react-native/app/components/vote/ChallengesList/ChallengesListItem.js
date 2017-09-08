@@ -13,10 +13,20 @@ class ChallengesListItem extends Component {
   static propTypes = {
     data: PropTypes.object,
     tickerEntry: PropTypes.object,
+    viewMode: PropTypes.string,
+    callerViewMode: PropTypes.string,
     onPress: PropTypes.func,
     language: PropTypes.string,
   };
-
+  shouldComponentUpdate(nextProps, nextState) {
+    if (this.props.viewMode === CHALLENGE_VIEWS.SUGGEST) {
+      return false;
+    }
+    if (this.props.callerViewMode !== this.props.viewMode) {
+      return false;
+    }
+    return true;
+  }
   render() {
     return (
       <View style={styles.itemContainer}>
@@ -27,7 +37,10 @@ class ChallengesListItem extends Component {
                   callerViewMode={CHALLENGE_VIEWS.LIST}
                   data={this.props.data}
                 />
-                : <ChallengeHeadInactive data={this.props.data} />}
+                : <ChallengeHeadInactive
+                  callerViewMode={CHALLENGE_VIEWS.LIST}
+                  data={this.props.data}
+                />}
           </TouchableOpacity>
           : <View style={styles.row}>
             <Text style={styles.title}>RELOAD ITEM</Text>
@@ -40,9 +53,11 @@ const mapStateToProps = (state, ownProps) => {
   try {
     const language = state.globals.language;
     const tickerEntry = state.challengesTicker[ownProps.data.id];
+    const viewMode = state.challenges.challengeView;
     return {
       language,
       tickerEntry,
+      viewMode,
     };
   } catch (e) {
     console.log('ChallengesListItem');

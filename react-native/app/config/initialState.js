@@ -1,7 +1,7 @@
 import Expo from 'expo';
 import { OriginId /* , systemConfigInitial */ } from 'maree-lettres-shared';
 
-import { PROPOSAL_LIST_MODES, CHALLENGE_VIEWS, PROPOSAL_VIEWS } from '../consts';
+import { PROPOSAL_LIST_MODES, CHALLENGE_VIEWS, PROPOSAL_VIEWS, SCREENS } from '../consts';
 
 const originId = OriginId.generateFromDeviceId(Expo.Constants.deviceId);
 const sampleDate = new Date().toISOString();
@@ -63,6 +63,7 @@ export default {
     isNetworkError: false,
     networkErrorMessageKey: null,
     language: null,
+    screen: SCREENS.VOTE,
   },
 
   user: {
@@ -86,7 +87,7 @@ export default {
         longitudeDelta: 0.0004,
       },
       tutorialStatus: 'welcome',
-      maxMarkers: 200
+      maxMarkers: 200,
     },
     primary_letter: {
       _id: originId,
@@ -125,7 +126,7 @@ export default {
 
   challenges: {
     challengeView: CHALLENGE_VIEWS.LIST,
-    proposalView: PROPOSAL_VIEWS.LIST,
+    proposalView: PROPOSAL_VIEWS.TINDER,
     proposalListMode: PROPOSAL_LIST_MODES.MOST,
     selectedChallengeId: null,
     selectedChallengeIndex: -1,

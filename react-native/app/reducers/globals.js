@@ -4,6 +4,7 @@ import {
   SET_GLOBALS_IS_LOADING_FROM_STORAGE,
   SET_GLOBALS,
   SET_NET_WORK_ERROR,
+  SET_SCREEN,
 } from '../actions/general';
 
 import initialState from '../config/initialState';
@@ -49,6 +50,11 @@ export default (state = initialState.globals, action) => {
 
       case SET_NET_WORK_ERROR: {
         return { ...state, isNetworkError: action.yes, networkErrorMessageKey: action.messageKey };
+      }
+      case SET_SCREEN: {
+        const result = { ...state, screen: action.screen };
+        saveGlobalsToStorage(result);
+        return result;
       }
       default:
         return state;

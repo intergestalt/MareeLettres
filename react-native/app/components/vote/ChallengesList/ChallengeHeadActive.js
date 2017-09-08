@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import I18n from '../../../i18n/i18n';
 import { getTickerString } from '../../../helper/dateFunctions';
 import styles from './styles';
+import { CHALLENGE_VIEWS } from '../../../consts';
 
 class ChallengeHeadActive extends Component {
   static propTypes = {
@@ -15,6 +16,9 @@ class ChallengeHeadActive extends Component {
     callerViewMode: PropTypes.string,
   };
   shouldComponentUpdate(nextProps, nextState) {
+    if (this.props.viewMode === CHALLENGE_VIEWS.SUGGEST) {
+      return false;
+    }
     if (this.props.callerViewMode !== this.props.viewMode) {
       return false;
     }

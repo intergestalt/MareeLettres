@@ -5,7 +5,6 @@ import styles from './styles';
 
 class BackSimple extends Component {
   static propTypes = {
-    navigation: PropTypes.object,
     onPress: PropTypes.func,
     colour: PropTypes.string,
   };
@@ -19,6 +18,6 @@ class BackSimple extends Component {
       </TouchableOpacity>
     );
   }
-};
+}
 
 export default BackSimple;

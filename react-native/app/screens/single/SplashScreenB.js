@@ -38,6 +38,7 @@ const styles = EStyleSheet.create({
 
 class SplashScreenB extends Component {
   static propTypes = {
+    navigation: PropTypes.object,
     isLoadingUser: PropTypes.bool,
     isLoadingContent: PropTypes.bool,
     isLoadingChallenges: PropTypes.bool,
@@ -149,7 +150,11 @@ class SplashScreenB extends Component {
 
   render() {
     return (
-      <Screen style={styles.container} backgroundColor={styles._container.backgroundColor}>
+      <Screen
+        navigation={this.props.navigation}
+        style={styles.container}
+        backgroundColor={styles._container.backgroundColor}
+      >
         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
           <Text>Init...</Text>
         </View>

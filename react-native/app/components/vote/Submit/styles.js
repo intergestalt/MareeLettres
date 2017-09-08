@@ -9,20 +9,34 @@ const styles = EStyleSheet.create({
   container: { flex: 1, flexDirection: 'column' },
   dragContainer: { flex: 1 },
   submitContainer: {},
+  titleContainer: {
+    textAlign: 'center',
+    paddingTop: '1.5rem',
+    flexDirection: 'row',
+    backgroundColor: '#000033',
+    width: '100%',
+  },
+  backStyle: {
+    color: 'white',
+    paddingLeft: '1.5rem',
+    fontSize: '2rem',
+    justifyContent: 'center',
+    fontFamily: 'impact',
+  },
   title: {
     fontFamily: 'normal',
     fontSize: '1rem',
     color: 'white',
     textAlign: 'center',
-    paddingTop: '1.5rem',
     paddingBottom: '0.5rem',
     paddingHorizontal: '20%',
   },
   writingArea: {
-    flex: 1,
     backgroundColor: '#000033',
     width: '100%',
+    flex: 0.3,
   },
+
   writingAreaContentContainer: {
     justifyContent: 'center',
     flex: 1,
@@ -34,10 +48,10 @@ const styles = EStyleSheet.create({
     paddingHorizontal: 0.35 * em,
   },
   keyboard: {
-    flex: 1,
     backgroundColor: 'white',
     width: '100%',
     paddingTop: (25 / 35 - (1 - 35 / 40) / 2) * em,
+    paddingBottom: (25 / 35 - (1 - 35 / 40) / 2) * em,
     paddingHorizontal: 0.35 * em,
     flexDirection: 'row',
     flexWrap: 'wrap',

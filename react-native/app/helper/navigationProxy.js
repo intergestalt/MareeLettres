@@ -6,13 +6,13 @@ import { setChallengeId, setChallengeView } from '../actions/challenges';
 import { manageChallenges, getSelectedChallengeIndex } from './challengesHelper';
 import { manageProposals } from './proposalsHelper';
 import store from '../config/store';
-import { CHALLENGE_VIEWS } from '../consts';
-
+import { CHALLENGE_VIEWS, SCREENS } from '../consts';
+import { setScreen } from '../actions/general';
 // Navigation
 
 export function dispatchBackAction(props) {
-    const backAction = NavigationActions.back({});
-    props.navigation.dispatch(backAction);
+  const backAction = NavigationActions.back({});
+  props.navigation.dispatch(backAction);
 }
 
 // rootNavigator
@@ -41,18 +41,21 @@ export function navigateToInfo(props) {
   stopChallengeTicker();
   loadContentServiceProxy(false, true);
   sendInternalVotesServiceProxy(true);
+  store.dispatch(setScreen(SCREENS.INFO));
   props.navigation.navigate('Info');
 }
 
 export function navigateToBecome(props) {
   stopChallengeTicker();
   sendInternalVotesServiceProxy(true);
+  store.dispatch(setScreen(SCREENS.MAP));
   props.navigation.navigate('Become');
 }
 
 export function navigateToStream(props) {
   stopChallengeTicker();
   sendInternalVotesServiceProxy(true);
+  store.dispatch(setScreen(SCREENS.NEWS));
   props.navigation.navigate('Stream');
 }
 
@@ -65,6 +68,7 @@ function preNavigateToVote(props) {
 
 export function navigateToVote(props) {
   preNavigateToVote(props);
+  store.dispatch(setScreen(SCREENS.VOTE));
   props.navigation.navigate('Vote');
 }
 export function popLanguageSelector(props) {
@@ -120,6 +124,7 @@ export function navigateToChallengeSelector(props, id) {
 }
 
 export function popChallengeSelector(props, withDispatch = true) {
+  console.log('popChallengeSelector');
   const mode = store.getState().challenges.challengeView;
   if (mode === CHALLENGE_VIEWS.LIST) {
     return;
@@ -130,10 +135,28 @@ export function popChallengeSelector(props, withDispatch = true) {
     sendInternalVotesServiceProxy(true);
   }
   if (!props.navigation.goBack()) {
+    // Should not happen
     props.navigation.navigate('Challenges');
   }
 }
-
+export function popProposalSubmitter(props, withDispatch = true) {
+  console.log('popProposalSubmitter');
+  const mode = store.getState().challenges.challengeView;
+  if (mode === CHALLENGE_VIEWS.DETAIL) {
+    return;
+  }
+  if (withDispatch) {
+    store.dispatch(setChallengeView(CHALLENGE_VIEWS.DETAIL));
+    manageChallenges(props);
+    manageProposals();
+  }
+  if (!props.navigation.goBack()) {
+    // Should not happen
+    props.navigation.navigate('ChallengeSelector');
+  } else {
+  }
+}
 export function navigateToSubmit(props, challenge) {
+  store.dispatch(setChallengeView(CHALLENGE_VIEWS.SUGGEST));
   props.navigation.navigate('Submit', { challenge });
 }

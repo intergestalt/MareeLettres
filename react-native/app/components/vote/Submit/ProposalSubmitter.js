@@ -9,6 +9,7 @@ import { getDuration } from '../../../helper/helper';
 
 import { postProposalServiceProxy } from '../../../helper/apiProxy';
 import I18n from '../../../i18n/i18n';
+import { popProposalSubmitter } from '../../../helper/navigationProxy';
 
 const colorWriteArea = '#FFFFFF';
 const colorKeyBoard = '#000000';
@@ -25,9 +26,12 @@ class ProposalSubmitter extends Component {
     // I. Bindings
     this.submitPressed = this.submitPressed.bind(this);
     this.onLayoutCallback = this.onLayoutCallback.bind(this);
+    this.handleBackPress = this.handleBackPress.bind(this);
     this.onQueensLayoutCallback = this.onQueensLayoutCallback.bind(this);
+
     // This Layout infos of the letter container.
     // Ofsett to determine the cursor pos and the letter pos... Hate it!
+    this.onLayoutCallbackTitleArea = this.onLayoutCallbackTitleArea.bind(this);
     // The whole writing area
     this.onLayoutCallbackWritingArea = this.onLayoutCallbackWritingArea.bind(this);
     // the first inner container
@@ -40,6 +44,7 @@ class ProposalSubmitter extends Component {
     this.queensLayout = null;
     // Will be overwritten by container layout callbacks
     this.writingAreaOffsetY = 0;
+    this.titleAreaOffsetY = 0;
     this.oldDx = 0.0;
     this.oldDy = 0.0;
     this.writingArea1OffsetY = 0;
@@ -188,6 +193,9 @@ class ProposalSubmitter extends Component {
   }
 
   // Layoutcallbacks
+  onLayoutCallbackTitleArea(event) {
+    this.titleAreaOffsetY = 0; // event.nativeEvent.layout.height;
+  }
   onLayoutCallbackWritingArea(event) {
     this.writingAreaOffsetY = event.nativeEvent.layout.height;
   }
@@ -278,7 +286,11 @@ class ProposalSubmitter extends Component {
       const key = letter.key;
       if (!this.layoutLetters[key]) return null;
       x = this.layoutLetters[key].x;
-      y = this.layoutLetters[key].y + this.writingArea1OffsetY + this.writingArea2OffsetY;
+      y =
+        this.layoutLetters[key].y +
+        this.writingArea1OffsetY +
+        this.writingArea2OffsetY +
+        this.titleAreaOffsetY;
       width = this.layoutLetters[key].width;
       // recenter if letter is space;
       if (letter.space) {
@@ -293,7 +305,7 @@ class ProposalSubmitter extends Component {
       const key = this.state.lettersKeyboard[index].key;
       if (!this.layoutLetters[key]) return null;
       x = this.layoutLetters[key].x;
-      y = this.layoutLetters[key].y + this.writingAreaOffsetY;
+      y = this.layoutLetters[key].y + this.writingAreaOffsetY + this.titleAreaOffsetY;
       width = this.layoutLetters[key].width;
     }
     return { x, y, width };
@@ -444,7 +456,7 @@ class ProposalSubmitter extends Component {
     return -1;
   }
   getTouchZone(posY) {
-    if (posY < this.writingAreaOffsetY) {
+    if (posY < this.writingAreaOffsetY + this.titleAreaOffsetY) {
       return 0;
     }
     return 1;
@@ -455,10 +467,10 @@ class ProposalSubmitter extends Component {
     let offsetY = 0;
     if (touchZone === 0) {
       letterArray = this.state.lettersWritingArea;
-      offsetY = this.writingArea1OffsetY + this.writingArea2OffsetY;
+      offsetY = this.writingArea1OffsetY + this.writingArea2OffsetY + this.titleAreaOffsetY;
     } else if (touchZone === 1) {
       letterArray = this.state.lettersKeyboard;
-      offsetY = this.writingAreaOffsetY;
+      offsetY = this.writingAreaOffsetY + this.titleAreaOffsetY;
     }
     for (let i = 0; i < letterArray.length; i += 1) {
       const key = letterArray[i].key;
@@ -616,7 +628,7 @@ class ProposalSubmitter extends Component {
             return;
           }
           // absolute Pos.
-         // console.log(`${gesture.dx} ${gesture.dy}`);
+          // console.log(`${gesture.dx} ${gesture.dy}`);
           const posX = this.touchStartX + gesture.dx;
           const posY = this.touchStartY + gesture.dy;
           const touchZone = this.getTouchZone(posY);
@@ -929,24 +941,36 @@ class ProposalSubmitter extends Component {
     postProposalServiceProxy(this.props.challenge._id, answer);
   }
 
+  handleBackPress() {
+    popProposalSubmitter(this.props);
+  }
+
   render() {
     I18n.locale = this.props.language;
     const title = this.props.challenge.title[this.props.language];
     return (
       <View style={styles.container}>
+        <View style={styles.titleContainer}>
+          <TouchableOpacity onPress={this.handleBackPress}>
+            <Text style={styles.backStyle}>
+              {'<'}
+            </Text>
+          </TouchableOpacity>
+          <Text style={styles.title}>
+            {title.toUpperCase()}
+          </Text>
+        </View>
         <View
           pointerEvents="box-only"
           {...this.panResponder.panHandlers}
           style={styles.dragContainer}
         >
-          {/* BackButton */}
           <WritingArea
             letterColor={colorWriteArea}
             layoutCallback={this.onLayoutCallback}
             onLayoutCallbackWritingArea={this.onLayoutCallbackWritingArea}
             onLayoutCallbackWritingArea1={this.onLayoutCallbackWritingArea1}
             onLayoutCallbackWritingArea2={this.onLayoutCallbackWritingArea2}
-            title={title}
             letters={this.state.lettersWritingArea}
           />
           <Keyboard

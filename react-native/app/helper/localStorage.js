@@ -14,7 +14,7 @@ import { setProposals, setProposalsIsLoadingFromStorage } from '../actions/propo
 import { setLetters, setLettersIsLoadingFromStorage } from '../actions/letters';
 import { setMyLetters, setMyLettersIsLoadingFromStorage } from '../actions/map';
 import { cutProposalList } from './proposalsHelper';
-import { PROPOSAL_VIEWS, CHALLENGE_VIEWS, PROPOSAL_LIST_MODES } from '../consts';
+import { SCREENS, PROPOSAL_VIEWS, CHALLENGE_VIEWS, PROPOSAL_LIST_MODES } from '../consts';
 import { setChallengesDateData } from '../actions/challengesTicker';
 
 function existing(str) {
@@ -83,6 +83,7 @@ function cleanGlobals(globals) {
   item = normalClean(item);
   item.isNetworkError = false;
   item.networkErrorMessageKey = null;
+  item.screen = SCREENS.VOTE;
   return item;
 }
 
@@ -115,7 +116,7 @@ function cleanChallenges(challenges) {
   item.selectedChallengeId = null;
   item.selectedChallengeIndex = -1;
   item.challengeView = CHALLENGE_VIEWS.LIST;
-  item.proposalView = PROPOSAL_VIEWS.LIST;
+  item.proposalView = PROPOSAL_VIEWS.TINDER;
   item.proposalListMode = PROPOSAL_LIST_MODES.MOST;
   const newChallenges = [];
   for (let i = 0; i < item.challenges.length; i += 1) {

@@ -38,7 +38,6 @@ class TabBar extends Component {
 
   render() {
     I18n.locale = this.props.language;
-
     const tabIndex = this.props.navigation.state.index;
 
     let voteSelected = false;

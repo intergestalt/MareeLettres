@@ -16,7 +16,9 @@ class AppContainer extends Component {
     super(props);
     I18n.locale = this.props.language;
   }
+
   componentDidMount() {
+    console.log('ADD EVENTLISTENER');
     AppState.addEventListener('change', this._handleAppStateChange);
   }
 
@@ -51,7 +53,6 @@ const mapStateToProps = (state) => {
     const isNetworkError = state.globals.isNetworkError;
     const networkErrorMessageKey = state.globals.networkErrorMessageKey;
     const language = state.globals.language;
-
     return {
       networkErrorMessageKey,
       isNetworkError,

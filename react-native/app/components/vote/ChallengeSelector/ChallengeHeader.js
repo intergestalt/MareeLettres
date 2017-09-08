@@ -17,9 +17,19 @@ class ChallengeHeader extends PureComponent {
     onUpPress: PropTypes.func,
     onDownPress: PropTypes.func,
     panResponder: PropTypes.object,
+    viewMode: PropTypes.string,
+    callerViewMode: PropTypes.string,
     language: PropTypes.string,
   };
-
+  shouldComponentUpdate(nextProps, nextState) {
+    if (this.props.viewMode === CHALLENGE_VIEWS.SUGGEST) {
+      return false;
+    }
+    if (this.props.callerViewMode !== this.props.viewMode) {
+      return false;
+    }
+    return true;
+  }
   getChallengeIndex() {
     return this.props.selectedChallengeIndex + this.props.challengeOffset;
   }
@@ -92,7 +102,10 @@ class ChallengeHeader extends PureComponent {
               callerViewMode={CHALLENGE_VIEWS.DETAIL}
               data={standardizedChallenge}
             />
-            : <ChallengeHeadInactive data={standardizedChallenge} />}
+            : <ChallengeHeadInactive
+              callerViewMode={CHALLENGE_VIEWS.DETAIL}
+              data={standardizedChallenge}
+            />}
         </TouchableOpacity>
       </View>
     );
@@ -120,12 +133,14 @@ const mapStateToProps = (state) => {
     const challengesTicker = state.challengesTicker;
     const selectedChallengeIndex = state.challenges.selectedChallengeIndex;
     const language = state.globals.language;
+    const viewMode = state.challenges.challengeView;
 
     return {
       selectedChallengeIndex,
       challenges,
       challengesTicker,
       language,
+      viewMode,
     };
   } catch (e) {
     console.log('ChallengeHeader');

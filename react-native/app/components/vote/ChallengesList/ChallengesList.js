@@ -10,6 +10,7 @@ import { navigateToChallengeSelector } from '../../../helper/navigationProxy';
 import { startChallengeTicker } from '../../../helper/ticker';
 import { listIsEmpty } from '../../../helper/helper';
 import { loadChallengesServiceProxy, loadUserServiceProxy } from '../../../helper/apiProxy';
+import { CHALLENGE_VIEWS } from '../../../consts';
 
 class ChallengesList extends PureComponent {
   static propTypes = {
@@ -111,6 +112,7 @@ class ChallengesList extends PureComponent {
             <ChallengesListItem
               language={this.props.language}
               data={item}
+              callerViewMode={CHALLENGE_VIEWS.LIST}
               onPress={() => this.handlePressRow(item)}
             />}
           keyExtractor={item => item.id}
