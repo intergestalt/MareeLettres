@@ -27,6 +27,38 @@ Meteor.publish('get.proposals/challenge_id', function getProposals(challenge_id)
   return Proposals.find(query);
 });
 
+Meteor.publish('get.proposals.in_review', function getProposals(data) {
+  if (!this.userId) return;
+
+  const limit = data.limit || 5;
+
+  return Proposals.find({ in_review: true }, { sort: { created_at: 1 }, limit });
+});
+
+Meteor.publish('get.proposals.recently_accepted', function getProposals(data) {
+  if (!this.userId) return;
+
+  const limit = data.limit || 5;
+
+  return Proposals.find({ in_review: false, blocked: false }, { sort: { reviewed_at: -1 }, limit });
+});
+
+Meteor.publish('get.proposals.recently_rejected', function getProposals(data) {
+  if (!this.userId) return;
+
+  const limit = data.limit || 5;
+
+  return Proposals.find({ in_review: false, blocked: true }, { sort: { reviewed_at: -1 }, limit });
+});
+
+Meteor.publish('get.proposals.recently_reviewed', function getProposals(data) {
+  if (!this.userId) return;
+
+  const limit = data.limit || 10;
+
+  return Proposals.find({ in_review: false }, { sort: { reviewed_at: 1 }, limit });
+});
+
 // REST:
 
 JsonRoutes.add('get', `${Meteor.settings.public.api_prefix}proposals`, function (req, res, next) {

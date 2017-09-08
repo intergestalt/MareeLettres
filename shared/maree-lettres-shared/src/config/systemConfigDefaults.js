@@ -70,7 +70,8 @@ const systemConfigDefaults = {
     stream_twitter_handle: {
         defaultValue: 'WilliamShatner',
         title: 'Stream: The twitter handle'
-    }
+    },
+
 
 };
 

@@ -5,8 +5,8 @@ const Proposals = new Mongo.Collection('proposals');
 
 Proposals.allow({
   insert: () => false,
-  update: () => false,
-  remove: () => false,
+  update: () => (userId) => (userId || false),
+  remove: () => (userId) => (userId || false),
 });
 
 export { Proposals, ProposalsSchema }

@@ -47,6 +47,9 @@ class ProposalEntry extends Component {
             {proposal.challenge_id}
           </tt>
         </td>
+        <td>
+          <button name={proposal._id} onClick={this.props.onDelete}>delete</button>
+        </td>
       </tr>
     );
   }
