@@ -40,7 +40,6 @@ class Screen extends Component {
         return true;
       }
     }
-    console.log(`${this.props.screen} ${this.props.mapView}`);
     if (this.props.screen === SCREENS.MAP) {
       if (
         this.props.mapView === MAP_VIEWS.CAMERA ||
