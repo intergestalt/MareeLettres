@@ -12,10 +12,13 @@ class ProposalEntry extends Component {
 
   render() {
     const proposal = this.props.proposal;
+    const players = proposal.origin_ids.map((origin_id) => (
+      <PlayerCell origin_id={proposal.origin_id} />
+    ))
     return (
       <tr key={proposal._id}>
         <td>
-          <PlayerCell origin_id={proposal.origin_id} />
+          {players}
         </td>
         <td>
           <tt>

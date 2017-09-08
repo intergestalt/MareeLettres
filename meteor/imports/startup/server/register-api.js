@@ -5,6 +5,7 @@ import '../../api/challenges/server/publications';
 import '../../api/challenges/hooks';
 
 import '../../api/proposals/server/publications';
+import '../../api/proposals/server/rest';
 import '../../api/proposals/hooks';
 
 import '../../api/status/server/status';

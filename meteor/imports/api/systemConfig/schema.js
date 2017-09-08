@@ -17,6 +17,10 @@ const SystemConfigSchema = new SimpleSchema(
             type: Boolean,
             ...systemConfigDefaults.proposals_auto_accept
         },
+        proposal_boost_amount: {
+            type: SimpleSchema.Integer,
+            ...systemConfigDefaults.proposal_boost_amount
+        },
         track_player_movements: {
             type: Boolean,
             ...systemConfigDefaults.track_player_movements

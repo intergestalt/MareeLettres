@@ -2,8 +2,8 @@ import SimpleSchema from 'simpl-schema';
 
 const ProposalsSchema = new SimpleSchema(
     {
-        origin_id: {
-            type: String,
+        origin_ids: {
+            type: Array,
             index: 1,
         },
         challenge_id: {

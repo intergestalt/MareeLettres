@@ -22870,6 +22870,10 @@ var systemConfigDefaults = {
         defaultValue: true,
         title: 'Auto-Accept new proposals, bypass review process'
     },
+    proposal_boost_amount: {
+        defaultValue: 5,
+        title: 'The boost in number of positive votes a proposal gets when a proposal with the same text is submitted'
+    },
     track_player_movements: {
         defaultValue: true,
         title: 'Constantly update player positions on map'
@@ -22938,7 +22942,6 @@ var systemConfigDefaults = {
         defaultValue: 'WilliamShatner',
         title: 'Stream: The twitter handle'
     }
-
 };
 
 exports.default = systemConfigDefaults;

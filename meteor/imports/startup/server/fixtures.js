@@ -82,7 +82,7 @@ Meteor.startup(() => {
                 no_votes: 0,
                 in_review: false,
                 blocked: false,
-                origin_id: OriginId.generateFromString(`fixture_player_${j}`),
+                origin_ids: [OriginId.generateFromString(`fixture_player_${j}`)],
               });
             }
           }
