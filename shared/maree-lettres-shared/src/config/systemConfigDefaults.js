@@ -3,6 +3,10 @@ const systemConfigDefaults = {
         defaultValue: true,
         title: 'Auto-Accept new proposals, bypass review process'
     },
+    proposal_boost_amount: {
+        defaultValue: 5,
+        title: 'The boost in number of positive votes a proposal gets when a proposal with the same text is submitted'
+    },
     track_player_movements: {
         defaultValue: true,
         title: 'Constantly update player positions on map'
@@ -68,11 +72,13 @@ const systemConfigDefaults = {
         title: 'Map: maximum map zoom relative to drop zone size'
     },
     stream_twitter_handle: {
-        defaultValue: 'WilliamShatner',
+        defaultValue: 'Paris',
         title: 'Stream: The twitter handle'
     },
-
-
+    challenge_list_image_url: {
+        defaultValue: 'http://maree.herokuapp.com/img/challenges_start.jpg',
+        title: 'Image for topic list'
+    }
 };
 
 export default systemConfigDefaults;

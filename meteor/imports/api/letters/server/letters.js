@@ -3,7 +3,10 @@ import { Mongo } from 'meteor/mongo';
 
 import { Letters, LettersSchema } from '../letters';
 
+import RequestHelpers from '../../../helpers/RequestHelpers';
 import currentSystemConfig from '../../../startup/server/system-config';
+
+JsonRoutesError = RequestHelpers.JsonRoutesError;
 
 Meteor.publish('get.letters', function getLetters() {
   if (!this.userId) return;
@@ -75,12 +78,3 @@ JsonRoutes.add('post', `${Meteor.settings.public.api_prefix}letters`, function (
   JsonRoutes.sendResult(res, options);
 });
 
-const JsonRoutesError = function (res, status_code, error_code) {
-  error_options = {
-    code: status_code,
-    data: {
-      error: error_code,
-    },
-  };
-  JsonRoutes.sendResult(res, error_options);
-};

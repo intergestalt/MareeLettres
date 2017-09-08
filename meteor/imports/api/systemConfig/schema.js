@@ -17,6 +17,10 @@ const SystemConfigSchema = new SimpleSchema(
             type: Boolean,
             ...systemConfigDefaults.proposals_auto_accept
         },
+        proposal_boost_amount: {
+            type: SimpleSchema.Integer,
+            ...systemConfigDefaults.proposal_boost_amount
+        },
         track_player_movements: {
             type: Boolean,
             ...systemConfigDefaults.track_player_movements
@@ -92,6 +96,10 @@ const SystemConfigSchema = new SimpleSchema(
         stream_twitter_handle: {
             type: String,
             ...systemConfigDefaults.stream_twitter_handle,
+        },
+        challenge_list_image_url: {
+            type: String,
+            ...systemConfigDefaults.challenge_list_image_url,
         },
     },
     { clean: { getAutovalues: true } }

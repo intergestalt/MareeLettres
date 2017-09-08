@@ -30,9 +30,11 @@ Meteor.startup(() => {
 
   // Always update default SystemConfig
   console.log("resetting default config in db")
+  // TODO: just upsert the values!!
   const defaultSystemConfig = SystemConfigSchema.clean({});
+  const previous = SystemConfig.findOne({ name: 'default' }, { fields: { active: 1 } });
   SystemConfig.remove({ name: 'default' })
-  SystemConfig.insert(defaultSystemConfig, ...{ name: "default" })
+  SystemConfig.insert(defaultSystemConfig, ...{ name: "default", active: previous.active })
   /*SystemConfig.rawCollection().replaceOne({ name: 'default' }, defaultSystemConfig, {
     upsert: true,
   });*/
@@ -82,7 +84,7 @@ Meteor.startup(() => {
                 no_votes: 0,
                 in_review: false,
                 blocked: false,
-                origin_id: OriginId.generateFromString(`fixture_player_${j}`),
+                origin_ids: [OriginId.generateFromString(`fixture_player_${j}`)],
               });
             }
           }
