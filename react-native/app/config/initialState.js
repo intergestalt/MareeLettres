@@ -126,8 +126,6 @@ export default {
 
   challenges: {
     challengeView: CHALLENGE_VIEWS.LIST,
-    proposalView: PROPOSAL_VIEWS.TINDER,
-    proposalListMode: PROPOSAL_LIST_MODES.MOST,
     selectedChallengeId: null,
     selectedChallengeIndex: -1,
     isLoading: false,

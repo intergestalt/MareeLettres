@@ -1,5 +1,5 @@
 import React, { PureComponent, PropTypes } from 'react';
-import { ActivityIndicator, RefreshControl, View, Text, FlatList } from 'react-native';
+import { ActivityIndicator, RefreshControl, View, FlatList } from 'react-native';
 import { connect } from 'react-redux';
 
 import { ProposalListItem, ProposalListHeader, styles } from './';
@@ -24,6 +24,7 @@ class ProposalList extends PureComponent {
     setFlatlistRef: PropTypes.func,
     listEnabled: PropTypes.bool,
     dispatch: PropTypes.func,
+    proposalListMode: PropTypes.string,
   };
   constructor(props) {
     super(props);
@@ -111,6 +112,7 @@ class ProposalList extends PureComponent {
       <View style={styles.container}>
         <View style={styles.headerContainer}>
           <ProposalListHeader
+            proposalListMode={this.props.proposalListMode}
             onMostPress={this.props.onMostPress}
             onTrendingPress={this.props.onTrendingPress}
             onNewestPress={this.props.onNewestPress}
@@ -151,8 +153,10 @@ const mapStateToProps = (state, ownProps) => {
     const selectedChallengeIndex = state.challenges.selectedChallengeIndex;
     const challengeIndex = selectedChallengeIndex + ownProps.challengeOffset;
     const id = challenges[challengeIndex]._id;
-    const proposalView = state.challenges.proposalView;
-    const proposalListMode = state.challenges.proposalListMode;
+    const challenge = challenges[challengeIndex];
+    const proposalView = challenge.proposalView;
+    const proposalListMode = challenge.proposalListMode;
+    console.log(`--->${proposalListMode}`);
     // all 4 lists
     const p = state.proposals[id];
     const p2 = getProposalList(p, proposalView, proposalListMode);
@@ -168,6 +172,7 @@ const mapStateToProps = (state, ownProps) => {
       isPullDownLoading,
       isPullUpLoading,
       lastLimit,
+      proposalListMode,
     };
   } catch (e) {
     console.log('ProposalList');
