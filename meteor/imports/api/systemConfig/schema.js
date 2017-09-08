@@ -9,6 +9,10 @@ const SystemConfigSchema = new SimpleSchema(
             type: String,
             defaultValue: 'default'
         },
+        active: {
+            type: Boolean,
+            defaultValue: false,
+        },
         proposals_auto_accept: {
             type: Boolean,
             ...systemConfigDefaults.proposals_auto_accept

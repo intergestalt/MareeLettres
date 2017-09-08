@@ -44,6 +44,12 @@ const ProposalsSchema = new SimpleSchema(
             type: Boolean,
             defaultValue: false,
         },
+        created_at: {
+            type: Date
+        },
+        reviewed_at: {
+            type: Date
+        }
     },
     {
         clean: { getAutovalues: true }
