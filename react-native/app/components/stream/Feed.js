@@ -1,11 +1,15 @@
 import React, { Component, PropTypes } from 'react';
-import { View, Text, FlatList } from 'react-native';
+import { WebView, Linking } from 'react-native'; // View, Text, FlatList
 import { DYNAMIC_CONFIG } from '../../config/config';
 import { connect } from 'react-redux';
 import { twitterGetAuth, twitterGetTweets, twitterGetTweetsHTML } from '../../helper/apiProxy';
 import Separator from '../vote/ChallengesList/Separator';
 import Tweet from './Tweet';
 import styles from './styles';
+
+const wv = require('./TwitterWebView.html');
+
+console.log('WEB VIEW', wv);
 
 class Feed extends Component {
   static PropTypes = {
@@ -21,7 +25,7 @@ class Feed extends Component {
   }
 
   componentWillMount() {
-    this.getAuthentication();
+    //this.getAuthentication();
   }
 
   componentWillReceiveProps(nextProps) {
@@ -38,50 +42,69 @@ class Feed extends Component {
 
   getAuthentication() {
     // get app auth token
-    twitterGetAuth();
+    //twitterGetAuth();
   }
 
   getTweets(token) {
     // get tweets
-    twitterGetTweets(token);
-
-    // fallback in anticipation of twitter API rate limit problems
+    //twitterGetTweets(token);
+    // fallback
     //twitterGetTweetsHTML();
   }
 
   render() {
-    const tweets = this.props.stream.content;
+    //const tweets = this.props.stream.content;
+    const uri = require('./TwitterWebView.html');
 
     return (
-      <View style={styles.feedContainer}>
-        {tweets.length === 0
-          ? <View style={styles.loadingBarContainer}>
-              <Text style={styles.loadingBarText}>
-                Loading
-              </Text>
-            </View>
-          : null
-        }
-        <FlatList
-          data={tweets}
-          renderItem={({item}) =>
-            <Tweet
-              index={item.index}
-              name={item.name}
-              handle={item.handle}
-              date={item.date}
-              content={item.content}
-              image={false}
-              url={item.url}
-              />
-          }
-          keyExtractor={item => item.index}
-          ItemSeparatorComponent={Separator}
-          />
-      </View>
+        <WebView
+          ref={(ref) => {this.webview = ref;}}
+          source={uri}
+          style={styles.feedContainer}
+          decelerationRate={'normal'}
+          startInLoadingState={true}
+          javaScriptEnabled
+          onNavigationStateChange={(event) => {
+            if (event.url.indexOf('TwitterWebView') == -1 || event.url.indexOf('ref_url') !== -1) {
+              this.webview.stopLoading();
+              Linking.openURL(event.url);
+            }
+          }}
+        />
     );
   }
 }
+
+/*
+<View style={styles.feedContainer}>
+{/*tweets.length === 0
+  ? <View style={styles.loadingBarContainer}>
+      <Text style={styles.loadingBarText}>
+        Loading
+      </Text>
+    </View>
+  : null
+}
+{
+<FlatList
+  data={tweets}
+  renderItem={({item}) =>
+    <Tweet
+      index={item.index}
+      name={item.name}
+      handle={item.handle}
+      date={item.date}
+      content={item.content}
+      image={false}
+      url={item.url}
+      />
+  }
+  keyExtractor={item => item.index}
+  ItemSeparatorComponent={Separator}
+  />
+}
+</View>
+*/
 
 const mapStateToProps = (state) => {
   const stream = state.stream;

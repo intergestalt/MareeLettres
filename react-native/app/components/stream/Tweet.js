@@ -39,7 +39,7 @@ class Tweet extends Component {
 
   render() {
     const timeSince = this.getTimeSince(this.props.date);
-    
+
     return (
       <Animated.View style={[styles.tweetContainer]}>
         <View style={styles.tweetHead}>
