@@ -31,8 +31,9 @@ Meteor.startup(() => {
   // Always update default SystemConfig
   console.log("resetting default config in db")
   const defaultSystemConfig = SystemConfigSchema.clean({});
+  const previous = SystemConfig.findOne({ name: 'default' }, { fields: { active: true } });
   SystemConfig.remove({ name: 'default' })
-  SystemConfig.insert(defaultSystemConfig, ...{ name: "default" })
+  SystemConfig.insert(defaultSystemConfig, ...{ name: "default", active: previous.active })
   /*SystemConfig.rawCollection().replaceOne({ name: 'default' }, defaultSystemConfig, {
     upsert: true,
   });*/
