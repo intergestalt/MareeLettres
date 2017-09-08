@@ -12,7 +12,7 @@ import { setScreen, setMapView } from '../actions/general';
 
 export function dispatchBackActionToMapOverview(props, mapView) {
   const backAction = NavigationActions.back({});
-  store.dispatch(setMapView(mapView, MAP_VIEWS.OVERVIEW));
+  store.dispatch(setMapView(mapView));
   props.navigation.dispatch(backAction);
 }
 
@@ -158,7 +158,6 @@ export function popProposalSubmitter(props, withDispatch = true) {
   if (!props.navigation.goBack()) {
     // Should not happen
     props.navigation.navigate('ChallengeSelector');
-  } else {
   }
 }
 export function navigateToSubmit(props, challenge) {
