@@ -1028,10 +1028,12 @@ class ProposalSubmitter extends Component {
           />
         </View>
         <View style={styles.submitContainer}>
-          <TouchableOpacity onPress={this.submitPressed} style={styles.submitButton}>
-            <Text style={styles.submitButtonText}>
-              {I18n.t('submit_button').toUpperCase()}
-            </Text>
+          <TouchableOpacity onPress={this.submitPressed}>
+            <View style={styles.submitButton}>
+              <Text style={styles.submitButtonText}>
+                {I18n.t('submit_button').toUpperCase()}
+              </Text>
+            </View>
           </TouchableOpacity>
         </View>
       </View>
