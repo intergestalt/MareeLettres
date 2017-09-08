@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import React, { PropTypes, Component } from 'react';
 import { StatusBar } from 'react-native';
 
