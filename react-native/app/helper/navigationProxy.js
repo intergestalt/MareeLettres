@@ -124,7 +124,6 @@ export function navigateToChallengeSelector(props, id) {
 }
 
 export function popChallengeSelector(props, withDispatch = true) {
-  console.log('popChallengeSelector');
   const mode = store.getState().challenges.challengeView;
   if (mode === CHALLENGE_VIEWS.LIST) {
     return;
@@ -140,7 +139,6 @@ export function popChallengeSelector(props, withDispatch = true) {
   }
 }
 export function popProposalSubmitter(props, withDispatch = true) {
-  console.log('popProposalSubmitter');
   const mode = store.getState().challenges.challengeView;
   if (mode === CHALLENGE_VIEWS.DETAIL) {
     return;

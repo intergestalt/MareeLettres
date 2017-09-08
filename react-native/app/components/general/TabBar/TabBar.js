@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
+import { CHALLENGE_VIEWS, SCREENS } from '../../../consts';
 
 import {
   navigateToVote,
@@ -17,7 +18,8 @@ class TabBar extends Component {
   static propTypes = {
     language: PropTypes.string,
     navigation: PropTypes.object,
-    hidden: PropTypes.bool,
+    viewMode: PropTypes.string,
+    screen: PropTypes.string,
   };
 
   handleVotePress = () => {
@@ -45,7 +47,6 @@ class TabBar extends Component {
     let streamSelected = false;
     let infoSelected = false;
     let showTabBar = true;
-
     if (tabIndex === 0) {
       voteSelected = true;
     } else if (tabIndex === 1) {
@@ -54,11 +55,13 @@ class TabBar extends Component {
       streamSelected = true;
     } else if (tabIndex === 3) {
       infoSelected = true;
-    } else {
-      showTabBar = true;
     }
-
-    if (showTabBar && !this.props.hidden) {
+    if ((this.props.screen = SCREENS.VOTE)) {
+      if (this.props.viewMode === CHALLENGE_VIEWS.SUGGEST) {
+        showTabBar = false;
+      }
+    }
+    if (showTabBar) {
       return (
         <View style={styles.container}>
           <View style={[styles.tab, styles.tabFirst]}>
@@ -114,11 +117,13 @@ class TabBar extends Component {
 
 const mapStateToProps = (state) => {
   try {
-    const showTabBar = state.globals.showTabBar;
     const language = state.globals.language;
+    const viewMode = state.challenges.challengeView;
+    const screen = state.globals.screen;
     return {
-      showTabBar,
       language,
+      viewMode,
+      screen,
     };
   } catch (e) {
     console.log('TabBar');

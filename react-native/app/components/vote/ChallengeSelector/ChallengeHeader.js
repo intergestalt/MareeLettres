@@ -96,7 +96,7 @@ class ChallengeHeader extends PureComponent {
 
     const contentMiddle = (
       <View style={styles.headerTextContainer}>
-        <TouchableOpacity delayPressIn={30} onPress={this.props.onHeaderPress}>
+        <TouchableOpacity delayPressIn={50} onPress={this.props.onHeaderPress}>
           {!challengeTickerData.finished
             ? <ChallengeHeadActive
               callerViewMode={CHALLENGE_VIEWS.DETAIL}

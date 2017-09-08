@@ -156,7 +156,12 @@ class ChallengeContainer extends Component {
   createPanResponderHeader() {
     return PanResponder.create({
       onStartShouldSetPanResponder: () => false,
-      onMoveShouldSetPanResponder: () => true,
+      onMoveShouldSetPanResponder: (e, gesture) => {
+        if (Math.abs(gesture.dx) > 3) {
+          return true;
+        }
+        return false;
+      },
       onPanResponderGrant: () => {
         const d = new Date();
         this.startGestureHeader = d.getTime();
@@ -238,7 +243,7 @@ class ChallengeContainer extends Component {
 
     Animated.timing(this.state.challengeContainerOffsetX, {
       toValue: 0,
-      duration: 30000,
+      duration: 200,
     }).start(this.navigateDown);
   }
 
@@ -249,7 +254,7 @@ class ChallengeContainer extends Component {
     this.navigationEnabled = false;
     Animated.timing(this.state.challengeContainerOffsetX, {
       toValue: -2 * screenWidth,
-      duration: 30000,
+      duration: 200,
     }).start(this.navigateUp);
   }
 

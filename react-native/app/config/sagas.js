@@ -1,4 +1,4 @@
-import { takeEvery, all, call, put } from 'redux-saga/effects';
+import { takeEvery, call, put } from 'redux-saga/effects';
 
 import { SET_CHALLENGES_TIME_LEFT } from '../actions/challengesTicker';
 import { SET_NET_WORK_ERROR } from '../actions/general';
@@ -8,7 +8,11 @@ import { LOAD_CONTENT } from '../actions/content';
 import { LOAD_CONFIG } from '../actions/config';
 import { LOAD_LETTERS, POST_LETTER, LOAD_LETTERS_INTERVAL } from '../actions/letters';
 import { USER_SEND_INTERNAL_VOTES, LOAD_USER } from '../actions/user';
-import { STREAM_GET_AUTH_TOKEN, STREAM_GET_TWEETS, STREAM_GET_TWEETS_HTML } from '../actions/stream';
+import {
+  STREAM_GET_AUTH_TOKEN,
+  STREAM_GET_TWEETS,
+  STREAM_GET_TWEETS_HTML,
+} from '../actions/stream';
 import { getZuffiDelayForApi } from '../helper/helper';
 import store from '../config/store';
 import { loadConfigServiceProxy } from '../helper/apiProxy';
@@ -17,7 +21,7 @@ import { clearMyLettersProxy } from '../helper/mapHelper';
 function* loadData(action) {
   try {
     const response = yield call(action.apiCall, action);
-    //console.log(response);
+    // console.log(response);
     // const result = yield JSON.parse(response);
 
     const result = JSON.parse(response);

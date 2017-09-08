@@ -140,6 +140,7 @@ export default (state = initialState.challenges, action) => {
               if (challengeIndex === -1) {
                 challengeId = null;
                 challengeView = CHALLENGE_VIEWS.LIST;
+
                 popChallengeSelector(action.action.props, false);
               }
             }
