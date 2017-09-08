@@ -1,7 +1,9 @@
+<<<<<<< HEAD
 import React, { PropTypes, Component } from 'react';
-import { Text, StatusBar } from 'react-native';
+import { StatusBar } from 'react-native';
 
 import { Screen } from '../../components/general/Container';
+import { Feed } from '../../components/stream';
 
 class Stream extends Component {
   static propTypes = {
@@ -11,7 +13,7 @@ class Stream extends Component {
     return (
       <Screen navigation={this.props.navigation} centerContent backgroundColor="#fff">
         <StatusBar />
-        <Text>To come: News Feed from Twitter</Text>
+        <Feed />
       </Screen>
     );
   }

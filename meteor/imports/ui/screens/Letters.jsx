@@ -18,8 +18,8 @@ class LettersPage extends Component {
 
   updatePosition(id) {
     // const { lat, lng } = this.refs[id].leafletElement.getLatLng();
-    console.log(id);
-    console.log(this.refs[id]);
+    // console.log(id);
+    // console.log(this.refs[id]);
     // console.log(lat, lng);
   }
 

@@ -77,6 +77,16 @@ class ChallengesIndex extends Component {
         <td className="impact">
           {challenge.winningProposal ? challenge.winningProposal.text : '-'}
         </td>
+        <td className="image-preview">
+          <a href={challenge.winningProposalImageUrl} target="_blank">
+            <img src={challenge.winningProposalImageUrl} />
+          </a>
+        </td>
+        <td className="image-preview">
+          <a href={challenge.winningProposalDetailImageUrl} target="_blank">
+            <img src={challenge.winningProposalDetailImageUrl} />
+          </a>
+        </td>
       </tr>,
     );
   }
@@ -94,6 +104,8 @@ class ChallengesIndex extends Component {
               <th>voting ends</th>
               <th>submission ends</th>
               <th>winningProposal</th>
+              <th>image</th>
+              <th>detail image</th>
             </tr>
           </thead>
           <tbody>
