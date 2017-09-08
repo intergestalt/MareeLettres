@@ -69,7 +69,7 @@ Meteor.startup(() => {
         (err, id) => {
           if (id != undefined) {
             console.log('Seeding Proposals');
-            const amount = 150 + 10 * Math.floor(10 * Math.random());
+            const amount = 10 * Math.floor(10 * Math.random());
             for (let j = 1; j <= amount; j++) {
               Proposals.insert({
                 _id: `fixture_${i}_${j}`,

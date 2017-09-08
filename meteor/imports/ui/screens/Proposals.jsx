@@ -32,9 +32,14 @@ class ProposalsPage extends Component {
     const proposals = this.props.proposals;
     return (
       <tbody>
-        {proposals.map(proposal => <ProposalEntry proposal={proposal} />)}
+        {proposals.map(proposal => <ProposalEntry proposal={proposal} onDelete={this.handleDelete} />)}
       </tbody>
     );
+  }
+
+  handleDelete(event) {
+    const proposal_id = event.target.name
+    Proposals.remove(proposal_id)
   }
 
   render() {
@@ -54,6 +59,7 @@ class ProposalsPage extends Component {
               <th>∑</th>
               <th>text</th>
               <th>Challenge</th>
+              <th><small>delete</small></th>
             </tr>
           </thead>
           {this.renderProposals()}
@@ -65,9 +71,9 @@ class ProposalsPage extends Component {
 }
 
 export default createContainer((props) => {
-  console.log(this);
+  console.log(props);
   Meteor.subscribe('get.proposals', {
-    challenge_id: props.params.challenge_id,
+    challenge_id: props.location.query.challenge_id,
     limit: Session.get('proposalsListLimit'),
     sort: { score: -1 },
   });
