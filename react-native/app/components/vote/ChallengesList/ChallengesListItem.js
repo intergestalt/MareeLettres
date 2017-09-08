@@ -2,8 +2,6 @@ import React, { Component, PropTypes } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 
-import I18n from '../../../i18n/i18n';
-
 import { ChallengeHeadActive, ChallengeHeadInactive } from './';
 
 import styles from './styles';
@@ -16,8 +14,8 @@ class ChallengesListItem extends Component {
     viewMode: PropTypes.string,
     callerViewMode: PropTypes.string,
     onPress: PropTypes.func,
-    language: PropTypes.string,
   };
+
   shouldComponentUpdate(nextProps, nextState) {
     if (this.props.viewMode === CHALLENGE_VIEWS.SUGGEST) {
       return false;

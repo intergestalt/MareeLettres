@@ -133,6 +133,9 @@ function cleanChallenges(challenges) {
     if (!challenge.proposalListMode) {
       challenge.proposalListMode = PROPOSAL_LIST_MODES.MOST;
     }
+    if (!challenge.ownProposal) {
+      challenge.ownProposal = '';
+    }
     challenge = normalClean(challenge);
     newChallenges.push(challenge);
   }

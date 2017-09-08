@@ -67,7 +67,8 @@ export const setChallengesIsLoadingFromStorage = yes => ({
   yes,
 });
 
-export const setOwnProposal = string => ({
+export const setOwnProposal = (challengeIndex, string) => ({
   type: SET_OWN_PROPOSAL,
+  challengeIndex,
   string,
 });

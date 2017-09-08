@@ -142,7 +142,6 @@ export function loadProposalsServiceProxy(
   lastNotLoad = false,
 ) {
   const challenge = getChallengeFromId(store.getState().challenges.challenges, challengeId);
-  console.log(challenge);
   const proposalView = challenge.proposalView;
   const proposalListMode = challenge.proposalListMode;
   // all 4 lists

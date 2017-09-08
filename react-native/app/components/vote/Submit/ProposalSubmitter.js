@@ -22,6 +22,7 @@ class ProposalSubmitter extends Component {
     language: PropTypes.string,
     dispatch: PropTypes.func,
     ownProposal: PropTypes.string,
+    selectedChallengeIndex: PropTypes.number,
   };
 
   constructor(props) {
@@ -234,7 +235,6 @@ class ProposalSubmitter extends Component {
   }
 
   setInitialLetters(ownProposal = '') {
-    console.log(`OWNPROPOSAL ${ownProposal}`);
     // all letters from challenge
     const letters = this.props.challenge.letters;
     const lettersKeyboard = [];
@@ -258,7 +258,6 @@ class ProposalSubmitter extends Component {
       space: true,
       cursor: false,
     });
-
 
     let nextKey = letters.length + 1;
     const lettersWritingArea = [];
@@ -978,7 +977,7 @@ class ProposalSubmitter extends Component {
       answer += this.state.lettersWritingArea[i].character;
     }
     if (this.checkAnswer(answer)) {
-      this.props.dispatch(setOwnProposal(answer));
+      this.props.dispatch(setOwnProposal(this.props.selectedChallengeIndex, answer));
     }
     popProposalSubmitter(this.props);
   }
@@ -1043,10 +1042,13 @@ class ProposalSubmitter extends Component {
 const mapStateToProps = (state) => {
   try {
     const language = state.globals.language;
-    const ownProposal = state.challenges.ownProposal;
+    const selectedChallengeIndex = state.challenges.selectedChallengeIndex;
+    const challenge = state.challenges.challenges[selectedChallengeIndex];
+    const ownProposal = challenge.ownProposal;
     return {
       language,
       ownProposal,
+      selectedChallengeIndex,
     };
   } catch (e) {
     console.log('ProposalSubmitter');

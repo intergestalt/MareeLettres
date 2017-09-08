@@ -403,8 +403,12 @@ const mapStateToProps = (state) => {
     const selectedChallengeIndex = state.challenges.selectedChallengeIndex;
     const selectedChallengeId = state.challenges.selectedChallengeId;
     const challenge = challenges[selectedChallengeIndex];
-    const selectedProposalView = challenge.proposalView;
-    const selectedProposalListMode = challenge.proposalListMode;
+    let selectedProposalView = null;
+    let selectedProposalListMode = null;
+    if (challenge) {
+      selectedProposalView = challenge.proposalView;
+      selectedProposalListMode = challenge.proposalListMode;
+    }
     const isLoading = state.challenges.isLoading;
 
     return {

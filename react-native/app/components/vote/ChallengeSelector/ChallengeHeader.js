@@ -1,4 +1,4 @@
-import React, { PureComponent, PropTypes } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { View, TouchableOpacity, Text } from 'react-native';
 import { connect } from 'react-redux';
 
@@ -7,7 +7,7 @@ import { ChallengeHeadActive, ChallengeHeadInactive } from './../ChallengesList'
 import styles from './styles';
 import { CHALLENGE_VIEWS } from '../../../consts';
 
-class ChallengeHeader extends PureComponent {
+class ChallengeHeader extends Component {
   static propTypes = {
     challengeOffset: PropTypes.number,
     challenges: PropTypes.array,
