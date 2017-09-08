@@ -90,7 +90,7 @@ JsonRoutes.add(
         }
 
         // check if text already exists
-        const same_text_proposal = Proposals.findOne({ text: proposal.text, challenge_id }, { fields: { _id: 1, origin_ids: 1 } })
+        const same_text_proposal = Proposals.findOne({ text: proposal.text, challenge_id })
 
         if (same_text_proposal) {
 
@@ -108,8 +108,7 @@ JsonRoutes.add(
                 votes_amount: { $inc: boost_amount },
             })
 
-            data.proposal = {};
-            data.proposal._id = same_text_proposal._id;
+            data.proposal = same_text_proposal;
             data.boost = boost_amount;
 
         } else {
