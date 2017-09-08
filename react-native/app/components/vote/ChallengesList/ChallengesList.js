@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import Separator from './Separator';
 import ChallengesListItem from './ChallengesListItem';
 import { ReloadButton } from '../../../components/general/ReloadButton';
-import styles from './styles';
+import { styles, ChallengesListHeaderImg } from './';
 import { navigateToChallengeSelector } from '../../../helper/navigationProxy';
 import { startChallengeTicker } from '../../../helper/ticker';
 import { listIsEmpty } from '../../../helper/helper';
@@ -106,6 +106,7 @@ class ChallengesList extends PureComponent {
 
     return (
       <View style={styles.container}>
+        <ChallengesListHeaderImg disabled={false} />
         <FlatList
           data={listData}
           renderItem={({ item }) =>

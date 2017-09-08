@@ -63,6 +63,14 @@ const styles = EStyleSheet.create({
     fontFamily: 'normal',
   },
   itemContainer: {},
+  listHeaderContainer: {
+    width: '100%',
+    flex: 0.5,
+  },
+  imageStye: {
+    flex: 1,
+    width: '100%',
+  },
 });
 
 export default styles;
