@@ -14,7 +14,13 @@ import { setProposals, setProposalsIsLoadingFromStorage } from '../actions/propo
 import { setLetters, setLettersIsLoadingFromStorage } from '../actions/letters';
 import { setMyLetters, setMyLettersIsLoadingFromStorage } from '../actions/map';
 import { cutProposalList } from './proposalsHelper';
-import { SCREENS, PROPOSAL_VIEWS, CHALLENGE_VIEWS, PROPOSAL_LIST_MODES } from '../consts';
+import {
+  SCREENS,
+  PROPOSAL_VIEWS,
+  MAP_VIEWS,
+  CHALLENGE_VIEWS,
+  PROPOSAL_LIST_MODES,
+} from '../consts';
 import { setChallengesDateData } from '../actions/challengesTicker';
 
 function existing(str) {
@@ -84,6 +90,7 @@ function cleanGlobals(globals) {
   item.isNetworkError = false;
   item.networkErrorMessageKey = null;
   item.screen = SCREENS.VOTE;
+  item.mapView = MAP_VIEWS.OVERVIEW;
   return item;
 }
 

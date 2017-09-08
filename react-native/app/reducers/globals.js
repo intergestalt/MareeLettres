@@ -5,6 +5,7 @@ import {
   SET_GLOBALS,
   SET_NET_WORK_ERROR,
   SET_SCREEN,
+  SET_MAP_VIEW,
 } from '../actions/general';
 
 import initialState from '../config/initialState';
@@ -53,6 +54,11 @@ export default (state = initialState.globals, action) => {
       }
       case SET_SCREEN: {
         const result = { ...state, screen: action.screen };
+        saveGlobalsToStorage(result);
+        return result;
+      }
+      case SET_MAP_VIEW: {
+        const result = { ...state, mapView: action.mapView };
         saveGlobalsToStorage(result);
         return result;
       }

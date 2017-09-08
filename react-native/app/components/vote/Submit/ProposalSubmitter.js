@@ -10,6 +10,7 @@ import { getDuration } from '../../../helper/helper';
 import { postProposalServiceProxy } from '../../../helper/apiProxy';
 import I18n from '../../../i18n/i18n';
 import { popProposalSubmitter } from '../../../helper/navigationProxy';
+import { setOwnProposal } from '../../../actions/challenges';
 
 const colorWriteArea = '#FFFFFF';
 const colorKeyBoard = '#000000';
@@ -19,6 +20,8 @@ class ProposalSubmitter extends Component {
   static propTypes = {
     challenge: PropTypes.object,
     language: PropTypes.string,
+    dispatch: PropTypes.func,
+    ownProposal: PropTypes.string,
   };
 
   constructor(props) {
@@ -70,7 +73,7 @@ class ProposalSubmitter extends Component {
     this.oldCurserIndex = -1;
     this.cursorTime = 0;
     this.state = {
-      ...this.setInitialLetters(),
+      ...this.setInitialLetters(this.props.ownProposal),
       // Type of the dragged Queen. 0: writing area, 1: Keyboard
       // Index in the arrays of letters (Keybard or TextWritingarea)
       dragQueenOffset: new Animated.ValueXY({ x: 0, y: 0 }), // dx & dy of a dragQueen
@@ -230,21 +233,25 @@ class ProposalSubmitter extends Component {
     this.queensLayout = event.nativeEvent.layout;
   }
 
-  setInitialLetters() {
+  setInitialLetters(ownProposal = '') {
+    console.log(`OWNPROPOSAL ${ownProposal}`);
     // all letters from challenge
     const letters = this.props.challenge.letters;
-    const lettersProperties = [];
+    const lettersKeyboard = [];
+
     // convert them
     for (let i = 0, len = letters.length; i < len; i += 1) {
-      lettersProperties.push({
-        character: letters[i],
+      const letter = letters[i];
+      const letterObj = {
+        character: letter,
         key: i,
         opacity: 1,
         cursor: false,
         space: false,
-      });
+      };
+      lettersKeyboard.push(letterObj);
     }
-    lettersProperties.push({
+    lettersKeyboard.push({
       character: ' ',
       key: letters.length,
       opacity: 1,
@@ -252,10 +259,32 @@ class ProposalSubmitter extends Component {
       cursor: false,
     });
 
-    // insert them to the array of actually used letters
-    const lettersKeyboard = lettersProperties;
-    // JUst not to have an empty writing area DELETE THIS AFTERWARTS
+
+    let nextKey = letters.length + 1;
     const lettersWritingArea = [];
+    for (let i = 0, len = ownProposal.length; i < len; i += 1) {
+      const letter = ownProposal[i];
+      for (let j = 0; j < lettersKeyboard.length; j += 1) {
+        const keyboardLetter = lettersKeyboard[j].character;
+        if (keyboardLetter === letter) {
+          if (letter !== ' ') {
+            const myLetter = lettersKeyboard.splice(j, 1)[0];
+            lettersWritingArea.push(myLetter);
+            break;
+          } else {
+            lettersWritingArea.push({
+              character: ' ',
+              key: nextKey,
+              opacity: 1,
+              space: true,
+              cursor: false,
+            });
+            nextKey += 1;
+            break;
+          }
+        }
+      }
+    }
     // No letter is dragged at the beginning
     const dragQueen = null;
     const res = {
@@ -942,6 +971,15 @@ class ProposalSubmitter extends Component {
   }
 
   handleBackPress() {
+    let answer = '';
+
+    this.cleanSpaces(true);
+    for (let i = 0; i < this.state.lettersWritingArea.length; i += 1) {
+      answer += this.state.lettersWritingArea[i].character;
+    }
+    if (this.checkAnswer(answer)) {
+      this.props.dispatch(setOwnProposal(answer));
+    }
     popProposalSubmitter(this.props);
   }
 
@@ -1005,8 +1043,10 @@ class ProposalSubmitter extends Component {
 const mapStateToProps = (state) => {
   try {
     const language = state.globals.language;
+    const ownProposal = state.challenges.ownProposal;
     return {
       language,
+      ownProposal,
     };
   } catch (e) {
     console.log('ProposalSubmitter');

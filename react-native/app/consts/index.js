@@ -11,7 +11,13 @@ const CHALLENGE_VIEWS = {
   LIST: 'list',
   SUGGEST: 'suggest',
 };
-
+const MAP_VIEWS = {
+  OVERVIEW: 'overview',
+  CAMERA: 'camera',
+  LETTER_SELECTOR: 'letter_selector',
+  QR_CODE_GET: 'qr_code_get',
+  QR_CODE_SEND: 'qr_code_send',
+};
 const PROPOSAL_VIEWS = {
   TINDER: 'tinder',
   LIST: 'list',
@@ -23,4 +29,4 @@ const PROPOSAL_LIST_MODES = {
   TRENDING: 'trending',
 };
 
-export { CHALLENGE_VIEWS, PROPOSAL_LIST_MODES, PROPOSAL_VIEWS, SCREENS };
+export { MAP_VIEWS, CHALLENGE_VIEWS, PROPOSAL_LIST_MODES, PROPOSAL_VIEWS, SCREENS };

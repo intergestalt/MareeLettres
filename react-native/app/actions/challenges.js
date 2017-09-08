@@ -15,6 +15,7 @@ export const SET_PROPOSAL_LIST_MODE = 'SET_PROPOSAL_LIST_MODE';
 
 export const SET_CHALLENGES = 'SET_CHALLENGES';
 export const SET_CHALLENGES_IS_LOADING_FROM_STORAGE = 'SET_CHALLENGES_IS_LOADING_FROM_STORAGE';
+export const SET_OWN_PROPOSAL = 'SET_OWN_PROPOSAL';
 
 export const loadChallenges = (quietLoading = false) => ({
   type: LOAD_CHALLENGES,
@@ -62,4 +63,9 @@ export const setChallenges = (challenges, props) => ({
 export const setChallengesIsLoadingFromStorage = yes => ({
   type: SET_CHALLENGES_IS_LOADING_FROM_STORAGE,
   yes,
+});
+
+export const setOwnProposal = string => ({
+  type: SET_OWN_PROPOSAL,
+  string,
 });

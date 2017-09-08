@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
-import { CHALLENGE_VIEWS, SCREENS } from '../../../consts';
+import { CHALLENGE_VIEWS, SCREENS, MAP_VIEWS } from '../../../consts';
 
 import {
   navigateToVote,
@@ -18,8 +18,9 @@ class TabBar extends Component {
   static propTypes = {
     language: PropTypes.string,
     navigation: PropTypes.object,
-    viewMode: PropTypes.string,
+    challengesView: PropTypes.string,
     screen: PropTypes.string,
+    mapView: PropTypes.string,
   };
 
   handleVotePress = () => {
@@ -56,8 +57,16 @@ class TabBar extends Component {
     } else if (tabIndex === 3) {
       infoSelected = true;
     }
-    if ((this.props.screen = SCREENS.VOTE)) {
-      if (this.props.viewMode === CHALLENGE_VIEWS.SUGGEST) {
+    if (this.props.screen === SCREENS.VOTE) {
+      if (this.props.challengesView === CHALLENGE_VIEWS.SUGGEST) {
+        showTabBar = false;
+      }
+    }
+    if (this.props.screen === SCREENS.MAP) {
+      if (
+        this.props.mapView === MAP_VIEWS.QR_CODE_GET ||
+        this.props.mapView === MAP_VIEWS.QR_CODE_SEND
+      ) {
         showTabBar = false;
       }
     }
@@ -118,12 +127,14 @@ class TabBar extends Component {
 const mapStateToProps = (state) => {
   try {
     const language = state.globals.language;
-    const viewMode = state.challenges.challengeView;
+    const challengesView = state.challenges.challengeView;
+    const mapView = state.globals.mapView;
     const screen = state.globals.screen;
     return {
       language,
-      viewMode,
+      challengesView,
       screen,
+      mapView,
     };
   } catch (e) {
     console.log('TabBar');

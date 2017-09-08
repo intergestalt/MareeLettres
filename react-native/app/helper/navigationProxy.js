@@ -6,12 +6,13 @@ import { setChallengeId, setChallengeView } from '../actions/challenges';
 import { manageChallenges, getSelectedChallengeIndex } from './challengesHelper';
 import { manageProposals } from './proposalsHelper';
 import store from '../config/store';
-import { CHALLENGE_VIEWS, SCREENS } from '../consts';
-import { setScreen } from '../actions/general';
+import { CHALLENGE_VIEWS, SCREENS, MAP_VIEWS } from '../consts';
+import { setScreen, setMapView } from '../actions/general';
 // Navigation
 
-export function dispatchBackAction(props) {
+export function dispatchBackActionToMapOverview(props, mapView) {
   const backAction = NavigationActions.back({});
+  store.dispatch(setMapView(mapView, MAP_VIEWS.OVERVIEW));
   props.navigation.dispatch(backAction);
 }
 
@@ -49,6 +50,7 @@ export function navigateToBecome(props) {
   stopChallengeTicker();
   sendInternalVotesServiceProxy(true);
   store.dispatch(setScreen(SCREENS.MAP));
+  store.dispatch(setMapView(MAP_VIEWS.OVERVIEW));
   props.navigation.navigate('Become');
 }
 
@@ -80,22 +82,27 @@ export function popLanguageSelector(props) {
 // Map Stack SubPages
 
 export function navigateToMapOverview(props) {
+  store.dispatch(setMapView(MAP_VIEWS.OVERVIEW));
   props.navigation.navigate('MapOverview');
 }
 
 export function navigateToMapCamera(props) {
+  store.dispatch(setMapView(MAP_VIEWS.CAMERA));
   props.navigation.navigate('MapCamera');
 }
 
 export function navigateToLetterSelector(props) {
+  store.dispatch(setMapView(MAP_VIEWS.LETTER_SELECTOR));
   props.navigation.navigate('LetterSelector');
 }
 
 export function navigateToQRCodeGet(props) {
+  store.dispatch(setMapView(MAP_VIEWS.QR_CODE_GET));
   props.navigation.navigate('QRCodeGet');
 }
 
 export function navigateToQRCodeSend(props) {
+  store.dispatch(setMapView(MAP_VIEWS.QR_CODE_SEND));
   props.navigation.navigate('QRCodeSend');
 }
 

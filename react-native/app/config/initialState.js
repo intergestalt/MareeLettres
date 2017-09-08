@@ -1,12 +1,18 @@
 import Expo from 'expo';
 import { OriginId, systemConfigInitial } from 'maree-lettres-shared';
 
-import { PROPOSAL_LIST_MODES, CHALLENGE_VIEWS, PROPOSAL_VIEWS, SCREENS } from '../consts';
+import {
+  PROPOSAL_LIST_MODES,
+  CHALLENGE_VIEWS,
+  PROPOSAL_VIEWS,
+  SCREENS,
+  MAP_VIEWS,
+} from '../consts';
 
 const originId = OriginId.generateFromDeviceId(Expo.Constants.deviceId);
 const sampleDate = new Date().toISOString();
 
-console.log("initial config: ", systemConfigInitial)
+console.log('initial config: ', systemConfigInitial);
 
 export default {
   config: {
@@ -57,6 +63,7 @@ export default {
     networkErrorMessageKey: null,
     language: null,
     screen: SCREENS.VOTE,
+    mapView: MAP_VIEWS.OVERVIEW,
   },
 
   user: {

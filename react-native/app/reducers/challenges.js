@@ -11,6 +11,7 @@ import {
   SET_PROPOSAL_LIST_MODE,
   SET_CHALLENGES_IS_LOADING_FROM_STORAGE,
   SET_CHALLENGES,
+  SET_OWN_PROPOSAL,
 } from '../actions/challenges';
 import { CHALLENGE_VIEWS } from '../consts';
 import { DEV_CONFIG } from '../config/config';
@@ -227,6 +228,16 @@ export default (state = initialState.challenges, action) => {
       // Redux local storage
       case SET_CHALLENGES_IS_LOADING_FROM_STORAGE: {
         return { ...state, challengesIsLoadingFromStorage: action.yes };
+      }
+      case SET_OWN_PROPOSAL: {
+        if (!action.string) {
+          return state;
+        }
+        if (action.string.trim() === '') {
+          return state;
+        }
+        const result = { ...state, ownProposal: action.string };
+        return result;
       }
       default:
         return state;
