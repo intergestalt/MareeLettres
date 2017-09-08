@@ -40,7 +40,7 @@ Meteor.publish('get.proposals.recently_accepted', function getProposals(data) {
 
   const limit = data.limit || 5;
 
-  return Proposals.find({ in_review: false, blocked: false }, { sort: { reviewed_at: 1 }, limit });
+  return Proposals.find({ in_review: false, blocked: false }, { sort: { reviewed_at: -1 }, limit });
 });
 
 Meteor.publish('get.proposals.recently_rejected', function getProposals(data) {
@@ -48,7 +48,7 @@ Meteor.publish('get.proposals.recently_rejected', function getProposals(data) {
 
   const limit = data.limit || 5;
 
-  return Proposals.find({ in_review: false, blocked: true }, { sort: { reviewed_at: 1 }, limit });
+  return Proposals.find({ in_review: false, blocked: true }, { sort: { reviewed_at: -1 }, limit });
 });
 
 Meteor.publish('get.proposals.recently_reviewed', function getProposals(data) {

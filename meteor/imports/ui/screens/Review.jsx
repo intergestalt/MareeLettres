@@ -51,7 +51,7 @@ export default createContainer(() => {
 
   return {
     in_review: Proposals.find({ in_review: true }, { sort: { created_at: 1 } }).fetch(),
-    accepted: Proposals.find({ in_review: false, blocked: false }, { sort: { reviewed_at: 1 } }).fetch(),
-    rejected: Proposals.find({ in_review: false, blocked: true }, { sort: { reviewed_at: 1 } }).fetch(),
+    accepted: Proposals.find({ in_review: false, blocked: false }, { sort: { reviewed_at: -1 } }).fetch(),
+    rejected: Proposals.find({ in_review: false, blocked: true }, { sort: { reviewed_at: -1 } }).fetch(),
   };
 }, ReviewPage);
