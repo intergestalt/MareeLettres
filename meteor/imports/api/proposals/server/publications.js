@@ -4,8 +4,6 @@ import { Proposals, ProposalsSchema } from '../proposals';
 import { Challenges } from '../../challenges/challenges';
 import RequestHelpers from '../../../helpers/RequestHelpers';
 
-import _ from 'underscore';
-
 Meteor.publish('get.proposals', function getProposals(data) {
   if (!this.userId) return;
 

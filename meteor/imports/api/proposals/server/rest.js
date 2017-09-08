@@ -1,4 +1,5 @@
 import { Meteor } from 'meteor/meteor';
+import _ from 'underscore';
 
 import { Proposals, ProposalsSchema } from '../proposals';
 import { Challenges } from '../../challenges/challenges';
