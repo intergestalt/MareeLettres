@@ -70,6 +70,7 @@ class TabBar extends Component {
         showTabBar = false;
       }
     }
+
     if (showTabBar) {
       return (
         <View style={styles.container}>

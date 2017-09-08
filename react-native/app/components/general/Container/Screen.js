@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { View, BackAndroid } from 'react-native';
+import { View, BackHandler } from 'react-native';
 import { connect } from 'react-redux';
 
 import styles from './styles';
@@ -25,10 +25,10 @@ class Screen extends Component {
     this.handleBack = this.handleBack.bind(this);
   }
   componentDidMount() {
-    BackAndroid.addEventListener('hardwareBackPress', this.handleBack);
+    BackHandler.addEventListener('hardwareBackPress', this.handleBack);
   }
   componentWillUnmount() {
-    BackAndroid.removeEventListener('hardwareBackPress', this.handleBack);
+    BackHandler.removeEventListener('hardwareBackPress', this.handleBack);
   }
   handleBack() {
     if (this.props.screen === SCREENS.VOTE) {

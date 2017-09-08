@@ -22,7 +22,9 @@ This is the structure of the state:
             "title": "Best thing about Paris?",
             "voteNum": 1,
             "votes_amount": 0,
-            "winningProposal": {  //only if winning proposal exists.
+            "proposalListMode": "most",     //most, newest or trending
+            "proposalView": "list",             //list or tinder  
+              "winningProposal": {  //only if winning proposal exists.
                 "_id": "fixture_1_4",
                 "challenge_id": "fixture_1",
                 "no_votes": 0,
@@ -42,8 +44,6 @@ This is the structure of the state:
     "isLoading": false,         //flag for displaying. False in case of quiet load
     "selectedChallengeId": "fixture_6",  //null if nothing is selected
     "selectedChallengeIndex": 5,        // -1 if nothing is selected. Always synchron to Id     "challengeView": "detail",  //detail or list
-    "proposalListMode": "most",     //most, newest or trending
-    "proposalView": "list",             //list or tinder  
     "time": 1503312576795,              // Last time this list was fetched
  },
   "challengesTicker":  {

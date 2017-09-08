@@ -123,11 +123,19 @@ function cleanChallenges(challenges) {
   item.selectedChallengeId = null;
   item.selectedChallengeIndex = -1;
   item.challengeView = CHALLENGE_VIEWS.LIST;
-  item.proposalView = PROPOSAL_VIEWS.TINDER;
-  item.proposalListMode = PROPOSAL_LIST_MODES.MOST;
+
   const newChallenges = [];
   for (let i = 0; i < item.challenges.length; i += 1) {
     let challenge = item.challenges[i];
+    if (!challenge.proposalView) {
+      challenge.proposalView = PROPOSAL_VIEWS.TINDER;
+    }
+    if (!challenge.proposalListMode) {
+      challenge.proposalListMode = PROPOSAL_LIST_MODES.MOST;
+    }
+    if (!challenge.ownProposal) {
+      challenge.ownProposal = '';
+    }
     challenge = normalClean(challenge);
     newChallenges.push(challenge);
   }

@@ -44,13 +44,15 @@ export const setChallengeView = challengeView => ({
   challengeView,
 });
 
-export const setProposalView = proposalView => ({
+export const setProposalView = (challengeId, proposalView) => ({
   type: SET_PROPOSAL_VIEW,
+  challengeId,
   proposalView,
 });
 
-export const setProposalListMode = proposalListMode => ({
+export const setProposalListMode = (challengeId, proposalListMode) => ({
   type: SET_PROPOSAL_LIST_MODE,
+  challengeId,
   proposalListMode,
 });
 
@@ -65,7 +67,8 @@ export const setChallengesIsLoadingFromStorage = yes => ({
   yes,
 });
 
-export const setOwnProposal = string => ({
+export const setOwnProposal = (challengeIndex, string) => ({
   type: SET_OWN_PROPOSAL,
+  challengeIndex,
   string,
 });
