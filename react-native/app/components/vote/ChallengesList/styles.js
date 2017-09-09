@@ -76,7 +76,7 @@ const styles = EStyleSheet.create({
     width: '100%',
   },
   imageListContainer: {
-    backgroundColor: 'mangenta',
+    backgroundColor: 'magenta',
     paddingTop: '1rem',
     paddingBottom: 0,
     height: '10rem',
