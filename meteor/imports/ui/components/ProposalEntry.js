@@ -13,7 +13,7 @@ class ProposalEntry extends Component {
   render() {
     const proposal = this.props.proposal;
     const players = proposal.origin_ids.map((origin_id) => (
-      <PlayerCell origin_id={proposal.origin_id} />
+      <PlayerCell origin_id={origin_id} />
     ))
     return (
       <tr key={proposal._id}>
@@ -50,8 +50,9 @@ class ProposalEntry extends Component {
             {proposal.challenge_id}
           </tt>
         </td>
-        <td>
-          <button name={proposal._id} onClick={this.props.onDelete}>delete</button>
+        <td style={{ whiteSpace: "nowrap" }}>
+          <button name={proposal._id} onClick={this.props.onDelete}>delete</button>&nbsp;
+          {!proposal.in_review && <button name={proposal._id} onClick={this.props.onReview}>review</button>}
         </td>
       </tr>
     );

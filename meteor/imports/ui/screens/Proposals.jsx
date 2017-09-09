@@ -32,7 +32,7 @@ class ProposalsPage extends Component {
     const proposals = this.props.proposals;
     return (
       <tbody>
-        {proposals.map(proposal => <ProposalEntry proposal={proposal} onDelete={this.handleDelete} />)}
+        {proposals.map(proposal => <ProposalEntry proposal={proposal} onDelete={this.handleDelete} onReview={this.handleReview} />)}
       </tbody>
     );
   }
@@ -41,6 +41,12 @@ class ProposalsPage extends Component {
     const proposal_id = event.target.name
     Proposals.remove(proposal_id)
   }
+
+  handleReview(event) {
+    const proposal_id = event.target.name
+    Proposals.update(proposal_id, { $set: { in_review: true } })
+  }
+
 
   render() {
     return (
@@ -59,7 +65,7 @@ class ProposalsPage extends Component {
               <th>∑</th>
               <th>text</th>
               <th>Challenge</th>
-              <th><small>delete</small></th>
+              <th><small>Actions</small></th>
             </tr>
           </thead>
           {this.renderProposals()}
