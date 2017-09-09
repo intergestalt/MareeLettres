@@ -4,13 +4,13 @@ import { connect } from 'react-redux';
 
 import styles from './styles';
 
-import { WritingArea, Keyboard, DraggableLetter } from './index';
+import { WritingArea, Keyboard, DraggableLetter, SubmitText } from './index';
 import { getDuration } from '../../../helper/helper';
 
 import { postProposalServiceProxy } from '../../../helper/apiProxy';
 import I18n from '../../../i18n/i18n';
 import { popProposalSubmitter } from '../../../helper/navigationProxy';
-import { setOwnProposal } from '../../../actions/challenges';
+import { setOwnProposal } from '../../../actions/user';
 
 const colorWriteArea = '#FFFFFF';
 const colorKeyBoard = '#000000';
@@ -22,7 +22,7 @@ class ProposalSubmitter extends Component {
     language: PropTypes.string,
     dispatch: PropTypes.func,
     ownProposal: PropTypes.string,
-    selectedChallengeIndex: PropTypes.number,
+    selectedChallengeId: PropTypes.string,
   };
 
   constructor(props) {
@@ -82,6 +82,7 @@ class ProposalSubmitter extends Component {
       scaleDragQueen: new Animated.Value(1), // JUst to animate the queen.
       colorScale: new Animated.Value(0),
       colorFrom: colorKeyBoard,
+      submitView: false,
     };
 
     this.panResponder = this.createPanResponder();
@@ -952,9 +953,31 @@ class ProposalSubmitter extends Component {
     return true;
   }
   submitPressed() {
-    let answer = '';
-
     this.cleanSpaces(true);
+    if (this.state.lettersWritingArea.length === 0) {
+      return;
+    }
+    this.setState({ submitView: true });
+  }
+
+  handleBackPress(submitView) {
+    if (!submitView) {
+      let answer = '';
+
+      this.cleanSpaces(true);
+      for (let i = 0; i < this.state.lettersWritingArea.length; i += 1) {
+        answer += this.state.lettersWritingArea[i].character;
+      }
+      if (this.checkAnswer(answer)) {
+        this.props.dispatch(setOwnProposal(this.props.selectedChallengeId, answer, false, false));
+      }
+      popProposalSubmitter(this.props);
+    } else {
+      this.setState({ submitView: false });
+    }
+  }
+  handleSubmitConfirmedPress() {
+    let answer = '';
     for (let i = 0; i < this.state.lettersWritingArea.length; i += 1) {
       answer += this.state.lettersWritingArea[i].character;
     }
@@ -963,32 +986,81 @@ class ProposalSubmitter extends Component {
       console.log('NOPE');
       this.setState(this.setInitialLetters());
       this.resetEverything(false);
+      this.setState({ submitView: false });
       return;
     }
     console.log('submitting...');
     postProposalServiceProxy(this.props.challenge._id, answer);
   }
-
-  handleBackPress() {
-    let answer = '';
-
-    this.cleanSpaces(true);
-    for (let i = 0; i < this.state.lettersWritingArea.length; i += 1) {
-      answer += this.state.lettersWritingArea[i].character;
-    }
-    if (this.checkAnswer(answer)) {
-      this.props.dispatch(setOwnProposal(this.props.selectedChallengeIndex, answer));
-    }
-    popProposalSubmitter(this.props);
-  }
-
   render() {
     I18n.locale = this.props.language;
     const title = this.props.challenge.title[this.props.language];
+    let pangestures = {};
+    let draggableLetter = null;
+    let keyboard = null;
+    let submitText = null;
+    let submitButton = null;
+    let submitYesNo = null;
+
+    if (!this.state.submitView) {
+      pangestures = { ...this.panResponder.panHandlers };
+      draggableLetter = (
+        <DraggableLetter
+          {...this.state.dragQueen}
+          type={2}
+          colorFrom={this.state.colorFrom}
+          colorScale={this.state.colorScale}
+          scaleDragQueen={this.state.scaleDragQueen}
+          dragQueenOffset={this.state.dragQueenOffset}
+          dragQueenPos={this.state.dragQueenPos}
+          layoutCallback={this.onQueensLayoutCallback}
+        />
+      );
+      keyboard = (
+        <Keyboard
+          letterColor={colorKeyBoard}
+          spaceColor={colorSpace}
+          layoutCallback={this.onLayoutCallback}
+          letters={this.state.lettersKeyboard}
+        />
+      );
+
+      submitButton = (
+        <TouchableOpacity onPress={this.submitPressed}>
+          <View style={styles.submitButton}>
+            <Text style={styles.submitButtonText}>
+              {I18n.t('submit_button').toUpperCase()}
+            </Text>
+          </View>
+        </TouchableOpacity>
+      );
+    } else {
+      submitText = <SubmitText />;
+      submitYesNo = (
+        <View style={styles.yesNoContainer}>
+          <TouchableOpacity
+            style={styles.yesButton}
+            onPress={() => this.handleSubmitConfirmedPress(this.state.submitView)}
+          >
+            <Text style={styles.submitButtonText}>
+              {I18n.t('submit_yes').toUpperCase()}
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.noButton}
+            onPress={() => this.handleBackPress(this.state.submitView)}
+          >
+            <Text style={styles.submitButtonText}>
+              {I18n.t('submit_no').toUpperCase()}
+            </Text>
+          </TouchableOpacity>
+        </View>
+      );
+    }
     return (
       <View style={styles.container}>
         <View style={styles.titleContainer}>
-          <TouchableOpacity onPress={this.handleBackPress}>
+          <TouchableOpacity onPress={() => this.handleBackPress(this.state.submitView)}>
             <Text style={styles.backStyle}>
               {'<'}
             </Text>
@@ -997,11 +1069,7 @@ class ProposalSubmitter extends Component {
             {title.toUpperCase()}
           </Text>
         </View>
-        <View
-          pointerEvents="box-only"
-          {...this.panResponder.panHandlers}
-          style={styles.dragContainer}
-        >
+        <View pointerEvents="box-only" {...pangestures} style={styles.dragContainer}>
           <WritingArea
             letterColor={colorWriteArea}
             layoutCallback={this.onLayoutCallback}
@@ -1010,31 +1078,13 @@ class ProposalSubmitter extends Component {
             onLayoutCallbackWritingArea2={this.onLayoutCallbackWritingArea2}
             letters={this.state.lettersWritingArea}
           />
-          <Keyboard
-            letterColor={colorKeyBoard}
-            spaceColor={colorSpace}
-            layoutCallback={this.onLayoutCallback}
-            letters={this.state.lettersKeyboard}
-          />
-          <DraggableLetter
-            {...this.state.dragQueen}
-            type={2}
-            colorFrom={this.state.colorFrom}
-            colorScale={this.state.colorScale}
-            scaleDragQueen={this.state.scaleDragQueen}
-            dragQueenOffset={this.state.dragQueenOffset}
-            dragQueenPos={this.state.dragQueenPos}
-            layoutCallback={this.onQueensLayoutCallback}
-          />
+          {submitText}
+          {keyboard}
+          {draggableLetter}
         </View>
         <View style={styles.submitContainer}>
-          <TouchableOpacity onPress={this.submitPressed}>
-            <View style={styles.submitButton}>
-              <Text style={styles.submitButtonText}>
-                {I18n.t('submit_button').toUpperCase()}
-              </Text>
-            </View>
-          </TouchableOpacity>
+          {submitButton}
+          {submitYesNo}
         </View>
       </View>
     );
@@ -1044,13 +1094,19 @@ class ProposalSubmitter extends Component {
 const mapStateToProps = (state) => {
   try {
     const language = state.globals.language;
-    const selectedChallengeIndex = state.challenges.selectedChallengeIndex;
-    const challenge = state.challenges.challenges[selectedChallengeIndex];
-    const ownProposal = challenge.ownProposal;
+    const selectedChallengeId = state.challenges.selectedChallengeId;
+    const challenges = state.user.challenges;
+    let ownProposal = '';
+    if (challenges) {
+      const challenge = challenges[selectedChallengeId];
+      if (challenge) {
+        ownProposal = challenge.ownProposal;
+      }
+    }
     return {
       language,
       ownProposal,
-      selectedChallengeIndex,
+      selectedChallengeId,
     };
   } catch (e) {
     console.log('ProposalSubmitter');

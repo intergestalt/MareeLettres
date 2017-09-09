@@ -27,6 +27,7 @@ export const USER_SEND_INTERNAL_VOTES_ERROR = 'USER_SEND_INTERNAL_VOTES_ERROR';
 export const SET_USER_IS_LOADING_FROM_STORAGE = 'SET_USER_IS_LOADING_FROM_STORAGE';
 export const SET_USER_LOADED_FROM_STORAGE = 'SET_USER_LOADED_FROM_STORAGE';
 
+export const SET_OWN_PROPOSAL = 'SET_OWN_PROPOSAL';
 // export const SET_USER_LOADED_FROM_STORAGE_RESET_DEFAULTS = 'SET_USER_LOADED_FROM_STORAGE_RESET_DEFAULTS';
 
 export const setUser = user => ({
@@ -64,10 +65,10 @@ export const setUserId = () => ({
   errorEvent: USER_UPDATE_ERROR,
 });
 
-export const flagLetterForOverwrite = (menuIndex) => ({
+export const flagLetterForOverwrite = menuIndex => ({
   type: USER_FLAG_LETTER_FOR_OVERWRITE,
-  menuIndex: menuIndex,
-})
+  menuIndex,
+});
 
 export const setUserCoordinates = () => ({
   type: USER_SET_COORDINATES,
@@ -102,10 +103,10 @@ export const reviveLetterMenu = (menuIndex, character) => ({
   character,
 });
 
-export const setUserMapTutorialStatus = (status) => ({
+export const setUserMapTutorialStatus = status => ({
   type: USER_SET_MAP_TUTORIAL_STATUS,
   errorEvent: USER_UPDATE_ERROR,
-  status
+  status,
 });
 
 export const binLetter = menuIndex => ({
@@ -122,7 +123,7 @@ export const wipeLetterMenu = () => ({
 export const addFriendLetter = character => ({
   type: USER_ADD_FRIEND_LETTER,
   error: USER_UPDATE_ERROR,
-  character: character,
+  character,
 });
 
 // Voteing
@@ -140,4 +141,11 @@ export const userSendInternalVotes = (originId, internalVotes) => ({
   apiCall: callSendUserVotes,
   originId,
   internalVotes,
+});
+export const setOwnProposal = (challengeId, answer, review, blocked) => ({
+  type: SET_OWN_PROPOSAL,
+  challengeId,
+  answer,
+  review,
+  blocked,
 });

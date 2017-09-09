@@ -89,6 +89,25 @@ const styles = EStyleSheet.create({
     textAlign: 'center',
     color: 'white',
   },
+  yesButton: {
+    height: '3.5rem',
+    flex: 0.5,
+    backgroundColor: 'orange',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  noButton: {
+    height: '3.5rem',
+    flex: 0.5,
+    backgroundColor: 'grey',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  yesNoContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+  },
 });
 
 export default styles;

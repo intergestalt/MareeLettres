@@ -2,8 +2,9 @@ import store from '../config/store';
 import { loadChallengesServiceProxy } from './apiProxy';
 import { popChallengeSelector } from './navigationProxy';
 
-import { CHALLENGE_VIEWS, PROPOSAL_LIST_MODES, PROPOSAL_VIEWS } from '../consts';
+import { CHALLENGE_VIEWS } from '../consts';
 import { setChallengeId } from '../actions/challenges';
+
 import { DYNAMIC_CONFIG } from '../config/config';
 
 export function manageChallenges(props) {

@@ -22,7 +22,7 @@ import {
   SET_USER_LOADED_FROM_STORAGE,
   USER_SET_MAP_TUTORIAL_STATUS,
   USER_FLAG_LETTER_FOR_OVERWRITE,
-  // SET_USER_LOADED_FROM_STORAGE_RESET_DEFAULTS,
+  SET_OWN_PROPOSAL,
 } from '../actions/user';
 
 import { CHANGE_MAP_REGION, CHANGE_MAP_LAYOUT, USER_SET_COORDINATES } from '../actions/map';
@@ -321,6 +321,20 @@ export default (state = initialState.user, action) => {
           },
         };
         console.log(result);
+        saveUserToStorage(result);
+        return result;
+      }
+      case SET_OWN_PROPOSAL: {
+        const myChallenges = Array.from(state.challenges);
+        const myChallenge = myChallenges[action.challengeIndex];
+        myChallenge.ownProposal = action.answer;
+        myChallenge.ownProposalInReview = action.review;
+        myChallenge.ownProposalBlocked = action.blocked;
+
+        const result = {
+          ...state,
+          challenges: myChallenges,
+        };
         saveUserToStorage(result);
         return result;
       }

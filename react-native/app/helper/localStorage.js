@@ -91,6 +91,8 @@ function cleanGlobals(globals) {
   item.networkErrorMessageKey = null;
   item.screen = SCREENS.VOTE;
   item.mapView = MAP_VIEWS.OVERVIEW;
+  item.showAllFinishedChallenges = false;
+  item.lastNetworkError = 0;
   return item;
 }
 
@@ -132,9 +134,6 @@ function cleanChallenges(challenges) {
     }
     if (!challenge.proposalListMode) {
       challenge.proposalListMode = PROPOSAL_LIST_MODES.MOST;
-    }
-    if (!challenge.ownProposal) {
-      challenge.ownProposal = '';
     }
     challenge = normalClean(challenge);
     newChallenges.push(challenge);

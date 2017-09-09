@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
-import { Animated, View, Text, PanResponder } from 'react-native';
+import { Image, Animated, View, Text, PanResponder } from 'react-native';
 import { connect } from 'react-redux';
+import { LinearGradient } from 'expo';
 
 import { ProposalList } from '../ProposalList/';
 import { ProposalTinder } from '../ProposalTinder/';
@@ -16,6 +17,50 @@ import { loadProposalsServiceProxy } from '../../../helper/apiProxy';
 import { DYNAMIC_CONFIG } from '../../../config/config';
 import { listIsEmpty } from '../../../helper/helper';
 import { ReloadButton } from '../../../components/general/ReloadButton';
+
+const gradientStops = [
+  0,
+  0.009,
+  0.1604,
+  0.2193,
+  0.2736,
+  0.3246,
+  0.4,
+  0.5,
+  0.6,
+  0.7,
+  0.72,
+  0.74,
+  0.76,
+  0.78,
+  0.8,
+  0.82,
+  0.84,
+  0.86,
+  1,
+];
+
+const gradientColors = [
+  '#5B5971',
+  '#5D5A71',
+  '#645B71',
+  '#6E5E70',
+  '#7D6270',
+  '#91676E',
+  '#AA6E6C',
+  '#C97769',
+  '#F28366',
+  '#F58466',
+  '#B76661',
+  '#894F5B',
+  '#663D55',
+  '#4B2F4F',
+  '#36244A',
+  '#261C46',
+  '#191643',
+  '#101241',
+  '#0D1140',
+];
 
 class ChallengeContent extends Component {
   static propTypes = {
@@ -73,7 +118,17 @@ class ChallengeContent extends Component {
     }
     return answer;
   }
-
+  getAnswerImgUrl() {
+    const myChallenge = this.getChallenge();
+    let url = null;
+    if (myChallenge) {
+      url = myChallenge.winningProposalDetailImageUrl;
+      if (!url || url.trim() === '') {
+        url = null;
+      }
+    }
+    return url;
+  }
   isFinished() {
     return isFinished(this.getChallenge());
   }
@@ -184,16 +239,6 @@ class ChallengeContent extends Component {
     this.checkToLoadMoreProposals();
   }
 
-  renderFinished() {
-    return (
-      <View style={styles.challengeContent}>
-        <Text style={styles.contentText}>
-          {this.getAnswer()}
-        </Text>
-      </View>
-    );
-  }
-
   colors = {
     yes: 'green',
     no: 'red',
@@ -294,7 +339,34 @@ class ChallengeContent extends Component {
     }
     loadProposalsServiceProxy(true, this.props.challengeId, limit);
   };
+  renderFinished() {
+    const url = this.getAnswerImgUrl();
 
+    if (url) {
+      return (
+        <View style={styles.challengeContent}>
+          <View style={{ backgroundColor: 'transparent', flex: 1, opacity: 1 }}>
+            <Image style={styles.imageStye} resizeMode="cover" source={{ uri: url }} />
+          </View>
+        </View>
+      );
+    }
+    return (
+      <View style={styles.challengeContent}>
+        <LinearGradient
+          colors={gradientColors}
+          locations={gradientStops}
+          style={{ flex: 1, opacity: 1 }}
+        >
+          <View style={styles.challengeInnerContainer}>
+            <Text style={styles.contentText}>
+              {this.getAnswer()}
+            </Text>
+          </View>
+        </LinearGradient>
+      </View>
+    );
+  }
   renderEmptyList() {
     return (
       <View style={styles.challengeContent}>

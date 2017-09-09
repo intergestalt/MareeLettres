@@ -31,17 +31,20 @@ class ChallengeHeadInactive extends Component {
     } else {
       myEndString = this.props.tickerEntry.endStringFr;
     }
+    let containerStyle = styles._row;
+
+    if (this.props.data.url) {
+      containerStyle = { ...styles._row, paddingBottom: 0 };
+    }
     return (
-      <View style={styles.row}>
+      <View style={containerStyle}>
         <Text style={styles.title}>
           {this.props.data.title ? this.props.data.title.toUpperCase() : '-'}
         </Text>
         <Text style={styles.ticker}>
           {myEndString}
         </Text>
-        <Text style={styles.answer}>
-          {this.props.data.answer}
-        </Text>
+        {/* {answer} */}
       </View>
     );
   }

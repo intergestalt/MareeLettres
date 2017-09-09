@@ -88,7 +88,6 @@ export const callProposals = (action) => {
     url = `${config.API_PREFIX}challenges/${action.challengeId}/proposals?limit=${action.limit}&sort=trending`;
   }
   console.log('API CALL: callProposals');
-  // url = 'http://www.magazinredaktion.tk/timeout.php';
   return getPromiseGET(url);
 };
 
@@ -154,15 +153,14 @@ export const callPostProposal = (action) => {
   const url = `${config.API_PREFIX}proposals/`;
   const body = action.body;
   const req_body = {
-    proposals: [
-      {
-        origin_id: body.origin_id,
-        text: body.text,
-        challenge_id: body.challenge_id,
-        created_at: body.created_at,
-      },
-    ],
+    proposal: {
+      origin_id: body.origin_id,
+      text: body.text,
+      challenge_id: body.challenge_id,
+      created_at: body.created_at,
+    },
   };
+  console.log(req_body);
   console.log('API CALL: callPostProposal');
   return getPromisePOST(url, JSON.stringify(req_body));
 };
