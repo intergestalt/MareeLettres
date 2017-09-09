@@ -8,8 +8,28 @@ export default EStyleSheet.create({
     backgroundColor: 'gray'
   },
   cameraContainer: { 
-    flex: 1, 
-    backgroundColor: 'transparent' 
+    position: 'absolute',
+    top: 0,
+    height: '100%', 
+    width: '100%',
+    backgroundColor: 'transparent', 
+    zIndex: 1
+  },
+  photoContainer: {
+    position: 'absolute',
+    top: 0,
+    height: '100%', 
+    width: '100%',
+    backgroundColor: 'transparent',
+    zIndex: 2
+  },
+  photo: {
+    position: 'absolute',
+    top: 0,
+    width: '100%',
+    height: '100%',
+    backgroundColor: 'transparent',
+    zIndex: 2
   },
   controls: {
     position: 'absolute',
@@ -19,35 +39,25 @@ export default EStyleSheet.create({
     zIndex: 3
   },
   button: {
-    flex: 0.2,
     alignItems: 'center',
+    padding: 10
   },
   buttonText: { 
     fontSize: 18, 
     color: 'white',
     fontFamily: 'impact' 
   },
-  photoContainer: {
-    flex: 1,
-    backgroundColor: 'transparent',
-    zIndex: 1
-  },
-  overlayDummy: {
+  overlay: {
     position: 'absolute',
     top: 0,
-    left: 0,
-    fontSize: 24, 
-    color: 'white',
-    fontFamily: 'impact', 
-    zIndex: 3 
-  },
-  photo: {
-    flex: 1,
+    height: '100%', 
     width: '100%',
-    height: '100%',
-    backgroundColor: 'transparent',
-    zIndex: 2
+    backgroundColor: 'transparent', 
+    zIndex: 4,
+  },
+  letter: {
+    fontFamily: 'impact',
+    color: "#fff",
+    zIndex: 5
   }
-
-
 });

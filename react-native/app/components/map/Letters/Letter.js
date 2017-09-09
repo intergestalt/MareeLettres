@@ -219,31 +219,10 @@ class Letter extends Component {
     // convert screen space to world coordinates
     // to be on screen, input x, y should be in the range [-0.5, 0.5]
     const c = this.props.user.map.coordinates;
-    const lng = c.longitude + x * c.longitudeDelta;
-    const lat = c.latitude - y * c.latitudeDelta;
+    const lng = c.longitude + (x * c.longitudeDelta);
+    const lat = c.latitude - (y * c.latitudeDelta);
 
     return {lat: lat, lng: lng};
-  }
-
-  // deprecated - where is this used?
-  /*
-  xyToNativeScreen(x, y) {
-    // convert normalised screen space to native screen space
-    const win = Dimensions.get('window');
-    const nativeX = (x + 0.5) * win.width;
-    const nativeY = (y * -1) * (win.height - this.state.status_bar_height - styles_menu.$lettersHeight) + this.state.status_bar_height;
-
-    return {x: nativeX, y: nativeY}
-  }*/
-
-  latLngToXY(lat, lng) {
-    // convert world coordinates to screen space
-    // if coordinate is on screen, the return range will be [-0.5, 0.5]
-    const c = this.props.user.map.coordinates;
-    let x = (lng - c.longitude) / c.longitudeDelta;
-    let y = (lat + c.latitude) / c.latitudeDelta;
-
-    return {x: x, y: y};
   }
 
   // ANIMATIONS
