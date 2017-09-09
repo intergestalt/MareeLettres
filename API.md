@@ -24,7 +24,10 @@ Get proposals of a challenge
 [ deprecated: GET api/challenges/:id/proposals/limit/:limit (-> change to ?limit=:limit) ]
 
 #### GET api/proposals
-do not use
+do not use (get all proposals)
+
+#### GET api/proposals/:proposal_id
+get one proposal (comes in an array)
 
 #### GET api/tinder/:challenge_id/:origin_id?limit=:limit
 Get tinder proposals for a player
@@ -61,36 +64,44 @@ OK:
 ```
 
 #### POST api/proposals
-Place a new proposal
 
 ##### request body
 ```
-{ proposals: 
-  [
-    {
-      challenge_id: ...
-      origin_id: ...
-      text: ...
-      created_at: ...
-    },
-    ...
-  ]
+{ proposal: 
+  {
+    challenge_id: ...
+    origin_id: ...
+    text: ...
+  }
 }
 ```
 
 #### response body
 
 OK:
+
+Returns the complete proposal object. in_review is normally true, but can be false when auto_accept is on.
 ```
 {
-proposals: [
-    {
-      _id: ...
-    }
-  ]
+proposal: 
+  {
+    _id: ...
+    in_review: ... 
+  }
 }
 ```
+If another proposal with identical text already exists, the other proposals gets a boost.
 
+```
+{
+  proposal:
+    {
+      _id: (other proposal id),
+      ...
+    },
+  boost: 5 (for example)
+}
+```
 
 FAIL:
 ```
@@ -98,6 +109,10 @@ FAIL:
   error:...
 }
 ```
+- missing-proposal - no proposal submitted
+- already-exists - proposal for same origin_id and same challenge_id already exists
+- already-submitted - has submitted the same proposal text before
+
 
 ### MAP (Map Game)
 

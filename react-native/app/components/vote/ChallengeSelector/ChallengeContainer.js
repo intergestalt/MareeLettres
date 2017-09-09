@@ -102,13 +102,13 @@ class ChallengeContainer extends Component {
     this.loadProposals(myIndex + 1, view, listmode);
   }
   handleTinderPress() {
-    this.props.dispatch(setProposalView(PROPOSAL_VIEWS.TINDER));
+    this.props.dispatch(setProposalView(this.props.selectedChallengeId, PROPOSAL_VIEWS.TINDER));
     this.loadAllProposals(this.props.selectedChallengeIndex, PROPOSAL_VIEWS.TINDER);
   }
 
   handleListPress() {
     this.resetProposalListPos();
-    this.props.dispatch(setProposalView(PROPOSAL_VIEWS.LIST));
+    this.props.dispatch(setProposalView(this.props.selectedChallengeId, PROPOSAL_VIEWS.LIST));
     this.loadAllProposals(
       this.props.selectedChallengeIndex,
       PROPOSAL_VIEWS.LIST,
@@ -117,7 +117,9 @@ class ChallengeContainer extends Component {
   }
   onMostPress() {
     this.resetProposalListPos();
-    this.props.dispatch(setProposalListMode(PROPOSAL_LIST_MODES.MOST));
+    this.props.dispatch(
+      setProposalListMode(this.props.selectedChallengeId, PROPOSAL_LIST_MODES.MOST),
+    );
     this.loadAllProposals(
       this.props.selectedChallengeIndex,
       PROPOSAL_VIEWS.LIST,
@@ -126,7 +128,9 @@ class ChallengeContainer extends Component {
   }
   onNewestPress() {
     this.resetProposalListPos();
-    this.props.dispatch(setProposalListMode(PROPOSAL_LIST_MODES.NEWEST));
+    this.props.dispatch(
+      setProposalListMode(this.props.selectedChallengeId, PROPOSAL_LIST_MODES.NEWEST),
+    );
     this.loadAllProposals(
       this.props.selectedChallengeIndex,
       PROPOSAL_VIEWS.LIST,
@@ -135,7 +139,9 @@ class ChallengeContainer extends Component {
   }
   onTrendingPress() {
     this.resetProposalListPos();
-    this.props.dispatch(setProposalListMode(PROPOSAL_LIST_MODES.TRENDING));
+    this.props.dispatch(
+      setProposalListMode(this.props.selectedChallengeId, PROPOSAL_LIST_MODES.TRENDING),
+    );
     this.loadAllProposals(
       this.props.selectedChallengeIndex,
       PROPOSAL_VIEWS.LIST,
@@ -156,7 +162,12 @@ class ChallengeContainer extends Component {
   createPanResponderHeader() {
     return PanResponder.create({
       onStartShouldSetPanResponder: () => false,
-      onMoveShouldSetPanResponder: () => true,
+      onMoveShouldSetPanResponder: (e, gesture) => {
+        if (Math.abs(gesture.dx) > 3) {
+          return true;
+        }
+        return false;
+      },
       onPanResponderGrant: () => {
         const d = new Date();
         this.startGestureHeader = d.getTime();
@@ -238,7 +249,7 @@ class ChallengeContainer extends Component {
 
     Animated.timing(this.state.challengeContainerOffsetX, {
       toValue: 0,
-      duration: 300,
+      duration: 200,
     }).start(this.navigateDown);
   }
 
@@ -249,7 +260,7 @@ class ChallengeContainer extends Component {
     this.navigationEnabled = false;
     Animated.timing(this.state.challengeContainerOffsetX, {
       toValue: -2 * screenWidth,
-      duration: 300,
+      duration: 200,
     }).start(this.navigateUp);
   }
 
@@ -391,8 +402,13 @@ const mapStateToProps = (state) => {
     const challenges = state.challenges.challenges;
     const selectedChallengeIndex = state.challenges.selectedChallengeIndex;
     const selectedChallengeId = state.challenges.selectedChallengeId;
-    const selectedProposalView = state.challenges.proposalView;
-    const selectedProposalListMode = state.challenges.proposalListMode;
+    const challenge = challenges[selectedChallengeIndex];
+    let selectedProposalView = null;
+    let selectedProposalListMode = null;
+    if (challenge) {
+      selectedProposalView = challenge.proposalView;
+      selectedProposalListMode = challenge.proposalListMode;
+    }
     const isLoading = state.challenges.isLoading;
 
     return {

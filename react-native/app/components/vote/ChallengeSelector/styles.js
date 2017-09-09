@@ -31,13 +31,7 @@ const styles = EStyleSheet.create({
     position: 'relative',
     flex: 0.25,
   },
-  challengeContent: {
-    backgroundColor: '#FFFFFF',
-    position: 'relative',
-    flex: 0.675,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+
   challengeFooter: {
     position: 'relative',
     height: '3rem',
@@ -85,7 +79,7 @@ const styles = EStyleSheet.create({
     overflow: 'hidden',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#fff'
+    backgroundColor: '#fff',
   },
 
   tinderBoxToMove: {
@@ -93,14 +87,38 @@ const styles = EStyleSheet.create({
     top: 0,
     flex: 1,
   },
-
-  contentText: {
-    color: 'black',
-    fontFamily: 'impact',
-    fontSize: 25,
-    textAlign: 'center',
+  challengeContent: {
+    backgroundColor: '#FFFFFF',
+    position: 'relative',
+    flex: 0.675,
+    width: '$swipeWidth',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 
+  challengeInnerContainer: {
+    backgroundColor: 'transparent',
+    justifyContent: 'center',
+    alignItems: 'center',
+    flex: 1,
+  },
+  contentText: {
+    paddingLeft: '1rem',
+    paddingRight: '1rem',
+    width: '$swipeWidth',
+    backgroundColor: 'transparent',
+    color: 'white',
+    alignItems: 'center',
+    justifyContent: 'center',
+    fontFamily: 'impact',
+    fontSize: '2rem',
+    textAlign: 'center',
+    bottom: 0,
+  },
+  imageStye: {
+    width: '$swipeWidth',
+    flex: 1,
+  },
   // Footer
 
   challengeFooterFinished: {
@@ -126,7 +144,7 @@ const styles = EStyleSheet.create({
     flex: 0.5,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#fff'
+    backgroundColor: '#fff',
   },
 
   footerButtonRight: {

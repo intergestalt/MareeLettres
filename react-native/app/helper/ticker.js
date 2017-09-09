@@ -1,8 +1,9 @@
+import { InteractionManager } from 'react-native';
 import { setChallengesDateData } from '../actions/challengesTicker';
 import { loadChallengeServiceProxy, sendInternalVotesServiceProxy } from '../helper/apiProxy';
 import store from '../config/store';
 
-import { isFinished, TICKER_END } from '../helper/dateFunctions';
+import { isFinished } from '../helper/dateFunctions';
 import { DEV_CONFIG } from '../config/config';
 
 let tickerStarted = false;
@@ -15,14 +16,16 @@ function tickerData(props) {
   for (let i = 0; i < state.challenges.challenges.length; i += 1) {
     const myChallenge = state.challenges.challenges[i];
     const myTickerData = state.challengesTicker[myChallenge._id];
-    if (myTickerData.tickerString === TICKER_END) {
+    if (myTickerData.finished) {
       wasFinished[i] = true;
     } else {
       wasFinished[i] = false;
     }
   }
-
-  store.dispatch(setChallengesDateData());
+  // console.log(`TICK ${new Date().getTime()}`);
+  InteractionManager.runAfterInteractions(() => {
+    store.dispatch(setChallengesDateData());
+  });
 
   // check if it is finished now.
   for (let i = 0; i < state.challenges.challenges.length; i += 1) {

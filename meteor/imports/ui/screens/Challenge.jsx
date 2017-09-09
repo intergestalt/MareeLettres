@@ -30,8 +30,19 @@ class Challenge extends Component {
         start_date: doc.start_date,
         end_date: doc.end_date,
         proposals_end_date: doc.proposals_end_date,
+        'winningProposalImageUrl': doc.winningProposalImageUrl,
+        'winningProposalDetailImageUrl': doc.winningProposalDetailImageUrl,
       },
-    });
+    },
+      (error, data) => {
+        if (error) {
+          alert("ERROR - NOT SAVED")
+        }
+        else {
+          this.props.router.push('/admin/challenges')
+        }
+      }
+    );
   }
 
   renderEditForm() {
@@ -44,11 +55,13 @@ class Challenge extends Component {
         <AutoField name="title" />
         <AutoField name="letters" />
         <small>
-          Full set: <span className="impact">{AvailableLetters.proposal}</span>
+          All available letters: <span className="impact">{AvailableLetters.proposal}</span>
         </small>
         <AutoField name="start_date" />
         <AutoField name="end_date" />
         <AutoField name="proposals_end_date" />
+        <AutoField name="winningProposalImageUrl" />
+        <AutoField name="winningProposalDetailImageUrl" />
         <ErrorsField />
         <SubmitField />
       </AutoForm>
@@ -82,6 +95,7 @@ class Challenge extends Component {
     return (
       <AdminWrapper>
         <Menu />
+        <h2>Edit Challenge</h2>
         {this.renderEditForm()}
         {/* <ul>
           {this.renderProposals()}

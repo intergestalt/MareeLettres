@@ -1,13 +1,13 @@
-import React, { PureComponent, PropTypes } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { View, TouchableOpacity, Text } from 'react-native';
 import { connect } from 'react-redux';
 
 import { ChallengeHeadActive, ChallengeHeadInactive } from './../ChallengesList';
-import { isFinished } from '../../../helper/dateFunctions';
 
 import styles from './styles';
+import { CHALLENGE_VIEWS } from '../../../consts';
 
-class ChallengeHeader extends PureComponent {
+class ChallengeHeader extends Component {
   static propTypes = {
     challengeOffset: PropTypes.number,
     challenges: PropTypes.array,
@@ -17,9 +17,19 @@ class ChallengeHeader extends PureComponent {
     onUpPress: PropTypes.func,
     onDownPress: PropTypes.func,
     panResponder: PropTypes.object,
+    viewMode: PropTypes.string,
+    callerViewMode: PropTypes.string,
     language: PropTypes.string,
   };
-
+  shouldComponentUpdate(nextProps, nextState) {
+    if (this.props.viewMode === CHALLENGE_VIEWS.SUGGEST) {
+      return false;
+    }
+    if (this.props.callerViewMode !== this.props.viewMode) {
+      return false;
+    }
+    return true;
+  }
   getChallengeIndex() {
     return this.props.selectedChallengeIndex + this.props.challengeOffset;
   }
@@ -78,27 +88,24 @@ class ChallengeHeader extends PureComponent {
     );
     const challengeTickerData = this.getChallengeTickerData();
     const challenge = this.getChallenge();
-    let myEndString = null;
-    if (this.props.language === 'en') {
-      myEndString = challengeTickerData.endStringEn;
-    } else {
-      myEndString = challengeTickerData.endStringFr;
-    }
 
     const standardizedChallenge = {
-      ...challenge,
-      ...challengeTickerData,
-      endString: myEndString,
       title: challenge.title[this.props.language],
-    }
+      id: this.getChallenge()._id,
+    };
 
     const contentMiddle = (
       <View style={styles.headerTextContainer}>
-        <TouchableOpacity delayPressIn={30} onPress={this.props.onHeaderPress}>
-          {!isFinished(challenge)
-            ? <ChallengeHeadActive data={standardizedChallenge} />
-            : <ChallengeHeadInactive data={standardizedChallenge} />
-          }
+        <TouchableOpacity delayPressIn={50} onPress={this.props.onHeaderPress}>
+          {!challengeTickerData.finished
+            ? <ChallengeHeadActive
+              callerViewMode={CHALLENGE_VIEWS.DETAIL}
+              data={standardizedChallenge}
+            />
+            : <ChallengeHeadInactive
+              callerViewMode={CHALLENGE_VIEWS.DETAIL}
+              data={standardizedChallenge}
+            />}
         </TouchableOpacity>
       </View>
     );
@@ -126,12 +133,14 @@ const mapStateToProps = (state) => {
     const challengesTicker = state.challengesTicker;
     const selectedChallengeIndex = state.challenges.selectedChallengeIndex;
     const language = state.globals.language;
+    const viewMode = state.challenges.challengeView;
 
     return {
       selectedChallengeIndex,
       challenges,
       challengesTicker,
       language,
+      viewMode,
     };
   } catch (e) {
     console.log('ChallengeHeader');

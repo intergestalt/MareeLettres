@@ -1,5 +1,5 @@
 import { Mongo } from 'meteor/mongo';
-import { SystemConfigSchema } from 'maree-lettres-shared';
+import { SystemConfigSchema } from './schema';
 
 const SystemConfig = new Mongo.Collection('system_config');
 

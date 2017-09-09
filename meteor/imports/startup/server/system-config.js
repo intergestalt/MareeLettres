@@ -1,6 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import hash from 'object-hash';
 
+import buildConfig from '../both/build-config';
 import { SystemConfig, SystemConfigSchema } from '../../api/systemConfig/systemConfig';
 
 const interval = 5;
@@ -20,25 +21,32 @@ class SysConf {
   }
 
   update() {
-    const query = {};
-    const options = { sort: { updated_at: 1 }, limit: 1 }
+    const q = buildConfig.currentSystemConfigQuery
 
-    const meta = SystemConfig.findOne(query, { ...options, fields: { _id: 1, updated_at: 1, name: 1 } });
+    const meta_query = SystemConfig.find(q.relaxed.selector, { ...q.relaxed.options, fields: { _id: 1, updated_at: 1, name: 1 } });
 
-    if (!meta) {
+    if (meta_query.count() === 0) {
       console.log('no config available in db');
       return; // nothing there, nothing to do
     }
 
+    const meta = meta_query.fetch()[0];
     const new_db_digest = hash(meta);
 
     if (new_db_digest === db_digest) {
       return; // nothing changed, nothing to do
     }
 
-    const result = SystemConfig.findOne(query, { ...options, fields: { _id: 0, name: 0 } });
+    const result_query = SystemConfig.find(q.relaxed.selector, { ...q.relaxed.options, fields: { _id: 0, name: 0, active: 0 } });
 
     console.log('reloading system config.');
+
+    if (result_query.count() === 0) {
+      console.log('error reloading system config.');
+      return;
+    }
+
+    const result = result_query.fetch()[0]
 
     if (result) {
       current = result;

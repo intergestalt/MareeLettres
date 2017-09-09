@@ -1,6 +1,6 @@
 /* BEGIN SET YOUR LOCAL IP ADDRESS HERE */
 
-//const DEV_MAREE_SERVER_ADDRESS = `${Expo.Constants.linkingUri.match(/:\/\/(.*):/)[1]}:3000`;
+// const DEV_MAREE_SERVER_ADDRESS = `${Expo.Constants.linkingUri.match(/:\/\/(.*):/)[1]}:3000`;
 const DEV_MAREE_SERVER_ADDRESS = 'maree.herokuapp.com';
 
 /* END SET YOUR LOCAL IP ADDRESS HERE */
@@ -64,12 +64,25 @@ export const DYNAMIC_CONFIG = {
   UPDATE_PROPOSALS_AFTER: null,
   UPDATE_CONTENT_AFTER: null,
   SEND_INTERNAL_VOTES_AFTER: null,
+  DISPLAY_NEXT_NETWORK_ERROR_AFTER: null,
+
+  // Twitter
+  // Twitter API
+  // / TODO: clean up and remove
+  TWITTER_HANDLE: '@WilliamShatner',
+  TWITTER_AUTH_BASE64:
+    'MVJQNVhjMElGQ3FJcmZzc3Q3TXExTmVUSTp0dG5VNFFSVmpBVkdjaVpjZm92cFdzU1JZR09PUGt1amFjWnhsSUJnU1ExdE5sZDkwNw==',
+  TWITTER_AUTH_API_KEY: '1RP5Xc0IFCqIrfsst7Mq1NeTI',
+  TWITTER_AUTH_API_TOKEN: 'ttnU4QRVjAVGciZcfovpWsSRYGOOPkujacZxlIBgSQ1tNld907',
+  TWITTER_API_ENDPOINT: 'https://api.twitter.com/',
+  TWITTER_URL: 'https://twitter.com/',
+  TWITTER_TWEETS_PER_REQUEST: 50,
 };
 
 export const DEV_CONFIG = {
   USE_CUSTOM_END_DATE: true,
   CUSTOM_END_DATE_ID: 'fixture_2',
-  CUSTOM_END_DATE: '2017-09-09T12:46:50.000Z',
+  CUSTOM_END_DATE: '2017-09-09T01:55:00.000Z',
 
   SWAP_RELOADED_PROPOSALS: false,
   SWAP_RELOADED_PROPOSALS_COUNT: 40,

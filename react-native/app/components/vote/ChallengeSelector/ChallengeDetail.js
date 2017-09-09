@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 
 import { ChallengeHeader, ChallengeContent, ChallengeFooter } from './';
 import styles from './styles';
+import { CHALLENGE_VIEWS } from '../../../consts';
 
 class ChallengeDetail extends Component {
   static propTypes = {
@@ -35,6 +36,7 @@ class ChallengeDetail extends Component {
     return (
       <View style={styles.detailContainer}>
         <ChallengeHeader
+          callerViewMode={CHALLENGE_VIEWS.DETAIL}
           challengeOffset={this.props.challengeOffset}
           panResponder={this.props.panResponderHeader}
           onHeaderPress={this.props.onHeaderPress}
@@ -70,7 +72,8 @@ const mapStateToProps = (state) => {
     };
   } catch (e) {
     console.log('ChallengeDetail');
-    console.log(e); throw e;
+    console.log(e);
+    throw e;
   }
 };
 export default connect(mapStateToProps)(ChallengeDetail);

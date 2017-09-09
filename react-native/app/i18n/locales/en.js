@@ -38,10 +38,15 @@ export default {
   info_about_title: 'NUIT BLANCHE',
   info_howto_title: 'THE IDEA',
 
-  network_error: 'Network error. Please check your internet connection.',
+  network_error: 'Network error. Please check your internet connection. EN',
 
   center_map: 'Center map',
-  camera_button: 'Camera',
-  choose_your_letter: 'Choose Your Letter',
-  take_picture: 'Take picture',
+  camera_button: 'Camera EN',
+  choose_your_letter: 'Choose Your Letter EN',
+  take_picture: 'Take picture EN',
+  see_all_votes: 'See all votes EN',
+  hide_all_votes: 'Hide all votes EN',
+  submit_alert: 'You may only submit one answer per vote. Are you sure you want to submit? EN',
+  submit_yes: 'Yes',
+  submit_no: 'No',
 };

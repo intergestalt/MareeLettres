@@ -8,7 +8,6 @@ import {
   StatusBar,
   Platform,
   Dimensions,
-  Image,
   PanResponder,
 } from 'react-native';
 import { LinearGradient } from 'expo';
@@ -75,8 +74,6 @@ export default class DropdownAlert extends Component {
     titleStyle: Text.propTypes.style,
     messageStyle: Text.propTypes.style,
     buttonStyle: Text.propTypes.style,
-    imageStyle: Image.propTypes.style,
-    cancelBtnImageStyle: Image.propTypes.style,
     titleNumOfLines: PropTypes.number,
     messageNumOfLines: PropTypes.number,
     onClose: PropTypes.func,

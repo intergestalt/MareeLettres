@@ -18,6 +18,9 @@ class Menu extends Component {
         </h1>
         <ul>
           <li>
+            <Link to="/admin/review">Review Console</Link>
+          </li>
+          <li>
             <Link to="/admin/challenges">Challenges</Link>
           </li>
           <li>
@@ -34,6 +37,9 @@ class Menu extends Component {
           </li>
           <li>
             <Link to="/admin/status">Status</Link>
+          </li>
+          <li>
+            <Link to="/admin/feed">Feed</Link>
           </li>
           <li>
             <Link to="/admin/config">Config</Link>

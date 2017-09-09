@@ -9,9 +9,10 @@ function loadProposals(offset) {
   const index = challengeIndex + offset;
   const challenges = store.getState().challenges.challenges;
   if (index < 0 || index > challenges.length - 1) return;
-  const id = challenges[index]._id;
+  const challenge = challenges[index];
+  const id = challenge._id;
   let limit = -1;
-  if (store.getState().challenges.proposalView === PROPOSAL_VIEWS.LIST) {
+  if (challenge.proposalView === PROPOSAL_VIEWS.LIST) {
     limit = DYNAMIC_CONFIG.DEFAULT_PROPOSAL_LIST_LIMIT;
   } else {
     limit = DYNAMIC_CONFIG.DEFAULT_PROPOSAL_TINDER_LIMIT;

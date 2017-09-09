@@ -5,7 +5,7 @@
 */
 import Cryptr from 'cryptr';
 
-import config from './config.js';
+import config from './config/config.js';
 
 const encryptor = new Cryptr(config.user_key_secret);
 const min_length = 8;

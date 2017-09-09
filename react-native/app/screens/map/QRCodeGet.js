@@ -15,7 +15,7 @@ class QRCodeGet extends Component {
 
   render() {
     return (
-      <Screen backgroundColor={'#00aaaa'}>
+      <Screen navigation={this.props.navigation} backgroundColor={'#00aaaa'}>
         <StatusBar />
         <QRCodeScanScreen navigation={this.props.navigation} input={this.props.uniqueId} />
       </Screen>

@@ -7,6 +7,7 @@ import { loadLetters, postLetter, loadLettersInterval } from '../actions/letters
 import store from '../config/store';
 import { getProposalList } from '../helper/proposalsHelper';
 import { getChallengeFromId } from '../helper/challengesHelper';
+import { streamGetAuthToken, streamGetTweets, streamGetTweetsHTML } from '../actions/stream';
 import { DYNAMIC_CONFIG } from '../config/config';
 
 function isLoading(item) {
@@ -140,8 +141,9 @@ export function loadProposalsServiceProxy(
   pullUpLoading = false,
   lastNotLoad = false,
 ) {
-  const proposalView = store.getState().challenges.proposalView;
-  const proposalListMode = store.getState().challenges.proposalListMode;
+  const challenge = getChallengeFromId(store.getState().challenges.challenges, challengeId);
+  const proposalView = challenge.proposalView;
+  const proposalListMode = challenge.proposalListMode;
   // all 4 lists
   const allProposals = store.getState().proposals[challengeId];
   // correct list
@@ -201,11 +203,11 @@ export function postProposalServiceProxy(challenge_id, text) {
   store.dispatch(postProposal(body));
 }
 
-export function loadLettersServiceProxy(body={}) {
+export function loadLettersServiceProxy(body = {}) {
   store.dispatch(loadLetters(body));
 }
 
-export function loadLettersIntervalServiceProxy(body={}) {
+export function loadLettersIntervalServiceProxy(body = {}) {
   store.dispatch(loadLettersInterval(body));
 }
 
@@ -244,4 +246,16 @@ export function sendInternalVotesServiceProxy(force) {
   if (doit) {
     store.dispatch(userSendInternalVotes(user.origin_id, internalVotes));
   }
+}
+
+export function twitterGetAuth() {
+  store.dispatch(streamGetAuthToken());
+}
+
+export function twitterGetTweets(token) {
+  store.dispatch(streamGetTweets(token));
+}
+
+export function twitterGetTweetsHTML() {
+  store.dispatch(streamGetTweetsHTML());
 }

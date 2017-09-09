@@ -14,7 +14,7 @@ class QRCodeSend extends Component {
 
   render() {
     return (
-      <Screen backgroundColor={'#ffffff'}>
+      <Screen navigation={this.props.navigation} backgroundColor={'#ffffff'}>
         <StatusBar />
         <QRCodeSendScreen navigation={this.props.navigation} />
       </Screen>

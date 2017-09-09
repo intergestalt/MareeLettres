@@ -11,6 +11,8 @@ import StatusPage from '../../ui/screens/Status.jsx';
 import LettersPage from '../../ui/screens/Letters.jsx';
 import ProposalsPage from '../../ui/screens/Proposals.jsx';
 import PlayersPage from '../../ui/screens/Players.jsx';
+import FeedPage from '../../ui/screens/Feed.jsx';
+import ReviewPage from '../../ui/screens/Review.jsx';
 
 const renderRoutes = () =>
   <Router history={browserHistory}>
@@ -25,6 +27,8 @@ const renderRoutes = () =>
       <Route name="status" path="status" component={StatusPage} />
       <Route name="letters" path="letters" component={LettersPage} />
       <Route name="config" path="config" component={ConfigPage} />
+      <Route name="feed" path="feed" component={FeedPage} />
+      <Route name="review" path="review" component={ReviewPage} />
     </Route>
   </Router>;
 

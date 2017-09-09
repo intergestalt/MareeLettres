@@ -2,8 +2,9 @@ import store from '../config/store';
 import { loadChallengesServiceProxy } from './apiProxy';
 import { popChallengeSelector } from './navigationProxy';
 
-import { CHALLENGE_VIEWS, PROPOSAL_LIST_MODES, PROPOSAL_VIEWS } from '../consts';
+import { CHALLENGE_VIEWS } from '../consts';
 import { setChallengeId } from '../actions/challenges';
+
 import { DYNAMIC_CONFIG } from '../config/config';
 
 export function manageChallenges(props) {
@@ -53,8 +54,6 @@ function getDefaultEntry() {
   result.isInternalLoading = false;
   result.selectedChallengeId = null;
   result.selectedChallengeIndex = -1;
-  result.proposalListMode = PROPOSAL_LIST_MODES.MOST;
-  result.proposalView = PROPOSAL_VIEWS.LIST;
   result.challengeView = CHALLENGE_VIEWS.LIST;
   result.time = 0;
   return result;

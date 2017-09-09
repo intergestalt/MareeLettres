@@ -22,3 +22,13 @@ Proposals.after.remove(function (userId, doc) {
 Proposals.before.insert(function (userId, doc) {
   doc.created_at = new Date();
 });
+
+Proposals.before.update(function (userId, doc, fieldNames, modifier, options) {
+  modifier.$set = modifier.$set || {};
+  if (
+    typeof modifier.$set.in_review != "undefined" ||
+    typeof modifier.$set.blocked != "undefined"
+  ) {
+    modifier.$set.reviewed_at = new Date;
+  }
+});

@@ -14,7 +14,7 @@ class LetterSelector extends Component {
 
   render() {
     return (
-      <Screen backgroundColor={'#ffffff'}>
+      <Screen navigation={this.props.navigation} backgroundColor={'#ffffff'}>
         <StatusBar />
         <LetterSelectorWindow navigation={this.props.navigation} />
       </Screen>

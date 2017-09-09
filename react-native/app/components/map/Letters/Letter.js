@@ -89,7 +89,7 @@ class Letter extends Component {
 
             this.setState({panning: false});
             this.animateResetFont();
-            
+
             // check if letter is dropped on map area
             if (y < this.props.user.map.layout.height){
               // check if letter is disabled
@@ -141,11 +141,11 @@ class Letter extends Component {
 
     if (this.props.blockWriting) {
       this.props.alertWithType('info', 'Too crowded', "There are too many letters in this area. Please write somewhere else or wait.");
-      return false; 
+      return false;
     }
 
     //console.log("onDrop");
-    
+
     // convert native screen to normalised screen
     const screen = this.nativeScreenToXY(x, y);
 
@@ -198,12 +198,12 @@ class Letter extends Component {
 
   // MATHS
 
-  
+
   // convert native screen space to normalised screen space
   // result will be in the range [-0.5, 0.5]
   // changed to take in XY coordinates from top left corner of map
   nativeScreenToXY(mapX, mapY) {
-    
+
     // new version using layout of map view
     // console.log("nativeScreenToXY");
     let x = (mapX / this.props.user.map.layout.width) - 0.5;

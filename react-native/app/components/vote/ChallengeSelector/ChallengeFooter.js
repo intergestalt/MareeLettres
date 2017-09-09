@@ -94,12 +94,12 @@ class ChallengeFooter extends Component {
     return this.renderUnfinished();
   }
 }
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, ownPprops) => {
   try {
     const challenges = state.challenges.challenges;
     const selectedChallengeIndex = state.challenges.selectedChallengeIndex;
-    const proposalView = state.challenges.proposalView;
-
+    const challenge = challenges[selectedChallengeIndex + ownPprops.challengeOffset];
+    const proposalView = challenge.proposalView;
     return {
       selectedChallengeIndex,
       challenges,

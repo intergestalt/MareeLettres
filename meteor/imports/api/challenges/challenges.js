@@ -2,8 +2,6 @@ import { Mongo } from 'meteor/mongo';
 import SimpleSchema from 'simpl-schema';
 import { AvailableLetters } from 'maree-lettres-shared';
 
-SimpleSchema.extendOptions(['description']);
-
 const Challenges = new Mongo.Collection('challenges');
 
 Challenges.allow({
@@ -11,6 +9,8 @@ Challenges.allow({
   update: (userId) => (userId || false),
   remove: () => false,
 });
+
+SimpleSchema.extendOptions(['title']);
 
 const MultilingualStringSchema = new SimpleSchema({
   en: {
@@ -63,6 +63,20 @@ const ChallengesSchema = new SimpleSchema({
     type: Object, // TODO: Add ProposalsSchama here
     optional: true,
   },
+  winningProposalImageUrl: {
+    type: String,
+    optional: true,
+    regEx: SimpleSchema.RegEx.Url,
+    label: "Winning Proposal Image Url",
+    title: "Shown in App: finished topic single view (Portait format)"
+  },
+  winningProposalDetailImageUrl: {
+    type: String,
+    optional: true,
+    regEx: SimpleSchema.RegEx.Url,
+    label: "Winning Proposal Detail Image Url",
+    title: "Shown in App: finished topics overview (Landscape format)"
+  }
 });
 
 export { Challenges, ChallengesSchema };

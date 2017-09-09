@@ -3,5 +3,3 @@
 import '../both/accounts';
 import './accounts';
 import './routes';
-
-transferRateMonitor.subscribeForServerTransferRate('giveMeStats');

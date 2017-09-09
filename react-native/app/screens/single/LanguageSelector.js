@@ -100,6 +100,7 @@ const gradientColors = [
 class LanguageSelector extends Component {
   static propTypes = {
     language: PropTypes.string,
+    navigation: PropTypes.object,
   };
   constructor(props) {
     super(props);
@@ -295,7 +296,11 @@ class LanguageSelector extends Component {
     ];
 
     return (
-      <Screen style={styles.container} backgroundColor={styles._container.backgroundColor}>
+      <Screen
+        navigation={this.props.navigation}
+        tyle={styles.container}
+        backgroundColor={styles._container.backgroundColor}
+      >
         <View {...this.panResponder.panHandlers} style={{ flex: 1 }}>
           <LinearGradient
             colors={gradientColors}

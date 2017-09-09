@@ -1,29 +1,34 @@
-import React, { Component, PropTypes } from 'react';
+import React, { PureComponent, PropTypes } from 'react';
 import { View, FlatList, Text } from 'react-native';
 import { connect } from 'react-redux';
 
 import Separator from './Separator';
 import ChallengesListItem from './ChallengesListItem';
 import { ReloadButton } from '../../../components/general/ReloadButton';
-import styles from './styles';
+import { styles, ChallengesListHeaderImg } from './';
 import { navigateToChallengeSelector } from '../../../helper/navigationProxy';
 import { startChallengeTicker } from '../../../helper/ticker';
-import { isFinished } from '../../../helper/dateFunctions';
 import { listIsEmpty } from '../../../helper/helper';
 import { loadChallengesServiceProxy, loadUserServiceProxy } from '../../../helper/apiProxy';
+import { CHALLENGE_VIEWS } from '../../../consts';
+import { setShowAllFinishedChallenges } from '../../../actions/general';
+import { isFinished } from '../../../helper/dateFunctions';
 
-class ChallengesList extends Component {
+class ChallengesList extends PureComponent {
   static propTypes = {
     isLoading: PropTypes.bool,
     language: PropTypes.string,
     challenges: PropTypes.array,
-    challengesTicker: PropTypes.object,
+    dispatch: PropTypes.func,
     isDefaultUser: PropTypes.bool,
+    showAllFinishedChallenges: PropTypes.bool,
   };
   constructor(props) {
     super(props);
     this.handleReloadUserPressPress = this.handleReloadUserPressPress.bind(this);
     this.handleReloadChallengesPressPress = this.handleReloadChallengesPressPress.bind(this);
+    this.handlePressShowAll = this.handlePressShowAll.bind(this);
+    this.handlePressHideAll = this.handlePressHideAll.bind(this);
   }
   componentDidMount() {
     startChallengeTicker(this.props);
@@ -37,9 +42,19 @@ class ChallengesList extends Component {
     }
     return answer;
   }
+
   handlePressRow = (item) => {
     console.log(`handlePressRow ${item.id}`);
     navigateToChallengeSelector(this.props, item.id);
+  };
+
+  handlePressShowAll = () => {
+    console.log('handle showAll');
+    this.props.dispatch(setShowAllFinishedChallenges(true));
+  };
+  handlePressHideAll = () => {
+    console.log('handle hideAll');
+    this.props.dispatch(setShowAllFinishedChallenges(false));
   };
 
   renderIsLoading() {
@@ -53,6 +68,7 @@ class ChallengesList extends Component {
   handleReloadChallengesPressPress = () => {
     loadChallengesServiceProxy(true, false);
   };
+
   renderIsEmpty() {
     return (
       <View style={styles.container}>
@@ -63,7 +79,16 @@ class ChallengesList extends Component {
       </View>
     );
   }
-
+  getAnswerImgUrl(myChallenge) {
+    let url = null;
+    if (myChallenge) {
+      url = myChallenge.winningProposalDetailImageUrl;
+      if (!url || url.trim() === '') {
+        url = null;
+      }
+    }
+    return url;
+  }
   handleReloadUserPressPress = () => {
     loadUserServiceProxy(true);
   };
@@ -89,37 +114,79 @@ class ChallengesList extends Component {
     }
 
     const language = this.props.language;
-    const listData = new Array(this.props.challenges.length);
+    const listData = [];
+    let countFinished = 0;
+    let index = 0;
+    let firstFinshedIndex = -1;
+    let lastFinshedIndex = -1;
+    for (let i = 0; i < this.props.challenges.length; i += 1) {
+      const myChallenge = this.props.challenges[i];
+      if (isFinished(myChallenge)) {
+        if (firstFinshedIndex === -1) {
+          firstFinshedIndex = i;
+        }
+        lastFinshedIndex = i;
+        countFinished += 1;
+      }
+    }
+
+    const takeLast = true;
 
     for (let i = 0; i < this.props.challenges.length; i += 1) {
       const myChallenge = this.props.challenges[i];
-      let myEndString = null;
-      const entry = this.props.challengesTicker[myChallenge._id];
-      if (this.props.language === 'en') {
-        myEndString = entry.endStringEn;
-      } else {
-        myEndString = entry.endStringFr;
+      let add = true;
+      if (!this.props.showAllFinishedChallenges) {
+        if (isFinished(myChallenge)) {
+          add = false;
+          if (takeLast && lastFinshedIndex === i) {
+            add = true;
+          } else if (!takeLast && firstFinshedIndex === i) {
+            add = true;
+          }
+        }
       }
-      listData[i] = {
-        id: myChallenge._id,
-        voteNum: myChallenge.voteNum,
-        isFinished: isFinished(myChallenge),
-        endString: myEndString,
-        tickerString: entry.tickerString,
-        title: myChallenge.title[language],
-        answer: this.getAnswer(myChallenge),
-      };
+
+      if (add) {
+        let last = false;
+        if (i === lastFinshedIndex) {
+          last = true;
+        }
+        listData[index] = {
+          id: myChallenge._id,
+          index,
+          voteNum: myChallenge.voteNum,
+          title: myChallenge.title[language],
+          answer: this.getAnswer(myChallenge),
+          url: this.getAnswerImgUrl(myChallenge),
+          last,
+        };
+        index += 1;
+      }
+    }
+    let header = null;
+    if (countFinished === 0) {
+      header = <ChallengesListHeaderImg />;
+    }
+    let oneFished = false;
+    if (countFinished === 1) {
+      oneFished = true;
     }
 
     return (
       <View style={styles.container}>
+        {header}
         <FlatList
           data={listData}
           renderItem={({ item }) =>
             <ChallengesListItem
+              oneFinished={oneFished}
+              showAll={this.props.showAllFinishedChallenges}
               language={this.props.language}
               data={item}
+              callerViewMode={CHALLENGE_VIEWS.LIST}
               onPress={() => this.handlePressRow(item)}
+              onShowAllPress={() => this.handlePressShowAll()}
+              onHideAllPress={() => this.handlePressHideAll()}
             />}
           keyExtractor={item => item.id}
           ItemSeparatorComponent={Separator}
@@ -132,16 +199,16 @@ class ChallengesList extends Component {
 const mapStateToProps = (state) => {
   try {
     const challenges = state.challenges.challenges;
-    const challengesTicker = state.challengesTicker;
     const isLoading = state.challenges.isLoading;
     const language = state.globals.language;
+    const showAllFinishedChallenges = state.globals.showAllFinishedChallenges;
     const isDefaultUser = state.user.isDefaultUser;
     return {
       challenges,
-      challengesTicker,
       isLoading,
       language,
       isDefaultUser,
+      showAllFinishedChallenges,
     };
   } catch (e) {
     console.log('ChallengesList');

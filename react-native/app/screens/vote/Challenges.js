@@ -16,7 +16,7 @@ class Challenges extends Component {
 
   render() {
     return (
-      <Screen centerContent backgroundColor="#88ff44">
+      <Screen navigation={this.props.navigation} centerContent backgroundColor="#88ff44">
         <StatusBar hidden={false} />
         <ChallengesList navigation={this.props.navigation} />
       </Screen>

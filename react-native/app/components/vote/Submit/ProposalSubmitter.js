@@ -4,10 +4,13 @@ import { connect } from 'react-redux';
 
 import styles from './styles';
 
-import { WritingArea, Keyboard, DraggableLetter } from './index';
+import { WritingArea, Keyboard, DraggableLetter, SubmitText } from './index';
 import { getDuration } from '../../../helper/helper';
 
 import { postProposalServiceProxy } from '../../../helper/apiProxy';
+import I18n from '../../../i18n/i18n';
+import { popProposalSubmitter } from '../../../helper/navigationProxy';
+import { setOwnProposal } from '../../../actions/user';
 
 const colorWriteArea = '#FFFFFF';
 const colorKeyBoard = '#000000';
@@ -17,6 +20,9 @@ class ProposalSubmitter extends Component {
   static propTypes = {
     challenge: PropTypes.object,
     language: PropTypes.string,
+    dispatch: PropTypes.func,
+    ownProposal: PropTypes.string,
+    selectedChallengeId: PropTypes.string,
   };
 
   constructor(props) {
@@ -24,9 +30,12 @@ class ProposalSubmitter extends Component {
     // I. Bindings
     this.submitPressed = this.submitPressed.bind(this);
     this.onLayoutCallback = this.onLayoutCallback.bind(this);
+    this.handleBackPress = this.handleBackPress.bind(this);
     this.onQueensLayoutCallback = this.onQueensLayoutCallback.bind(this);
+
     // This Layout infos of the letter container.
     // Ofsett to determine the cursor pos and the letter pos... Hate it!
+    this.onLayoutCallbackTitleArea = this.onLayoutCallbackTitleArea.bind(this);
     // The whole writing area
     this.onLayoutCallbackWritingArea = this.onLayoutCallbackWritingArea.bind(this);
     // the first inner container
@@ -39,6 +48,9 @@ class ProposalSubmitter extends Component {
     this.queensLayout = null;
     // Will be overwritten by container layout callbacks
     this.writingAreaOffsetY = 0;
+    this.titleAreaOffsetY = 0;
+    this.oldDx = 0.0;
+    this.oldDy = 0.0;
     this.writingArea1OffsetY = 0;
     this.writingArea2OffsetY = 0;
     this.dummyDx = 0;
@@ -59,8 +71,10 @@ class ProposalSubmitter extends Component {
     this.dragQueenIndex = -1;
     this.waitForCursorLayout = false;
     this.tickerId = null;
+    this.oldCurserIndex = -1;
+    this.cursorTime = 0;
     this.state = {
-      ...this.setInitialLetters(),
+      ...this.setInitialLetters(this.props.ownProposal),
       // Type of the dragged Queen. 0: writing area, 1: Keyboard
       // Index in the arrays of letters (Keybard or TextWritingarea)
       dragQueenOffset: new Animated.ValueXY({ x: 0, y: 0 }), // dx & dy of a dragQueen
@@ -68,6 +82,7 @@ class ProposalSubmitter extends Component {
       scaleDragQueen: new Animated.Value(1), // JUst to animate the queen.
       colorScale: new Animated.Value(0),
       colorFrom: colorKeyBoard,
+      submitView: false,
     };
 
     this.panResponder = this.createPanResponder();
@@ -183,6 +198,9 @@ class ProposalSubmitter extends Component {
   }
 
   // Layoutcallbacks
+  onLayoutCallbackTitleArea(event) {
+    this.titleAreaOffsetY = 0; // event.nativeEvent.layout.height;
+  }
   onLayoutCallbackWritingArea(event) {
     this.writingAreaOffsetY = event.nativeEvent.layout.height;
   }
@@ -210,21 +228,31 @@ class ProposalSubmitter extends Component {
         }
       }
     }
+
     this.layoutLetters[key] = event.nativeEvent.layout;
   }
   onQueensLayoutCallback(event) {
     this.queensLayout = event.nativeEvent.layout;
   }
 
-  setInitialLetters() {
+  setInitialLetters(ownProposal = '') {
     // all letters from challenge
     const letters = this.props.challenge.letters;
-    const lettersProperties = [];
+    const lettersKeyboard = [];
+
     // convert them
     for (let i = 0, len = letters.length; i < len; i += 1) {
-      lettersProperties.push({ character: letters[i], key: i, opacity: 1, cursor: false });
+      const letter = letters[i];
+      const letterObj = {
+        character: letter,
+        key: i,
+        opacity: 1,
+        cursor: false,
+        space: false,
+      };
+      lettersKeyboard.push(letterObj);
     }
-    lettersProperties.push({
+    lettersKeyboard.push({
       character: ' ',
       key: letters.length,
       opacity: 1,
@@ -232,10 +260,31 @@ class ProposalSubmitter extends Component {
       cursor: false,
     });
 
-    // insert them to the array of actually used letters
-    const lettersKeyboard = lettersProperties;
-    // JUst not to have an empty writing area DELETE THIS AFTERWARTS
+    let nextKey = letters.length + 1;
     const lettersWritingArea = [];
+    for (let i = 0, len = ownProposal.length; i < len; i += 1) {
+      const letter = ownProposal[i];
+      for (let j = 0; j < lettersKeyboard.length; j += 1) {
+        const keyboardLetter = lettersKeyboard[j].character;
+        if (keyboardLetter === letter) {
+          if (letter !== ' ') {
+            const myLetter = lettersKeyboard.splice(j, 1)[0];
+            lettersWritingArea.push(myLetter);
+            break;
+          } else {
+            lettersWritingArea.push({
+              character: ' ',
+              key: nextKey,
+              opacity: 1,
+              space: true,
+              cursor: false,
+            });
+            nextKey += 1;
+            break;
+          }
+        }
+      }
+    }
     // No letter is dragged at the beginning
     const dragQueen = null;
     const res = {
@@ -266,7 +315,11 @@ class ProposalSubmitter extends Component {
       const key = letter.key;
       if (!this.layoutLetters[key]) return null;
       x = this.layoutLetters[key].x;
-      y = this.layoutLetters[key].y + this.writingArea1OffsetY + this.writingArea2OffsetY;
+      y =
+        this.layoutLetters[key].y +
+        this.writingArea1OffsetY +
+        this.writingArea2OffsetY +
+        this.titleAreaOffsetY;
       width = this.layoutLetters[key].width;
       // recenter if letter is space;
       if (letter.space) {
@@ -281,7 +334,7 @@ class ProposalSubmitter extends Component {
       const key = this.state.lettersKeyboard[index].key;
       if (!this.layoutLetters[key]) return null;
       x = this.layoutLetters[key].x;
-      y = this.layoutLetters[key].y + this.writingAreaOffsetY;
+      y = this.layoutLetters[key].y + this.writingAreaOffsetY + this.titleAreaOffsetY;
       width = this.layoutLetters[key].width;
     }
     return { x, y, width };
@@ -301,6 +354,12 @@ class ProposalSubmitter extends Component {
     if (!this.state.dragQueen) {
       console.log('NO DRAG QUEEN, but SETTIG CURSOR...');
       return;
+    }
+    if (this.oldCurserIndex === index) {
+      const now = new Date().getTime();
+      if (now - this.cursorTime < 200) {
+        return;
+      }
     }
 
     let newState = {};
@@ -408,6 +467,8 @@ class ProposalSubmitter extends Component {
         lettersKeyboard: Array.from(this.state.lettersKeyboard),
       };
     }
+    this.oldCurserIndex = this.cursorIndex;
+    this.cursorTime = new Date().getTime();
     this.cursorIndex = newCursorIndex;
     this.cursorType = newCursorType;
     this.setState({
@@ -424,7 +485,7 @@ class ProposalSubmitter extends Component {
     return -1;
   }
   getTouchZone(posY) {
-    if (posY < this.writingAreaOffsetY) {
+    if (posY < this.writingAreaOffsetY + this.titleAreaOffsetY) {
       return 0;
     }
     return 1;
@@ -435,10 +496,10 @@ class ProposalSubmitter extends Component {
     let offsetY = 0;
     if (touchZone === 0) {
       letterArray = this.state.lettersWritingArea;
-      offsetY = this.writingArea1OffsetY + this.writingArea2OffsetY;
+      offsetY = this.writingArea1OffsetY + this.writingArea2OffsetY + this.titleAreaOffsetY;
     } else if (touchZone === 1) {
       letterArray = this.state.lettersKeyboard;
-      offsetY = this.writingAreaOffsetY;
+      offsetY = this.writingAreaOffsetY + this.titleAreaOffsetY;
     }
     for (let i = 0; i < letterArray.length; i += 1) {
       const key = letterArray[i].key;
@@ -456,44 +517,55 @@ class ProposalSubmitter extends Component {
       const letterH = this.layoutLetters[key].height;
       let letterX2 = letterX1 + letterW;
       const letterY2 = letterY1 + letterH;
-      /* console.log(`${i}: ${letterX1} : ${letterY1}     -    ${letterX2} : ${letterY2}`);
-      console.log(`${posX} : ${posY}`);
-      console.log('   -   '); */
       if (posX >= letterX1 && posX <= letterX2) {
         if (posY >= letterY1 && posY <= letterY2) {
+          /* console.log(`${i}: ${letterX1} : ${letterY1}     -    ${letterX2} : ${letterY2}`);
+          console.log(`${posX} : ${posY}`);
+          console.log('   -   '); */
           // Test if it is a move to direct neighbour.
           // yes => Retest with a protection margin, to avoid blinking
           let blinkProtection = false;
           if (this.cursorType === touchZone) {
-            // To right
             if (!this.testLettersArrayBounds(this.cursorType, this.cursorIndex)) {
               console.log('WHY');
               return -1;
             }
+            // To right
             const cursorKey = letterArray[this.cursorIndex].key;
             if (i === this.cursorIndex + 1) {
               blinkProtection = true;
+              //  console.log('BLINK RIGHT');
               if (!this.layoutLetters[cursorKey]) {
+                //   console.log('NO LAYOUT');
                 return -1;
               }
               const cursorWidth = this.layoutLetters[cursorKey].width;
               letterX1 = letterX2 - cursorWidth;
+              //   console.log(`diff: ${cursorWidth} ${cursorKey}`);
+              //   console.log(`cursorWidth: ${cursorWidth} ${cursorKey}`);
+              //     console.log(
+              //       `NEU: ${i}: ${letterX1} : ${letterY1}     -    ${letterX2} : ${letterY2}`,
+              //     );
               if (posX >= letterX1 && posX <= letterX2) {
                 if (posY >= letterY1 && posY <= letterY2) {
+                  //      console.log('OKAY');
                   return i;
                 }
               }
             }
             // to Left
             if (i === this.cursorIndex - 1) {
+              //     console.log('BLINK LEFT');
               blinkProtection = true;
               if (!this.layoutLetters[cursorKey]) {
+                //      console.log('NO LEYOUT');
                 return -1;
               }
               const cursorWidth = this.layoutLetters[cursorKey].width;
               letterX2 = letterX1 + cursorWidth;
               if (posX >= letterX1 && posX <= letterX2) {
                 if (posY >= letterY1 && posY <= letterY2) {
+                  //        console.log('OKAY');
                   return i;
                 }
               }
@@ -502,6 +574,7 @@ class ProposalSubmitter extends Component {
           if (!blinkProtection) {
             return i;
           }
+          //  console.log('BLINK PROTECTED');
         }
       }
     }
@@ -561,6 +634,16 @@ class ProposalSubmitter extends Component {
       },
       onPanResponderMove: (e, gesture) => {
         try {
+          const deltaX = Math.abs(this.oldDx - gesture.dx);
+          const deltaY = Math.abs(this.oldDy - gesture.dy);
+          //  console.log(`MOVE X ${deltaX} ${this.oldDx - gesture.dx}`);
+          //     console.log(`MOVE Y ${deltaY} ${this.oldDy - gesture.dy}`);
+          if (deltaX < 1 && deltaY < 1) {
+            //     console.log('NO MOVE YET');
+            return;
+          }
+          this.oldDx = gesture.dx;
+          this.oldDy = gesture.dy;
           if (this.dragReleasedButNotFinishedAnimation) {
             console.log('MOVE BUT OLD GESTUR STILL ANIMATES');
             return;
@@ -574,7 +657,7 @@ class ProposalSubmitter extends Component {
             return;
           }
           // absolute Pos.
-
+          // console.log(`${gesture.dx} ${gesture.dy}`);
           const posX = this.touchStartX + gesture.dx;
           const posY = this.touchStartY + gesture.dy;
           const touchZone = this.getTouchZone(posY);
@@ -811,6 +894,10 @@ class ProposalSubmitter extends Component {
     this.waitForState = false;
     this.dummyDx = 0;
     this.dummyDy = 0;
+    this.oldDx = 0.0;
+    this.oldDy = 0.0;
+    this.oldCurserIndex = -1;
+    this.cursorTime = 0;
     if (this.tickerId) {
       clearInterval(this.tickerId);
       this.tickerId = null;
@@ -866,9 +953,31 @@ class ProposalSubmitter extends Component {
     return true;
   }
   submitPressed() {
-    let answer = '';
-
     this.cleanSpaces(true);
+    if (this.state.lettersWritingArea.length === 0) {
+      return;
+    }
+    this.setState({ submitView: true });
+  }
+
+  handleBackPress(submitView) {
+    if (!submitView) {
+      let answer = '';
+
+      this.cleanSpaces(true);
+      for (let i = 0; i < this.state.lettersWritingArea.length; i += 1) {
+        answer += this.state.lettersWritingArea[i].character;
+      }
+      if (this.checkAnswer(answer)) {
+        this.props.dispatch(setOwnProposal(this.props.selectedChallengeId, answer, false, false));
+      }
+      popProposalSubmitter(this.props);
+    } else {
+      this.setState({ submitView: false });
+    }
+  }
+  handleSubmitConfirmedPress() {
+    let answer = '';
     for (let i = 0; i < this.state.lettersWritingArea.length; i += 1) {
       answer += this.state.lettersWritingArea[i].character;
     }
@@ -877,54 +986,105 @@ class ProposalSubmitter extends Component {
       console.log('NOPE');
       this.setState(this.setInitialLetters());
       this.resetEverything(false);
+      this.setState({ submitView: false });
       return;
     }
     console.log('submitting...');
     postProposalServiceProxy(this.props.challenge._id, answer);
   }
-
   render() {
+    I18n.locale = this.props.language;
     const title = this.props.challenge.title[this.props.language];
+    let pangestures = {};
+    let draggableLetter = null;
+    let keyboard = null;
+    let submitText = null;
+    let submitButton = null;
+    let submitYesNo = null;
+
+    if (!this.state.submitView) {
+      pangestures = { ...this.panResponder.panHandlers };
+      draggableLetter = (
+        <DraggableLetter
+          {...this.state.dragQueen}
+          type={2}
+          colorFrom={this.state.colorFrom}
+          colorScale={this.state.colorScale}
+          scaleDragQueen={this.state.scaleDragQueen}
+          dragQueenOffset={this.state.dragQueenOffset}
+          dragQueenPos={this.state.dragQueenPos}
+          layoutCallback={this.onQueensLayoutCallback}
+        />
+      );
+      keyboard = (
+        <Keyboard
+          letterColor={colorKeyBoard}
+          spaceColor={colorSpace}
+          layoutCallback={this.onLayoutCallback}
+          letters={this.state.lettersKeyboard}
+        />
+      );
+
+      submitButton = (
+        <TouchableOpacity onPress={this.submitPressed}>
+          <View style={styles.submitButton}>
+            <Text style={styles.submitButtonText}>
+              {I18n.t('submit_button').toUpperCase()}
+            </Text>
+          </View>
+        </TouchableOpacity>
+      );
+    } else {
+      submitText = <SubmitText />;
+      submitYesNo = (
+        <View style={styles.yesNoContainer}>
+          <TouchableOpacity
+            style={styles.yesButton}
+            onPress={() => this.handleSubmitConfirmedPress(this.state.submitView)}
+          >
+            <Text style={styles.submitButtonText}>
+              {I18n.t('submit_yes').toUpperCase()}
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.noButton}
+            onPress={() => this.handleBackPress(this.state.submitView)}
+          >
+            <Text style={styles.submitButtonText}>
+              {I18n.t('submit_no').toUpperCase()}
+            </Text>
+          </TouchableOpacity>
+        </View>
+      );
+    }
     return (
       <View style={styles.container}>
-        <View
-          pointerEvents="box-only"
-          {...this.panResponder.panHandlers}
-          style={styles.dragContainer}
-        >
-          {/* BackButton */}
+        <View style={styles.titleContainer}>
+          <TouchableOpacity onPress={() => this.handleBackPress(this.state.submitView)}>
+            <Text style={styles.backStyle}>
+              {'<'}
+            </Text>
+          </TouchableOpacity>
+          <Text style={styles.title}>
+            {title.toUpperCase()}
+          </Text>
+        </View>
+        <View pointerEvents="box-only" {...pangestures} style={styles.dragContainer}>
           <WritingArea
             letterColor={colorWriteArea}
             layoutCallback={this.onLayoutCallback}
             onLayoutCallbackWritingArea={this.onLayoutCallbackWritingArea}
             onLayoutCallbackWritingArea1={this.onLayoutCallbackWritingArea1}
             onLayoutCallbackWritingArea2={this.onLayoutCallbackWritingArea2}
-            title={title}
             letters={this.state.lettersWritingArea}
           />
-          <Keyboard
-            letterColor={colorKeyBoard}
-            spaceColor={colorSpace}
-            layoutCallback={this.onLayoutCallback}
-            letters={this.state.lettersKeyboard}
-          />
-          <DraggableLetter
-            {...this.state.dragQueen}
-            type={2}
-            colorFrom={this.state.colorFrom}
-            colorScale={this.state.colorScale}
-            scaleDragQueen={this.state.scaleDragQueen}
-            dragQueenOffset={this.state.dragQueenOffset}
-            dragQueenPos={this.state.dragQueenPos}
-            layoutCallback={this.onQueensLayoutCallback}
-          />
+          {submitText}
+          {keyboard}
+          {draggableLetter}
         </View>
         <View style={styles.submitContainer}>
-          <TouchableOpacity onPress={this.submitPressed} style={styles.submitButton}>
-            <Text style={styles.submitButtonText}>
-              {'Submit'.toUpperCase()}
-            </Text>
-          </TouchableOpacity>
+          {submitButton}
+          {submitYesNo}
         </View>
       </View>
     );
@@ -934,8 +1094,19 @@ class ProposalSubmitter extends Component {
 const mapStateToProps = (state) => {
   try {
     const language = state.globals.language;
+    const selectedChallengeId = state.challenges.selectedChallengeId;
+    const challenges = state.user.challenges;
+    let ownProposal = '';
+    if (challenges) {
+      const challenge = challenges[selectedChallengeId];
+      if (challenge) {
+        ownProposal = challenge.ownProposal;
+      }
+    }
     return {
       language,
+      ownProposal,
+      selectedChallengeId,
     };
   } catch (e) {
     console.log('ProposalSubmitter');

@@ -30,9 +30,11 @@ Meteor.startup(() => {
 
   // Always update default SystemConfig
   console.log("resetting default config in db")
+  // TODO: just upsert the values!!
   const defaultSystemConfig = SystemConfigSchema.clean({});
+  const previous = SystemConfig.findOne({ name: 'default' }, { fields: { active: 1 } });
   SystemConfig.remove({ name: 'default' })
-  SystemConfig.insert(defaultSystemConfig, ...{ name: "default" })
+  SystemConfig.insert(defaultSystemConfig, ...{ name: "default", active: previous.active })
   /*SystemConfig.rawCollection().replaceOne({ name: 'default' }, defaultSystemConfig, {
     upsert: true,
   });*/
@@ -69,7 +71,7 @@ Meteor.startup(() => {
         (err, id) => {
           if (id != undefined) {
             console.log('Seeding Proposals');
-            const amount = 150 + 10 * Math.floor(10 * Math.random());
+            const amount = 10 * Math.floor(10 * Math.random());
             for (let j = 1; j <= amount; j++) {
               Proposals.insert({
                 _id: `fixture_${i}_${j}`,
@@ -80,7 +82,9 @@ Meteor.startup(() => {
                 score_trending: 0,
                 yes_votes: 0,
                 no_votes: 0,
-                origin_id: OriginId.generateFromString(`fixture_player_${j}`),
+                in_review: false,
+                blocked: false,
+                origin_ids: [OriginId.generateFromString(`fixture_player_${j}`)],
               });
             }
           }

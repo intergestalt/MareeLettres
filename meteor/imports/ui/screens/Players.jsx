@@ -31,8 +31,6 @@ class PlayersPage extends Component {
 
   render() {
 
-    console.log(this.props.players)
-
     const columns = [{
       Header: 'Player',
       accessor: 'origin_id',
@@ -72,7 +70,6 @@ class PlayersPage extends Component {
 }
 
 export default createContainer((props) => {
-  console.log(this);
   Meteor.subscribe('get.players', {
     limit: Session.get('playersListLimit'),
     fields: { origin_id: 1, _id: 1, last_seen: 1, created_at: 1, primary_letter: 1, secondary_letters: 1 },

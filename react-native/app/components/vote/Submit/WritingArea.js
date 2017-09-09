@@ -8,7 +8,6 @@ import styles from './styles';
 
 class WritingArea extends Component {
   static propTypes = {
-    title: PropTypes.string,
     language: PropTypes.string,
     letterColor: PropTypes.string,
     letters: PropTypes.array,
@@ -43,9 +42,6 @@ class WritingArea extends Component {
         onLayout={event => this.props.onLayoutCallbackWritingArea(event)}
         style={styles.writingArea}
       >
-        <Text style={styles.title}>
-          {this.props.title.toUpperCase()}
-        </Text>
         <View
           onLayout={event => this.props.onLayoutCallbackWritingArea1(event)}
           style={styles.writingAreaContentContainer}
