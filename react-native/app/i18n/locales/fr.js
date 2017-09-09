@@ -46,4 +46,7 @@ export default {
   take_picture: 'Take picture FR',
   see_all_votes: 'See all votes FR',
   hide_all_votes: 'Hide all votes FR',
+  submit_alert: 'You may only submit one answer per vote. Are you sure you want to submit? FR',
+  submit_yes: 'Oui',
+  submit_no: 'Non',
 };
