@@ -13,7 +13,7 @@ class ReviewPanel extends Component {
       const accepted = (!proposal.blocked && !proposal.in_review);
       const rejected = (proposal.blocked);
       return (
-        <li key={proposal._id}>
+        <li key={proposal._id} className="reviewPanel__entry">
           <div className="reviewPanel__proposalInfo">
             <tt className="proposal_text impact">{proposal.text}</tt>
             <a className="proposal_origin" href="">
@@ -35,8 +35,8 @@ class ReviewPanel extends Component {
   render() {
     return (
       <div className="reviewPanel">
-        <h3>{this.props.name}</h3>
-        <ul>
+        <h3 className="reviewPanel__title">{this.props.name}</h3>
+        <ul className="reviewPanel__panel">
           {this.listItems(this.props.proposals)}
         </ul>
       </div >

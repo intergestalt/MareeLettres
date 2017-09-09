@@ -33,8 +33,9 @@ Meteor.startup(() => {
   // TODO: just upsert the values!!
   const defaultSystemConfig = SystemConfigSchema.clean({});
   const previous = SystemConfig.findOne({ name: 'default' }, { fields: { active: 1 } });
+  const active = previous ? previous.active : true;
   SystemConfig.remove({ name: 'default' })
-  SystemConfig.insert(defaultSystemConfig, ...{ name: "default", active: previous.active })
+  SystemConfig.insert(defaultSystemConfig, ...{ name: "default", active })
   /*SystemConfig.rawCollection().replaceOne({ name: 'default' }, defaultSystemConfig, {
     upsert: true,
   });*/
