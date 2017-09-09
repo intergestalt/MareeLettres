@@ -64,6 +64,7 @@ export const DYNAMIC_CONFIG = {
   UPDATE_PROPOSALS_AFTER: null,
   UPDATE_CONTENT_AFTER: null,
   SEND_INTERNAL_VOTES_AFTER: null,
+  DISPLAY_NEXT_NETWORK_ERROR_AFTER: null,
 
   // Twitter
   // Twitter API

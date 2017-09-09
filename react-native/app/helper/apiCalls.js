@@ -88,7 +88,6 @@ export const callProposals = (action) => {
     url = `${config.API_PREFIX}challenges/${action.challengeId}/proposals?limit=${action.limit}&sort=trending`;
   }
   console.log('API CALL: callProposals');
-  // url = 'http://www.magazinredaktion.tk/timeout.php';
   return getPromiseGET(url);
 };
 

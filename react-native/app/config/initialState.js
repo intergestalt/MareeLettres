@@ -49,6 +49,8 @@ export default {
       update_proposals_after: 100000,
       update_content_after: 100000,
       send_internal_votes_after: 10000,
+
+      display_next_network_error_after: 30000,
     },
   },
   globals: {
