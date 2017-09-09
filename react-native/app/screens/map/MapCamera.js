@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { Screen } from '../../components/general/Container';
 import { TabBar } from '../../components/general/TabBar';
 
-import { NativeCamera } from '../../components/map/Camera';
+import ExpoCamera from '../../components/map/Camera/ExpoCamera.js';
 
 class MapCamera extends Component {
   static navigationsOptions = {
@@ -20,7 +20,7 @@ class MapCamera extends Component {
     return (
       <Screen navigation={this.props.navigation} backgroundColor={'#00aaaa'}>
         <StatusBar />
-        <NativeCamera navigation={this.props.navigation} />
+        <ExpoCamera navigation={this.props.navigation} />
       </Screen>
     );
   }

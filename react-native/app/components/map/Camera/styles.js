@@ -2,33 +2,51 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 import { Dimensions } from 'react-native';
 
 export default EStyleSheet.create({
-  QRReader: {
-    height: Dimensions.get('window').height,
-    width: Dimensions.get('window').width,
-    position: 'absolute',
-    zIndex: -1
+
+  mainView: {
+    flex: 1,
+    backgroundColor: 'gray'
   },
-  container: {
+  cameraContainer: { 
+    flex: 0.8, 
+    backgroundColor: 'transparent' 
+  },
+  controls: {
+    position: 'absolute',
+    bottom: 0,
+    backgroundColor: 'transparent',
+    flexDirection: 'row',
+  },
+  button: {
+    flex: 0.2,
+    alignItems: 'center',
+  },
+  buttonText: { 
+    fontSize: 18, 
+    color: 'white',
+    fontFamily: 'impact' 
+  },
+  photoContainer: {
+    flex: 1,
+    backgroundColor: 'transparent',
+    zIndex: 1
+  },
+  overlayDummy: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    fontSize: 24, 
+    color: 'white',
+    fontFamily: 'impact', 
+    zIndex: 3 
+  },
+  photo: {
     flex: 1,
     width: '100%',
     height: '100%',
-  },
-  preview: {
-
-  },
-  take__button: {
-    position: 'absolute',
-    bottom: '0%',
-    right: '0%',
     backgroundColor: 'transparent',
-    padding: 10,
-  },
-
-  take__button__text: {
-    fontWeight: 'bold',
-    color: 'white',
-    fontSize: '2rem',
-  },
+    zIndex: 2
+  }
 
 
 });
