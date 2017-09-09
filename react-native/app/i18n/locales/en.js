@@ -44,4 +44,5 @@ export default {
   camera_button: 'Camera',
   choose_your_letter: 'Choose Your Letter',
   take_picture: 'Take picture',
+  see_all_votes: 'See all votes',
 };

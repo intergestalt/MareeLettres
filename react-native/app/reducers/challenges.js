@@ -132,10 +132,10 @@ export default (state = initialState.challenges, action) => {
               let newProposaListMode = PROPOSAL_LIST_MODES.MOST;
               let newOwnProposal = '';
               if (myChallenge.proposalView) {
-                newProposalView = myChallenges.proposalView;
+                newProposalView = myChallenge.proposalView;
               }
               if (myChallenge.proposalListMode) {
-                newProposaListMode = myChallenges.proposalListMode;
+                newProposaListMode = myChallenge.proposalListMode;
               }
               if (myChallenge.ownProposal) {
                 newOwnProposal = myChallenge.ownProposal;

@@ -1,13 +1,7 @@
 import Expo from 'expo';
 import { OriginId, systemConfigInitial } from 'maree-lettres-shared';
 
-import {
-  PROPOSAL_LIST_MODES,
-  CHALLENGE_VIEWS,
-  PROPOSAL_VIEWS,
-  SCREENS,
-  MAP_VIEWS,
-} from '../consts';
+import { CHALLENGE_VIEWS, SCREENS, MAP_VIEWS } from '../consts';
 
 const originId = OriginId.generateFromDeviceId(Expo.Constants.deviceId);
 const sampleDate = new Date().toISOString();
@@ -64,6 +58,7 @@ export default {
     language: null,
     screen: SCREENS.VOTE,
     mapView: MAP_VIEWS.OVERVIEW,
+    showAllFinishedChallenges: false,
   },
 
   user: {

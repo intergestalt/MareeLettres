@@ -6,6 +6,7 @@ import {
   SET_NET_WORK_ERROR,
   SET_SCREEN,
   SET_MAP_VIEW,
+  SET_SHOW_ALL_FINISHED_CHALLENGES,
 } from '../actions/general';
 
 import initialState from '../config/initialState';
@@ -59,6 +60,11 @@ export default (state = initialState.globals, action) => {
       }
       case SET_MAP_VIEW: {
         const result = { ...state, mapView: action.mapView };
+        saveGlobalsToStorage(result);
+        return result;
+      }
+      case SET_SHOW_ALL_FINISHED_CHALLENGES: {
+        const result = { ...state, showAllFinishedChallenges: action.yes };
         saveGlobalsToStorage(result);
         return result;
       }

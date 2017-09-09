@@ -11,14 +11,17 @@ import { startChallengeTicker } from '../../../helper/ticker';
 import { listIsEmpty } from '../../../helper/helper';
 import { loadChallengesServiceProxy, loadUserServiceProxy } from '../../../helper/apiProxy';
 import { CHALLENGE_VIEWS } from '../../../consts';
+import { setShowAllFinishedChallenges } from '../../../actions/general';
+import { isFinished } from '../../../helper/dateFunctions';
 
 class ChallengesList extends PureComponent {
   static propTypes = {
     isLoading: PropTypes.bool,
     language: PropTypes.string,
     challenges: PropTypes.array,
-    // challengesTicker: PropTypes.object,
+    dispatch: PropTypes.func,
     isDefaultUser: PropTypes.bool,
+    showAllFinishedChallenges: PropTypes.bool,
   };
   constructor(props) {
     super(props);
@@ -37,9 +40,15 @@ class ChallengesList extends PureComponent {
     }
     return answer;
   }
+
   handlePressRow = (item) => {
     console.log(`handlePressRow ${item.id}`);
     navigateToChallengeSelector(this.props, item.id);
+  };
+
+  handlePressShowAll = () => {
+    console.log('handle showAll');
+    this.props.dispatch(setShowAllFinishedChallenges(true));
   };
 
   renderIsLoading() {
@@ -64,7 +73,16 @@ class ChallengesList extends PureComponent {
       </View>
     );
   }
-
+  getAnswerImgUrl(myChallenge) {
+    let url = null;
+    if (myChallenge) {
+      url = myChallenge.winningProposalDetailImageUrl;
+      if (!url || url.trim() === '') {
+        url = null;
+      }
+    }
+    return url;
+  }
   handleReloadUserPressPress = () => {
     loadUserServiceProxy(true);
   };
@@ -90,31 +108,73 @@ class ChallengesList extends PureComponent {
     }
 
     const language = this.props.language;
-    const listData = new Array(this.props.challenges.length);
+    const listData = [];
+    let countFinished = 0;
+    let index = 0;
+    let firstFinshedIndex = -1;
+    let lastFinshedIndex = -1;
+    for (let i = 0; i < this.props.challenges.length; i += 1) {
+      const myChallenge = this.props.challenges[i];
+      if (isFinished(myChallenge)) {
+        if (firstFinshedIndex === -1) {
+          firstFinshedIndex = i;
+        }
+        lastFinshedIndex = i;
+        countFinished += 1;
+      }
+    }
+
+    const takeLast = true;
 
     for (let i = 0; i < this.props.challenges.length; i += 1) {
       const myChallenge = this.props.challenges[i];
+      let add = true;
+      if (!this.props.showAllFinishedChallenges) {
+        if (isFinished(myChallenge)) {
+          add = false;
+          if (takeLast && lastFinshedIndex === i) {
+            add = true;
+          } else if (!takeLast && firstFinshedIndex === i) {
+            add = true;
+          }
+        }
+      }
 
-      listData[i] = {
-        id: myChallenge._id,
-        index: i,
-        voteNum: myChallenge.voteNum,
-        title: myChallenge.title[language],
-        answer: this.getAnswer(myChallenge),
-      };
+      if (add) {
+        listData[index] = {
+          id: myChallenge._id,
+          index,
+          voteNum: myChallenge.voteNum,
+          title: myChallenge.title[language],
+          answer: this.getAnswer(myChallenge),
+          url: this.getAnswerImgUrl(myChallenge),
+        };
+        index += 1;
+      }
+    }
+    let header = null;
+    if (countFinished === 0) {
+      header = <ChallengesListHeaderImg />;
+    }
+    let oneFished = false;
+    if (countFinished === 1) {
+      oneFished = true;
     }
 
     return (
       <View style={styles.container}>
-        <ChallengesListHeaderImg disabled={false} />
+        {header}
         <FlatList
           data={listData}
           renderItem={({ item }) =>
             <ChallengesListItem
+              oneFinished={oneFished}
+              showAll={this.props.showAllFinishedChallenges}
               language={this.props.language}
               data={item}
               callerViewMode={CHALLENGE_VIEWS.LIST}
               onPress={() => this.handlePressRow(item)}
+              onShowAllPress={() => this.handlePressShowAll()}
             />}
           keyExtractor={item => item.id}
           ItemSeparatorComponent={Separator}
@@ -129,12 +189,14 @@ const mapStateToProps = (state) => {
     const challenges = state.challenges.challenges;
     const isLoading = state.challenges.isLoading;
     const language = state.globals.language;
+    const showAllFinishedChallenges = state.globals.showAllFinishedChallenges;
     const isDefaultUser = state.user.isDefaultUser;
     return {
       challenges,
       isLoading,
       language,
       isDefaultUser,
+      showAllFinishedChallenges,
     };
   } catch (e) {
     console.log('ChallengesList');

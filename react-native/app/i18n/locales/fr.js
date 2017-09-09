@@ -44,4 +44,5 @@ export default {
   camera_button: 'Camera FR',
   choose_your_letter: 'Choose Your Letter FR',
   take_picture: 'Take picture FR',
+  see_all_votes: 'See all votes FR',
 };

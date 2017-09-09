@@ -4,12 +4,9 @@ import styles from './styles';
 import { DYNAMIC_CONFIG } from '../../../config/config';
 
 class ChallengesListHeaderImg extends Component {
-  static propTypes = { disabled: PropTypes.bool };
+  static propTypes = {};
 
   render() {
-    if (this.props.disabled) {
-      return <View />;
-    }
     return (
       <View style={styles.listHeaderContainer}>
         <Image

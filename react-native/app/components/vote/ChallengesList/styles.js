@@ -1,5 +1,4 @@
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { StyleSheet } from 'react-native';
 
 const styles = EStyleSheet.create({
   $challengeListBackgroundColor: '#E6E6E6',
@@ -29,6 +28,7 @@ const styles = EStyleSheet.create({
     alignItems: 'center',
     flexDirection: 'column',
   },
+
   title: {
     color: '$textColor',
     fontSize: '1rem',
@@ -70,6 +70,49 @@ const styles = EStyleSheet.create({
   imageStye: {
     flex: 1,
     width: '100%',
+  },
+  imageStyeList: {
+    flex: 1,
+    width: '100%',
+  },
+  imageListContainer: {
+    backgroundColor: 'mangenta',
+    paddingTop: '1rem',
+    paddingBottom: 0,
+    height: '10rem',
+  },
+
+  showAllButtonContainer: { backgroundColor: 'black', width: '100%' },
+  showAllButton: {
+    height: '3.5rem',
+    paddingTop: '0.4rem',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  showAllButtonText: {
+    fontSize: '1rem',
+    fontFamily: 'normal',
+    textAlign: 'center',
+    color: 'white',
+  },
+  winningInnerContainer: {
+    backgroundColor: 'transparent',
+    justifyContent: 'center',
+    alignItems: 'center',
+    flex: 1,
+  },
+  winningText: {
+    paddingLeft: '1rem',
+    paddingRight: '1rem',
+    width: '100%',
+    backgroundColor: 'transparent',
+    color: 'white',
+    alignItems: 'center',
+    justifyContent: 'center',
+    fontFamily: 'impact',
+    fontSize: '2rem',
+    textAlign: 'center',
+    bottom: 0,
   },
 });
 

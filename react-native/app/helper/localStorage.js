@@ -91,6 +91,7 @@ function cleanGlobals(globals) {
   item.networkErrorMessageKey = null;
   item.screen = SCREENS.VOTE;
   item.mapView = MAP_VIEWS.OVERVIEW;
+  item.showAllFinishedChallenges = false;
   return item;
 }
 
