@@ -8,7 +8,7 @@ export default EStyleSheet.create({
     backgroundColor: 'gray'
   },
   cameraContainer: { 
-    flex: 0.8, 
+    flex: 1, 
     backgroundColor: 'transparent' 
   },
   controls: {
@@ -16,6 +16,7 @@ export default EStyleSheet.create({
     bottom: 0,
     backgroundColor: 'transparent',
     flexDirection: 'row',
+    zIndex: 3
   },
   button: {
     flex: 0.2,
