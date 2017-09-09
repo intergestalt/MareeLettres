@@ -10,7 +10,7 @@ import { getDuration } from '../../../helper/helper';
 import { postProposalServiceProxy } from '../../../helper/apiProxy';
 import I18n from '../../../i18n/i18n';
 import { popProposalSubmitter } from '../../../helper/navigationProxy';
-import { setOwnProposal } from '../../../actions/challenges';
+import { setOwnProposal } from '../../../actions/user';
 
 const colorWriteArea = '#FFFFFF';
 const colorKeyBoard = '#000000';
@@ -22,7 +22,7 @@ class ProposalSubmitter extends Component {
     language: PropTypes.string,
     dispatch: PropTypes.func,
     ownProposal: PropTypes.string,
-    selectedChallengeIndex: PropTypes.number,
+    selectedChallengeId: PropTypes.string,
   };
 
   constructor(props) {
@@ -969,7 +969,7 @@ class ProposalSubmitter extends Component {
         answer += this.state.lettersWritingArea[i].character;
       }
       if (this.checkAnswer(answer)) {
-        this.props.dispatch(setOwnProposal(this.props.selectedChallengeIndex, answer));
+        this.props.dispatch(setOwnProposal(this.props.selectedChallengeId, answer, false, false));
       }
       popProposalSubmitter(this.props);
     } else {
@@ -1094,13 +1094,19 @@ class ProposalSubmitter extends Component {
 const mapStateToProps = (state) => {
   try {
     const language = state.globals.language;
-    const selectedChallengeIndex = state.challenges.selectedChallengeIndex;
-    const challenge = state.challenges.challenges[selectedChallengeIndex];
-    const ownProposal = challenge.ownProposal;
+    const selectedChallengeId = state.challenges.selectedChallengeId;
+    const challenges = state.user.challenges;
+    let ownProposal = '';
+    if (challenges) {
+      const challenge = challenges[selectedChallengeId];
+      if (challenge) {
+        ownProposal = challenge.ownProposal;
+      }
+    }
     return {
       language,
       ownProposal,
-      selectedChallengeIndex,
+      selectedChallengeId,
     };
   } catch (e) {
     console.log('ProposalSubmitter');

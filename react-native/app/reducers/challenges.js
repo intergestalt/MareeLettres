@@ -11,7 +11,6 @@ import {
   SET_PROPOSAL_LIST_MODE,
   SET_CHALLENGES_IS_LOADING_FROM_STORAGE,
   SET_CHALLENGES,
-  SET_OWN_PROPOSAL,
 } from '../actions/challenges';
 import { DEV_CONFIG } from '../config/config';
 import { saveChallengesToStorage } from '../helper/localStorage';
@@ -51,12 +50,10 @@ export default (state = initialState.challenges, action) => {
           const entry = action.result.challenges[i];
           let newProposalView = PROPOSAL_VIEWS.TINDER;
           let newProposaListMode = PROPOSAL_LIST_MODES.MOST;
-          let newOwnProposal = '';
           const oldChallenge = getChallengeFromId(oldChallenges, entry._id);
           if (oldChallenge) {
             newProposalView = oldChallenge.proposalView;
             newProposaListMode = oldChallenge.proposalListMode;
-            newOwnProposal = oldChallenge.ownProposal;
           }
           if (DEV_CONFIG.USE_CUSTOM_END_DATE) {
             if (entry._id === DEV_CONFIG.CUSTOM_END_DATE_ID) {
@@ -69,7 +66,6 @@ export default (state = initialState.challenges, action) => {
             ...entry,
             proposalView: newProposalView,
             proposalListMode: newProposaListMode,
-            ownProposal: newOwnProposal,
             isLoading: false,
             isInternalLoading: false,
             voteNum: i + 1,
@@ -130,15 +126,11 @@ export default (state = initialState.challenges, action) => {
             if (action.result.challenges.length > 0) {
               let newProposalView = PROPOSAL_VIEWS.TINDER;
               let newProposaListMode = PROPOSAL_LIST_MODES.MOST;
-              let newOwnProposal = '';
               if (myChallenge.proposalView) {
                 newProposalView = myChallenge.proposalView;
               }
               if (myChallenge.proposalListMode) {
                 newProposaListMode = myChallenge.proposalListMode;
-              }
-              if (myChallenge.ownProposal) {
-                newOwnProposal = myChallenge.ownProposal;
               }
               challengeIndex = i;
               challengeId = myChallenge._id;
@@ -149,7 +141,6 @@ export default (state = initialState.challenges, action) => {
                 isInternalLoading: false,
                 proposalView: newProposalView,
                 proposalListMode: newProposaListMode,
-                ownProposal: newOwnProposal,
               };
               if (DEV_CONFIG.USE_CUSTOM_END_DATE) {
                 if (myChallenge._id === DEV_CONFIG.CUSTOM_END_DATE_ID) {
@@ -278,18 +269,7 @@ export default (state = initialState.challenges, action) => {
       case SET_CHALLENGES_IS_LOADING_FROM_STORAGE: {
         return { ...state, challengesIsLoadingFromStorage: action.yes };
       }
-      case SET_OWN_PROPOSAL: {
-        const myChallenges = Array.from(state.challenges);
-        const myChallenge = myChallenges[action.challengeIndex];
-        myChallenge.ownProposal = action.string;
 
-        const result = {
-          ...state,
-          challenges: myChallenges,
-        };
-        saveChallengesToStorage(result);
-        return result;
-      }
       default:
         return state;
     }
