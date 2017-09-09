@@ -4,14 +4,12 @@ import { popChallengeSelector } from './navigationProxy';
 
 import { CHALLENGE_VIEWS } from '../consts';
 import { setChallengeId } from '../actions/challenges';
-import { setShowAllFinishedChallenges } from '../actions/general';
 
 import { DYNAMIC_CONFIG } from '../config/config';
 
 export function manageChallenges(props) {
   // Always
   loadChallengesServiceProxy(false, DYNAMIC_CONFIG.LOAD_QUIET_CHALLENGES_LIST.bool);
-  store.dispatch(setShowAllFinishedChallenges(false));
   if (store.getState().challenges.challengeView === CHALLENGE_VIEWS.LIST) {
     // Reset State
     store.dispatch(setChallengeId(null, props));

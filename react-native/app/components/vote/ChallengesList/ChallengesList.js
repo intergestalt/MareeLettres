@@ -27,6 +27,8 @@ class ChallengesList extends PureComponent {
     super(props);
     this.handleReloadUserPressPress = this.handleReloadUserPressPress.bind(this);
     this.handleReloadChallengesPressPress = this.handleReloadChallengesPressPress.bind(this);
+    this.handlePressShowAll = this.handlePressShowAll.bind(this);
+    this.handlePressHideAll = this.handlePressHideAll.bind(this);
   }
   componentDidMount() {
     startChallengeTicker(this.props);
@@ -49,6 +51,10 @@ class ChallengesList extends PureComponent {
   handlePressShowAll = () => {
     console.log('handle showAll');
     this.props.dispatch(setShowAllFinishedChallenges(true));
+  };
+  handlePressHideAll = () => {
+    console.log('handle hideAll');
+    this.props.dispatch(setShowAllFinishedChallenges(false));
   };
 
   renderIsLoading() {
@@ -141,6 +147,10 @@ class ChallengesList extends PureComponent {
       }
 
       if (add) {
+        let last = false;
+        if (i === lastFinshedIndex) {
+          last = true;
+        }
         listData[index] = {
           id: myChallenge._id,
           index,
@@ -148,6 +158,7 @@ class ChallengesList extends PureComponent {
           title: myChallenge.title[language],
           answer: this.getAnswer(myChallenge),
           url: this.getAnswerImgUrl(myChallenge),
+          last,
         };
         index += 1;
       }
@@ -175,6 +186,7 @@ class ChallengesList extends PureComponent {
               callerViewMode={CHALLENGE_VIEWS.LIST}
               onPress={() => this.handlePressRow(item)}
               onShowAllPress={() => this.handlePressShowAll()}
+              onHideAllPress={() => this.handlePressHideAll()}
             />}
           keyExtractor={item => item.id}
           ItemSeparatorComponent={Separator}

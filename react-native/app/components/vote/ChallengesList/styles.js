@@ -110,7 +110,7 @@ const styles = EStyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     fontFamily: 'impact',
-    fontSize: '2rem',
+    fontSize: '1.5rem',
     textAlign: 'center',
     bottom: 0,
   },

@@ -33,15 +33,6 @@ class ChallengeHeadInactive extends Component {
     }
     let containerStyle = styles._row;
 
-    let answer = null;
-    if (this.props.data.answer) {
-      answer = (
-        <Text style={styles.answer}>
-          {this.props.data.answer}
-        </Text>
-      );
-    }
-
     if (this.props.data.url) {
       containerStyle = { ...styles._row, paddingBottom: 0 };
     }
@@ -53,7 +44,7 @@ class ChallengeHeadInactive extends Component {
         <Text style={styles.ticker}>
           {myEndString}
         </Text>
-        {answer}
+        {/* {answer} */}
       </View>
     );
   }

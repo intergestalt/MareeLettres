@@ -61,6 +61,7 @@ class ChallengesListItem extends Component {
     callerViewMode: PropTypes.string,
     onPress: PropTypes.func,
     onShowAllPress: PropTypes.func,
+    onHideAllPress: PropTypes.func,
     language: PropTypes.string,
     oneFinished: PropTypes.bool,
     showAll: PropTypes.bool,
@@ -101,7 +102,20 @@ class ChallengesListItem extends Component {
         </View>
       );
     }
-
+    let hideAll = null;
+    if (!this.props.oneFinished && this.props.data.last && this.props.showAll) {
+      hideAll = (
+        <View style={styles.showAllButtonContainer}>
+          <TouchableOpacity onPress={this.props.onHideAllPress}>
+            <View style={styles.showAllButton}>
+              <Text style={styles.showAllButtonText}>
+                {I18n.t('hide_all_votes').toUpperCase()}
+              </Text>
+            </View>
+          </TouchableOpacity>
+        </View>
+      );
+    }
     if (this.props.data.url) {
       url = (
         <View style={styles.imageListContainer}>
@@ -140,6 +154,7 @@ class ChallengesListItem extends Component {
           {url}
         </TouchableOpacity>
         {showAll}
+        {hideAll}
       </View>
     );
   }
