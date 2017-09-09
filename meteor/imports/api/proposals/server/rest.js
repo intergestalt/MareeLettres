@@ -3,6 +3,7 @@ import _ from 'underscore';
 
 import { Proposals, ProposalsSchema } from '../proposals';
 import { Challenges } from '../../challenges/challenges';
+import { Players } from '../../players/players';
 import RequestHelpers from '../../../helpers/RequestHelpers';
 import currentSystemConfig from '../../../startup/server/system-config';
 
@@ -130,12 +131,16 @@ JsonRoutes.add(
             data.proposal = p;
         }
 
-        /*
-        proposals.forEach(function (proposal) {
-          proposal.created_at = new Date();
-          proposals.insert(proposal);
-        }, this);
-      */
+        // put the id in the user object
+        const result = Players.update({ origin_id }, {
+            $addToSet: {
+                proposals: {
+                    _id: data.proposal._id,
+                    challenge_id: data.proposal.challenge_id
+                }
+            }
+        })
+        console.log(result)
 
         const options = {
             data,

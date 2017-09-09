@@ -1,6 +1,6 @@
 const systemConfigDefaults = {
     proposals_auto_accept: {
-        defaultValue: true,
+        defaultValue: false,
         title: 'Auto-Accept new proposals, bypass review process'
     },
     proposal_boost_amount: {
