@@ -11,6 +11,8 @@ import {
 import { DYNAMIC_CONFIG } from '../config/config';
 import initialState from '../config/initialState';
 
+const DOMParser = require('xmldom-silent').DOMParser;
+
 export default (state = initialState.stream, action) => {
   try {
     console.log('Reducer', action.type);
@@ -46,6 +48,10 @@ export default (state = initialState.stream, action) => {
       }
       case STREAM_GET_TWEETS_HTML_SUCCESS: {
         const html = action.result;
+
+        // const parser = new DOMParser();
+        // const doc = parser.parseFromString(action.result, "text/html");
+
         let tweets = [];
         return {
           ...state,
