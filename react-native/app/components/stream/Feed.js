@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { WebView, Linking } from 'react-native'; // View, Text, FlatList
+import { WebView, Linking, FlatList, View } from 'react-native';
 import { DYNAMIC_CONFIG } from '../../config/config';
 import { connect } from 'react-redux';
 import { twitterGetAuth, twitterGetTweets, twitterGetTweetsHTML } from '../../helper/apiProxy';
@@ -7,19 +7,29 @@ import Separator from '../vote/ChallengesList/Separator';
 import Tweet from './Tweet';
 import styles from './styles';
 
-const wv = require('./TwitterWebView.html');
-
-console.log('WEB VIEW', wv);
+const patchPostMessageJsCode = `(${String(function() {
+    var originalPostMessage = window.postMessage
+    var patchedPostMessage = function(message, targetOrigin, transfer) {
+        originalPostMessage(message, targetOrigin, transfer)
+    }
+    patchedPostMessage.toString = function() {
+        return String(Object.hasOwnProperty).replace('hasOwnProperty', 'postMessage')
+    }
+    window.postMessage = patchedPostMessage
+})})();
+`
 
 class Feed extends Component {
   static PropTypes = {
     stream: PropTypes.object,
+    handle: PropTypes.string
   }
 
   constructor(props) {
     super();
 
     this.state = {
+      tweets: [],
       token: false,
     }
   }
@@ -30,6 +40,7 @@ class Feed extends Component {
 
   componentWillReceiveProps(nextProps) {
     // after authentication, dispatch twitter API call to get tweets
+    /*
     try {
       if (nextProps.stream.token && this.state.token != nextProps.stream.token.access_token) {
         this.setState({token: nextProps.stream.token.access_token});
@@ -38,6 +49,7 @@ class Feed extends Component {
     } catch(e) {
       console.log(e);
     }
+    */
   }
 
   getAuthentication() {
@@ -52,65 +64,64 @@ class Feed extends Component {
     //twitterGetTweetsHTML();
   }
 
+  onMessage(data) {
+    /*
+    this.setState({
+      tweets: data.tweets,
+    });
+    */
+  }
+
+  sendPostMessage() {
+    //this.webview.postMessage( "Post message from react native" );
+  }
+
   render() {
-    //const tweets = this.props.stream.content;
+    //const tweets = this.state.tweets;
     const uri = require('./TwitterWebView.html');
 
     return (
+      <View>
+      {/*
+        <FlatList
+          data={tweets}
+          renderItem={({item}) =>
+            <Tweet
+              index={item.index}
+              name={item.name}
+              handle={item.handle}
+              date={item.date}
+              content={item.content}
+              image={false}
+              url={item.url}
+              />
+          }
+          keyExtractor={item => item.index}
+          ItemSeparatorComponent={Separator}
+          />
+      */}
         <WebView
-          ref={(ref) => {this.webview = ref;}}
-          source={uri}
-          style={styles.feedContainer}
-          decelerationRate={'normal'}
-          startInLoadingState={true}
+          ref={webview => { this.webview = webview; }}
           javaScriptEnabled
-          onNavigationStateChange={(event) => {
-            if (event.url.indexOf('TwitterWebView') == -1 || event.url.indexOf('ref_url') !== -1) {
-              this.webview.stopLoading();
-              Linking.openURL(event.url);
-            }
-          }}
+          //injectedJavaScript={patchPostMessageJsCode}
+          source={uri}
+          style={[styles.feedContainer]} // {display: 'none'}
+          decelerationRate={'normal'}
+          //onMessage={e => this.onMessage(JSON.parse(e.nativeEvent.data))}
+          startInLoadingState={true}
         />
+      </View>
     );
   }
 }
 
-/*
-<View style={styles.feedContainer}>
-{/*tweets.length === 0
-  ? <View style={styles.loadingBarContainer}>
-      <Text style={styles.loadingBarText}>
-        Loading
-      </Text>
-    </View>
-  : null
-}
-{
-<FlatList
-  data={tweets}
-  renderItem={({item}) =>
-    <Tweet
-      index={item.index}
-      name={item.name}
-      handle={item.handle}
-      date={item.date}
-      content={item.content}
-      image={false}
-      url={item.url}
-      />
-  }
-  keyExtractor={item => item.index}
-  ItemSeparatorComponent={Separator}
-  />
-}
-</View>
-*/
-
 const mapStateToProps = (state) => {
   const stream = state.stream;
+  const handle = DYNAMIC_CONFIG.TWITTER_HANDLE;
 
   return {
     stream,
+    handle,
   }
 }
 

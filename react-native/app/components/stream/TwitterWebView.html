@@ -1,10 +1,5 @@
 <html>
   <head>
-    <script>
-
-      TWITTER_HANDLE = 'queen_europe';
-
-    </script>
     <script type='text/javascript' src='widgets.js'></script>
     <script type='text/javascript' src='jquery-3.2.1.min.js'></script>
     <style type='text/css'>
@@ -54,6 +49,8 @@
     <div id='timeline' class='hidden'></div>
 
     <script type='text/javascript'>
+      var TWITTER_HANDLE = 'WilliamShatner';
+
       var getTimeline = function() {
           // pull timeline from twitter
           twttr.widgets.createTimeline(
@@ -77,7 +74,23 @@
         var $doc = $(iframe.contentDocument),
           tweets = iframe.contentDocument.getElementsByClassName('timeline-Tweetlist-tweet'),
           styles = document.getElementsByTagName('style'),
-          head = iframe.contentDocument.getElementsByTagName('head')[0];
+          head = iframe.contentDocument.getElementsByTagName('head')[0],
+          dataToSend = {tweets:[]};
+
+        //timeline-Tweetlist-name
+        /*
+        for (var i=0; i<tweets.length; i+=1) {
+          dataToSend.tweets.push({
+            index: i,
+            name: tweets[i].find('.timeline-Tweetlist-name'),
+            handle: '@jim',
+            date: '',
+            content: '?????',
+            image: '',
+            url: ''
+          });
+        }
+        */
 
         // inherit styles from document (allow custom styles)
         for (var i = 0; i < styles.length; i++) {
@@ -88,8 +101,10 @@
         $doc.find('.timeline-Header').remove();
 
         // swap tweets to #timeline, reveal
-        //$(iframe.contentDocument.body).find('.timeline-Tweetlist').html($('#content').html());
+        $(iframe.contentDocument.body).find('.timeline-Tweetlist').html($('#content').html());
         $('#timeline').removeClass('hidden');
+
+        //window.postMessage(JSON.stringify(dataToSend));
       }
 
       var div = function(className, html) {
@@ -97,8 +112,16 @@
         return $('<div />', {class: className, html: html || ''});
       }
 
+      document.addEventListener("message", function(event) {
+        console.log("Received post message", event);
+      }, false);
+
       window.onload = function() {
         getTimeline();
+        /*
+        setTimeout(function(){
+          getTimeline();
+        }, 500); */
       };
     </script>
   </body>
