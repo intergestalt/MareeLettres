@@ -64,14 +64,21 @@ class Map extends Component {
 
   pollLetters() {
     console.ignoredYellowBox = ['Setting a timer'];
-    setInterval(() => {
-        loadLettersIntervalServiceProxy({
-          centerLat:this.props.map.coordinates.latitude, 
-          centerLng:this.props.map.coordinates.longitude,
-          radius:100});
-        },
+    this.timerID = setInterval(() => {
+        if(this.props.screen === "map") { // only call when map is current screen
+          loadLettersIntervalServiceProxy({
+            centerLat:this.props.map.coordinates.latitude, 
+            centerLng:this.props.map.coordinates.longitude,
+            radius:100});
+          }  
+      },
       this.props.interval
     );
+  }
+
+  componentWillUnmount() {
+    console.log("componentWillUnmount"); // component stays alive on tab away
+    clearInterval(this.timerID);
   }
 
   onLayout = (event) => {
@@ -265,7 +272,7 @@ const mapStateToProps = (state) => {
     const config = state.config.config;
     const letters = state.letters;
     const my_letters = state.myLetters;
-
+    
     return {
       interval,
       user,
@@ -274,6 +281,7 @@ const mapStateToProps = (state) => {
       letters,
       my_letters,
       language: state.globals.language,
+      screen: state.globals.screen
     };
   } catch (e) {
     console.log('Map Error', e);
