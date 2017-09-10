@@ -57,6 +57,7 @@ class ChallengeDetail extends Component {
           handleTinderPress={this.props.handleTinderPress}
           handleListPress={this.props.handleListPress}
           handleCommitPress={this.props.handleCommitPress}
+          handleStatusPress={this.props.handleStatusPress}
         />
       </View>
     );

@@ -25,8 +25,15 @@ import {
   SET_OWN_PROPOSAL,
 } from '../actions/user';
 
+import {
+  SUCCESS_POST_PROPOSAL,
+} from '../actions/proposals'
+
+import { navigateToStatus } from '../helper/navigationProxy';
+
 import { CHANGE_MAP_REGION, CHANGE_MAP_LAYOUT, USER_SET_COORDINATES } from '../actions/map';
 
+import store from '../config/store';
 import initialState from '../config/initialState';
 import { saveUserToStorage } from '../helper/localStorage';
 
@@ -325,17 +332,49 @@ export default (state = initialState.user, action) => {
         return result;
       }
       case SET_OWN_PROPOSAL: {
-        const myChallenges = Array.from(state.challenges);
-        const myChallenge = myChallenges[action.challengeIndex];
-        myChallenge.ownProposal = action.answer;
-        myChallenge.ownProposalInReview = action.review;
-        myChallenge.ownProposalBlocked = action.blocked;
+        console.log('SET_OWN_PROPOSAL');
+
+        let myChallenges = state.challenges // this is the challenges object in user
+        let myChallenge = myChallenges[action.challengeId];
+        if(!myChallenge) {
+          myChallenge = {};
+        }
+        if(!myChallenge.ownProposalInReview) {
+          myChallenge.ownProposal = action.answer;
+          myChallenge.ownProposalInReview = action.review;
+          myChallenge.ownProposalBlocked = action.blocked;
+          myChallenges[action.challengeId] = myChallenge;
+        }
+        const result = {
+          ...state,
+          challenges: myChallenges,
+        };
+        saveUserToStorage(result);
+        return result;
+      }
+      case SUCCESS_POST_PROPOSAL: {
+        console.log("user reducer: SUCESS_POST_PROPOSAL");
+        console.log(action);
+
+        let myChallenges = state.challenges;
+        let myChallenge = state.challenges[action.action.body.challenge_id];
+        if(!myChallenge) {
+          myChallenge = {};
+        }
+        myChallenge.ownProposal = action.action.body.text;
+        myChallenge.ownProposalId = action.result.proposal._id;
+        myChallenge.ownProposalInReview = true;
+        myChallenge.ownProposalBlocked = false;
+        myChallenges[action.action.body.challenge_id] = myChallenge;
 
         const result = {
           ...state,
           challenges: myChallenges,
         };
         saveUserToStorage(result);
+
+        navigateToStatus(action.action.props, null);
+
         return result;
       }
 

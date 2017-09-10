@@ -67,11 +67,16 @@ class ChallengeFooter extends Component {
   }
 
   renderUnfinished() {
+    console.log("user.challenge");
+    let userChallenge = this.props.userChallenges[this.getChallenge()._id];
+    if(!userChallenge) userChallenge = {};
+    console.log(userChallenge);
     return (
       <View style={styles.challengeFooter}>
         <View style={styles.challengeFooterUnfinished}>
           {this.renderTinderButton()}
 
+          {!userChallenge.ownProposalId ? (
           <TouchableOpacity
             style={[styles.footerButton, styles.footerButtonRight]}
             onPress={this.props.handleCommitPress}
@@ -80,6 +85,16 @@ class ChallengeFooter extends Component {
               {I18n.t('suggest_button')}
             </Text>
           </TouchableOpacity>
+          ) : ( 
+          <TouchableOpacity
+            style={[styles.footerButton, styles.footerButtonRight]}
+            onPress={this.props.handleStatusPress}
+          >
+            <Text style={styles.challengeFooterText}>
+              {I18n.t('status_button')}
+            </Text>
+          </TouchableOpacity>
+          )}
         </View>
       </View>
     );
@@ -100,11 +115,13 @@ const mapStateToProps = (state, ownPprops) => {
     const selectedChallengeIndex = state.challenges.selectedChallengeIndex;
     const challenge = challenges[selectedChallengeIndex + ownPprops.challengeOffset];
     const proposalView = challenge.proposalView;
+
     return {
       selectedChallengeIndex,
       challenges,
       proposalView,
       language: state.globals.language,
+      userChallenges: state.user.challenges
     };
   } catch (e) {
     console.log('ChallengeFooter');

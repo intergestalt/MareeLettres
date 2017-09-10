@@ -129,7 +129,12 @@ export function navigateToChallengeSelector(props, id) {
   sendInternalVotesServiceProxy(true);
   props.navigation.navigate('ChallengeSelector');
 }
-
+export function popProposalStatus(props) {
+ if(!props.navigation.goBack()) {
+    // Should not happen
+    props.navigation.navigate('Challenges');
+  } 
+}
 export function popChallengeSelector(props, withDispatch = true) {
   const mode = store.getState().challenges.challengeView;
   if (mode === CHALLENGE_VIEWS.LIST) {
@@ -163,4 +168,8 @@ export function popProposalSubmitter(props, withDispatch = true) {
 export function navigateToSubmit(props, challenge) {
   store.dispatch(setChallengeView(CHALLENGE_VIEWS.SUGGEST));
   props.navigation.navigate('Submit', { challenge });
+}
+
+export function navigateToStatus(props, challenge) {
+  props.navigation.navigate('Status', { challenge });
 }

@@ -125,7 +125,7 @@ export const callLetters = (action) => {
 export const callLettersInterval = (action) => {
   const url = `${config.API_PREFIX}letters?interval${locationUrlParams('&', action)}`;
   console.log('API CALL: callLettersInterval');
-  console.log(url);
+  //console.log(url);
   return getPromiseGET(url);
 };
 

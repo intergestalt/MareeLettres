@@ -63,11 +63,12 @@ export const setProposalsIsLoadingFromStorage = yes => ({
   yes,
 });
 
-export const postProposal = action => ({
+export const postProposal = (action, props) => ({
   type: POST_PROPOSAL,
   successEvent: SUCCESS_POST_PROPOSAL,
   errorEvent: NETWORK_ERROR_POST_PROPOSAL,
   body: action,
   apiCall: callPostProposal,
+  props,
 });
 

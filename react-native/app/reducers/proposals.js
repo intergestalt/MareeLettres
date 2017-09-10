@@ -7,6 +7,8 @@ import {
   SET_PROPOSALS_IS_LOADING_FROM_STORAGE,
   SET_PROPOSALS,
   POST_PROPOSAL,
+  SUCCESS_POST_PROPOSAL,
+  NETWORK_ERROR_POST_PROPOSAL
 } from '../actions/proposals';
 import { PROPOSAL_VIEWS } from '../consts/';
 import { DEV_CONFIG } from '../config/config';
@@ -236,6 +238,15 @@ export default (state = initialState.proposals, action) => {
         console.log('Reducer: POST_PROPOSAL');
         return state;
       }
+      case SUCCESS_POST_PROPOSAL: {
+        console.log('Reducer: SUCCESS_POST_PROPOSAL');
+        return state
+      }
+      case NETWORK_ERROR_POST_PROPOSAL: {
+        console.log('Reducer: NETWORK_ERROR_POST_PROPOSAL');
+        return state
+      }
+      
       default:
         return state;
     }

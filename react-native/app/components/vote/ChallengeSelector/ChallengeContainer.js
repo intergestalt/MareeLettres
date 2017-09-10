@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import styles from './styles';
 import { ChallengeDetail } from './';
 import { screenWidth } from '../../../helper/screen';
-import { popChallengeSelector, navigateToSubmit } from '../../../helper/navigationProxy';
+import { popChallengeSelector, navigateToSubmit, navigateToStatus } from '../../../helper/navigationProxy';
 import { handleChallengeIsNotExisting } from '../../../helper/challengesHelper';
 
 import { startChallengeTicker } from '../../../helper/ticker';
@@ -42,6 +42,7 @@ class ChallengeContainer extends Component {
     this.handleTinderPress = this.handleTinderPress.bind(this);
     this.handleListPress = this.handleListPress.bind(this);
     this.handleCommitPress = this.handleCommitPress.bind(this);
+    this.handleStatusPress = this.handleStatusPress.bind(this);
 
     this.onMostPress = this.onMostPress.bind(this);
     this.onNewestPress = this.onNewestPress.bind(this);
@@ -68,6 +69,9 @@ class ChallengeContainer extends Component {
   }
   handleCommitPress() {
     navigateToSubmit(this.props, this.props.challenges[this.props.selectedChallengeIndex]);
+  }
+  handleStatusPress() {
+   navigateToStatus(this.props, this.props.challenges[this.props.selectedChallengeIndex]); 
   }
 
   handleHeaderPressed = () => {
@@ -381,6 +385,7 @@ class ChallengeContainer extends Component {
           handleTinderPress={this.handleTinderPress}
           handleListPress={this.handleListPress}
           handleCommitPress={this.handleCommitPress}
+          handleStatusPress={this.handleStatusPress}
           onMostPress={this.onMostPress}
           onTrendingPress={this.onTrendingPress}
           onNewestPress={this.onNewestPress}

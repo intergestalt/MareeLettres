@@ -128,7 +128,7 @@ export default {
     isLoading: false,
     isInternalLoading: false,
     time: 0,
-    challenges: [],
+    challenges: {},
   },
 
   challengesTicker: {},

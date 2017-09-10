@@ -990,7 +990,7 @@ class ProposalSubmitter extends Component {
       return;
     }
     console.log('submitting...');
-    postProposalServiceProxy(this.props.challenge._id, answer);
+    postProposalServiceProxy(this.props.challenge._id, answer, this.props);
   }
   render() {
     I18n.locale = this.props.language;

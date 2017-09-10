@@ -190,7 +190,7 @@ export function loadProposalsServiceProxy(
   return false;
 }
 
-export function postProposalServiceProxy(challenge_id, text) {
+export function postProposalServiceProxy(challenge_id, text, props) {
   const user = store.getState().user;
   const body = {
     origin_id: user.origin_id,
@@ -200,7 +200,7 @@ export function postProposalServiceProxy(challenge_id, text) {
   };
   console.log('postProposalServiceProxy');
   console.log(body);
-  store.dispatch(postProposal(body));
+  store.dispatch(postProposal(body, props));
 }
 
 export function loadLettersServiceProxy(body = {}) {
