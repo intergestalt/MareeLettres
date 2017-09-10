@@ -208,6 +208,26 @@ function getTwitterPromiseGET(url, auth) {
   });
 }
 
+function getTwitterHTML(url) {
+  console.log(url);
+  const xhr = new XMLHttpRequest();
+  return new Promise((resolve, reject) => {
+    xhr.onreadystatechange = function () {
+      if (xhr.readyState === 4) {
+        if (xhr.status === 200) {
+          resolve(xhr.responseText);
+        } else {
+          reject(xhr.responseText);
+        }
+      }
+    };
+    xhr.timeout = DYNAMIC_CONFIG.REQUEST_TIMEOUT;
+    xhr.open('GET', url);
+    xhr.setRequestHeader('Accept', 'text/html')
+    xhr.send();
+  });
+}
+
 export const callStreamGetAuthToken = () => {
   const url = `${DYNAMIC_CONFIG.TWITTER_API_ENDPOINT}oauth2/token`;
   const auth = `Basic ${DYNAMIC_CONFIG.TWITTER_AUTH_BASE64}`;
@@ -224,6 +244,11 @@ export const callStreamGetTweets = (action) => {
 
 export const callStreamGetTweetsHtml = (action) => {
   const url = `${DYNAMIC_CONFIG.TWITTER_URL}${DYNAMIC_CONFIG.TWITTER_HANDLE}`;
+<<<<<<< HEAD
+  return getTwitterHTML(url);
+}
+=======
   console.log('TWITTER CALL:', url);
   return getPromiseGET(url);
 };
+>>>>>>> master

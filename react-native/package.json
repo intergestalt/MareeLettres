@@ -44,16 +44,20 @@
     "react": "react@16.0.0-alpha.12",
     "react-native": "0.47.1",
     "react-native-extended-stylesheet": "^0.4.0",
+    "react-native-html-parser": "0.0.5",
+    "react-native-htmlview": "^0.12.0",
     "react-native-linear-gradient": "^2.2.0",
     "react-native-maps": "0.16.2",
     "react-native-platform-stylesheet": "^0.0.6",
     "react-native-qrcode": "^0.2.5",
     "react-native-simple-markdown": "^1.0.60-rc.3",
     "react-native-svg": "^5.2.0",
+    "react-native-xml2js": "^1.0.3",
     "react-navigation": "^1.0.0-beta.11",
     "react-redux": "^5.0.4",
     "redux": "^3.6.0",
     "redux-logger": "^3.0.1",
-    "redux-saga": "^0.15.3"
+    "redux-saga": "^0.15.3",
+    "xmldom-silent": "^0.1.19"
   }
 }
