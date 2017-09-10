@@ -2,8 +2,8 @@ import SimpleSchema from 'simpl-schema';
 
 const ProposalsSchema = new SimpleSchema(
     {
-        origin_id: {
-            type: String,
+        origin_ids: {
+            type: Array,
             index: 1,
         },
         challenge_id: {
@@ -44,6 +44,12 @@ const ProposalsSchema = new SimpleSchema(
             type: Boolean,
             defaultValue: false,
         },
+        created_at: {
+            type: Date
+        },
+        reviewed_at: {
+            type: Date
+        }
     },
     {
         clean: { getAutovalues: true }

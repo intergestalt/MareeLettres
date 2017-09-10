@@ -6,9 +6,10 @@ import { BackSimple } from '../../general/BackButton';
 
 import styles from './styles';
 
-import { dispatchBackAction } from '../../../helper/navigationProxy';
+import { dispatchBackActionToMapOverview } from '../../../helper/navigationProxy';
 import { setUserLetterProxy } from '../../../helper/userHelper';
 import I18n from '../../../i18n/i18n';
+import { MAP_VIEWS } from '../../../consts';
 
 // NOTE: THIS IS THE LETTER SELECTION SCREEN
 
@@ -21,11 +22,11 @@ class LetterSelectorWindow extends Component {
 
   onPress = (char) => {
     setUserLetterProxy(char);
-    dispatchBackAction(this.props);
+    dispatchBackActionToMapOverview(this.props, MAP_VIEWS.OVERVIEW);
   };
 
   handleBackPress() {
-    dispatchBackAction(this.props);
+    dispatchBackActionToMapOverview(this.props, MAP_VIEWS.OVERVIEW);
   }
 
   keyboard(item, i) {

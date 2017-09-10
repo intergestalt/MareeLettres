@@ -7,7 +7,7 @@ export class BlinkText extends Component {
     this.state = {showText: true};
   }
 
-  componentDidMount() {
+  componentWillMount() {
     // Change the state every second or the time given by User.
     this.timerID = setInterval(() => {
 

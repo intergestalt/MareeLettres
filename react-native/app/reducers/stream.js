@@ -15,30 +15,29 @@ const DOMParser = require('xmldom-silent').DOMParser;
 
 export default (state = initialState.stream, action) => {
   try {
-    console.log('Reducer', action.type);
     switch (action.type) {
       case STREAM_GET_AUTH_TOKEN_SUCCESS: {
         const token = action.result;
         return {
           ...state,
-          token: token,
-        }
+          token,
+        };
       }
       case STREAM_GET_TWEETS_SUCCESS: {
         const raw = [...action.result];
         console.log(raw[0]);
-        const tweets = Object.keys(action.result).map(function(key, index) {
+        const tweets = Object.keys(action.result).map((key, index) => {
           const tweet = action.result[key];
 
-          return ({
+          return {
             id: tweet.id,
-            index: index,
+            index,
             name: tweet.user.name,
-            handle: '@' + tweet.user.screen_name,
+            handle: `@${tweet.user.screen_name}`,
             date: tweet.created_at,
             content: tweet.text,
-            url: DYNAMIC_CONFIG.TWITTER_URL + tweet.user.screen_name + '/status/' + tweet.id_str
-          });
+            url: `${DYNAMIC_CONFIG.TWITTER_URL + tweet.user.screen_name}/status/${tweet.id_str}`,
+          };
         });
 
         return {
@@ -48,14 +47,18 @@ export default (state = initialState.stream, action) => {
       }
       case STREAM_GET_TWEETS_HTML_SUCCESS: {
         const html = action.result;
+<<<<<<< HEAD
 
         // const parser = new DOMParser();
         // const doc = parser.parseFromString(action.result, "text/html");
 
         let tweets = [];
+=======
+        const tweets = [];
+>>>>>>> master
         return {
           ...state,
-          content: tweets
+          content: tweets,
         };
       }
       case STREAM_GET_AUTH_TOKEN:
@@ -72,7 +75,7 @@ export default (state = initialState.stream, action) => {
           ...state,
           isLoading: false,
           isError: true,
-        }
+        };
       }
       default:
         return state;

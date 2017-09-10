@@ -6,7 +6,8 @@ import { BackSimple } from '../../general/BackButton';
 import QRCodeBox from './QRCode';
 import styles from './styles';
 
-import { dispatchBackAction } from '../../../helper/navigationProxy';
+import { dispatchBackActionToMapOverview } from '../../../helper/navigationProxy';
+import { MAP_VIEWS } from '../../../consts';
 
 import { addFriendLetterProxy } from '../../../helper/userHelper';
 import { BarCodeScanner, Permissions } from 'expo';
@@ -47,7 +48,7 @@ class QRCodeScanScreen extends Component {
     // prevent multiple scans
     if (char !== this.state.lastScanned) {
       // navigateToMapOverview(this.props);
-      dispatchBackAction(this.props);
+      dispatchBackActionToMapOverview(this.props, MAP_VIEWS.OVERVIEW);
       addFriendLetterProxy(char);
       this.setState({ lastScanned: char });
     }
@@ -56,7 +57,7 @@ class QRCodeScanScreen extends Component {
   handleBackPress() {
     this.setState({ disabled: true });
     // navigateToMapOverview(this.props);
-    dispatchBackAction(this.props);
+    dispatchBackActionToMapOverview(this.props, MAP_VIEWS.OVERVIEW);
   }
 
   componentWillBlur() {

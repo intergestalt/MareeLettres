@@ -1,5 +1,5 @@
 {
-  "name": "MareedesLettres-Server",
+  "name": "MareeLettres-Server",
   "private": true,
   "scripts": {
     "start": "meteor --settings settings.json",

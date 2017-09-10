@@ -30,7 +30,9 @@ class ChallengesIndex extends Component {
           </Link>
         </td>
         <td>
-          {challenge.proposals_amount}
+          <Link to={`/admin/proposals?challenge_id=${challenge._id}`}>
+            {challenge.proposals_amount}
+          </Link>
         </td>
         <td>
           <Moment format="DD.MM.YY HH:MM" tz="Europe/Paris">

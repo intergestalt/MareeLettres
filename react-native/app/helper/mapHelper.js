@@ -1,3 +1,5 @@
+import { Dimensions } from 'react-native';
+
 import {
   changeMapRegion,
   changeMapLayout,
@@ -47,4 +49,31 @@ export function metresToDelta(m, mapLat) {
     const delta = m / (111320 * Math.cos(mapLat * Math.PI / 180));
 
     return delta;
+}
+
+export function latLngToScreen(lat, lng, region, width, height) {
+  let normalised = latLngToXY(lat, lng, region);
+  return xyToNativeScreen(normalised.x, normalised.y, width, height);
+}
+
+export function latLngToXY(lat, lng, region) {
+    // convert world coordinates to screen space
+    // if coordinate is on screen, the return range will be [-0.5, 0.5]
+    let x = (lng - region.longitude) / region.longitudeDelta;
+    let y = (region.latitude - lat) / region.latitudeDelta
+
+    return {x: x, y: y};
+  }
+
+export function xyToNativeScreen(x, y, width, height) {
+    // convert normalised screen space to native screen space
+    const nativeX = (x + 0.5) * width;
+    const nativeY = (y + 0.5) * height;
+  
+    return {x: nativeX, y: nativeY}
+}
+
+export function scaleLetterSize(base_size, map_delta) {
+  let max_letter_size = parseFloat((base_size / (1200 * map_delta)).toFixed(1));
+  return max_letter_size;
 }

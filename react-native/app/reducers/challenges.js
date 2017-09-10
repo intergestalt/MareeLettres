@@ -12,11 +12,15 @@ import {
   SET_CHALLENGES_IS_LOADING_FROM_STORAGE,
   SET_CHALLENGES,
 } from '../actions/challenges';
-import { CHALLENGE_VIEWS } from '../consts';
 import { DEV_CONFIG } from '../config/config';
 import { saveChallengesToStorage } from '../helper/localStorage';
+import { CHALLENGE_VIEWS, PROPOSAL_VIEWS, PROPOSAL_LIST_MODES } from '../consts';
 
-import { addDefaultStructure, getSelectedChallengeIndex } from '../helper/challengesHelper';
+import {
+  addDefaultStructure,
+  getSelectedChallengeIndex,
+  getChallengeFromId,
+} from '../helper/challengesHelper';
 import { popChallengeSelector } from '../helper/navigationProxy';
 import initialState from '../config/initialState';
 import { listIsEmpty } from '../helper/helper';
@@ -41,9 +45,16 @@ export default (state = initialState.challenges, action) => {
         console.log('CHALLENGES_LOADED');
         const now = new Date();
         const challenges = [];
+        const oldChallenges = state.challenges;
         for (let i = 0; i < action.result.challenges.length; i += 1) {
           const entry = action.result.challenges[i];
-
+          let newProposalView = PROPOSAL_VIEWS.TINDER;
+          let newProposaListMode = PROPOSAL_LIST_MODES.MOST;
+          const oldChallenge = getChallengeFromId(oldChallenges, entry._id);
+          if (oldChallenge) {
+            newProposalView = oldChallenge.proposalView;
+            newProposaListMode = oldChallenge.proposalListMode;
+          }
           if (DEV_CONFIG.USE_CUSTOM_END_DATE) {
             if (entry._id === DEV_CONFIG.CUSTOM_END_DATE_ID) {
               const customDate = DEV_CONFIG.CUSTOM_END_DATE;
@@ -53,6 +64,8 @@ export default (state = initialState.challenges, action) => {
 
           const newEntry = {
             ...entry,
+            proposalView: newProposalView,
+            proposalListMode: newProposaListMode,
             isLoading: false,
             isInternalLoading: false,
             voteNum: i + 1,
@@ -107,9 +120,18 @@ export default (state = initialState.challenges, action) => {
         let challengeView = state.challengeView;
         for (let i = 0; i < state.challenges.length; i += 1) {
           const myChallenge = state.challenges[i];
+          // If Challenge is in already in list (reload)
           if (myChallenge._id === action.action.challengeId) {
             const myChallenges = Array.from(state.challenges);
             if (action.result.challenges.length > 0) {
+              let newProposalView = PROPOSAL_VIEWS.TINDER;
+              let newProposaListMode = PROPOSAL_LIST_MODES.MOST;
+              if (myChallenge.proposalView) {
+                newProposalView = myChallenge.proposalView;
+              }
+              if (myChallenge.proposalListMode) {
+                newProposaListMode = myChallenge.proposalListMode;
+              }
               challengeIndex = i;
               challengeId = myChallenge._id;
               const newChallenge = {
@@ -117,6 +139,8 @@ export default (state = initialState.challenges, action) => {
                 voteNum: i + 1,
                 isLoading: false,
                 isInternalLoading: false,
+                proposalView: newProposalView,
+                proposalListMode: newProposaListMode,
               };
               if (DEV_CONFIG.USE_CUSTOM_END_DATE) {
                 if (myChallenge._id === DEV_CONFIG.CUSTOM_END_DATE_ID) {
@@ -140,10 +164,12 @@ export default (state = initialState.challenges, action) => {
               if (challengeIndex === -1) {
                 challengeId = null;
                 challengeView = CHALLENGE_VIEWS.LIST;
+
                 popChallengeSelector(action.action.props, false);
               }
             }
             // Changed or deleted
+
             const newState = {
               ...state,
               challenges: myChallenges,
@@ -193,18 +219,34 @@ export default (state = initialState.challenges, action) => {
         return newState;
       }
       case SET_PROPOSAL_VIEW: {
+        const myChallenges = Array.from(state.challenges);
+        for (let i = 0; i < myChallenges.length; i += 1) {
+          const myChallenge = myChallenges[i];
+          if (myChallenge._id === action.challengeId) {
+            myChallenge.proposalView = action.proposalView;
+          }
+        }
+
         const result = {
           ...state,
-          proposalView: action.proposalView,
+          challenges: myChallenges,
         };
         saveChallengesToStorage(result);
         return result;
       }
 
       case SET_PROPOSAL_LIST_MODE: {
+        const myChallenges = Array.from(state.challenges);
+        for (let i = 0; i < myChallenges.length; i += 1) {
+          const myChallenge = myChallenges[i];
+          if (myChallenge._id === action.challengeId) {
+            myChallenge.proposalListMode = action.proposalListMode;
+          }
+        }
+
         const result = {
           ...state,
-          proposalListMode: action.proposalListMode,
+          challenges: myChallenges,
         };
         saveChallengesToStorage(result);
         return result;
@@ -227,6 +269,7 @@ export default (state = initialState.challenges, action) => {
       case SET_CHALLENGES_IS_LOADING_FROM_STORAGE: {
         return { ...state, challengesIsLoadingFromStorage: action.yes };
       }
+
       default:
         return state;
     }

@@ -1,4 +1,4 @@
-import React, { PureComponent, PropTypes } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { View, TouchableOpacity, Text } from 'react-native';
 import { connect } from 'react-redux';
 
@@ -7,7 +7,7 @@ import { ChallengeHeadActive, ChallengeHeadInactive } from './../ChallengesList'
 import styles from './styles';
 import { CHALLENGE_VIEWS } from '../../../consts';
 
-class ChallengeHeader extends PureComponent {
+class ChallengeHeader extends Component {
   static propTypes = {
     challengeOffset: PropTypes.number,
     challenges: PropTypes.array,
@@ -96,7 +96,7 @@ class ChallengeHeader extends PureComponent {
 
     const contentMiddle = (
       <View style={styles.headerTextContainer}>
-        <TouchableOpacity delayPressIn={30} onPress={this.props.onHeaderPress}>
+        <TouchableOpacity delayPressIn={50} onPress={this.props.onHeaderPress}>
           {!challengeTickerData.finished
             ? <ChallengeHeadActive
               callerViewMode={CHALLENGE_VIEWS.DETAIL}

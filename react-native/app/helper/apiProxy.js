@@ -141,8 +141,9 @@ export function loadProposalsServiceProxy(
   pullUpLoading = false,
   lastNotLoad = false,
 ) {
-  const proposalView = store.getState().challenges.proposalView;
-  const proposalListMode = store.getState().challenges.proposalListMode;
+  const challenge = getChallengeFromId(store.getState().challenges.challenges, challengeId);
+  const proposalView = challenge.proposalView;
+  const proposalListMode = challenge.proposalListMode;
   // all 4 lists
   const allProposals = store.getState().proposals[challengeId];
   // correct list

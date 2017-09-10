@@ -51,7 +51,7 @@ class Map extends Component {
     }
   }
 
-  componentDidMount() {
+  componentWillMount() {
     // get the player GPS and begin blinking animation
     this._getPlayerCoords();
     
@@ -64,14 +64,21 @@ class Map extends Component {
 
   pollLetters() {
     console.ignoredYellowBox = ['Setting a timer'];
-    setInterval(() => {
-        loadLettersIntervalServiceProxy({
-          centerLat:this.props.map.coordinates.latitude, 
-          centerLng:this.props.map.coordinates.longitude,
-          radius:100});
-        },
+    this.timerID = setInterval(() => {
+        if(this.props.screen === "map") { // only call when map is current screen
+          loadLettersIntervalServiceProxy({
+            centerLat:this.props.map.coordinates.latitude, 
+            centerLng:this.props.map.coordinates.longitude,
+            radius:100});
+          }  
+      },
       this.props.interval
     );
+  }
+
+  componentWillUnmount() {
+    console.log("componentWillUnmount"); // component stays alive on tab away
+    clearInterval(this.timerID);
   }
 
   onLayout = (event) => {
@@ -194,15 +201,11 @@ class Map extends Component {
     const mapLetters = [];
     if(this.props.map.coordinates.longitudeDelta <= this.state.delta_max) { // only add markers at all if we are low enough
       Object.keys(this.props.letters.content).forEach((key)=>{
-        if(this.props.letters.content[key].showAsMarker) {
+        if(this.props.letters.content[key].showAsMarker) { // this is set in letters reducer!
           mapLetters.push(this.mapLettersToMarkers(this.props.letters.content[key], this.props.letters.content[key]._id, false));  
         }
       });
     }
-    
-    //console.log(mapLetters.length + " / " + Object.keys(this.props.letters.content).length + " (dropped: " + droppedMarkers + ")");
-    //console.log(this.props.map.coordinates.latitudeDelta);
-    //console.log(this.state.delta_max);
     
     const menuLetters = [
       this.props.user.primary_letter,
@@ -269,7 +272,7 @@ const mapStateToProps = (state) => {
     const config = state.config.config;
     const letters = state.letters;
     const my_letters = state.myLetters;
-
+    
     return {
       interval,
       user,
@@ -278,6 +281,7 @@ const mapStateToProps = (state) => {
       letters,
       my_letters,
       language: state.globals.language,
+      screen: state.globals.screen
     };
   } catch (e) {
     console.log('Map Error', e);

@@ -14,7 +14,13 @@ import { setProposals, setProposalsIsLoadingFromStorage } from '../actions/propo
 import { setLetters, setLettersIsLoadingFromStorage } from '../actions/letters';
 import { setMyLetters, setMyLettersIsLoadingFromStorage } from '../actions/map';
 import { cutProposalList } from './proposalsHelper';
-import { SCREENS, PROPOSAL_VIEWS, CHALLENGE_VIEWS, PROPOSAL_LIST_MODES } from '../consts';
+import {
+  SCREENS,
+  PROPOSAL_VIEWS,
+  MAP_VIEWS,
+  CHALLENGE_VIEWS,
+  PROPOSAL_LIST_MODES,
+} from '../consts';
 import { setChallengesDateData } from '../actions/challengesTicker';
 
 function existing(str) {
@@ -84,6 +90,9 @@ function cleanGlobals(globals) {
   item.isNetworkError = false;
   item.networkErrorMessageKey = null;
   item.screen = SCREENS.VOTE;
+  item.mapView = MAP_VIEWS.OVERVIEW;
+  item.showAllFinishedChallenges = false;
+  item.lastNetworkError = 0;
   return item;
 }
 
@@ -116,11 +125,16 @@ function cleanChallenges(challenges) {
   item.selectedChallengeId = null;
   item.selectedChallengeIndex = -1;
   item.challengeView = CHALLENGE_VIEWS.LIST;
-  item.proposalView = PROPOSAL_VIEWS.TINDER;
-  item.proposalListMode = PROPOSAL_LIST_MODES.MOST;
+
   const newChallenges = [];
   for (let i = 0; i < item.challenges.length; i += 1) {
     let challenge = item.challenges[i];
+    if (!challenge.proposalView) {
+      challenge.proposalView = PROPOSAL_VIEWS.TINDER;
+    }
+    if (!challenge.proposalListMode) {
+      challenge.proposalListMode = PROPOSAL_LIST_MODES.MOST;
+    }
     challenge = normalClean(challenge);
     newChallenges.push(challenge);
   }

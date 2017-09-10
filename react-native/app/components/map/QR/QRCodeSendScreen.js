@@ -7,9 +7,10 @@ import { BackSimple } from '../../general/BackButton';
 
 import styles from './styles';
 
-import { dispatchBackAction } from '../../../helper/navigationProxy';
+import { dispatchBackActionToMapOverview } from '../../../helper/navigationProxy';
 
 import I18n from '../../../i18n/i18n';
+import { MAP_VIEWS } from '../../../consts';
 
 class QRCodeSendScreen extends Component {
   static propTypes = {
@@ -18,7 +19,7 @@ class QRCodeSendScreen extends Component {
   };
 
   handleBackPress() {
-    dispatchBackAction(this.props);
+    dispatchBackActionToMapOverview(this.props, MAP_VIEWS.OVERVIEW);
   }
 
   render() {

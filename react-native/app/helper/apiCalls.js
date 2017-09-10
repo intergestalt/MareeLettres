@@ -88,8 +88,6 @@ export const callProposals = (action) => {
     url = `${config.API_PREFIX}challenges/${action.challengeId}/proposals?limit=${action.limit}&sort=trending`;
   }
   console.log('API CALL: callProposals');
-  // url = 'http://www.magazinredaktion.tk/timeout.php';
-
   return getPromiseGET(url);
 };
 
@@ -106,26 +104,26 @@ export const callAllContent = () => {
 };
 
 function locationUrlParams(c, action) {
-  let url = "";
+  let url = '';
   const body = action.body;
-  if(body) {
-    if(body.centerLat && body.centerLng && body.radius) {
+  if (body) {
+    if (body.centerLat && body.centerLng && body.radius) {
       // todo: normalize coordinates for caching
-      url = c + `centerLat=${body.centerLat}&centerLng=${body.centerLng}&radius=${body.radius}`;
+      url = `${c}centerLat=${body.centerLat}&centerLng=${body.centerLng}&radius=${body.radius}`;
     }
   }
   return url;
 }
 
 export const callLetters = (action) => {
-  const url = `${config.API_PREFIX}letters/` + locationUrlParams("?", action);
+  const url = `${config.API_PREFIX}letters/${locationUrlParams('?', action)}`;
   console.log('API CALL: callLetters');
   console.log(url);
   return getPromiseGET(url);
 };
 
 export const callLettersInterval = (action) => {
-  const url = `${config.API_PREFIX}letters?interval` + locationUrlParams("&", action);
+  const url = `${config.API_PREFIX}letters?interval${locationUrlParams('&', action)}`;
   console.log('API CALL: callLettersInterval');
   console.log(url);
   return getPromiseGET(url);
@@ -155,15 +153,14 @@ export const callPostProposal = (action) => {
   const url = `${config.API_PREFIX}proposals/`;
   const body = action.body;
   const req_body = {
-    proposals: [
-      {
-        origin_id: body.origin_id,
-        text: body.text,
-        challenge_id: body.challenge_id,
-        created_at: body.created_at,
-      },
-    ],
+    proposal: {
+      origin_id: body.origin_id,
+      text: body.text,
+      challenge_id: body.challenge_id,
+      created_at: body.created_at,
+    },
   };
+  console.log(req_body);
   console.log('API CALL: callPostProposal');
   return getPromisePOST(url, JSON.stringify(req_body));
 };
@@ -233,19 +230,25 @@ function getTwitterHTML(url) {
 
 export const callStreamGetAuthToken = () => {
   const url = `${DYNAMIC_CONFIG.TWITTER_API_ENDPOINT}oauth2/token`;
-  const auth = 'Basic ' + DYNAMIC_CONFIG.TWITTER_AUTH_BASE64;
+  const auth = `Basic ${DYNAMIC_CONFIG.TWITTER_AUTH_BASE64}`;
   const body = 'grant_type=client_credentials';
 
   return getTwitterPromisePOST(url, auth, body);
-}
+};
 
 export const callStreamGetTweets = (action) => {
   const url = `${DYNAMIC_CONFIG.TWITTER_API_ENDPOINT}1.1/statuses/user_timeline.json?count=${DYNAMIC_CONFIG.TWITTER_TWEETS_PER_REQUEST}&screen_name=${DYNAMIC_CONFIG.TWITTER_HANDLE}`;
-  const auth = 'Bearer ' + action.token;
+  const auth = `Bearer ${action.token}`;
   return getTwitterPromiseGET(url, auth);
-}
+};
 
 export const callStreamGetTweetsHtml = (action) => {
   const url = `${DYNAMIC_CONFIG.TWITTER_URL}${DYNAMIC_CONFIG.TWITTER_HANDLE}`;
+<<<<<<< HEAD
   return getTwitterHTML(url);
 }
+=======
+  console.log('TWITTER CALL:', url);
+  return getPromiseGET(url);
+};
+>>>>>>> master

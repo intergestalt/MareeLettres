@@ -7,8 +7,6 @@ const em = Dimensions.get('window').height / aspect_ratio_factor;
 
 const styles = EStyleSheet.create({
   container: { flex: 1, flexDirection: 'column' },
-  dragContainer: { flex: 1 },
-  submitContainer: {},
   titleContainer: {
     textAlign: 'center',
     paddingTop: '1.5rem',
@@ -16,6 +14,9 @@ const styles = EStyleSheet.create({
     backgroundColor: '#000033',
     width: '100%',
   },
+  dragContainer: { flex: 1 },
+  submitContainer: {},
+
   backStyle: {
     color: 'white',
     paddingLeft: '1.5rem',
@@ -79,13 +80,33 @@ const styles = EStyleSheet.create({
   submitButton: {
     height: '3.5rem',
     backgroundColor: 'black',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   submitButtonText: {
     fontSize: '1rem',
     fontFamily: 'normal',
-    lineHeight: '3.5rem',
     textAlign: 'center',
     color: 'white',
+  },
+  yesButton: {
+    height: '3.5rem',
+    flex: 0.5,
+    backgroundColor: 'orange',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  noButton: {
+    height: '3.5rem',
+    flex: 0.5,
+    backgroundColor: 'grey',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  yesNoContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center',
   },
 });
 

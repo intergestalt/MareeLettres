@@ -124,7 +124,7 @@ class ProposalTinder extends Component {
         <View style={myStyle}>
           <View style={styles.topContainer}>
             {textContainer}
-            { /* <VoteMarkPanel style={styles.voteMark} yes_amount={this.props.proposal.yes_votes} no_amount={this.props.proposal.no_votes} /> */}
+            {/* <VoteMarkPanel style={styles.voteMark} yes_amount={this.props.proposal.yes_votes} no_amount={this.props.proposal.no_votes} /> */}
           </View>
           <View style={styles.bottomContainer}>
             {noContainer}
@@ -157,9 +157,9 @@ const mapStateToProps = (state, ownProps) => {
     const selectedChallengeIndex = state.challenges.selectedChallengeIndex;
     const challengeIndex = selectedChallengeIndex + ownProps.challengeOffset;
     const id = challenges[challengeIndex]._id;
-
-    const proposalView = state.challenges.proposalView;
-    const proposalListMode = state.challenges.proposalListMode;
+    const challenge = challenges[challengeIndex];
+    const proposalView = challenge.proposalView;
+    const proposalListMode = challenge.proposalListMode;
     // all 4 lists
     const p = state.proposals[id];
 
