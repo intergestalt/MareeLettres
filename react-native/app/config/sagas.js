@@ -1,9 +1,5 @@
-<<<<<<< HEAD
-import { takeEvery, all, call, put } from 'redux-saga/effects';
-=======
 import { takeEvery, call, put } from 'redux-saga/effects';
 
->>>>>>> master
 import { SET_CHALLENGES_TIME_LEFT } from '../actions/challengesTicker';
 import { SET_NET_WORK_ERROR } from '../actions/general';
 import { LOAD_CHALLENGES, LOAD_CHALLENGE } from '../actions/challenges';
@@ -77,7 +73,6 @@ const loadData = function* loadData(action) {
   }
 }
 
-<<<<<<< HEAD
 function* loadDataHTML(action) {
   try {
     const response = yield call(action.apiCall, action);
@@ -94,10 +89,7 @@ function* loadDataHTML(action) {
   }
 }
 
-export default function* rootSaga() {
-=======
 const rootSaga = function* rootSaga() {
->>>>>>> master
   yield takeEvery(STREAM_GET_AUTH_TOKEN, loadData);
   yield takeEvery(STREAM_GET_TWEETS, loadData);
   yield takeEvery(STREAM_GET_TWEETS_HTML, loadDataHTML);
