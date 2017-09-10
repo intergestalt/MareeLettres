@@ -244,11 +244,5 @@ export const callStreamGetTweets = (action) => {
 
 export const callStreamGetTweetsHtml = (action) => {
   const url = `${DYNAMIC_CONFIG.TWITTER_URL}${DYNAMIC_CONFIG.TWITTER_HANDLE}`;
-<<<<<<< HEAD
   return getTwitterHTML(url);
-}
-=======
-  console.log('TWITTER CALL:', url);
-  return getPromiseGET(url);
 };
->>>>>>> master
