@@ -93,6 +93,11 @@ const SystemConfigSchema = new SimpleSchema(
             max: 20,
             ...systemConfigDefaults.map_delta_max,
         },
+        map_max_markers: {
+            type: SimpleSchema.Integer,
+            min: 1,
+            ...systemConfigDefaults.map_max_markers,
+        },
         stream_twitter_handle: {
             type: String,
             ...systemConfigDefaults.stream_twitter_handle,
