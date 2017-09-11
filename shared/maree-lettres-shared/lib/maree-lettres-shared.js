@@ -22867,7 +22867,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 var systemConfigDefaults = {
     proposals_auto_accept: {
-        defaultValue: true,
+        defaultValue: false,
         title: 'Auto-Accept new proposals, bypass review process'
     },
     proposal_boost_amount: {
@@ -22937,6 +22937,10 @@ var systemConfigDefaults = {
     map_delta_max: {
         defaultValue: 9,
         title: 'Map: maximum map zoom relative to drop zone size'
+    },
+    map_max_markers: {
+        defaultValue: 50,
+        title: 'Map: maximum number of letters to render as markers on map'
     },
     stream_twitter_handle: {
         defaultValue: 'Paris',

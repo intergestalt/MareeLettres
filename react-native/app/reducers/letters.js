@@ -50,7 +50,7 @@ const letters = (state = initialState.letters, action) => {
         }
 
         const currentRegion = store.getState().user.map.coordinates;
-        const markerLimit = store.getState().user.map.maxMarkers; // hard limit on markers from server
+        const markerLimit = store.getState().config.map_max_markers; // hard limit on markers from server
         let counter = 0;
         let droppedMarkers = 0;
         

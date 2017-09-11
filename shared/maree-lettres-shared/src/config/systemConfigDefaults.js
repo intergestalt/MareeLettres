@@ -71,6 +71,10 @@ const systemConfigDefaults = {
         defaultValue: 9,
         title: 'Map: maximum map zoom relative to drop zone size'
     },
+    map_max_markers: {
+        defaultValue: 50,
+        title: 'Map: maximum number of letters to render as markers on map'
+    },
     stream_twitter_handle: {
         defaultValue: 'Paris',
         title: 'Stream: The twitter handle'
