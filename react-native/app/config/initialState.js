@@ -93,22 +93,22 @@ export default {
       disabled: false,
     },
     secondary_letter_1: {
-      character: '',
+      character: '+',
       disabled: false,
       overwrite: false,
     },
     secondary_letter_2: {
-      character: '',
+      character: '+',
       disabled: false,
       overwrite: false,
     },
     secondary_letter_3: {
-      character: '',
+      character: '+',
       disabled: false,
       overwrite: false,
     },
     secondary_letter_4: {
-      character: '',
+      character: '+',
       disabled: false,
       overwrite: false,
     },

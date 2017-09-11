@@ -42,7 +42,7 @@ export default EStyleSheet.create({
     display: 'flex',
     margin: '$margin',
     marginTop: 0,
-    marginBottom: '$marginHalf',
+    marginBottom: 0,
   },
   container_secondary: {
     flex: 1,
@@ -51,7 +51,7 @@ export default EStyleSheet.create({
     justifyContent: 'center',
     marginTop: 0,
     marginRight: '$margin',
-    marginBottom: '$marginHalf',
+    marginBottom: 0,
   },
   draggable: {
     position: 'absolute',

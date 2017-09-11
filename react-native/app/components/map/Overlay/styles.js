@@ -6,8 +6,8 @@ import { StatusBar } from 'react-native';
 export default EStyleSheet.create({
   $white: '#ffffff',
   $black: '#000000',
-  $lettersHeight: 105,
-  $menuHeight: 52,
+  $lettersHeight: 100,
+  $menuHeight: 40,
   $padding: 8,
 
   // bottom tab menu
@@ -48,13 +48,14 @@ export default EStyleSheet.create({
     top: '0%',
     right: '0%',
     backgroundColor: 'transparent',
-    padding: 10,
+ 
   },
 
   camera__button__text: {
     color: '$white',
-    fontSize: '1rem',
-    fontFamily: 'impact'
+    fontSize: '1.2rem',
+    fontFamily: 'impact',
+    padding: 8
   },
 
   // letters menu
@@ -69,24 +70,28 @@ export default EStyleSheet.create({
 
   letters__label__you: {
     width: '33.333%',
-    padding: '$padding',
+    paddingTop: 8,
+    paddingBottom: 8,
     textAlign: 'center',
   },
 
   letters__label__friends: {
     width: '66.666%',
-    padding: '$padding',
+    paddingTop: 8,
+    paddingBottom: 8,
     textAlign: 'center',
   },
 
   letters__item__you: {
     width: '33.333%',
+    marginTop: 10
   },
 
   letters__row: {
     flex: 1,
     flexDirection: 'row',
     alignItems: 'stretch',
+    marginTop: 10
   },
 
   letters__item__friends: {
