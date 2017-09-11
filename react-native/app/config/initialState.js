@@ -26,14 +26,14 @@ export default {
 
       // Not sent by API, but they are not overwrittem
       request_timeout: 10000,
-      delay_config_call: 5000,
+      delay_config_call: 5000, // random interval in which a new config is loaded
 
-      default_proposal_list_limit: 10,
+      default_proposal_list_limit: 10, // 
       default_proposal_new_batch: 30, // For List reload, if scrolling reached ends
       proposal_reload_list_offset: 0.8,
-      default_proposal_tinder_limit: 30,
-      proposal_reload_tinder_offset: 10,
-      internal_votes_offset: 9,
+      default_proposal_tinder_limit: 30, // amount of tiners proposals loaded initially
+      proposal_reload_tinder_offset: 20,
+      internal_votes_offset: 18, // number of votes after which they get send
 
       // Proposals
       // On Press of the list types or list vs tinder button
@@ -83,7 +83,7 @@ export default {
         latitudeDelta: 0.0004,
         longitudeDelta: 0.0004,
       },
-      tutorialStatus: 'welcome'
+      tutorialStatus: 'welcome',
     },
     primary_letter: {
       _id: originId,
