@@ -32,7 +32,13 @@ class Map extends Component {
       letter_size: 12,
       delta_initial: metresToDelta(this.props.config.map_drop_zone_radius * this.props.config.map_delta_initial, this.props.map.coordinates.latitude),
       delta_max: metresToDelta(this.props.config.map_drop_zone_radius * this.props.config.map_delta_max, this.props.map.coordinates.latitude),
-      isFontsReady: false
+      isFontsReady: false,
+      initialRegion: {
+            latitude: this.props.user.map.coordinates.latitude,
+            longitude: this.props.user.map.coordinates.longitude,
+            latitudeDelta: this.props.user.map.coordinates.latitudeDelta,
+            longitudeDelta: this.props.user.map.coordinates.longitudeDelta,
+          }
     };
   }
 
@@ -52,7 +58,7 @@ class Map extends Component {
   }
 
   componentWillMount() {
-    // get the player GPS and begin blinking animation
+    // get the player GPS
     this._getPlayerCoords();
     
     loadLettersServiceProxy({
@@ -60,6 +66,8 @@ class Map extends Component {
       centerLng:this.props.map.coordinates.longitude,
       radius:100});
     this.pollLetters();
+
+    this.setMapLetterSize(this.state.initialRegion);
   }
 
   pollLetters() {
@@ -107,7 +115,7 @@ class Map extends Component {
     const size = parseFloat(
       (this.props.config.map_letter_base_size * 5 / (1200 * region.latitudeDelta)).toFixed(1),
     );
-
+    
     if (size != this.state.letter_size) {
       this.setState({ letter_size: size });
     }
@@ -223,12 +231,7 @@ class Map extends Component {
           //onRegionChange={this.onRegionChange}
           provider={MapView.PROVIDER_GOOGLE}
           style={styles.container}
-          initialRegion={{
-            latitude: this.props.user.map.coordinates.latitude,
-            longitude: this.props.user.map.coordinates.longitude,
-            latitudeDelta: this.props.user.map.coordinates.latitudeDelta,
-            longitudeDelta: this.props.user.map.coordinates.longitudeDelta,
-          }}
+          initialRegion={this.state.initialRegion}
           minZoomLevel={this.props.config.map_min_zoom_level}
           maxZoomLevel={this.props.config.map_max_zoom_level}
           customMapStyle={mapstyles}
