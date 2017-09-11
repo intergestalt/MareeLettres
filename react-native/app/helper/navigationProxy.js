@@ -129,12 +129,6 @@ export function navigateToChallengeSelector(props, id) {
   sendInternalVotesServiceProxy(true);
   props.navigation.navigate('ChallengeSelector');
 }
-export function popProposalStatus(props) {
- if(!props.navigation.goBack()) {
-    // Should not happen
-    props.navigation.navigate('Challenges');
-  } 
-}
 export function popChallengeSelector(props, withDispatch = true) {
   const mode = store.getState().challenges.challengeView;
   if (mode === CHALLENGE_VIEWS.LIST) {

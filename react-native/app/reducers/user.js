@@ -354,7 +354,7 @@ export default (state = initialState.user, action) => {
       }
       case SUCCESS_POST_PROPOSAL: {
         console.log("user reducer: SUCESS_POST_PROPOSAL");
-        console.log(action);
+        //console.log(action);
 
         let myChallenges = state.challenges;
         let myChallenge = state.challenges[action.action.body.challenge_id];
@@ -373,7 +373,7 @@ export default (state = initialState.user, action) => {
         };
         saveUserToStorage(result);
 
-        navigateToStatus(action.action.props, null);
+        //navigateToStatus(action.action.props, null);
 
         return result;
       }

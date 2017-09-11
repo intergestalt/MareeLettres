@@ -199,7 +199,7 @@ export function postProposalServiceProxy(challenge_id, text, props) {
     created_at: new Date().toISOString(),
   };
   console.log('postProposalServiceProxy');
-  console.log(body);
+  //console.log(body);
   store.dispatch(postProposal(body, props));
 }
 

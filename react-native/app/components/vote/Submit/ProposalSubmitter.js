@@ -11,6 +11,7 @@ import { postProposalServiceProxy } from '../../../helper/apiProxy';
 import I18n from '../../../i18n/i18n';
 import { popProposalSubmitter } from '../../../helper/navigationProxy';
 import { setOwnProposal } from '../../../actions/user';
+import ProposalStatus from '../Status/ProposalStatus.js';
 
 const colorWriteArea = '#FFFFFF';
 const colorKeyBoard = '#000000';
@@ -1069,23 +1070,29 @@ class ProposalSubmitter extends Component {
             {title.toUpperCase()}
           </Text>
         </View>
-        <View pointerEvents="box-only" {...pangestures} style={styles.dragContainer}>
-          <WritingArea
-            letterColor={colorWriteArea}
-            layoutCallback={this.onLayoutCallback}
-            onLayoutCallbackWritingArea={this.onLayoutCallbackWritingArea}
-            onLayoutCallbackWritingArea1={this.onLayoutCallbackWritingArea1}
-            onLayoutCallbackWritingArea2={this.onLayoutCallbackWritingArea2}
-            letters={this.state.lettersWritingArea}
-          />
-          {submitText}
-          {keyboard}
-          {draggableLetter}
-        </View>
-        <View style={styles.submitContainer}>
-          {submitButton}
-          {submitYesNo}
-        </View>
+        {!(this.props.ownProposalInReview || this.props.ownProposalInReview) ? (
+          <View pointerEvents="box-only" {...pangestures} style={styles.dragContainer}>
+            <WritingArea
+              letterColor={colorWriteArea}
+              layoutCallback={this.onLayoutCallback}
+              onLayoutCallbackWritingArea={this.onLayoutCallbackWritingArea}
+              onLayoutCallbackWritingArea1={this.onLayoutCallbackWritingArea1}
+              onLayoutCallbackWritingArea2={this.onLayoutCallbackWritingArea2}
+              letters={this.state.lettersWritingArea}
+            />
+            {submitText}
+            {keyboard}
+            {draggableLetter}
+          </View>
+        ) : null }
+        {!(this.props.ownProposalInReview || this.props.ownProposalInReview) ? (
+          <View style={styles.submitContainer}>
+            {submitButton}
+            {submitYesNo}
+          </View>
+        ) : (
+        <ProposalStatus navigation={this.props.navigation} challenge={this.props.challenge} />
+        )}
       </View>
     );
   }
@@ -1101,12 +1108,16 @@ const mapStateToProps = (state) => {
       const challenge = challenges[selectedChallengeId];
       if (challenge) {
         ownProposal = challenge.ownProposal;
+        ownProposalInReview = challenge.ownProposalInReview;
+        ownProposalBlocked = challenge.ownProposalBlocked;
       }
     }
     return {
       language,
-      ownProposal,
       selectedChallengeId,
+      ownProposal,
+      ownProposalInReview,
+      ownProposalBlocked
     };
   } catch (e) {
     console.log('ProposalSubmitter');

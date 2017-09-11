@@ -20,12 +20,12 @@ class ProposalStatus extends Component {
   render() {
   	return (
   		<View>
-	  		<TouchableOpacity onPress={() => this.handleBackPress()}>
+	  		{/*<TouchableOpacity onPress={() => this.handleBackPress()}>
 	            <Text>
 	              {'<'}
 	            </Text>
 	         </TouchableOpacity>
-			<Text>{this.props.challenge.title[this.props.language]}</Text>
+			<Text>{this.props.challenge.title[this.props.language]}</Text>*/}
 			<Text>You proposed: {this.props.userChallenge.ownProposal}</Text>
 			<Text>Status: 
 				{this.props.userChallenge.ownProposalInReview ? " In Review" : ""}
@@ -37,8 +37,8 @@ class ProposalStatus extends Component {
 }
 
 const mapStateToProps = (state, props) => {
-  console.log(state.challenges);
-  console.log(props);	
+  //console.log(state.challenges);
+  //console.log(props);	
   
   try {
     const language = state.globals.language;

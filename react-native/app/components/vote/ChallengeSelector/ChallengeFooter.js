@@ -76,25 +76,17 @@ class ChallengeFooter extends Component {
         <View style={styles.challengeFooterUnfinished}>
           {this.renderTinderButton()}
 
-          {!userChallenge.ownProposalId ? (
+          
           <TouchableOpacity
             style={[styles.footerButton, styles.footerButtonRight]}
             onPress={this.props.handleCommitPress}
           >
             <Text style={styles.challengeFooterText}>
-              {I18n.t('suggest_button')}
+              {!userChallenge.ownProposalId ? 
+              I18n.t('suggest_button') : I18n.t('status_button') }
             </Text>
           </TouchableOpacity>
-          ) : ( 
-          <TouchableOpacity
-            style={[styles.footerButton, styles.footerButtonRight]}
-            onPress={this.props.handleStatusPress}
-          >
-            <Text style={styles.challengeFooterText}>
-              {I18n.t('status_button')}
-            </Text>
-          </TouchableOpacity>
-          )}
+          
         </View>
       </View>
     );
