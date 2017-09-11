@@ -355,7 +355,6 @@ class Letter extends Component {
       inputRange: [0, 25, 100],
       outputRange: [this.state.letter_size, this.state.animated_letter_size, max_letter_size]
     });*/
-    console.log(max_letter_size);
     let size = this.state.font.size == 1 ? max_letter_size : this.state.letter_size;
     /*let colour = this.state.font.colour.interpolate({
       inputRange: [0, 100],
