@@ -64,21 +64,17 @@ class Map extends Component {
 
   pollLetters() {
     console.ignoredYellowBox = ['Setting a timer'];
-    this.timerID = setInterval(() => {
+    this.timerID = setTimeout(() => {
         if(this.props.screen === "map") { // only call when map is current screen
           loadLettersIntervalServiceProxy({
             centerLat:this.props.map.coordinates.latitude, 
             centerLng:this.props.map.coordinates.longitude,
             radius:100});
-          }  
+        }
+        this.pollLetters();  
       },
       this.props.interval
     );
-  }
-
-  componentWillUnmount() {
-    console.log("componentWillUnmount"); // component stays alive on tab away
-    clearInterval(this.timerID);
   }
 
   onLayout = (event) => {
