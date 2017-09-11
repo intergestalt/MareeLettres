@@ -8,13 +8,20 @@ import SubmitField from 'uniforms-unstyled/SubmitField';
 import { OriginId } from 'maree-lettres-shared';
 
 import { Challenges, ChallengesSchema } from '../../api/challenges/challenges';
-import { Proposals } from '../../api/proposals/proposals';
+import { Proposals, ProposalsSchema } from '../../api/proposals/proposals';
 import ProposalEntry from '../components/ProposalEntry';
 
 import AdminWrapper from '../components/AdminWrapper';
 import Menu from '../components/menu';
+import Filter from '../components/Filter';
 
 Session.setDefault('proposalsListLimit', 100);
+Session.setDefault('proposalsListFilter', {
+  sortField: 'score',
+  sortOrder: 'desc',
+  searchFild: false,
+  searchQuery: '',
+});
 
 class ProposalsPage extends Component {
   constructor(props) {
@@ -25,14 +32,13 @@ class ProposalsPage extends Component {
 
   more = () => {
     Session.set('proposalsListLimit', Session.get('proposalsListLimit') + 100);
-    console.log(Session.get('proposalsListLimit'));
   };
 
   renderProposals() {
     const proposals = this.props.proposals;
     return (
       <tbody>
-        {proposals.map(proposal => <ProposalEntry proposal={proposal} onDelete={this.handleDelete} onReview={this.handleReview} />)}
+        {proposals.map(proposal => <ProposalEntry key={proposal._id} proposal={proposal} onDelete={this.handleDelete} onReview={this.handleReview} />)}
       </tbody>
     );
   }
@@ -48,10 +54,16 @@ class ProposalsPage extends Component {
   }
 
 
+
+
   render() {
     return (
       <AdminWrapper>
         <Menu />
+        <Filter 
+          sessionVarName="proposalsListFilter"
+          schema={ProposalsSchema}
+        />
         <table>
           <thead>
             <tr>
@@ -77,14 +89,18 @@ class ProposalsPage extends Component {
 }
 
 export default createContainer((props) => {
-  console.log(props);
+  const session = Session.get("proposalsListFilter")
+  const sort = {}; 
+  sort[session.sortField] = (session.sortOrder == "asc" ? 1 : -1)
   Meteor.subscribe('get.proposals', {
     challenge_id: props.location.query.challenge_id,
     limit: Session.get('proposalsListLimit'),
-    sort: { score: -1 },
+    sort,
   });
 
+  const proposals = Proposals.find({}, { sort }).fetch()
+
   return {
-    proposals: Proposals.find().fetch(),
+    proposals,
   };
 }, ProposalsPage);

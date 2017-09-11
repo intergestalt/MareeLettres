@@ -14,6 +14,8 @@ Meteor.publish('get.proposals', function getProposals(data) {
   if (data.limit) options.limit = data.limit;
   if (data.sort) options.sort = data.sort;
 
+  console.log(data, options)
+
   return Proposals.find(query, options);
 });
 
