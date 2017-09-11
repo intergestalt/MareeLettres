@@ -70,7 +70,7 @@ const loadData = function* loadData(action) {
       messageKey: 'network_error',
     });
   }
-}
+};
 
 const loadDataHTML = function* loadDataHTML(action) {
   try {
@@ -84,9 +84,9 @@ const loadDataHTML = function* loadDataHTML(action) {
       type: SET_NET_WORK_ERROR,
       yes: true,
       messageKey: 'network_error',
-    })
+    });
   }
-}
+};
 
 const rootSaga = function* rootSaga() {
   yield takeEvery(STREAM_GET_AUTH_TOKEN, loadData);
@@ -103,6 +103,6 @@ const rootSaga = function* rootSaga() {
   yield takeEvery(POST_LETTER, loadData);
   yield takeEvery(LOAD_USER, loadData);
   yield takeEvery(POST_PROPOSAL, loadData);
-}
+};
 
 export default rootSaga;

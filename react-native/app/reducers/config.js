@@ -35,7 +35,7 @@ export default (state = initialState.config, action) => {
         const now = new Date();
         const res = {
           ...state,
-          currentConfig: null, // action.action.newConfig
+          currentConfig: action.action.newConfig,
           isLoading: false,
           isInternalLoading: false,
           time: now.getTime(),
