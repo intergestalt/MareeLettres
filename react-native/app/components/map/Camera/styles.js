@@ -36,11 +36,14 @@ export default EStyleSheet.create({
     bottom: 0,
     backgroundColor: 'transparent',
     flexDirection: 'row',
-    zIndex: 3
+    zIndex: 3,
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '100%'
   },
   button: {
     alignItems: 'center',
-    padding: 10
+    padding: 15
   },
   buttonText: { 
     fontSize: 18, 
@@ -59,5 +62,17 @@ export default EStyleSheet.create({
     fontFamily: 'impact',
     color: "#fff",
     zIndex: 5
+  },
+  backButton: {
+    position: 'absolute',
+    top: 5,
+    left: 10,
+    zIndex: 5,
+    backgroundColor: 'transparent'
+  },
+  backButtonText: {
+    fontFamily: 'impact',
+    color: '#fff',
+    fontSize: 30
   }
 });

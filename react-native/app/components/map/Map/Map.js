@@ -98,6 +98,10 @@ class Map extends Component {
     }
   }
 
+  onRegionChange = (region) => {
+    this.setMapLetterSize(region);
+  }
+
   setMapLetterSize = (region) => {
     // rough font size corresponding to world metres
     const size = parseFloat(
@@ -165,7 +169,7 @@ class Map extends Component {
     return (
       <Letter
         character={item.character}
-        position={{ x, y: 0 }}
+        position={{ x: x + 2, y: 0 }}
         key={index}
         index={index}
         navigation={this.props.navigation}
@@ -216,6 +220,7 @@ class Map extends Component {
         <MapView.Animated ref="map" onLayout={this.onLayout}
           ref={(input) => { this._map = input; }}
           onRegionChangeComplete={this.onRegionChangeComplete}
+          //onRegionChange={this.onRegionChange}
           provider={MapView.PROVIDER_GOOGLE}
           style={styles.container}
           initialRegion={{
@@ -238,7 +243,9 @@ class Map extends Component {
             center={{ latitude: this.state.lat, longitude: this.state.lng }}
             radius={this.props.config.map_drop_zone_radius}
             strokeColor={styles.$drop_zone_border}
-            fillColor={styles.$drop_zone_background}
+            strokeWidth={3}
+            lineDashPattern={[1, 1]}
+            zIndex={2}
           />
         </MapView.Animated>
 

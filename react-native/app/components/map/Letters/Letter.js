@@ -46,7 +46,7 @@ class Letter extends Component {
         position: {x: this.props.position.x, y: this.props.position.y},
         pan: new Animated.ValueXY({x:0, y:0}),
         letter_size: 26,
-        offset_bottom: 18,
+        offset_bottom: 38,
         animated_letter_size: this.props.letter_base_size * 5,
         delta_max: metresToDelta(this.props.dropzone_radius * this.props.map_delta_max, this.props.mapLat),
         letter_offset: {
@@ -63,12 +63,16 @@ class Letter extends Component {
           onStartShouldSetPanResponder: () => true,
           onMoveShouldSetPanResponder: () => true,
           onPanResponderStart: (e) => {
-            this.setState({panning: true});
-            this.animateSelectedFont();
+            if(this.props.character !== '+') {
+              this.setState({panning: true});
+              this.animateSelectedFont();  
+            }
           },
           onPanResponderMove: (e, gesture) => {
-            // simplify - just use gesture difference for pan directly
-            this.animateTranslate(gesture.dx, gesture.dy + this.state.letter_offset.y);
+            if(this.props.character !== '+') {
+              // simplify - just use gesture difference for pan directly
+              this.animateTranslate(gesture.dx, gesture.dy + this.state.letter_offset.y);
+            }
           },
           onPanResponderRelease: (e, gesture) => {
             /*console.log("RELEASE after pan:");
@@ -90,37 +94,50 @@ class Letter extends Component {
             this.setState({panning: false});
             this.animateResetFont();
 
+            console.log(y);
+            console.log(this.props.user.map.layout.height);
+            console.log(gesture.y0);
+            console.log(gesture.dx);
+            console.log(gesture.dy);
+
             // check if letter is dropped on map area
-            if (y < this.props.user.map.layout.height){
-              // check if letter is disabled
-              if (!this.props.disabled) {
-                // try to place letter on map
-                if (this.onDrop(x, y)) {
-                  this.animateSnapToStart();
-                } else {
-                  this.animateSpringToStart();
-                }
-              } else {
-                this.animateSpringToStart();
-              }
-            } else {
-              // if letter is tapped (or dropped in place)
-              if (gesture.dx < 10 && gesture.dy < 10) {
-                // open the relevant screen
-                if (this.props.primary) {
-                  if (this.props.character === '+') {
-                    this.navigateLetterSelector();
+            if (Math.abs(gesture.dy) > 10) {
+                
+                if(this.props.character !== '+') {
+                
+                  // check if letter is disabled
+                  if (!this.props.disabled) {
+                    // try to place letter on map
+                    if (this.onDrop(x, y)) {
+                      this.animateSnapToStart();
+                    } else {
+                      this.animateSpringToStart();
+                    }
                   } else {
-                    this.navigateQRCodeSend();
+                      this.animateSpringToStart();
+                      this.props.alertWithType('info', 'Not so fast!', "Please wait before using that letter again.");
                   }
-                } else {
-                  this.navigateQRCodeGet();
+
                 }
-              }
-              // reset
-              this.animateSpringToStart();
+              
+            } else {
+                  
+
+                    // open the relevant screen
+                    if (this.props.primary) {
+                      if (this.props.character === '+') {
+                        this.navigateLetterSelector();
+                      } else {
+                        this.navigateQRCodeSend();
+                      }
+                    } else {
+                      this.navigateQRCodeGet();
+                    }
+                    this.animateSpringToStart();  
+                
+
             }
-          }
+          }  
       });
   }
 
@@ -157,7 +174,7 @@ class Letter extends Component {
 
     // respond if user missed the zone
     if (distance > this.props.dropzone_radius + 2) {
-      this.props.alertWithType('info', 'Too far away', "You cannot write outside the circle around you. Move your body to get closer!");
+      this.props.alertWithType('info', 'Too far away', "You cannot write outside the circle around you.");
       return false;
     } else {
       if (this.props.user.map.tutorialState == 'welcome') {
@@ -181,14 +198,14 @@ class Letter extends Component {
     postLetterServiceProxy(this.props.character, lat, lng);
 
     // if letter disabled, set timer to re-enable
-    if (!this.props.main) {
+    //if (!this.props.main) {
       let index = this.props.index;
       let char  = this.props.character;
 
       setTimeout(() => {
         reviveLetterMenuProxy(index, char);
-      }, this.props.regen_time_secondary);
-    };
+      }, index == 0 ? this.props.regen_time_primary : this.props.regen_time_secondary);
+    //};
   }
 
   destroyLetter = () => {
@@ -237,7 +254,7 @@ class Letter extends Component {
 
   animateSelectedFont() {
     // change colour & size when letter dragged
-    Animated.timing(
+    /*Animated.timing(
       this.state.font.size, {
         toValue: 100,
         duration: 1
@@ -254,12 +271,19 @@ class Letter extends Component {
         toValue: 100,
         duration: 1
       }
-    ).start();
+    ).start();*/
+
+    let newFont = {
+      size: 1,
+      letter_offset: 100,
+      colour: 100
+    }
+    this.setState({font: newFont});
   }
 
   animateResetFont() {
     // reset to default font colour/ size
-    Animated.timing(
+    /*Animated.timing(
       this.state.font.size, {
         toValue: 0,
         duration: 1
@@ -276,7 +300,13 @@ class Letter extends Component {
         toValue: 0,
         duration: 1
       },
-    ).start();
+    ).start();*/
+    let newFont = {
+      size: 0,
+      letter_offset: 0,
+      colour: 0
+    }
+    this.setState({font: newFont});
   }
 
   animateSnapToStart() {
@@ -321,14 +351,17 @@ class Letter extends Component {
     const max_letter_size = parseFloat((this.state.animated_letter_size / (1200 * this.props.map_delta)).toFixed(1));
 
     // colour animation
-    let size = this.state.font.size.interpolate({
+    /*let size = this.state.font.size.interpolate({
       inputRange: [0, 25, 100],
       outputRange: [this.state.letter_size, this.state.animated_letter_size, max_letter_size]
-    });
-    let colour = this.state.font.colour.interpolate({
+    });*/
+    let size = this.state.font.size == 1 ? max_letter_size : this.state.letter_size;
+    /*let colour = this.state.font.colour.interpolate({
       inputRange: [0, 100],
       outputRange: ['rgb(0,0,0)', 'rgb(255,255,255)']
-    });
+    });*/
+    let colour = this.state.font.colour == 100 ? '#fff' : '#000';
+    
     let pan = this.state.pan.getLayout();
 
     return (
@@ -345,16 +378,16 @@ class Letter extends Component {
               translateY: this.state.pan.y
           }]
         }]}>
-        <Animated.Text style={[
+        <Text style={[
           styles.letter,
           {
             color: colour,
             fontSize: size,
-            opacity: this.props.disabled ? 0.5 : 1
+            opacity: (this.props.disabled || this.props.character == '+') ? 0.5 : 1
           }
           ]}>
           {this.props.character}
-        </Animated.Text>
+        </Text>
       </Animated.View>
     );
   }

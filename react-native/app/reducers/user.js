@@ -170,8 +170,10 @@ export default (state = initialState.user, action) => {
         console.log('Reducer: USER_UPDATE_LETTER_MENU');
 
         const result = { ...state };
-
-        if (action.menuIndex === 1) {
+        
+        if (action.menuIndex === 0) {          
+          result.primary_letter.disabled = true;
+        } else if (action.menuIndex === 1) {
           result.secondary_letter_1.disabled = true;
         } else if (action.menuIndex === 2) {
           result.secondary_letter_2.disabled = true;
@@ -190,12 +192,14 @@ export default (state = initialState.user, action) => {
 
         const result = { ...state };
 
-        if (action.menuIndex === 1) {
+        if (action.menuIndex === 0) {
+          result.primary_letter.disabled = false;
+        } if (action.menuIndex === 1) {
           result.secondary_letter_1.disabled = false;
         } else if (action.menuIndex === 2) {
           result.secondary_letter_2.disabled = false;
         } else if (action.menuIndex === 3) {
-          result.secondary_letter_4.disabled = false;
+          result.secondary_letter_3.disabled = false;
         } else if (action.menuIndex === 4) {
           result.secondary_letter_4.disabled = false;
         }

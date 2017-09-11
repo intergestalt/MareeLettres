@@ -21,6 +21,10 @@ export default {
   back_button: 'BACK',
   share_button: 'PARTAGER',
 
+  snap_button: 'SNAP FR',
+  reset_button: 'RESET FR',
+  save_button: 'SAVE FR',
+
   reload_challenges: 'The topics are not loaded yet. Press to Reload FR',
   reload_proposals: 'No suggestions found. Press to Reload FR',
   reload_content: 'The content is not loaded yet. Press to Reload FR',
@@ -41,7 +45,7 @@ export default {
   network_error: 'Network error. Please check your internet connection. FR',
 
   center_map: 'Centre map',
-  camera_button: 'Camera FR',
+  camera_button: 'Camera',
   choose_your_letter: 'Choose Your Letter FR',
   take_picture: 'Take picture FR',
   see_all_votes: 'See all votes FR',

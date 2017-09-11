@@ -5,10 +5,13 @@ import styles from './styles';
 
 import { dispatchBackActionToMapOverview } from '../../../helper/navigationProxy';
 import { MAP_VIEWS } from '../../../consts';
+import I18n from '../../../i18n/i18n';
+import { connect } from 'react-redux';
 
 import LetterOverlay from './LetterOverlay';
+import { connectAlert } from '../../../components/general/Alert';
 
-export default class ExpoCamera extends React.Component {
+class ExpoCamera extends React.Component {
 
   constructor(props) {
     super(props);
@@ -62,6 +65,7 @@ export default class ExpoCamera extends React.Component {
     // this doesn't work on android!! no way to ask for this permission in expo
     let saveResult = await CameraRoll.saveToCameraRoll(result, 'photo');
     this.setState({ cameraRollUri: saveResult });
+    this.props.alertWithType('info', 'Saved', "Find your pics in your device's camera roll!");
   }
 
   _shareSnapshot() {
@@ -69,6 +73,7 @@ export default class ExpoCamera extends React.Component {
   }
 
   render() {
+    I18n.locale = this.props.language;
     console.log("render");
     const { hasCameraPermission } = this.state;
     if (hasCameraPermission === null) {
@@ -89,26 +94,26 @@ export default class ExpoCamera extends React.Component {
               ) : null }
               <LetterOverlay style={styles.overlay}/>
             </View>
-          <View style={styles.controls}>
-              <TouchableOpacity style={styles.button}
+          <TouchableOpacity style={styles.backButton}
                 onPress={this._cancel}>
-                <Text style={styles.buttonText}>Back</Text>
-              </TouchableOpacity>
+                <Text style={styles.backButtonText}>{'<'}</Text>
+          </TouchableOpacity>
+          <View style={styles.controls}>
               {this.state.pathPhoto ? (
               <TouchableOpacity style={styles.button}
                 onPress={this._resetPhoto}>
-                <Text style={styles.buttonText}>Reset</Text>
+                <Text style={styles.buttonText}>{I18n.t('reset_button').toUpperCase()}</Text>
               </TouchableOpacity>
               ) : null}
               {this.state.pathPhoto ? (
               <TouchableOpacity style={styles.button}
                 onPress={this._takeSnapshot}>
-                <Text style={styles.buttonText}>Save</Text>
+                <Text style={styles.buttonText}>{I18n.t('save_button').toUpperCase()}</Text>
               </TouchableOpacity>
               ) : (
               <TouchableOpacity style={styles.button}
                 onPress={this._takePhoto}>
-                <Text style={styles.buttonText}>Snap</Text>
+                <Text style={styles.buttonText}>{I18n.t('snap_button').toUpperCase()}</Text>
               </TouchableOpacity>
               )}
               {/*<TouchableOpacity style={styles.button}
@@ -130,3 +135,16 @@ export default class ExpoCamera extends React.Component {
     }
   }
 }
+
+const mapStateToProps = (state) => {
+  try {
+    return {
+      language: state.globals.language,
+    };
+  } catch (e) {
+    console.log('ExpoCamera');
+    console.log(e);
+    throw e;
+  }
+};
+export default connect(mapStateToProps)(connectAlert(ExpoCamera));
