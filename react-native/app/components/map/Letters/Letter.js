@@ -348,13 +348,14 @@ class Letter extends Component {
   }
 
   render() {
-    const max_letter_size = parseFloat((this.state.animated_letter_size / (1200 * this.props.map_delta)).toFixed(1));
+    const max_letter_size = parseFloat((this.props.letter_base_size * 5 / (1200 * this.props.map_delta)).toFixed(1));
 
     // colour animation
     /*let size = this.state.font.size.interpolate({
       inputRange: [0, 25, 100],
       outputRange: [this.state.letter_size, this.state.animated_letter_size, max_letter_size]
     });*/
+    console.log(max_letter_size);
     let size = this.state.font.size == 1 ? max_letter_size : this.state.letter_size;
     /*let colour = this.state.font.colour.interpolate({
       inputRange: [0, 100],
