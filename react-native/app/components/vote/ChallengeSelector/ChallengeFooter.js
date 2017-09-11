@@ -68,9 +68,12 @@ class ChallengeFooter extends Component {
 
   renderUnfinished() {
     console.log("user.challenge");
-    let userChallenge = this.props.userChallenges[this.getChallenge()._id];
-    if(!userChallenge) userChallenge = {};
-    console.log(userChallenge);
+    let challenge = this.getChallenge();
+    let userChallenge = {};
+    console.log(challenge);
+    if(challenge._id && this.props.userChallenges) {
+      userChallenge = this.props.userChallenges[challenge._id];
+    }
     return (
       <View style={styles.challengeFooter}>
         <View style={styles.challengeFooterUnfinished}>
