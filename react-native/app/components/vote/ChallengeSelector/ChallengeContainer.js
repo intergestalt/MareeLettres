@@ -111,6 +111,7 @@ class ChallengeContainer extends Component {
   }
 
   handleListPress() {
+    console.log("list press");
     this.resetProposalListPos();
     this.props.dispatch(setProposalView(this.props.selectedChallengeId, PROPOSAL_VIEWS.LIST));
     this.loadAllProposals(

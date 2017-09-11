@@ -387,7 +387,7 @@ class ChallengeContent extends Component {
       return this.renderLoading();
     }
     if (this.isFinished()) {
-      return this.renderFinished();
+      return this.renderFinished(); // TODO: allow for list view on finished challenge
     }
     if (listIsEmpty(this.props.proposals)) {
       return this.renderEmptyList();

@@ -44,7 +44,7 @@ const mapStateToProps = (state, props) => {
     const language = state.globals.language;
     const selectedChallengeIndex = state.challenges.selectedChallengeIndex;
   	const challenge = state.challenges.challenges[selectedChallengeIndex];
-  	const userChallenge = state.user.challenges[challenge._id];
+  	const userChallenge = state.user.challenges ? state.user.challenges[challenge._id] : {};
 
     return {
       language,

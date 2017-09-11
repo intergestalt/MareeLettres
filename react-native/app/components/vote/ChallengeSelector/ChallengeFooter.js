@@ -35,19 +35,42 @@ class ChallengeFooter extends Component {
     return this.props.challenges[this.getChallengeIndex()];
   }
 
+  getUserChallenge() {
+    if(!this.props.userChallenges) {
+      return {};
+    }
+    let userChallenge = this.props.userChallenges[this.getChallenge()._id];
+    return userChallenge ? userChallenge : {};
+  }
+
   isFinished() {
     return isFinished(this.getChallenge());
   }
   renderFinished() {
     return (
       <View style={styles.challengeFooter}>
-        <View style={styles.challengeFooterFinished}>
-          <TouchableOpacity onPress={this.props.handleSharePress}>
+        <View style={styles.challengeFooterUnfinished}>
+          {/* 
+          <TouchableOpacity style={styles.footerButton} onPress={this.props.handleSharePress}>
             <Text style={styles.challengeFooterText}>
               {I18n.t('share_button')}
             </Text>
-            {/* TODO: overview and status options here */}
+          </TouchableOpacity> */}
+          <TouchableOpacity style={styles.footerButton} onPress={this.props.handleListPress}>
+            <Text style={styles.challengeFooterText}>
+              {I18n.t('overview_button')}
+            </Text>
           </TouchableOpacity>
+          {!this.getUserChallenge().ownProposalId ? (
+            <TouchableOpacity
+              style={[styles.footerButton, styles.footerButtonRight]}
+              onPress={this.props.handleCommitPress}
+            >
+              <Text style={styles.challengeFooterText}>
+                { I18n.t('status_button') }
+              </Text>
+            </TouchableOpacity>
+          ) : null}
         </View>
       </View>
     );
@@ -67,13 +90,6 @@ class ChallengeFooter extends Component {
   }
 
   renderUnfinished() {
-    console.log("user.challenge");
-    let challenge = this.getChallenge();
-    let userChallenge = {};
-    console.log(challenge);
-    if(challenge._id && this.props.userChallenges) {
-      userChallenge = this.props.userChallenges[challenge._id];
-    }
     return (
       <View style={styles.challengeFooter}>
         <View style={styles.challengeFooterUnfinished}>
@@ -85,7 +101,7 @@ class ChallengeFooter extends Component {
             onPress={this.props.handleCommitPress}
           >
             <Text style={styles.challengeFooterText}>
-              {!userChallenge.ownProposalId ? 
+              {!this.getUserChallenge().ownProposalId ? 
               I18n.t('suggest_button') : I18n.t('status_button') }
             </Text>
           </TouchableOpacity>
@@ -110,7 +126,7 @@ const mapStateToProps = (state, ownPprops) => {
     const selectedChallengeIndex = state.challenges.selectedChallengeIndex;
     const challenge = challenges[selectedChallengeIndex + ownPprops.challengeOffset];
     const proposalView = challenge.proposalView;
-
+    
     return {
       selectedChallengeIndex,
       challenges,

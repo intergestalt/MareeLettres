@@ -13,6 +13,8 @@ import { popProposalSubmitter } from '../../../helper/navigationProxy';
 import { setOwnProposal } from '../../../actions/user';
 import ProposalStatus from '../Status/ProposalStatus.js';
 
+import { isFinished } from '../../../helper/dateFunctions';
+
 const colorWriteArea = '#FFFFFF';
 const colorKeyBoard = '#000000';
 const colorSpace = '#888888';
@@ -43,6 +45,8 @@ class ProposalSubmitter extends Component {
     this.onLayoutCallbackWritingArea1 = this.onLayoutCallbackWritingArea1.bind(this);
     // The second inner container
     this.onLayoutCallbackWritingArea2 = this.onLayoutCallbackWritingArea2.bind(this);
+
+    this.showStatusPage = this.showStatusPage.bind(this);
 
     // Arrays for the layout callback: To determin the pos of all letters.
     this.layoutLetters = {};
@@ -993,6 +997,14 @@ class ProposalSubmitter extends Component {
     console.log('submitting...');
     postProposalServiceProxy(this.props.challenge._id, answer, this.props);
   }
+  showStatusPage() {
+    if(this.props.ownProposalInReview || this.props.ownProposalInReview || this.props.ownProposalId) {
+      return true;
+    }
+    if(isFinished(this.props.challenge)) {
+      return true; // shouldn't happen
+    }
+  }
   render() {
     I18n.locale = this.props.language;
     const title = this.props.challenge.title[this.props.language];
@@ -1070,7 +1082,7 @@ class ProposalSubmitter extends Component {
             {title.toUpperCase()}
           </Text>
         </View>
-        {!(this.props.ownProposalInReview || this.props.ownProposalInReview) ? (
+        {!this.showStatusPage() ? (
           <View pointerEvents="box-only" {...pangestures} style={styles.dragContainer}>
             <WritingArea
               letterColor={colorWriteArea}
@@ -1085,7 +1097,7 @@ class ProposalSubmitter extends Component {
             {draggableLetter}
           </View>
         ) : null }
-        {!(this.props.ownProposalInReview || this.props.ownProposalInReview) ? (
+        {!this.showStatusPage() ? (
           <View style={styles.submitContainer}>
             {submitButton}
             {submitYesNo}
@@ -1104,12 +1116,16 @@ const mapStateToProps = (state) => {
     const selectedChallengeId = state.challenges.selectedChallengeId;
     const challenges = state.user.challenges;
     let ownProposal = '';
+    let ownProposalId = null;
+    let ownProposalInReview = null;
+    let ownProposalBlocked = null;
     if (challenges) {
       const challenge = challenges[selectedChallengeId];
       if (challenge) {
         ownProposal = challenge.ownProposal;
         ownProposalInReview = challenge.ownProposalInReview;
         ownProposalBlocked = challenge.ownProposalBlocked;
+        ownProposalId = challenge.ownProposalId;
       }
     }
     return {
@@ -1117,7 +1133,8 @@ const mapStateToProps = (state) => {
       selectedChallengeId,
       ownProposal,
       ownProposalInReview,
-      ownProposalBlocked
+      ownProposalBlocked,
+      ownProposalId
     };
   } catch (e) {
     console.log('ProposalSubmitter');
