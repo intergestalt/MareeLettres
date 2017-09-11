@@ -21,7 +21,7 @@ const styles = EStyleSheet.create({
     flex: 1,
   },
   row: {
-    marginHorizontal: '$challengeListItemHorizontalPadding',
+    marginHorizontal: 0,
     paddingBottom: '1rem',
     paddingTop: '1rem + $lineTopOffset',
     justifyContent: 'space-around',

@@ -8,7 +8,7 @@ const em = Dimensions.get('window').height / aspect_ratio_factor;
 const styles = EStyleSheet.create({
   container: { flex: 1, flexDirection: 'column' },
   titleContainer: {
-    //textAlign: 'center', // textAlgin cannot be assigned to View (gives warning)
+    // textAlign: 'center', // textAlgin cannot be assigned to View (gives warning)
     paddingTop: '1.5rem',
     flexDirection: 'row',
     backgroundColor: '#000033',
@@ -35,7 +35,7 @@ const styles = EStyleSheet.create({
   writingArea: {
     backgroundColor: '#000033',
     width: '100%',
-    flex: 0.3,
+    flex: 1,
   },
 
   writingAreaContentContainer: {

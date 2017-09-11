@@ -5,7 +5,11 @@ import { connect } from 'react-redux';
 import styles from './styles';
 import { ChallengeDetail } from './';
 import { screenWidth } from '../../../helper/screen';
-import { popChallengeSelector, navigateToSubmit, navigateToStatus } from '../../../helper/navigationProxy';
+import {
+  popChallengeSelector,
+  navigateToSubmit,
+  navigateToStatus,
+} from '../../../helper/navigationProxy';
 import { handleChallengeIsNotExisting } from '../../../helper/challengesHelper';
 
 import { startChallengeTicker } from '../../../helper/ticker';
@@ -109,7 +113,7 @@ class ChallengeContainer extends Component {
   }
 
   handleListPress() {
-    console.log("list press");
+    console.log('list press');
     this.resetProposalListPos();
     this.props.dispatch(setProposalView(this.props.selectedChallengeId, PROPOSAL_VIEWS.LIST));
     this.loadAllProposals(
@@ -249,7 +253,6 @@ class ChallengeContainer extends Component {
       return;
     }
     this.navigationEnabled = false;
-
     Animated.timing(this.state.challengeContainerOffsetX, {
       toValue: 0,
       duration: 200,
