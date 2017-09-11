@@ -5,9 +5,9 @@ import { AvailableLetters } from 'maree-lettres-shared';
 const Challenges = new Mongo.Collection('challenges');
 
 Challenges.allow({
-  insert: () => false,
+  insert: (userId) => (userId || false),
   update: (userId) => (userId || false),
-  remove: () => false,
+  remove: (userId) => (userId || false),
 });
 
 SimpleSchema.extendOptions(['title']);

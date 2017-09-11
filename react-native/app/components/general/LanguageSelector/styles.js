@@ -4,7 +4,8 @@ const styles = EStyleSheet.create({
   container: {
     justifyContent: 'center',
     alignItems: 'center',
-    height: '10%',
+    marginTop: '1rem',
+    marginBottom: '1rem',
     flexDirection: 'row',
   },
   paragraph: {

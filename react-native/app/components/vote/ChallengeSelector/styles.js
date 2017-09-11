@@ -90,7 +90,7 @@ const styles = EStyleSheet.create({
   challengeContent: {
     backgroundColor: '#FFFFFF',
     position: 'relative',
-    flex: 0.675,
+    flex: 1,
     width: '$swipeWidth',
     alignItems: 'center',
     justifyContent: 'center',

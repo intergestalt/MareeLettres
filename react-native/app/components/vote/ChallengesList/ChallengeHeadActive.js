@@ -28,9 +28,6 @@ class ChallengeHeadActive extends Component {
     I18n.locale = this.props.language;
     return (
       <View style={styles.row}>
-        <Text style={styles.title}>
-          {this.props.data.title ? this.props.data.title.toUpperCase() : '-'}
-        </Text>
         <View style={styles.tickerContainer}>
           <Text style={styles.liveSpacer}>
             {I18n.t('live_indicator')}
@@ -42,6 +39,9 @@ class ChallengeHeadActive extends Component {
             {I18n.t('live_indicator')}
           </Text>
         </View>
+        <Text style={styles.title}>
+          {this.props.data.title ? this.props.data.title.toUpperCase() : '-'}
+        </Text>
       </View>
     );
   }

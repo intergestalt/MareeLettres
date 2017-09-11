@@ -2,12 +2,13 @@ import React, { Component, PropTypes } from 'react';
 import { View, Text } from 'react-native';
 import { connect } from 'react-redux';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { Font } from 'expo';
+import { Font, LinearGradient } from 'expo';
 import {
   loadUserServiceProxy,
   loadChallengesServiceProxy,
   loadContentServiceProxy,
 } from '../../helper/apiProxy';
+import { gradient0 } from '../../config/gradients';
 import store from '../../config/store';
 import {
   loadUserFromStorage,
@@ -155,9 +156,12 @@ class SplashScreenB extends Component {
         style={styles.container}
         backgroundColor={styles._container.backgroundColor}
       >
-        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-          <Text>Init...</Text>
-        </View>
+        <LinearGradient style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
+          colors={gradient0.colors}
+          locations={gradient0.stops}
+          style={{ flex: 1, opacity: 1 }}
+        >
+        </LinearGradient>
       </Screen>
     );
   }

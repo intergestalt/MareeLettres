@@ -18,31 +18,38 @@ class Challenge extends Component {
     super(props);
     this.state = {};
     this.challenge_id = props.params.challenge_id;
+    this.saveCallback = this.saveCallback.bind(this)
   }
 
   save(doc) {
     console.log(doc);
-    Challenges.update(doc._id, {
-      $set: {
-        'title.en': doc.title.en,
-        'title.fr': doc.title.fr,
-        letters: doc.letters,
-        start_date: doc.start_date,
-        end_date: doc.end_date,
-        proposals_end_date: doc.proposals_end_date,
-        'winningProposalImageUrl': doc.winningProposalImageUrl,
-        'winningProposalDetailImageUrl': doc.winningProposalDetailImageUrl,
+    if (!doc._id) {
+      Challenges.insert(doc, this.saveCallback)
+    }
+    else
+      Challenges.update(doc._id, {
+        $set: {
+          'title.en': doc.title.en,
+          'title.fr': doc.title.fr,
+          letters: doc.letters,
+          start_date: doc.start_date,
+          end_date: doc.end_date,
+          proposals_end_date: doc.proposals_end_date,
+          'winningProposalImageUrl': doc.winningProposalImageUrl,
+          'winningProposalDetailImageUrl': doc.winningProposalDetailImageUrl,
+        },
       },
-    },
-      (error, data) => {
-        if (error) {
-          alert("ERROR - NOT SAVED")
-        }
-        else {
-          this.props.router.push('/admin/challenges')
-        }
-      }
-    );
+        this.saveCallback
+      );
+  }
+
+  saveCallback(error, data) {
+    if (error) {
+      alert("ERROR - NOT SAVED")
+    }
+    else {
+      this.props.router.push('/admin/challenges')
+    }
   }
 
   renderEditForm() {

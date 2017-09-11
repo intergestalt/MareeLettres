@@ -1,19 +1,21 @@
-export default {
+import EStyleSheet from 'react-native-extended-stylesheet';
+
+export default EStyleSheet.create({
   heading1: {
-    fontSize: 32,
+    fontSize: '2rem',
     color: '#000',
     fontFamily: 'impact',
     textAlign: 'center',
-    marginTop: '2%',
-    marginBottom: '7%'
+    marginTop: 0,
+    marginBottom: '1rem',
   },
   heading2: {
-    fontSize: 32,
+    fontSize: '2rem',
     color: '#000',
     fontFamily: 'impact',
     textAlign: 'center',
-    marginTop: '7%',
-    marginBottom: '7%'
+    marginTop: 0,
+    marginBottom: '1rem',
   },
   link: {
     textDecorationLine: 'underline'
@@ -25,7 +27,11 @@ export default {
     color: '#000',
     fontFamily: 'normal',
     textAlign: 'center',
-    paddingHorizontal: '5%'
+    paddingHorizontal: '1rem',
+    fontSize: '1rem',
+    padding: 0,
+    marginBottom: '2rem'
   },
   text: {},
-};
+});
+

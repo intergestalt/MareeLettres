@@ -25,6 +25,7 @@ a:hover {
 form {
   margin: 1rem;
   border: solid 1px #333;
+  background-color: white;
   padding: 1.5rem;
 }
 
@@ -73,11 +74,14 @@ input:not([type="checkbox"]) {
   box-sizing: border-box;
 }
 
+input:not([type="checkbox"]), textarea {
+  background-color: lightgrey;
+}
+
 input[type="submit"] {
   padding: 10px;
   border: solid 1px black;
   border-radius: 1rem;
-  background-color: lightgrey;
   font-size: 1rem;
   margin-top:2rem;
   cursor: pointer;

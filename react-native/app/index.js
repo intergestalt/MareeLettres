@@ -5,22 +5,14 @@ import Expo from 'expo';
 
 import Navigator from './config/routes';
 import store from './config/store';
+import globalStyles from './config/globalStyles';
 import { AppContainer } from './components/general/Container';
 
-import { screenHeight } from './helper/screen';
 import { AlertProvider } from './components/general/Alert';
 
 Expo.ScreenOrientation.allow(Expo.ScreenOrientation.Orientation.PORTRAIT);
 
-EStyleSheet.build({
-  $backgroundColor: '#DDDDDD',
-  $backgroundColorMenuItem: 'rgb(245,132,102)',
-  $highlightDraggingLetterColor: 'rgb(245,132,102)',
-  $strokeWidth: '0.1rem',
-  $proposalPaddingHorizontal: '10%',
-  outline: 0, // set to 1 to see the elements boundaries
-  rem: screenHeight > 800 ? 24 : screenHeight > 600 ? 20 : 16,
-});
+EStyleSheet.build(globalStyles);
 
 const configureScene = () => ({
   ...Navigator.SceneConfigs.FloatFromBottom,

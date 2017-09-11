@@ -16,20 +16,13 @@ export function isEmpty(item) {
   if (item === '') return true;
   return false;
 }
-export function isEmptyContent(howto, about, language) {
-  if (!howto) return true;
+export function isEmptyContent(about, language) {
   if (!about) return true;
   if (language === 'fr') {
-    if (isEmpty(howto.fr)) {
-      return true;
-    }
     if (isEmpty(about.fr)) {
       return true;
     }
   } else {
-    if (isEmpty(howto.en)) {
-      return true;
-    }
     if (isEmpty(about.en)) {
       return true;
     }

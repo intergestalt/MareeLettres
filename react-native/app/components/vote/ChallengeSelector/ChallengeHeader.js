@@ -105,6 +105,7 @@ class ChallengeHeader extends Component {
             : <ChallengeHeadInactive
               callerViewMode={CHALLENGE_VIEWS.DETAIL}
               data={standardizedChallenge}
+              hideTicker
             />}
         </TouchableOpacity>
       </View>

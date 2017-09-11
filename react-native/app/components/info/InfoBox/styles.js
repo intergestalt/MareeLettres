@@ -6,6 +6,7 @@ export default EStyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     paddingBottom: '3rem',
-    paddingHorizontal: '0.5rem',
-  },
+    paddingHorizontal: 0,
+    flex: 1,
+  }
 });

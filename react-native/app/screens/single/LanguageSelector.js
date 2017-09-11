@@ -4,6 +4,7 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 import { LinearGradient } from 'expo';
 import { connect } from 'react-redux';
 
+import { gradient1 } from '../../config/gradients';
 import { Screen } from '../../components/general/Container';
 import { screenWidth, screenHeight } from '../../helper/screen';
 import { getDuration } from '../../helper/helper';
@@ -53,49 +54,7 @@ const styles = EStyleSheet.create({
   },
 });
 
-const gradientStops = [
-  0,
-  0.009,
-  0.1604,
-  0.2193,
-  0.2736,
-  0.3246,
-  0.3733,
-  0.42,
-  0.4641,
-  0.5049,
-  0.506,
-  0.5414,
-  0.5793,
-  0.6209,
-  0.6663,
-  0.7173,
-  0.7766,
-  0.8524,
-  1,
-];
 
-const gradientColors = [
-  '#0D1140',
-  '#101241',
-  '#191643',
-  '#261C46',
-  '#36244A',
-  '#4B2F4F',
-  '#663D55',
-  '#894F5B',
-  '#B76661',
-  '#F58466',
-  '#F28366',
-  '#C97769',
-  '#AA6E6C',
-  '#91676E',
-  '#7D6270',
-  '#6E5E70',
-  '#645B71',
-  '#5D5A71',
-  '#5B5971',
-];
 
 class LanguageSelector extends Component {
   static propTypes = {
@@ -303,8 +262,8 @@ class LanguageSelector extends Component {
       >
         <View {...this.panResponder.panHandlers} style={{ flex: 1 }}>
           <LinearGradient
-            colors={gradientColors}
-            locations={gradientStops}
+            colors={gradient1.colors}
+            locations={gradient1.stops}
             style={{ flex: 1, opacity: 1 }}
           >
             <StatusBar hidden />

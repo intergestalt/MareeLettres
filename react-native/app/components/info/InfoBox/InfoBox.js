@@ -16,7 +16,6 @@ class InfoBox extends Component {
     language: PropTypes.string,
     isLoading: PropTypes.bool,
     about: PropTypes.object,
-    howto: PropTypes.object,
   };
 
   handleReloadPressPress = () => {
@@ -30,9 +29,10 @@ class InfoBox extends Component {
       </View>
     );
   }
+
   render() {
     I18n.locale = this.props.language;
-    if (isEmptyContent(this.props.howto, this.props.about, this.props.language)) {
+    if (isEmptyContent(this.props.about, this.props.language)) {
       return this.renderEmpty();
     }
     return (
@@ -55,7 +55,6 @@ const mapStateToProps = (state) => {
     return {
       language: state.globals.language,
       isLoading: state.content.isLoading,
-      howto: state.content.content.howto,
       about: state.content.content.about,
     };
   } catch (e) {

@@ -1,7 +1,7 @@
 /* BEGIN SET YOUR LOCAL IP ADDRESS HERE */
 
-// const DEV_MAREE_SERVER_ADDRESS = `${Expo.Constants.linkingUri.match(/:\/\/(.*):/)[1]}:3000`;
-const DEV_MAREE_SERVER_ADDRESS = 'maree.herokuapp.com';
+const DEV_MAREE_SERVER_ADDRESS = `${Expo.Constants.linkingUri.match(/:\/\/(.*):/)[1]}:3000`;
+// const DEV_MAREE_SERVER_ADDRESS = 'maree.herokuapp.com';
 
 /* END SET YOUR LOCAL IP ADDRESS HERE */
 
@@ -71,7 +71,7 @@ export const DYNAMIC_CONFIG = {
   // / TODO: clean up and remove
   TWITTER_HANDLE: '@WilliamShatner',
   TWITTER_AUTH_BASE64:
-    'MVJQNVhjMElGQ3FJcmZzc3Q3TXExTmVUSTp0dG5VNFFSVmpBVkdjaVpjZm92cFdzU1JZR09PUGt1amFjWnhsSUJnU1ExdE5sZDkwNw==',
+  'MVJQNVhjMElGQ3FJcmZzc3Q3TXExTmVUSTp0dG5VNFFSVmpBVkdjaVpjZm92cFdzU1JZR09PUGt1amFjWnhsSUJnU1ExdE5sZDkwNw==',
   TWITTER_AUTH_API_KEY: '1RP5Xc0IFCqIrfsst7Mq1NeTI',
   TWITTER_AUTH_API_TOKEN: 'ttnU4QRVjAVGciZcfovpWsSRYGOOPkujacZxlIBgSQ1tNld907',
   TWITTER_API_ENDPOINT: 'https://api.twitter.com/',

@@ -6,52 +6,9 @@ import { LinearGradient } from 'expo';
 import { ChallengeHeadActive, ChallengeHeadInactive } from './';
 
 import styles from './styles';
+import { gradient2 } from '../../../config/gradients';
 import { CHALLENGE_VIEWS } from '../../../consts';
 import I18n from '../../../i18n/i18n';
-
-const gradientStops = [
-  0,
-  0.009,
-  0.1604,
-  0.2193,
-  0.2736,
-  0.3246,
-  0.4,
-  0.5,
-  0.6,
-  0.7,
-  0.72,
-  0.74,
-  0.76,
-  0.78,
-  0.8,
-  0.82,
-  0.84,
-  0.86,
-  1,
-];
-
-const gradientColors = [
-  '#5B5971',
-  '#5D5A71',
-  '#645B71',
-  '#6E5E70',
-  '#7D6270',
-  '#91676E',
-  '#AA6E6C',
-  '#C97769',
-  '#F28366',
-  '#F58466',
-  '#B76661',
-  '#894F5B',
-  '#663D55',
-  '#4B2F4F',
-  '#36244A',
-  '#261C46',
-  '#191643',
-  '#101241',
-  '#0D1140',
-];
 
 class ChallengesListItem extends Component {
   static propTypes = {
@@ -130,8 +87,8 @@ class ChallengesListItem extends Component {
       url = (
         <View style={styles.imageListContainer}>
           <LinearGradient
-            colors={gradientColors}
-            locations={gradientStops}
+            colors={gradient2.colors}
+            locations={gradient2.stops}
             style={{ flex: 1, opacity: 1 }}
           >
             <View style={styles.winningInnerContainer}>
