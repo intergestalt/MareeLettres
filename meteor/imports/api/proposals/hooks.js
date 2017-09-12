@@ -29,6 +29,6 @@ Proposals.before.update(function (userId, doc, fieldNames, modifier, options) {
     typeof modifier.$set.in_review !== "undefined" ||
     typeof modifier.$set.blocked !== "undefined"
   ) {
-    modifier.$set.reviewed_at = new Date;
+    modifier.$set.reviewed_at = new Date();
   }
 });

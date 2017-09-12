@@ -52,10 +52,19 @@ const PlayersSchema = new SimpleSchema({
     title:
     'Object of type: { proposal_id1: value1, proposal_id2: value2, ... } e.g. { 1234: true, 1235: false }',
   },
-  last_seen: {
+  proposals: {
+    type: Array,
+    optional: true,
+    title: 'Own proposals'
+  },
+  last_seen_at: {
     type: Date,
     optional: true,
     title: 'Update when player object gets modified',
+  },
+  created_at: {
+    type: Date,
+    optional: true,
   },
   banned: {
     type: Boolean,
