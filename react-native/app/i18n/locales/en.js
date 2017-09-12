@@ -33,7 +33,6 @@ export default {
   submit_button: 'SUBMIT',
   back_button: 'BACK',
   share_button: 'SHARE',
-
   snap_button: 'SNAP',
   reset_button: 'RESET',
   save_button: 'SAVE',
@@ -51,9 +50,11 @@ export default {
   map_show_qr_instruction: 'Ask your friends to scan this code.',
   map_scan_qr_instruction: "Scan your friend's QR code to get their letter.",
   map_tutorial_1_title: 'Welcome to the FLUX!',
-  map_tutorial_1_text: 'To choose YOUR letter, tap on the + symbol right above You.',
+  map_tutorial_1_text: 'To choose YOUR letter, tap on the + symbol on the bottom left.', 
+  map_tutorial_2_title: "Well done, [LETTER]!",
+  map_tutorial_2_text: "You can now write on the map by dragging your letter into the circle.",
   map_tutorial_3_title: 'Excellent work!', 
-  map_tutorial_3_text: 'Want to write with different letters? Get letters from your friends by scanning their QR code. Tap the Get Letters below.',
+  map_tutorial_3_text: 'Want different letters? Tap the + symbols below. Tap your letter to share.',
   center_map: 'Center map',
   camera_button: 'Camera',
   choose_your_letter: 'Which letter do you want to be? Choose wisely, you cannot change this for the next 24 hours.',
@@ -65,8 +66,6 @@ export default {
   map_too_far_text: "You cannot write outside the circle around you.",
   map_photo_save_title: "Saved",
   map_photo_save_text: "Find your pics in your device's camera roll!",
-
-  info_about_title: 'NUIT BLANCHE',
 
   network_error: 'Network error. Please check your internet connection. EN',
 };
