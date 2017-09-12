@@ -53,6 +53,7 @@ export default (state = initialState.user, action) => {
         console.log('USER_LOADED');
         const newVotes = {};
         const proposalIds = Object.keys(action.result.votes);
+        console.log(action.result);
 
         for (let i = 0; i < proposalIds.length; i += 1) {
           const proposalId = proposalIds[i];
@@ -74,6 +75,7 @@ export default (state = initialState.user, action) => {
           challenges: newChallenges,
           isInternalLoading: false,
         };
+        console.log(result);
         return result;
       }
       case LOAD_USER_ERROR: {

@@ -17,7 +17,7 @@ const styles = EStyleSheet.create({
     right: 0,
     flexDirection: 'column',
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#999',
   },
 
   topContainer: {
