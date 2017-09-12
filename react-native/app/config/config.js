@@ -81,7 +81,7 @@ export const DYNAMIC_CONFIG = {
 };
 
 export const DEV_CONFIG = {
-  USE_CUSTOM_END_DATE: true,
+  USE_CUSTOM_END_DATE: false,
   CUSTOM_END_DATE_ID: 'fixture_2',
   CUSTOM_END_DATE: '2017-09-09T01:55:00.000Z',
 
