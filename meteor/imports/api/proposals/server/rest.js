@@ -61,19 +61,13 @@ JsonRoutes.add(
 
         const sort = sort_modes[sort_param];
 
-        const proposals = Proposals.find({ challenge_id }, { sort, limit }).fetch();
+        const proposals = Proposals.find({ challenge_id, in_review: false }, { sort, limit }).fetch();
 
         const options = {};
 
         if (proposals.length === 0 && Challenges.find({ _id: challenge_id }).count() === 0) {
-            /* const error = new Meteor.Error('challenge-not-found', `Challenge ${challenge_id} not found`);
-            error.statusCode = 404;
-            throw error; */
-            options.code = 404;
-            options.data = {
-                error: 'challenge-not-found',
-                reason: `Challenge ${challenge_id} not found`,
-            };
+            JsonRoutesError(res, 404, 'challenge-not-found');
+            return;
         } else {
             options.data = {
                 proposals,
