@@ -78,8 +78,11 @@ class Feed extends Component {
 
   render() {
     //const tweets = this.state.tweets;
-    const uri = require('./TwitterWebView.html');
-    console.log(uri);
+    //const uri = require('./TwitterWebView.html');
+    //console.log(uri);
+
+    const uri = this.props.handle;
+    //console.log(uri);
     
     return (
       <View>
@@ -104,16 +107,14 @@ class Feed extends Component {
         <WebView
           ref={webview => { this.webview = webview; }}
           javaScriptEnabled
-          injectedJavaScript={'(function(){var twitterHandle="foo"}());'}
-          source={uri}
+          source={{uri: uri}}
           style={[styles.feedContainer]} // {display: 'none'}
           decelerationRate={'normal'}
           //onMessage={e => this.onMessage(JSON.parse(e.nativeEvent.data))}
           startInLoadingState={true}
           onNavigationStateChange={(event) => {
-            console.log(uri);
             console.log(event);
-            const isLocal = event.url.search('stream/TwitterWebView.html') !== -1;
+            const isLocal = event.url.search(uri) !== -1;
             if (!isLocal) {
               this.webview.stopLoading();
               Linking.openURL(event.url);
@@ -126,12 +127,10 @@ class Feed extends Component {
 }
 
 const mapStateToProps = (state) => {
-  const stream = state.stream;
-  const handle = DYNAMIC_CONFIG.TWITTER_HANDLE;
+  const handle = state.config.config.stream_twitter_handle;
 
   return {
-    stream,
-    handle,
+    handle
   }
 }
 

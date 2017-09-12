@@ -76,7 +76,7 @@ const systemConfigDefaults = {
         title: 'Map: maximum number of letters to render as markers on map'
     },
     stream_twitter_handle: {
-        defaultValue: 'mareedeslettres',
+        defaultValue: 'http://sebquack.perseus.uberspace.de/maree/TwitterWebView.html',
         title: 'Stream: The twitter handle'
     },
     challenge_list_image_url: {
