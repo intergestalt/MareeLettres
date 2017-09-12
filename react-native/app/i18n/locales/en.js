@@ -29,6 +29,7 @@ export default {
   reload_proposals: 'No suggestions found. Press to Reload',
   reload_content: 'The content is not loaded yet. Press to Reload',
   reload_user: 'User could not be loaded or created. Check your network connection.',
+  reload_proposal: 'EN Your proposal could not be loaded. Press to Reload',
 
   map_drop_zone: 'Drop Zone',
   map_give_letter_button: 'Give your letter',
@@ -53,4 +54,9 @@ export default {
   submit_alert: 'You may only submit one answer per vote. Are you sure you want to submit? EN',
   submit_yes: 'Yes',
   submit_no: 'No',
+  proposal_blocked:
+    '!\n\n EN We are sorry, but your Submission for VOTE#{NUM} does not comply with our community guidelines. It may be o ensive or inappropriate. Please try with another answer.',
+  proposal_in_review1: 'EN Thank you for your submission for VOTE#{NUM}',
+  proposal_in_review2: 'Status: in review EN',
+  try_again_button: 'Try Again EN',
 };

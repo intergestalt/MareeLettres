@@ -15,7 +15,11 @@ import { handleChallengeIsNotExisting } from '../../../helper/challengesHelper';
 import { startChallengeTicker } from '../../../helper/ticker';
 import { cutProposalListToDefault } from '../../../actions/proposals';
 import { setChallengeId, setProposalListMode, setProposalView } from '../../../actions/challenges';
-import { loadProposalsServiceProxy, loadChallengesServiceProxy } from '../../../helper/apiProxy';
+import {
+  loadProposalServiceProxy,
+  loadProposalsServiceProxy,
+  loadChallengesServiceProxy,
+} from '../../../helper/apiProxy';
 import { PROPOSAL_VIEWS, PROPOSAL_LIST_MODES } from '../../../consts';
 import { DYNAMIC_CONFIG } from '../../../config/config';
 import { listIsEmpty } from '../../../helper/helper';
@@ -30,6 +34,7 @@ class ChallengeContainer extends Component {
     selectedChallengeId: PropTypes.string,
     selectedProposalListMode: PropTypes.string,
     selectedProposalView: PropTypes.string,
+    userChallenges: PropTypes.object,
   };
 
   constructor(props) {
@@ -73,7 +78,11 @@ class ChallengeContainer extends Component {
     navigateToSubmit(this.props, this.props.challenges[this.props.selectedChallengeIndex]);
   }
   handleStatusPress() {
-    navigateToStatus(this.props, this.props.challenges[this.props.selectedChallengeIndex]);
+    loadProposalServiceProxy(
+      this.props.challenges[this.props.selectedChallengeIndex]._id,
+      DYNAMIC_CONFIG.LOAD_QUIET_PROPOSAL,
+    );
+    navigateToSubmit(this.props, this.props.challenges[this.props.selectedChallengeIndex]);
   }
 
   handleHeaderPressed = () => {
@@ -111,7 +120,15 @@ class ChallengeContainer extends Component {
     this.props.dispatch(setProposalView(this.props.selectedChallengeId, PROPOSAL_VIEWS.TINDER));
     this.loadAllProposals(this.props.selectedChallengeIndex, PROPOSAL_VIEWS.TINDER);
   }
-
+  getUserChallenge() {
+    if (!this.props.userChallenges) {
+      return {};
+    }
+    const userChallenge = this.props.userChallenges[
+      this.props.challenges[this.props.selectedChallengeIndex]._id
+    ];
+    return userChallenge || {};
+  }
   handleListPress() {
     console.log('list press');
     this.resetProposalListPos();
@@ -425,6 +442,7 @@ const mapStateToProps = (state) => {
       selectedProposalView,
       selectedProposalListMode,
       isLoading,
+      userChallenges: state.user.challenges,
     };
   } catch (e) {
     console.log('ChallengeContainer');

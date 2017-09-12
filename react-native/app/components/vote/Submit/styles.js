@@ -108,6 +108,88 @@ const styles = EStyleSheet.create({
     justifyContent: 'space-around',
     alignItems: 'center',
   },
+  statusContainer: {
+    flex: 1,
+  },
+  statusTop: { flex: 0.5 },
+  statusBottom: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    flex: 0.5,
+  },
+  statusTopContainer: {
+    width: '100%',
+    backgroundColor: 'transparent',
+    flex: 1,
+  },
+  statusTopTop: {
+    flex: 0.5,
+  },
+  statusTopBottom: {
+    flex: 0.5,
+  },
+
+  statusTopText1: {
+    paddingLeft: '1rem',
+    paddingRight: '1rem',
+    paddingTop: '2rem',
+    width: '100%',
+    backgroundColor: 'transparent',
+    color: 'white',
+    justifyContent: 'center',
+    fontFamily: 'normal',
+    fontSize: '1rem',
+    textAlign: 'center',
+    bottom: 0,
+  },
+  statusTopText2: {
+    paddingLeft: '1rem',
+    paddingRight: '1rem',
+    width: '100%',
+    backgroundColor: 'transparent',
+    color: 'white',
+    justifyContent: 'center',
+    fontFamily: 'impact',
+    fontSize: '2rem',
+    textAlign: 'center',
+    bottom: 0,
+  },
+  statusBottomContainer: {
+    width: '100%',
+    backgroundColor: 'transparent',
+    flex: 1,
+  },
+  statusBottomTop: {
+    paddingTop: '2rem',
+    paddingBottom: '2rem',
+    justifyContent: 'bottom',
+  },
+  statusBottomBottom: {
+    flex: 0.8,
+    justifyContent: 'center',
+  },
+  statusBottomText1: {
+    paddingLeft: '1rem',
+    paddingRight: '1rem',
+    width: '100%',
+    backgroundColor: 'transparent',
+    color: 'black',
+    fontFamily: 'normal',
+    fontSize: '1rem',
+    textAlign: 'center',
+  },
+  statusBottomText2: {
+    paddingLeft: '1rem',
+    paddingRight: '1rem',
+    width: '100%',
+    backgroundColor: 'transparent',
+    color: 'black',
+    justifyContent: 'center',
+    fontFamily: 'normal',
+    fontSize: '1rem',
+    textAlign: 'center',
+    fontWeight: 'bold',
+  },
 });
 
 export default styles;
