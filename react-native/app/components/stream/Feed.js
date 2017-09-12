@@ -104,8 +104,7 @@ class Feed extends Component {
         <WebView
           ref={webview => { this.webview = webview; }}
           javaScriptEnabled
-          injectedJavaScript={'(function(){var twitterHandle="foo"}());'}
-          source={uri}
+          source={{uri: "http://sebquack.perseus.uberspace.de/maree/TwitterWebView.html"}}
           style={[styles.feedContainer]} // {display: 'none'}
           decelerationRate={'normal'}
           //onMessage={e => this.onMessage(JSON.parse(e.nativeEvent.data))}
@@ -113,7 +112,7 @@ class Feed extends Component {
           onNavigationStateChange={(event) => {
             console.log(uri);
             console.log(event);
-            const isLocal = event.url.search('stream/TwitterWebView.html') !== -1;
+            const isLocal = event.url.search('maree/TwitterWebView.html') !== -1;
             if (!isLocal) {
               this.webview.stopLoading();
               Linking.openURL(event.url);
