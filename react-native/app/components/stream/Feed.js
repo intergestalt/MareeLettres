@@ -128,6 +128,7 @@ class Feed extends Component {
 
 const mapStateToProps = (state) => {
   const handle = state.config.config.stream_twitter_handle;
+  console.log(handle);
 
   return {
     handle

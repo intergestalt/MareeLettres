@@ -3,7 +3,7 @@ import { Animated, View, Text } from 'react-native';
 import { connect } from 'react-redux';
 
 import styles from './styles';
-import { VoteMark, VoteMarkPanel } from '../VoteMark/';
+import { VoteMark } from '../VoteMark/';
 import { getProposalList } from '../../../helper/proposalsHelper';
 import { ReloadButton } from '../../../components/general/ReloadButton';
 
@@ -97,11 +97,7 @@ class ProposalTinder extends Component {
     } else if (proposalExists) {
       // Background or neighbour (not visible, but rendered to swipe challenges left and right)
       // => One Votemark, no AnimatedView
-      textContainer = (
-        <Text style={styles.text}>
-          {this.props.proposal.text}
-        </Text>
-      );
+      textContainer = <Text style={styles.text}>{this.props.proposal.text}</Text>;
       noContainer = (
         <View style={styles.markContainer1}>
           <View style={styles.markContainer2}>

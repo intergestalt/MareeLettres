@@ -51,7 +51,6 @@ export default (state = initialState.user, action) => {
 
       case USER_LOADED: {
         console.log('USER_LOADED');
-
         const newVotes = {};
         const proposalIds = Object.keys(action.result.votes);
 
@@ -59,10 +58,18 @@ export default (state = initialState.user, action) => {
           const proposalId = proposalIds[i];
           newVotes[proposalId] = { bool: action.result.votes[proposalId] };
         }
+
+        const newChallenges = {};
+        for (let i = 0; i < action.result.proposals.length; i += 1) {
+          const proposal = action.result.proposals[i];
+          const userProposal = { ownProposalId: proposal._id };
+          newChallenges[proposal.challenge_id] = userProposal;
+        }
         const result = {
           ...state,
           isDefaultUser: false,
           votes: newVotes,
+          challenges: newChallenges,
           isInternalLoading: false,
         };
         return result;
@@ -157,6 +164,7 @@ export default (state = initialState.user, action) => {
           primary_letter: {
             ...state.primary_letter,
             character: action.character,
+            acquired_at: new Date().toISOString()
           },
         };
         saveUserToStorage(result);
@@ -461,14 +469,28 @@ export default (state = initialState.user, action) => {
       }
       case SUCCESS_LOAD_PROPOSAL: {
         console.log('SUCCESS_LOAD_PROPOSAL');
-
         const myChallenges = state.challenges;
         const myChallenge = state.challenges[action.action.challengeId];
-        myChallenge.ownProposal = action.result.proposals[0].text;
+        const myProposal = action.result.proposals[0];
+        myChallenge.ownProposal = myProposal.text;
         myChallenge.isLoading = false;
         myChallenge.isInternalLoading = false;
-        myChallenge.ownProposalInReview = { bool: action.result.proposals[0].in_review };
-        myChallenge.ownProposalBlocked = { bool: action.result.proposals[0].blocked };
+        myChallenge.ownProposalInReview = false; // { bool: myProposal.in_review };
+        myChallenge.ownProposalBlocked = false; // { bool:myProposal.blocked };
+        myChallenge.rank = myProposal.rank;
+        const votes = state.votes;
+        let offsetYes = 0;
+        let offsetNo = 0;
+        if (votes[myProposal._id]) {
+          if (votes[myProposal._id].bool) {
+            offsetYes -= 1;
+          } else {
+            offsetNo -= 1;
+          }
+        }
+
+        myChallenge.yes = myProposal.yes_votes + offsetYes;
+        myChallenge.no = myProposal.no_votes + offsetNo;
         myChallenges[action.action.challengeId] = myChallenge;
 
         const result = {

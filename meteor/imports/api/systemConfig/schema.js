@@ -98,6 +98,11 @@ const SystemConfigSchema = new SimpleSchema(
             min: 1,
             ...systemConfigDefaults.map_max_markers,
         },
+        map_primary_letter_reset: {
+            type: SimpleSchema.Integer,
+            min: 1,
+            ...systemConfigDefaults.map_primary_letter_reset,  
+        },
         stream_twitter_handle: {
             type: String,
             ...systemConfigDefaults.stream_twitter_handle,
