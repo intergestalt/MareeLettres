@@ -41,6 +41,8 @@ class ChallengeContent extends Component {
     this.tinderVote = this.tinderVote.bind(this);
     this.tinderVoteYes = this.tinderVoteYes.bind(this);
     this.tinderVoteNo = this.tinderVoteNo.bind(this);
+    this.tinderVoteYesAnim = this.tinderVoteYesAnim.bind(this);
+    this.tinderVoteNoAnim = this.tinderVoteNoAnim.bind(this);
     this.handleReloadPressPress = this.handleReloadPressPress.bind(this);
     this.state = {
       tinderContainerOffset: new Animated.ValueXY({ x: 0, y: 0 }),
@@ -156,6 +158,24 @@ class ChallengeContent extends Component {
     });
   }
 
+  tinderVoteYesAnim() {
+    const toX = screenWidth * 1 * 1.3;
+    Animated.timing(this.state.tinderContainerOffset, {
+      toValue: { x: toX, y: 0 },
+      duration: 400,
+    }).start(() => {
+      this.tinderVote(true);
+    });
+  }
+  tinderVoteNoAnim() {
+    const toX = screenWidth * -1 * 1.3;
+    Animated.timing(this.state.tinderContainerOffset, {
+      toValue: { x: toX, y: 0 },
+      duration: 400,
+    }).start(() => {
+      this.tinderVote(false);
+    });
+  }
   tinderVoteYes() {
     this.tinderVote(true);
   }
@@ -271,6 +291,8 @@ class ChallengeContent extends Component {
           yesOpacity={yesOpacity}
           textColor={textColor}
           proposalIndex={0}
+          yesPress={this.tinderVoteYesAnim}
+          noPress={this.tinderVoteNoAnim}
         />
       );
       backTinder = (

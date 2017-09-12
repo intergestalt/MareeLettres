@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { Animated, View, Text } from 'react-native';
+import { Animated, View, Text, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 
 import styles from './styles';
@@ -15,6 +15,8 @@ class ProposalTinder extends Component {
     proposal: PropTypes.object,
     noOpacity: PropTypes.object,
     yesOpacity: PropTypes.object,
+    yesPress: PropTypes.func,
+    noPress: PropTypes.func,
     isLoading: PropTypes.bool,
     challengeOffset: PropTypes.number,
     textColor: PropTypes.object,
@@ -74,11 +76,11 @@ class ProposalTinder extends Component {
       noContainer = (
         <View style={styles.markContainer1}>
           <View style={styles.markContainer2}>
-            <VoteMark size="l" active value={0} type="no" />
+            <VoteMark size="l" active={false} value={0} type="no" />
           </View>
           <View style={styles.markContainer2}>
             <Animated.View style={{ opacity: this.props.noOpacity }}>
-              <VoteMark size="l" active value={1} type="no" />
+              <VoteMark size="l" active={false} value={1} type="no" />
             </Animated.View>
           </View>
         </View>
@@ -86,11 +88,11 @@ class ProposalTinder extends Component {
       yesContainer = (
         <View style={styles.markContainer1}>
           <View style={styles.markContainer2}>
-            <VoteMark size="l" active value={0} type="yes" />
+            <VoteMark size="l" active={false} value={0} type="yes" />
           </View>
           <View style={styles.markContainer2}>
             <Animated.View style={{ opacity: this.props.yesOpacity }}>
-              <VoteMark size="l" active value={1} type="yes" />
+              <VoteMark size="l" active={false} value={1} type="yes" />
             </Animated.View>
           </View>
         </View>
@@ -117,19 +119,6 @@ class ProposalTinder extends Component {
 
     let tinder = null;
     if (proposalExists) {
-      tinder = (
-        <View style={myStyle}>
-          <View style={styles.topContainer}>
-            {textContainer}
-            {/* <VoteMarkPanel style={styles.voteMark} yes_amount={this.props.proposal.yes_votes} no_amount={this.props.proposal.no_votes} /> */}
-          </View>
-          <View style={styles.bottomContainer}>
-            {noContainer}
-            {yesContainer}
-          </View>
-        </View>
-      );
-
       if (!this.props.tinderBackgroundColor || !center) {
         tinder = (
           <View style={myStyle}>
@@ -138,8 +127,8 @@ class ProposalTinder extends Component {
               {/* <VoteMarkPanel style={styles.voteMark} yes_amount={this.props.proposal.yes_votes} no_amount={this.props.proposal.no_votes} /> */}
             </View>
             <View style={styles.bottomContainer}>
-              {noContainer}
-              {yesContainer}
+              <TouchableOpacity onPress={this.props.noPress}>{noContainer}</TouchableOpacity>
+              <TouchableOpacity onPress={this.props.yesPress}>{yesContainer}</TouchableOpacity>
             </View>
           </View>
         );
@@ -165,6 +154,7 @@ class ProposalTinder extends Component {
     } else {
       tinder = this.renderNoTinder(myStyle);
     }
+
     if (foreground && proposalExists && center) {
       // Foreground, existing and it is the center challenge => Animated Container
       return (
