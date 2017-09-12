@@ -13,6 +13,9 @@ import { Letters } from '../../api/letters/letters';
 import { Players } from '../../api/players/players';
 import { SystemConfig, SystemConfigSchema } from '../../api/systemConfig/systemConfig';
 
+const seed_proposals_and_players = false;
+const seed_letters = false;
+
 const SeedChallenges = JSON.parse(Assets.getText('fixtures/challenges.json')).challenges;
 
 const contents = ['web', 'about'];
@@ -67,10 +70,10 @@ Meteor.startup(() => {
           start_date: moment().add(i - 3, 'days').toDate(),
           end_date: moment().add(i - 1, 'days').toDate(),
           proposals_end_date: moment().add(i - 1, 'days').add(-10, 'minutes').toDate(),
-          ...SeedChallenges[i-1],
+          ...SeedChallenges[i - 1],
         },
         (err, id) => {
-          /*if (id != undefined) {
+          if (seed_proposals_and_players && id != undefined) {
             console.log('Seeding Proposals');
             const amount = 10 * Math.floor(10 * Math.random());
             for (let j = 1; j <= amount; j++) {
@@ -88,13 +91,13 @@ Meteor.startup(() => {
                 origin_ids: [OriginId.generateFromString(`fixture_player_${j}`)],
               });
             }
-          }*/
+          }
         },
       );
     }
   }
 
-  if (Players.find().count() === 0) {
+  if (seed_proposals_and_players && Players.find().count() === 0) {
     console.log('Seeding Players');
     for (let i = 1; i <= 150; i++) {
       Players.insert({
@@ -106,7 +109,7 @@ Meteor.startup(() => {
     }
   }
 
-  /*if (Letters.find().count() === 0) {
+  if (seed_letters && Letters.find().count() === 0) {
     console.log('Seeding Letters');
     const locations = {
       berlin: {
@@ -131,7 +134,7 @@ Meteor.startup(() => {
         created_at: new Date,
       });
     }
-  }*/
+  }
 });
 
 let shuffleString = function (str) {

@@ -29,17 +29,19 @@ JsonRoutes.add('get', `${Meteor.settings.public.api_prefix}proposals/:proposal_i
 
     // calculate rank
 
-    // 1. The number of valid proposals that have a lower score
-    const base_pos = Proposals.find({ blocked: false, in_review: false, score: { $gt: proposal.score } }, { sort: buildConfig.queries.proposals.sort.popular }).count();
+    if (!proposal.in_review && !proposal.blocked) {
+        // 1. The number of valid proposals that have a lower score
+        const base_pos = Proposals.find({ blocked: false, in_review: false, score: { $gt: proposal.score } }, { sort: buildConfig.queries.proposals.sort.popular }).count();
 
-    // 2. Get the position in the batch of proposals with the same score
-    const batch = Proposals.find({ blocked: false, in_review: false, score: proposal.score }, { sort: buildConfig.queries.proposals.sort.popular, fields: { _id: 1 } });
+        // 2. Get the position in the batch of proposals with the same score
+        const batch = Proposals.find({ blocked: false, in_review: false, score: proposal.score }, { sort: buildConfig.queries.proposals.sort.popular, fields: { _id: 1 } });
 
-    const batch_pos = _.findIndex(batch.fetch(), elem => elem._id === proposal._id) || 0;
+        const batch_pos = _.findIndex(batch.fetch(), elem => elem._id === proposal._id) || 0;
 
-    const rank = base_pos + batch_pos + 1;
+        const rank = base_pos + batch_pos + 1;
 
-    proposal.rank = rank;
+        proposal.rank = rank;
+    }
 
     JsonRoutes.sendResult(res, {
         data: { proposals: [proposal] },
