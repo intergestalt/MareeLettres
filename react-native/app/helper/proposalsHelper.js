@@ -169,3 +169,44 @@ export function cutProposalList(oldList, proposalView) {
 
   return myList;
 }
+
+export function getProposalVotesWithUser(id) {
+  const votes = store.getState().user.votes;
+  const internalVotes = store.getState().user.internalVotes.internalVotes;
+  const vote = votes[id];
+  const internalVote = internalVotes[id];
+  let votesYesOffset = 0;
+  let votesNoOffset = 0;
+  let yes = false;
+  let no = false;
+  // Set the offset also in case of votes already sent.
+  // User-Votes are deleted internaly after every load
+  if (vote) {
+    if (vote.bool) {
+      yes = true;
+      no = false;
+      votesYesOffset = 1;
+      votesNoOffset = 0;
+    } else {
+      yes = false;
+      no = true;
+      votesNoOffset = 1;
+      votesYesOffset = 0;
+    }
+  }
+  if (internalVote) {
+    if (internalVote.bool) {
+      yes = true;
+      no = false;
+      votesYesOffset = 1;
+      votesNoOffset = 0;
+    } else {
+      votesNoOffset = 1;
+      votesYesOffset = 0;
+      yes = false;
+      no = true;
+    }
+  }
+  const res = { yes, no, votesYesOffset, votesNoOffset };
+  return res;
+}

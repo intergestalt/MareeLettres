@@ -50,6 +50,6 @@ const styles = EStyleSheet.create({
   },
   voteMark: {
     alignSelf: 'center',
-  }
+  },
 });
 export default styles;

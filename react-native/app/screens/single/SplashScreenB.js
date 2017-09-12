@@ -156,12 +156,11 @@ class SplashScreenB extends Component {
         style={styles.container}
         backgroundColor={styles._container.backgroundColor}
       >
-        <LinearGradient style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
+        <LinearGradient
+          style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
           colors={gradient0.colors}
           locations={gradient0.stops}
-          style={{ flex: 1, opacity: 1 }}
-        >
-        </LinearGradient>
+        />
       </Screen>
     );
   }
