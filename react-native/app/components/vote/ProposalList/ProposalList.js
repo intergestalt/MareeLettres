@@ -9,6 +9,7 @@ import { loadProposalsServiceProxy } from '../../../helper/apiProxy';
 import { DYNAMIC_CONFIG } from '../../../config/config';
 import { userVoteInternal } from '../../../actions/user';
 import { deleteProposalFromTinderList } from '../../../actions/proposals';
+import { PROPOSAL_LIST_MODES } from '../../../consts';
 
 class ProposalList extends PureComponent {
   static propTypes = {
@@ -25,6 +26,7 @@ class ProposalList extends PureComponent {
     listEnabled: PropTypes.bool,
     dispatch: PropTypes.func,
     proposalListMode: PropTypes.string,
+    isFinished: PropTypes.bool,
   };
   constructor(props) {
     super(props);
@@ -107,9 +109,12 @@ class ProposalList extends PureComponent {
     if (!this.props.listEnabled) {
       listEnabled = 'none';
     }
-
-    return (
-      <View style={styles.container}>
+    if (this.props.isFinished) {
+      listEnabled = 'none';
+    }
+    let header = null;
+    if (!this.props.isFinished) {
+      header = (
         <View style={styles.headerContainer}>
           <ProposalListHeader
             proposalListMode={this.props.proposalListMode}
@@ -118,17 +123,24 @@ class ProposalList extends PureComponent {
             onNewestPress={this.props.onNewestPress}
           />
         </View>
+      );
+    }
+
+    return (
+      <View style={styles.container}>
+        {header}
         <View pointerEvents={listEnabled} style={styles.listContainer}>
           <FlatList
             initialNumToRender={7}
             ref={myRefCallback}
             data={this.props.proposals}
-            renderItem={({ item }) =>
+            renderItem={({ item }) => (
               <ProposalListItem
                 onNoPress={() => this.onNoPress(item)}
                 onYesPress={() => this.onYesPress(item)}
                 proposal={item}
-              />}
+              />
+            )}
             keyExtractor={item => item._id}
             ItemSeparatorComponent={Separator}
             refreshControl={
@@ -155,7 +167,10 @@ const mapStateToProps = (state, ownProps) => {
     const challenge = challenges[challengeIndex];
     const id = challenge._id;
     const proposalView = challenge.proposalView;
-    const proposalListMode = challenge.proposalListMode;
+    let proposalListMode = challenge.proposalListMode;
+    if (ownProps.isFinished) {
+      proposalListMode = PROPOSAL_LIST_MODES.MOST;
+    }
     // all 4 lists
     const p = state.proposals[id];
     const p2 = getProposalList(p, proposalView, proposalListMode);

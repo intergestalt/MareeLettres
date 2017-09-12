@@ -38,7 +38,8 @@ class Map extends Component {
             longitude: this.props.user.map.coordinates.longitude,
             latitudeDelta: this.props.user.map.coordinates.latitudeDelta,
             longitudeDelta: this.props.user.map.coordinates.longitudeDelta,
-          }
+          },
+      pollingCounter: 0 
     };
   }
 
@@ -57,14 +58,49 @@ class Map extends Component {
     }
   }
 
+  with3Decimals(num) {
+    return num.toString().match(/^-?\d+(?:\.\d{0,3})?/)[0];
+  }
+
+  calculateMapLetterRequest() {
+    console.log(this.props.map.coordinates);
+    let centerLat = this.with3Decimals(this.props.map.coordinates.latitude);
+    let centerLng = this.with3Decimals(this.props.map.coordinates.longitude);
+    //console.log(this.props.map.coordinates.latitudeDelta);
+    let delta = this.props.map.coordinates.longitudeDelta;
+    if(this.props.map.coordinates.latitudeDelta > delta) {
+      delta = this.props.map.coordinates.latitudeDelta;
+    }
+    let radius = 1;
+    if(delta >= 0.002 && delta < 0.003) {
+      radius = 2;
+    }
+    if(delta >= 0.003 && delta < 0.004) {
+      radius = 3;
+    }
+    if(delta >= 0.004) {
+      radius = 4;
+    }
+    let interval = Math.floor(Math.sqrt(this.state.pollingCounter));
+    if(interval > 10) {
+      interval = 10;
+    }
+
+    let o = {
+      centerLng: centerLng,
+      centerLat: centerLat,
+      radius: radius,
+      interval: Math.pow(interval + 1, 2)
+    }
+    //console.log(o);
+    return o;
+  }
+
   componentWillMount() {
     // get the player GPS
     this._getPlayerCoords();
     
-    loadLettersServiceProxy({
-      centerLat:this.props.map.coordinates.latitude, 
-      centerLng:this.props.map.coordinates.longitude,
-      radius:100});
+    loadLettersServiceProxy(this.calculateMapLetterRequest());
     this.pollLetters();
 
     this.setMapLetterSize(this.state.initialRegion);
@@ -74,10 +110,10 @@ class Map extends Component {
     console.ignoredYellowBox = ['Setting a timer'];
     this.timerID = setTimeout(() => {
         if(this.props.screen === "map") { // only call when map is current screen
-          loadLettersIntervalServiceProxy({
-            centerLat:this.props.map.coordinates.latitude, 
-            centerLng:this.props.map.coordinates.longitude,
-            radius:100});
+          loadLettersIntervalServiceProxy(this.calculateMapLetterRequest());
+          this.setState({pollingCounter: 0});
+        } else {
+          this.setState({pollingCounter: this.state.pollingCounter + 1}); // this counts missed intervals
         }
         this.pollLetters();  
       },

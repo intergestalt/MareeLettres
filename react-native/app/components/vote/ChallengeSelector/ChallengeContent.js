@@ -19,7 +19,6 @@ import { gradient0 } from '../../../config/gradients';
 import { listIsEmpty } from '../../../helper/helper';
 import { ReloadButton } from '../../../components/general/ReloadButton';
 
-
 class ChallengeContent extends Component {
   static propTypes = {
     dispatch: PropTypes.func,
@@ -283,6 +282,7 @@ class ChallengeContent extends Component {
           challengeOffset={this.props.challengeOffset}
           setFlatlistRef={this.props.setFlatlistRef}
           listEnabled={this.props.listEnabled}
+          isFinished={this.isFinished()}
         />
       </View>
     );
@@ -317,9 +317,7 @@ class ChallengeContent extends Component {
           style={{ flex: 1, opacity: 1 }}
         >
           <View style={styles.challengeInnerContainer}>
-            <Text style={styles.contentText}>
-              {this.getAnswer()}
-            </Text>
+            <Text style={styles.contentText}>{this.getAnswer()}</Text>
           </View>
         </LinearGradient>
       </View>
@@ -345,7 +343,10 @@ class ChallengeContent extends Component {
       return this.renderLoading();
     }
     if (this.isFinished()) {
-      return this.renderFinished(); // TODO: allow for list view on finished challenge
+      if (this.props.proposalView === PROPOSAL_VIEWS.TINDER) {
+        return this.renderFinished();
+      }
+      return this.renderList();
     }
     if (listIsEmpty(this.props.proposals)) {
       return this.renderEmptyList();

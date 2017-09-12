@@ -108,7 +108,6 @@ function locationUrlParams(c, action) {
   const body = action.body;
   if (body) {
     if (body.centerLat && body.centerLng && body.radius) {
-      // todo: normalize coordinates for caching
       url = `${c}centerLat=${body.centerLat}&centerLng=${body.centerLng}&radius=${body.radius}`;
     }
   }
@@ -123,9 +122,9 @@ export const callLetters = (action) => {
 };
 
 export const callLettersInterval = (action) => {
-  const url = `${config.API_PREFIX}letters?interval${locationUrlParams('&', action)}`;
+  const url = `${config.API_PREFIX}letters?interval=${action.body.interval}${locationUrlParams('&', action)}`;
   console.log('API CALL: callLettersInterval');
-  // console.log(url);
+  console.log(url);
   return getPromiseGET(url);
 };
 

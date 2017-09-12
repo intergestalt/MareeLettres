@@ -162,7 +162,6 @@ const mapStateToProps = (state, props) => {
     const selectedChallengeIndex = state.challenges.selectedChallengeIndex;
     const challenge = state.challenges.challenges[selectedChallengeIndex];
     const userChallenge = state.user.challenges ? state.user.challenges[challenge._id] : {};
-    console.log(userChallenge);
     const id = userChallenge.ownProposalId;
     const voteMap = getProposalVotesWithUser(id);
 

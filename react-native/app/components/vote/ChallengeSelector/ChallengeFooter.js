@@ -49,46 +49,48 @@ class ChallengeFooter extends Component {
     return isFinished(this.getChallenge());
   }
   renderFinished() {
+    let buttonStyle = styles._footerButton;
+    if (!this.getUserChallenge().ownProposalId) {
+      buttonStyle = { ...styles._footerButton, flex: 1 };
+    }
     return (
       <View style={styles.challengeFooter}>
         <View style={styles.challengeFooterUnfinished}>
-          {/*
-          <TouchableOpacity style={styles.footerButton} onPress={this.props.handleSharePress}>
-            <Text style={styles.challengeFooterText}>
-              {I18n.t('share_button')}
-            </Text>
-          </TouchableOpacity> */}
-          <TouchableOpacity style={styles.footerButton} onPress={this.props.handleListPress}>
-            <Text style={styles.challengeFooterText}>
-              {I18n.t('overview_button')}
-            </Text>
-          </TouchableOpacity>
-          {!this.getUserChallenge().ownProposalId
-            ? <TouchableOpacity
+          {this.renderFinishedButton(buttonStyle)}
+          {this.getUserChallenge().ownProposalId ? (
+            <TouchableOpacity
               style={[styles.footerButton, styles.footerButtonRight]}
-              onPress={this.props.handleCommitPress}
+              onPress={this.props.handleStatusPress}
             >
-              <Text style={styles.challengeFooterText}>
-                {I18n.t('status_button')}
-              </Text>
+              <Text style={styles.challengeFooterText}>{I18n.t('status_button')}</Text>
             </TouchableOpacity>
-            : null}
+          ) : null}
         </View>
       </View>
     );
   }
-  renderTinderButton() {
-    return this.props.proposalView === PROPOSAL_VIEWS.TINDER
-      ? <TouchableOpacity style={styles.footerButton} onPress={this.props.handleListPress}>
-        <Text style={styles.challengeFooterText}>
-          {I18n.t('overview_button')}
-        </Text>
+  renderFinishedButton(buttonStyle) {
+    return this.props.proposalView === PROPOSAL_VIEWS.TINDER ? (
+      <TouchableOpacity style={buttonStyle} onPress={this.props.handleListPress}>
+        <Text style={styles.challengeFooterText}>{I18n.t('overview_button')}</Text>
       </TouchableOpacity>
-      : <TouchableOpacity style={styles.footerButton} onPress={this.props.handleTinderPress}>
-        <Text style={styles.challengeFooterText}>
-          {I18n.t('tinder_button')}
-        </Text>
-      </TouchableOpacity>;
+    ) : (
+      <TouchableOpacity style={buttonStyle} onPress={this.props.handleTinderPress}>
+        <Text style={styles.challengeFooterText}>{I18n.t('winner_button')}</Text>
+      </TouchableOpacity>
+    );
+  }
+
+  renderTinderButton() {
+    return this.props.proposalView === PROPOSAL_VIEWS.TINDER ? (
+      <TouchableOpacity style={styles.footerButton} onPress={this.props.handleListPress}>
+        <Text style={styles.challengeFooterText}>{I18n.t('overview_button')}</Text>
+      </TouchableOpacity>
+    ) : (
+      <TouchableOpacity style={styles.footerButton} onPress={this.props.handleTinderPress}>
+        <Text style={styles.challengeFooterText}>{I18n.t('tinder_button')}</Text>
+      </TouchableOpacity>
+    );
   }
 
   renderUnfinished() {
@@ -100,15 +102,19 @@ class ChallengeFooter extends Component {
           <TouchableOpacity
             style={[styles.footerButton, styles.footerButtonRight]}
             onPress={
-              !this.getUserChallenge().ownProposalId
-                ? this.props.handleCommitPress
-                : this.props.handleStatusPress
+              !this.getUserChallenge().ownProposalId ? (
+                this.props.handleCommitPress
+              ) : (
+                this.props.handleStatusPress
+              )
             }
           >
             <Text style={styles.challengeFooterText}>
-              {!this.getUserChallenge().ownProposalId
-                ? I18n.t('suggest_button')
-                : I18n.t('status_button')}
+              {!this.getUserChallenge().ownProposalId ? (
+                I18n.t('suggest_button')
+              ) : (
+                I18n.t('status_button')
+              )}
             </Text>
           </TouchableOpacity>
         </View>

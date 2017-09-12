@@ -10,9 +10,10 @@ import { getDuration } from '../../../helper/helper';
 import { postProposalServiceProxy } from '../../../helper/apiProxy';
 import I18n from '../../../i18n/i18n';
 import { popProposalSubmitter } from '../../../helper/navigationProxy';
-import { setOwnProposal,deleteOwnProposal } from '../../../actions/user';
+import { setOwnProposal, deleteOwnProposal } from '../../../actions/user';
 
-import { isFinished } from '../../../helper/dateFunctions';
+import { isFinished, isFinishedSuggest } from '../../../helper/dateFunctions';
+import { connectAlert } from '../../../components/general/Alert';
 
 const colorWriteArea = '#FFFFFF';
 const colorKeyBoard = '#000000';
@@ -26,6 +27,7 @@ class ProposalSubmitter extends Component {
     ownProposal: PropTypes.string,
     selectedChallengeId: PropTypes.string,
     ownProposalId: PropTypes.string,
+    alertWithType: PropTypes.func,
     isStatusLoading: PropTypes.bool,
   };
 
@@ -965,11 +967,19 @@ class ProposalSubmitter extends Component {
     return true;
   }
   submitPressed() {
-    this.cleanSpaces(true);
-    if (this.state.lettersWritingArea.length === 0) {
-      return;
+    if (isFinishedSuggest(this.props.challenge)) {
+      this.props.alertWithType(
+        'info',
+        I18n.t('suggestion_too_late_title'),
+        I18n.t('suggestion_too_late_text'),
+      );
+    } else {
+      this.cleanSpaces(true);
+      if (this.state.lettersWritingArea.length === 0) {
+        return;
+      }
+      this.setState({ submitView: true });
     }
-    this.setState({ submitView: true });
   }
   tryAgainPressed() {
     this.props.dispatch(deleteOwnProposal(this.props.selectedChallengeId));
@@ -1000,14 +1010,20 @@ class ProposalSubmitter extends Component {
     }
     console.log(`answer ${answer}`);
     if (!this.checkAnswer(answer)) {
-      console.log('NOPE');
       this.setState(this.setInitialLetters());
       this.resetEverything(false);
       this.setState({ submitView: false });
       return;
     }
-    console.log('submitting...');
-    postProposalServiceProxy(this.props.challenge._id, answer, this.props);
+    if (isFinishedSuggest(this.props.challenge)) {
+      this.props.alertWithType(
+        'info',
+        I18n.t('suggestion_too_late_title'),
+        I18n.t('suggestion_too_late_text'),
+      );
+    } else {
+      postProposalServiceProxy(this.props.challenge._id, answer, this.props);
+    }
   }
 
   showStatusPage() {
@@ -1056,9 +1072,7 @@ class ProposalSubmitter extends Component {
       submitButton = (
         <TouchableOpacity onPress={this.submitPressed}>
           <View style={styles.submitButton}>
-            <Text style={styles.submitButtonText}>
-              {I18n.t('submit_button').toUpperCase()}
-            </Text>
+            <Text style={styles.submitButtonText}>{I18n.t('submit_button').toUpperCase()}</Text>
           </View>
         </TouchableOpacity>
       );
@@ -1070,37 +1084,29 @@ class ProposalSubmitter extends Component {
             style={styles.yesButton}
             onPress={() => this.handleSubmitConfirmedPress(this.state.submitView)}
           >
-            <Text style={styles.submitButtonText}>
-              {I18n.t('submit_yes').toUpperCase()}
-            </Text>
+            <Text style={styles.submitButtonText}>{I18n.t('submit_yes').toUpperCase()}</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.noButton}
             onPress={() => this.handleBackPress(this.state.submitView)}
           >
-            <Text style={styles.submitButtonText}>
-              {I18n.t('submit_no').toUpperCase()}
-            </Text>
+            <Text style={styles.submitButtonText}>{I18n.t('submit_no').toUpperCase()}</Text>
           </TouchableOpacity>
         </View>
       );
     }
     return (
       <View style={styles.container}>
-        {!this.showStatusPage()
-          ? <View style={styles.titleContainer}>
+        {!this.showStatusPage() ? (
+          <View style={styles.titleContainer}>
             <TouchableOpacity onPress={() => this.handleBackPress(this.state.submitView)}>
-              <Text style={styles.backStyle}>
-                {'<'}
-              </Text>
+              <Text style={styles.backStyle}>{'<'}</Text>
             </TouchableOpacity>
-            <Text style={styles.title}>
-              {title.toUpperCase()}
-            </Text>
+            <Text style={styles.title}>{title.toUpperCase()}</Text>
           </View>
-          : null}
-        {!this.showStatusPage()
-          ? <View pointerEvents="box-only" {...pangestures} style={styles.dragContainer}>
+        ) : null}
+        {!this.showStatusPage() ? (
+          <View pointerEvents="box-only" {...pangestures} style={styles.dragContainer}>
             <WritingArea
               letterColor={colorWriteArea}
               layoutCallback={this.onLayoutCallback}
@@ -1113,16 +1119,18 @@ class ProposalSubmitter extends Component {
             {keyboard}
             {draggableLetter}
           </View>
-          : null}
-        {!this.showStatusPage()
-          ? <View style={styles.submitContainer}>
+        ) : null}
+        {!this.showStatusPage() ? (
+          <View style={styles.submitContainer}>
             {submitButton}
             {submitYesNo}
           </View>
-          : <ProposalStatus
+        ) : (
+          <ProposalStatus
             onTryAgainPressed={this.tryAgainPressed}
             onBackPressed={() => this.handleBackPress(this.state.submitView)}
-          />}
+          />
+        )}
       </View>
     );
   }
@@ -1157,4 +1165,4 @@ const mapStateToProps = (state) => {
     throw e;
   }
 };
-export default connect(mapStateToProps)(ProposalSubmitter);
+export default connect(mapStateToProps)(connectAlert(ProposalSubmitter));

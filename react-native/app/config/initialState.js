@@ -52,6 +52,7 @@ export default {
       send_internal_votes_after: 10000,
 
       display_next_network_error_after: 30000,
+      suggestions_close_earlier: 900000,
     },
   },
   globals: {

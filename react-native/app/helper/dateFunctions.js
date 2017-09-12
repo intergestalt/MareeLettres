@@ -1,4 +1,5 @@
 import { DEV_CONFIG } from '../config/config';
+import { DYNAMIC_CONFIG } from '../config/config';
 
 const monthNamesEn = [
   'Jan',
@@ -232,6 +233,20 @@ export function isFinished(challenge) {
   const mNowUTC = nowUTC.getTime();
 
   const mEndUTC = endDate.getTime();
+  const diff = mEndUTC - mNowUTC;
+
+  let finished = false;
+  if (diff <= 0) finished = true;
+  return finished;
+}
+export function isFinishedSuggest(challenge) {
+  const endDate = new Date(challenge.end_date);
+  const nowUTC = new Date(); // Now in what time zone ever
+  const mNowUTC = nowUTC.getTime();
+
+  let mEndUTC = endDate.getTime();
+  mEndUTC -= DYNAMIC_CONFIG.SUGGESTIONS_CLOSE_EARLIER;
+
   const diff = mEndUTC - mNowUTC;
 
   let finished = false;

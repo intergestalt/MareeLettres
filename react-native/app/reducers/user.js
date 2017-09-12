@@ -53,6 +53,7 @@ export default (state = initialState.user, action) => {
         console.log('USER_LOADED');
         const newVotes = {};
         const proposalIds = Object.keys(action.result.votes);
+        console.log(action.result);
 
         for (let i = 0; i < proposalIds.length; i += 1) {
           const proposalId = proposalIds[i];
@@ -60,10 +61,12 @@ export default (state = initialState.user, action) => {
         }
 
         const newChallenges = {};
-        for (let i = 0; i < action.result.proposals.length; i += 1) {
-          const proposal = action.result.proposals[i];
-          const userProposal = { ownProposalId: proposal._id };
-          newChallenges[proposal.challenge_id] = userProposal;
+        if (action.result.proposals) {
+          for (let i = 0; i < action.result.proposals.length; i += 1) {
+            const proposal = action.result.proposals[i];
+            const userProposal = { ownProposalId: proposal._id };
+            newChallenges[proposal.challenge_id] = userProposal;
+          }
         }
         const result = {
           ...state,
@@ -72,6 +75,7 @@ export default (state = initialState.user, action) => {
           challenges: newChallenges,
           isInternalLoading: false,
         };
+        console.log(result);
         return result;
       }
       case LOAD_USER_ERROR: {
@@ -475,8 +479,8 @@ export default (state = initialState.user, action) => {
         myChallenge.ownProposal = myProposal.text;
         myChallenge.isLoading = false;
         myChallenge.isInternalLoading = false;
-        myChallenge.ownProposalInReview = false; // { bool: myProposal.in_review };
-        myChallenge.ownProposalBlocked = false; // { bool:myProposal.blocked };
+        myChallenge.ownProposalInReview = { bool: myProposal.in_review };
+        myChallenge.ownProposalBlocked = { bool: myProposal.blocked };
         myChallenge.rank = myProposal.rank;
         const votes = state.votes;
         let offsetYes = 0;

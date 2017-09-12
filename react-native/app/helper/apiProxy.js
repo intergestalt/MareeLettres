@@ -267,6 +267,7 @@ export function loadProposalServiceProxy(challengeId, quietLoading) {
   if (isLoading(challenge)) {
     return;
   }
+
   if (doit) {
     store.dispatch(loadProposal(challenge.ownProposalId, challengeId, quietLoading));
   }
