@@ -54,5 +54,9 @@
   },
   "settings": {
     "import/resolver": "meteor"
-  }
+  },
+  "indent": [
+    "error",
+    2
+  ]
 }

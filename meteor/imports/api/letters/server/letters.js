@@ -6,7 +6,7 @@ import { Letters, LettersSchema } from '../letters';
 import RequestHelpers from '../../../helpers/RequestHelpers';
 import currentSystemConfig from '../../../startup/server/system-config';
 
-JsonRoutesError = RequestHelpers.JsonRoutesError;
+const JsonRoutesError = RequestHelpers.JsonRoutesError;
 
 Meteor.publish('get.letters', function getLetters() {
   if (!this.userId) return;
