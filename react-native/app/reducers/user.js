@@ -4,12 +4,8 @@ import {
   SET_USER,
   LOAD_USER_ERROR,
   USER_SET_ID,
-  USER_SET_SECONDARY_LETTERS,
-  USER_SET_PRIMARY_LETTER,
-  USER_DELETE_LETTERS,
   USER_UPDATE_LETTER_MENU,
   USER_REVIVE_LETTER_MENU,
-  USER_WIPE_LETTER_MENU,
   USER_UPDATE_ERROR,
   USER_GET_LETTER,
   USER_BIN_LETTER,
@@ -32,11 +28,8 @@ import {
   DELETE_OWN_PROPOSAL,
 } from '../actions/user';
 
-import { navigateToStatus } from '../helper/navigationProxy';
-
 import { CHANGE_MAP_REGION, CHANGE_MAP_LAYOUT, USER_SET_COORDINATES } from '../actions/map';
 
-import store from '../config/store';
 import initialState from '../config/initialState';
 import { saveUserToStorage } from '../helper/localStorage';
 import { isEmpty } from '../helper/helper';
@@ -422,8 +415,6 @@ export default (state = initialState.user, action) => {
         };
         saveUserToStorage(result);
 
-        // navigateToStatus(action.action.props, null);
-
         return result;
       }
       case NETWORK_ERROR_POST_PROPOSAL: {
@@ -444,8 +435,6 @@ export default (state = initialState.user, action) => {
           ...state,
           challenges: myChallenges,
         };
-
-        // navigateToStatus(action.action.props, null);
 
         return result;
       }
@@ -479,8 +468,7 @@ export default (state = initialState.user, action) => {
         myChallenge.isLoading = false;
         myChallenge.isInternalLoading = false;
         myChallenge.ownProposalInReview = { bool: action.result.proposals[0].in_review };
-        // myChallenge.ownProposalBlocked = { bool: action.result.proposals[0].blocked };
-        myChallenge.ownProposalBlocked = { bool: true };
+        myChallenge.ownProposalBlocked = { bool: action.result.proposals[0].blocked };
         myChallenges[action.action.challengeId] = myChallenge;
 
         const result = {

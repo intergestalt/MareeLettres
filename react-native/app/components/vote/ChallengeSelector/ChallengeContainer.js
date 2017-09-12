@@ -5,11 +5,7 @@ import { connect } from 'react-redux';
 import styles from './styles';
 import { ChallengeDetail } from './';
 import { screenWidth } from '../../../helper/screen';
-import {
-  popChallengeSelector,
-  navigateToSubmit,
-  navigateToStatus,
-} from '../../../helper/navigationProxy';
+import { popChallengeSelector, navigateToSubmit } from '../../../helper/navigationProxy';
 import { handleChallengeIsNotExisting } from '../../../helper/challengesHelper';
 
 import { startChallengeTicker } from '../../../helper/ticker';

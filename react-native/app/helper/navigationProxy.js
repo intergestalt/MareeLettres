@@ -160,10 +160,10 @@ export function popProposalSubmitter(props, withDispatch = true) {
   }
 }
 export function navigateToSubmit(props, challenge) {
+  const mode = store.getState().challenges.challengeView;
+  if (mode === CHALLENGE_VIEWS.SUGGEST) {
+    return;
+  }
   store.dispatch(setChallengeView(CHALLENGE_VIEWS.SUGGEST));
   props.navigation.navigate('Submit', { challenge });
-}
-
-export function navigateToStatus(props, challenge) {
-  props.navigation.navigate('Status', { challenge });
 }
