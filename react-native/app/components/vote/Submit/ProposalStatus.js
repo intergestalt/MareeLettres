@@ -106,8 +106,7 @@ class ProposalStatus extends Component {
       </View>
     );
   }
-}
-s;
+};
 
 const mapStateToProps = (state, props) => {
   // console.log(state.challenges);

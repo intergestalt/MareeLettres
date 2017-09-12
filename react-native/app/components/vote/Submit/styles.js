@@ -162,7 +162,7 @@ const styles = EStyleSheet.create({
   statusBottomTop: {
     paddingTop: '2rem',
     paddingBottom: '2rem',
-    justifyContent: 'bottom',
+    //justifyContent: 'bottom', 
   },
   statusBottomBottom: {
     flex: 0.8,
