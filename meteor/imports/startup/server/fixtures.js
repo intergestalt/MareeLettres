@@ -53,7 +53,7 @@ Meteor.startup(() => {
 
   if (Challenges.find().count() === 0) {
     console.log('Seeding Challenges');
-    for (let i = 1; i <= 24; i++) {
+    for (let i = 1; i <= SeedChallenges.length; i++) {
       Challenges.insert(
         {
           _id: `fixture_${i}`,
@@ -67,7 +67,7 @@ Meteor.startup(() => {
           start_date: moment().add(i - 3, 'days').toDate(),
           end_date: moment().add(i - 1, 'days').toDate(),
           proposals_end_date: moment().add(i - 1, 'days').add(-10, 'minutes').toDate(),
-          ...SeedChallenges[i],
+          ...SeedChallenges[i-1],
         },
         (err, id) => {
           /*if (id != undefined) {
@@ -131,8 +131,8 @@ Meteor.startup(() => {
         created_at: new Date,
       });
     }
-  }
-});*/
+  }*/
+});
 
 let shuffleString = function (str) {
   return str
