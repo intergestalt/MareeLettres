@@ -20,6 +20,9 @@ import { PROPOSAL_VIEWS, PROPOSAL_LIST_MODES } from '../../../consts';
 import { DYNAMIC_CONFIG } from '../../../config/config';
 import { listIsEmpty } from '../../../helper/helper';
 import { ReloadButton } from '../../../components/general/ReloadButton';
+import { isFinishedSuggest } from '../../../helper/dateFunctions';
+import I18n from '../../../i18n/i18n';
+import { connectAlert } from '../../../components/general/Alert';
 
 class ChallengeContainer extends Component {
   static propTypes = {
@@ -30,7 +33,9 @@ class ChallengeContainer extends Component {
     selectedChallengeId: PropTypes.string,
     selectedProposalListMode: PropTypes.string,
     selectedProposalView: PropTypes.string,
+    language: PropTypes.string,
     userChallenges: PropTypes.object,
+    alertWithType: PropTypes.func,
   };
 
   constructor(props) {
@@ -71,7 +76,16 @@ class ChallengeContainer extends Component {
     console.log('handleSharePress');
   }
   handleCommitPress() {
-    navigateToSubmit(this.props, this.props.challenges[this.props.selectedChallengeIndex]);
+    const challenge = this.props.challenges[this.props.selectedChallengeIndex];
+    if (isFinishedSuggest(challenge)) {
+      this.props.alertWithType(
+        'info',
+        I18n.t('suggestion_too_late_title'),
+        I18n.t('suggestion_too_late_text'),
+      );
+    } else {
+      navigateToSubmit(this.props, challenge);
+    }
   }
   handleStatusPress() {
     loadProposalServiceProxy(
@@ -81,9 +95,9 @@ class ChallengeContainer extends Component {
     navigateToSubmit(this.props, this.props.challenges[this.props.selectedChallengeIndex]);
   }
 
-  handleHeaderPressed = () => {
+  handleHeaderPressed() {
     popChallengeSelector(this.props);
-  };
+  }
 
   loadProposals(index, view, listmode) {
     if (index < 0 || index > this.props.challenges.length - 1) return;
@@ -366,6 +380,7 @@ class ChallengeContainer extends Component {
   }
   // Render
   render() {
+    I18n.locale = this.props.language;
     if (this.props.isLoading) {
       return this.renderIsLoading();
     }
@@ -438,6 +453,7 @@ const mapStateToProps = (state) => {
       selectedProposalView,
       selectedProposalListMode,
       isLoading,
+      language: state.globals.language,
       userChallenges: state.user.challenges,
     };
   } catch (e) {
@@ -446,4 +462,4 @@ const mapStateToProps = (state) => {
     throw e;
   }
 };
-export default connect(mapStateToProps)(ChallengeContainer);
+export default connect(mapStateToProps)(connectAlert(ChallengeContainer));

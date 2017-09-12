@@ -181,7 +181,7 @@ export default class DropdownAlert extends Component {
     this.alertWithType('custom', title, message);
   }
   alertWithType(type, title, message) {
-    if (this.validateType(type) == false) {
+    if (this.validateType(type) === false) {
       return;
     }
     if (typeof title !== 'string') {
@@ -369,11 +369,11 @@ export default class DropdownAlert extends Component {
     if (this.props.enableCancel) {
       return (
         <TouchableOpacity onPress={onPress}>
-          <Text style={style}>{' '}</Text>
+          <Text style={style} />
         </TouchableOpacity>
       );
     }
-    return <Text style={style}>{' '}</Text>;
+    return <Text style={style} />;
   }
   renderDropDown(isOpen) {
     if (isOpen == true) {
@@ -425,7 +425,7 @@ export default class DropdownAlert extends Component {
                   this.props.messageStyle,
                   this.props.messageNumOfLines,
                 )}
-                {/*this.renderButton(this.props.buttonStyle, this.onClose)*/}
+                {/* this.renderButton(this.props.buttonStyle, this.onClose) */}
               </View>
             </TouchableOpacity>
           </LinearGradient>

@@ -60,10 +60,12 @@ export default (state = initialState.user, action) => {
         }
 
         const newChallenges = {};
-        for (let i = 0; i < action.result.proposals.length; i += 1) {
-          const proposal = action.result.proposals[i];
-          const userProposal = { ownProposalId: proposal._id };
-          newChallenges[proposal.challenge_id] = userProposal;
+        if (action.result.proposals) {
+          for (let i = 0; i < action.result.proposals.length; i += 1) {
+            const proposal = action.result.proposals[i];
+            const userProposal = { ownProposalId: proposal._id };
+            newChallenges[proposal.challenge_id] = userProposal;
+          }
         }
         const result = {
           ...state,

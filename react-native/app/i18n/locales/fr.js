@@ -81,7 +81,10 @@ export default {
     '!\n\n FR We are sorry, but your Submission for VOTE#{NUM} does not comply with our community guidelines. It may be o ensive or inappropriate. Please try with another answer.',
   proposal_in_review1: 'FR Thank you for your submission for VOTE#{NUM}',
   proposal_in_review2: 'Status: in review FR',
-  proposal_passed: 'EN Your submission for VOTE#{NUM} is currently at',
-  proposal_rank: 'EN Rank',
+  proposal_passed: 'FR Your submission for VOTE#{NUM} is currently at',
+  proposal_rank: 'FR Rank',
   try_again_button: 'Try Again FR',
+
+  suggestion_too_late_title: 'FR Too late!',
+  suggestion_too_late_text: 'FR Suggestions closed already. Sorry <3',
 };

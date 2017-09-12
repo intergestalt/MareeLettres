@@ -81,4 +81,6 @@ export default {
   map_photo_save_text: "Find your pics in your device's camera roll!",
 
   network_error: 'Network error. Please check your internet connection. EN',
+  suggestion_too_late_title: 'EN Too late!',
+  suggestion_too_late_text: 'EN Suggestions closed already. Sorry <3',
 };
