@@ -1,5 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 
+import buildConfig from '../../startup/both/build-config';
+
 import { Challenges } from '../../api/challenges/challenges';
 import { Proposals } from '../../api/proposals/proposals';
 
@@ -17,7 +19,7 @@ const processWinner = () => {
 
     const winningProposal = Proposals.findOne(
       { challenge_id: doc._id },
-      { sort: { score: -1, yes_votes: -1 } },
+      { sort: buildConfig.queries.proposals.sort.popular },
     ); // TODO: add positiv category as 3rd criterium
     console.log('winning proposal: ', winningProposal);
 

@@ -8,6 +8,8 @@ import { gradient0 } from '../../../config/gradients';
 import styles from './styles';
 import { ReloadButton } from '../../../components/general/ReloadButton';
 import { loadProposalServiceProxy } from '../../../helper/apiProxy';
+import { VoteMark } from '../VoteMark/';
+import { getProposalVotesWithUser } from '../../../helper/proposalsHelper';
 
 class ProposalStatus extends Component {
   static propTypes = {
@@ -16,7 +18,9 @@ class ProposalStatus extends Component {
     userChallenge: PropTypes.object,
     onBackPressed: PropTypes.func,
     onTryAgainPressed: PropTypes.func,
+    voteMap: PropTypes.object,
   };
+
   handleReloadPressPress = () => {
     loadProposalServiceProxy(this.props.challenge._id, false);
   };
@@ -25,12 +29,72 @@ class ProposalStatus extends Component {
     if (!this.props.userChallenge.ownProposal) {
       noContent = true;
     }
+    let proposalBlocked = null;
+    let proposalInReview = null;
+    let proposalPassed = null;
+    let blocked = null;
+    let review = null;
+    let rank = null;
+    let passed = null;
+    if (!this.props.userChallenge.isLoading) {
+      proposalBlocked = this.props.userChallenge.ownProposalBlocked.bool;
+      proposalInReview = this.props.userChallenge.ownProposalInReview.bool;
+      proposalPassed = !proposalBlocked && !proposalInReview;
 
-    I18n.locale = this.props.language;
-    let blocked = I18n.t('proposal_blocked');
-    blocked = blocked.replace('{NUM}', this.props.challenge.voteNum);
-    let review = I18n.t('proposal_in_review1');
-    review = review.replace('{NUM}', this.props.challenge.voteNum);
+      I18n.locale = this.props.language;
+      blocked = I18n.t('proposal_blocked');
+      blocked = blocked.replace('{NUM}', this.props.challenge.voteNum);
+      review = I18n.t('proposal_in_review1');
+      review = review.replace('{NUM}', this.props.challenge.voteNum);
+      passed = I18n.t('proposal_passed');
+      passed = passed.replace('{NUM}', this.props.challenge.voteNum);
+      rank = I18n.t('proposal_rank');
+    }
+    let panel = null;
+
+    if (this.props.userChallenge.isLoading) {
+      panel = <ActivityIndicator />;
+    } else if (proposalPassed) {
+      panel = (
+        <View style={styles.statusBottomContainer}>
+          <View style={styles.statusBottomTop}>
+            <Text style={styles.statusBottomText1}>{passed}</Text>
+            <Text style={styles.statusBottomText2}>
+              {rank} {this.props.userChallenge.rank}
+            </Text>
+          </View>
+          <View style={styles.statusBottomBottom}>
+            <View style={styles.statusBottomBottomLeft}>
+              <VoteMark size="l" active value={0} type="no" />
+              <Text style={styles.textPanel}>
+                {this.props.userChallenge.no + this.props.voteMap.votesNoOffset}
+              </Text>
+            </View>
+            <View style={styles.statusBottomBottomRight}>
+              <VoteMark size="l" active value={0} type="yes" />
+              <Text style={styles.textPanel}>
+                {this.props.userChallenge.yes + this.props.voteMap.votesYesOffset}
+              </Text>
+            </View>
+          </View>
+        </View>
+      );
+    } else {
+      panel = (
+        <View style={styles.statusBottomContainer}>
+          <View style={styles.statusBottomTop}>
+            <Text style={styles.statusBottomText1}>{proposalBlocked ? blocked : review}</Text>
+          </View>
+          <View style={styles.statusBottomBottom}>
+            <Text style={styles.statusBottomText2}>
+              {this.props.userChallenge.ownProposalBlocked.bool ? null : (
+                I18n.t('proposal_in_review2').toUpperCase()
+              )}
+            </Text>
+          </View>
+        </View>
+      );
+    }
 
     return (
       <View>
@@ -60,26 +124,7 @@ class ProposalStatus extends Component {
             </LinearGradient>
           </View>
           {!noContent ? (
-            <View style={styles.statusBottom}>
-              {!this.props.userChallenge.isLoading ? (
-                <View style={styles.statusBottomContainer}>
-                  <View style={styles.statusBottomTop}>
-                    <Text style={styles.statusBottomText1}>
-                      {this.props.userChallenge.ownProposalBlocked.bool ? blocked : review}
-                    </Text>
-                  </View>
-                  <View style={styles.statusBottomBottom}>
-                    <Text style={styles.statusBottomText2}>
-                      {this.props.userChallenge.ownProposalBlocked.bool ? null : (
-                        I18n.t('proposal_in_review2').toUpperCase()
-                      )}
-                    </Text>
-                  </View>
-                </View>
-              ) : (
-                <ActivityIndicator />
-              )}
-            </View>
+            <View style={styles.statusBottom}>{panel}</View>
           ) : (
             <View style={styles.statusBottom}>
               <ReloadButton textKey="reload_challenges" onReload={this.handleReloadPressPress} />
@@ -87,7 +132,7 @@ class ProposalStatus extends Component {
           )}
         </View>
         <View style={styles.submitContainer}>
-          {noContent || !this.props.userChallenge.ownProposalBlocked.bool ? (
+          {noContent || !proposalBlocked ? (
             <TouchableOpacity onPress={this.props.onBackPressed}>
               <View style={styles.submitButton}>
                 <Text style={styles.submitButtonText}>{I18n.t('back_button').toUpperCase()}</Text>
@@ -106,7 +151,7 @@ class ProposalStatus extends Component {
       </View>
     );
   }
-};
+}
 
 const mapStateToProps = (state, props) => {
   // console.log(state.challenges);
@@ -117,11 +162,15 @@ const mapStateToProps = (state, props) => {
     const selectedChallengeIndex = state.challenges.selectedChallengeIndex;
     const challenge = state.challenges.challenges[selectedChallengeIndex];
     const userChallenge = state.user.challenges ? state.user.challenges[challenge._id] : {};
+    console.log(userChallenge);
+    const id = userChallenge.ownProposalId;
+    const voteMap = getProposalVotesWithUser(id);
 
     return {
       language,
       challenge,
       userChallenge,
+      voteMap,
     };
   } catch (e) {
     console.log('ProposalStatus');

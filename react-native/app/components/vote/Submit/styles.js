@@ -162,11 +162,28 @@ const styles = EStyleSheet.create({
   statusBottomTop: {
     paddingTop: '2rem',
     paddingBottom: '2rem',
-    //justifyContent: 'bottom', 
   },
   statusBottomBottom: {
+    flexDirection: 'row',
     flex: 0.8,
     justifyContent: 'center',
+  },
+  statusBottomBottomLeft: {
+    flex: 0.5,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  statusBottomBottomRight: {
+    flex: 0.5,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  textPanel: {
+    color: 'black',
+    fontFamily: 'normal',
+    paddingTop: '1rem',
+    fontSize: '1rem',
+    textAlign: 'center',
   },
   statusBottomText1: {
     paddingLeft: '1rem',

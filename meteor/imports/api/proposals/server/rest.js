@@ -6,6 +6,8 @@ import { Challenges } from '../../challenges/challenges';
 import { Players } from '../../players/players';
 import RequestHelpers from '../../../helpers/RequestHelpers';
 import currentSystemConfig from '../../../startup/server/system-config';
+import buildConfig from '../../../startup/both/build-config';
+
 
 const JsonRoutesError = RequestHelpers.JsonRoutesError;
 
@@ -18,8 +20,29 @@ JsonRoutes.add('get', `${Meteor.settings.public.api_prefix}proposals`, function 
 JsonRoutes.add('get', `${Meteor.settings.public.api_prefix}proposals/:proposal_id`, function (req, res, next) {
     const proposal_id = req.params.proposal_id;
 
+    const proposal = Proposals.findOne(proposal_id);
+
+    if (!proposal) {
+        JsonRoutesError(res, 400, 'proposal-not-existing');
+        return;
+    }
+
+    // calculate rank
+
+    // 1. The number of valid proposals that have a lower score
+    const base_pos = Proposals.find({ blocked: false, in_review: false, score: { $gt: proposal.score } }, { sort: buildConfig.queries.proposals.sort.popular }).count();
+
+    // 2. Get the position in the batch of proposals with the same score
+    const batch = Proposals.find({ blocked: false, in_review: false, score: proposal.score }, { sort: buildConfig.queries.proposals.sort.popular, fields: { _id: 1 } });
+
+    const batch_pos = _.findIndex(batch.fetch(), elem => elem._id === proposal._id) || 0;
+
+    const rank = base_pos + batch_pos + 1;
+
+    proposal.rank = rank;
+
     JsonRoutes.sendResult(res, {
-        data: { proposals: Proposals.find(proposal_id).fetch() },
+        data: { proposals: [proposal] },
     });
 });
 
@@ -32,11 +55,7 @@ JsonRoutes.add(
         const limit = parseInt(req.query.limit) || 0; // ?limit=:limit
         const sort_param = req.query.sort; // ?limit=:limit
 
-        const sort_modes = {
-            popular: { score: -1, yes_votes: -1 },
-            newest: { created_at: -1 },
-            trending: { score_trending: -1 },
-        };
+        const sort_modes = buildConfig.queries.proposals.sort;
 
         if (Object.keys(sort_modes).indexOf(sort_param) < 0) sort_mode = 'popular';
 
