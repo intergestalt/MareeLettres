@@ -474,8 +474,8 @@ export default (state = initialState.user, action) => {
         myChallenge.ownProposal = myProposal.text;
         myChallenge.isLoading = false;
         myChallenge.isInternalLoading = false;
-        myChallenge.ownProposalInReview = false; // { bool: myProposal.in_review };
-        myChallenge.ownProposalBlocked = false; // { bool:myProposal.blocked };
+        myChallenge.ownProposalInReview = { bool: myProposal.in_review };
+        myChallenge.ownProposalBlocked = { bool: myProposal.blocked };
         myChallenge.rank = myProposal.rank;
         const votes = state.votes;
         let offsetYes = 0;

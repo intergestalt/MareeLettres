@@ -124,11 +124,12 @@ export default (state = initialState.challenges, action) => {
           if (myChallenge._id === action.action.challengeId) {
             const myChallenges = Array.from(state.challenges);
             if (action.result.challenges.length > 0) {
-              let newProposalView = PROPOSAL_VIEWS.TINDER;
+              const newProposalView = PROPOSAL_VIEWS.TINDER;
               let newProposaListMode = PROPOSAL_LIST_MODES.MOST;
-              if (myChallenge.proposalView) {
+
+              /* if (myChallenge.proposalView) {
                 newProposalView = myChallenge.proposalView;
-              }
+              } */
               if (myChallenge.proposalListMode) {
                 newProposaListMode = myChallenge.proposalListMode;
               }

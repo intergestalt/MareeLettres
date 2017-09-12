@@ -29,6 +29,7 @@ export default {
   overview_button: 'LISTE',
   status_button: 'ETAT',
   tinder_button: 'BALAYER',
+  winner_button: 'Winner FR',
   suggest_button: 'PROPOSE',
   submit_button: 'SOUMETTRE',
   back_button: 'BACK',
