@@ -3,7 +3,6 @@ import { StatusBar } from 'react-native';
 import { connect } from 'react-redux';
 
 import { Screen } from '../../components/general/Container';
-import { TabBar } from '../../components/general/TabBar';
 import { Map } from '../../components/map/Map';
 // import { LettersMenu, CameraButton, MapScreenMenu } from '../../components/map/Overlay';
 
@@ -15,6 +14,7 @@ import { setUserMapTutorialStatusProxy } from '../../helper/userHelper';
 
 class MapOverview extends Component {
   static propTypes = {
+    isDefaultUser: PropTypes.bool,
     navigation: PropTypes.object,
     interval: PropTypes.number,
   };
@@ -26,7 +26,7 @@ class MapOverview extends Component {
       this.props.alertWithType(
         'info',
         I18n.t('map_tutorial_1_title'),
-        I18n.t('map_tutorial_1_text')
+        I18n.t('map_tutorial_1_text'),
       );
       setUserMapTutorialStatusProxy('step2');
     }
@@ -47,7 +47,7 @@ const mapStateToProps = (state) => {
 
   return {
     user,
-    language: state.globals.language
+    language: state.globals.language,
   };
 };
 

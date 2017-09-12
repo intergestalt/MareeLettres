@@ -60,7 +60,7 @@ class ChallengesList extends PureComponent {
   renderIsLoading() {
     return (
       <View style={styles.container}>
-        <Text>Loading Challenges...</Text>
+        <Text>Loading...</Text>
       </View>
     );
   }
@@ -177,7 +177,7 @@ class ChallengesList extends PureComponent {
         {header}
         <FlatList
           data={listData}
-          renderItem={({ item }) =>
+          renderItem={({ item }) => (
             <ChallengesListItem
               oneFinished={oneFished}
               showAll={this.props.showAllFinishedChallenges}
@@ -187,7 +187,8 @@ class ChallengesList extends PureComponent {
               onPress={() => this.handlePressRow(item)}
               onShowAllPress={() => this.handlePressShowAll()}
               onHideAllPress={() => this.handlePressHideAll()}
-            />}
+            />
+          )}
           keyExtractor={item => item.id}
           ItemSeparatorComponent={Separator}
         />
@@ -199,7 +200,7 @@ class ChallengesList extends PureComponent {
 const mapStateToProps = (state) => {
   try {
     const challenges = state.challenges.challenges;
-    const isLoading = state.challenges.isLoading;
+    const isLoading = state.challenges.isLoading || state.user.isLoading;
     const language = state.globals.language;
     const showAllFinishedChallenges = state.globals.showAllFinishedChallenges;
     const isDefaultUser = state.user.isDefaultUser;

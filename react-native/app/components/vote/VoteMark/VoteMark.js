@@ -85,17 +85,9 @@ class VoteMark extends Component {
     const inner =
       this.props.type === 'yes' ? this.renderCheck(height, color) : this.renderCross(height, color);
     if (this.props.active) {
-      return (
-        <TouchableOpacity onPress={this.props.onPress}>
-          {inner}
-        </TouchableOpacity>
-      );
+      return <TouchableOpacity onPress={this.props.onPress}>{inner}</TouchableOpacity>;
     }
-    return (
-      <View>
-        {inner}
-      </View>
-    );
+    return <View>{inner}</View>;
   }
 }
 

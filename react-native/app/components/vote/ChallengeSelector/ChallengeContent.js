@@ -41,10 +41,12 @@ class ChallengeContent extends Component {
     this.tinderVote = this.tinderVote.bind(this);
     this.tinderVoteYes = this.tinderVoteYes.bind(this);
     this.tinderVoteNo = this.tinderVoteNo.bind(this);
+    this.tinderVoteYesAnim = this.tinderVoteYesAnim.bind(this);
+    this.tinderVoteNoAnim = this.tinderVoteNoAnim.bind(this);
     this.handleReloadPressPress = this.handleReloadPressPress.bind(this);
-
     this.state = {
       tinderContainerOffset: new Animated.ValueXY({ x: 0, y: 0 }),
+      tinderBackground: new Animated.Value(0),
     };
     if (this.props.challengeOffset === 0) {
       this.panResponderContent = this.createPanResponderContent();
@@ -135,7 +137,6 @@ class ChallengeContent extends Component {
         }
         f /= 2;
         const toY = toX * f;
-
         if (dir === 1) {
           Animated.timing(this.state.tinderContainerOffset, {
             toValue: { x: toX, y: toY },
@@ -157,6 +158,24 @@ class ChallengeContent extends Component {
     });
   }
 
+  tinderVoteYesAnim() {
+    const toX = screenWidth * 1 * 1.3;
+    Animated.timing(this.state.tinderContainerOffset, {
+      toValue: { x: toX, y: 0 },
+      duration: 400,
+    }).start(() => {
+      this.tinderVote(true);
+    });
+  }
+  tinderVoteNoAnim() {
+    const toX = screenWidth * -1 * 1.3;
+    Animated.timing(this.state.tinderContainerOffset, {
+      toValue: { x: toX, y: 0 },
+      duration: 400,
+    }).start(() => {
+      this.tinderVote(false);
+    });
+  }
   tinderVoteYes() {
     this.tinderVote(true);
   }
@@ -189,18 +208,24 @@ class ChallengeContent extends Component {
   }
 
   tinderVote(yes) {
-    const proposalId = this.props.proposals[0]._id;
-    this.props.dispatch(userVoteInternal(proposalId, yes));
-    this.state.tinderContainerOffset.setValue({ x: 0, y: 0 });
-    this.props.dispatch(deleteProposalFromTinderList(this.getChallenge()._id));
-    this.checkToLoadMoreProposals();
+    Animated.timing(this.state.tinderBackground, {
+      toValue: 1,
+      duration: 200,
+    }).start(() => {
+      const proposalId = this.props.proposals[0]._id;
+      this.props.dispatch(userVoteInternal(proposalId, yes));
+      this.state.tinderContainerOffset.setValue({ x: 0, y: 0 });
+      this.state.tinderBackground.setValue(0);
+      this.props.dispatch(deleteProposalFromTinderList(this.getChallenge()._id));
+      this.checkToLoadMoreProposals();
+    });
   }
 
   colors = {
     yes: 'green',
     no: 'red',
     neutral: 'black',
-    inactive: '#535353',
+    inactive: '#aaaaaa',
   };
 
   renderTinder() {
@@ -243,6 +268,20 @@ class ChallengeContent extends Component {
         outputRange: [this.colors.no, this.colors.neutral, this.colors.yes],
         extrapolate: 'clamp',
       });
+      /*   const tinderBackgroundColor = this.state.tinderContainerOffset.x.interpolate({
+        inputRange: [-screenWidth, 0, screenWidth],
+        outputRange: ['#FFFFFF', this.colors.inactive, '#FFFFFF'],
+        extrapolate: 'clamp',
+      }); */
+
+      const tinderBackgroundColor = this.state.tinderBackground.interpolate({
+        inputRange: [0, 1],
+        outputRange: [this.colors.inactive, '#FFFFFF'],
+        extrapolate: 'clamp',
+      });
+
+      console.log(`tinderBackgroundColor ${tinderBackgroundColor.toValue}`);
+      console.log(`this.state.tinderBackground  ${this.state.tinderBackground}`);
       frontTinder = (
         <ProposalTinder
           panResponderContent={this.panResponderContent}
@@ -252,10 +291,16 @@ class ChallengeContent extends Component {
           yesOpacity={yesOpacity}
           textColor={textColor}
           proposalIndex={0}
+          yesPress={this.tinderVoteYesAnim}
+          noPress={this.tinderVoteNoAnim}
         />
       );
       backTinder = (
-        <ProposalTinder challengeOffset={this.props.challengeOffset} proposalIndex={1} />
+        <ProposalTinder
+          tinderBackgroundColor={tinderBackgroundColor}
+          challengeOffset={this.props.challengeOffset}
+          proposalIndex={1}
+        />
       );
     } else if (this.props.proposals) {
       frontTinder = (
