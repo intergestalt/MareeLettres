@@ -65,7 +65,7 @@ class ExpoCamera extends React.Component {
     // this doesn't work on android!! no way to ask for this permission in expo
     let saveResult = await CameraRoll.saveToCameraRoll(result, 'photo');
     this.setState({ cameraRollUri: saveResult });
-    this.props.alertWithType('info', 'Saved', "Find your pics in your device's camera roll!");
+    this.props.alertWithType('info', I18n.t('map_photo_save_title'), I18n.t('map_photo_save_text'));
   }
 
   _shareSnapshot() {

@@ -39,12 +39,12 @@ export default EStyleSheet.create({
     borderRightColor: '#fff',
   },
   text: {
-    paddingTop: 20,
+    paddingTop: 25,
     position: 'absolute',
     top: '0%',
     width: '60%',
     color: 'black',
-    fontSize: '1.2rem',
+    fontSize: '1rem',
     textAlign: 'center',
   },
   textWhite: {

@@ -9,6 +9,12 @@ export default {
   challenge: 'TOPIC',
   live_indicator: 'voting live',
 
+  see_all_votes: 'See past topics',
+  hide_all_votes: 'Hide past topcis',
+  submit_alert: 'You may only make one suggestion per topic. Are you sure you want to submit this?',
+  submit_yes: 'Yes',
+  submit_no: 'No',
+
   proposal_list_header_most: 'Top',
   proposal_list_header_newest: 'Newest',
   proposal_list_header_trending: 'Trending',
@@ -30,7 +36,6 @@ export default {
   reload_content: 'The content is not loaded yet. Press to Reload',
   reload_user: 'User could not be loaded or created. Check your network connection.',
 
-  map_drop_zone: 'Drop Zone',
   map_give_letter_button: 'Give your letter',
   map_get_letter_button: 'Get letters',
   map_trash_letter_button: 'Drag here to remove',
@@ -38,19 +43,23 @@ export default {
   map_letter_friends_label: 'Letter Friends',
   map_show_qr_instruction: 'Ask your friends to scan this code.',
   map_scan_qr_instruction: "Scan your friend's QR code to get their letter.",
-
-  info_about_title: 'NUIT BLANCHE',
-  info_howto_title: 'THE IDEA',
-
-  network_error: 'Network error. Please check your internet connection. EN',
-
+  map_tutorial_1_title: 'Welcome to the FLUX!',
+  map_tutorial_1_text: 'To choose YOUR letter, tap on the + symbol right above You.',
+  map_tutorial_3_title: 'Excellent work!', 
+  map_tutorial_3_text: 'Want to write with different letters? Get letters from your friends by scanning their QR code. Tap the Get Letters below.',
   center_map: 'Center map',
   camera_button: 'Camera',
-  choose_your_letter: 'Choose Your Letter EN',
-  take_picture: 'Take picture EN',
-  see_all_votes: 'See all topics',
-  hide_all_votes: 'Hide past topcis',
-  submit_alert: 'You may only submit one answer per vote. Are you sure you want to submit? EN',
-  submit_yes: 'Yes',
-  submit_no: 'No',
+  choose_your_letter: 'Which letter do you want to be? Choose wisely, you cannot change this for the next 24 hours.',
+  map_too_zoom_title: 'Too high in the sky', 
+  map_too_zoom_text: 'Zoom in to the circle place letters!',
+  map_too_crowded_title: 'Too crowded', 
+  map_too_crowded_text: "There are too many letters in this area. Please write somewhere else or wait.",
+  map_too_far_title: 'Too far away',
+  map_too_far_text: "You cannot write outside the circle around you.",
+  map_photo_save_title: "Saved",
+  map_photo_save_text: "Find your pics in your device's camera roll!",
+
+  info_about_title: 'NUIT BLANCHE',
+
+  network_error: 'Network error. Please check your internet connection. EN',
 };

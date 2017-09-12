@@ -44,7 +44,7 @@ class LetterSelectorWindow extends Component {
     // available letters
     let rowTop = ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'];
     let rowMid = ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L'];
-    let rowBottom = ['Z', 'X', 'C', 'V', 'B', 'N', 'M', '?', ':', '*'];
+    let rowBottom = ['Z', 'X', 'C', 'V', 'B', 'N', 'M'];
 
     // format
     rowTop = rowTop.map((item, i) => this.keyboard(item, i));
@@ -55,7 +55,7 @@ class LetterSelectorWindow extends Component {
       <View style={styles.container}>
         <BackSimple onPress={() => this.handleBackPress()} />
         <Text style={styles.text}>
-          {I18n.t('choose_your_letter')}:
+          {I18n.t('choose_your_letter')}
         </Text>
         <View style={styles.keyboard}>
           <View style={styles.keyboard__row}>

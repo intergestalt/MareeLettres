@@ -16,7 +16,6 @@ class DropZone extends Component {
       <View pointerEvents="none" style={styles.dropZoneContainer}>
         <View style={styles.dropZone}>
           <Text style={styles.dropZoneText}>
-            {I18n.t('map_drop_zone')}
           </Text>
         </View>
       </View>

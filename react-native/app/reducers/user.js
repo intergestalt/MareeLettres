@@ -339,7 +339,13 @@ export default (state = initialState.user, action) => {
         console.log('SET_OWN_PROPOSAL');
 
         let myChallenges = state.challenges // this is the challenges object in user
-        let myChallenge = myChallenges[action.challengeId];
+        let myChallenge = null;
+        if(action.challengeId && myChallenges) {
+          myChallenge = myChallenges[action.challengeId];  
+        } else {
+          return state; // do nothing if no action
+        }
+        
         if(!myChallenge) {
           myChallenge = {};
         }
@@ -360,7 +366,7 @@ export default (state = initialState.user, action) => {
         console.log("user reducer: SUCESS_POST_PROPOSAL");
         //console.log(action);
 
-        let myChallenges = state.challenges;
+        /*let myChallenges = state.challenges;
         let myChallenge = state.challenges[action.action.body.challenge_id];
         if(!myChallenge) {
           myChallenge = {};
@@ -379,7 +385,8 @@ export default (state = initialState.user, action) => {
 
         //navigateToStatus(action.action.props, null);
 
-        return result;
+        return result;*/
+        return state
       }
 
       default:

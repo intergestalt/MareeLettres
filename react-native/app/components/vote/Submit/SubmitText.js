@@ -14,7 +14,6 @@ class SubmitText extends Component {
     I18n.locale = this.props.language;
     return (
       <View style={styles.keyboard}>
-        <Text>!</Text>
         <Text>
           {I18n.t('submit_alert')}
         </Text>
