@@ -112,7 +112,7 @@ class Feed extends Component {
           onNavigationStateChange={(event) => {
             console.log(uri);
             console.log(event);
-            const isLocal = event.url.search('http://localhost') !== -1;
+            const isLocal = event.url.search('stream/TwitterWebView.html') !== -1;
             if (!isLocal) {
               this.webview.stopLoading();
               Linking.openURL(event.url);

@@ -4,14 +4,13 @@ import { connect } from 'react-redux';
 
 import styles from './styles';
 
-import { WritingArea, Keyboard, DraggableLetter, SubmitText } from './index';
+import { ProposalStatus, WritingArea, Keyboard, DraggableLetter, SubmitText } from './index';
 import { getDuration } from '../../../helper/helper';
 
 import { postProposalServiceProxy } from '../../../helper/apiProxy';
 import I18n from '../../../i18n/i18n';
 import { popProposalSubmitter } from '../../../helper/navigationProxy';
-import { setOwnProposal } from '../../../actions/user';
-import ProposalStatus from '../Status/ProposalStatus.js';
+import { setOwnProposal,deleteOwnProposal } from '../../../actions/user';
 
 import { isFinished } from '../../../helper/dateFunctions';
 
@@ -26,12 +25,16 @@ class ProposalSubmitter extends Component {
     dispatch: PropTypes.func,
     ownProposal: PropTypes.string,
     selectedChallengeId: PropTypes.string,
+    ownProposalId: PropTypes.string,
+    isStatusLoading: PropTypes.bool,
   };
 
   constructor(props) {
     super(props);
     // I. Bindings
     this.submitPressed = this.submitPressed.bind(this);
+    this.tryAgainPressed = this.tryAgainPressed.bind(this);
+
     this.onLayoutCallback = this.onLayoutCallback.bind(this);
     this.handleBackPress = this.handleBackPress.bind(this);
     this.onQueensLayoutCallback = this.onQueensLayoutCallback.bind(this);
@@ -241,6 +244,10 @@ class ProposalSubmitter extends Component {
   }
 
   setInitialLetters(ownProposal = '') {
+    let myOwnProposal = ownProposal;
+    if (!ownProposal) {
+      myOwnProposal = '';
+    }
     // all letters from challenge
     const letters = this.props.challenge.letters;
     const lettersKeyboard = [];
@@ -267,8 +274,8 @@ class ProposalSubmitter extends Component {
 
     let nextKey = letters.length + 1;
     const lettersWritingArea = [];
-    for (let i = 0, len = ownProposal.length; i < len; i += 1) {
-      const letter = ownProposal[i];
+    for (let i = 0, len = myOwnProposal.length; i < len; i += 1) {
+      const letter = myOwnProposal[i];
       for (let j = 0; j < lettersKeyboard.length; j += 1) {
         const keyboardLetter = lettersKeyboard[j].character;
         if (keyboardLetter === letter) {
@@ -964,9 +971,14 @@ class ProposalSubmitter extends Component {
     }
     this.setState({ submitView: true });
   }
-
+  tryAgainPressed() {
+    this.props.dispatch(deleteOwnProposal(this.props.selectedChallengeId));
+    popProposalSubmitter(this.props);
+  }
   handleBackPress(submitView) {
-    if (!submitView) {
+    if (this.showStatusPage()) {
+      popProposalSubmitter(this.props);
+    } else if (!submitView) {
       let answer = '';
 
       this.cleanSpaces(true);
@@ -974,7 +986,7 @@ class ProposalSubmitter extends Component {
         answer += this.state.lettersWritingArea[i].character;
       }
       if (this.checkAnswer(answer)) {
-        this.props.dispatch(setOwnProposal(this.props.selectedChallengeId, answer, false, false));
+        this.props.dispatch(setOwnProposal(this.props.selectedChallengeId, answer));
       }
       popProposalSubmitter(this.props);
     } else {
@@ -997,14 +1009,17 @@ class ProposalSubmitter extends Component {
     console.log('submitting...');
     postProposalServiceProxy(this.props.challenge._id, answer, this.props);
   }
+
   showStatusPage() {
-    if(this.props.ownProposalInReview || this.props.ownProposalInReview || this.props.ownProposalId) {
+    if (this.props.ownProposalId || this.props.isStatusLoading) {
       return true;
     }
-    if(isFinished(this.props.challenge)) {
+    if (isFinished(this.props.challenge)) {
       return true; // shouldn't happen
     }
+    return false;
   }
+
   render() {
     I18n.locale = this.props.language;
     const title = this.props.challenge.title[this.props.language];
@@ -1072,18 +1087,20 @@ class ProposalSubmitter extends Component {
     }
     return (
       <View style={styles.container}>
-        <View style={styles.titleContainer}>
-          <TouchableOpacity onPress={() => this.handleBackPress(this.state.submitView)}>
-            <Text style={styles.backStyle}>
-              {'<'}
+        {!this.showStatusPage()
+          ? <View style={styles.titleContainer}>
+            <TouchableOpacity onPress={() => this.handleBackPress(this.state.submitView)}>
+              <Text style={styles.backStyle}>
+                {'<'}
+              </Text>
+            </TouchableOpacity>
+            <Text style={styles.title}>
+              {title.toUpperCase()}
             </Text>
-          </TouchableOpacity>
-          <Text style={styles.title}>
-            {title.toUpperCase()}
-          </Text>
-        </View>
-        {!this.showStatusPage() ? (
-          <View pointerEvents="box-only" {...pangestures} style={styles.dragContainer}>
+          </View>
+          : null}
+        {!this.showStatusPage()
+          ? <View pointerEvents="box-only" {...pangestures} style={styles.dragContainer}>
             <WritingArea
               letterColor={colorWriteArea}
               layoutCallback={this.onLayoutCallback}
@@ -1096,15 +1113,16 @@ class ProposalSubmitter extends Component {
             {keyboard}
             {draggableLetter}
           </View>
-        ) : null }
-        {!this.showStatusPage() ? (
-          <View style={styles.submitContainer}>
+          : null}
+        {!this.showStatusPage()
+          ? <View style={styles.submitContainer}>
             {submitButton}
             {submitYesNo}
           </View>
-        ) : (
-        <ProposalStatus navigation={this.props.navigation} challenge={this.props.challenge} />
-        )}
+          : <ProposalStatus
+            onTryAgainPressed={this.tryAgainPressed}
+            onBackPressed={() => this.handleBackPress(this.state.submitView)}
+          />}
       </View>
     );
   }
@@ -1117,24 +1135,21 @@ const mapStateToProps = (state) => {
     const challenges = state.user.challenges;
     let ownProposal = '';
     let ownProposalId = null;
-    let ownProposalInReview = null;
-    let ownProposalBlocked = null;
+    let isStatusLoading = false;
     if (challenges) {
       const challenge = challenges[selectedChallengeId];
       if (challenge) {
         ownProposal = challenge.ownProposal;
-        ownProposalInReview = challenge.ownProposalInReview;
-        ownProposalBlocked = challenge.ownProposalBlocked;
         ownProposalId = challenge.ownProposalId;
+        isStatusLoading = challenge.isLoading;
       }
     }
     return {
       language,
       selectedChallengeId,
       ownProposal,
-      ownProposalInReview,
-      ownProposalBlocked,
-      ownProposalId
+      ownProposalId,
+      isStatusLoading,
     };
   } catch (e) {
     console.log('ProposalSubmitter');

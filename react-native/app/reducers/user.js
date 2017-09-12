@@ -4,12 +4,8 @@ import {
   SET_USER,
   LOAD_USER_ERROR,
   USER_SET_ID,
-  USER_SET_SECONDARY_LETTERS,
-  USER_SET_PRIMARY_LETTER,
-  USER_DELETE_LETTERS,
   USER_UPDATE_LETTER_MENU,
   USER_REVIVE_LETTER_MENU,
-  USER_WIPE_LETTER_MENU,
   USER_UPDATE_ERROR,
   USER_GET_LETTER,
   USER_BIN_LETTER,
@@ -23,19 +19,20 @@ import {
   USER_SET_MAP_TUTORIAL_STATUS,
   USER_FLAG_LETTER_FOR_OVERWRITE,
   SET_OWN_PROPOSAL,
-} from '../actions/user';
-
-import {
   SUCCESS_POST_PROPOSAL,
-} from '../actions/proposals'
-
-import { navigateToStatus } from '../helper/navigationProxy';
+  NETWORK_ERROR_POST_PROPOSAL,
+  POST_PROPOSAL,
+  LOAD_PROPOSAL,
+  SUCCESS_LOAD_PROPOSAL,
+  NETWORK_ERROR_LOAD_PROPOSAL,
+  DELETE_OWN_PROPOSAL,
+} from '../actions/user';
 
 import { CHANGE_MAP_REGION, CHANGE_MAP_LAYOUT, USER_SET_COORDINATES } from '../actions/map';
 
-import store from '../config/store';
 import initialState from '../config/initialState';
 import { saveUserToStorage } from '../helper/localStorage';
+import { isEmpty } from '../helper/helper';
 
 // const selectMenuItem = (state, index) => {};
 
@@ -170,8 +167,8 @@ export default (state = initialState.user, action) => {
         console.log('Reducer: USER_UPDATE_LETTER_MENU');
 
         const result = { ...state };
-        
-        if (action.menuIndex === 0) {          
+
+        if (action.menuIndex === 0) {
           result.primary_letter.disabled = true;
         } else if (action.menuIndex === 1) {
           result.secondary_letter_1.disabled = true;
@@ -194,7 +191,8 @@ export default (state = initialState.user, action) => {
 
         if (action.menuIndex === 0) {
           result.primary_letter.disabled = false;
-        } if (action.menuIndex === 1) {
+        }
+        if (action.menuIndex === 1) {
           result.secondary_letter_1.disabled = false;
         } else if (action.menuIndex === 2) {
           result.secondary_letter_2.disabled = false;
@@ -335,26 +333,41 @@ export default (state = initialState.user, action) => {
         saveUserToStorage(result);
         return result;
       }
-      case SET_OWN_PROPOSAL: {
-        console.log('SET_OWN_PROPOSAL');
+      case DELETE_OWN_PROPOSAL: {
+        console.log(`DELETE_OWN_PROPOSAL ${action.challengeId}`);
 
-        let myChallenges = state.challenges // this is the challenges object in user
-        let myChallenge = null;
-        if(action.challengeId && myChallenges) {
-          myChallenge = myChallenges[action.challengeId];  
-        } else {
-          return state; // do nothing if no action
-        }
-        
-        if(!myChallenge) {
+        let myChallenges = state.challenges; // this is the challenges object in user
+        if (!myChallenges) myChallenges = {};
+        let myChallenge = myChallenges[action.challengeId];
+        if (!myChallenge) {
           myChallenge = {};
         }
-        if(!myChallenge.ownProposalInReview) {
-          myChallenge.ownProposal = action.answer;
-          myChallenge.ownProposalInReview = action.review;
-          myChallenge.ownProposalBlocked = action.blocked;
-          myChallenges[action.challengeId] = myChallenge;
+        myChallenge.isLoading = false;
+        myChallenge.isInternalLoading = false;
+        myChallenge.ownProposalInReview = null;
+        myChallenge.ownProposalBlocked = null;
+        myChallenge.ownProposal = null;
+        myChallenge.ownProposalId = null;
+        myChallenges[action.challengeId] = myChallenge;
+
+        const result = {
+          ...state,
+          challenges: { ...myChallenges },
+        };
+        saveUserToStorage(result);
+        return result;
+      }
+      case SET_OWN_PROPOSAL: {
+        console.log(`SET_OWN_PROPOSAL ${action.challengeId}`);
+
+        let myChallenges = state.challenges; // this is the challenges object in user
+        if (!myChallenges) myChallenges = {};
+        let myChallenge = myChallenges[action.challengeId];
+        if (!myChallenge) {
+          myChallenge = {};
         }
+        myChallenge.ownProposal = action.answer;
+        myChallenges[action.challengeId] = myChallenge;
         const result = {
           ...state,
           challenges: myChallenges,
@@ -362,33 +375,127 @@ export default (state = initialState.user, action) => {
         saveUserToStorage(result);
         return result;
       }
-      case SUCCESS_POST_PROPOSAL: {
-        console.log("user reducer: SUCESS_POST_PROPOSAL");
-        //console.log(action);
-
-        /*let myChallenges = state.challenges;
-        let myChallenge = state.challenges[action.action.body.challenge_id];
-        if(!myChallenge) {
+      case POST_PROPOSAL: {
+        console.log('Reducer: POST_PROPOSAL');
+        let myChallenges = state.challenges; // this is the challenges object in user
+        if (!myChallenges) myChallenges = {};
+        let myChallenge = myChallenges[action.challengeId];
+        if (!myChallenge) {
           myChallenge = {};
         }
-        myChallenge.ownProposal = action.action.body.text;
+        myChallenge.isLoading = true;
+        myChallenge.isInternalLoading = true;
+        myChallenges[action.challengeId] = myChallenge;
+        const result = {
+          ...state,
+          challenges: myChallenges,
+        };
+        return result;
+      }
+      case SUCCESS_POST_PROPOSAL: {
+        console.log('user reducer: SUCESS_POST_PROPOSAL');
+
+        let myChallenges = state.challenges;
+        if (!myChallenges) myChallenges = {};
+        let myChallenge = state.challenges[action.action.body.challenge_id];
+        if (!myChallenge) {
+          myChallenge = {};
+        }
         myChallenge.ownProposalId = action.result.proposal._id;
-        myChallenge.ownProposalInReview = true;
-        myChallenge.ownProposalBlocked = false;
+        myChallenge.isLoading = false;
+        myChallenge.isInternalLoading = false;
+        myChallenge.ownProposalInReview = { bool: true };
+        myChallenge.ownProposalBlocked = { bool: false };
+        myChallenge.ownProposal = action.result.proposal.text;
         myChallenges[action.action.body.challenge_id] = myChallenge;
+
+        const result = {
+          ...state,
+          challenges: { ...myChallenges },
+        };
+        saveUserToStorage(result);
+
+        return result;
+      }
+      case NETWORK_ERROR_POST_PROPOSAL: {
+        console.log('Reducer: NETWORK_ERROR_POST_PROPOSAL');
+        let myChallenges = state.challenges;
+        if (!myChallenges) myChallenges = {};
+        let myChallenge = state.challenges[action.action.body.challenge_id];
+        if (!myChallenge) {
+          myChallenge = {};
+        }
+        // myChallenge.ownProposalId = action.result.proposal._id;
+        myChallenge.isLoading = false;
+        myChallenge.isInternalLoading = false;
+        myChallenges[action.action.body.challenge_id] = myChallenge;
+        myChallenge.ownProposalInReview = { bool: true };
+        myChallenge.ownProposalBlocked = { bool: false };
+        const result = {
+          ...state,
+          challenges: myChallenges,
+        };
+
+        return result;
+      }
+      case LOAD_PROPOSAL: {
+        console.log('LOAD_PROPOSAL');
+
+        const myChallenges = state.challenges;
+        const myChallenge = state.challenges[action.challengeId];
+        myChallenge.isLoading = true;
+        if (!isEmpty(myChallenge.ownProposalBlocked) && !isEmpty(myChallenge.ownProposalInReview)) {
+          myChallenge.isLoading = !action.quietLoading;
+        } else {
+          myChallenge.isLoading = true;
+        }
+        myChallenge.isInternalLoading = true;
+
+        myChallenges[action.challengeId] = myChallenge;
+
+        const result = {
+          ...state,
+          challenges: { ...myChallenges },
+        };
+        return result;
+      }
+      case SUCCESS_LOAD_PROPOSAL: {
+        console.log('SUCCESS_LOAD_PROPOSAL');
+
+        const myChallenges = state.challenges;
+        const myChallenge = state.challenges[action.action.challengeId];
+        myChallenge.ownProposal = action.result.proposals[0].text;
+        myChallenge.isLoading = false;
+        myChallenge.isInternalLoading = false;
+        myChallenge.ownProposalInReview = { bool: action.result.proposals[0].in_review };
+        myChallenge.ownProposalBlocked = { bool: action.result.proposals[0].blocked };
+        myChallenges[action.action.challengeId] = myChallenge;
+
+        const result = {
+          ...state,
+          challenges: { ...myChallenges },
+        };
+        saveUserToStorage(result);
+        return result;
+      }
+      case NETWORK_ERROR_LOAD_PROPOSAL: {
+        console.log('NETWORK_ERROR_LOAD_PROPOSAL');
+        const myChallenges = state.challenges;
+        const myChallenge = state.challenges[action.action.challengeId];
+
+        myChallenge.isLoading = false;
+        myChallenge.isInternalLoading = false;
+        myChallenge.ownProposalInReview = null;
+        myChallenge.ownProposalBlocked = null;
+        myChallenge.ownProposal = null;
+        myChallenges[action.action.challengeId] = myChallenge;
 
         const result = {
           ...state,
           challenges: myChallenges,
         };
-        saveUserToStorage(result);
-
-        //navigateToStatus(action.action.props, null);
-
-        return result;*/
-        return state
+        return result;
       }
-
       default:
         return state;
     }

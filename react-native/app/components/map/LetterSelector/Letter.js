@@ -11,6 +11,10 @@ import { setUserLetterProxy } from '../../../helper/userHelper';
 import I18n from '../../../i18n/i18n';
 import { MAP_VIEWS } from '../../../consts';
 
+import { connectAlert } from '../../../components/general/Alert';
+
+import { setUserMapTutorialStatusProxy } from '../../../helper/userHelper';
+
 // NOTE: THIS IS THE LETTER SELECTION SCREEN
 
 class LetterSelectorWindow extends Component {
@@ -21,7 +25,11 @@ class LetterSelectorWindow extends Component {
   };
 
   onPress = (char) => {
-    setUserLetterProxy(char);
+    if (this.props.user.map.tutorialStatus == 'step2') {
+        setUserLetterProxy(char);
+        this.props.alertWithType('info', I18n.t('map_tutorial_2_title').replace('[LETTER]', char), I18n.t('map_tutorial_2_text'));        
+        setUserMapTutorialStatusProxy('step3');
+    }
     dispatchBackActionToMapOverview(this.props, MAP_VIEWS.OVERVIEW);
   };
 
@@ -78,6 +86,7 @@ const mapStateToProps = (state) => {
     const myLetter = state.user.primary_letter.character;
 
     return {
+      user: state.user,
       language: state.globals.language,
       myLetter,
     };
@@ -88,4 +97,4 @@ const mapStateToProps = (state) => {
   }
 };
 
-export default connect(mapStateToProps)(LetterSelectorWindow);
+export default connect(mapStateToProps)(connectAlert(LetterSelectorWindow));

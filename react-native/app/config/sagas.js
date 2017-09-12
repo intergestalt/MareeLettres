@@ -2,11 +2,11 @@ import { takeEvery, all, call, put } from 'redux-saga/effects';
 import { SET_CHALLENGES_TIME_LEFT } from '../actions/challengesTicker';
 import { SET_NET_WORK_ERROR } from '../actions/general';
 import { LOAD_CHALLENGES, LOAD_CHALLENGE } from '../actions/challenges';
-import { LOAD_PROPOSALS, POST_PROPOSAL } from '../actions/proposals';
+import { LOAD_PROPOSALS } from '../actions/proposals';
 import { LOAD_CONTENT } from '../actions/content';
 import { LOAD_CONFIG } from '../actions/config';
 import { LOAD_LETTERS, POST_LETTER, LOAD_LETTERS_INTERVAL } from '../actions/letters';
-import { USER_SEND_INTERNAL_VOTES, LOAD_USER } from '../actions/user';
+import { USER_SEND_INTERNAL_VOTES, LOAD_USER, POST_PROPOSAL, LOAD_PROPOSAL } from '../actions/user';
 import {
   STREAM_GET_AUTH_TOKEN,
   STREAM_GET_TWEETS,
@@ -103,6 +103,7 @@ const rootSaga = function* rootSaga() {
   yield takeEvery(POST_LETTER, loadData);
   yield takeEvery(LOAD_USER, loadData);
   yield takeEvery(POST_PROPOSAL, loadData);
+  yield takeEvery(LOAD_PROPOSAL, loadData);
 };
 
 export default rootSaga;

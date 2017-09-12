@@ -53,7 +53,7 @@ export default EStyleSheet.create({
     top: '0%',
     width: '60%',
     color: 'white',
-    fontSize: '1.2rem',
+    fontSize: '1rem',
     textAlign: 'center',
     backgroundColor: 'transparent',
     zIndex: 5,

@@ -125,7 +125,7 @@ export const callLetters = (action) => {
 export const callLettersInterval = (action) => {
   const url = `${config.API_PREFIX}letters?interval${locationUrlParams('&', action)}`;
   console.log('API CALL: callLettersInterval');
-  //console.log(url);
+  // console.log(url);
   return getPromiseGET(url);
 };
 
@@ -164,7 +164,10 @@ export const callPostProposal = (action) => {
   console.log('API CALL: callPostProposal');
   return getPromisePOST(url, JSON.stringify(req_body));
 };
-
+export const callLoadProposal = (action) => {
+  const url = `${config.API_PREFIX}proposals/${action.proposalId}`;
+  return getPromiseGET(url);
+};
 // TWITTER
 
 function getTwitterPromisePOST(url, auth, body) {
@@ -223,7 +226,7 @@ function getTwitterHTML(url) {
     };
     xhr.timeout = DYNAMIC_CONFIG.REQUEST_TIMEOUT;
     xhr.open('GET', url);
-    xhr.setRequestHeader('Accept', 'text/html')
+    xhr.setRequestHeader('Accept', 'text/html');
     xhr.send();
   });
 }

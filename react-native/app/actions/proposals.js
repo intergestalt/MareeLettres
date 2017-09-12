@@ -1,4 +1,4 @@
-import { callProposals, callPostProposal } from '../helper/apiCalls';
+import { callProposals } from '../helper/apiCalls';
 
 export const LOAD_PROPOSALS = 'LOAD_PROPOSALS';
 export const PROPOSALS_LOADED = 'PROPOSALS_LOADED';
@@ -7,9 +7,6 @@ export const DELETE_PROPOSAL_FROM_TINDER_LIST = 'DELETE_PROPOSAL_FROM_TINDER_LIS
 export const CUT_PROPOSAL_LIST_TO_DEFAULT = 'CUT_PROPOSAL_LIST_TO_DEFAULT';
 export const SET_PROPOSALS = 'SET_PROPOSALS';
 export const SET_PROPOSALS_IS_LOADING_FROM_STORAGE = 'SET_PROPOSALS_IS_LOADING_FROM_STORAGE';
-export const POST_PROPOSAL = 'POST_PROPOSAL';
-export const SUCCESS_POST_PROPOSAL = 'SUCCESS_POST_PROPOSAL';
-export const NETWORK_ERROR_POST_PROPOSAL = 'NETWORK_ERROR_POST_PROPOSAL';
 
 export const loadProposals = (
   originId,
@@ -62,13 +59,3 @@ export const setProposalsIsLoadingFromStorage = yes => ({
   type: SET_PROPOSALS_IS_LOADING_FROM_STORAGE,
   yes,
 });
-
-export const postProposal = (action, props) => ({
-  type: POST_PROPOSAL,
-  successEvent: SUCCESS_POST_PROPOSAL,
-  errorEvent: NETWORK_ERROR_POST_PROPOSAL,
-  body: action,
-  apiCall: callPostProposal,
-  props,
-});
-

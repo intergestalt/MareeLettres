@@ -23,6 +23,7 @@ export default EStyleSheet.create({
     fontSize: '1rem',
     textAlign: 'center',
     color: '#ffffff',
+    paddingBottom: 15,
   },
   buttonStyle: {
     paddingTop: 10,

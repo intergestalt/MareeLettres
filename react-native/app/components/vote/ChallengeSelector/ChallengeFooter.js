@@ -18,7 +18,9 @@ class ChallengeFooter extends Component {
     handleTinderPress: PropTypes.func,
     handleListPress: PropTypes.func,
     handleCommitPress: PropTypes.func,
+    handleStatusPress: PropTypes.func,
     language: PropTypes.string,
+    userChallenges: PropTypes.object,
   };
 
   getChallengeIndex() {
@@ -36,11 +38,11 @@ class ChallengeFooter extends Component {
   }
 
   getUserChallenge() {
-    if(!this.props.userChallenges) {
+    if (!this.props.userChallenges) {
       return {};
     }
-    let userChallenge = this.props.userChallenges[this.getChallenge()._id];
-    return userChallenge ? userChallenge : {};
+    const userChallenge = this.props.userChallenges[this.getChallenge()._id];
+    return userChallenge || {};
   }
 
   isFinished() {
@@ -50,7 +52,7 @@ class ChallengeFooter extends Component {
     return (
       <View style={styles.challengeFooter}>
         <View style={styles.challengeFooterUnfinished}>
-          {/* 
+          {/*
           <TouchableOpacity style={styles.footerButton} onPress={this.props.handleSharePress}>
             <Text style={styles.challengeFooterText}>
               {I18n.t('share_button')}
@@ -61,16 +63,16 @@ class ChallengeFooter extends Component {
               {I18n.t('overview_button')}
             </Text>
           </TouchableOpacity>
-          {!this.getUserChallenge().ownProposalId ? (
-            <TouchableOpacity
+          {!this.getUserChallenge().ownProposalId
+            ? <TouchableOpacity
               style={[styles.footerButton, styles.footerButtonRight]}
               onPress={this.props.handleCommitPress}
             >
               <Text style={styles.challengeFooterText}>
-                { I18n.t('status_button') }
+                {I18n.t('status_button')}
               </Text>
             </TouchableOpacity>
-          ) : null}
+            : null}
         </View>
       </View>
     );
@@ -95,17 +97,20 @@ class ChallengeFooter extends Component {
         <View style={styles.challengeFooterUnfinished}>
           {this.renderTinderButton()}
 
-          
           <TouchableOpacity
             style={[styles.footerButton, styles.footerButtonRight]}
-            onPress={this.props.handleCommitPress}
+            onPress={
+              !this.getUserChallenge().ownProposalId
+                ? this.props.handleCommitPress
+                : this.props.handleStatusPress
+            }
           >
             <Text style={styles.challengeFooterText}>
-              {!this.getUserChallenge().ownProposalId ? 
-              I18n.t('suggest_button') : I18n.t('status_button') }
+              {!this.getUserChallenge().ownProposalId
+                ? I18n.t('suggest_button')
+                : I18n.t('status_button')}
             </Text>
           </TouchableOpacity>
-          
         </View>
       </View>
     );
@@ -126,13 +131,13 @@ const mapStateToProps = (state, ownPprops) => {
     const selectedChallengeIndex = state.challenges.selectedChallengeIndex;
     const challenge = challenges[selectedChallengeIndex + ownPprops.challengeOffset];
     const proposalView = challenge.proposalView;
-    
+
     return {
       selectedChallengeIndex,
       challenges,
       proposalView,
       language: state.globals.language,
-      userChallenges: state.user.challenges
+      userChallenges: state.user.challenges,
     };
   } catch (e) {
     console.log('ChallengeFooter');
