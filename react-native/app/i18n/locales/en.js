@@ -58,13 +58,8 @@ export default {
   map_tutorial_3_text: 'Want different letters? Tap the + symbols below. Tap your letter to share.',
   center_map: 'Center map',
   camera_button: 'Camera',
-  choose_your_letter: 'Choose Your Letter EN',
   take_picture: 'Take picture EN',
-  see_all_votes: 'See all topics',
-  hide_all_votes: 'Hide past topcis',
-  submit_alert: 'You may only submit one answer per vote. Are you sure you want to submit? EN',
-  submit_yes: 'Yes',
-  submit_no: 'No',
+
   proposal_blocked:
     '!\n\n EN We are sorry, but your Submission for VOTE#{NUM} does not comply with our community guidelines. It may be o ensive or inappropriate. Please try with another answer.',
   proposal_in_review1: 'EN Thank you for your submission for VOTE#{NUM}',

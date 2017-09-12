@@ -22943,7 +22943,7 @@ var systemConfigDefaults = {
         title: 'Map: maximum number of letters to render as markers on map'
     },
     stream_twitter_handle: {
-        defaultValue: 'Paris',
+        defaultValue: 'mareedeslettres',
         title: 'Stream: The twitter handle'
     },
     challenge_list_image_url: {
