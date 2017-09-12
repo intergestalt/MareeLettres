@@ -25,8 +25,8 @@ class LetterSelectorWindow extends Component {
   };
 
   onPress = (char) => {
+    setUserLetterProxy(char);
     if (this.props.user.map.tutorialStatus == 'step2') {
-        setUserLetterProxy(char);
         this.props.alertWithType('info', I18n.t('map_tutorial_2_title').replace('[LETTER]', char), I18n.t('map_tutorial_2_text'));        
         setUserMapTutorialStatusProxy('step3');
     }

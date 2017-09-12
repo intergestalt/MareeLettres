@@ -29,17 +29,19 @@ JsonRoutes.add('get', `${Meteor.settings.public.api_prefix}proposals/:proposal_i
 
     // calculate rank
 
-    // 1. The number of valid proposals that have a lower score
-    const base_pos = Proposals.find({ blocked: false, in_review: false, score: { $gt: proposal.score } }, { sort: buildConfig.queries.proposals.sort.popular }).count();
+    if (!proposal.in_review && !proposal.blocked) {
+        // 1. The number of valid proposals that have a lower score
+        const base_pos = Proposals.find({ blocked: false, in_review: false, score: { $gt: proposal.score } }, { sort: buildConfig.queries.proposals.sort.popular }).count();
 
-    // 2. Get the position in the batch of proposals with the same score
-    const batch = Proposals.find({ blocked: false, in_review: false, score: proposal.score }, { sort: buildConfig.queries.proposals.sort.popular, fields: { _id: 1 } });
+        // 2. Get the position in the batch of proposals with the same score
+        const batch = Proposals.find({ blocked: false, in_review: false, score: proposal.score }, { sort: buildConfig.queries.proposals.sort.popular, fields: { _id: 1 } });
 
-    const batch_pos = _.findIndex(batch.fetch(), elem => elem._id === proposal._id) || 0;
+        const batch_pos = _.findIndex(batch.fetch(), elem => elem._id === proposal._id) || 0;
 
-    const rank = base_pos + batch_pos + 1;
+        const rank = base_pos + batch_pos + 1;
 
-    proposal.rank = rank;
+        proposal.rank = rank;
+    }
 
     JsonRoutes.sendResult(res, {
         data: { proposals: [proposal] },
@@ -61,19 +63,13 @@ JsonRoutes.add(
 
         const sort = sort_modes[sort_param];
 
-        const proposals = Proposals.find({ challenge_id }, { sort, limit }).fetch();
+        const proposals = Proposals.find({ challenge_id, in_review: false }, { sort, limit }).fetch();
 
         const options = {};
 
         if (proposals.length === 0 && Challenges.find({ _id: challenge_id }).count() === 0) {
-            /* const error = new Meteor.Error('challenge-not-found', `Challenge ${challenge_id} not found`);
-            error.statusCode = 404;
-            throw error; */
-            options.code = 404;
-            options.data = {
-                error: 'challenge-not-found',
-                reason: `Challenge ${challenge_id} not found`,
-            };
+            JsonRoutesError(res, 404, 'challenge-not-found');
+            return;
         } else {
             options.data = {
                 proposals,
@@ -137,7 +133,6 @@ JsonRoutes.add(
             Proposals.update({ _id: same_text_proposal._id }, {
                 $addToSet: { origin_ids: origin_id },
                 $inc: { yes_votes: boost_amount, score: boost_amount, votes_amount: boost_amount },
-                $set: { _id: same_text_proposal._id }
             })
 
             data.proposal = same_text_proposal;
@@ -196,7 +191,7 @@ JsonRoutes.add(
         // possible fallback: if collection is too large, just sample randomly
 
         const proposals_list = Proposals.find(
-            { challenge_id },
+            { challenge_id, in_review: false, blocked: false },
             {
                 fields: {
                     text: 1,
@@ -209,7 +204,7 @@ JsonRoutes.add(
         // console.log(proposals_list);
 
         const proposals_list_by_votes = Proposals.find(
-            { challenge_id },
+            { challenge_id, in_review: false, blocked: false },
             {
                 fields: {
                     votes_amount: 1,
@@ -221,7 +216,7 @@ JsonRoutes.add(
         ).fetch();
 
         const proposals_list_by_score = Proposals.find(
-            { challenge_id },
+            { challenge_id, in_review: false, blocked: false },
             {
                 fields: {
                     score: 1,

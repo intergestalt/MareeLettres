@@ -5,20 +5,7 @@ import { Proposals } from '../../proposals/proposals';
 import currentSystemConfig from '../../../startup/server/system-config';
 import RequestHelpers from '../../../helpers/RequestHelpers';
 
-Meteor.publish(
-  'get.players',
-  function getPlayers() {
-    if (!this.userId) return;
-    return Players.find();
-  },
-  'get.player',
-  function getPlayers(id) {
-    if (!this.userId) return;
-    return Players.find(id);
-  },
-);
-
-// ; charset=utf-8
+const JsonRoutesError = RequestHelpers.JsonRoutesError;
 
 JsonRoutes.add('get', `${Meteor.settings.public.api_prefix}players/:origin_id`, function (
   req,
@@ -91,14 +78,8 @@ JsonRoutes.add('post', `${Meteor.settings.public.api_prefix}players/:origin_id/v
   const pastVotesResult = Players.findOne({ origin_id }, getQueryParams); // TODO possibly save this query and get old values from set query?
 
   if (!pastVotesResult) {
-    error_options = {
-      code: 404,
-      data: {
-        error: 'player-not-found',
-        reason: `Player ${origin_id} not found`,
-      },
-    };
-    JsonRoutes.sendResult(res, error_options);
+    JsonRoutesError(res, 404, 'player-not-found');
+    return;
   }
 
   const pastVotes = pastVotesResult ? pastVotesResult.votes : {};

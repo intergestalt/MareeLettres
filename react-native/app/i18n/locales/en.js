@@ -48,7 +48,7 @@ export default {
   map_get_letter_button: 'Get letters',
   map_trash_letter_button: 'Drag here to remove',
   map_you_label: 'You',
-  map_letter_friends_label: 'Letter Friends',
+  map_letter_friends_label: 'Letters from friends',
   map_show_qr_instruction: 'Ask your friends to scan this code.',
   map_scan_qr_instruction: "Scan your friend's QR code to get their letter.",
   map_tutorial_1_title: 'Welcome to the FLUX!',

@@ -113,7 +113,7 @@ class Feed extends Component {
           //onMessage={e => this.onMessage(JSON.parse(e.nativeEvent.data))}
           startInLoadingState={true}
           onNavigationStateChange={(event) => {
-            console.log(event);
+            //console.log(event);
             const isLocal = event.url.search(uri) !== -1;
             if (!isLocal) {
               this.webview.stopLoading();
@@ -128,6 +128,7 @@ class Feed extends Component {
 
 const mapStateToProps = (state) => {
   const handle = state.config.config.stream_twitter_handle;
+  //console.log(handle);
 
   return {
     handle

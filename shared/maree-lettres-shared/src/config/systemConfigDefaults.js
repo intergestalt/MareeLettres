@@ -75,6 +75,10 @@ const systemConfigDefaults = {
         defaultValue: 50,
         title: 'Map: maximum number of letters to render as markers on map'
     },
+    map_primary_letter_reset: {
+        defaultValue: 1440,
+        title: 'Map: time after which primary letter can be reset (in minutes)'
+    },
     stream_twitter_handle: {
         defaultValue: 'http://sebquack.perseus.uberspace.de/maree/TwitterWebView.html',
         title: 'Stream: The twitter handle'

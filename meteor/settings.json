@@ -1,5 +1,6 @@
 {
-   "public": {
+  "public": {
     "api_prefix": "api/"
-  }
+  },
+  "log_api_errors": true
 }

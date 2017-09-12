@@ -24,10 +24,10 @@ Proposals.before.insert(function (userId, doc) {
 });
 
 Proposals.before.update(function (userId, doc, fieldNames, modifier, options) {
-  modifier.$set = modifier.$set || {};
+  if (typeof modifier.$set === "undefined") return;
   if (
-    typeof modifier.$set.in_review != "undefined" ||
-    typeof modifier.$set.blocked != "undefined"
+    typeof modifier.$set.in_review !== "undefined" ||
+    typeof modifier.$set.blocked !== "undefined"
   ) {
     modifier.$set.reviewed_at = new Date;
   }
