@@ -79,7 +79,8 @@ class Feed extends Component {
   render() {
     //const tweets = this.state.tweets;
     const uri = require('./TwitterWebView.html');
-
+    console.log(uri);
+    
     return (
       <View>
       {/*
@@ -103,7 +104,7 @@ class Feed extends Component {
         <WebView
           ref={webview => { this.webview = webview; }}
           javaScriptEnabled
-          //injectedJavaScript={patchPostMessageJsCode}
+          injectedJavaScript={'(function(){var twitterHandle="foo"}());'}
           source={uri}
           style={[styles.feedContainer]} // {display: 'none'}
           decelerationRate={'normal'}

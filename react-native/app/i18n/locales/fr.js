@@ -53,20 +53,16 @@ export default {
   map_tutorial_1_title: 'Welcome to the FLUX!',
   map_tutorial_1_text: 'To choose YOUR letter, tap on the + symbol right under You.',
   map_tutorial_2_title: 'Bien joué, [LETTER]!',
-  map_tutorial_2_text:
-    'Vous pouvez désormais écrire sur la carte en déplaçant votre lettre dans le cercle.',
+  map_tutorial_2_text:'Vous pouvez désormais écrire sur la carte en déplaçant votre lettre dans le cercle.',
   map_tutorial_3_title: 'Excellent work!',
-  map_tutorial_3_text:
-    'Want to write with different letters? Get letters from your friends by scanning their QR code. Tap the Get Letters below.',
+  map_tutorial_3_text: 'Want to write with different letters? Get letters from your friends by scanning their QR code. Tap the Get Letters below.',
   center_map: 'Centre map',
   camera_button: 'Camera',
-  choose_your_letter:
-    'Quelle lettre souhaitez-vous être? Choisissez bien, vous ne pourrez changer de lettre pendant 24h.',
+  choose_your_letter: 'Quelle lettre souhaitez-vous être? Choisissez bien, vous ne pourrez changer de lettre pendant 24h.',
   map_too_zoom_title: 'Too high in the sky',
   map_too_zoom_text: 'Zoom in to the circle place letters!',
   map_too_crowded_title: 'Too crowded',
-  map_too_crowded_text:
-    'There are too many letters in this area. Please write somewhere else or wait.',
+  map_too_crowded_text: 'There are too many letters in this area. Please write somewhere else or wait.',
   map_too_far_title: 'Too far away',
   map_too_far_text: 'You cannot write outside the circle around you.',
   map_photo_save_title: 'Saved',
@@ -83,8 +79,7 @@ export default {
   submit_alert: 'You may only submit one answer per vote. Are you sure you want to submit? FR',
   submit_yes: 'Oui',
   submit_no: 'Non',
-  proposal_blocked:
-    '!\n\n FR We are sorry, but your Submission for VOTE#{NUM} does not comply with our community guidelines. It may be o ensive or inappropriate. Please try with another answer.',
+  proposal_blocked: '!\n\n FR We are sorry, but your Submission for VOTE#{NUM} does not comply with our community guidelines. It may be o ensive or inappropriate. Please try with another answer.',
   proposal_in_review1: 'FR Thank you for your submission for VOTE#{NUM}',
   proposal_in_review2: 'Status: in review FR',
   try_again_button: 'Try Again FR',
