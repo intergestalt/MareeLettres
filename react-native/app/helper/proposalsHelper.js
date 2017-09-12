@@ -125,12 +125,19 @@ function mergeProposalListTinder(oldList, newList) {
 
   // Create HASH from old List.
   const hash = {};
-  for (let i = 0; i < oldList.length; i += 1) {
-    const key = oldList[i]._id;
-    hash[key] = { bool: true };
+  if (!listIsEmpty(oldList)) {
+    for (let i = 0; i < oldList.length; i += 1) {
+      const key = oldList[i]._id;
+      hash[key] = { bool: true };
+    }
   }
+
   const result = oldList;
   // insert all new Elements after
+  const count = newList.length;
+  let countVote = 0;
+  let countInternal = 0;
+  let countAlready = 0;
   for (let i = 0; i < newList.length; i += 1) {
     const entry = newList[i];
     const key = entry._id;
@@ -138,17 +145,24 @@ function mergeProposalListTinder(oldList, newList) {
       if (!internalVotes[key]) {
         if (!votes[key]) {
           result.push(entry);
+        } else {
+          countVote += 1;
         }
+      } else {
+        countInternal += 1;
       }
+    } else {
+      countAlready += 1;
     }
   }
+  console.log(`New Proposals ${count}`);
+  console.log(`Already in list ${countAlready}`);
+  console.log(`Already internal voted ${countInternal}`);
+  console.log(`Already voted ${countVote}`);
   return result;
 }
 
 export function mergeProposalList(oldList, newList, proposalView) {
-  if (listIsEmpty(oldList)) {
-    return newList;
-  }
   if (proposalView === PROPOSAL_VIEWS.LIST) {
     return mergeProposalListList(oldList, newList);
   }
