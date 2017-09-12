@@ -191,7 +191,7 @@ JsonRoutes.add(
         // possible fallback: if collection is too large, just sample randomly
 
         const proposals_list = Proposals.find(
-            { challenge_id },
+            { challenge_id, in_review: false, blocked: false },
             {
                 fields: {
                     text: 1,
@@ -204,7 +204,7 @@ JsonRoutes.add(
         // console.log(proposals_list);
 
         const proposals_list_by_votes = Proposals.find(
-            { challenge_id },
+            { challenge_id, in_review: false, blocked: false },
             {
                 fields: {
                     votes_amount: 1,
@@ -216,7 +216,7 @@ JsonRoutes.add(
         ).fetch();
 
         const proposals_list_by_score = Proposals.find(
-            { challenge_id },
+            { challenge_id, in_review: false, blocked: false },
             {
                 fields: {
                     score: 1,
