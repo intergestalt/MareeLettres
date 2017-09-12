@@ -11,6 +11,7 @@ import ReviewPanel from '../components/review/Panel';
 
 import { SystemConfig } from '../../api/systemConfig/systemConfig';
 import { Proposals } from '../../api/proposals/proposals';
+import { Challenges } from '../../api/challenges/challenges';
 
 class ReviewPage extends Component {
   constructor(props) {
@@ -36,9 +37,9 @@ class ReviewPage extends Component {
     return (
       <AdminWrapper>
         <Menu />
-        <ReviewPanel name="Unreviewed" proposals={this.props.in_review} onAccept={this.handleAcception} onReject={this.handleRejection} />
-        <ReviewPanel name="Accepted" proposals={this.props.accepted} onAccept={this.handleAcception} onReject={this.handleRejection} />
-        <ReviewPanel name="Rejected" proposals={this.props.rejected} onAccept={this.handleAcception} onReject={this.handleRejection} />
+        <ReviewPanel name="Unreviewed" challenges={this.props.challenges} proposals={this.props.in_review} onAccept={this.handleAcception} onReject={this.handleRejection} />
+        <ReviewPanel name="Accepted" challenges={this.props.challenges} proposals={this.props.accepted} onAccept={this.handleAcception} onReject={this.handleRejection} />
+        <ReviewPanel name="Rejected" challenges={this.props.challenges} proposals={this.props.rejected} onAccept={this.handleAcception} onReject={this.handleRejection} />
       </AdminWrapper>
     );
   }
@@ -48,10 +49,12 @@ export default createContainer(() => {
   Meteor.subscribe('get.proposals.in_review', { limit: 5 });
   Meteor.subscribe('get.proposals.recently_accepted', { limit: 5 });
   Meteor.subscribe('get.proposals.recently_rejected', { limit: 5 });
+  Meteor.subscribe('get.challenges')
 
   return {
     in_review: Proposals.find({ in_review: true }, { sort: { created_at: 1 } }).fetch(),
     accepted: Proposals.find({ in_review: false, blocked: false }, { sort: { reviewed_at: -1 } }).fetch(),
     rejected: Proposals.find({ in_review: false, blocked: true }, { sort: { reviewed_at: -1 } }).fetch(),
+    challenges: Challenges.find().fetch()
   };
 }, ReviewPage);

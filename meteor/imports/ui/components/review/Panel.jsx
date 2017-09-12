@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Meteor } from 'meteor/meteor';
 import { Link } from 'react-router';
+import _ from "underscore";
 
 class ReviewPanel extends Component {
   constructor(props) {
@@ -12,9 +13,12 @@ class ReviewPanel extends Component {
     return proposals.map((proposal) => {
       const accepted = (!proposal.blocked && !proposal.in_review);
       const rejected = (proposal.blocked);
+      console.log(proposal.challenge_id, _.findWhere(this.props.challenges, { _id: proposal.challenge_id }))
+      const challenge = _.findWhere(this.props.challenges, { _id: proposal.challenge_id })
       return (
         <li key={proposal._id} className="reviewPanel__entry">
           <div className="reviewPanel__proposalInfo">
+            <small>{challenge ? challenge.title.en : "(?)"}</small><br />
             <tt className="proposal_text impact">{proposal.text}</tt>
             <a className="proposal_origin" href="">
               {proposal.origin_id}

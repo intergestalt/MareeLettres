@@ -74,7 +74,7 @@ const RequestHelpers = {
     },
 
     generateProposalId: function (seed1, seed2) {
-        return (this.hashFnv32a(seed1) + this.hashFnv32a(seed2)).toUpperCase();
+        return this.hashFnv32a(seed1) + "_" + this.hashFnv32a(seed2);
     }
 }
 
