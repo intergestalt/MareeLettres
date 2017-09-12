@@ -16,6 +16,7 @@ import '../../api/letters/server/letters';
 
 import '../../api/players/server/publications';
 import '../../api/players/server/rest';
+import '../../api/players/hooks';
 
 import '../../api/systemConfig/server/systemConfig';
 import '../../api/systemConfig/hooks';
