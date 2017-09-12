@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { View, Text, PanResponder, Animated, TouchableOpacity, Dimensions } from 'react-native';
 //import { StatusBar } from 'react-native';
 
-import { updateLetterMenuProxy, reviveLetterMenuProxy, binLetterProxy, flagLetterForOverwriteProxy } from '../../../helper/userHelper';
+import { updateLetterMenuProxy, reviveLetterMenuProxy, binLetterProxy, flagLetterForOverwriteProxy, setUserMapTutorialStatusProxy } from '../../../helper/userHelper';
 import { putLetterOnMapProxy, getDistanceBetweenCoordinates, metresToDelta } from '../../../helper/mapHelper';
 import { navigateToLetterSelector, navigateToQRCodeGet, navigateToQRCodeSend } from '../../../helper/navigationProxy';
 import { postLetterServiceProxy } from '../../../helper/apiProxy';
@@ -110,6 +110,9 @@ class Letter extends Component {
                   if (!this.props.disabled) {
                     // try to place letter on map
                     if (this.onDrop(x, y)) {
+
+
+
                       this.animateSnapToStart();
                     } else {
                       this.animateSpringToStart();
@@ -177,15 +180,15 @@ class Letter extends Component {
     if (distance > this.props.dropzone_radius + 2) {
       this.props.alertWithType('info', I18n.t('map_too_far_title'), I18n.t('map_too_far_text'));
       return false;
-    } else {
-      if (this.props.user.map.tutorialState == 'welcome') {
-        this.props.alertWithType('info', I18n.t('map_tutorial_3_title'), I18n.t('map_tutorial_3_text'));        
-        // todo: change tutorialState
-      }
     }
 
     // send to server
     this.placeLetterOnMap(coords.lat, coords.lng);
+
+    if (this.props.user.map.tutorialStatus == 'step3') {
+        this.props.alertWithType('info', I18n.t('map_tutorial_3_title'), I18n.t('map_tutorial_3_text'));        
+        setUserMapTutorialStatusProxy('step4');
+    }
 
     return true;
   }

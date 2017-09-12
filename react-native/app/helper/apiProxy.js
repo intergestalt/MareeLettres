@@ -1,7 +1,8 @@
 import { loadContent } from '../actions/content';
 import { loadConfig } from '../actions/config';
-import { postProposal, loadProposals } from '../actions/proposals';
-import { userSendInternalVotes, loadUser } from '../actions/user';
+import { loadProposals } from '../actions/proposals';
+
+import { loadProposal, postProposal, userSendInternalVotes, loadUser } from '../actions/user';
 import { loadChallenge, loadChallenges } from '../actions/challenges';
 import { loadLetters, postLetter, loadLettersInterval } from '../actions/letters';
 import store from '../config/store';
@@ -199,7 +200,7 @@ export function postProposalServiceProxy(challenge_id, text, props) {
     created_at: new Date().toISOString(),
   };
   console.log('postProposalServiceProxy');
-  //console.log(body);
+  // console.log(body);
   store.dispatch(postProposal(body, props));
 }
 
@@ -258,4 +259,15 @@ export function twitterGetTweets(token) {
 
 export function twitterGetTweetsHTML() {
   store.dispatch(streamGetTweetsHTML());
+}
+export function loadProposalServiceProxy(challengeId, quietLoading) {
+  const challenges = store.getState().user.challenges;
+  const challenge = challenges[challengeId];
+  const doit = true;
+  if (isLoading(challenge)) {
+    return;
+  }
+  if (doit) {
+    store.dispatch(loadProposal(challenge.ownProposalId, challengeId, quietLoading));
+  }
 }

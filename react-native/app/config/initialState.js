@@ -28,7 +28,7 @@ export default {
       request_timeout: 10000,
       delay_config_call: 5000, // random interval in which a new config is loaded
 
-      default_proposal_list_limit: 10, // 
+      default_proposal_list_limit: 10, //
       default_proposal_new_batch: 30, // For List reload, if scrolling reached ends
       proposal_reload_list_offset: 0.8,
       default_proposal_tinder_limit: 30, // amount of tiners proposals loaded initially
@@ -44,6 +44,7 @@ export default {
       load_quiet_pull_up_update: { bool: true },
       load_quiet_tinder: { bool: true },
       load_quiet_challenges_list: { bool: true },
+      load_quiet_proposal: { bool: false },
 
       update_challenges_after: 100000,
       update_proposals_after: 100000,

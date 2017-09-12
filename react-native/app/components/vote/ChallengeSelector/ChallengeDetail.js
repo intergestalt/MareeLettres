@@ -24,6 +24,7 @@ class ChallengeDetail extends Component {
     onNewestPress: PropTypes.func,
     setFlatlistRef: PropTypes.func,
     listEnabled: PropTypes.bool,
+    handleStatusPress: PropTypes.func,
   };
   getChallengeIndex() {
     return this.props.selectedChallengeIndex + this.props.challengeOffset;

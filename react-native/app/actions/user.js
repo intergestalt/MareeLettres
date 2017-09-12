@@ -1,4 +1,9 @@
-import { callLoadUser, callSendUserVotes } from '../helper/apiCalls';
+import {
+  callLoadUser,
+  callLoadProposal,
+  callSendUserVotes,
+  callPostProposal,
+} from '../helper/apiCalls';
 
 export const LOAD_USER = 'LOAD_USER';
 export const SET_USER = 'SET_USER';
@@ -28,16 +33,18 @@ export const SET_USER_IS_LOADING_FROM_STORAGE = 'SET_USER_IS_LOADING_FROM_STORAG
 export const SET_USER_LOADED_FROM_STORAGE = 'SET_USER_LOADED_FROM_STORAGE';
 
 export const SET_OWN_PROPOSAL = 'SET_OWN_PROPOSAL';
-// export const SET_USER_LOADED_FROM_STORAGE_RESET_DEFAULTS = 'SET_USER_LOADED_FROM_STORAGE_RESET_DEFAULTS';
+export const DELETE_OWN_PROPOSAL = 'DELETE_OWN_PROPOSAL';
+export const POST_PROPOSAL = 'POST_PROPOSAL';
+export const SUCCESS_POST_PROPOSAL = 'SUCCESS_POST_PROPOSAL';
+export const NETWORK_ERROR_POST_PROPOSAL = 'NETWORK_ERROR_POST_PROPOSAL';
+export const LOAD_PROPOSAL = 'LOAD_PROPOSAL';
+export const SUCCESS_LOAD_PROPOSAL = 'SUCCESS_LOAD_PROPOSAL';
+export const NETWORK_ERROR_LOAD_PROPOSAL = 'NETWORK_ERROR_LOAD_PROPOSAL';
 
 export const setUser = user => ({
   type: SET_USER,
   user,
 });
-
-/* export const setUserLoadedFromStorageResetDefaults = () => ({
-  type: SET_USER_LOADED_FROM_STORAGE_RESET_DEFAULTS,
-}); */
 
 export const loadUser = originId => ({
   type: LOAD_USER,
@@ -142,10 +149,33 @@ export const userSendInternalVotes = (originId, internalVotes) => ({
   originId,
   internalVotes,
 });
-export const setOwnProposal = (challengeId, answer, review, blocked) => ({
+
+export const postProposal = (action, props) => ({
+  type: POST_PROPOSAL,
+  successEvent: SUCCESS_POST_PROPOSAL,
+  errorEvent: NETWORK_ERROR_POST_PROPOSAL,
+  body: action,
+  apiCall: callPostProposal,
+  props,
+});
+
+export const setOwnProposal = (challengeId, answer) => ({
   type: SET_OWN_PROPOSAL,
   challengeId,
   answer,
-  review,
-  blocked,
+});
+
+export const loadProposal = (proposalId, challengeId, quietLoading) => ({
+  type: LOAD_PROPOSAL,
+  successEvent: SUCCESS_LOAD_PROPOSAL,
+  errorEvent: NETWORK_ERROR_LOAD_PROPOSAL,
+  proposalId,
+  challengeId,
+  quietLoading,
+  apiCall: callLoadProposal,
+});
+
+export const deleteOwnProposal = challengeId => ({
+  type: DELETE_OWN_PROPOSAL,
+  challengeId,
 });
