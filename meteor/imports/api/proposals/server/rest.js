@@ -73,6 +73,7 @@ JsonRoutes.add(
 
         if (!proposal) {
             JsonRoutesError(res, 400, 'missing-proposal');
+            return;
         }
 
         // TODO validate input with ProposalsSchema
@@ -84,30 +85,40 @@ JsonRoutes.add(
 
         const proposal_id = RequestHelpers.generateProposalId(origin_id, challenge_id);
 
-        // check if proposal already exists
-        const proposal_exists = Proposals.find(proposal_id, { limit: 1 }).count() === 1
+        // check if challenge_id is valid
+
+        const challenge_exists = Challenges.find(challenge_id, { limit: 1 }).count() === 1
+
+        if (!challenge_exists) {
+            JsonRoutesError(res, 409, 'challenge-not-existing');
+            return;
+        }
+
+        // check if unblocked proposal already exists
+        const proposal_exists = Proposals.find({ _id: proposal_id, blocked: false }, { limit: 1 }).count() === 1
 
         if (proposal_exists) {
             JsonRoutesError(res, 409, 'already-exists');
+            return;
         }
 
-        // check if text already exists
-        const same_text_proposal = Proposals.findOne({ text: proposal.text, challenge_id })
+        // check if unblocked proposal with same text already exists
+        const same_text_proposal = Proposals.findOne({ text: proposal.text, blocked: false, challenge_id })
 
         if (same_text_proposal) {
 
             // text if orginin id is already in existing proposal with same text
             if (same_text_proposal.origin_ids.indexOf(origin_id) !== -1) {
                 JsonRoutesError(res, 409, 'already-submitted');
+                return;
             }
 
             const boost_amount = currentSystemConfig.getConfig().proposal_boost_amount
 
-            Proposals.update(proposal_id, {
+            Proposals.update({ _id: same_text_proposal._id }, {
                 $addToSet: { origin_ids: origin_id },
-                yes_votes: { $inc: boost_amount },
-                score: { $inc: boost_amount },
-                votes_amount: { $inc: boost_amount },
+                $inc: { yes_votes: boost_amount, score: boost_amount, votes_amount: boost_amount },
+                $set: { _id: same_text_proposal._id }
             })
 
             data.proposal = same_text_proposal;
@@ -126,7 +137,7 @@ JsonRoutes.add(
             p.in_review = !auto_accept;
             p.text = proposal.text;
 
-            Proposals.insert(p);
+            Proposals.upsert(p._id, { $set: p });
 
             data.proposal = p;
         }
