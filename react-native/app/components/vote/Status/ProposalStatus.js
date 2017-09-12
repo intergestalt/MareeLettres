@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { Text, View, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 import { popProposalStatus } from '../../../helper/navigationProxy';
+import I18n from '../../../i18n/i18n';
 
 class ProposalStatus extends Component {
 
@@ -18,18 +19,13 @@ class ProposalStatus extends Component {
   }
 
   render() {
+    I18n.locale = this.props.language;
   	return (
   		<View>
-	  		{/*<TouchableOpacity onPress={() => this.handleBackPress()}>
-	            <Text>
-	              {'<'}
-	            </Text>
-	         </TouchableOpacity>
-			<Text>{this.props.challenge.title[this.props.language]}</Text>*/}
-			<Text>You proposed: {this.props.userChallenge.ownProposal}</Text>
-			<Text>Status: 
-				{this.props.userChallenge.ownProposalInReview ? " In Review" : ""}
-				{this.props.userChallenge.ownProposalBlocked ? " Blocked" : ""}
+			<Text>{I18n.t('status_you_proposed')}: {this.props.userChallenge.ownProposal}</Text>
+			<Text>{I18n.t('status')}: 
+				{" " + this.props.userChallenge.ownProposalInReview ? I18n.t('status_in_review') : ""}
+				{" " + this.props.userChallenge.ownProposalBlocked ? I18n.t('status_blocked') : ""}
 			</Text>
 		</View>
   	);
@@ -37,9 +33,6 @@ class ProposalStatus extends Component {
 }
 
 const mapStateToProps = (state, props) => {
-  //console.log(state.challenges);
-  //console.log(props);	
-  
   try {
     const language = state.globals.language;
     const selectedChallengeIndex = state.challenges.selectedChallengeIndex;

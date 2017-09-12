@@ -15,6 +15,13 @@ export default {
   submit_yes: 'Yes',
   submit_no: 'No',
 
+  status: 'Status',
+  status_you_proposed: 'You proposed',
+  status_in_review: 'In review',
+  status_blocked: 'Sorry, your proposal does not conform to our community standards.',
+  status_accepted: 'Accepted',
+  status_ranke: "Rank",
+
   proposal_list_header_most: 'Top',
   proposal_list_header_newest: 'Newest',
   proposal_list_header_trending: 'Trending',

@@ -19,6 +19,13 @@ export default {
   submit_yes: 'Oui',
   submit_no: 'Non',
 
+  status: 'Status',
+  status_you_proposed: 'You proposed',
+  status_in_review: 'In review',
+  status_blocked: 'Sorry, your proposal does not conform to our community standards.',
+  status_accepted: 'Accepted',
+  status_ranke: "Rank",
+
   overview_button: 'LISTE',
   status_button: 'ETAT',
   tinder_button: 'BALAYER',
