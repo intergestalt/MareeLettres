@@ -47,7 +47,7 @@ export default {
   map_get_letter_button: 'Obtenir des lettres',
   map_trash_letter_button: 'Glissez ici pour annuler',
   map_you_label: 'Vous',
-  map_letter_friends_label: 'Amis Lettres',
+  map_letter_friends_label: 'Lettres des amis',
   map_show_qr_instruction: 'Montrez ce code à vos amis.',
   map_scan_qr_instruction: 'Scannez les flashcodes de vos amis pour obtenir leurs lettres.',
   map_tutorial_1_title: 'Welcome to the FLUX!',

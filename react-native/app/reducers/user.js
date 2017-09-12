@@ -157,6 +157,7 @@ export default (state = initialState.user, action) => {
           primary_letter: {
             ...state.primary_letter,
             character: action.character,
+            acquired_at: new Date().toISOString()
           },
         };
         saveUserToStorage(result);

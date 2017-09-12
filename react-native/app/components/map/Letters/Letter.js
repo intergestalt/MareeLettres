@@ -60,6 +60,7 @@ class Letter extends Component {
           letter_offset: new Animated.Value(0),
         }
       };
+
       this.panResponder = PanResponder.create({
           onStartShouldSetPanResponder: () => true,
           onMoveShouldSetPanResponder: () => true,
@@ -95,11 +96,11 @@ class Letter extends Component {
             this.setState({panning: false});
             this.animateResetFont();
 
-            console.log(y);
+            /*console.log(y);
             console.log(this.props.user.map.layout.height);
             console.log(gesture.y0);
             console.log(gesture.dx);
-            console.log(gesture.dy);
+            console.log(gesture.dy);*/
 
             // check if letter is dropped on map area
             if (Math.abs(gesture.dy) > 10) {
@@ -126,12 +127,13 @@ class Letter extends Component {
               
             } else {
                   
-
                     // open the relevant screen
                     if (this.props.primary) {
-                      if (this.props.character === '+') {
+                      
+                      if (this.props.character === '+' || this.primaryLetterExpired()) {
                         this.navigateLetterSelector();
                       } else {
+
                         this.navigateQRCodeSend();
                       }
                     } else {
@@ -351,6 +353,14 @@ class Letter extends Component {
     navigateToQRCodeSend(this.props);
   }
 
+  primaryLetterExpired() {
+    //check if primary letter has expired
+    let acquired = new Date(this.props.user.primary_letter.acquired_at);
+    let now = new Date();
+    let difference = (now.getTime() - acquired.getTime()) / (1000 * 60);
+    return difference > this.props.map_primary_letter_reset;
+  }
+
   render() {
     I18n.locale = this.props.language;
 
@@ -369,6 +379,8 @@ class Letter extends Component {
     let colour = this.state.font.colour == 100 ? '#fff' : '#000';
     
     let pan = this.state.pan.getLayout();
+
+    let expired = this.primaryLetterExpired();
 
     return (
       <Animated.View onLayout={this.onLayout}
@@ -389,10 +401,10 @@ class Letter extends Component {
           {
             color: colour,
             fontSize: size,
-            opacity: (this.props.disabled || this.props.character == '+') ? 0.5 : 1
+            opacity: (this.props.disabled || this.props.character == '+' || expired) ? 0.5 : 1
           }
           ]}>
-          {this.props.character}
+          {expired ? "+" : this.props.character}
         </Text>
       </Animated.View>
     );
@@ -410,7 +422,8 @@ const mapStateToProps = (state) => {
     const map_delta_max = state.config.config.map_delta_max;
     const letter_base_size = state.config.config.map_letter_base_size;
     const blockWriting = state.letters.blockWriting;
-
+    const map_primary_letter_reset = state.config.config.map_primary_letter_reset;
+    
     return ({
       user,
       mapLat,
@@ -422,6 +435,7 @@ const mapStateToProps = (state) => {
       regen_time_primary,
       regen_time_secondary,
       blockWriting,
+      map_primary_letter_reset,
       language: state.globals.language,
     });
 }
