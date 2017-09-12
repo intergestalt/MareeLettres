@@ -53,7 +53,7 @@ Meteor.startup(() => {
 
   if (Challenges.find().count() === 0) {
     console.log('Seeding Challenges');
-    for (let i = 1; i <= 24; i++) {
+    for (let i = 1; i <= SeedChallenges.length; i++) {
       Challenges.insert(
         {
           _id: `fixture_${i}`,
@@ -67,10 +67,10 @@ Meteor.startup(() => {
           start_date: moment().add(i - 3, 'days').toDate(),
           end_date: moment().add(i - 1, 'days').toDate(),
           proposals_end_date: moment().add(i - 1, 'days').add(-10, 'minutes').toDate(),
-          ...SeedChallenges[i],
+          ...SeedChallenges[i-1],
         },
         (err, id) => {
-          if (id != undefined) {
+          /*if (id != undefined) {
             console.log('Seeding Proposals');
             const amount = 10 * Math.floor(10 * Math.random());
             for (let j = 1; j <= amount; j++) {
@@ -88,7 +88,7 @@ Meteor.startup(() => {
                 origin_ids: [OriginId.generateFromString(`fixture_player_${j}`)],
               });
             }
-          }
+          }*/
         },
       );
     }
@@ -106,7 +106,7 @@ Meteor.startup(() => {
     }
   }
 
-  if (Letters.find().count() === 0) {
+  /*if (Letters.find().count() === 0) {
     console.log('Seeding Letters');
     const locations = {
       berlin: {
@@ -131,7 +131,7 @@ Meteor.startup(() => {
         created_at: new Date,
       });
     }
-  }
+  }*/
 });
 
 let shuffleString = function (str) {

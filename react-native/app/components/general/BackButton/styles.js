@@ -33,13 +33,14 @@ const styles = EStyleSheet.create({
     top: '0%',
     left: '0%',
     padding: 20,
-    paddingLeft: 10,
+    paddingLeft: 20,
     backgroundColor: 'transparent'
   },
   textSimple: {
     color: 'black',
     fontSize: '2rem',
     textAlign: 'center',
+    fontFamily: 'impact'
   },
   textSimpleWhite: {
     color: 'white',

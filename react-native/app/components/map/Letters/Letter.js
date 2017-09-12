@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { View, Text, PanResponder, Animated, TouchableOpacity, Dimensions } from 'react-native';
 //import { StatusBar } from 'react-native';
 
-import { updateLetterMenuProxy, reviveLetterMenuProxy, binLetterProxy, flagLetterForOverwriteProxy } from '../../../helper/userHelper';
+import { updateLetterMenuProxy, reviveLetterMenuProxy, binLetterProxy, flagLetterForOverwriteProxy, setUserMapTutorialStatusProxy } from '../../../helper/userHelper';
 import { putLetterOnMapProxy, getDistanceBetweenCoordinates, metresToDelta } from '../../../helper/mapHelper';
 import { navigateToLetterSelector, navigateToQRCodeGet, navigateToQRCodeSend } from '../../../helper/navigationProxy';
 import { postLetterServiceProxy } from '../../../helper/apiProxy';
@@ -13,6 +13,7 @@ import { connectAlert } from '../../../components/general/Alert';
 import styles from './styles';
 import styles_menu from '../Overlay/styles';
 import { StatusBar } from 'react-native';
+import I18n from '../../../i18n/i18n';
 
 class Letter extends Component {
   static propTypes = {
@@ -109,6 +110,9 @@ class Letter extends Component {
                   if (!this.props.disabled) {
                     // try to place letter on map
                     if (this.onDrop(x, y)) {
+
+
+
                       this.animateSnapToStart();
                     } else {
                       this.animateSpringToStart();
@@ -152,12 +156,12 @@ class Letter extends Component {
     // letter on-release event
     // check if user has zoomed out too far
     if (this.props.map_delta > this.state.delta_max) {
-      this.props.alertWithType('info', 'Too far away', "Zoom in to the circle place letters!");
+      this.props.alertWithType('info', I18n.t('map_too_zoom_title'), I18n.t('map_too_zoom_text'));
       return false;
     }
 
     if (this.props.blockWriting) {
-      this.props.alertWithType('info', 'Too crowded', "There are too many letters in this area. Please write somewhere else or wait.");
+      this.props.alertWithType('info', I18n.t('map_too_crowded_title'), I18n.t('map_too_crowded_text'));
       return false;
     }
 
@@ -174,17 +178,17 @@ class Letter extends Component {
 
     // respond if user missed the zone
     if (distance > this.props.dropzone_radius + 2) {
-      this.props.alertWithType('info', 'Too far away', "You cannot write outside the circle around you.");
+      this.props.alertWithType('info', I18n.t('map_too_far_title'), I18n.t('map_too_far_text'));
       return false;
-    } else {
-      if (this.props.user.map.tutorialState == 'welcome') {
-        this.props.alertWithType('info', 'Excellent work!', 'Want to write with different letters? Get letters from your friends by scanning their QR code. Tap the Get Letters below.');
-        // todo: change tutorialState
-      }
     }
 
     // send to server
     this.placeLetterOnMap(coords.lat, coords.lng);
+
+    if (this.props.user.map.tutorialStatus == 'step3') {
+        this.props.alertWithType('info', I18n.t('map_tutorial_3_title'), I18n.t('map_tutorial_3_text'));        
+        setUserMapTutorialStatusProxy('step4');
+    }
 
     return true;
   }
@@ -348,6 +352,8 @@ class Letter extends Component {
   }
 
   render() {
+    I18n.locale = this.props.language;
+
     const max_letter_size = parseFloat((this.props.letter_base_size * 5 / (1200 * this.props.map_delta)).toFixed(1));
 
     // colour animation
@@ -355,7 +361,6 @@ class Letter extends Component {
       inputRange: [0, 25, 100],
       outputRange: [this.state.letter_size, this.state.animated_letter_size, max_letter_size]
     });*/
-    console.log(max_letter_size);
     let size = this.state.font.size == 1 ? max_letter_size : this.state.letter_size;
     /*let colour = this.state.font.colour.interpolate({
       inputRange: [0, 100],
@@ -416,7 +421,8 @@ const mapStateToProps = (state) => {
       dropzone_radius,
       regen_time_primary,
       regen_time_secondary,
-      blockWriting
+      blockWriting,
+      language: state.globals.language,
     });
 }
 

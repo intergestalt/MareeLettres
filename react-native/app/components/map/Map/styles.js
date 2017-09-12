@@ -4,7 +4,7 @@ import letterstyles from '../Overlay/styles';
 const menuHeight = letterstyles.$menuHeight;
 
 const styles = EStyleSheet.create({
-  $drop_zone_border: '#fff',
+  $drop_zone_border: '#666',
   $drop_zone_background: 'transparent',
   container: {
     flex: 1,

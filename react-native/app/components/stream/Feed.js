@@ -109,6 +109,15 @@ class Feed extends Component {
           decelerationRate={'normal'}
           //onMessage={e => this.onMessage(JSON.parse(e.nativeEvent.data))}
           startInLoadingState={true}
+          onNavigationStateChange={(event) => {
+            console.log(uri);
+            console.log(event);
+            const isLocal = event.url.search('stream/TwitterWebView.html') !== -1;
+            if (!isLocal) {
+              this.webview.stopLoading();
+              Linking.openURL(event.url);
+            }
+          }}
         />
       </View>
     );

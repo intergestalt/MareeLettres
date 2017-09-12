@@ -4,7 +4,7 @@ Welcome to Marée Des Lettres, a playful art installation along the Seine. Start
 
 ## THE BIG LETTERS
 
-42 big letters (and 3 special characters) are installed at the Berges de Seine for Nuit Blanche. But in which order? What will they say? You can SUGGEST arrangements and VOTE for arrangements suggested by others. The letters will be continuously rearranged during NUIT BLANCHE.
+42 big letters (and 3 special characters) are installed at the Berges de Seine for Nuit Blanche. But in which order? What will they say? You can SUGGEST arrangements and VOTE for arrangements suggested by others. The letters will be continuously rearranged during NUIT BLANCHE. The last arrangement will stay there for the next weeks.
 
 ## HOW TO VOTE 
 
@@ -25,3 +25,13 @@ All around the democratic arrangement of the big letters there is also the const
 ## COMMUNITY GUIDELINES
 
 By using this app, you agree to abide by these simple guidelines when creating content with this app: You are welcome to be creative, funny, weird... but please no advertisements, no attacks on individuals or groups, no personal data, no messages supporting racist, sexist, homophic or otherwise hateful agendas. A representative of the municipality of Paris has the last word on what is accepted for voting or removed from the map.
+
+## TEAM
+
+Artistic Direction: Anna Hentschel, Josa Gerhard, Christiane Hütter, Sebastian Quack
+Architecture: Jean Lelievre
+Graphic Design: Manuel Bürger, Seb Holl-Trieu, Simon Schindele
+Programming: Holger Heissmeyer, Per Violet, Xavier Burrow, Sebastian Quack
+Production: Agence Eva Albarran
+
+(preliminary list, will be expanded)

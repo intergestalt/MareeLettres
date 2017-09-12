@@ -2,57 +2,27 @@
   "challenges": [
     {
       "title": {
-        "en": "What is the best thing about Paris?",
-        "fr": "Meilleur chose about Paris?"
+        "en": "A few words to get started",
+        "fr": "Quelques mots pour commencer"
       }
     },
     {
       "title": {
-        "en": "What is the meaning of life?",
-        "fr": "Raison d`être?"
+        "en": "The most annoying thi about Paris",
+        "fr": "La chose la plus ennuyeuse de Paris"
       }
     },
     {
       "title": {
-        "en": "Write a good joke!",
-        "fr": "Quelque chose à rire!"
+        "en": "The definition of love",
+        "fr": "La définition de l'amour"
       }
     },
     {
       "title": {
-        "en": "What is the most embarrassing thing that ever happened?",
-        "fr": "Quelque chose autre?"
-      }
-    },
-    {
-      "title": {
-        "en": "Your favourite letter?",
-        "fr": "Lettres favorisées?"
-      }
-    },
-    {
-      "title": {
-        "en": "What is going on?",
-        "fr": "Que'est-ce-qu'il es passé?"
-      }
-    },
-    {
-      "title": {
-        "en": "Future relates to monkey as money relates to ...",
-        "fr": "Comment est-ce que la future?"
-      }
-    },
-    {
-      "title": {
-        "en": "What happens when lovers meet in moonlight at the banks de la Seine?",
-        "fr": "La Saine c'est quoi?"
-      }
-    },
-    {
-      "title": {
-        "en": "Voulez-vous coucher avec mois?",
-        "fr": "Quelle heure est-il?"
+        "en": "A message for aliens",
+        "fr": "Un message pour les extraterrestres"
       }
     }
-  ]
+    ]
 }

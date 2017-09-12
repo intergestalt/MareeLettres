@@ -8,9 +8,9 @@ export default EStyleSheet.create({
   },
   text: {
     color: 'black',
-    fontSize: '1.2rem',
-    fontFamily: 'impact',
-    paddingBottom: 18,
+    fontSize: '1rem',
+    fontFamily: 'normal',
+    padding: 24,
   },
   keyboard: {
     width: '100%',
