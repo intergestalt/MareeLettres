@@ -48,59 +48,66 @@ class ProposalStatus extends Component {
                   </Text>
                 </View>
                 <View style={styles.statusTopBottom}>
-                  {!(this.props.userChallenge.isLoading || noContent)
-                    ? <Text style={styles.statusTopText2}>
+                  {!(this.props.userChallenge.isLoading || noContent) ? (
+                    <Text style={styles.statusTopText2}>
                       {this.props.userChallenge.ownProposal}
                     </Text>
-                    : <ActivityIndicator />}
+                  ) : (
+                    <ActivityIndicator />
+                  )}
                 </View>
               </View>
             </LinearGradient>
           </View>
-          {!noContent
-            ? <View style={styles.statusBottom}>
-              {!this.props.userChallenge.isLoading
-                  ? <View style={styles.statusBottomContainer}>
-                    <View style={styles.statusBottomTop}>
-                      <Text style={styles.statusBottomText1}>
-                        {this.props.userChallenge.ownProposalBlocked.bool ? blocked : review}
-                      </Text>
-                    </View>
-                    <View style={styles.statusBottomBottom}>
-                      <Text style={styles.statusBottomText2}>
-                        {this.props.userChallenge.ownProposalBlocked.bool
-                            ? null
-                            : I18n.t('proposal_in_review2').toUpperCase()}
-                      </Text>
-                    </View>
+          {!noContent ? (
+            <View style={styles.statusBottom}>
+              {!this.props.userChallenge.isLoading ? (
+                <View style={styles.statusBottomContainer}>
+                  <View style={styles.statusBottomTop}>
+                    <Text style={styles.statusBottomText1}>
+                      {this.props.userChallenge.ownProposalBlocked.bool ? blocked : review}
+                    </Text>
                   </View>
-                  : <ActivityIndicator />}
+                  <View style={styles.statusBottomBottom}>
+                    <Text style={styles.statusBottomText2}>
+                      {this.props.userChallenge.ownProposalBlocked.bool ? null : (
+                        I18n.t('proposal_in_review2').toUpperCase()
+                      )}
+                    </Text>
+                  </View>
+                </View>
+              ) : (
+                <ActivityIndicator />
+              )}
             </View>
-            : <View style={styles.statusBottom}>
+          ) : (
+            <View style={styles.statusBottom}>
               <ReloadButton textKey="reload_challenges" onReload={this.handleReloadPressPress} />
-            </View>}
+            </View>
+          )}
         </View>
         <View style={styles.submitContainer}>
-          {noContent || !this.props.userChallenge.ownProposalBlocked.bool
-            ? <TouchableOpacity onPress={this.props.onBackPressed}>
+          {noContent || !this.props.userChallenge.ownProposalBlocked.bool ? (
+            <TouchableOpacity onPress={this.props.onBackPressed}>
               <View style={styles.submitButton}>
-                <Text style={styles.submitButtonText}>
-                  {I18n.t('back_button').toUpperCase()}
-                </Text>
+                <Text style={styles.submitButtonText}>{I18n.t('back_button').toUpperCase()}</Text>
               </View>
             </TouchableOpacity>
-            : <TouchableOpacity onPress={this.props.onTryAgainPressed}>
+          ) : (
+            <TouchableOpacity onPress={this.props.onTryAgainPressed}>
               <View style={styles.submitButton}>
                 <Text style={styles.submitButtonText}>
                   {I18n.t('try_again_button').toUpperCase()}
                 </Text>
               </View>
-            </TouchableOpacity>}
+            </TouchableOpacity>
+          )}
         </View>
       </View>
     );
   }
 }
+s;
 
 const mapStateToProps = (state, props) => {
   // console.log(state.challenges);
