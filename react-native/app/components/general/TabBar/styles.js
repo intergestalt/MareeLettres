@@ -6,10 +6,10 @@ const styles = EStyleSheet.create({
   container: {
     width: '100%',
     alignItems: 'center',
-    justifyContent: 'space-around',
+    justifyContent: 'space-between',
     flexDirection: 'row',
     display: 'flex',
-    backgroundColor: '#aaaaaa',
+    backgroundColor: '$backgroundColorMenuItem',
     // height: 30,
     // borderRadius: 7,
     '@media ios': {
@@ -38,6 +38,7 @@ const styles = EStyleSheet.create({
     flex: 1,
     borderBottomWidth: '$strokeWidth',
     borderLeftWidth: '$strokeWidth',
+    borderColor: 'black',
     backgroundColor: '$backgroundColorMenuItem',
   },
   tabFirst: {

@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity, TouchableHighlight } from 'react-native';
 import { connect } from 'react-redux';
 import { CHALLENGE_VIEWS, SCREENS, MAP_VIEWS } from '../../../consts';
 
@@ -39,6 +39,24 @@ class TabBar extends Component {
     navigateToInfo(this.props);
   };
 
+  tab = (selected, text, onPress, first = false) => {
+    const tabStyle = first ? [styles.tab, styles.tabFirst] : styles.tab;
+    return (
+     !selected
+        ? <TouchableHighlight underlayColor={styles._tab.backgroundColor} activeOpacity={0.5} style={tabStyle} onPress={onPress}>
+          <Text style={styles.text}>
+            {text}
+          </Text>
+        </TouchableHighlight>
+        :
+        <View style={tabStyle} >
+          <Text style={styles.textHigh}>
+            {text}
+          </Text>
+        </View>
+    );
+  }
+
   render() {
     I18n.locale = this.props.language;
     const tabIndex = this.props.navigation.state.index;
@@ -74,50 +92,10 @@ class TabBar extends Component {
     if (showTabBar) {
       return (
         <View style={styles.container}>
-          <View style={[styles.tab, styles.tabFirst]}>
-            {!voteSelected
-              ? <TouchableOpacity onPress={this.handleVotePress}>
-                <Text style={styles.text}>
-                  {I18n.t('top_menu_option_1')}
-                </Text>
-              </TouchableOpacity>
-              : <Text style={styles.textHigh}>
-                {I18n.t('top_menu_option_1')}
-              </Text>}
-          </View>
-          <View style={styles.tab}>
-            {!becomeSelected
-              ? <TouchableOpacity onPress={this.handleBecomePress} style={styles.touchable}>
-                <Text style={styles.text}>
-                  {I18n.t('top_menu_option_2')}
-                </Text>
-              </TouchableOpacity>
-              : <Text style={styles.textHigh}>
-                {I18n.t('top_menu_option_2')}
-              </Text>}
-          </View>
-          <View style={styles.tab}>
-            {!streamSelected
-              ? <TouchableOpacity onPress={this.handleStreamPress}>
-                <Text style={styles.text}>
-                  {I18n.t('top_menu_option_3')}
-                </Text>
-              </TouchableOpacity>
-              : <Text style={styles.textHigh}>
-                {I18n.t('top_menu_option_3')}
-              </Text>}
-          </View>
-          <View style={styles.tab}>
-            {!infoSelected
-              ? <TouchableOpacity onPress={this.handleInfoPress}>
-                <Text style={styles.text}>
-                  {I18n.t('top_menu_option_4')}
-                </Text>
-              </TouchableOpacity>
-              : <Text style={styles.textHigh}>
-                {I18n.t('top_menu_option_4')}
-              </Text>}
-          </View>
+          { this.tab(voteSelected, I18n.t('top_menu_option_1'), this.handleVotePress, true) }
+          { this.tab(becomeSelected, I18n.t('top_menu_option_2'), this.handleBecomePress) }
+          { this.tab(streamSelected, I18n.t('top_menu_option_3'), this.handleStreamPress) }
+          { this.tab(infoSelected, I18n.t('top_menu_option_4'), this.handleInfoPress) }
         </View>
       );
     }
