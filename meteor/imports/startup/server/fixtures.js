@@ -70,7 +70,7 @@ Meteor.startup(() => {
           ...SeedChallenges[i],
         },
         (err, id) => {
-          if (id != undefined) {
+          /*if (id != undefined) {
             console.log('Seeding Proposals');
             const amount = 10 * Math.floor(10 * Math.random());
             for (let j = 1; j <= amount; j++) {
@@ -88,7 +88,7 @@ Meteor.startup(() => {
                 origin_ids: [OriginId.generateFromString(`fixture_player_${j}`)],
               });
             }
-          }
+          }*/
         },
       );
     }
@@ -106,7 +106,7 @@ Meteor.startup(() => {
     }
   }
 
-  if (Letters.find().count() === 0) {
+  /*if (Letters.find().count() === 0) {
     console.log('Seeding Letters');
     const locations = {
       berlin: {
@@ -132,7 +132,7 @@ Meteor.startup(() => {
       });
     }
   }
-});
+});*/
 
 let shuffleString = function (str) {
   return str
