@@ -104,6 +104,7 @@ Meteor.startup(() => {
         _id: `fixture_${i}`,
         origin_id: OriginId.generateFromString(`fixture_player_${i}`),
         created_at: new Date,
+        last_seen_at: new Date,
         votes: {},
       });
     }
