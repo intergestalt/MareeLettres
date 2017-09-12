@@ -18,6 +18,7 @@ class ProposalTinder extends Component {
     isLoading: PropTypes.bool,
     challengeOffset: PropTypes.number,
     textColor: PropTypes.object,
+    tinderBackgroundColor: PropTypes.object,
   };
   renderIsLoading() {
     return (
@@ -128,6 +129,39 @@ class ProposalTinder extends Component {
           </View>
         </View>
       );
+
+      if (!this.props.tinderBackgroundColor) {
+        tinder = (
+          <View style={myStyle}>
+            <View style={styles.topContainer}>
+              {textContainer}
+              {/* <VoteMarkPanel style={styles.voteMark} yes_amount={this.props.proposal.yes_votes} no_amount={this.props.proposal.no_votes} /> */}
+            </View>
+            <View style={styles.bottomContainer}>
+              {noContainer}
+              {yesContainer}
+            </View>
+          </View>
+        );
+      } else {
+        tinder = (
+          <Animated.View
+            style={[
+              styles.containerBackground,
+              { backgroundColor: this.props.tinderBackgroundColor },
+            ]}
+          >
+            <View style={styles.topContainer}>
+              {textContainer}
+              {/* <VoteMarkPanel style={styles.voteMark} yes_amount={this.props.proposal.yes_votes} no_amount={this.props.proposal.no_votes} /> */}
+            </View>
+            <View style={styles.bottomContainer}>
+              {noContainer}
+              {yesContainer}
+            </View>
+          </Animated.View>
+        );
+      }
     } else {
       tinder = this.renderNoTinder(myStyle);
     }
@@ -142,7 +176,8 @@ class ProposalTinder extends Component {
         </Animated.View>
       );
     }
-    //      return just the tinder, without animation
+
+    // Return just the tinder
     return tinder;
   }
 }
