@@ -195,6 +195,7 @@ class ChallengeContent extends Component {
       const proposalId = this.props.proposals[0]._id;
       this.props.dispatch(userVoteInternal(proposalId, yes));
       this.state.tinderContainerOffset.setValue({ x: 0, y: 0 });
+      this.state.tinderBackground.setValue(0);
       this.props.dispatch(deleteProposalFromTinderList(this.getChallenge()._id));
       this.checkToLoadMoreProposals();
     });
@@ -204,7 +205,7 @@ class ChallengeContent extends Component {
     yes: 'green',
     no: 'red',
     neutral: 'black',
-    inactive: '#DDDDDD',
+    inactive: '#aaaaaa',
   };
 
   renderTinder() {

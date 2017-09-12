@@ -130,7 +130,7 @@ class ProposalTinder extends Component {
         </View>
       );
 
-      if (!this.props.tinderBackgroundColor) {
+      if (!this.props.tinderBackgroundColor || !center) {
         tinder = (
           <View style={myStyle}>
             <View style={styles.topContainer}>
