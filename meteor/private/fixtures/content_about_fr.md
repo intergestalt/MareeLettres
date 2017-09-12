@@ -4,7 +4,7 @@ Bienvenue sur Marée Des Lettres, une installation artistique participative sur 
 
 ## LES GRANDES LETTRES
 
-42 lettres géantes et 3 symboles seront installés sur les Rives de Seine à Paris pour Nuit Blanche. Pour quoi faire? Que signifieront-elles? Vous pouvez SOUMETTRE vos propositions et VOTER pour les autres. Les lettres seront réagencées tout au long de Nuit Blanche.
+42 lettres géantes et 3 symboles seront installés sur les Rives de Seine à Paris pour Nuit Blanche. Pour quoi faire? Que signifieront-elles? Vous pouvez SOUMETTRE vos propositions et VOTER pour les autres. Les lettres seront réagencées tout au long de Nuit Blanche. Leur dernière position pourra rester pour les prochaines semaines.
 
 ## COMMENT VOTER
 
@@ -25,3 +25,13 @@ En plus des lettres géantes il y a le FLUX DES LETTRES ! Le long de la Seine et
 ## VALEURS DU PROJET
 
 En utilisant cette application vous acceptez de respecter les principes suivant : vous êtes invités à faire preuve de créativité, d'humour, d'originalité... mais s'il-vous-plait pas de publicité, de propos agressifs contre des personnes ou des groupes, pas de données personnelles, de propos à teneur raciste, sexiste, homophobe ou autres horreurs de ce genre. Un représentant de la Ville de Paris commanditaire du projet aura le dernier mot pour en valider la soumission au vote ou la retirer de l'application.
+
+## TEAM
+
+Artistic Direction: Anna Hentschel, Josa Gerhard, Christiane Hütter, Sebastian Quack
+Architecture: Jean Lelievre
+Graphic Design: Manuel Bürger, Seb Holl-Trieu, Simon Schindele
+Programming: Holger Heissmeyer, Per Violet, Xavier Burrow, Sebastian Quack
+Production: Agence Eva Albarran
+
+(preliminary list, will be expanded)
