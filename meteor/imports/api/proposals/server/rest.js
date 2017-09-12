@@ -137,7 +137,6 @@ JsonRoutes.add(
             Proposals.update({ _id: same_text_proposal._id }, {
                 $addToSet: { origin_ids: origin_id },
                 $inc: { yes_votes: boost_amount, score: boost_amount, votes_amount: boost_amount },
-                $set: { _id: same_text_proposal._id }
             })
 
             data.proposal = same_text_proposal;

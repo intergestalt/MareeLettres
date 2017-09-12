@@ -10,6 +10,7 @@ SystemConfig.before.insert(function (userId, doc) {
 
 SystemConfig.before.update(function (userId, doc, fieldNames, modifier, options) {
   console.log("before update", doc.name)
+  if (typeof modifier.$set === "undefined") return;
   modifier.$set = modifier.$set || {};
   modifier.$set.updated_at = new Date();
   if (modifier.$set.active == false) {
