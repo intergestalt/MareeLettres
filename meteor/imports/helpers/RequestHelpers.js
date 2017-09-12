@@ -9,39 +9,28 @@ const RequestHelpers = {
         // console.log(origin_id);
 
         if (!origin_id) {
-            error_options = {
-                code: 400,
-                data: {
-                    error: 'id-required',
-                    reason: 'origin_id is required',
-                },
-            };
-            JsonRoutes.sendResult(res, error_options);
+            this.JsonRoutesError(res, 400, 'id-required');
         }
 
         // console.log(OriginId.verify(origin_id));
 
         if (!OriginId.verify(origin_id)) {
-            error_options = {
-                code: 401,
-                data: {
-                    error: 'id-invalid',
-                    reason: 'origin_id is not valid',
-                },
-            };
-            JsonRoutes.sendResult(res, error_options);
+            this.JsonRoutesError(res, 401, 'id-invalid');
         }
 
         return origin_id;
     },
 
     JsonRoutesError: function (res, status_code, error_code) {
-        error_options = {
+        const error_options = {
             code: status_code,
             data: {
                 error: error_code,
             },
         };
+        if (Meteor.settings.log_api_errors) {
+            console.log("API_ERROR", error_options, res);
+        }
         JsonRoutes.sendResult(res, error_options);
     },
 
