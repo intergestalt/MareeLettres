@@ -10,6 +10,7 @@ class VoteMark extends Component {
     size: PropTypes.string,
     value: PropTypes.any,
     active: PropTypes.bool,
+    active2: PropTypes.bool,
     type: PropTypes.string,
     onPress: PropTypes.func,
   };
@@ -66,7 +67,7 @@ class VoteMark extends Component {
   }
 
   getColor() {
-    if (this.props.active) {
+    if (this.props.active || this.props.active2) {
       const decided_color = this.props.type == 'yes' ? this.colors.yes : this.colors.no;
       if (typeof this.props.value === 'number') {
         const colormap = interpolate([this.colors.neutral, decided_color]);

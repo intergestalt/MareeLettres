@@ -30,21 +30,20 @@ class ChallengeDetail extends Component {
     return this.props.selectedChallengeIndex + this.props.challengeOffset;
   }
   render() {
-    let myStyle = null;
+    let lineLeft = null;
+    let lineRight = null;
     if (this.props.challengeOffset === -1) {
-      myStyle = [styles.detailContainer, styles.detailContainerLeft];
-    } else if (this.props.challengeOffset === 0) {
-      myStyle = styles.detailContainer;
-    } else if (this.props.challengeOffset === 1) {
-      myStyle = [styles.detailContainer, styles.detailContainerRight];
+      lineLeft = <View style={styles.lineRight} />;
     }
-
+    if (this.props.challengeOffset === 1) {
+      lineRight = <View style={styles.lineLeft} />;
+    }
     // Case of this is out of range: render a buffer screen to bounce against
     if (this.getChallengeIndex() < 0 || this.getChallengeIndex() >= this.props.challenges.length) {
       return <View style={styles.detailContainerMargin} />;
     }
     return (
-      <View style={myStyle}>
+      <View style={styles.detailContainer}>
         <ChallengeHeader
           callerViewMode={CHALLENGE_VIEWS.DETAIL}
           challengeOffset={this.props.challengeOffset}
@@ -69,6 +68,8 @@ class ChallengeDetail extends Component {
           handleCommitPress={this.props.handleCommitPress}
           handleStatusPress={this.props.handleStatusPress}
         />
+        {lineLeft}
+        {lineRight}
       </View>
     );
   }
