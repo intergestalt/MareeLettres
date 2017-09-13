@@ -63,7 +63,7 @@ JsonRoutes.add(
 
         const sort = sort_modes[sort_param];
 
-        const proposals = Proposals.find({ challenge_id, in_review: false }, { sort, limit }).fetch();
+        const proposals = Proposals.find({ challenge_id, in_review: false, blocked: false }, { sort, limit }).fetch();
 
         const options = {};
 
