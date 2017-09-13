@@ -29,12 +29,14 @@ class ProposalTinder extends Component {
 
   componentWillMount() {
     if(this.props.challengeOffset === 0) {
-      this.props.alertWithType(
-        'info',
-        I18n.t('vote_tutorial_2_title'),
-        I18n.t('vote_tutorial_2_text')
-      );
-      setUserVoteTutorialStatusProxy('step3');  
+      if(!this.props.voteTutorialStatus.tinder1) {
+        this.props.alertWithType(
+          'info',
+          I18n.t('vote_tutorial_2_title'),
+          I18n.t('vote_tutorial_2_text')
+        );
+        setUserVoteTutorialStatusProxy('tinder1');  
+      }
     }
   }
 

@@ -350,9 +350,12 @@ export default (state = initialState.user, action) => {
       }
       case USER_SET_VOTE_TUTORIAL_STATUS: {
         console.log('USER_SET_VOTE_TUTORIAL_STATUS');
+        console.log(action.status);
+        let tutorialStatus = state.voteTutorialStatus;
+        tutorialStatus[action.status] = true;
         const result = {
           ...state,
-          voteTutorialStatus: action.status,
+          voteTutorialStatus: tutorialStatus,
         };
         console.log(result);
         saveUserToStorage(result);

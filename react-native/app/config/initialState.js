@@ -72,6 +72,7 @@ export default {
     origin_id: originId,
     created_at: sampleDate,
     last_seen: sampleDate,
+    voteTutorialStatus: {},
     coordinates: {
       latitude: 48.8566,
       longitude: 2.3522,

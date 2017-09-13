@@ -39,13 +39,13 @@ class ProposalList extends PureComponent {
   }
 
   componentWillMount() {
-    if(this.props.voteTutorialStatus == "step4" && this.props.challengeOffset == 0) {
+    if(!this.props.voteTutorialStatus.list1 && this.props.challengeOffset == 0) {
       this.props.alertWithType(
         'info',
         I18n.t('vote_tutorial_4_title'),
         I18n.t('vote_tutorial_4_text')
       );
-      setUserVoteTutorialStatusProxy('step5');  
+      setUserVoteTutorialStatusProxy("list1");  
     }
   }
 
@@ -100,13 +100,13 @@ class ProposalList extends PureComponent {
     this.props.dispatch(userVoteInternal(proposalId, yes));
     this.props.dispatch(deleteProposalFromTinderList(challengeId, proposalId));
 
-    if(this.props.voteTutorialStatus == 'step5') {
+    if(!this.props.voteTutorialStatus.list2) {
       this.props.alertWithType(
           'info',
           I18n.t('vote_tutorial_5_title'),
           I18n.t('vote_tutorial_5_text')
       );
-      setUserVoteTutorialStatusProxy('step6');
+      setUserVoteTutorialStatusProxy("list2");
     }        
 
   }
