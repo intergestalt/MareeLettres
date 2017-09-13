@@ -108,7 +108,7 @@ class ProposalStatus extends Component {
               <View style={styles.statusTopContainer}>
                 <View style={styles.statusTopTop}>
                   <Text style={styles.statusTopText1}>
-                    {this.props.challenge.title[this.props.language]}
+                    {this.props.challenge.title[this.props.language].toUpperCase()}
                   </Text>
                 </View>
                 <View style={styles.statusTopBottom}>

@@ -95,17 +95,23 @@ const styles = EStyleSheet.create({
     textAlign: 'center',
     color: 'white',
   },
+  submitTextContainer: {
+    backgroundColor: 'white',
+    paddingHorizontal: '1rem',
+  },
   yesButton: {
     height: '3.5rem',
     flex: 0.5,
-    backgroundColor: 'orange',
+    backgroundColor: 'white',
     justifyContent: 'center',
     alignItems: 'center',
+    borderTopWidth: 1,
+    borderColor: 'black',
   },
   noButton: {
     height: '3.5rem',
     flex: 0.5,
-    backgroundColor: 'grey',
+    backgroundColor: 'black',
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -113,6 +119,9 @@ const styles = EStyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center',
+  },
+  blackTextColor: {
+    color: 'black',
   },
   statusContainer: {
     flex: 1,
