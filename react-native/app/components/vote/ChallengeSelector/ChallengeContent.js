@@ -19,6 +19,10 @@ import { gradient0 } from '../../../config/gradients';
 import { listIsEmpty } from '../../../helper/helper';
 import { ReloadButton } from '../../../components/general/ReloadButton';
 
+import I18n from '../../../i18n/i18n';
+import { setUserVoteTutorialStatusProxy } from '../../../helper/userHelper';
+import { connectAlert } from '../../../components/general/Alert';
+
 class ChallengeContent extends Component {
   static propTypes = {
     dispatch: PropTypes.func,
@@ -218,11 +222,20 @@ class ChallengeContent extends Component {
       this.state.tinderBackground.setValue(0);
       this.props.dispatch(deleteProposalFromTinderList(this.getChallenge()._id));
       this.checkToLoadMoreProposals();
+
+      if(!this.props.voteTutorialStatus.tinder2) {
+        this.props.alertWithType(
+          'info',
+          I18n.t('vote_tutorial_3_title'),
+          I18n.t('vote_tutorial_3_text')
+        );
+        setUserVoteTutorialStatusProxy("tinder2");  
+      }
     });
   }
 
   colors = {
-    yes: 'green',
+    yes: 'rgb(0,200,0)',
     no: 'red',
     neutral: 'black',
     inactive: '#aaaaaa',
@@ -383,6 +396,7 @@ class ChallengeContent extends Component {
     );
   }
   render() {
+    I18n.locale = this.props.language;
     if (this.props.isLoading) {
       return this.renderLoading();
     }
@@ -438,6 +452,8 @@ const mapStateToProps = (state, ownProps) => {
       isLoading,
       lastLoaded,
       challengeId,
+      language: state.globals.language,
+      voteTutorialStatus: state.user.voteTutorialStatus
     };
   } catch (e) {
     console.log('ChallengeContent');
@@ -445,4 +461,4 @@ const mapStateToProps = (state, ownProps) => {
     throw e;
   }
 };
-export default connect(mapStateToProps)(ChallengeContent);
+export default connect(mapStateToProps)(connectAlert(ChallengeContent));

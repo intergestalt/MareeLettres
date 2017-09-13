@@ -216,12 +216,14 @@ class LanguageSelector extends Component {
               setTimeout(() => {
                 popLanguageSelector(this.props);
 
-                this.props.alertWithType(
-                  'info',
-                  I18n.t('vote_tutorial_1_title'),
-                  I18n.t('vote_tutorial_1_text')
-                );
-                setUserVoteTutorialStatusProxy('step2');
+                setTimeout(()=>{
+                  this.props.alertWithType(
+                    'info',
+                    I18n.t('vote_tutorial_1_title'),
+                    I18n.t('vote_tutorial_1_text')
+                  );
+                  setUserVoteTutorialStatusProxy('step2');
+                }, 500);
 
               }, 500);
             } else {

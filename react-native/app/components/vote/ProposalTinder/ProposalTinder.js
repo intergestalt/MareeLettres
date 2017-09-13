@@ -7,6 +7,10 @@ import { VoteMark } from '../VoteMark/';
 import { getProposalList } from '../../../helper/proposalsHelper';
 import { ReloadButton } from '../../../components/general/ReloadButton';
 
+import I18n from '../../../i18n/i18n';
+import { connectAlert } from '../../../components/general/Alert';
+import { setUserVoteTutorialStatusProxy } from '../../../helper/userHelper';
+
 class ProposalTinder extends Component {
   static propTypes = {
     panResponderContent: PropTypes.object,
@@ -22,6 +26,20 @@ class ProposalTinder extends Component {
     textColor: PropTypes.object,
     tinderBackgroundColor: PropTypes.object,
   };
+
+  componentWillMount() {
+    if(this.props.challengeOffset === 0) {
+      if(!this.props.voteTutorialStatus.tinder1) {
+        this.props.alertWithType(
+          'info',
+          I18n.t('vote_tutorial_2_title'),
+          I18n.t('vote_tutorial_2_text')
+        );
+        setUserVoteTutorialStatusProxy('tinder1');  
+      }
+    }
+  }
+
   renderIsLoading() {
     return (
       <View style={styles.container}>
@@ -38,6 +56,7 @@ class ProposalTinder extends Component {
   }
 
   render() {
+    I18n.locale = this.props.language;
     let myStyle = null;
     let noContainer = null;
     let yesContainer = null;
@@ -190,6 +209,8 @@ const mapStateToProps = (state, ownProps) => {
     return {
       proposal,
       isLoading,
+      language: state.globals.language,
+      voteTutorialStatus: state.user.voteTutorialStatus
     };
   } catch (e) {
     console.log('ProposalTinder');
@@ -197,4 +218,4 @@ const mapStateToProps = (state, ownProps) => {
     throw e;
   }
 };
-export default connect(mapStateToProps)(ProposalTinder);
+export default connect(mapStateToProps)(connectAlert(ProposalTinder));

@@ -15,6 +15,8 @@ import { setOwnProposal, deleteOwnProposal } from '../../../actions/user';
 import { isFinished, isFinishedSuggest } from '../../../helper/dateFunctions';
 import { connectAlert } from '../../../components/general/Alert';
 
+import { setUserVoteTutorialStatusProxy } from '../../../helper/userHelper';
+
 const colorWriteArea = '#FFFFFF';
 const colorKeyBoard = '#000000';
 const colorSpace = '#888888';
@@ -96,6 +98,32 @@ class ProposalSubmitter extends Component {
     };
 
     this.panResponder = this.createPanResponder();
+  }
+
+  componentWillMount() {
+    if(!this.props.voteTutorialStatus.submit) {
+      setTimeout(()=>{
+        this.props.alertWithType(
+          'info',
+          I18n.t('vote_tutorial_6_title'),
+          I18n.t('vote_tutorial_6_text')
+        );
+        setUserVoteTutorialStatusProxy('submit');  
+      }, 1000);
+    }
+  }
+
+  componentWillUnmount() {
+    if(!this.props.voteTutorialStatus.back) {
+      setTimeout(()=>{
+        this.props.alertWithType(
+          'info',
+          I18n.t('vote_tutorial_7_title'),
+          I18n.t('vote_tutorial_7_text')
+        );
+        setUserVoteTutorialStatusProxy('back');  
+      }, 500);
+    }
   }
 
   // Letter was pressed, not moved and released
@@ -1174,6 +1202,7 @@ const mapStateToProps = (state) => {
       ownProposal,
       ownProposalId,
       isStatusLoading,
+      voteTutorialStatus: state.user.voteTutorialStatus
     };
   } catch (e) {
     console.log('ProposalSubmitter');
