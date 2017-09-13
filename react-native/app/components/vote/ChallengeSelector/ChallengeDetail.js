@@ -30,12 +30,21 @@ class ChallengeDetail extends Component {
     return this.props.selectedChallengeIndex + this.props.challengeOffset;
   }
   render() {
+    let myStyle = null;
+    if (this.props.challengeOffset === -1) {
+      myStyle = [styles.detailContainer, styles.detailContainerLeft];
+    } else if (this.props.challengeOffset === 0) {
+      myStyle = styles.detailContainer;
+    } else if (this.props.challengeOffset === 1) {
+      myStyle = [styles.detailContainer, styles.detailContainerRight];
+    }
+
     // Case of this is out of range: render a buffer screen to bounce against
     if (this.getChallengeIndex() < 0 || this.getChallengeIndex() >= this.props.challenges.length) {
       return <View style={styles.detailContainerMargin} />;
     }
     return (
-      <View style={styles.detailContainer}>
+      <View style={myStyle}>
         <ChallengeHeader
           callerViewMode={CHALLENGE_VIEWS.DETAIL}
           challengeOffset={this.props.challengeOffset}

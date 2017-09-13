@@ -19,6 +19,15 @@ const styles = EStyleSheet.create({
     width: '$swipeWidth',
     left: 0,
   },
+  detailContainerLeft: {
+    borderRightWidth: 2,
+    borderColor: 'magenta',
+  },
+  detailContainerRight: {
+    borderLeftWidth: 2,
+    borderColor: 'magenta',
+  },
+
   detailContainerMargin: {
     flexDirection: 'column',
     backgroundColor: '#000000',
@@ -93,11 +102,9 @@ const styles = EStyleSheet.create({
     backgroundColor: '#FFFFFF',
     position: 'relative',
     flex: 1,
-    width: '$swipeWidth',
     alignItems: 'center',
     justifyContent: 'center',
   },
-
   challengeInnerContainer: {
     backgroundColor: 'transparent',
     justifyContent: 'center',
