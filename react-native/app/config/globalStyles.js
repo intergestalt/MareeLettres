@@ -4,6 +4,7 @@ const globalStyles = {
     $backgroundColor: '#DDDDDD',
     $backgroundColorMenuItem: 'rgb(245,132,102)',
     $highlightDraggingLetterColor: 'rgb(245,132,102)',
+    $draggingLetterCursorColor: 'rgb(90, 88, 112)',
     $strokeWidth: screenHeight > 800 ? 3 : screenHeight > 600 ? 3 : 2,
     $proposalPaddingHorizontal: '10%',
     outline: 0, // set to 1 to see the elements boundaries
