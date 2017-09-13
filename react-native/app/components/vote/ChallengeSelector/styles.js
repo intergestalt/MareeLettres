@@ -18,19 +18,7 @@ const styles = EStyleSheet.create({
     flexDirection: 'column',
     width: '$swipeWidth',
     left: 0,
-    borderRightWidth: 2,
-    borderLeftWidth: 2,
     borderColor: 'transparent',
-  },
-  detailContainerLeft: {
-    borderRightWidth: 2,
-    borderLeftWidth: 2,
-    borderColor: 'magenta',
-  },
-  detailContainerRight: {
-    borderLeftWidth: 2,
-    borderRightWidth: 2,
-    borderColor: 'magenta',
   },
 
   detailContainerMargin: {
@@ -175,6 +163,23 @@ const styles = EStyleSheet.create({
     color: '#000',
     fontSize: 24,
     fontFamily: 'normal',
+  },
+
+  lineLeft: {
+    position: 'absolute',
+    width: 1,
+    top: 0,
+    left: 0,
+    backgroundColor: '#000000',
+    height: '100%',
+  },
+  lineRight: {
+    position: 'absolute',
+    width: 1,
+    top: 0,
+    right: 0,
+    backgroundColor: '#000000',
+    height: '100%',
   },
 });
 

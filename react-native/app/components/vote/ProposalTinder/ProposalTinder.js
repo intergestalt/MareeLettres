@@ -97,7 +97,7 @@ class ProposalTinder extends Component {
           </View>
           <View style={styles.markContainer2}>
             <Animated.View style={{ opacity: this.props.noOpacity }}>
-              <VoteMark size="l" active={false} value={1} type="no" />
+              <VoteMark size="l" active2 value={1} type="no" />
             </Animated.View>
           </View>
         </View>
@@ -109,7 +109,7 @@ class ProposalTinder extends Component {
           </View>
           <View style={styles.markContainer2}>
             <Animated.View style={{ opacity: this.props.yesOpacity }}>
-              <VoteMark size="l" active={false} value={1} type="yes" />
+              <VoteMark size="l" active2 value={1} type="yes" />
             </Animated.View>
           </View>
         </View>

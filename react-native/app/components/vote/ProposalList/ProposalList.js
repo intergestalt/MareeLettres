@@ -61,9 +61,11 @@ class ProposalList extends PureComponent {
     );
   }
   onEndReached() {
+    if (this.props.selectedChallengeIndex === -1) return;
     if (this.props.isPullUpLoading) {
       return;
     }
+
     const id = this.props.challenges[this.props.selectedChallengeIndex]._id;
     const limit = this.props.proposals.length + DYNAMIC_CONFIG.DEFAULT_PROPOSAL_NEW_BATCH;
     let force = false;
@@ -169,7 +171,7 @@ class ProposalList extends PureComponent {
               />
             )}
             keyExtractor={item => item._id}
-            //ItemSeparatorComponent={Separator}
+            // ItemSeparatorComponent={Separator}
             refreshControl={
               <RefreshControl
                 refreshing={this.props.isPullDownLoading}

@@ -966,7 +966,10 @@ class ProposalSubmitter extends Component {
   }
   checkAnswer(answer) {
     const letters = this.props.challenge.letters;
-    if (letters.length === 0) return false;
+    if (letters.length === 0) {
+      console.log('No Letters');
+      return 'No Letters';
+    }
     const lettersAvailable = {};
     for (let i = 0, len = letters.length; i < len; i += 1) {
       const key = letters[i];
@@ -978,23 +981,28 @@ class ProposalSubmitter extends Component {
       }
       lettersAvailable[key] = count;
     }
+    console.log('Letters Available');
+    console.log(lettersAvailable);
     for (let i = 0, len = answer.length; i < len; i += 1) {
       const key = answer[i];
       if (key !== ' ') {
         let count = lettersAvailable[key];
         if (!count) {
-          return false;
+          console.log(`Letter ${key} is not available anymore`);
+          return `Letter ${key} is not available anymore`;
         }
         if (count === 0) {
-          return false;
+          console.log(`Letter ${key} is not available anymore`);
+          return `Letter ${key} is not available anymore`;
         }
         count -= 1;
         lettersAvailable[key] = count;
       }
     }
-    return true;
+    return null;
   }
   submitPressed() {
+    console.log("Submit Answer Pressed")
     if (isFinishedSuggest(this.props.challenge)) {
       this.props.alertWithType(
         'info',
@@ -1004,6 +1012,11 @@ class ProposalSubmitter extends Component {
     } else {
       this.cleanSpaces(true);
       if (this.state.lettersWritingArea.length === 0) {
+        this.props.alertWithType(
+          'info',
+          I18n.t('suggestion_empty_title'),
+          I18n.t('suggestion_empty_text'),
+        );
         return;
       }
       this.setState({ submitView: true });
@@ -1023,7 +1036,7 @@ class ProposalSubmitter extends Component {
       for (let i = 0; i < this.state.lettersWritingArea.length; i += 1) {
         answer += this.state.lettersWritingArea[i].character;
       }
-      if (this.checkAnswer(answer)) {
+      if (this.checkAnswer(answer) === null) {
         this.props.dispatch(setOwnProposal(this.props.selectedChallengeId, answer));
       }
       popProposalSubmitter(this.props);
@@ -1032,15 +1045,18 @@ class ProposalSubmitter extends Component {
     }
   }
   handleSubmitConfirmedPress() {
+    console.log("Submit Confirmed Pressed")
     let answer = '';
     for (let i = 0; i < this.state.lettersWritingArea.length; i += 1) {
       answer += this.state.lettersWritingArea[i].character;
     }
     console.log(`answer ${answer}`);
-    if (!this.checkAnswer(answer)) {
+    const message = this.checkAnswer(answer);
+    if (message !== null) {
       this.setState(this.setInitialLetters());
       this.resetEverything(false);
       this.setState({ submitView: false });
+      this.props.alertWithType('info', I18n.t('suggestion_wrong'), message);
       return;
     }
     if (isFinishedSuggest(this.props.challenge)) {
