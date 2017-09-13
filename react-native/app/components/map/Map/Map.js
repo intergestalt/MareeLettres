@@ -224,18 +224,18 @@ class Map extends Component {
 
   mapMenuLetters(item, index) {
     const win = Dimensions.get('window');
-    const step = win.width / 6;
+    const step = (win.width - 1) / 6;
 
     if (index == 0) {
-      x = step - 20;
+      x = step - 18;
     } else {
-      x = step * (index + 1);
+      x = step * (index + 1.5) - 24;
     }
 
     return (
       <Letter
         character={item.character}
-        position={{ x: x + 2, y: 0 }}
+        position={{ x: x, y: 0 }}
         key={index}
         index={index}
         navigation={this.props.navigation}
