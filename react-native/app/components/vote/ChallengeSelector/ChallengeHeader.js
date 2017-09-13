@@ -56,7 +56,7 @@ class ChallengeHeader extends Component {
         <TouchableOpacity onPress={this.props.onUpPress} style={{ flex: 1 }}>
           <View style={styles.headerNavContainer}>
             <Text style={styles.headerNav}>
-              {'>'}
+              &gt;
             </Text>
           </View>
         </TouchableOpacity>
@@ -69,7 +69,7 @@ class ChallengeHeader extends Component {
         <TouchableOpacity onPress={this.props.onDownPress} style={{ flex: 1 }}>
           <View style={styles.headerNavContainer}>
             <Text style={styles.headerNav}>
-              {'<'}
+              &lt;
             </Text>
           </View>
         </TouchableOpacity>

@@ -20,10 +20,10 @@ class VoteMark extends Component {
   }
 
   heights = {
-    l: 34,
-    m: 17,
-    s: 12,
-    undefined: 17,
+    l: styles._l.height,
+    m: styles._m.height,
+    s: styles._s.height,
+    undefined: styles._m.height,
   };
 
   colors = {

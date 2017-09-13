@@ -9,11 +9,18 @@ const styles = EStyleSheet.create({
   },
   panelText1: {
     marginRight: 5,
+    fontFamily: 'normal',
+    fontSize: '1rem',
   },
   panelText2: {
     marginLeft: 10,
     marginRight: 5,
+    fontFamily: 'normal',
+    fontSize: '1rem',
   },
+  l: { height: '2rem' },
+  m: { height: '1.25rem' },
+  s: { height: '0.75rem' },
 });
 
 export default styles;

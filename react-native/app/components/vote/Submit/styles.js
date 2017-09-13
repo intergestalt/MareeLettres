@@ -8,7 +8,6 @@ const em = Dimensions.get('window').height / aspect_ratio_factor;
 const styles = EStyleSheet.create({
   container: { flex: 1, flexDirection: 'column' },
   titleContainer: {
-    // textAlign: 'center', // textAlgin cannot be assigned to View (gives warning)
     paddingTop: '1.5rem',
     flexDirection: 'row',
     backgroundColor: '#000033',
@@ -20,17 +19,21 @@ const styles = EStyleSheet.create({
   backStyle: {
     color: 'white',
     paddingLeft: '1.5rem',
+    paddingRight: '1rem',
     fontSize: '2rem',
     justifyContent: 'center',
     fontFamily: 'impact',
+    top: '-0.5rem',
   },
   title: {
+    flex: 1,
     fontFamily: 'normal',
     fontSize: '1rem',
     color: 'white',
     textAlign: 'center',
     paddingBottom: '0.5rem',
-    paddingHorizontal: '20%',
+    paddingRight: '3.5rem',
+    paddingLeft: 0,
   },
   writingArea: {
     backgroundColor: '#000033',
@@ -118,7 +121,6 @@ const styles = EStyleSheet.create({
     flex: 0.5,
   },
   statusTopContainer: {
-    width: '100%',
     backgroundColor: 'transparent',
     flex: 1,
   },
@@ -133,7 +135,6 @@ const styles = EStyleSheet.create({
     paddingLeft: '1rem',
     paddingRight: '1rem',
     paddingTop: '2rem',
-    width: '100%',
     backgroundColor: 'transparent',
     color: 'white',
     justifyContent: 'center',
@@ -145,7 +146,6 @@ const styles = EStyleSheet.create({
   statusTopText2: {
     paddingLeft: '1rem',
     paddingRight: '1rem',
-    width: '100%',
     backgroundColor: 'transparent',
     color: 'white',
     justifyContent: 'center',
@@ -158,23 +158,25 @@ const styles = EStyleSheet.create({
     width: '100%',
     backgroundColor: 'transparent',
     flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'space-around',
+    paddingHorizontal: '$proposalPaddingHorizontal',
   },
   statusBottomTop: {
     paddingTop: '2rem',
-    paddingBottom: '2rem',
   },
   statusBottomBottom: {
     flexDirection: 'row',
-    flex: 0.8,
-    justifyContent: 'center',
+    flex: 1,
+    justifyContent: 'space-around',
   },
   statusBottomBottomLeft: {
-    flex: 0.5,
+    width: '10%', // correct value would be the width of the actual VoteMark. But doesn't matter
     justifyContent: 'center',
     alignItems: 'center',
   },
   statusBottomBottomRight: {
-    flex: 0.5,
+    width: '10%', // correct value would be the width of the actual VoteMark. But doesn't matter
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -186,19 +188,16 @@ const styles = EStyleSheet.create({
     textAlign: 'center',
   },
   statusBottomText1: {
-    paddingLeft: '1rem',
-    paddingRight: '1rem',
-    width: '100%',
     backgroundColor: 'transparent',
     color: 'black',
     fontFamily: 'normal',
     fontSize: '1rem',
     textAlign: 'center',
+    justifyContent: 'center',
+    alignItems: 'center',
+    alignSelf: 'center',
   },
   statusBottomText2: {
-    paddingLeft: '1rem',
-    paddingRight: '1rem',
-    width: '100%',
     backgroundColor: 'transparent',
     color: 'black',
     justifyContent: 'center',
@@ -206,6 +205,8 @@ const styles = EStyleSheet.create({
     fontSize: '1rem',
     textAlign: 'center',
     fontWeight: 'bold',
+    alignItems: 'center',
+    alignSelf: 'center',
   },
 });
 

@@ -29,7 +29,6 @@ const styles = EStyleSheet.create({
   challengeHeader: {
     flexDirection: 'row',
     position: 'relative',
-    flex: 0.25,
   },
 
   challengeFooter: {
@@ -40,15 +39,15 @@ const styles = EStyleSheet.create({
   // Header
 
   headerDownContainer: {
-    flex: 0.12,
+    marginHorizontal: '1.25rem',
   },
   headerTextContainer: {
     alignItems: 'center',
     justifyContent: 'center',
-    flex: 0.76,
+    flex: 1,
   },
   headerUpContainer: {
-    flex: 0.12,
+    marginHorizontal: '1.25rem',
   },
   headerNavContainer: {
     flex: 1,
@@ -60,12 +59,15 @@ const styles = EStyleSheet.create({
   headerText: {
     color: 'black',
     textAlign: 'center',
-    fontSize: 18,
+    fontSize: '2rem',
+    fontFamily: 'normal',
   },
   headerNav: {
     color: 'black',
     textAlign: 'center',
-    fontSize: 40,
+    fontSize: '2rem',
+    fontFamily: 'normal',
+    top: '0.5rem', // center the character inside the line
   },
   // Content
   tinderContainer: {

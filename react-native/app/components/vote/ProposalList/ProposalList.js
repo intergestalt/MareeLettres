@@ -142,7 +142,7 @@ class ProposalList extends PureComponent {
               />
             )}
             keyExtractor={item => item._id}
-            ItemSeparatorComponent={Separator}
+            //ItemSeparatorComponent={Separator}
             refreshControl={
               <RefreshControl
                 refreshing={this.props.isPullDownLoading}

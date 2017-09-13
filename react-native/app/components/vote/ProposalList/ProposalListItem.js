@@ -39,7 +39,7 @@ class ProposalListItem extends PureComponent {
     return (
       <View style={styles.itemContainer}>
         <View style={styles.itemLeft}>
-          <VoteMark onPress={this.props.onNoPress} size="l" active value={noNum} type="no" />
+          <VoteMark onPress={this.props.onNoPress} size="m" active value={noNum} type="no" />
           {/*  <TouchableOpacity onPress={this.props.onNoPress}>
             {noNum === 1
               ? <Text style={{ color: '#FF0000' }}>NO</Text>
@@ -60,7 +60,7 @@ class ProposalListItem extends PureComponent {
               ? <Text style={{ color: '#88FF00' }}>YES</Text>
               : <Text style={{ color: '#000000' }}>YES</Text>}
           </TouchableOpacity> */}
-          <VoteMark onPress={this.props.onYesPress} size="l" active value={yesNum} type="yes" />
+          <VoteMark onPress={this.props.onYesPress} size="m" active value={yesNum} type="yes" />
         </View>
       </View>
     );

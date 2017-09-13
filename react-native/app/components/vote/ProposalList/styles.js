@@ -21,7 +21,7 @@ const styles = EStyleSheet.create({
   listContainer: {
     flexDirection: 'row',
     justifyContent: 'center',
-    alignItems: 'center',
+    alignItems: 'flex-start',
     flex: 0.9,
   },
 
@@ -33,46 +33,56 @@ const styles = EStyleSheet.create({
     alignItems: 'center',
   },
   itemLeft: {
-    position: 'relative',
-    flex: 0.2,
-    justifyContent: 'space-around',
     alignItems: 'center',
+    alignSelf: 'flex-start',
+    paddingTop: '1rem',
+    top: '0.5rem', // to align with center text    
+    marginHorizontal: '1.25rem',
   },
   itemCenter: {
     position: 'relative',
-    flex: 0.6,
-    padding: 40,
+    flex: 1,
+    paddingVertical: '1rem',
     alignItems: 'center',
   },
   itemRight: {
-    position: 'relative',
-    flex: 0.2,
-    justifyContent: 'space-around',
     alignItems: 'center',
+    alignSelf: 'flex-start',
+    paddingTop: '1rem',
+    top: '0.5rem', // to align with center text
+    marginHorizontal: '1.25rem',
   },
   text: {
-    fontSize: '1.5rem',
+    fontSize: '2rem',
     textAlign: 'center',
     fontFamily: 'impact',
+    marginBottom: '0.5rem',
   },
   listHeader: {
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center',
     flex: 1,
+    paddingHorizontal: '10%',
   },
   listHeaderLink: {
-    fontSize: '1rem',
+    fontSize: '0.85rem',
     color: '#000000',
+    fontFamily: 'normal',
+    paddingTop: '0.5rem',
   },
   listHeaderText: {
-    fontSize: '1rem',
+    fontSize: '0.85rem',
     color: '#FF0000',
+    fontFamily: 'normal',
+    paddingTop: '0.5rem',
   },
   listFooter: {
     justifyContent: 'center',
     alignItems: 'center',
   },
-  voteMarkPanel: {}
+  voteMarkPanel: {
+    marginTop: '0.25rem',
+  }
 });
 export default styles;
