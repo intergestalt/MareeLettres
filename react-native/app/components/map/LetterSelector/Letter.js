@@ -64,7 +64,7 @@ class LetterSelectorWindow extends Component {
     return (
       <View style={styles.container}>
         <BackSimple onPress={() => this.handleBackPress()} />
-        <Text style={styles.text}>{I18n.t('choose_your_letter')}</Text>
+        <Text style={styles.text}>{I18n.t('choose_your_letter').replace('[HOURS]', Math.floor(this.props.resetTime / 60 ))}</Text>
         <View style={styles.keyboard}>
           <View style={styles.keyboard__row}>{rowTop}</View>
           <View style={styles.keyboard__row}>{rowMid}</View>
@@ -83,6 +83,7 @@ const mapStateToProps = (state) => {
       user: state.user,
       language: state.globals.language,
       myLetter,
+      resetTime: state.config.config.map_primary_letter_reset
     };
   } catch (e) {
     console.log('LetterSelectorWindow');
