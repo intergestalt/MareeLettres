@@ -4,11 +4,11 @@ Bienvenue sur Marée Des Lettres, une installation artistique participative sur 
 
 ## LES GRANDES LETTRES
 
-42 lettres géantes et 3 symboles seront installés sur les Rives de Seine à Paris pour Nuit Blanche. Pour quoi faire? Que signifieront-elles? Vous pouvez SOUMETTRE vos propositions et VOTER pour les autres. Les lettres seront réagencées tout au long de Nuit Blanche. Leur dernière position pourra rester pour les prochaines semaines.
+42 lettres géantes et 3 symboles seront installés sur les Rives de Seine à Paris pour Nuit Blanche. Pour quoi faire? Que signifieront-elles? Vous pouvez SOUMETTRE vos propositions et VOTER pour les autres. Les lettres seront réagencées tout au long de Nuit Blanche.
 
 ## COMMENT VOTER
 
-Vous pouvez voter pour les propositions des autres! Rendez-vous sur l'onglet ABC et choisissez le thème qui vous plait. Balayez ensuite chaque proposition. Si vous préférez voir la liste complète vous pouvez le faire directement depuis l'onglet OVERVIEW. Glissez vers le bas pour actualiser la liste. Vous pouvez changer d'avis et revoter quand vous voulez!
+Vous pouvez voter pour les propositions des autres! Rendez-vous sur l'onglet VOTE et choisissez le thème qui vous plait. Balayez ensuite chaque proposition. Si vous préférez voir la liste complète vous pouvez le faire directement depuis l'onglet LISTE. Glissez vers le bas pour actualiser la liste. Vous pouvez changer d'avis et revoter quand vous voulez!
 
 ## COMMENT PROPOSER UN AGENCEMENT
 
