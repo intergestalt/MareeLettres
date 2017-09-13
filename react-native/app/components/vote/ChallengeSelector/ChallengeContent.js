@@ -222,7 +222,7 @@ class ChallengeContent extends Component {
   }
 
   colors = {
-    yes: 'green',
+    yes: 'rgb(0,200,0)',
     no: 'red',
     neutral: 'black',
     inactive: '#aaaaaa',

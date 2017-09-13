@@ -49,7 +49,7 @@ class ChallengesListItem extends Component {
     if (!this.props.oneFinished && !this.props.showAll) {
       showAll = (
         <View style={styles.showAllButtonContainer}>
-          <TouchableOpacity onPress={this.props.onShowAllPress}>
+          <TouchableOpacity onPress={this.props.onShowAllPress} activeOpacity={0.5}>
             <View style={styles.showAllButton}>
               <Text style={styles.showAllButtonText}>
                 {I18n.t('see_all_votes').toUpperCase()}
@@ -63,7 +63,7 @@ class ChallengesListItem extends Component {
     if (!this.props.oneFinished && this.props.data.last && this.props.showAll) {
       hideAll = (
         <View style={styles.showAllButtonContainer}>
-          <TouchableOpacity onPress={this.props.onHideAllPress}>
+          <TouchableOpacity onPress={this.props.onHideAllPress} activeOpacity={0.5}>
             <View style={styles.showAllButton}>
               <Text style={styles.showAllButtonText}>
                 {I18n.t('hide_all_votes').toUpperCase()}
@@ -102,7 +102,7 @@ class ChallengesListItem extends Component {
     }
     return (
       <View style={styles.itemContainer}>
-        <TouchableOpacity onPress={this.props.onPress}>
+        <TouchableOpacity onPress={this.props.onPress} activeOpacity={0.5}>
           <ChallengeHeadInactive
             onPress={this.props.onShowAllPress}
             callerViewMode={CHALLENGE_VIEWS.LIST}
@@ -120,7 +120,7 @@ class ChallengesListItem extends Component {
     if (this.props.tickerEntry.finished) return this.renderFinished();
     return (
       <View style={styles.itemContainer}>
-        <TouchableOpacity onPress={this.props.onPress}>
+        <TouchableOpacity onPress={this.props.onPress} activeOpacity={0.5}>
           <ChallengeHeadActive callerViewMode={CHALLENGE_VIEWS.LIST} data={this.props.data} />
         </TouchableOpacity>
       </View>

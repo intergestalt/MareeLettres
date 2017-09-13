@@ -53,7 +53,7 @@ class ChallengeHeader extends Component {
     let buttonUp = null;
     if (this.getChallengeIndex() < this.props.challenges.length - 1) {
       buttonUp = (
-        <TouchableOpacity onPress={this.props.onUpPress} style={{ flex: 1 }}>
+        <TouchableOpacity onPress={this.props.onUpPress} style={{ flex: 1 }} activeOpacity={0.5}>
           <View style={styles.headerNavContainer}>
             <Text style={styles.headerNav}>
               &gt;
@@ -66,7 +66,7 @@ class ChallengeHeader extends Component {
     let buttonDown = null;
     if (this.getChallengeIndex() > 0) {
       buttonDown = (
-        <TouchableOpacity onPress={this.props.onDownPress} style={{ flex: 1 }}>
+        <TouchableOpacity onPress={this.props.onDownPress} style={{ flex: 1 }} activeOpacity={0.5}>
           <View style={styles.headerNavContainer}>
             <Text style={styles.headerNav}>
               &lt;
@@ -96,7 +96,7 @@ class ChallengeHeader extends Component {
 
     const contentMiddle = (
       <View style={styles.headerTextContainer}>
-        <TouchableOpacity delayPressIn={50} onPress={this.props.onHeaderPress}>
+        <TouchableOpacity delayPressIn={50} onPress={this.props.onHeaderPress} activeOpacity={0.5}>
           {!challengeTickerData.finished
             ? <ChallengeHeadActive
               callerViewMode={CHALLENGE_VIEWS.DETAIL}

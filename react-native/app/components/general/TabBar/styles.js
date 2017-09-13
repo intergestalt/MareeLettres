@@ -9,7 +9,7 @@ const styles = EStyleSheet.create({
     justifyContent: 'space-between',
     flexDirection: 'row',
     display: 'flex',
-    backgroundColor: '$backgroundColorMenuItem',
+    backgroundColor: '$statusBarColor',
     // height: 30,
     // borderRadius: 7,
     '@media ios': {
