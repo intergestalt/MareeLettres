@@ -12,6 +12,8 @@ import { popLanguageSelector } from '../../helper/navigationProxy';
 import { setLanguage } from '../../actions/general';
 import store from '../../config/store';
 import I18n from '../../i18n/i18n';
+import { connectAlert } from '../../components/general/Alert';
+import { setUserVoteTutorialStatusProxy } from '../../helper/userHelper';
 
 const styles = EStyleSheet.create({
   container: {
@@ -213,6 +215,14 @@ class LanguageSelector extends Component {
               }
               setTimeout(() => {
                 popLanguageSelector(this.props);
+
+                this.props.alertWithType(
+                  'info',
+                  I18n.t('vote_tutorial_1_title'),
+                  I18n.t('vote_tutorial_1_text')
+                );
+                setUserVoteTutorialStatusProxy('step2');
+
               }, 500);
             } else {
               const sel = this.state.selected;
@@ -317,4 +327,4 @@ const mapStateToProps = (state) => {
     throw e;
   }
 };
-export default connect(mapStateToProps)(LanguageSelector);
+export default connect(mapStateToProps)(connectAlert(LanguageSelector));

@@ -17,6 +17,7 @@ import {
   SET_USER_IS_LOADING_FROM_STORAGE,
   SET_USER_LOADED_FROM_STORAGE,
   USER_SET_MAP_TUTORIAL_STATUS,
+  USER_SET_VOTE_TUTORIAL_STATUS,
   USER_FLAG_LETTER_FOR_OVERWRITE,
   SET_OWN_PROPOSAL,
   SUCCESS_POST_PROPOSAL,
@@ -342,6 +343,16 @@ export default (state = initialState.user, action) => {
             ...state.map,
             tutorialStatus: action.status,
           },
+        };
+        console.log(result);
+        saveUserToStorage(result);
+        return result;
+      }
+      case USER_SET_VOTE_TUTORIAL_STATUS: {
+        console.log('USER_SET_VOTE_TUTORIAL_STATUS');
+        const result = {
+          ...state,
+          voteTutorialStatus: action.status,
         };
         console.log(result);
         saveUserToStorage(result);

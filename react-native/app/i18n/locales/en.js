@@ -9,6 +9,11 @@ export default {
   challenge: 'TOPIC',
   live_indicator: 'live',
 
+  vote_tutorial_1_title: 'Welcome',
+  vote_tutorial_1_text: 'Below, you can see a list of topics that will be decided by vote. Tap one!',
+  vote_tutorial_2_title: 'Time to swipe!',
+  vote_tutorial_2_text: 'To vote on suggestions for this topic, swipe left or right.',
+
   see_all_votes: 'See past topics',
   hide_all_votes: 'Hide past topcis',
   submit_alert: 'You may only make one suggestion per topic. Are you sure you want to submit this?',
@@ -51,8 +56,8 @@ export default {
   map_letter_friends_label: 'Letters from friends',
   map_show_qr_instruction: 'Ask your friends to scan this code.',
   map_scan_qr_instruction: "Scan your friend's QR code to get their letter.",
-  map_tutorial_1_title: 'Welcome to the FLUX!',
-  map_tutorial_1_text: 'To choose YOUR letter, tap on the + symbol on the bottom left.',
+  map_tutorial_1_title: 'This is the FLUX!',
+  map_tutorial_1_text: 'Choose YOUR letter by tapping on the + symbol on the bottom left.',
   map_tutorial_2_title: 'Well done, [LETTER]!',
   map_tutorial_2_text: 'You can now write on the map by dragging your letter into the circle.',
   map_tutorial_3_title: 'Excellent work!',
@@ -61,20 +66,17 @@ export default {
   camera_button: 'Camera',
   take_picture: 'Take picture EN',
 
-  proposal_blocked:
-    '!\n\n EN We are sorry, but your Submission for VOTE#{NUM} does not comply with our community guidelines. It may be o ensive or inappropriate. Please try with another answer.',
+  proposal_blocked: '!\n\n EN We are sorry, but your Submission for VOTE#{NUM} does not comply with our community guidelines. It may be o ensive or inappropriate. Please try with another answer.',
   proposal_in_review1: 'EN Thank you for your submission for VOTE#{NUM}',
   proposal_in_review2: 'Status: in review EN',
   proposal_passed: 'EN Your submission for VOTE#{NUM} is currently at',
   proposal_rank: 'EN Rank',
   try_again_button: 'Try Again EN',
-  choose_your_letter:
-    'Which letter do you want to be? Choose wisely, you cannot change this for the next 24 hours.',
+  choose_your_letter: 'Which letter do you want to be? Choose wisely, you cannot change this for the next 24 hours.',
   map_too_zoom_title: 'Too high in the sky',
   map_too_zoom_text: 'Zoom in to the circle place letters!',
   map_too_crowded_title: 'Too crowded',
-  map_too_crowded_text:
-    'There are too many letters in this area. Please write somewhere else or wait.',
+  map_too_crowded_text: 'There are too many letters in this area. Please write somewhere else or wait.',
   map_too_far_title: 'Too far away',
   map_too_far_text: 'You cannot write outside the circle around you.',
   map_photo_save_title: 'Saved',

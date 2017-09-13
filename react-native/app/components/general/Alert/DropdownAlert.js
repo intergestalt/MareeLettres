@@ -369,11 +369,11 @@ export default class DropdownAlert extends Component {
     if (this.props.enableCancel) {
       return (
         <TouchableOpacity onPress={onPress}>
-          <Text style={style} />
+          <Text style={style}>OK</Text>
         </TouchableOpacity>
       );
     }
-    return <Text style={style} />;
+    return <Text style={style}>OK</Text>;
   }
   renderDropDown(isOpen) {
     if (isOpen == true) {
@@ -425,7 +425,7 @@ export default class DropdownAlert extends Component {
                   this.props.messageStyle,
                   this.props.messageNumOfLines,
                 )}
-                {/* this.renderButton(this.props.buttonStyle, this.onClose) */}
+                {this.renderButton(this.props.buttonStyle, this.onClose)}
               </View>
             </TouchableOpacity>
           </LinearGradient>

@@ -13,6 +13,7 @@ import {
   flagLetterForOverwrite,
   addFriendLetter,
   setUserMapTutorialStatus,
+  setUserVoteTutorialStatus
 } from '../actions/user';
 
 import store from '../config/store';
@@ -51,4 +52,8 @@ export function setUserLetterProxy(char) {
 
 export function setUserMapTutorialStatusProxy(char) {
   store.dispatch(setUserMapTutorialStatus(char));
+}
+
+export function setUserVoteTutorialStatusProxy(char) {
+  store.dispatch(setUserVoteTutorialStatus(char));
 }

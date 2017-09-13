@@ -23,6 +23,7 @@ import { ReloadButton } from '../../../components/general/ReloadButton';
 import { isFinishedSuggest } from '../../../helper/dateFunctions';
 import I18n from '../../../i18n/i18n';
 import { connectAlert } from '../../../components/general/Alert';
+import { setUserVoteTutorialStatusProxy } from '../../../helper/userHelper';
 
 class ChallengeContainer extends Component {
   static propTypes = {
@@ -70,6 +71,15 @@ class ChallengeContainer extends Component {
   }
   componentDidMount() {
     startChallengeTicker(this.props);
+
+    if(this.props.voteTutorialStatus == "step2") {
+      this.props.alertWithType(
+        'info',
+        I18n.t('vote_tutorial_2_title'),
+        I18n.t('vote_tutorial_2_text')
+      );
+      setUserVoteTutorialStatusProxy('step3');  
+    }
   }
 
   handleSharePress() {
@@ -455,6 +465,7 @@ const mapStateToProps = (state) => {
       isLoading,
       language: state.globals.language,
       userChallenges: state.user.challenges,
+      voteTutorialStatus: state.user.voteTutorialStatus
     };
   } catch (e) {
     console.log('ChallengeContainer');
