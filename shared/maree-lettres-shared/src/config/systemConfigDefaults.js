@@ -15,6 +15,10 @@ const systemConfigDefaults = {
         defaultValue: 300,
         title: 'Interval at which TinderProposals get regenerated on Server (seconds)'
     },
+    trending_regeneration_interval: {
+        defaultValue: 60,
+        title: 'Interval at which Trends get calculated on Server (seconds)'
+    },
     map_update_interval: {
         defaultValue: 10,
         title: 'Map: Update interval when map screen is open'

@@ -29,6 +29,10 @@ const SystemConfigSchema = new SimpleSchema(
             type: SimpleSchema.Integer,
             ...systemConfigDefaults.tinder_proposals_regeneration_interval,
         },
+        trending_regeneration_interval: {
+            type: SimpleSchema.Integer,
+            ...systemConfigDefaults.trending_regeneration_interval,
+        },
         map_update_interval: {
             type: SimpleSchema.Integer,
             ...systemConfigDefaults.map_update_interval,
@@ -101,7 +105,7 @@ const SystemConfigSchema = new SimpleSchema(
         map_primary_letter_reset: {
             type: SimpleSchema.Integer,
             min: 1,
-            ...systemConfigDefaults.map_primary_letter_reset,  
+            ...systemConfigDefaults.map_primary_letter_reset,
         },
         stream_twitter_handle: {
             type: String,

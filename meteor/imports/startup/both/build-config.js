@@ -18,7 +18,7 @@ export default buildConfig = {
             sort: {
                 popular: { score: -1, yes_votes: -1 },
                 newest: { created_at: -1 },
-                trending: { score_trending: -1 },
+                trending: { score_trending: -1, score: -1, created_at: -1 },
             }
         },
     },

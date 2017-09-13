@@ -20,3 +20,4 @@ import './register-rest';
 // worker
 import './elect-winner';
 import './tinder-regenerate';
+import './trending-regenerate';
