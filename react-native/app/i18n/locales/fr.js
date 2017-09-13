@@ -9,9 +9,21 @@ export default {
   challenge: 'THEME',
   live_indicator: 'en direct',
 
-  vote_tutorial_1_title: 'Welcome',
-  vote_tutorial_1_text: 'Below, you can see a list of topics that will be decided by vote.',
-
+  vote_tutorial_1_title: 'Welcome!',
+  vote_tutorial_1_text: 'Below is a list of topics up for vote. Tap on an entry and have a look around...',
+  vote_tutorial_2_title: 'Time to swipe!',
+  vote_tutorial_2_text: 'To vote on suggestions for this topic, swipe left or right.',
+  vote_tutorial_3_title: 'Good swiping!',
+  vote_tutorial_3_text: 'If you are an organized person, tap on list to see all suggestions for this topic.',
+  vote_tutorial_4_title: 'The List!',
+  vote_tutorial_4_text: 'You can always change your mind about everything. Try it by tapping x or check!',
+  vote_tutorial_5_title: 'Not bad! Check.',
+  vote_tutorial_5_text: 'Now how about making a suggestion yourself? Tap on suggest!',
+  vote_tutorial_6_title: 'Your turn to write!',
+  vote_tutorial_6_text: 'Drag the letters from the bottom onto the writing area with your finger.',
+  vote_tutorial_7_title: 'By the way...',
+  vote_tutorial_7_text: 'You can always get back to the overview by tapping on a topic at the top.',
+    
   proposal_list_header_most: 'Top',
   proposal_list_header_newest: 'Dernier',
   proposal_list_header_trending: 'Tendances',
@@ -57,16 +69,20 @@ export default {
   map_tutorial_1_title: 'Welcome to the FLUX!',
   map_tutorial_1_text: 'To choose YOUR letter, tap on the + symbol right under You.',
   map_tutorial_2_title: 'Bien joué, [LETTER]!',
-  map_tutorial_2_text: 'Vous pouvez désormais écrire sur la carte en déplaçant votre lettre dans le cercle.',
+  map_tutorial_2_text:
+    'Vous pouvez désormais écrire sur la carte en déplaçant votre lettre dans le cercle.',
   map_tutorial_3_title: 'Excellent work!',
-  map_tutorial_3_text: 'Want to write with different letters? Get letters from your friends by scanning their QR code. Tap the Get Letters below.',
+  map_tutorial_3_text:
+    'Want to write with different letters? Get letters from your friends by scanning their QR code. Tap the Get Letters below.',
   center_map: 'Centre map',
   camera_button: 'Camera',
-  choose_your_letter: 'Quelle lettre souhaitez-vous être? Choisissez bien, vous ne pourrez changer de lettre pendant 24h.',
+  choose_your_letter:
+    'Quelle lettre souhaitez-vous être? Choisissez bien, vous ne pourrez changer de lettre pendant 24h.',
   map_too_zoom_title: 'Too high in the sky',
   map_too_zoom_text: 'Zoom in to the circle place letters!',
   map_too_crowded_title: 'Too crowded',
-  map_too_crowded_text: 'There are too many letters in this area. Please write somewhere else or wait.',
+  map_too_crowded_text:
+    'There are too many letters in this area. Please write somewhere else or wait.',
   map_too_far_title: 'Too far away',
   map_too_far_text: 'You cannot write outside the circle around you.',
   map_photo_save_title: 'Saved',
@@ -76,7 +92,8 @@ export default {
 
   take_picture: 'Take picture FR',
 
-  proposal_blocked: '!\n\n FR We are sorry, but your Submission for VOTE#{NUM} does not comply with our community guidelines. It may be o ensive or inappropriate. Please try with another answer.',
+  proposal_blocked:
+    '!\n\n FR We are sorry, but your Submission for VOTE#{NUM} does not comply with our community guidelines. It may be o ensive or inappropriate. Please try with another answer.',
   proposal_in_review1: 'FR Thank you for your submission for VOTE#{NUM}',
   proposal_in_review2: 'Status: in review FR',
   proposal_passed: 'FR Your submission for VOTE#{NUM} is currently at',
@@ -85,4 +102,7 @@ export default {
 
   suggestion_too_late_title: 'FR Too late!',
   suggestion_too_late_text: 'FR Suggestions closed already. Sorry <3',
+  suggestion_empty_title: 'FR !',
+  suggestion_empty_text: 'FR You must at least drag one letter.',
+  suggestion_wrong: 'FR Oups. Something did not work. Sorry!',
 };

@@ -15,14 +15,14 @@ const styles = EStyleSheet.create({
     backgroundColor: '$backgroundColorMenuItem',
   },
   text: {
-    color: 'black',
+    color: 'magenta',
     fontSize: '1.25rem',
     lineHeight: '2rem',
     textAlign: 'center',
     fontFamily: 'impact',
   },
   textWhite: {
-    color: 'white',
+    color: 'magenta',
     fontSize: '1.25rem',
     lineHeight: '2rem',
     textAlign: 'center',
@@ -32,15 +32,15 @@ const styles = EStyleSheet.create({
     position: 'absolute',
     top: '0%',
     left: '0%',
+    zIndex: 5,
     padding: 20,
     paddingLeft: 20,
-    backgroundColor: 'transparent'
+    backgroundColor: 'transparent',
   },
   textSimple: {
     color: 'black',
     fontSize: '2rem',
     textAlign: 'center',
-    fontFamily: 'impact'
   },
   textSimpleWhite: {
     color: 'white',

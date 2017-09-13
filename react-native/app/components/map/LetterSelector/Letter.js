@@ -27,8 +27,12 @@ class LetterSelectorWindow extends Component {
   onPress = (char) => {
     setUserLetterProxy(char);
     if (this.props.user.map.tutorialStatus == 'step2') {
-        this.props.alertWithType('info', I18n.t('map_tutorial_2_title').replace('[LETTER]', char), I18n.t('map_tutorial_2_text'));        
-        setUserMapTutorialStatusProxy('step3');
+      this.props.alertWithType(
+        'info',
+        I18n.t('map_tutorial_2_title').replace('[LETTER]', char),
+        I18n.t('map_tutorial_2_text'),
+      );
+      setUserMapTutorialStatusProxy('step3');
     }
     dispatchBackActionToMapOverview(this.props, MAP_VIEWS.OVERVIEW);
   };
@@ -40,9 +44,7 @@ class LetterSelectorWindow extends Component {
   keyboard(item, i) {
     return (
       <TouchableOpacity key={i} onPress={() => this.onPress(item)}>
-        <Text style={styles.key}>
-          {item}
-        </Text>
+        <Text style={styles.key}>{item}</Text>
       </TouchableOpacity>
     );
   }
@@ -62,19 +64,11 @@ class LetterSelectorWindow extends Component {
     return (
       <View style={styles.container}>
         <BackSimple onPress={() => this.handleBackPress()} />
-        <Text style={styles.text}>
-          {I18n.t('choose_your_letter')}
-        </Text>
+        <Text style={styles.text}>{I18n.t('choose_your_letter')}</Text>
         <View style={styles.keyboard}>
-          <View style={styles.keyboard__row}>
-            {rowTop}
-          </View>
-          <View style={styles.keyboard__row}>
-            {rowMid}
-          </View>
-          <View style={styles.keyboard__row}>
-            {rowBottom}
-          </View>
+          <View style={styles.keyboard__row}>{rowTop}</View>
+          <View style={styles.keyboard__row}>{rowMid}</View>
+          <View style={styles.keyboard__row}>{rowBottom}</View>
         </View>
       </View>
     );

@@ -22,6 +22,7 @@ import { listIsEmpty } from '../../../helper/helper';
 import { ReloadButton } from '../../../components/general/ReloadButton';
 import { isFinishedSuggest, isFinished } from '../../../helper/dateFunctions';
 import I18n from '../../../i18n/i18n';
+
 import { connectAlert } from '../../../components/general/Alert';
 import { setUserVoteTutorialStatusProxy } from '../../../helper/userHelper';
 
@@ -71,15 +72,7 @@ class ChallengeContainer extends Component {
   }
   componentDidMount() {
     startChallengeTicker(this.props);
-
-    if (this.props.voteTutorialStatus == 'step2') {
-      this.props.alertWithType(
-        'info',
-        I18n.t('vote_tutorial_2_title'),
-        I18n.t('vote_tutorial_2_text'),
-      );
-      setUserVoteTutorialStatusProxy('step3');
-    }
+    this.checkForTutorial();
   }
 
   handleSharePress() {
@@ -290,6 +283,20 @@ class ChallengeContainer extends Component {
     });
   }
 
+  // Tutorial
+
+  checkForTutorial() {
+    // TODO - display the right toturial message here
+    //if(this.props.voteTutorialStatus == "step2") {
+      /*this.props.alertWithType(
+        'info',
+        I18n.t('vote_tutorial_7_title'),
+        I18n.t('vote_tutorial_7_text')
+      );*/
+      //setUserVoteTutorialStatusProxy('step3');  
+    //}
+  }
+  
   // Navigation logic
 
   navigateDownPress() {
@@ -364,6 +371,8 @@ class ChallengeContainer extends Component {
       const t2 = new Date().getTime();
       console.log(`Time For Update List: ${t2 - t1}`);
       this.navigationEnabled = true;
+
+      this.checkForTutorial();
     }, 1);
   }
 
