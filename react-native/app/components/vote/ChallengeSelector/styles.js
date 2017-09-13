@@ -18,13 +18,18 @@ const styles = EStyleSheet.create({
     flexDirection: 'column',
     width: '$swipeWidth',
     left: 0,
+    borderRightWidth: 2,
+    borderLeftWidth: 2,
+    borderColor: 'transparent',
   },
   detailContainerLeft: {
     borderRightWidth: 2,
+    borderLeftWidth: 2,
     borderColor: 'magenta',
   },
   detailContainerRight: {
     borderLeftWidth: 2,
+    borderRightWidth: 2,
     borderColor: 'magenta',
   },
 
@@ -81,11 +86,7 @@ const styles = EStyleSheet.create({
   // Content
   tinderContainer: {
     flexDirection: 'row',
-    position: 'absolute',
-    left: 0,
-    width: '$swipeWidth',
-    top: 0,
-    bottom: 0,
+
     flex: 1,
     overflow: 'hidden',
     alignItems: 'center',

@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { Text, View, Animated, PanResponder } from 'react-native';
+import { Text, View, Animated, PanResponder, Image } from 'react-native';
 import { connect } from 'react-redux';
 
 import styles from './styles';
@@ -20,7 +20,7 @@ import { PROPOSAL_VIEWS, PROPOSAL_LIST_MODES } from '../../../consts';
 import { DYNAMIC_CONFIG } from '../../../config/config';
 import { listIsEmpty } from '../../../helper/helper';
 import { ReloadButton } from '../../../components/general/ReloadButton';
-import { isFinishedSuggest } from '../../../helper/dateFunctions';
+import { isFinishedSuggest, isFinished } from '../../../helper/dateFunctions';
 import I18n from '../../../i18n/i18n';
 import { connectAlert } from '../../../components/general/Alert';
 import { setUserVoteTutorialStatusProxy } from '../../../helper/userHelper';
@@ -72,13 +72,13 @@ class ChallengeContainer extends Component {
   componentDidMount() {
     startChallengeTicker(this.props);
 
-    if(this.props.voteTutorialStatus == "step2") {
+    if (this.props.voteTutorialStatus == 'step2') {
       this.props.alertWithType(
         'info',
         I18n.t('vote_tutorial_2_title'),
-        I18n.t('vote_tutorial_2_text')
+        I18n.t('vote_tutorial_2_text'),
       );
-      setUserVoteTutorialStatusProxy('step3');  
+      setUserVoteTutorialStatusProxy('step3');
     }
   }
 
@@ -111,6 +111,12 @@ class ChallengeContainer extends Component {
 
   loadProposals(index, view, listmode) {
     if (index < 0 || index > this.props.challenges.length - 1) return;
+    const challenge = this.props.challenges[index];
+    if (isFinished(challenge)) {
+      if (view === PROPOSAL_VIEWS.TINDER) {
+        return;
+      }
+    }
     const proposalId = this.props.challenges[index]._id;
     let limit = -1;
     if (view === PROPOSAL_VIEWS.LIST) {
@@ -118,6 +124,7 @@ class ChallengeContainer extends Component {
     } else {
       limit = DYNAMIC_CONFIG.DEFAULT_PROPOSAL_TINDER_LIMIT;
     }
+    console.log(`LOAD PROPOSALS ${DYNAMIC_CONFIG.LOAD_QUIET_CHALLENGE_SELECTOR.bool}`);
     if (
       !loadProposalsServiceProxy(
         false,
@@ -372,7 +379,7 @@ class ChallengeContainer extends Component {
   renderIsLoading() {
     return (
       <View style={styles.container}>
-        <Text>Loading Challenges...</Text>
+        <Text>Loading...</Text>
       </View>
     );
   }
@@ -465,7 +472,7 @@ const mapStateToProps = (state) => {
       isLoading,
       language: state.globals.language,
       userChallenges: state.user.challenges,
-      voteTutorialStatus: state.user.voteTutorialStatus
+      voteTutorialStatus: state.user.voteTutorialStatus,
     };
   } catch (e) {
     console.log('ChallengeContainer');

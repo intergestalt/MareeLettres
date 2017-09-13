@@ -38,11 +38,7 @@ class ChallengeHeadInactive extends Component {
     }
     return (
       <View style={containerStyle}>
-        {!this.props.hideTicker &&
-          <Text style={styles.ticker}>
-            {myEndString}
-          </Text>
-        }
+        {!this.props.hideTicker ? <Text style={styles.ticker}>{myEndString}</Text> : null}
         <Text style={styles.title}>
           {this.props.data.title ? this.props.data.title.toUpperCase() : '-'}
         </Text>
