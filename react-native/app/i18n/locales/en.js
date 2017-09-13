@@ -9,7 +9,7 @@ export default {
   live_indicator: 'live',
 
   vote_tutorial_1_title: 'Welcome!',
-  vote_tutorial_1_text: 'Below is a list of topics that you can vote on. Find a topic you find interesting and tap on it!',
+  vote_tutorial_1_text: 'Below is a list of topics that you can vote on. Find an interesting topic and tap on it!',
   vote_tutorial_2_title: 'Time to swipe!',
   vote_tutorial_2_text: 'Swipe left or right to vote on suggestions made by other people.',
   vote_tutorial_3_title: 'Good swiping!',
