@@ -4,8 +4,6 @@ import { StatusBar, Text } from 'react-native';
 import { Screen } from '../../components/general/Container';
 import { ProposalSubmitter } from '../../components/vote/Submit';
 
-import SimpleSubmit from '../../components/vote/SimpleSubmit';
-
 class Submit extends Component {
   constructor(props) {
     super(props);
@@ -27,7 +25,6 @@ class Submit extends Component {
         <StatusBar />
         {/* <BackSimple colour="black" onPress={() => this.handleBackPress()} /> */}
         <ProposalSubmitter navigation={this.props.navigation} challenge={challenge} />
-        {/* <SimpleSubmit challenge={challenge} /> */}
       </Screen>
     );
   }

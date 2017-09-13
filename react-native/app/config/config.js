@@ -1,7 +1,7 @@
 /* BEGIN SET YOUR LOCAL IP ADDRESS HERE */
 
-// const DEV_MAREE_SERVER_ADDRESS = `${Expo.Constants.linkingUri.match(/:\/\/(.*):/)[1]}:3000`;
-const DEV_MAREE_SERVER_ADDRESS = 'maree.herokuapp.com';
+const DEV_MAREE_SERVER_ADDRESS = `${Expo.Constants.linkingUri.match(/:\/\/(.*):/)[1]}:3000`;
+//const DEV_MAREE_SERVER_ADDRESS = 'maree.herokuapp.com';
 
 /* END SET YOUR LOCAL IP ADDRESS HERE */
 

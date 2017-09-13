@@ -11,6 +11,10 @@ import { userVoteInternal } from '../../../actions/user';
 import { deleteProposalFromTinderList } from '../../../actions/proposals';
 import { PROPOSAL_LIST_MODES } from '../../../consts';
 
+import I18n from '../../../i18n/i18n';
+import { connectAlert } from '../../../components/general/Alert';
+import { setUserVoteTutorialStatusProxy } from '../../../helper/userHelper';
+
 class ProposalList extends PureComponent {
   static propTypes = {
     challenges: PropTypes.array,
@@ -33,6 +37,18 @@ class ProposalList extends PureComponent {
     this.onPullDownRefresh = this.onPullDownRefresh.bind(this);
     this.onEndReached = this.onEndReached.bind(this);
   }
+
+  componentWillMount() {
+    if(this.props.voteTutorialStatus == "step4" && this.props.challengeOffset == 0) {
+      this.props.alertWithType(
+        'info',
+        I18n.t('vote_tutorial_4_title'),
+        I18n.t('vote_tutorial_4_text')
+      );
+      setUserVoteTutorialStatusProxy('step5');  
+    }
+  }
+
   onPullDownRefresh() {
     const id = this.props.challenges[this.props.selectedChallengeIndex]._id;
 
@@ -81,6 +97,16 @@ class ProposalList extends PureComponent {
   onVotePress(proposalId, challengeId, yes) {
     this.props.dispatch(userVoteInternal(proposalId, yes));
     this.props.dispatch(deleteProposalFromTinderList(challengeId, proposalId));
+
+    if(this.props.voteTutorialStatus == 'step5') {
+      this.props.alertWithType(
+          'info',
+          I18n.t('vote_tutorial_5_title'),
+          I18n.t('vote_tutorial_5_text')
+      );
+      setUserVoteTutorialStatusProxy('step6');
+    }        
+
   }
 
   getChallenge() {
@@ -99,6 +125,7 @@ class ProposalList extends PureComponent {
   }
 
   render() {
+    I18n.locale = this.props.language;
     let myRefCallback = null;
     if (this.props.setFlatlistRef) {
       myRefCallback = (ref) => {
@@ -187,6 +214,8 @@ const mapStateToProps = (state, ownProps) => {
       isPullUpLoading,
       lastLimit,
       proposalListMode,
+      language: state.globals.language,
+      voteTutorialStatus: state.user.voteTutorialStatus,
     };
   } catch (e) {
     console.log('ProposalList');
@@ -194,4 +223,4 @@ const mapStateToProps = (state, ownProps) => {
     throw e;
   }
 };
-export default connect(mapStateToProps)(ProposalList);
+export default connect(mapStateToProps)(connectAlert(ProposalList));
