@@ -49,7 +49,7 @@ class DraggableLetter extends Component {
           },
         ],
       };
-      cursorColor = '#aa00FF';
+      cursorColor = styles._cursor.color;
     }
     let myCharacter = this.props.character;
     if (this.props.space && this.props.type === 1) {

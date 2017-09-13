@@ -79,6 +79,9 @@ const styles = EStyleSheet.create({
   letterContainer: {
     position: 'absolute',
   },
+  cursor: {
+    color: '$draggingLetterCursorColor',
+  },
   space: {},
   submitButton: {
     height: '3.5rem',
