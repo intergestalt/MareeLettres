@@ -344,7 +344,6 @@ class ChallengeContent extends Component {
   };
   renderFinished() {
     const url = this.getAnswerImgUrl();
-
     if (url) {
       return (
         <View style={styles.challengeContent}>

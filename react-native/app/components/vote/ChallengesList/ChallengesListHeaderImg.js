@@ -5,7 +5,6 @@ import { DYNAMIC_CONFIG } from '../../../config/config';
 
 class ChallengesListHeaderImg extends Component {
   static propTypes = {};
-
   render() {
     return (
       <View style={styles.listHeaderContainer}>
