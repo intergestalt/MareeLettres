@@ -406,10 +406,8 @@ class ChallengeContent extends Component {
     }
     if (this.isFinished()) {
       if (this.props.proposalView === PROPOSAL_VIEWS.TINDER) {
-        console.log('RENDER FINISHED');
         return this.renderFinished();
       }
-      console.log('RENDER LIST');
       return this.renderList();
     }
     if (listIsEmpty(this.props.proposals)) {
