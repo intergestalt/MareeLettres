@@ -1128,7 +1128,7 @@ class ProposalSubmitter extends Component {
             style={styles.yesButton}
             onPress={() => this.handleSubmitConfirmedPress(this.state.submitView)}
           >
-            <Text style={styles.submitButtonText}>{I18n.t('submit_yes').toUpperCase()}</Text>
+            <Text style={[styles.submitButtonText, styles.blackTextColor]}>{I18n.t('submit_yes').toUpperCase()}</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.noButton}

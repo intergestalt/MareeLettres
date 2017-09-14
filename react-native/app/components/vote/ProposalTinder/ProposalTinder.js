@@ -50,7 +50,7 @@ class ProposalTinder extends Component {
   renderNoTinder(myStyle) {
     return (
       <View style={myStyle}>
-        <ReloadButton textKey="reload_proposals" onReload={null} />
+        <ReloadButton textKey="reload_proposals_tinder" onReload={null} />
       </View>
     );
   }

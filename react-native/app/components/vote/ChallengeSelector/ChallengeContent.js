@@ -383,7 +383,11 @@ class ChallengeContent extends Component {
   renderEmptyList() {
     return (
       <View style={styles.challengeContent}>
+        {this.props.proposalView === PROPOSAL_VIEWS.TINDER ? (
+        <ReloadButton textKey="reload_proposals_tinder" onReload={this.handleReloadPressPress} />
+        ) : (
         <ReloadButton textKey="reload_proposals" onReload={this.handleReloadPressPress} />
+        )}
       </View>
     );
   }
