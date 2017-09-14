@@ -37,16 +37,16 @@ class ReviewPage extends Component {
     return (
       <AdminWrapper>
         <Menu />
-        <ReviewPanel name="Unreviewed" challenges={this.props.challenges} proposals={this.props.in_review} onAccept={this.handleAcception} onReject={this.handleRejection} />
-        <ReviewPanel name="Accepted" challenges={this.props.challenges} proposals={this.props.accepted} onAccept={this.handleAcception} onReject={this.handleRejection} />
-        <ReviewPanel name="Rejected" challenges={this.props.challenges} proposals={this.props.rejected} onAccept={this.handleAcception} onReject={this.handleRejection} />
+        <ReviewPanel name="Unreviewed (max:50)" challenges={this.props.challenges} proposals={this.props.in_review} onAccept={this.handleAcception} onReject={this.handleRejection} />
+        <ReviewPanel name="Accepted (max:5)" challenges={this.props.challenges} proposals={this.props.accepted} onAccept={this.handleAcception} onReject={this.handleRejection} />
+        <ReviewPanel name="Rejected (max:5)" challenges={this.props.challenges} proposals={this.props.rejected} onAccept={this.handleAcception} onReject={this.handleRejection} />
       </AdminWrapper>
     );
   }
 }
 
 export default createContainer(() => {
-  Meteor.subscribe('get.proposals.in_review', { limit: 5 });
+  Meteor.subscribe('get.proposals.in_review', { limit: 50 });
   Meteor.subscribe('get.proposals.recently_accepted', { limit: 5 });
   Meteor.subscribe('get.proposals.recently_rejected', { limit: 5 });
   Meteor.subscribe('get.challenges')
