@@ -165,7 +165,7 @@ export default (state = initialState.challenges, action) => {
               if (challengeIndex === -1) {
                 challengeId = null;
                 challengeView = CHALLENGE_VIEWS.LIST;
-
+                console.log('HERE 1');
                 popChallengeSelector(action.action.props, false);
               }
             }
@@ -206,9 +206,9 @@ export default (state = initialState.challenges, action) => {
           challengeId = null;
         }
 
-        if (challengeIndex === -1) {
+        if (challengeIndex === -1 && challengeView === CHALLENGE_VIEWS.DETAIL) {
           challengeView = CHALLENGE_VIEWS.LIST;
-
+          console.log('HERE 2');
           popChallengeSelector(action.props, false);
         }
         const newState = {
@@ -258,6 +258,7 @@ export default (state = initialState.challenges, action) => {
         let challengeView = state.challengeView;
         if (listIsEmpty(challenges.challenges)) {
           challengeView = CHALLENGE_VIEWS.LIST;
+          console.log('HERE 3');
           popChallengeSelector(action.props, false);
         }
         const result = {
