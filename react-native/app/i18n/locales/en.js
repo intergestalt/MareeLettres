@@ -22,7 +22,7 @@ export default {
   vote_tutorial_6_text: 'Drag the letters onto the writing area with your finger. You can also drag them back.',
   vote_tutorial_7_title: 'By the way...',
   vote_tutorial_7_text: 'You can always get back to the overview by tapping on the gray bar at the top.',
-  vote_tutorial_status_title: 'Info',
+  vote_tutorial_status_title: 'Good to know',
   vote_tutorial_status_text: 'You can always check on your suggestion by tapping STATUS',
 
   see_all_votes: 'See past topics',
@@ -78,7 +78,7 @@ export default {
   
   choose_your_letter: 'Which letter do you want to be? Choose wisely, you cannot change this for the next [HOURS] hours.',
   map_too_zoom_title: 'Too high in the sky',
-  map_too_zoom_text: 'Zoom in to the circle place letters!',
+  map_too_zoom_text: 'Zoom in to the circle to place letters!',
   map_too_crowded_title: 'Too crowded',
   map_too_crowded_text: 'There are too many letters in this area. Please write somewhere else or wait.',
   map_too_far_title: 'Too far away',
