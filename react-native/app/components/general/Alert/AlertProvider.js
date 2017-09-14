@@ -35,7 +35,7 @@ class AlertProvider extends Component {
       <View style={{ flex: 1 }}>
         {React.Children.only(this.props.children)}
         <DropdownAlert
-          closeInterval={10000}
+          closeInterval={14000}
           enableCancel={false}
           tapToCloseEnabled
           panResponderEnabled={false}
