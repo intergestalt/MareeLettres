@@ -88,7 +88,7 @@ const systemConfigDefaults = {
         title: 'Stream: The twitter handle'
     },
     challenge_list_image_url: {
-        defaultValue: 'http://maree.herokuapp.com/img/challenges_start.jpg',
+        defaultValue: 'http://sebquack.perseus.uberspace.de/maree/title.jpg',
         title: 'Image for topic list'
     }
 };
