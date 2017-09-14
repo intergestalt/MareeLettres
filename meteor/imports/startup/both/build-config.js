@@ -16,7 +16,7 @@ export default buildConfig = {
     queries: {
         proposals: {
             sort: {
-                popular: { score: -1, yes_votes: -1 },
+                popular: { score: -1, yes_votes: -1, no_votes: 1, created_at: 1, text: 1 }, // text to ensure equal ranks everywhere
                 newest: { created_at: -1 },
                 trending: { score_trending: -1, score: -1, created_at: -1 },
             }

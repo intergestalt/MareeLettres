@@ -30,14 +30,24 @@ class Filter extends Component {
   }
 
   sortFieldOptions() {
-    console.log(this.props.schema._schema)
-    return Object.entries( this.props.schema._schema).map((entry)=>{
+    let options = Object.entries( this.props.schema._schema).map((entry)=>{
         const key = entry[0]
         const field = entry[1]
         const type = field.type.definitions[0].type.name
         const label = field.label || key
         return <option key={key} value={key}>{label}</option>
     })
+    if (this.props.additionalSorts) {
+        const additional_options = this.props.additionalSorts.map((name)=>{
+            return <option key={name} value={name}>{name}</option>
+        })
+        options = options.concat(additional_options);
+    }
+    return options;
+  }
+
+  sortOrderFieldOptions() {
+    return ([<option value="asc">asc</option>, <option value="desc">desc</option>]);
   }
 
   searchFieldOptions() {
@@ -60,8 +70,7 @@ class Filter extends Component {
                 {this.sortFieldOptions()}
             </select>
             <select value={this.state.filter.sortOrder} name="sortOrder" onChange={this.handleFilterChange}>
-                <option value="asc">asc</option>
-                <option value="desc">desc</option>
+                {this.sortOrderFieldOptions()}
             </select>
             { this.state.formChanged && <input type="submit" value="Apply" /> }
         </form>
