@@ -1,5 +1,6 @@
 <html>
   <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <script type='text/javascript' src='widgets.js'></script>
     <script type='text/javascript' src='jquery-3.2.1.min.js'></script>
     <style type='text/css'>
@@ -16,22 +17,32 @@
         padding: 0;
         font-family: fontNormal;
       }
+      #twitter-widget-0 {
+        width: 100% !important;
+      }
       .hidden {
         opacity: 0;
       }
       #timeline {
-        height: 50vh;
+        padding-top: 1vh;
+        height: 100vh;
+      }
+      .timeline-Widget {
+        width: 100%;
       }
       .timeline-Body {
         border-top: none;
         border-bottom: none;
       }
       .timeline-Tweetlist-tweet {
-        padding: 16px 32px 16px 32px;
-        border-bottom: 1px solid black;
+        padding: 16px 32px 5px 20px;
+        /*border-bottom: 1px solid black;*/
       }
       .timeline-Tweet {
         padding: 0;
+      }
+      .timeline-Tweet-text {
+        float: left;
       }
       .timeline-Tweetlist-name {
         font-family: fontBold;
