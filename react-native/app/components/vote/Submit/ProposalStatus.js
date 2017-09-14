@@ -11,6 +11,9 @@ import { loadProposalServiceProxy } from '../../../helper/apiProxy';
 import { VoteMark } from '../VoteMark/';
 import { getProposalVotesWithUser } from '../../../helper/proposalsHelper';
 
+import { connectAlert } from '../../../components/general/Alert';
+import { setUserVoteTutorialStatusProxy } from '../../../helper/userHelper';
+
 class ProposalStatus extends Component {
   static propTypes = {
     language: PropTypes.string,
@@ -20,6 +23,18 @@ class ProposalStatus extends Component {
     onTryAgainPressed: PropTypes.func,
     voteMap: PropTypes.object,
   };
+
+  componentWillUnmount() {
+    console.log("unmount");
+    if(!this.props.voteTutorialStatus.status && this.props.voteTutorialStatus.back) {
+      this.props.alertWithType(
+          'info',
+          I18n.t('vote_tutorial_status_title'),
+          I18n.t('vote_tutorial_status_text')
+        );
+      setUserVoteTutorialStatusProxy("status");
+    }
+  }
 
   handleReloadPressPress = () => {
     loadProposalServiceProxy(this.props.challenge._id, false);
@@ -170,6 +185,7 @@ const mapStateToProps = (state, props) => {
       challenge,
       userChallenge,
       voteMap,
+      voteTutorialStatus: state.user.voteTutorialStatus
     };
   } catch (e) {
     console.log('ProposalStatus');
@@ -177,4 +193,4 @@ const mapStateToProps = (state, props) => {
     throw e;
   }
 };
-export default connect(mapStateToProps)(ProposalStatus);
+export default connect(mapStateToProps)(connectAlert(ProposalStatus));

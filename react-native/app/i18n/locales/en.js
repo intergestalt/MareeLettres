@@ -22,6 +22,8 @@ export default {
   vote_tutorial_6_text: 'Drag the letters onto the writing area with your finger. You can also drag them back.',
   vote_tutorial_7_title: 'By the way...',
   vote_tutorial_7_text: 'You can always get back to the overview by tapping on the gray bar at the top.',
+  vote_tutorial_status_title: 'Info',
+  vote_tutorial_status_text: 'You can always check on your suggestion by tapping STATUS',
 
   see_all_votes: 'See past topics',
   hide_all_votes: 'Hide past topcis',
@@ -29,7 +31,7 @@ export default {
   submit_alert: 'You may only make one suggestion per topic. Are you sure you want to submit this?',
   submit_yes: 'Yes',
   submit_no: 'No',
-  
+
   proposal_list_header_most: 'Top',
   proposal_list_header_newest: 'Newest',
   proposal_list_header_trending: 'Trending',
