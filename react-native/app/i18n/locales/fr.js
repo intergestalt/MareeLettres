@@ -47,6 +47,7 @@ export default {
 
   reload_challenges: 'No topics found. Press to Reload',
   reload_proposals: 'No suggestions found. Press to Reload',
+  reload_proposals_tinder: 'No more new suggestions to swipe. Press to reload or go to LIST to see all.',
   reload_content: 'Content not loaded yet. Press to Reload',
   reload_user: 'User could not be loaded or created. Check your network connection.',
   reload_proposal: 'Your proposal could not be loaded. Press to Reload',
