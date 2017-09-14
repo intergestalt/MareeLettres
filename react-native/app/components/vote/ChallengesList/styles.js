@@ -81,7 +81,7 @@ const styles = EStyleSheet.create({
     height: '10rem',
   },
 
-  showAllButtonContainer: { backgroundColor: 'black', width: '100%' },
+  showAllButtonContainer: { backgroundColor: '$seePastTopicsButtonColor', width: '100%' },
   showAllButton: {
     height: '3.5rem',
     paddingTop: '0.4rem',

@@ -6,6 +6,7 @@ const globalStyles = {
     $highlightDraggingLetterColor: 'rgb(245,132,102)',
     $draggingLetterCursorColor: 'rgb(90, 88, 112)',
     $statusBarColor: 'rgb(90,88,112)',
+    $seePastTopicsButtonColor: 'rgb(90,88,112)',
     $strokeWidth: 1,
     $proposalPaddingHorizontal: '10%',
     outline: 0, // set to 1 to see the elements boundaries
