@@ -7,18 +7,18 @@ export default EStyleSheet.create({
     flex: 1,
     backgroundColor: 'gray'
   },
-  cameraContainer: { 
+  cameraContainer: {
     position: 'absolute',
     top: 0,
-    height: '100%', 
+    height: '100%',
     width: '100%',
-    backgroundColor: 'transparent', 
+    backgroundColor: 'transparent',
     zIndex: 1
   },
   photoContainer: {
     position: 'absolute',
     top: 0,
-    height: '100%', 
+    height: '100%',
     width: '100%',
     backgroundColor: 'transparent',
     zIndex: 2
@@ -41,21 +41,39 @@ export default EStyleSheet.create({
     justifyContent: 'center',
     width: '100%'
   },
-  button: {
+  centerButton: {
     alignItems: 'center',
     padding: 15
   },
-  buttonText: { 
-    fontSize: 18, 
+  buttomSnapImage: {
+
+  },
+  panelButton: {
+    borderTopWidth: 1,
+    flex: 1,
+    alignItems: 'center',
+    backgroundColor: 'rgba(255,255,255,0.8)',
+  },
+  panelButtonLast: {
+    backgroundColor: 'black',
+    borderLeftWidth: 1,
+  },
+  buttonText: {
+    top: '0.25rem',
+    fontSize: 18,
+    color: 'black',
+    fontFamily: 'normal',
+    lineHeight: '3rem',
+  },
+  buttonTextLast: {
     color: 'white',
-    fontFamily: 'impact' 
   },
   overlay: {
     position: 'absolute',
     top: 0,
-    height: '100%', 
+    height: '100%',
     width: '100%',
-    backgroundColor: 'transparent', 
+    backgroundColor: 'transparent',
     zIndex: 4,
   },
   letter: {
