@@ -20,8 +20,7 @@ describe('when encrypting from string', () => {
 
 describe('when encrypting from deviceId', () => {
   it('should accept a string', () => {
-    // console.log(enc);
-    expect(OriginId.generateFromDeviceId('12345-lseirufshker')).to.be.a('string');
+    expect(OriginId.generateFromDeviceId('C52031D1-13C8-4C11-91C8-C37B7E01790D')).to.be.a('string');
   });
   it('should reject a short string', () => {
     // console.log(enc);
