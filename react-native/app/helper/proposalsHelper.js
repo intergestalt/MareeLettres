@@ -54,7 +54,7 @@ export function getProposalList(proposalsParent, proposalView, proposalListMode)
       return proposalsParent.listTrending;
     }
   } else if (proposalView === PROPOSAL_VIEWS.TINDER) {
-    return proposalsParent.tinder;
+    return proposalsParent ? proposalsParent.tinder : null;
   }
   return proposalsParent.tinder;
 }
