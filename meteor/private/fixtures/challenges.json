@@ -2,27 +2,37 @@
   "challenges": [
     {
       "title": {
-        "en": "A few words to get started",
-        "fr": "Quelques mots pour commencer"
+        "en": "Write a few words to get started!",
+        "fr": "Ecrire quelques mots pour commencer!"
       }
     },
     {
       "title": {
-        "en": "The most annoying thing about Paris",
-        "fr": "La chose la plus ennuyeuse de Paris"
+        "en": "What is the most annoying thing about Paris?",
+        "fr": "Quelle est la chose la plus ennuyeuse de Paris?"
       }
     },
     {
       "title": {
-        "en": "The definition of love",
-        "fr": "La définition de l'amour"
+        "en": "Decide on a definition of love!",
+        "fr": "Decider sur une définition de l'amour!"
       }
     },
     {
       "title": {
-        "en": "A message for aliens",
-        "fr": "Un message pour les extraterrestres"
+        "en": "Formulate a message to aliens!",
+        "fr": "Formuler un message pour les extraterrestres!"
       }
     }
-    ]
+    ],
+
+    "proposals": {
+        "fixture_1": ["Un Deux Trois", "Je ne sais pas", "Allez hop Paris", "Nuit Blanche Paris", "Yes we can"],
+        "fixture_2": ["Cars and Stars", "Tourists", "La Pluie", "Dogshit", "Ennui", "Rien ne va plus"],
+        "fixture_3": [":*?", "Heart", "Better not define", "Sentiment d*affection", "Forget it all"],
+        "fixture_4": ["Watch and learn", "Salut", "Heeeelo?", "abcdefg hijklmnop qrstuvw xyz", "See you so*n?"]
+    }
+
 }
+
+
