@@ -51,7 +51,7 @@ export default EStyleSheet.create({
   },
 
   camera__button__image: {
-    height: '1.1rem',
+    height: '1.5rem',
   },
 
   // letters menu
