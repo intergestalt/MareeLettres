@@ -14,6 +14,7 @@ class ChallengeHeadActive extends Component {
     timeLeft: PropTypes.number,
     viewMode: PropTypes.string,
     callerViewMode: PropTypes.string,
+    style: PropTypes.object,
   };
   shouldComponentUpdate(nextProps, nextState) {
     if (this.props.viewMode === CHALLENGE_VIEWS.SUGGEST) {
@@ -27,7 +28,7 @@ class ChallengeHeadActive extends Component {
   render() {
     I18n.locale = this.props.language;
     return (
-      <View style={styles.row}>
+      <View style={[styles.row, this.props.style]}>
         <View style={styles.tickerContainer}>
           <Text style={styles.liveSpacer}>
             {I18n.t('live_indicator')}

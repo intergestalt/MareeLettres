@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { Image, Animated, View, Text, PanResponder } from 'react-native';
+import { Image, Animated, View, Text, PanResponder, ActivityIndicator } from 'react-native';
 import { connect } from 'react-redux';
 import { LinearGradient } from 'expo';
 
@@ -386,8 +386,8 @@ class ChallengeContent extends Component {
         {this.props.proposalView === PROPOSAL_VIEWS.TINDER ? (
           <ReloadButton textKey="reload_proposals_tinder" onReload={this.handleReloadPressPress} />
         ) : (
-          <ReloadButton textKey="reload_proposals" onReload={this.handleReloadPressPress} />
-        )}
+            <ReloadButton textKey="reload_proposals" onReload={this.handleReloadPressPress} />
+          )}
       </View>
     );
   }
@@ -395,7 +395,7 @@ class ChallengeContent extends Component {
   renderLoading() {
     return (
       <View style={styles.challengeContent}>
-        <Text>Loading...</Text>
+        <ActivityIndicator style={{ flex: 1 }} />
       </View>
     );
   }

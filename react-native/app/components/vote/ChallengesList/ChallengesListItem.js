@@ -107,6 +107,7 @@ class ChallengesListItem extends Component {
             onPress={this.props.onShowAllPress}
             callerViewMode={CHALLENGE_VIEWS.LIST}
             data={this.props.data}
+            style={styles._challengeHeaderPadding}
           />
           {url}
         </TouchableOpacity>
@@ -121,7 +122,7 @@ class ChallengesListItem extends Component {
     return (
       <View style={styles.itemContainer}>
         <TouchableOpacity onPress={this.props.onPress} activeOpacity={0.5}>
-          <ChallengeHeadActive callerViewMode={CHALLENGE_VIEWS.LIST} data={this.props.data} />
+          <ChallengeHeadActive callerViewMode={CHALLENGE_VIEWS.LIST} data={this.props.data} style={styles._challengeHeaderPadding} />
         </TouchableOpacity>
       </View>
     );

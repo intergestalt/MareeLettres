@@ -13,6 +13,7 @@ class ChallengeHeadInactive extends Component {
     viewMode: PropTypes.string,
     callerViewMode: PropTypes.string,
     tickerEntry: PropTypes.object,
+    style: PropTypes.object,
   };
   shouldComponentUpdate(nextProps, nextState) {
     if (this.props.viewMode === CHALLENGE_VIEWS.SUGGEST) {
@@ -37,7 +38,7 @@ class ChallengeHeadInactive extends Component {
       containerStyle = { ...styles._row, paddingBottom: 0 };
     }
     return (
-      <View style={containerStyle}>
+      <View style={[containerStyle, this.props.style]}>
         {!this.props.hideTicker ? <Text style={styles.ticker}>{myEndString}</Text> : null}
         <Text style={styles.title}>
           {this.props.data.title ? this.props.data.title.toUpperCase() : '-'}

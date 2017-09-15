@@ -62,6 +62,9 @@ const styles = EStyleSheet.create({
     fontFamily: 'normal',
   },
   itemContainer: {},
+  challengeHeaderPadding: {
+    paddingHorizontal: '1rem',
+  },
   listHeaderContainer: {
     width: '100%',
     flex: 0.5,
