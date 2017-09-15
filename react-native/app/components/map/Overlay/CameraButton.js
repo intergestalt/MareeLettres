@@ -20,7 +20,11 @@ class CameraButton extends Component {
 
     return (
       <TouchableOpacity style={styles.camera__button} onPress={this.handlePress}>
-        <Image source={require('./assets/camera.png')} resizeMode="center" />
+        <Image
+          style={styles.camera__button__image}
+          source={require('./assets/camera.png')}
+          resizeMode="contain"
+        />
       </TouchableOpacity>
     );
   }

@@ -349,7 +349,7 @@ class Map extends Component {
           style={[styles.button, styles.buttonCentreMap]}
           onPress={this.onCentreMapButton}
         >
-          <Image source={require('./assets/center.png')} resizeMode="center" />
+          <Image style={styles.buttonCentreMapImage} source={require('./assets/center.png')} resizeMode="contain" />
         </TouchableOpacity>
         <LettersMenu navigation={this.props.navigation} />
 
