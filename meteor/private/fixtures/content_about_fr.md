@@ -34,4 +34,9 @@ Graphic Design: Manuel Bürger, Seb Holl-Trieu, Simon Schindele
 Programming: Holger Heissmeyer, Per Violet, Xavier Burrow, Sebastian Quack
 Production: Agence Eva Albarran
 
-(preliminary list, will be expanded)
+## CONTACT
+
+Si vous avez des questions ou des préoccupations concernant du contenu problématique dans l'application, envoyez-nous directement à info@lettres.paris ou contactez l'Agence Eva Albarran, 13 rue de Béarn, 75003 Paris, Téléphone +33 (0) 1 42 77 05 45
+
+Nos règles de confidentialité se trouvent ici: http://privacy.lettres.paris
+

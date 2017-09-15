@@ -15,7 +15,7 @@ export default {
   vote_tutorial_3_title: 'Good swiping!',
   vote_tutorial_3_text: 'If you are an organized person, tap on list to see all suggestions for this topic.',
   vote_tutorial_4_title: 'The List!',
-  vote_tutorial_4_text: 'You can always change your mind about everything. Try it by tapping x or check!',
+  vote_tutorial_4_text: 'You can always change your mind about everything. Try it by tapping x or ✔ !',
   vote_tutorial_5_title: 'Vote changed.',
   vote_tutorial_5_text: 'Now how about making a suggestion yourself? Tap on suggest!',
   vote_tutorial_6_title: 'Your turn to write!',
@@ -64,7 +64,7 @@ export default {
   map_tutorial_2_title: 'Well done, [LETTER]!',
   map_tutorial_2_text: 'You can now write on the map by dragging your letter into the circle.',
   map_tutorial_3_title: 'Good work!',
-  map_tutorial_3_text: 'Want different letters? Tap the + symbols below. Or tap your letter to share.',
+  map_tutorial_3_text: 'Feeling lonely? Tap your letter to share it with your friends.',
   
   center_map: 'Center map',
   camera_button: 'Camera',

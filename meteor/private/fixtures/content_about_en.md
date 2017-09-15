@@ -1,6 +1,6 @@
 # MAREE DES LETTRES
 
-Welcome to Marée Des Lettres, a playful art installation along the Seine. Starting at Nuit Blanche 2017, letters will appear along the river. In a space once dedicatd to cars going from A to B, let's play with vehicles of meaning from A to Z! Read on to find out about the different ways to play. Enjoy!
+Welcome to Marée Des Lettres, a playful art installation along the Seine. Starting at Nuit Blanche 2017, letters will appear along the river. In a space once dedicated to cars going from A to B, let's play with vehicles of meaning from A to Z! Read on to find out about the different ways to play. Enjoy!
 
 ## THE BIG LETTERS
 
@@ -34,4 +34,8 @@ Graphic Design: Manuel Bürger, Seb Holl-Trieu, Simon Schindele
 Programming: Holger Heissmeyer, Per Violet, Xavier Burrow, Sebastian Quack
 Production: Agence Eva Albarran
 
-(preliminary list, will be expanded)
+## CONTACT
+
+If you have questions or concerns about problematic content in the app, please email us directly at info@lettres.paris or contact Agence Eva Albarran, 13 rue de Béarn, 75003 Paris, Telefone +33 (0)1 42 77 05 45
+
+You can find our privacy policy at http://privacy.lettres.paris
