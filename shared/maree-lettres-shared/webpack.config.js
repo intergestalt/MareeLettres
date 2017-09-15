@@ -51,7 +51,7 @@ const config = {
   },
   plugins: plugins,
   externals: {
-    cryptr: 'cryptr'
+    // cryptr: 'cryptr'
   }
 };
 
