@@ -1,8 +1,8 @@
 /* BEGIN SET YOUR LOCAL IP ADDRESS HERE */
 
 //const DEV_MAREE_SERVER_ADDRESS = `${Expo.Constants.linkingUri.match(/:\/\/(.*):/)[1]}:3000`;
-const DEV_MAREE_SERVER_ADDRESS = 'maree.herokuapp.com'; // dev server
-//const DEV_MAREE_SERVER_ADDRESS = 'serene-everglades-41181.herokuapp.com' // staging server
+//const DEV_MAREE_SERVER_ADDRESS = 'maree.herokuapp.com'; // dev server
+const DEV_MAREE_SERVER_ADDRESS = 'serene-everglades-41181.herokuapp.com' // staging server
 
 /* END SET YOUR LOCAL IP ADDRESS HERE */
 
@@ -10,8 +10,8 @@ const DEV_MAREE_SERVER_PROTOCOL = 'http';
 
 // LIVE setup
 const LIVE_MAREE_SERVER_PROTOCOL = 'https';
-const LIVE_MAREE_SERVER_ADDRESS = 'maree.herokuapp.com';
-//const LIVE_MAREE_SERVER_ADDRESS = 'serene-everglades-41181.herokuapp.com' // staging server
+//const LIVE_MAREE_SERVER_ADDRESS = 'maree.herokuapp.com';
+const LIVE_MAREE_SERVER_ADDRESS = 'serene-everglades-41181.herokuapp.com' // staging server
 
 const serverAddress =
   process.env.NODE_ENV === 'development' && DEV_MAREE_SERVER_ADDRESS
@@ -73,8 +73,8 @@ export const DYNAMIC_CONFIG = {
 
 export const DEV_CONFIG = {
   USE_CUSTOM_END_DATE: false,
-  CUSTOM_END_DATE_ID: 'fixture_1',
-  CUSTOM_END_DATE: '2017-09-12T18:34:00.000Z',
+  CUSTOM_END_DATE_ID: 'fixture_2',
+  CUSTOM_END_DATE: '2017-09-09T18:34:00.000Z',
 
   SWAP_RELOADED_PROPOSALS: false,
   SWAP_RELOADED_PROPOSALS_COUNT: 40,

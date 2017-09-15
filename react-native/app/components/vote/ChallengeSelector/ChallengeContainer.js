@@ -287,16 +287,16 @@ class ChallengeContainer extends Component {
 
   checkForTutorial() {
     // TODO - display the right toturial message here
-    //if(this.props.voteTutorialStatus == "step2") {
-      /*this.props.alertWithType(
+    // if(this.props.voteTutorialStatus == "step2") {
+    /* this.props.alertWithType(
         'info',
         I18n.t('vote_tutorial_7_title'),
         I18n.t('vote_tutorial_7_text')
-      );*/
-      //setUserVoteTutorialStatusProxy('step3');  
-    //}
+      ); */
+    // setUserVoteTutorialStatusProxy('step3');
+    // }
   }
-  
+
   // Navigation logic
 
   navigateDownPress() {

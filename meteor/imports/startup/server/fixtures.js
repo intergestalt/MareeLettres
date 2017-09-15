@@ -13,7 +13,7 @@ import { Letters } from '../../api/letters/letters';
 import { Players } from '../../api/players/players';
 import { SystemConfig, SystemConfigSchema } from '../../api/systemConfig/systemConfig';
 
-const seed_proposals_and_players = false;
+const seed_proposals_and_players = process.env.MAREE_SEED_VOTES || false; // reset & seed: npm run reset:seed
 const seed_letters = false;
 
 const SeedChallenges = JSON.parse(Assets.getText('fixtures/challenges.json')).challenges;
@@ -21,27 +21,27 @@ const SeedChallenges = JSON.parse(Assets.getText('fixtures/challenges.json')).ch
 const contents = ['web', 'about'];
 
 Meteor.startup(() => {
-  console.log("running fixures")
+  console.log('running fixures');
 
   if (Meteor.users.find({ username: 'admin' }).count() == 0) {
-    console.log("seeding admin user")
+    console.log('seeding admin user');
     Accounts.createUser({
       username: 'admin',
-      password: 'password'
+      password: 'password',
     });
   }
 
   // Always update default SystemConfig
-  console.log("resetting default config in db")
+  console.log('resetting default config in db');
   // TODO: just upsert the values!!
   const defaultSystemConfig = SystemConfigSchema.clean({});
   const previous = SystemConfig.findOne({ name: 'default' }, { fields: { active: 1 } });
   const active = previous ? previous.active : true;
-  SystemConfig.remove({ name: 'default' })
-  SystemConfig.insert(defaultSystemConfig, ...{ name: "default", active })
-  /*SystemConfig.rawCollection().replaceOne({ name: 'default' }, defaultSystemConfig, {
+  SystemConfig.remove({ name: 'default' });
+  SystemConfig.insert(defaultSystemConfig, ...{ name: 'default', active });
+  /* SystemConfig.rawCollection().replaceOne({ name: 'default' }, defaultSystemConfig, {
     upsert: true,
-  });*/
+  }); */
 
   contents.forEach((content) => {
     if (Content.find(content).count() === 0) {
@@ -67,9 +67,16 @@ Meteor.startup(() => {
           letters: AvailableLetters.proposal,
           votes_amount: 0,
           proposals_amount: 0,
-          start_date: moment().add(i - 3, 'days').toDate(),
-          end_date: moment().add(i - 1, 'days').toDate(),
-          proposals_end_date: moment().add(i - 1, 'days').add(-10, 'minutes').toDate(),
+          start_date: moment()
+            .add(i - 3, 'days')
+            .toDate(),
+          end_date: moment()
+            .add(i - 1, 'days')
+            .toDate(),
+          proposals_end_date: moment()
+            .add(i - 1, 'days')
+            .add(-10, 'minutes')
+            .toDate(),
           ...SeedChallenges[i - 1],
         },
         (err, id) => {
@@ -82,6 +89,7 @@ Meteor.startup(() => {
                 text: `${j} ${shuffleString(`${AvailableLetters.proposal}       `)}`,
                 challenge_id: id,
                 score: 0, // parseInt(10 * Math.random()),
+                score_trending: 0,
                 votes_amount: 0, // parseInt(10 * Math.random()),
                 score_trending: 0,
                 yes_votes: 0,
@@ -103,8 +111,8 @@ Meteor.startup(() => {
       Players.insert({
         _id: `fixture_${i}`,
         origin_id: OriginId.generateFromString(`fixture_player_${i}`),
-        created_at: new Date,
-        last_seen_at: new Date,
+        created_at: new Date(),
+        last_seen_at: new Date(),
         votes: {},
       });
     }
@@ -120,8 +128,8 @@ Meteor.startup(() => {
       paris: {
         lat: 48.864716,
         lng: 2.349014,
-      }
-    }
+      },
+    };
     const location = locations.berlin; // choose city here
     const spread_lat = 0.012;
     const spread_lng = 0.02;
@@ -132,7 +140,7 @@ Meteor.startup(() => {
           lat: location.lat - spread_lat / 2 + Math.random() * spread_lat,
           lng: location.lng - spread_lng / 2 + Math.random() * spread_lng,
         },
-        created_at: new Date,
+        created_at: new Date(),
       });
     }
   }

@@ -43,7 +43,6 @@ const styles = EStyleSheet.create({
     letterSpacing: 2,
   },
   tickerContainer: {
-    marginBottom: '1rem',
     flexDirection: 'row',
   },
   ticker: {

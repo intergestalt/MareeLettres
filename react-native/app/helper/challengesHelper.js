@@ -11,8 +11,7 @@ export function manageChallenges(props) {
   // Always
   loadChallengesServiceProxy(false, DYNAMIC_CONFIG.LOAD_QUIET_CHALLENGES_LIST.bool);
   if (store.getState().challenges.challengeView === CHALLENGE_VIEWS.LIST) {
-    // Reset State
-    store.dispatch(setChallengeId(null, props));
+    // Moved Reset State somewhere else
   }
 }
 export function getSelectedChallengeIndex(id) {

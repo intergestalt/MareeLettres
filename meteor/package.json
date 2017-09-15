@@ -5,8 +5,10 @@
     "start": "meteor --settings settings.json",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "postinstall": "# INFO: Don't worry about the graphql peer dependency. It's not required.",
+    "postinstall":
+      "# INFO: Don't worry about the graphql peer dependency. It's not required.",
     "reset": "meteor reset",
+    "reset:seed": "meteor reset && MAREE_SEED_VOTES=true meteor --settings settings.json",
     "install-shared": "npm install maree-lettres-shared"
   },
   "dependencies": {

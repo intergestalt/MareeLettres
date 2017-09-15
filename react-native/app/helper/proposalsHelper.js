@@ -103,20 +103,33 @@ function mergeProposalListList(oldList, newList) {
 
   const result = [];
   // insert all new Elements after adding user votes
+  let inReview = 0;
+  let blocked = 0;
   for (let i = 0; i < newList.length; i += 1) {
     const entry = newList[i];
-    const key = entry._id;
+    if (!entry.blocked) {
+      if (!entry.in_review) {
+        console.log(entry);
+        const key = entry._id;
 
-    if (votes[key]) {
-      if (votes[key].bool) {
-        entry.yes_votes -= 1;
+        if (votes[key]) {
+          if (votes[key].bool) {
+            entry.yes_votes -= 1;
+          } else {
+            entry.no_votes -= 1;
+          }
+        }
+
+        result.push(entry);
       } else {
-        entry.no_votes -= 1;
+        inReview += 1;
       }
+    } else {
+      blocked += 1;
     }
-
-    result.push(entry);
   }
+  console.log(`blocked vote ${blocked}`);
+  console.log(`vote in review ${inReview}`);
   return result;
 }
 function mergeProposalListTinder(oldList, newList) {
@@ -138,23 +151,36 @@ function mergeProposalListTinder(oldList, newList) {
   let countVote = 0;
   let countInternal = 0;
   let countAlready = 0;
+  let inReview = 0;
+  let blocked = 0;
   for (let i = 0; i < newList.length; i += 1) {
     const entry = newList[i];
     const key = entry._id;
-    if (!hash[key]) {
-      if (!internalVotes[key]) {
-        if (!votes[key]) {
-          result.push(entry);
+    if (!entry.blocked) {
+      if (!entry.in_review) {
+        if (!hash[key]) {
+          if (!internalVotes[key]) {
+            if (!votes[key]) {
+              result.push(entry);
+            } else {
+              countVote += 1;
+            }
+          } else {
+            countInternal += 1;
+          }
         } else {
-          countVote += 1;
+          countAlready += 1;
         }
       } else {
-        countInternal += 1;
+        inReview += 1;
       }
     } else {
-      countAlready += 1;
+      blocked += 1;
     }
   }
+  console.log(`blocked vote ${blocked}`);
+  console.log(`vote in review ${inReview}`);
+  console.log(`Already voted ${countVote}`);
   console.log(`New Proposals ${count}`);
   console.log(`Already in list ${countAlready}`);
   console.log(`Already internal voted ${countInternal}`);

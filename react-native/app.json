@@ -1,23 +1,54 @@
 {
   "expo": {
     "name": "Marée des Lettres",
-    "icon": "./app/assets/icon/appIcon.png",
+    "icon": "./assets/maree_512x512_round.png",
     "version": "1.0.0",
-    "slug": "mareedeslettres",
+    "slug": "mareelettres",
     "sdkVersion": "20.0.0",
     "ios": {
       "bundleIdentifier": "fr.paris.mareedeslettres",
-      "publishBundlePath": "ios/mar-e-des-lettres/Supporting/shell-app.bundle",
-      "publishManifestPath": "ios/mar-e-des-lettres/Supporting/shell-app-manifest.json"
+      "icon": "./assets/maree_512x512.png",
+      "supportsTablet": true,
+      "isRemoteJSEnabled": true
     },
     "android": {
-      "package": "fr.paris.mareedeslettres"
+      "package": "fr.paris.mareedeslettres",
+      "icon": "./assets/maree_512x512_round.png",
+      "versionCode": 1,
+      "permissions": [
+        "CAMERA",
+        "ACCESS_FINE_LOCATION",
+        "WRITE_EXTERNAL_STORAGE",
+        "READ_EXTERNAL_STORAGE",
+        "READ_INTERNAL_STORAGE",
+        "WRITE_INTERNAL_STORAGE"
+      ]
     },
-    "isDetached": true,
+    "orientation": "portrait",
+    "notification": {
+      "icon": "./assets/maree_48x48_bw_transparent.png",
+      "color": "#F58466"
+    },
+    "loading": {
+      "backgroundImage": "./assets/maree_splash.png",
+      "icon": null,
+      "backgroundColor": "#F58466",
+      "hideExponentText": true,
+      "splash": {
+        "backgroundColor": "#F58466",
+        "image": {
+          "ios": {
+            "backgroundImage": "./assets/maree_splash.png"
+          }
+        }
+      }
+    }
+
+    /*"isDetached": true,
     "detach": {
       "scheme": "exp7b98a20c6e364581b5354536da957a42",
       "iosExpoViewUrl": "https://s3.amazonaws.com/exp-exponent-view-code/ios-v1.19.2-sdk20.0.0-71c3afdd-3b31-4722-9657-bbf07ea645d8.tar.gz",
       "androidExpoViewUrl": "https://s3.amazonaws.com/exp-exponent-view-code/android-v1.19.1-sdk20.0.0-5b613054-1239-439f-9c3a-0aad67cbe39a.tar.gz"
-    }
+    }*/
   }
 }
