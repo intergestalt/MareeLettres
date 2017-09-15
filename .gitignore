@@ -8,11 +8,4 @@
 ehthumbs.db
 Thumbs.db
 docs/
-react-native/yarn.lock
-shared/maree-lettres-shared/lib/maree-lettres-shared.js.map
-shared/maree-lettres-shared/lib/maree-lettres-shared.js.map
-shared/maree-lettres-shared/lib/maree-lettres-shared.min.js
-shared/maree-lettres-shared/lib/maree-lettres-shared.min.js
-react-native/yarn-error.log
-.gitignore
-tools/.expo/settings.json
+
