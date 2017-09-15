@@ -52,23 +52,28 @@ class LetterSelectorWindow extends Component {
   render() {
     I18n.locale = this.props.language;
     // available letters
-    let rowTop = ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'];
-    let rowMid = ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L'];
-    let rowBottom = ['Z', 'X', 'C', 'V', 'B', 'N', 'M'];
+    let rowTop = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'];
+    let rowMid = ['K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S'];
+    let rowBottom = ['T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
+    let rowLast = ['?', '*', ':'];
 
     // format
     rowTop = rowTop.map((item, i) => this.keyboard(item, i));
     rowMid = rowMid.map((item, i) => this.keyboard(item, i));
     rowBottom = rowBottom.map((item, i) => this.keyboard(item, i));
+    rowLast = rowLast.map((item, i) => this.keyboard(item, i));
 
     return (
       <View style={styles.container}>
         <BackSimple onPress={() => this.handleBackPress()} />
-        <Text style={styles.text}>{I18n.t('choose_your_letter').replace('[HOURS]', Math.floor(this.props.resetTime / 60 ))}</Text>
+        <View style={styles.text__container}>
+          <Text style={styles.text}>{I18n.t('choose_your_letter').replace('[HOURS]', Math.floor(this.props.resetTime / 60))}</Text>
+        </View>
         <View style={styles.keyboard}>
           <View style={styles.keyboard__row}>{rowTop}</View>
           <View style={styles.keyboard__row}>{rowMid}</View>
           <View style={styles.keyboard__row}>{rowBottom}</View>
+          <View style={styles.keyboard__row}>{rowLast}</View>
         </View>
       </View>
     );

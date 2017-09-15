@@ -32,6 +32,7 @@ const styles = EStyleSheet.create({
     flexDirection: 'row',
     position: 'relative',
     borderBottomWidth: 1,
+    minHeight: '6rem',
   },
 
   challengeFooter: {
@@ -150,6 +151,7 @@ const styles = EStyleSheet.create({
     borderLeftWidth: 1,
     borderStyle: 'solid',
     borderColor: '#000',
+    backgroundColor: 'black',
   },
 
   challengeFooterText: {
@@ -158,6 +160,10 @@ const styles = EStyleSheet.create({
     color: '#000',
     fontFamily: 'normal',
     fontSize: '1rem',
+  },
+
+  challengeFooterTextRight: {
+    color: 'white',
   },
 
   challengeFooterTextHigh: {

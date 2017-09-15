@@ -6,6 +6,7 @@ const styles = EStyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+    paddingHorizontal: '1rem',
   },
   text: {
     color: 'black',
