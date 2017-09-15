@@ -91,7 +91,7 @@ export default class DropdownAlert extends Component {
     startDelta: -100,
     endDelta: 20,
     titleNumOfLines: 1,
-    messageNumOfLines: 4,
+    messageNumOfLines: 5,
     infoColor: '#2B73B6',
     warnColor: '#cd853f',
     errorColor: '#cc3232',
