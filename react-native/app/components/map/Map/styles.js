@@ -36,8 +36,11 @@ const styles = EStyleSheet.create({
     top: 0,
   },
   buttonCentreMap: {
-    bottom: 108,
-    right: '0.4rem',
+    bottom: '100 + 1rem',
+    right: '0.5rem',
+  },
+  buttonCentreMapImage: {
+    height: '1.3rem',
   },
   button_text: {
     padding: 8,
