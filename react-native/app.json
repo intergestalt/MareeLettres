@@ -1,5 +1,46 @@
 {
   "expo": {
-    "sdkVersion": "20.0.0"
+    "name": "Marée des Lettres",
+    "icon": "./assets/maree_512x512_round.png",
+    "version": "1.0.0",
+    "slug": "mareelettres",
+    "sdkVersion": "20.0.0",
+    "ios": {
+      "bundleIdentifier": "fr.paris.mareedeslettres",
+      "icon": "./assets/maree_512x512.png",
+      "supportsTablet": true,
+      "isRemoteJSEnabled": true
+    },
+    "android": {
+      "package": "fr.paris.mareedeslettres",
+      "icon": "./assets/maree_512x512_round.png",
+      "versionCode": 1,
+      "permissions": [
+        "CAMERA",
+        "ACCESS_FINE_LOCATION",
+        "WRITE_EXTERNAL_STORAGE",
+        "READ_EXTERNAL_STORAGE",
+        "READ_INTERNAL_STORAGE",
+        "WRITE_INTERNAL_STORAGE"
+      ]
+    },
+    "orientation": "portrait",
+    "notification": {
+      "icon": "./assets/maree_48x48_bw_transparent.png",
+      "color": "#F58466"
+    },
+    "loading": {
+      "backgroundImage": "./assets/maree_splash.png",
+      "backgroundColor": "#F58466",
+      "hideExponentText": true,
+      "splash": {
+        "backgroundColor": "#F58466",
+        "image": {
+          "ios": {
+            "backgroundImage": "./assets/maree_splash.png"
+          }
+        }
+      }
+    }
   }
 }
