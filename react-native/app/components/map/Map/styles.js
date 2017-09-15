@@ -36,7 +36,7 @@ const styles = EStyleSheet.create({
     top: 0,
   },
   buttonCentreMap: {
-    bottom: '100 + 1rem',
+    bottom: '102 + 1rem',
     right: '0.5rem',
   },
   buttonCentreMapImage: {
