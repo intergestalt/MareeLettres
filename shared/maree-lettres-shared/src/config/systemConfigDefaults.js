@@ -19,6 +19,10 @@ const systemConfigDefaults = {
         defaultValue: 60,
         title: 'Interval at which Trends get calculated on Server (seconds)'
     },
+    trend_damping_halflife_time: {
+        defaultValue: 120,
+        title: 'Damping of trend changes: time in seconds after which half of the impact of a change will be gone'
+    },
     map_update_interval: {
         defaultValue: 10,
         title: 'Map: Update interval when map screen is open'

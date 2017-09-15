@@ -33,6 +33,10 @@ const SystemConfigSchema = new SimpleSchema(
             type: SimpleSchema.Integer,
             ...systemConfigDefaults.trending_regeneration_interval,
         },
+        trend_damping_halflife_time: {
+            type: Number,
+            ...systemConfigDefaults.trend_damping_halflife_time,
+        },
         map_update_interval: {
             type: SimpleSchema.Integer,
             ...systemConfigDefaults.map_update_interval,
