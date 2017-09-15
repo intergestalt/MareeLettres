@@ -12,7 +12,7 @@ const styles = EStyleSheet.create({
     zIndex: -1,
   },
   letter: {
-    //fontWeight: 'bold',
+    // fontWeight: 'bold',
     color: 'white',
     fontFamily: 'impact',
   },
@@ -36,7 +36,8 @@ const styles = EStyleSheet.create({
     top: 0,
   },
   buttonCentreMap: {
-    bottom: 105,
+    bottom: 108,
+    right: '0.4rem',
   },
   button_text: {
     padding: 8,

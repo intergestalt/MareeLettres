@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { Text, TouchableOpacity } from 'react-native';
+import { TouchableOpacity, Image } from 'react-native';
 import { connect } from 'react-redux';
 import { navigateToMapCamera } from '../../../helper/navigationProxy';
 import styles from './styles';
@@ -20,9 +20,7 @@ class CameraButton extends Component {
 
     return (
       <TouchableOpacity style={styles.camera__button} onPress={this.handlePress}>
-        <Text style={styles.camera__button__text}>
-          {I18n.t('camera_button').toUpperCase()}
-        </Text>
+        <Image source={require('./assets/camera.png')} resizeMode="center" />
       </TouchableOpacity>
     );
   }

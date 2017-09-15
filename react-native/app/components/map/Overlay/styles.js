@@ -45,17 +45,17 @@ export default EStyleSheet.create({
 
   camera__button: {
     position: 'absolute',
-    top: '0%',
-    right: '0%',
+    top: '0.5rem',
+    right: '0.4rem',
+    height: '0.8rem',
     backgroundColor: 'transparent',
- 
   },
 
   camera__button__text: {
     color: '$white',
     fontSize: '1.2rem',
     fontFamily: 'impact',
-    padding: 8
+    padding: 8,
   },
 
   // letters menu
@@ -84,14 +84,14 @@ export default EStyleSheet.create({
 
   letters__item__you: {
     width: '33.333%',
-    marginTop: 10
+    marginTop: 10,
   },
 
   letters__row: {
     flex: 1,
     flexDirection: 'row',
     alignItems: 'stretch',
-    marginTop: 10
+    marginTop: 10,
   },
 
   letters__item__friends: {

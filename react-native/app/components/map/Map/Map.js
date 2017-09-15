@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { View, Text, TouchableOpacity, Animated, Dimensions } from 'react-native';
+import { View, Text, TouchableOpacity, Animated, Dimensions, Image } from 'react-native';
 import MapView from 'react-native-maps';
 import { connect } from 'react-redux';
 import Exponent from 'expo';
@@ -349,7 +349,7 @@ class Map extends Component {
           style={[styles.button, styles.buttonCentreMap]}
           onPress={this.onCentreMapButton}
         >
-          <Text style={styles.button_text}>{I18n.t('center_map').toUpperCase()}</Text>
+          <Image source={require('./assets/center.png')} resizeMode="center" />
         </TouchableOpacity>
         <LettersMenu navigation={this.props.navigation} />
 
