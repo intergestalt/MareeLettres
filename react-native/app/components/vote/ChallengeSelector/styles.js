@@ -31,6 +31,7 @@ const styles = EStyleSheet.create({
   challengeHeader: {
     flexDirection: 'row',
     position: 'relative',
+    borderBottomWidth: 1,
   },
 
   challengeFooter: {
