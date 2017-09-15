@@ -27,7 +27,8 @@
     "yargs": "7.1.0"
   },
   "dependencies": {
-    "cryptr": "^2.0.0"
+    "cryptr": "^2.0.0",
+    "md5": "^2.2.1"
   },
   "license": "no licence"
 }

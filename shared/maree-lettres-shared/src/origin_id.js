@@ -4,6 +4,7 @@
 * console.log(shared.userKeys.getBrowserUserKey());
 */
 import Cryptr from 'cryptr';
+import md5 from 'md5';
 
 import config from './config/config.js';
 
@@ -30,7 +31,9 @@ const OriginId = {
       throw new DeviceIdException(s);
     }
 
-    const code = s + '-' + config.user_key_phone_code;
+    const hash = md5(s);
+
+    const code = hash + '-' + config.user_key_phone_code;
     const encrypted = encryptor.encrypt(code);
 
     return encrypted;
