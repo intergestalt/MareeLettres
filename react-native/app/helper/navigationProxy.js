@@ -31,6 +31,7 @@ export function navigateToLanguageSelector(props) {
 export function navigateToRoot(props) {
   const resetAction = NavigationActions.reset({
     index: 0,
+    key: null,
     actions: [NavigationActions.navigate({ routeName: 'Root' })],
   });
   props.navigation.dispatch(resetAction);

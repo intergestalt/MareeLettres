@@ -28,7 +28,7 @@ const VoteStack = StackNavigator(
     },
     Submit: {
       screen: Submit,
-    }
+    },
   },
   {
     headerMode: 'none',
@@ -36,6 +36,7 @@ const VoteStack = StackNavigator(
     navigationOptions: {
       gesturesEnabled: false,
     },
+    initialRouteName: 'Challenges',
   },
 );
 const MapStack = StackNavigator(
