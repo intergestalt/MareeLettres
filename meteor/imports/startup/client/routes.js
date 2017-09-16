@@ -11,6 +11,7 @@ import StatusPage from '../../ui/screens/Status.jsx';
 import LettersPage from '../../ui/screens/Letters.jsx';
 import ProposalsPage from '../../ui/screens/Proposals.jsx';
 import PlayersPage from '../../ui/screens/Players.jsx';
+import PlayerPage from '../../ui/screens/Player.jsx';
 import FeedPage from '../../ui/screens/Feed.jsx';
 import ReviewPage from '../../ui/screens/Review.jsx';
 
@@ -23,6 +24,7 @@ const renderRoutes = () =>
       <Route name="challenges.show" path="challenges/:challenge_id" component={Challenge} />
       <Route name="proposals.index" path="proposals" component={ProposalsPage} />
       <Route name="players.index" path="players" component={PlayersPage} />
+      <Route name="players.show" path="players/:origin_id" component={PlayerPage} />
       <Route name="content.edit" path="content" component={ContentPage} />
       <Route name="status" path="status" component={StatusPage} />
       <Route name="letters" path="letters" component={LettersPage} />

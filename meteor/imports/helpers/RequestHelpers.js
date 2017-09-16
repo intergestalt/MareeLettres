@@ -1,4 +1,5 @@
 import { OriginId } from 'maree-lettres-shared';
+import { Players } from '../api/players/players';
 
 const RequestHelpers = {
 
@@ -21,6 +22,14 @@ const RequestHelpers = {
         return origin_id;
     },
 
+    check_blocked_user: function (res, origin_id) {
+        const blocked = Players.find({ origin_id, blocked: true }, { limit: 1 }).count() === 1;
+        if (blocked) {
+            this.JsonRoutesError(res, 403, 'blocked-user');
+        }
+        return blocked;
+    },
+
     JsonRoutesError: function (res, status_code, error_code) {
         const error_options = {
             code: status_code,
@@ -29,7 +38,7 @@ const RequestHelpers = {
             },
         };
         if (Meteor.settings.log_api_errors) {
-            console.log("API_ERROR", error_options, res);
+            console.log("API_ERROR", error_options);
         }
         JsonRoutes.sendResult(res, error_options);
     },
