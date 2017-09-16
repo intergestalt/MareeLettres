@@ -16,13 +16,13 @@ const styles = EStyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center',
-    flex: 0.1,
+    height: "2rem",
   },
   listContainer: {
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'flex-start',
-    flex: 0.9,
+    flex: 1,
   },
   listContainerFinished: {
     flex: 1,
