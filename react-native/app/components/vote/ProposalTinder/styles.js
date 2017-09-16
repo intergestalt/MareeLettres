@@ -44,6 +44,7 @@ const styles = EStyleSheet.create({
   },
   text: {
     fontSize: '2rem',
+    width: '100%',
     textAlign: 'center',
     fontFamily: 'impact',
     paddingHorizontal: '$proposalPaddingHorizontal',
