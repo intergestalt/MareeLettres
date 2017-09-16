@@ -115,7 +115,7 @@ export function navigateToLetterSelector(props) {
 
 export function navigateToQRCodeGet(props) {
   const mode = store.getState().globals.mapView;
-  if (mode === MAP_VIEWS.LETTER_SEQR_CODE_GETLECTOR) {
+  if (mode === MAP_VIEWS.QR_CODE_GET) {
     return;
   }
   store.dispatch(setMapView(MAP_VIEWS.QR_CODE_GET));
