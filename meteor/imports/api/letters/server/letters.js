@@ -75,6 +75,13 @@ JsonRoutes.add('post', `${Meteor.settings.public.api_prefix}letters`, function (
 
   // TODO validate input with LettersSchema
 
+  // check if user is blocked
+
+  const origin_id = letters[0].origin_id; // ignoring someone who hacks the origin_ids
+  if (RequestHelpers.check_blocked_user(res, origin_id)) return;
+
+  // start bulk write
+
   const bulk = Letters.rawCollection().initializeUnorderedBulkOp();
 
   letters.forEach(function (letter) {
@@ -84,13 +91,6 @@ JsonRoutes.add('post', `${Meteor.settings.public.api_prefix}letters`, function (
   }, this);
 
   bulk.execute();
-
-  /*
-  letters.forEach(function (letter) {
-    letter.created_at = new Date();
-    Letters.insert(letter);
-  }, this);
-*/
 
   const options = {
     data: {},

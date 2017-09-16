@@ -96,6 +96,12 @@ JsonRoutes.add(
         const data = {};
 
         const origin_id = RequestHelpers.request_check_origin(req, res, next, proposal.origin_id);
+
+        // check if user is blocked
+
+        if (RequestHelpers.check_blocked_user(res, origin_id)) return;
+
+
         const challenge_id = proposal.challenge_id;
 
         const proposal_id = RequestHelpers.generateProposalId(origin_id, challenge_id);

@@ -114,6 +114,7 @@ Meteor.startup(() => {
         created_at: new Date(),
         last_seen_at: new Date(),
         votes: {},
+        proposals: [],
       });
     }
   }

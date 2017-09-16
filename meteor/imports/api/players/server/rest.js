@@ -21,7 +21,7 @@ JsonRoutes.add('get', `${Meteor.settings.public.api_prefix}players/:origin_id`, 
     player = {
       origin_id,
       votes: {},
-      banned: false,
+      blocked: false,
       proposals: [],
     };
     Players.insert(player);
