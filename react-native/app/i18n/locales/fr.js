@@ -15,7 +15,7 @@ export default {
   vote_tutorial_3_title: 'Pour une vue d\'ensemble',
   vote_tutorial_3_text: 'appuie sur LISTE et accéde à toutes les propositions pour ce sujet.',
   vote_tutorial_4_title: 'La liste !',
-  vote_tutorial_4_text: 'C\'est normal de changer d\'avis. N\'hésite pas à le faire en appuyant sur x ou ✔ !',
+  vote_tutorial_4_text: 'C\'est normal de changer d\'avis.',
   vote_tutorial_5_title: 'Pris en compte.',
   vote_tutorial_5_text: 'Et pourquoi tu ne ferais pas une suggestion ? Appuie sur PROPOSE!',
   vote_tutorial_6_title: 'À toi d\'écrire !',

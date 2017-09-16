@@ -87,7 +87,12 @@ class ExpoCamera extends React.Component {
     if (hasCameraPermission === null) {
       return <View />;
     } else if (hasCameraPermission === false) {
-      return <Text>No access to camera</Text>;
+      return (
+        <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+          <Text>No access to camera</Text>
+          <BackSimple colour="white" onPress={this._cancel} />
+        </View>
+      );
     }
     return (
       <View style={styles.mainView}>
