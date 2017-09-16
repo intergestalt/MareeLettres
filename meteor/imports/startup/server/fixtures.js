@@ -82,11 +82,15 @@ Meteor.startup(() => {
         (err, id) => {
           if (seed_proposals_and_players && id != undefined) {
             console.log('Seeding Proposals');
-            let amount = 10 * Math.floor(50 * Math.random());
-            if(amount % 3 == 0) amount = 0;
+            let amount = 10 * Math.floor(20 * Math.random());
             let shuffle = AvailableLetters.proposal;
-            if(amount % 2 == 0) shuffle = shuffle.substr(5, 10); // make some short proposals
+            if(amount % 3 == 0) amount = 0; // make some challenges without proposals
             for (let j = 1; j <= amount; j++) {
+              if(j % 2 == 0) {
+                shuffle = AvailableLetters.proposal.substr(5, 10); // make some short proposals
+              } else {
+                shuffle = AvailableLetters.proposal;   
+              }
               Proposals.insert({
                 _id: `fixture_${i}_${j}`,
                 text: `${j} ${shuffleString(`${shuffle}       `)}`,
