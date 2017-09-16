@@ -169,7 +169,7 @@ class Map extends Component {
 
   onRegionChange = (region) => {
     this.setState({ region });
-    this.setMapLetterSize(region);
+    //this.setMapLetterSize(region);
   };
 
   setMapLetterSize = (region) => {
@@ -324,7 +324,7 @@ class Map extends Component {
           }}
 
           onRegionChangeComplete={this.onRegionChangeComplete}
-          //onRegionChange={this.onRegionChange}
+          onRegionChange={this.onRegionChange}
           provider={MapView.PROVIDER_GOOGLE}
           style={styles.container}
           
