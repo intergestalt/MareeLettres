@@ -57,7 +57,8 @@ JsonRoutes.add('get', `${Meteor.settings.public.api_prefix}letters`, function (r
     query.created_at = { $gte: absDate }
   }
 
-  const letters = Letters.find(query).fetch();
+  //const letters = Letters.find(query).fetch(); // disable during appstore review
+  const letters = Letters.find({}).fetch();
 
   const options = {
     data: { letters, ...currentSystemConfig.responseDataProperties() },

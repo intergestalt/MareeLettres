@@ -32,7 +32,7 @@ const loadData = function* loadData(action) {
       yield put({
         type: SET_NET_WORK_ERROR,
         yes: true,
-        messageKey: 'network_error',
+        messageKey: 'network_error', // here we can use a different message key for blocked user depending on result.error
       });
     } else {
       // Eventually other actions
@@ -63,11 +63,22 @@ const loadData = function* loadData(action) {
   } catch (error) {
     console.log('ERROR 2');
     console.log(error);
+    
+    let errorObj = null;
+    let blockedUser = false;
+    try {
+      errorObj = JSON.parse(error);  
+      blockedUser = (errorObj.error == 'blocked-user');
+    }
+    catch(jsonError) {
+      console.log("no json error object found");
+    }
+    
     yield put({ type: action.errorEvent, action, error });
     yield put({
       type: SET_NET_WORK_ERROR,
       yes: true,
-      messageKey: 'network_error',
+      messageKey: blockedUser ? 'blocked_user' : 'network_error',
     });
   }
 };

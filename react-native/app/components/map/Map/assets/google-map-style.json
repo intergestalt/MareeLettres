@@ -5,7 +5,7 @@
         "lightness": -30
       }
     ]
-  },
+  },  
   {
     "elementType": "geometry",
     "stylers": [
@@ -128,7 +128,7 @@
         "color": "#ffffff"
       },
       {
-        "lightness": -25
+        "visibility": "off"
       }
     ]
   },
@@ -137,7 +137,7 @@
     "elementType": "labels.text.stroke",
     "stylers": [
       {
-        "color": "#000000"
+        "visibility": "off"
       }
     ]
   },
@@ -161,7 +161,7 @@
         "color": "#ffffff"
       },
       {
-        "lightness": -25
+        "visibility": "off"
       }
     ]
   },
@@ -173,7 +173,7 @@
         "color": "#000000"
       },
       {
-        "lightness": 5
+        "visibility": "off"
       }
     ]
   },

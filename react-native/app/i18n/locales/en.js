@@ -15,7 +15,7 @@ export default {
   vote_tutorial_3_title: 'Good swiping!',
   vote_tutorial_3_text: 'If you are an organized person, tap on list to see all suggestions for this topic.',
   vote_tutorial_4_title: 'The List!',
-  vote_tutorial_4_text: 'You can always change your mind about everything. Try it by tapping x or check!',
+  vote_tutorial_4_text: 'You can always change your mind about everything. Try it by tapping x or ✔ !',
   vote_tutorial_5_title: 'Vote changed.',
   vote_tutorial_5_text: 'Now how about making a suggestion yourself? Tap on suggest!',
   vote_tutorial_6_title: 'Your turn to write!',
@@ -60,11 +60,11 @@ export default {
   map_scan_qr_instruction: 'Scan your friend\'s QR code to get their letter.',
   
   map_tutorial_1_title: 'This is the FLUX!',
-  map_tutorial_1_text: 'Choose YOUR letter by tapping on the + symbol on the bottom left.',
+  map_tutorial_1_text: 'Choose YOUR letter by tapping the + symbol on the bottom left.',
   map_tutorial_2_title: 'Well done, [LETTER]!',
   map_tutorial_2_text: 'You can now write on the map by dragging your letter into the circle.',
   map_tutorial_3_title: 'Good work!',
-  map_tutorial_3_text: 'Want different letters? Tap the + symbols below. Or tap your letter to share.',
+  map_tutorial_3_text: 'Feeling lonely? Tap your letter to share it with your friends.',
   
   center_map: 'Center map',
   camera_button: 'Camera',
@@ -86,10 +86,13 @@ export default {
   map_photo_save_title: 'Saved',
   map_photo_save_text: 'Find your pics in your device\'s camera roll!',
 
-  network_error: 'Network error. Please check your internet connection.',
+  error: 'Error',
+  network_error: 'Please check your internet connection.',
   suggestion_too_late_title: 'Too late!',
   suggestion_too_late_text: 'Submission has closed already. Sorry <3',
   suggestion_empty_title: '!',
   suggestion_empty_text: 'You must at least drag one letter.',
   suggestion_wrong: 'Oups. Something did not work. Sorry!',
+
+  blocked_user: 'Submissions from your device have been blocked. Contact us through the info section of the app.'
 };

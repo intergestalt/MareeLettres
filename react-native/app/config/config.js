@@ -3,6 +3,7 @@
 //const DEV_MAREE_SERVER_ADDRESS = `${Expo.Constants.linkingUri.match(/:\/\/(.*):/)[1]}:3000`;
 const DEV_MAREE_SERVER_ADDRESS = 'maree.herokuapp.com'; // dev server
 //const DEV_MAREE_SERVER_ADDRESS = 'serene-everglades-41181.herokuapp.com' // staging server
+//const DEV_MAREE_SERVER_ADDRESS = 'maree-release-demo.herokuapp.com'; // appstore demo server
 
 /* END SET YOUR LOCAL IP ADDRESS HERE */
 
@@ -12,6 +13,7 @@ const DEV_MAREE_SERVER_PROTOCOL = 'http';
 const LIVE_MAREE_SERVER_PROTOCOL = 'https';
 const LIVE_MAREE_SERVER_ADDRESS = 'maree.herokuapp.com';
 //const LIVE_MAREE_SERVER_ADDRESS = 'serene-everglades-41181.herokuapp.com' // staging server
+//const LIVE_MAREE_SERVER_ADDRESS = 'maree-release-demo.herokuapp.com' // appstore demo server
 
 const serverAddress =
   process.env.NODE_ENV === 'development' && DEV_MAREE_SERVER_ADDRESS

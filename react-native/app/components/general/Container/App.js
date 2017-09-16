@@ -31,7 +31,7 @@ class AppContainer extends Component {
       const now = new Date().getTime();
       if (now - this.props.lastNetworkError > DYNAMIC_CONFIG.DISPLAY_NEXT_NETWORK_ERROR_AFTER) {
         this.props.dispatch(setLastNetworkError());
-        this.props.alertWithType('custom', 'Error', I18n.t(nextProps.networkErrorMessageKey));
+        this.props.alertWithType('custom', I18n.t('error'), I18n.t(nextProps.networkErrorMessageKey));
       } else {
         this.props.dispatch(setNetworkError(false, null));
       }
