@@ -174,11 +174,10 @@ class ChallengeContainer extends Component {
     console.log('list press');
     this.resetProposalListPos();
     this.props.dispatch(setProposalView(this.props.selectedChallengeId, PROPOSAL_VIEWS.LIST));
-    this.loadProposals(
-      this.props.selectedChallengeIndex,
-      PROPOSAL_VIEWS.LIST,
-      this.props.selectedProposalListMode,
-    );
+
+    const params = this.getLoadParams(this.props.selectedChallengeIndex);
+
+    this.loadProposals(this.props.selectedChallengeIndex, PROPOSAL_VIEWS.LIST, params.mode);
   }
   onMostPress() {
     this.resetProposalListPos();

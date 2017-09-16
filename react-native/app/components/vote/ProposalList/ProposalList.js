@@ -200,12 +200,19 @@ const mapStateToProps = (state, ownProps) => {
     }
     // all 4 lists
     const p = state.proposals[id];
+
     const p2 = getProposalList(p, proposalView, proposalListMode);
 
-    const proposals = p2.proposals;
-    const isPullDownLoading = p2.isPullDownLoading;
-    const isPullUpLoading = p2.isPullUpLoading;
-    const lastLimit = p2.lastLimit;
+    let proposals = null;
+    let isPullDownLoading = false;
+    let isPullUpLoading = false;
+    let lastLimit = 1;
+    if (p2) {
+      proposals = p2.proposals;
+      isPullDownLoading = p2.isPullDownLoading;
+      isPullUpLoading = p2.isPullUpLoading;
+      lastLimit = p2.lastLimit;
+    }
     return {
       challenges,
       proposals,
