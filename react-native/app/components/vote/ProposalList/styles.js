@@ -24,6 +24,9 @@ const styles = EStyleSheet.create({
     alignItems: 'flex-start',
     flex: 0.9,
   },
+  listContainerFinished: {
+    flex: 1,
+  },
 
   itemContainer: {
     flexDirection: 'row',
@@ -36,7 +39,7 @@ const styles = EStyleSheet.create({
     alignItems: 'center',
     alignSelf: 'flex-start',
     paddingTop: '1rem',
-    top: '0.5rem', // to align with center text    
+    top: '0.5rem', // to align with center text
     marginHorizontal: '1.25rem',
   },
   itemCenter: {
@@ -83,6 +86,6 @@ const styles = EStyleSheet.create({
   },
   voteMarkPanel: {
     marginTop: '0.25rem',
-  }
+  },
 });
 export default styles;
