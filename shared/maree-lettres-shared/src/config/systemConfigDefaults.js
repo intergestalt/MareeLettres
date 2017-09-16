@@ -33,7 +33,7 @@ const systemConfigDefaults = {
     },
     map_cache_update_interval: {
         defaultValue: 10,
-        title: 'Map Server: How often te refresh the map letters cache (<= map_update_interval)'
+        title: 'Map Server: How often te refresh the map letters cache (should be lower than map_update_interval). Lower value yields more load on database, but creates less network traffic.'
     },
     map_query_update_latency: {
         defaultValue: 1,
