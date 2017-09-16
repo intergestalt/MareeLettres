@@ -27,15 +27,15 @@
     "orientation": "portrait",
     "notification": {
       "icon": "./assets/maree_48x48_bw_transparent.png",
-      "color": "#F58466"
+      "color": "#5A5870"
     },
     "loading": {
       "backgroundImage": "./assets/maree_splash.png",
       "icon": null,
-      "backgroundColor": "#F58466",
+      "backgroundColor": "#5A5870",
       "hideExponentText": true,
       "splash": {
-        "backgroundColor": "#F58466",
+        "backgroundColor": "#5A5870",
         "image": {
           "ios": {
             "backgroundImage": "./assets/maree_splash.png"
@@ -43,7 +43,6 @@
         }
       }
     }
-
     /*"isDetached": true,
     "detach": {
       "scheme": "exp7b98a20c6e364581b5354536da957a42",
