@@ -134,6 +134,7 @@ class ProposalList extends PureComponent {
       };
     }
     let header = null;
+    let myListStyle = styles.listContainer;
     if (!this.props.isFinished) {
       header = (
         <View style={styles.headerContainer}>
@@ -145,12 +146,14 @@ class ProposalList extends PureComponent {
           />
         </View>
       );
+    } else {
+      myListStyle = [styles.listContainer, styles.listContainerFinished];
     }
 
     return (
       <View style={styles.container}>
         {header}
-        <View style={styles.listContainer}>
+        <View style={myListStyle}>
           <FlatList
             initialNumToRender={7}
             ref={myRefCallback}

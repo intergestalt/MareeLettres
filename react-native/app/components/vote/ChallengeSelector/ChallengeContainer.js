@@ -33,8 +33,6 @@ class ChallengeContainer extends Component {
     challenges: PropTypes.array,
     selectedChallengeIndex: PropTypes.number,
     selectedChallengeId: PropTypes.string,
-    selectedProposalListMode: PropTypes.string,
-    selectedProposalView: PropTypes.string,
     language: PropTypes.string,
     userChallenges: PropTypes.object,
     alertWithType: PropTypes.func,
@@ -131,14 +129,37 @@ class ChallengeContainer extends Component {
       );
     }
   }
-  loadAllProposals(myIndex, view, listmode) {
-    this.loadProposals(myIndex - 1, view, listmode);
-    this.loadProposals(myIndex, view, listmode);
-    this.loadProposals(myIndex + 1, view, listmode);
+  getLoadParams(index) {
+    if (index < 0 || index > this.props.challenges.length - 1) return null;
+    const challenge = this.props.challenges[index];
+    let selectedProposalView = null;
+    let selectedProposalListMode = null;
+    if (challenge) {
+      selectedProposalView = challenge.proposalView;
+      selectedProposalListMode = challenge.proposalListMode;
+    } else {
+      return null;
+    }
+    return { view: selectedProposalView, mode: selectedProposalListMode };
+  }
+  loadAllProposals(myIndex) {
+    let params = null;
+    params = this.getLoadParams(myIndex - 1);
+    if (params !== null) {
+      this.loadProposals(myIndex - 1, params.view, params.mode);
+    }
+    params = this.getLoadParams(myIndex);
+    if (params !== null) {
+      this.loadProposals(myIndex, params.view, params.mode);
+    }
+    params = this.getLoadParams(myIndex + 1);
+    if (params !== null) {
+      this.loadProposals(myIndex + 1, params.view, params.mode);
+    }
   }
   handleTinderPress() {
     this.props.dispatch(setProposalView(this.props.selectedChallengeId, PROPOSAL_VIEWS.TINDER));
-    this.loadAllProposals(this.props.selectedChallengeIndex, PROPOSAL_VIEWS.TINDER);
+    this.loadProposals(this.props.selectedChallengeIndex, PROPOSAL_VIEWS.TINDER);
   }
   getUserChallenge() {
     if (!this.props.userChallenges) {
@@ -153,7 +174,7 @@ class ChallengeContainer extends Component {
     console.log('list press');
     this.resetProposalListPos();
     this.props.dispatch(setProposalView(this.props.selectedChallengeId, PROPOSAL_VIEWS.LIST));
-    this.loadAllProposals(
+    this.loadProposals(
       this.props.selectedChallengeIndex,
       PROPOSAL_VIEWS.LIST,
       this.props.selectedProposalListMode,
@@ -164,7 +185,7 @@ class ChallengeContainer extends Component {
     this.props.dispatch(
       setProposalListMode(this.props.selectedChallengeId, PROPOSAL_LIST_MODES.MOST),
     );
-    this.loadAllProposals(
+    this.loadProposals(
       this.props.selectedChallengeIndex,
       PROPOSAL_VIEWS.LIST,
       PROPOSAL_LIST_MODES.MOST,
@@ -175,7 +196,7 @@ class ChallengeContainer extends Component {
     this.props.dispatch(
       setProposalListMode(this.props.selectedChallengeId, PROPOSAL_LIST_MODES.NEWEST),
     );
-    this.loadAllProposals(
+    this.loadProposals(
       this.props.selectedChallengeIndex,
       PROPOSAL_VIEWS.LIST,
       PROPOSAL_LIST_MODES.NEWEST,
@@ -186,7 +207,7 @@ class ChallengeContainer extends Component {
     this.props.dispatch(
       setProposalListMode(this.props.selectedChallengeId, PROPOSAL_LIST_MODES.TRENDING),
     );
-    this.loadAllProposals(
+    this.loadProposals(
       this.props.selectedChallengeIndex,
       PROPOSAL_VIEWS.LIST,
       PROPOSAL_LIST_MODES.TRENDING,
@@ -360,11 +381,8 @@ class ChallengeContainer extends Component {
       }
       this.state.challengeContainerOffsetX.setValue(-screenWidth);
       const newId = challenge._id;
-      this.loadAllProposals(
-        index,
-        this.props.selectedProposalView,
-        this.props.selectedProposalListMode,
-      );
+      this.loadAllProposals(index);
+
       const t1 = new Date().getTime();
       handleChallengeIsNotExisting(this.props, newId);
       this.props.dispatch(setChallengeId(newId, this.props));
@@ -469,21 +487,13 @@ const mapStateToProps = (state) => {
     const challenges = state.challenges.challenges;
     const selectedChallengeIndex = state.challenges.selectedChallengeIndex;
     const selectedChallengeId = state.challenges.selectedChallengeId;
-    const challenge = challenges[selectedChallengeIndex];
-    let selectedProposalView = null;
-    let selectedProposalListMode = null;
-    if (challenge) {
-      selectedProposalView = challenge.proposalView;
-      selectedProposalListMode = challenge.proposalListMode;
-    }
+
     const isLoading = state.challenges.isLoading;
 
     return {
       selectedChallengeIndex,
       selectedChallengeId,
       challenges,
-      selectedProposalView,
-      selectedProposalListMode,
       isLoading,
       language: state.globals.language,
       userChallenges: state.user.challenges,
