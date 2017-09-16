@@ -96,7 +96,10 @@
     "max-len": [
       2,
       120,
-      4
+      4,
+      {
+        "ignoreStrings": true
+      }
     ],
     "max-nested-callbacks": 0,
     "max-params": 0,
