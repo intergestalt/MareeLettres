@@ -11,6 +11,10 @@ import { setScreen, setMapView } from '../actions/general';
 // Navigation
 
 export function dispatchBackActionToMapOverview(props, mapView) {
+  const mode = store.getState().globals.mapView;
+  if (mode === mapView) {
+    return;
+  }
   const backAction = NavigationActions.back({});
   store.dispatch(setMapView(mapView));
   props.navigation.dispatch(backAction);
@@ -83,26 +87,46 @@ export function popLanguageSelector(props) {
 // Map Stack SubPages
 
 export function navigateToMapOverview(props) {
+  const mode = store.getState().globals.mapView;
+  if (mode === MAP_VIEWS.OVERVIEW) {
+    return;
+  }
   store.dispatch(setMapView(MAP_VIEWS.OVERVIEW));
   props.navigation.navigate('MapOverview');
 }
 
 export function navigateToMapCamera(props) {
+  const mode = store.getState().globals.mapView;
+  if (mode === MAP_VIEWS.CAMERA) {
+    return;
+  }
   store.dispatch(setMapView(MAP_VIEWS.CAMERA));
   props.navigation.navigate('MapCamera');
 }
 
 export function navigateToLetterSelector(props) {
+  const mode = store.getState().globals.mapView;
+  if (mode === MAP_VIEWS.LETTER_SELECTOR) {
+    return;
+  }
   store.dispatch(setMapView(MAP_VIEWS.LETTER_SELECTOR));
   props.navigation.navigate('LetterSelector');
 }
 
 export function navigateToQRCodeGet(props) {
+  const mode = store.getState().globals.mapView;
+  if (mode === MAP_VIEWS.LETTER_SEQR_CODE_GETLECTOR) {
+    return;
+  }
   store.dispatch(setMapView(MAP_VIEWS.QR_CODE_GET));
   props.navigation.navigate('QRCodeGet');
 }
 
 export function navigateToQRCodeSend(props) {
+  const mode = store.getState().globals.mapView;
+  if (mode === MAP_VIEWS.QR_CODE_SEND) {
+    return;
+  }
   store.dispatch(setMapView(MAP_VIEWS.QR_CODE_SEND));
   props.navigation.navigate('QRCodeSend');
 }

@@ -39,13 +39,13 @@ class ProposalList extends PureComponent {
   }
 
   componentWillMount() {
-    if(!this.props.voteTutorialStatus.list1 && this.props.challengeOffset == 0) {
+    if (!this.props.voteTutorialStatus.list1 && this.props.challengeOffset == 0) {
       this.props.alertWithType(
         'info',
         I18n.t('vote_tutorial_4_title'),
-        I18n.t('vote_tutorial_4_text')
+        I18n.t('vote_tutorial_4_text'),
       );
-      setUserVoteTutorialStatusProxy("list1");  
+      setUserVoteTutorialStatusProxy('list1');
     }
   }
 
@@ -100,15 +100,14 @@ class ProposalList extends PureComponent {
     this.props.dispatch(userVoteInternal(proposalId, yes));
     this.props.dispatch(deleteProposalFromTinderList(challengeId, proposalId));
 
-    if(!this.props.voteTutorialStatus.list2) {
+    if (!this.props.voteTutorialStatus.list2) {
       this.props.alertWithType(
-          'info',
-          I18n.t('vote_tutorial_5_title'),
-          I18n.t('vote_tutorial_5_text')
+        'info',
+        I18n.t('vote_tutorial_5_title'),
+        I18n.t('vote_tutorial_5_text'),
       );
-      setUserVoteTutorialStatusProxy("list2");
-    }        
-
+      setUserVoteTutorialStatusProxy('list2');
+    }
   }
 
   getChallenge() {
@@ -134,13 +133,6 @@ class ProposalList extends PureComponent {
         this.props.setFlatlistRef(ref);
       };
     }
-    let listEnabled = null;
-    if (!this.props.listEnabled) {
-      listEnabled = 'none';
-    }
-    if (this.props.isFinished) {
-      listEnabled = 'none';
-    }
     let header = null;
     if (!this.props.isFinished) {
       header = (
@@ -158,7 +150,7 @@ class ProposalList extends PureComponent {
     return (
       <View style={styles.container}>
         {header}
-        <View pointerEvents={listEnabled} style={styles.listContainer}>
+        <View style={styles.listContainer}>
           <FlatList
             initialNumToRender={7}
             ref={myRefCallback}
@@ -168,18 +160,21 @@ class ProposalList extends PureComponent {
                 onNoPress={() => this.onNoPress(item)}
                 onYesPress={() => this.onYesPress(item)}
                 proposal={item}
+                listEnabled={this.props.listEnabled}
               />
             )}
             keyExtractor={item => item._id}
             // ItemSeparatorComponent={Separator}
             refreshControl={
-              <RefreshControl
-                refreshing={this.props.isPullDownLoading}
-                onRefresh={this.onPullDownRefresh}
-              />
+              this.props.listEnabled ? (
+                <RefreshControl
+                  refreshing={this.props.isPullDownLoading}
+                  onRefresh={this.onPullDownRefresh}
+                />
+              ) : null
             }
             onEndReachedThreshold={DYNAMIC_CONFIG.PROPOSAL_RELOAD_LIST_OFFSET}
-            onEndReached={this.onEndReached}
+            onEndReached={this.props.listEnabled ? this.onEndReached : null}
             ListFooterComponent={this.renderFooter()}
           />
         </View>

@@ -414,6 +414,12 @@ class ChallengeContainer extends Component {
       // SHOULD NOT HAPPEN
       return this.renderIsEmpty();
     }
+    let listEnabled = true;
+    const challenge = this.props.challenges[this.props.selectedChallengeIndex];
+    if (isFinished(challenge)) {
+      listEnabled = false;
+    }
+
     const myStyle = [
       styles.challengeContainer,
       {
@@ -433,7 +439,7 @@ class ChallengeContainer extends Component {
         />
         <ChallengeDetail
           challengeOffset={0}
-          listEnabled
+          listEnabled={listEnabled}
           onHeaderPress={this.handleHeaderPressed}
           onDownPress={this.navigateDownPress}
           onUpPress={this.navigateUpPress}

@@ -15,6 +15,7 @@ class ProposalListItem extends PureComponent {
     proposal: PropTypes.object,
     onYesPress: PropTypes.func,
     onNoPress: PropTypes.func,
+    listEnabled: PropTypes.bool,
   };
   /* getAnswer() {
     let answer = '';
@@ -39,7 +40,14 @@ class ProposalListItem extends PureComponent {
     return (
       <View style={styles.itemContainer}>
         <View style={styles.itemLeft}>
-          <VoteMark onPress={this.props.onNoPress} size="m" active value={noNum} type="no" />
+          <VoteMark
+            onPress={this.props.onNoPress}
+            size="m"
+            active={this.props.listEnabled}
+            active2
+            value={noNum}
+            type="no"
+          />
           {/*  <TouchableOpacity onPress={this.props.onNoPress}>
             {noNum === 1
               ? <Text style={{ color: '#FF0000' }}>NO</Text>
@@ -60,7 +68,14 @@ class ProposalListItem extends PureComponent {
               ? <Text style={{ color: '#88FF00' }}>YES</Text>
               : <Text style={{ color: '#000000' }}>YES</Text>}
           </TouchableOpacity> */}
-          <VoteMark onPress={this.props.onYesPress} size="m" active value={yesNum} type="yes" />
+          <VoteMark
+            onPress={this.props.onYesPress}
+            size="m"
+            active={this.props.listEnabled}
+            active2
+            value={yesNum}
+            type="yes"
+          />
         </View>
       </View>
     );
