@@ -68,13 +68,13 @@ Meteor.startup(() => {
           votes_amount: 0,
           proposals_amount: 0,
           start_date: moment()
-            .add(i - 3, 'days')
+            .add(i + 3, 'days')
             .toDate(),
           end_date: moment()
-            .add(i - 1, 'days')
+            .add(i + 4, 'days')
             .toDate(),
           proposals_end_date: moment()
-            .add(i - 1, 'days')
+            .add(i + 5, 'days')
             .add(-10, 'minutes')
             .toDate(),
           ...SeedChallenges[i - 1],
@@ -114,8 +114,43 @@ Meteor.startup(() => {
         created_at: new Date(),
         last_seen_at: new Date(),
         votes: {},
+        proposals: [],
       });
     }
+
+  }
+
+  if (process.env.MAREE_SEED_APP_STORE && Players.find().count() === 0 && Proposals.find().count() === 0) {
+    console.log('Seeding Players and Proposals - demo for app store'); 
+    const SeedProposals = JSON.parse(Assets.getText('fixtures/challenges.json')).proposals;
+    let proposalId = 1;
+    Object.keys(SeedProposals).forEach((challengeKey)=>{
+      SeedProposals[challengeKey].forEach((proposalText)=>{
+        let originId = OriginId.generateFromString(`fixture_player_${proposalId}`);
+        Players.insert({
+          _id: `fixture_${proposalId}`,
+          origin_id: originId,
+          created_at: new Date(),
+          last_seen_at: new Date(),
+          votes: {},
+        });
+        Proposals.insert({
+            _id: `fixture_proposal_${proposalId}`,
+            text: proposalText.toUpperCase(),
+            challenge_id: challengeKey,
+            score: 0, // parseInt(10 * Math.random()),
+            score_trending: 0,
+            votes_amount: 0, // parseInt(10 * Math.random()),
+            score_trending: 0,
+            yes_votes: 0,
+            no_votes: 0,
+            in_review: false,
+            blocked: false,
+            origin_ids: [originId],
+        });
+        proposalId++;
+      });
+    });
   }
 
   if (seed_letters && Letters.find().count() === 0) {

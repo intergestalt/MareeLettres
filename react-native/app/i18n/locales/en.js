@@ -15,14 +15,14 @@ export default {
   vote_tutorial_3_title: 'Good swiping!',
   vote_tutorial_3_text: 'If you are an organized person, tap on list to see all suggestions for this topic.',
   vote_tutorial_4_title: 'The List!',
-  vote_tutorial_4_text: 'You can always change your mind about everything. Try it by tapping x or check!',
+  vote_tutorial_4_text: 'You can always change your mind about everything. Try it by tapping x or ✔ !',
   vote_tutorial_5_title: 'Vote changed.',
   vote_tutorial_5_text: 'Now how about making a suggestion yourself? Tap on suggest!',
   vote_tutorial_6_title: 'Your turn to write!',
   vote_tutorial_6_text: 'Drag the letters onto the writing area with your finger. You can also drag them back.',
   vote_tutorial_7_title: 'By the way...',
   vote_tutorial_7_text: 'You can always get back to the overview by tapping on the gray bar at the top.',
-  vote_tutorial_status_title: 'Info',
+  vote_tutorial_status_title: 'Good to know',
   vote_tutorial_status_text: 'You can always check on your suggestion by tapping STATUS',
 
   see_all_votes: 'See past topics',
@@ -60,11 +60,11 @@ export default {
   map_scan_qr_instruction: 'Scan your friend\'s QR code to get their letter.',
   
   map_tutorial_1_title: 'This is the FLUX!',
-  map_tutorial_1_text: 'Choose YOUR letter by tapping on the + symbol on the bottom left.',
+  map_tutorial_1_text: 'Choose YOUR letter by tapping the + symbol on the bottom left.',
   map_tutorial_2_title: 'Well done, [LETTER]!',
   map_tutorial_2_text: 'You can now write on the map by dragging your letter into the circle.',
   map_tutorial_3_title: 'Good work!',
-  map_tutorial_3_text: 'Want different letters? Tap the + symbols below. Or tap your letter to share.',
+  map_tutorial_3_text: 'Feeling lonely? Tap your letter to share it with your friends.',
   
   center_map: 'Center map',
   camera_button: 'Camera',
@@ -78,7 +78,7 @@ export default {
   
   choose_your_letter: 'Which letter do you want to be? Choose wisely, you cannot change this for the next [HOURS] hours.',
   map_too_zoom_title: 'Too high in the sky',
-  map_too_zoom_text: 'Zoom in to the circle place letters!',
+  map_too_zoom_text: 'Zoom in to the circle to place letters!',
   map_too_crowded_title: 'Too crowded',
   map_too_crowded_text: 'There are too many letters in this area. Please write somewhere else or wait.',
   map_too_far_title: 'Too far away',
@@ -86,10 +86,13 @@ export default {
   map_photo_save_title: 'Saved',
   map_photo_save_text: 'Find your pics in your device\'s camera roll!',
 
-  network_error: 'Network error. Please check your internet connection.',
+  error: 'Error',
+  network_error: 'Please check your internet connection.',
   suggestion_too_late_title: 'Too late!',
   suggestion_too_late_text: 'Submission has closed already. Sorry <3',
   suggestion_empty_title: '!',
   suggestion_empty_text: 'You must at least drag one letter.',
   suggestion_wrong: 'Oups. Something did not work. Sorry!',
+
+  blocked_user: 'Submissions from your device have been blocked. Contact us through the info section of the app.'
 };

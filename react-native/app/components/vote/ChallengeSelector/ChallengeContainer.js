@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { Text, View, Animated, PanResponder, Image } from 'react-native';
+import { Text, View, Animated, PanResponder, Image, ActivityIndicator } from 'react-native';
 import { connect } from 'react-redux';
 
 import styles from './styles';
@@ -387,8 +387,8 @@ class ChallengeContainer extends Component {
   }
   renderIsLoading() {
     return (
-      <View style={styles.container}>
-        <Text>Loading...</Text>
+      <View style={[styles.container, { flex: 1 }]}>
+        <ActivityIndicator style={{ flex: 1 }} />
       </View>
     );
   }

@@ -1,5 +1,5 @@
 import React, { PureComponent, PropTypes } from 'react';
-import { View, FlatList, Text } from 'react-native';
+import { View, FlatList, ActivityIndicator } from 'react-native';
 import { connect } from 'react-redux';
 
 import Separator from './Separator';
@@ -60,7 +60,7 @@ class ChallengesList extends PureComponent {
   renderIsLoading() {
     return (
       <View style={styles.container}>
-        <Text>Loading...</Text>
+        <ActivityIndicator style={{ flex: 1 }} />
       </View>
     );
   }

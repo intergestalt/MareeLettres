@@ -67,13 +67,13 @@ const styles = EStyleSheet.create({
   },
   listHeaderLink: {
     fontSize: '0.85rem',
-    color: '#000000',
+    color: 'rgb(120,120,120)',
     fontFamily: 'normal',
     paddingTop: '0.5rem',
   },
   listHeaderText: {
     fontSize: '0.85rem',
-    color: '#FF0000',
+    color: 'black',
     fontFamily: 'normal',
     paddingTop: '0.5rem',
   },

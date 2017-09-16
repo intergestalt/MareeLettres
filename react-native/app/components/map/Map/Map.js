@@ -61,6 +61,7 @@ class Map extends Component {
       },
       pollingCounter: 0,
     };
+    this.state.region = this.state.initialRegion;
   }
 
   async _getPlayerCoords() {
@@ -151,18 +152,24 @@ class Map extends Component {
   };
 
   onRegionChangeComplete = (region) => {
-    if (JSON.stringify(region) !== JSON.stringify(this.props.map.coordinates)) {
+    this.setState({ region });
+    changeMapRegionProxy(region);
+    this.setMapLetterSize(region);
+
+    /*if (JSON.stringify(region) !== JSON.stringify(this.props.map.coordinates)) {
       // console.log("region changed");
       // console.log(this.props.map.coordinates)
       // console.log(region);
       changeMapRegionProxy(region);
       // recalculate the letter size
       this.setMapLetterSize(region);
-    }
+    }*/
+
   };
 
   onRegionChange = (region) => {
-    this.setMapLetterSize(region);
+    this.setState({ region });
+    //this.setMapLetterSize(region);
   };
 
   setMapLetterSize = (region) => {
@@ -176,26 +183,23 @@ class Map extends Component {
     }
   };
 
-  centreMap = () => {
-    // use inbuilt animation function
-    this._map._component.animateToCoordinate(
-      {
-        ...this.props.user.coordinates,
-      },
-      600,
-    );
-  };
-
   centreZoomMap = () => {
     // use inbuilt animation + zoom function
-    this._map._component.animateToRegion(
+    this.setState({region: {
+        latitude: this.props.user.coordinates.latitude,
+        longitude: this.props.user.coordinates.longitude,
+        latitudeDelta: this.state.delta_initial,
+        longitudeDelta: this.state.delta_initial,
+      }}
+    );
+    /*this._map._component.animateToRegion(
       {
         ...this.props.user.coordinates,
         latitudeDelta: this.state.delta_initial,
         longitudeDelta: this.state.delta_initial,
       },
       300,
-    );
+    );*/
   };
 
   onCentreMapButton = () => {
@@ -312,17 +316,21 @@ class Map extends Component {
 
     return (
       <View style={styles.container} ref="mapContainer">
-        <MapView.Animated
+        <MapView
           ref="map"
           onLayout={this.onLayout}
           ref={(input) => {
             this._map = input;
           }}
+
           onRegionChangeComplete={this.onRegionChangeComplete}
-          // onRegionChange={this.onRegionChange}
+          onRegionChange={this.onRegionChange}
           provider={MapView.PROVIDER_GOOGLE}
           style={styles.container}
+          
           initialRegion={this.state.initialRegion}
+          region={this.state.region}
+
           minZoomLevel={this.props.config.map_min_zoom_level}
           maxZoomLevel={this.props.config.map_max_zoom_level}
           customMapStyle={mapstyles}
@@ -341,7 +349,7 @@ class Map extends Component {
             lineDashPattern={[1, 1]}
             zIndex={2}
           />
-        </MapView.Animated>
+        </MapView>
 
         <CameraButton navigation={this.props.navigation} />
 
@@ -349,7 +357,7 @@ class Map extends Component {
           style={[styles.button, styles.buttonCentreMap]}
           onPress={this.onCentreMapButton}
         >
-          <Image source={require('./assets/center.png')} resizeMode="center" />
+          <Image style={styles.buttonCentreMapImage} source={require('./assets/center.png')} resizeMode="contain" />
         </TouchableOpacity>
         <LettersMenu navigation={this.props.navigation} />
 

@@ -99,14 +99,14 @@ class ExpoCamera extends React.Component {
             }}
           />
         ) : (
-          <Camera
-            style={styles.cameraContainer}
-            type={this.state.type}
-            ref={(ref) => {
-              this.camera = ref;
-            }}
-          />
-        )}
+            <Camera
+              style={styles.cameraContainer}
+              type={this.state.type}
+              ref={(ref) => {
+                this.camera = ref;
+              }}
+            />
+          )}
         <View style={styles.photoContainer} ref={ref => (this.photoContainer = ref)}>
           {this.state.pathPhoto ? (
             <Image style={styles.photo} source={{ uri: this.state.pathPhoto }} />
@@ -116,19 +116,23 @@ class ExpoCamera extends React.Component {
         <BackSimple colour="white" onPress={this._cancel} />
         <View style={styles.controls}>
           {this.state.pathPhoto ? (
-            <TouchableOpacity style={styles.button} onPress={this._resetPhoto}>
+            <TouchableOpacity style={styles.panelButton} onPress={this._resetPhoto}>
               <Text style={styles.buttonText}>{I18n.t('reset_button').toUpperCase()}</Text>
             </TouchableOpacity>
           ) : null}
           {this.state.pathPhoto ? (
-            <TouchableOpacity style={styles.button} onPress={this._takeSnapshot}>
-              <Text style={styles.buttonText}>{I18n.t('save_button').toUpperCase()}</Text>
+            <TouchableOpacity style={[styles.panelButton, styles.panelButtonLast]} onPress={this._takeSnapshot}>
+              <Text style={[styles.buttonText, styles.buttonTextLast]}>{I18n.t('save_button').toUpperCase()}</Text>
             </TouchableOpacity>
           ) : (
-            <TouchableOpacity style={styles.button} onPress={this._takePhoto}>
-              <Text style={styles.buttonText}>{I18n.t('snap_button').toUpperCase()}</Text>
-            </TouchableOpacity>
-          )}
+              <TouchableOpacity style={styles.centerButton} onPress={this._takePhoto}>
+                <Image
+                  style={styles.buttomSnapImage}
+                  source={require('./assets/snap.png')}
+                  resizeMode="contain"
+                />
+              </TouchableOpacity>
+            )}
           {/* <TouchableOpacity style={styles.button}
                 onPress={this._shareSnapshot}>
                 <Text style={styles.buttonText}>Share</Text>

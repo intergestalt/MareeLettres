@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { Animated, View, Text, TouchableOpacity } from 'react-native';
+import { Animated, View, Text, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { connect } from 'react-redux';
 
 import styles from './styles';
@@ -28,14 +28,14 @@ class ProposalTinder extends Component {
   };
 
   componentWillMount() {
-    if(this.props.challengeOffset === 0) {
-      if(!this.props.voteTutorialStatus.tinder1) {
+    if (this.props.challengeOffset === 0) {
+      if (!this.props.voteTutorialStatus.tinder1) {
         this.props.alertWithType(
           'info',
           I18n.t('vote_tutorial_2_title'),
           I18n.t('vote_tutorial_2_text')
         );
-        setUserVoteTutorialStatusProxy('tinder1');  
+        setUserVoteTutorialStatusProxy('tinder1');
       }
     }
   }
@@ -43,7 +43,7 @@ class ProposalTinder extends Component {
   renderIsLoading() {
     return (
       <View style={styles.container}>
-        <Text>Loading...</Text>
+        <ActivityIndicator style={{ flex: 1 }} />
       </View>
     );
   }

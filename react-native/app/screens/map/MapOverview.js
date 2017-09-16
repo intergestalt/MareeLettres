@@ -2,6 +2,8 @@ import React, { PropTypes, Component } from 'react';
 import { StatusBar } from 'react-native';
 import { connect } from 'react-redux';
 
+import globalStyles from '../../config/globalStyles';
+
 import { Screen } from '../../components/general/Container';
 import { Map } from '../../components/map/Map';
 // import { LettersMenu, CameraButton, MapScreenMenu } from '../../components/map/Overlay';
@@ -23,18 +25,23 @@ class MapOverview extends Component {
     I18n.locale = this.props.language;
     const user = this.props.user;
     if (user.map.tutorialStatus == 'welcome') {
-      this.props.alertWithType(
-        'info',
-        I18n.t('map_tutorial_1_title'),
-        I18n.t('map_tutorial_1_text'),
-      );
-      setUserMapTutorialStatusProxy('step2');
+      setTimeout(()=>{
+        this.props.alertWithType(
+          'info',
+          I18n.t('map_tutorial_1_title'),
+          I18n.t('map_tutorial_1_text'),
+        );
+        setUserMapTutorialStatusProxy('step2');
+      }, 500);
     }
   }
 
   render() {
     return (
-      <Screen navigation={this.props.navigation} backgroundColor={'#00aaaa'}>
+      <Screen
+        navigation={this.props.navigation}
+        backgroundColor={globalStyles.$screenLoadingBackgroundColor}
+      >
         <StatusBar />
         <Map navigation={this.props.navigation} />
       </Screen>

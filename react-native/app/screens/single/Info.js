@@ -1,5 +1,6 @@
 import React, { PropTypes, Component } from 'react';
 import { StatusBar, Button } from 'react-native';
+import Expo from 'expo';
 
 import { Screen } from '../../components/general/Container';
 import { InfoBox } from '../../components/info/InfoBox';
@@ -19,10 +20,10 @@ class Info extends Component {
     return (
       <Screen navigation={this.props.navigation}>
         <StatusBar />
-        <Button
+        {Expo.Constants.appOwnership === 'expo' && <Button
           onPress={this.handleDeleteStorage}
           title="Reset App and delete all personal data"
-        />
+        />}
         <InfoBox />
       </Screen>
     );

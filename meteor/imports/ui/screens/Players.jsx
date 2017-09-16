@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { createContainer } from 'react-meteor-data';
 import { Session } from 'meteor/session';
 import { Meteor } from 'meteor/meteor';
+import { Link } from 'react-router';
 import AutoField from 'uniforms-unstyled/AutoField';
 import AutoForm from 'uniforms-unstyled/AutoForm';
 import SubmitField from 'uniforms-unstyled/SubmitField';
@@ -54,8 +55,14 @@ class PlayersPage extends Component {
       accessor: 'created_at',
       Cell: props => <Moment format="DD.MM.YY HH:MM" tz="Europe/Paris">{props.row.created_at}</Moment>,
     }, {
-      Header: 'banned',
-      accessor: 'banned',
+      Header: 'Blocked',
+      accessor: 'blocked',
+      Cell: props => <span> {props.row.blocked ? "blocked" : "-"} </span>,
+    },
+    {
+      Header: 'Actions',
+      accessor: 'origin_id',
+      Cell: props => <Link to={"/admin/players/" + props.row.origin_id}>Edit</Link>,
     }];
 
     return (
@@ -68,41 +75,6 @@ class PlayersPage extends Component {
           manual
           onFetchData={this.fetchData}
           defaultPageSize={Session.get('playersListLimit')}
-          SubComponent={row => {
-            return (
-              <div style={{ padding: "20px" }}>
-                <ReactTable
-                  style={{ width: "50%", float: "left" }}
-                  data={row.original.proposals}
-                  columns={[{
-                    Header: 'Proposals Id',
-                    accessor: '_id',
-                  },
-                  {
-                    Header: 'Challenge Id',
-                    accessor: 'challenge_id',
-                  }]}
-                  defaultPageSize={row.original.proposals.length}
-                  showPagination={false}
-                />
-                <ReactTable
-                  data={Object.entries(row.original.votes)}
-                  columns={[{
-                    Header: 'Proposal Id',
-                    id: 'proposal_id',
-                    accessor: d => (d[0]),
-                  },
-                  {
-                    Header: 'Value',
-                    id: 'value',
-                    accessor: d => (d[1] ? "Yes" : "No"),
-                  }]}
-                  defaultPageSize={Object.keys(row.original.votes).length}
-                  showPagination={false}
-                />
-              </div>
-            );
-          }}
         />
       </AdminWrapper>
     );
@@ -113,7 +85,7 @@ export default createContainer((props) => {
   const sort = Session.get('playersListSort');
   const options = {
     limit: Session.get('playersListLimit'),
-    fields: { origin_id: 1, _id: 1, last_seen: 1, created_at: 1, proposals: 1, votes: 1 },
+    fields: { origin_id: 1, _id: 1, last_seen: 1, created_at: 1, blocked: 1 },
     sort,
   };
 

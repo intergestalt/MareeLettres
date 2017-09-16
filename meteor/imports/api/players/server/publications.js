@@ -15,18 +15,22 @@ Meteor.publish(
 
     return Players.find({}, options);
   },
+);
 
+Meteor.publish(
   'get.player',
-  function getPlayers(id) {
+  function getPlayer(data) {
     if (!this.userId) return;
-    return Players.find(id);
+    const origin_id = data.origin_id;
+    if (!origin_id) return;
+    return Players.find({ origin_id: origin_id });
   },
+);
 
-  'get.players.amount',
+Meteor.publish('get.players.amount',
   function getPlayers() {
     if (!this.userId) return;
 
     return Players.find().count();
   },
-
 );

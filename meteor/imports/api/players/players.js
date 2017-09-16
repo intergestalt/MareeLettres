@@ -5,7 +5,7 @@ const Players = new Mongo.Collection('players');
 
 Players.allow({
   insert: () => false,
-  update: () => false,
+  update: () => (userId) => (userId || false),
   remove: () => false,
 });
 
@@ -55,7 +55,7 @@ const PlayersSchema = new SimpleSchema({
   proposals: {
     type: Array,
     optional: true,
-    title: 'Own proposals'
+    title: 'Own proposals',
   },
   last_seen_at: {
     type: Date,
@@ -66,10 +66,10 @@ const PlayersSchema = new SimpleSchema({
     type: Date,
     optional: true,
   },
-  banned: {
+  blocked: {
     type: Boolean,
     defaultValue: false,
-    title: 'A banned player is banned from the MAP game',
+    title: 'A blocked player can neither place a letter nor post a proposal',
   },
 });
 
