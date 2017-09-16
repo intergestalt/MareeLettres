@@ -93,4 +93,6 @@ export default {
   suggestion_empty_title: '!',
   suggestion_empty_text: 'Tu dois faire glisser au moins une lettre.',
   suggestion_wrong: 'Oups. Une erreur est survenue. Désolé !',
+
+  blocked_user: 'Les soumissions de votre appareil ont été bloquées. Contactez-nous via la section info de l\'application'
 };

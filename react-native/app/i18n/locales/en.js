@@ -93,4 +93,6 @@ export default {
   suggestion_empty_title: '!',
   suggestion_empty_text: 'You must at least drag one letter.',
   suggestion_wrong: 'Oups. Something did not work. Sorry!',
+
+  blocked_user: 'Submissions from your device have been blocked. Contact us through the info section of the app.'
 };
