@@ -60,7 +60,7 @@ export default {
   map_scan_qr_instruction: 'Scan your friend\'s QR code to get their letter.',
   
   map_tutorial_1_title: 'This is the FLUX!',
-  map_tutorial_1_text: 'Choose YOUR letter by tapping on the + symbol on the bottom left.',
+  map_tutorial_1_text: 'Choose YOUR letter by tapping the + symbol on the bottom left.',
   map_tutorial_2_title: 'Well done, [LETTER]!',
   map_tutorial_2_text: 'You can now write on the map by dragging your letter into the circle.',
   map_tutorial_3_title: 'Good work!',
