@@ -28,7 +28,7 @@ class ProposalTinder extends Component {
   };
 
   componentWillMount() {
-    if (this.props.challengeOffset === 0) {
+    if (this.props.challengeOffset === 0 && this.props.voteTutorialStatus) {
       if (!this.props.voteTutorialStatus.tinder1) {
         this.props.alertWithType(
           'info',

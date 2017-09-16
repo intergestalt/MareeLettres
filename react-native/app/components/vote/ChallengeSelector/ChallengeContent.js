@@ -223,13 +223,15 @@ class ChallengeContent extends Component {
       this.props.dispatch(deleteProposalFromTinderList(this.getChallenge()._id));
       this.checkToLoadMoreProposals();
 
-      if (!this.props.voteTutorialStatus.tinder2) {
-        this.props.alertWithType(
-          'info',
-          I18n.t('vote_tutorial_3_title'),
-          I18n.t('vote_tutorial_3_text'),
-        );
-        setUserVoteTutorialStatusProxy('tinder2');
+      if(this.props.voteTutorialStatus) {
+        if (!this.props.voteTutorialStatus.tinder2) {
+          this.props.alertWithType(
+            'info',
+            I18n.t('vote_tutorial_3_title'),
+            I18n.t('vote_tutorial_3_text'),
+          );
+          setUserVoteTutorialStatusProxy('tinder2');
+        }
       }
     });
   }

@@ -56,7 +56,7 @@ Meteor.startup(() => {
 
   if (Challenges.find().count() === 0) {
     console.log('Seeding Challenges');
-    for (let i = 1; i <= SeedChallenges.length; i++) {
+    for (let i = 1; i <= 40; i++) {
       Challenges.insert(
         {
           _id: `fixture_${i}`,
@@ -68,13 +68,13 @@ Meteor.startup(() => {
           votes_amount: 0,
           proposals_amount: 0,
           start_date: moment()
-            .add(i + 3, 'days')
+            .add(i - 15, 'hours')
             .toDate(),
           end_date: moment()
-            .add(i + 4, 'days')
+            .add(i - 10, 'hours')
             .toDate(),
           proposals_end_date: moment()
-            .add(i + 5, 'days')
+            .add(i - 10, 'hours')
             .add(-10, 'minutes')
             .toDate(),
           ...SeedChallenges[i - 1],
@@ -82,7 +82,8 @@ Meteor.startup(() => {
         (err, id) => {
           if (seed_proposals_and_players && id != undefined) {
             console.log('Seeding Proposals');
-            const amount = 10 * Math.floor(10 * Math.random());
+            let amount = 10 * Math.floor(50 * Math.random());
+            if(amount % 4 == 0) amount = 0;
             for (let j = 1; j <= amount; j++) {
               Proposals.insert({
                 _id: `fixture_${i}_${j}`,
