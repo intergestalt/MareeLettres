@@ -24,9 +24,9 @@ export class BlinkText extends Component {
   }
 
   render() {
-    let display = this.props.blinking ? (this.state.showText ? this.props.text : ' ') : this.props.text;
+    let visibilityStyle = this.props.blinking ? (this.state.showText ? {color: "transparent"} : {}) : {};
     return (
-      <Text style={this.props.style}>{display}</Text>
+      <Text style={[this.props.style, visibilityStyle]}>{this.props.text}</Text>
     );
   }
 }
