@@ -28,12 +28,12 @@ class ProposalTinder extends Component {
   };
 
   componentWillMount() {
-    if (this.props.challengeOffset === 0) {
+    if (this.props.challengeOffset === 0 && this.props.voteTutorialStatus) {
       if (!this.props.voteTutorialStatus.tinder1) {
         this.props.alertWithType(
           'info',
           I18n.t('vote_tutorial_2_title'),
-          I18n.t('vote_tutorial_2_text')
+          I18n.t('vote_tutorial_2_text'),
         );
         setUserVoteTutorialStatusProxy('tinder1');
       }
@@ -204,13 +204,17 @@ const mapStateToProps = (state, ownProps) => {
     const p = state.proposals[id];
 
     const proposals = getProposalList(p, proposalView, proposalListMode);
-    const isLoading = proposals.isLoading;
-    const proposal = proposals.proposals[ownProps.proposalIndex];
+    let isLoading = true;
+    let proposal = null;
+    if (proposals) {
+      isLoading = proposals.isLoading;
+      proposal = proposals.proposals[ownProps.proposalIndex];
+    }
     return {
       proposal,
       isLoading,
       language: state.globals.language,
-      voteTutorialStatus: state.user.voteTutorialStatus
+      voteTutorialStatus: state.user.voteTutorialStatus,
     };
   } catch (e) {
     console.log('ProposalTinder');

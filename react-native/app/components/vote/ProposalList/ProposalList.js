@@ -39,13 +39,15 @@ class ProposalList extends PureComponent {
   }
 
   componentWillMount() {
-    if (!this.props.voteTutorialStatus.list1 && this.props.challengeOffset == 0) {
-      this.props.alertWithType(
-        'info',
-        I18n.t('vote_tutorial_4_title'),
-        I18n.t('vote_tutorial_4_text'),
-      );
-      setUserVoteTutorialStatusProxy('list1');
+    if (this.props.voteTutorialStatus) {
+      if (!this.props.voteTutorialStatus.list1 && this.props.challengeOffset == 0) {
+        this.props.alertWithType(
+          'info',
+          I18n.t('vote_tutorial_4_title'),
+          I18n.t('vote_tutorial_4_text'),
+        );
+        setUserVoteTutorialStatusProxy('list1');
+      }
     }
   }
 
@@ -100,13 +102,15 @@ class ProposalList extends PureComponent {
     this.props.dispatch(userVoteInternal(proposalId, yes));
     this.props.dispatch(deleteProposalFromTinderList(challengeId, proposalId));
 
-    if (!this.props.voteTutorialStatus.list2) {
-      this.props.alertWithType(
-        'info',
-        I18n.t('vote_tutorial_5_title'),
-        I18n.t('vote_tutorial_5_text'),
-      );
-      setUserVoteTutorialStatusProxy('list2');
+    if (this.props.voteTutorialStatus) {
+      if (!this.props.voteTutorialStatus.list2) {
+        this.props.alertWithType(
+          'info',
+          I18n.t('vote_tutorial_5_title'),
+          I18n.t('vote_tutorial_5_text'),
+        );
+        setUserVoteTutorialStatusProxy('list2');
+      }
     }
   }
 
@@ -177,7 +181,7 @@ class ProposalList extends PureComponent {
               ) : null
             }
             onEndReachedThreshold={DYNAMIC_CONFIG.PROPOSAL_RELOAD_LIST_OFFSET}
-            onEndReached={this.props.listEnabled ? this.onEndReached : null}
+            onEndReached={this.onEndReached}
             ListFooterComponent={this.renderFooter()}
           />
         </View>
@@ -200,12 +204,19 @@ const mapStateToProps = (state, ownProps) => {
     }
     // all 4 lists
     const p = state.proposals[id];
+
     const p2 = getProposalList(p, proposalView, proposalListMode);
 
-    const proposals = p2.proposals;
-    const isPullDownLoading = p2.isPullDownLoading;
-    const isPullUpLoading = p2.isPullUpLoading;
-    const lastLimit = p2.lastLimit;
+    let proposals = null;
+    let isPullDownLoading = false;
+    let isPullUpLoading = false;
+    let lastLimit = 1;
+    if (p2) {
+      proposals = p2.proposals;
+      isPullDownLoading = p2.isPullDownLoading;
+      isPullUpLoading = p2.isPullUpLoading;
+      lastLimit = p2.lastLimit;
+    }
     return {
       challenges,
       proposals,

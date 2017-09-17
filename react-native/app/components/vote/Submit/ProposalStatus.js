@@ -26,13 +26,15 @@ class ProposalStatus extends Component {
 
   componentWillUnmount() {
     console.log("unmount");
-    if(!this.props.voteTutorialStatus.status && this.props.voteTutorialStatus.back) {
-      this.props.alertWithType(
-          'info',
-          I18n.t('vote_tutorial_status_title'),
-          I18n.t('vote_tutorial_status_text')
-        );
-      setUserVoteTutorialStatusProxy("status");
+    if(this.props.voteTutorialStatus) {
+      if(!this.props.voteTutorialStatus.status && this.props.voteTutorialStatus.back) {
+        this.props.alertWithType(
+            'info',
+            I18n.t('vote_tutorial_status_title'),
+            I18n.t('vote_tutorial_status_text')
+          );
+        setUserVoteTutorialStatusProxy("status");
+      }
     }
   }
 

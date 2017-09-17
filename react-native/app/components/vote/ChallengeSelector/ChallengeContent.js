@@ -223,13 +223,15 @@ class ChallengeContent extends Component {
       this.props.dispatch(deleteProposalFromTinderList(this.getChallenge()._id));
       this.checkToLoadMoreProposals();
 
-      if (!this.props.voteTutorialStatus.tinder2) {
-        this.props.alertWithType(
-          'info',
-          I18n.t('vote_tutorial_3_title'),
-          I18n.t('vote_tutorial_3_text'),
-        );
-        setUserVoteTutorialStatusProxy('tinder2');
+      if(this.props.voteTutorialStatus) {
+        if (!this.props.voteTutorialStatus.tinder2) {
+          this.props.alertWithType(
+            'info',
+            I18n.t('vote_tutorial_3_title'),
+            I18n.t('vote_tutorial_3_text'),
+          );
+          setUserVoteTutorialStatusProxy('tinder2');
+        }
       }
     });
   }
@@ -386,8 +388,8 @@ class ChallengeContent extends Component {
         {this.props.proposalView === PROPOSAL_VIEWS.TINDER ? (
           <ReloadButton textKey="reload_proposals_tinder" onReload={this.handleReloadPressPress} />
         ) : (
-            <ReloadButton textKey="reload_proposals" onReload={this.handleReloadPressPress} />
-          )}
+          <ReloadButton textKey="reload_proposals" onReload={this.handleReloadPressPress} />
+        )}
       </View>
     );
   }
@@ -440,10 +442,13 @@ const mapStateToProps = (state, ownProps) => {
         // all 4 lists
         const p = state.proposals[challengeId];
         // get the correct list
+
         const p2 = getProposalList(p, proposalView, proposalListMode);
-        proposals = p2.proposals;
-        isLoading = p2.isLoading;
-        lastLoaded = p2.lastLoaded;
+        if (p2) {
+          proposals = p2.proposals;
+          isLoading = p2.isLoading;
+          lastLoaded = p2.lastLoaded;
+        }
       }
     }
 

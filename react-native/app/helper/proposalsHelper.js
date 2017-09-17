@@ -45,6 +45,7 @@ export function getProposalKey(proposalView, proposalListMode) {
   return 'tinder';
 }
 export function getProposalList(proposalsParent, proposalView, proposalListMode) {
+  if (!proposalsParent) return null;
   if (proposalView === PROPOSAL_VIEWS.LIST) {
     if (proposalListMode === PROPOSAL_LIST_MODES.MOST) {
       return proposalsParent.listMost;
@@ -54,7 +55,7 @@ export function getProposalList(proposalsParent, proposalView, proposalListMode)
       return proposalsParent.listTrending;
     }
   } else if (proposalView === PROPOSAL_VIEWS.TINDER) {
-    return proposalsParent ? proposalsParent.tinder : null;
+    return proposalsParent.tinder;
   }
   return proposalsParent.tinder;
 }
@@ -109,7 +110,6 @@ function mergeProposalListList(oldList, newList) {
     const entry = newList[i];
     if (!entry.blocked) {
       if (!entry.in_review) {
-        console.log(entry);
         const key = entry._id;
 
         if (votes[key]) {

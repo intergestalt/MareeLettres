@@ -101,28 +101,32 @@ class ProposalSubmitter extends Component {
   }
 
   componentWillMount() {
-    if(!this.props.voteTutorialStatus.submit) {
-      setTimeout(()=>{
-        this.props.alertWithType(
-          'info',
-          I18n.t('vote_tutorial_6_title'),
-          I18n.t('vote_tutorial_6_text')
-        );
-        setUserVoteTutorialStatusProxy('submit');  
-      }, 1000);
+    if(this.props.voteTutorialStatus) {
+      if(!this.props.voteTutorialStatus.submit) {
+        setTimeout(()=>{
+          this.props.alertWithType(
+            'info',
+            I18n.t('vote_tutorial_6_title'),
+            I18n.t('vote_tutorial_6_text')
+          );
+          setUserVoteTutorialStatusProxy('submit');  
+        }, 1000);
+      }
     }
   }
 
   componentWillUnmount() {
-    if(!this.props.voteTutorialStatus.back) {
-      setTimeout(()=>{
-        this.props.alertWithType(
-          'info',
-          I18n.t('vote_tutorial_7_title'),
-          I18n.t('vote_tutorial_7_text')
-        );
-        setUserVoteTutorialStatusProxy('back');  
-      }, 500);
+    if(this.props.voteTutorialStatus) {
+      if(!this.props.voteTutorialStatus.back) {
+        setTimeout(()=>{
+          this.props.alertWithType(
+            'info',
+            I18n.t('vote_tutorial_7_title'),
+            I18n.t('vote_tutorial_7_text')
+          );
+          setUserVoteTutorialStatusProxy('back');  
+        }, 500);
+      }
     }
   }
 

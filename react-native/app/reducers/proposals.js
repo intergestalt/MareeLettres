@@ -57,7 +57,7 @@ export default (state = initialState.proposals, action) => {
           action.proposalListMode,
         );
 
-        if (!listIsEmpty(oldProposalList.proposals)) {
+        if (!oldProposalList || !listIsEmpty(oldProposalList.proposals)) {
           oldProposalList.isLoading = !action.quietLoading;
         } else {
           oldProposalList.isLoading = true;
@@ -77,11 +77,14 @@ export default (state = initialState.proposals, action) => {
         // of all 4 lists
         const p = state[action.action.challengeId];
         // the changed list
-        const newProposalList = getProposalList(
+        let newProposalList = getProposalList(
           p,
           action.action.proposalView,
           action.action.proposalListMode,
         );
+        if (!newProposalList) {
+          newProposalList = { proposals: {} };
+        }
         const mergedProposalList = mergeProposalList(
           newProposalList.proposals,
           action.result.proposals,
@@ -156,7 +159,10 @@ export default (state = initialState.proposals, action) => {
         // of all 4 lists
         const p = state[action.challengeId];
         // correct List
-        const listToChange = getProposalList(p, PROPOSAL_VIEWS.TINDER);
+        let listToChange = getProposalList(p, PROPOSAL_VIEWS.TINDER);
+        if (!listToChange) {
+          listToChange = { proposals: {} };
+        }
         const oldProposals = listToChange.proposals;
 
         if (!proposalId) {
@@ -196,8 +202,12 @@ export default (state = initialState.proposals, action) => {
       case CUT_PROPOSAL_LIST_TO_DEFAULT: {
         // of all 4 lists
         const p = state[action.challengeId];
+        if (!p) return state;
         // the changed list
-        const proposalList = getProposalList(p, action.proposalView, action.proposalListMode);
+        let proposalList = getProposalList(p, action.proposalView, action.proposalListMode);
+        if (!proposalList) {
+          proposalList = { proposals: {} };
+        }
         const cuttedProposalList = cutProposalList(proposalList.proposals, action.proposalView);
         proposalList.proposals = cuttedProposalList;
         proposalList.lastLoaded = 1;

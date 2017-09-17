@@ -108,7 +108,7 @@ class ChallengeContainer extends Component {
         return;
       }
     }
-    const proposalId = this.props.challenges[index]._id;
+    const challengeId = this.props.challenges[index]._id;
     let limit = -1;
     if (view === PROPOSAL_VIEWS.LIST) {
       limit = DYNAMIC_CONFIG.DEFAULT_PROPOSAL_LIST_LIMIT;
@@ -119,14 +119,12 @@ class ChallengeContainer extends Component {
     if (
       !loadProposalsServiceProxy(
         false,
-        proposalId,
+        challengeId,
         limit,
         DYNAMIC_CONFIG.LOAD_QUIET_CHALLENGE_SELECTOR.bool,
       )
     ) {
-      this.props.dispatch(
-        cutProposalListToDefault(this.props.selectedChallengeId, proposalId, view, listmode),
-      );
+      this.props.dispatch(cutProposalListToDefault(challengeId, view, listmode));
     }
   }
   getLoadParams(index) {
@@ -174,11 +172,10 @@ class ChallengeContainer extends Component {
     console.log('list press');
     this.resetProposalListPos();
     this.props.dispatch(setProposalView(this.props.selectedChallengeId, PROPOSAL_VIEWS.LIST));
-    this.loadProposals(
-      this.props.selectedChallengeIndex,
-      PROPOSAL_VIEWS.LIST,
-      this.props.selectedProposalListMode,
-    );
+
+    const params = this.getLoadParams(this.props.selectedChallengeIndex);
+
+    this.loadProposals(this.props.selectedChallengeIndex, PROPOSAL_VIEWS.LIST, params.mode);
   }
   onMostPress() {
     this.resetProposalListPos();
