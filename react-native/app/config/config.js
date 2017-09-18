@@ -24,11 +24,11 @@ const server = Expo.Constants.manifest.extra.server || 'dev';
 const serverAddress = servers[server].uri;
 const serverProtocol = servers[server].protocol;
 
-console.log(Expo.Constants.manifest.extra);
 console.log(`- NODE_ENV: ${process.env.NODE_ENV}`);
 console.log(`- Server Address: ${serverAddress}`);
 
 export default {
+  SERVER_NAME: server,
   SERVER_ADDRESS: serverAddress,
   SERVER_URL: `${serverProtocol}://${serverAddress}/`,
   API_PREFIX: `${serverProtocol}://${serverAddress}/api/`,
