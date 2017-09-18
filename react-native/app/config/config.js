@@ -1,30 +1,30 @@
-/* BEGIN SET YOUR LOCAL IP ADDRESS HERE */
+import Expo from 'expo';
 
-//const DEV_MAREE_SERVER_ADDRESS = `${Expo.Constants.linkingUri.match(/:\/\/(.*):/)[1]}:3000`;
-const DEV_MAREE_SERVER_ADDRESS = 'maree.herokuapp.com'; // dev server
-//const DEV_MAREE_SERVER_ADDRESS = 'serene-everglades-41181.herokuapp.com' // staging server
-//const DEV_MAREE_SERVER_ADDRESS = 'mareedeslettres.herokuapp.com' // production server
+const servers = {
+  local: {
+    uri: `${Expo.Constants.linkingUri.match(/:\/\/(.*):/)[1]}:3000`,
+    protocol: 'http',
+  },
+  dev: {
+    uri: 'maree.herokuapp.com',
+    protocol: 'https',
+  },
+  staging: {
+    uri: 'serene-everglades-41181.herokuapp.com',
+    protocol: 'https',
+  },
+  production: {
+    uri: 'mareedeslettres.herokuapp.com',
+    protocol: 'https',
+  },
+};
 
-/* END SET YOUR LOCAL IP ADDRESS HERE */
+const server = Expo.Constants.manifest.extra.server || 'dev';
 
-const DEV_MAREE_SERVER_PROTOCOL = 'http';
+const serverAddress = servers[server].uri;
+const serverProtocol = servers[server].protocol;
 
-// LIVE setup
-const LIVE_MAREE_SERVER_PROTOCOL = 'https';
-const LIVE_MAREE_SERVER_ADDRESS = 'maree.herokuapp.com'; // dev server
-//const LIVE_MAREE_SERVER_ADDRESS = 'serene-everglades-41181.herokuapp.com' // staging server
-//const LIVE_MAREE_SERVER_ADDRESS = 'mareedeslettres.herokuapp.com' // production server
-
-const serverAddress =
-  process.env.NODE_ENV === 'development' && DEV_MAREE_SERVER_ADDRESS
-    ? DEV_MAREE_SERVER_ADDRESS
-    : LIVE_MAREE_SERVER_ADDRESS;
-
-const serverProtocol =
-  process.env.NODE_ENV === 'development' && DEV_MAREE_SERVER_PROTOCOL
-    ? DEV_MAREE_SERVER_PROTOCOL
-    : LIVE_MAREE_SERVER_PROTOCOL;
-
+console.log(Expo.Constants.manifest.extra);
 console.log(`- NODE_ENV: ${process.env.NODE_ENV}`);
 console.log(`- Server Address: ${serverAddress}`);
 

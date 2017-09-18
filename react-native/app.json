@@ -5,6 +5,9 @@
     "version": "1.0.0",
     "slug": "mareelettres",
     "sdkVersion": "20.0.0",
+    "extra": {
+      "server": "dev" /* local | dev | staging | production */
+    },
     "ios": {
       "bundleIdentifier": "fr.paris.mareedeslettres",
       "icon": "./assets/maree_512x512.png",
