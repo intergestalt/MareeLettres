@@ -19,7 +19,10 @@ const servers = {
   },
 };
 
-const server = Expo.Constants.manifest.extra.server || 'dev';
+let server = 'dev';
+if(Expo.Constants.manifest.extra) {
+  server = Expo.Constants.manifest.extra.server;
+}
 
 const serverAddress = servers[server].uri;
 const serverProtocol = servers[server].protocol;
