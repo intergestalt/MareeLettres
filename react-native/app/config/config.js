@@ -1,8 +1,9 @@
 import Expo from 'expo';
 
+const server = 'dev'; // set server here: ( local | dev | staging | production )
+
 const servers = {
   local: {
-    uri: `${Expo.Constants.linkingUri.match(/:\/\/(.*):/)[1]}:3000`,
     protocol: 'http',
   },
   dev: {
@@ -19,15 +20,15 @@ const servers = {
   },
 };
 
-let server = 'dev';
-if(Expo.Constants.manifest.extra) {
-  server = Expo.Constants.manifest.extra.server;
+if (server === 'local') {
+  servers.local.uri = `${Expo.Constants.linkingUri.match(/:\/\/(.*):/)[1]}:3000`;
 }
 
 const serverAddress = servers[server].uri;
 const serverProtocol = servers[server].protocol;
 
 console.log(`- NODE_ENV: ${process.env.NODE_ENV}`);
+console.log(`- Server: ${server}`);
 console.log(`- Server Address: ${serverAddress}`);
 
 export default {
