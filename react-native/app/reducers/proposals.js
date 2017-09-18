@@ -202,6 +202,7 @@ export default (state = initialState.proposals, action) => {
       case CUT_PROPOSAL_LIST_TO_DEFAULT: {
         // of all 4 lists
         const p = state[action.challengeId];
+        if (!p) return state;
         // the changed list
         let proposalList = getProposalList(p, action.proposalView, action.proposalListMode);
         if (!proposalList) {

@@ -39,7 +39,7 @@ class ProposalList extends PureComponent {
   }
 
   componentWillMount() {
-    if(this.props.voteTutorialStatus) {
+    if (this.props.voteTutorialStatus) {
       if (!this.props.voteTutorialStatus.list1 && this.props.challengeOffset == 0) {
         this.props.alertWithType(
           'info',
@@ -102,7 +102,7 @@ class ProposalList extends PureComponent {
     this.props.dispatch(userVoteInternal(proposalId, yes));
     this.props.dispatch(deleteProposalFromTinderList(challengeId, proposalId));
 
-    if(this.props.voteTutorialStatus) {
+    if (this.props.voteTutorialStatus) {
       if (!this.props.voteTutorialStatus.list2) {
         this.props.alertWithType(
           'info',
@@ -181,7 +181,7 @@ class ProposalList extends PureComponent {
               ) : null
             }
             onEndReachedThreshold={DYNAMIC_CONFIG.PROPOSAL_RELOAD_LIST_OFFSET}
-            onEndReached={this.props.listEnabled ? this.onEndReached : null}
+            onEndReached={this.onEndReached}
             ListFooterComponent={this.renderFooter()}
           />
         </View>

@@ -110,7 +110,6 @@ function mergeProposalListList(oldList, newList) {
     const entry = newList[i];
     if (!entry.blocked) {
       if (!entry.in_review) {
-        console.log(entry);
         const key = entry._id;
 
         if (votes[key]) {
