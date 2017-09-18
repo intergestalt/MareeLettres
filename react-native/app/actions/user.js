@@ -25,6 +25,7 @@ export const USER_ADD_FRIEND_LETTER = 'USER_ADD_FRIEND_LETTER';
 export const USER_SET_MAP_TUTORIAL_STATUS = 'USER_SET_MAP_TUTORIAL_STATUS';
 export const USER_SET_VOTE_TUTORIAL_STATUS = 'USER_SET_VOTE_TUTORIAL_STATUS';
 export const USER_FLAG_LETTER_FOR_OVERWRITE = 'USER_FLAG_LETTER_FOR_OVERWRITE';
+export const USER_STORAGE_PERMISSION_ANDROID = 'USER_STORAGE_PERMISSION_ANDROID';
 
 export const USER_VOTE_INTERNAL = 'USER_VOTE_INTERNAL';
 export const USER_SEND_INTERNAL_VOTES = 'USER_SEND_INTERNAL_VOTES';
@@ -123,6 +124,10 @@ export const setUserVoteTutorialStatus = status => ({
   status,
 });
 
+export const setUserHasStoragePermissionAndroid = status => ({
+  type: USER_STORAGE_PERMISSION_ANDROID,
+  errorEvent: USER_UPDATE_ERROR
+})
 
 export const binLetter = menuIndex => ({
   type: USER_BIN_LETTER,

@@ -7,6 +7,7 @@ import {
   Image,
   CameraRoll,
   PermissionsAndroid,
+  Platform
 } from 'react-native';
 import { Camera, Permissions, takeSnapshotAsync } from 'expo';
 import styles from './styles';
@@ -19,6 +20,7 @@ import { connect } from 'react-redux';
 import LetterOverlay from './LetterOverlay';
 import { connectAlert } from '../../../components/general/Alert';
 import { BackSimple } from '../../general/BackButton';
+import { setUserHasStoragePermissionAndroidProxy }  from '../../../helper/userHelper';
 
 class ExpoCamera extends React.Component {
   constructor(props) {
@@ -34,16 +36,30 @@ class ExpoCamera extends React.Component {
     /* this.state = {
       pathPhoto: "https://cdn.pixabay.com/photo/2017/01/06/19/15/soap-bubble-1958650_960_720.jpg"
     } */
-  }
 
-  state = {
-    hasCameraPermission: null,
-    type: Camera.Constants.Type.back,
-  };
+    this.state = {
+      hasCameraPermission: null,
+      type: Camera.Constants.Type.back,
+      pathPhoto: null
+    };
+  }
 
   async componentWillMount() {
     const { status } = await Permissions.askAsync(Permissions.CAMERA);
     this.setState({ hasCameraPermission: status === 'granted' });
+  }
+
+  async componentDidMount() {
+    // this is done once to obtain write external storage permission on android - remove when there is a better way
+    if(!this.props.user.hasStoragePermissionAndroid && Platform.OS === 'android') {
+      const resultCamera = await Expo.ImagePicker.launchCameraAsync({}); 
+      console.log(resultCamera);
+      if(!resultCamera.cancelled) {
+        console.log(resultCamera.uri);
+        this.setState({ pathPhoto: resultCamera.uri })  
+        setUserHasStoragePermissionAndroidProxy();
+      }
+    }
   }
 
   _cancel() {
@@ -70,7 +86,6 @@ class ExpoCamera extends React.Component {
       result: 'file',
     });
 
-    // this doesn't work on android!! no way to ask for this permission in expo
     const saveResult = await CameraRoll.saveToCameraRoll(result, 'photo');
     this.setState({ cameraRollUri: saveResult });
     this.props.alertWithType('info', I18n.t('map_photo_save_title'), I18n.t('map_photo_save_text'));
@@ -160,6 +175,7 @@ const mapStateToProps = (state) => {
   try {
     return {
       language: state.globals.language,
+      user: state.user,
     };
   } catch (e) {
     console.log('ExpoCamera');

@@ -73,6 +73,7 @@ export default {
     created_at: sampleDate,
     last_seen: sampleDate,
     voteTutorialStatus: {},
+    hasStoragePermissionAndroid: false,
     coordinates: {
       latitude: 48.8566,
       longitude: 2.3522,

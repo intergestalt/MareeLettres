@@ -13,7 +13,8 @@ import {
   flagLetterForOverwrite,
   addFriendLetter,
   setUserMapTutorialStatus,
-  setUserVoteTutorialStatus
+  setUserVoteTutorialStatus,
+  setUserHasStoragePermissionAndroid
 } from '../actions/user';
 
 import store from '../config/store';
@@ -56,4 +57,8 @@ export function setUserMapTutorialStatusProxy(char) {
 
 export function setUserVoteTutorialStatusProxy(char) {
   store.dispatch(setUserVoteTutorialStatus(char));
+}
+
+export function setUserHasStoragePermissionAndroidProxy() {
+  store.dispatch(setUserHasStoragePermissionAndroid());
 }
