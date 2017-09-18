@@ -1,6 +1,6 @@
 import Expo from 'expo';
 
-const server = 'dev'; // set server here: ( local | dev | staging | production )
+let server = 'dev'; // set server type here ( local | dev | staging | production)  [ can be overwritten by app.json ]
 
 const servers = {
   local: {
@@ -19,6 +19,17 @@ const servers = {
     protocol: 'https',
   },
 };
+
+// use server from app.json if present
+if (Expo.Constants.manifest.extra && Expo.Constants.manifest.extra.server) {
+  const s = Expo.Constants.manifest.extra.server;
+  if (servers[s]) {
+    server = s;
+  } else {
+    if (!servers[server]) server = 'dev'; // fallback
+    console.log(`WARNIING - server config in app.json is incorrect. using ${server} server as set in config.js .`)
+  }
+}
 
 if (server === 'local') {
   servers.local.uri = `${Expo.Constants.linkingUri.match(/:\/\/(.*):/)[1]}:3000`;

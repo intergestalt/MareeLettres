@@ -1,6 +1,6 @@
 #!/bin/bash
 set -e
-SAY="New version of Maree des Lettres is now published"
+SAY="Development version published"
 
 cd $TMPDIR
 rm -rf MareeLettres
