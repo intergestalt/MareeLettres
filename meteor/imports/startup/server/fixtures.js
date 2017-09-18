@@ -68,13 +68,13 @@ Meteor.startup(() => {
           votes_amount: 0,
           proposals_amount: 0,
           start_date: moment()
-            .add(i - 15, 'hours')
+            .add(i - 11, 'days')
             .toDate(),
           end_date: moment()
-            .add(i - 10, 'hours')
+            .add(i - 10, 'days')
             .toDate(),
           proposals_end_date: moment()
-            .add(i - 10, 'hours')
+            .add(i - 10, 'days')
             .add(-10, 'minutes')
             .toDate(),
           ...SeedChallenges[i - 1],

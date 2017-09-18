@@ -18,6 +18,7 @@ import {
   SET_USER_LOADED_FROM_STORAGE,
   USER_SET_MAP_TUTORIAL_STATUS,
   USER_SET_VOTE_TUTORIAL_STATUS,
+  USER_STORAGE_PERMISSION_ANDROID,
   USER_FLAG_LETTER_FOR_OVERWRITE,
   SET_OWN_PROPOSAL,
   SUCCESS_POST_PROPOSAL,
@@ -346,6 +347,14 @@ export default (state = initialState.user, action) => {
         };
         console.log(result);
         saveUserToStorage(result);
+        return result;
+      }
+      case USER_STORAGE_PERMISSION_ANDROID: {
+        console.log('USER_STORAGE_PERMISSION_ANDROID');
+        const result = {
+          ...state,
+          hasStoragePermissionAndroid: true,
+        };
         return result;
       }
       case USER_SET_VOTE_TUTORIAL_STATUS: {
