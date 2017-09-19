@@ -3,6 +3,8 @@ import { translate } from 'react-i18next';
 import InfoColumn from '../../InfoColumn/InfoColumn';
 import LanguageSelector from '../LanguageSelector/LanguageSelector';
 import ChallengeList from '../../ChallengeList/ChallengeList';
+import NewsFeed from '../../NewsFeed/NewsFeed';
+import FluxMap from '../../Map/Map';
 import './App.css';
 
 class App extends React.Component {
@@ -22,9 +24,11 @@ class App extends React.Component {
         </section>
         <section className="news">
           <div className="sectionHeader">NEWS</div>
+          <NewsFeed/>
         </section>
         <section className="flux">
           <div className="sectionHeader">FLUX</div>
+          <FluxMap/>
         </section>
       </div>
     );
