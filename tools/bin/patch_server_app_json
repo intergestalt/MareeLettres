@@ -7,14 +7,18 @@ const args = process.argv.slice(2);
 const json_file = args[0]
 const server = args[1]
 
-console.log ( "Setting " + json_file + " to " + server);
+console.log("Setting " + json_file + " to " + server);
 
 const json = require(json_file);
 
-json.expo.extra = {
-  server
+if (!json.expo.extra) {
+  json.expo.extra = {
+    server
+  }
+} else {
+  json.expo.extra.server = server
 }
 
-const output = JSON.stringify(json,null,'\t')
+const output = JSON.stringify(json, null, '\t')
 
 fs.writeFileSync(json_file, output)

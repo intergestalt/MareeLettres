@@ -6,7 +6,7 @@ PROJECT_NAME="MareeLettres"
 EXPO_ACCOUNT="mareedeslettres"
 command=`basename "$0"`
 command_path_full=`realpath "$0"`
-command_path=`dirname "$command_path_full"`
+command_dir=`dirname "$command_path_full"`
 
 if [ $# -eq 0 ]
   then
@@ -35,7 +35,7 @@ cd react-native
 yarn install
 
 # modify server
-$command_path/patch_server_app_json `pwd`/app.json production
+$command_dir/patch_server_app_json `pwd`/app.json production
 cat app.json
 
 # publish
@@ -43,8 +43,6 @@ exp logout
 exp login -u mareedeslettres
 exp publish
 exp logout
-
-exit;
 
 # clean
 cd $TMPDIR
