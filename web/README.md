@@ -6,4 +6,6 @@ Made with `$ create-react-app site`
 
 Run it locally with `$ yarn start` from inside the `maree-web` folder.
 
+Deploy to heroku with `$ git subtree push --prefix web/maree-web web master` from the `MareeLettres` root folder, assuming your git remote is called `web` and you have set https://github.com/mars/create-react-app-buildpack on it.
+
 Maybe in the future: make it run in the public folder of the meteor server (so for low load times, only one container is required)
