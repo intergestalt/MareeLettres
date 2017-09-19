@@ -1,0 +1,41 @@
+html, body, #root {
+  height: 100%
+}
+
+.App {
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+}
+
+section {
+  flex: 0.25;
+  height: 100%;
+}
+
+.sectionHeader {
+	border-bottom: 1px solid #000;
+	background-color: rgb(245,132,102);
+	text-align: center;
+	font-family: Impact;
+}
+
+section img {
+	width: 100%;
+}
+
+section.info {
+  border-right: 1px solid #000;
+}
+
+section.vote {
+  border-right: 1px solid #000;
+}
+
+section.news {
+  border-right: 1px solid #000;
+}
+
+section.flux {
+
+}
