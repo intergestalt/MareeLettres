@@ -7,7 +7,7 @@ const SystemConfigSchema = new SimpleSchema(
     {
         name: {
             type: String,
-            defaultValue: 'default'
+            defaultValue: 'default',
         },
         active: {
             type: Boolean,
@@ -15,15 +15,15 @@ const SystemConfigSchema = new SimpleSchema(
         },
         proposals_auto_accept: {
             type: Boolean,
-            ...systemConfigDefaults.proposals_auto_accept
+            ...systemConfigDefaults.proposals_auto_accept,
         },
         proposal_boost_amount: {
             type: SimpleSchema.Integer,
-            ...systemConfigDefaults.proposal_boost_amount
+            ...systemConfigDefaults.proposal_boost_amount,
         },
         track_player_movements: {
             type: Boolean,
-            ...systemConfigDefaults.track_player_movements
+            ...systemConfigDefaults.track_player_movements,
         },
         tinder_proposals_regeneration_interval: {
             type: SimpleSchema.Integer,
@@ -111,6 +111,18 @@ const SystemConfigSchema = new SimpleSchema(
             min: 1,
             ...systemConfigDefaults.map_primary_letter_reset,
         },
+        map_default_center_lat: {
+            type: Number,
+            ...systemConfigDefaults.map_default_center_lat,
+        },
+        map_default_center_lng: {
+            type: Number,
+            ...systemConfigDefaults.map_default_center_lng,
+        },
+        map_seeding_radius: {
+            type: Number,
+            ...systemConfigDefaults.map_seeding_radius,
+        },
         stream_twitter_handle: {
             type: String,
             ...systemConfigDefaults.stream_twitter_handle,
@@ -120,7 +132,7 @@ const SystemConfigSchema = new SimpleSchema(
             ...systemConfigDefaults.challenge_list_image_url,
         },
     },
-    { clean: { getAutovalues: true } }
+    { clean: { getAutovalues: true } },
 );
 
 export { SystemConfigSchema };

@@ -185,12 +185,14 @@ class Map extends Component {
 
   centreZoomMap = () => {
     // use inbuilt animation + zoom function
-    this.setState({region: {
+    this.setState({
+      region: {
         latitude: this.props.user.coordinates.latitude,
         longitude: this.props.user.coordinates.longitude,
         latitudeDelta: this.state.delta_initial,
         longitudeDelta: this.state.delta_initial,
-      }}
+      }
+    }
     );
     /*this._map._component.animateToRegion(
       {
@@ -327,7 +329,7 @@ class Map extends Component {
           onRegionChange={this.onRegionChange}
           provider={MapView.PROVIDER_GOOGLE}
           style={styles.container}
-          
+
           initialRegion={this.state.initialRegion}
           region={this.state.region}
 
@@ -377,6 +379,12 @@ const mapStateToProps = (state) => {
     const letters = state.letters;
     const my_letters = state.myLetters;
     const isDefaultUser = state.user.isDefaultUser;
+
+    if (!map.coordinates.latitude) map.coordinates.latitude = config.map_default_center_lat;
+    if (!map.coordinates.longitude) map.coordinates.longitude = config.map_default_center_lng;
+
+    if (!user.coordinates.latitude) user.coordinates.latitude = config.map_default_center_lat;
+    if (!user.coordinates.longitude) user.coordinates.longitude = config.map_default_center_lng;
 
     return {
       interval,

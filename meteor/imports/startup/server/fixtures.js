@@ -39,6 +39,10 @@ Meteor.startup(() => {
   const active = previous ? previous.active : true;
   SystemConfig.remove({ name: 'default' });
   SystemConfig.insert(defaultSystemConfig, ...{ name: 'default', active });
+  SystemConfig.find({ name: { $ne: 'default' } }).forEach((doc) => { // add new defaults to existing docs
+    doc = { ...defaultSystemConfig, ...doc };
+    SystemConfig.update(doc._id, { $set: doc });
+  });
   /* SystemConfig.rawCollection().replaceOne({ name: 'default' }, defaultSystemConfig, {
     upsert: true,
   }); */
