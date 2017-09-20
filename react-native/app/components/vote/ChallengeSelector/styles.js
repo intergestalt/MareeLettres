@@ -86,9 +86,10 @@ const styles = EStyleSheet.create({
     textAlign: 'center',
     fontSize: '2rem',
     fontFamily: 'normal',
+    paddingHorizontal: '0.25rem',
   },
   headerNav: {
-    marginHorizontal: '1.25rem',
+    marginHorizontal: '1rem',
     color: 'black',
     textAlign: 'center',
     fontSize: '2rem',
