@@ -3,6 +3,31 @@ html, body, #root {
 }
 
 .App {
+  height: 100%;
+  overflow: hidden;
+}
+
+.headers {
+  height: 1.5rem;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+}
+
+.headers div {
+  flex: 0.25;
+  border-bottom: 1px solid #000;
+	background-color: rgb(245,132,102);
+  line-height: 1.5rem;
+	text-align: center;
+	font-family: Impact;
+}
+
+.borderRight {
+  border-right: 1px solid #000;
+}
+
+.mainContent {
   display: flex;
   flex-direction: row;
   height: 100%;
@@ -10,14 +35,6 @@ html, body, #root {
 
 section {
   flex: 0.25;
-  height: 100%;
-}
-
-.sectionHeader {
-	border-bottom: 1px solid #000;
-	background-color: rgb(245,132,102);
-	text-align: center;
-	font-family: Impact;
 }
 
 section img {
@@ -30,6 +47,8 @@ section.info {
 
 section.vote {
   border-right: 1px solid #000;
+  overflow-y: scroll;
+  padding-bottom: 2.5rem;
 }
 
 section.news {
@@ -37,5 +56,5 @@ section.news {
 }
 
 section.flux {
-
+  overflow: hidden;
 }
