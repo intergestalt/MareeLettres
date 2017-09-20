@@ -9,11 +9,21 @@ i18n
       en: {
         translations: {
           "loading": "loading en",
+          "live": "live",
+          "sort_top": "Top",
+          "sort_new": "Newest",
+          "sort_trend": "Trending",
+          "load_more": "Load more"
         }
       },
       fr: {
         translations: {
           "loading": "loading fr",
+          "live": "en direct",
+          "sort_top": "Top",
+          "sort_new": "Plus récents",
+          "sort_trend": "Tendances",
+          "load_more": "Load more fr"
         }
       }
     },

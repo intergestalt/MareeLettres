@@ -37,6 +37,10 @@ const SystemConfigSchema = new SimpleSchema(
             type: Number,
             ...systemConfigDefaults.trend_damping_halflife_time,
         },
+        archive_letters_interval: {
+            type: SimpleSchema.Integer,
+            ...systemConfigDefaults.archive_letters_interval,
+        },
         map_update_interval: {
             type: SimpleSchema.Integer,
             ...systemConfigDefaults.map_update_interval,
@@ -122,6 +126,14 @@ const SystemConfigSchema = new SimpleSchema(
         map_seeding_radius: {
             type: Number,
             ...systemConfigDefaults.map_seeding_radius,
+        },
+        map_seeding_interval: {
+            type: SimpleSchema.Integer,
+            ...systemConfigDefaults.map_seeding_interval,
+        },
+        map_seeding_lpm: {
+            type: SimpleSchema.Integer,
+            ...systemConfigDefaults.map_seeding_lpm,
         },
         stream_twitter_handle: {
             type: String,

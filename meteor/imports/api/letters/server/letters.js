@@ -18,9 +18,9 @@ Meteor.publish('get.letters', function getLetters() {
 JsonRoutes.add('get', `${Meteor.settings.public.api_prefix}letters`, function (req, res, next) {
 
   const interval = parseInt(req.query.interval) || 0; // ?interval=
-  const lat = parseFloat(req.query.lat);         // ?lat=
-  const lng = parseFloat(req.query.lng);         // ?lng=
-  const radius = parseFloat(req.query.radius);      // ?radius=
+  const lat = Number.parseFloat(req.query.centerLat);         // ?centerLat=
+  const lng = Number.parseFloat(req.query.centerLng);         // ?centerLng=
+  const radius = Number.parseFloat(req.query.radius);      // ?radius=
 
   const config = currentSystemConfig.getConfig();
 
@@ -37,8 +37,9 @@ JsonRoutes.add('get', `${Meteor.settings.public.api_prefix}letters`, function (r
 
     const deltaSeconds = overhead + interval * config.map_update_interval + config.map_update_latency + config.map_query_update_latency; // TODO: manage fastly and use map_cache_update_interval
 
-    console.log("requested seconds: " + config.map_update_interval * interval);
-    console.log("delivered seconds: " + deltaSeconds);
+    // console.log(req.query);
+    // console.log("requested seconds: " + config.map_update_interval * interval);
+    // console.log("delivered seconds: " + deltaSeconds);
 
     const now = new Date();
     const absDate = new Date(now.setSeconds(now.getSeconds() - deltaSeconds));
@@ -49,12 +50,22 @@ JsonRoutes.add('get', `${Meteor.settings.public.api_prefix}letters`, function (r
   // process geospacial constraints
 
   if (lat && lng && radius) {
-    query.coords = { $near: { lat, lng }, $maxDistance: radius };
+    query.loc = {
+      $near: {
+        $geometry: {
+          type: "Point",
+          coordinates: [lat, lng],
+        },
+        $maxDistance: radius,
+      },
+    };
   }
 
   const letters_cursor = Letters.find(query);
 
-  console.log("delivered letters: " + letters_cursor.count());
+  // console.log(lat, lng, radius);
+  // console.log(query);
+  // console.log("delivered letters: " + letters_cursor.count());
 
   const letters = letters_cursor.fetch();
 
@@ -86,6 +97,8 @@ JsonRoutes.add('post', `${Meteor.settings.public.api_prefix}letters`, function (
   letters.forEach(function (letter) {
     letter.created_at = new Date();
     letter._id = new Mongo.ObjectID()._str;
+    letter.loc = { type: "Point", coordinates: [letter.coords.lat, letter.coords.lng] };
+    letter.decay_time = currentSystemConfig.getConfig().map_letter_decay_time;
     bulk.insert(letter);
   }, this);
 

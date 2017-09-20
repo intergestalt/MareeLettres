@@ -13,13 +13,26 @@ const CoordsSchema = new SimpleSchema({
   },
 });
 
+const GeoJsonPointSchema = new SimpleSchema({
+  type: {
+    type: String, // "Point"
+  },
+  coordinates: {
+    type: Array,
+    minCount: 2,
+    maxCount: 2,
+  },
+});
+
 const LettersSchema = new SimpleSchema({
   character: {
     type: String,
   },
-  coords: {
+  coords: { // client use
     type: CoordsSchema,
-    index: '2dsphere',
+  },
+  loc: { // db use
+    type: GeoJsonPointSchema,
   },
   created_at: {
     type: Date,

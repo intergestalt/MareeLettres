@@ -21,3 +21,5 @@ import './register-rest';
 import './elect-winner';
 import './tinder-regenerate';
 import './trending-regenerate';
+import './seed-letters';
+import './archive-letters';

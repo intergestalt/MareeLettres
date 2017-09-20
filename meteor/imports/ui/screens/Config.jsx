@@ -27,21 +27,33 @@ class ConfigPage extends Component {
     });
   }
 
+  setCoordinatesFromDevice(ref) {
+    navigator.geolocation.getCurrentPosition((position) => {
+      ref.change('map_default_center_lat', position.coords.latitude);
+      ref.change('map_default_center_lng', position.coords.longitude)
+    });
+  }
+
+
   configFormClassName(config) {
     return "configForm" + (config.active ? " active" : "") + (config.name == "default" ? " default" : "");
   }
 
   renderConfig() {
     const configs = this.props.configs;
+    const formRef = {};
+
     return configs.map(config =>
       <li key={config._id}>
         <h2>
           {config.name}
         </h2>
-        <AutoForm className={this.configFormClassName(config)} schema={SystemConfigSchema} onSubmit={doc => this.save(doc)} model={config}>
+        <AutoForm ref={ref => formRef[config._id] = ref} className={this.configFormClassName(config)} schema={SystemConfigSchema} onSubmit={doc => this.save(doc)} model={config}>
           <AutoFields omitFields={['_id', 'updated_at']} />
           <ErrorsField />
           <SubmitField />
+          <span className="button" onClick={() => this.setCoordinatesFromDevice(formRef[config._id])}>Set coordinates from Device</span>
+          <span className="button" onClick={() => formRef[config._id].reset()}>Reset </span>
         </AutoForm>
       </li>,
     );

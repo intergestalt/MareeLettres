@@ -2,17 +2,17 @@ import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
 import { LettersSchema } from './schema';
 
-const Letters = new Mongo.Collection('letters', {
+const LettersArchive = new Mongo.Collection('letters_archive', {
   transform: doc => ({ coords: { lat: doc.loc.coordinates[0], lng: doc.loc.coordinates[1] }, ...doc }), // transform legacy coord pairs to coords onbject
 });
 
-Letters.allow({
+LettersArchive.allow({
   insert: () => false,
   update: () => false,
   remove: () => false,
 });
 
 if (Meteor.isServer) {
-  Letters.rawCollection().createIndex({ loc: '2dsphere' });
+  LettersArchive.rawCollection().createIndex({ loc: '2dsphere' });
 }
-export { Letters, LettersSchema };
+export { LettersArchive, LettersSchema };
