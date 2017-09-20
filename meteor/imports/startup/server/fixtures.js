@@ -39,6 +39,10 @@ Meteor.startup(() => {
   const active = previous ? previous.active : true;
   SystemConfig.remove({ name: 'default' });
   SystemConfig.insert(defaultSystemConfig, ...{ name: 'default', active });
+  SystemConfig.find({ name: { $ne: 'default' } }).forEach((doc) => { // add new defaults to existing docs
+    doc = { ...defaultSystemConfig, ...doc };
+    SystemConfig.update(doc._id, { $set: doc });
+  });
   /* SystemConfig.rawCollection().replaceOne({ name: 'default' }, defaultSystemConfig, {
     upsert: true,
   }); */
@@ -67,6 +71,8 @@ Meteor.startup(() => {
           letters: AvailableLetters.proposal,
           votes_amount: 0,
           proposals_amount: 0,
+          winningProposalImageUrl: (i == 1 ? 'http://maree.herokuapp.com/img/winningProposalImageUrl.jpg' : undefined),
+          winningProposalDetailImageUrl: (i == 1 ? 'http://maree.herokuapp.com/img/winningProposalDetailImageUrl.jpg' : undefined),
           start_date: moment()
             .add(i - 11, 'days')
             .toDate(),
@@ -84,12 +90,12 @@ Meteor.startup(() => {
             console.log('Seeding Proposals');
             let amount = 10 * Math.floor(20 * Math.random());
             let shuffle = AvailableLetters.proposal;
-            if(amount % 3 == 0) amount = 0; // make some challenges without proposals
+            if (amount % 3 == 0) amount = 0; // make some challenges without proposals
             for (let j = 1; j <= amount; j++) {
-              if(j % 2 == 0) {
+              if (j % 2 == 0) {
                 shuffle = AvailableLetters.proposal.substr(5, 10); // make some short proposals
               } else {
-                shuffle = AvailableLetters.proposal;   
+                shuffle = AvailableLetters.proposal;
               }
               Proposals.insert({
                 _id: `fixture_${i}_${j}`,
@@ -128,11 +134,11 @@ Meteor.startup(() => {
   }
 
   if (process.env.MAREE_SEED_APP_STORE && Players.find().count() === 0 && Proposals.find().count() === 0) {
-    console.log('Seeding Players and Proposals - demo for app store'); 
+    console.log('Seeding Players and Proposals - demo for app store');
     const SeedProposals = JSON.parse(Assets.getText('fixtures/challenges.json')).proposals;
     let proposalId = 1;
-    Object.keys(SeedProposals).forEach((challengeKey)=>{
-      SeedProposals[challengeKey].forEach((proposalText)=>{
+    Object.keys(SeedProposals).forEach((challengeKey) => {
+      SeedProposals[challengeKey].forEach((proposalText) => {
         let originId = OriginId.generateFromString(`fixture_player_${proposalId}`);
         Players.insert({
           _id: `fixture_${proposalId}`,
@@ -142,18 +148,18 @@ Meteor.startup(() => {
           votes: {},
         });
         Proposals.insert({
-            _id: `fixture_proposal_${proposalId}`,
-            text: proposalText.toUpperCase(),
-            challenge_id: challengeKey,
-            score: 0, // parseInt(10 * Math.random()),
-            score_trending: 0,
-            votes_amount: 0, // parseInt(10 * Math.random()),
-            score_trending: 0,
-            yes_votes: 0,
-            no_votes: 0,
-            in_review: false,
-            blocked: false,
-            origin_ids: [originId],
+          _id: `fixture_proposal_${proposalId}`,
+          text: proposalText.toUpperCase(),
+          challenge_id: challengeKey,
+          score: 0, // parseInt(10 * Math.random()),
+          score_trending: 0,
+          votes_amount: 0, // parseInt(10 * Math.random()),
+          score_trending: 0,
+          yes_votes: 0,
+          no_votes: 0,
+          in_review: false,
+          blocked: false,
+          origin_ids: [originId],
         });
         proposalId++;
       });

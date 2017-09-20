@@ -23294,6 +23294,18 @@ var systemConfigDefaults = {
         defaultValue: 1440,
         title: 'Map: time after which primary letter can be reset (in minutes)'
     },
+    map_default_center_lat: {
+        defaultValue: 48.858141,
+        title: 'Center of the game. Used when no GPS available, for seeding and more.'
+    },
+    map_default_center_lng: {
+        defaultValue: 2.343254,
+        title: 'Center of the game. Used when no GPS available, for seeding and more.'
+    },
+    map_seeding_radius: {
+        defaultValue: 99,
+        title: 'Letter seeding radius in meters. 0 to disable'
+    },
     stream_twitter_handle: {
         defaultValue: 'http://sebquack.perseus.uberspace.de/maree/TwitterWebView.html',
         title: 'Stream: The twitter handle'

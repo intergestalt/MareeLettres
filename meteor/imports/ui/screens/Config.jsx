@@ -27,6 +27,10 @@ class ConfigPage extends Component {
     });
   }
 
+  configFormClassName(config) {
+    return "configForm" + (config.active ? " active" : "") + (config.name == "default" ? " default" : "");
+  }
+
   renderConfig() {
     const configs = this.props.configs;
     return configs.map(config =>
@@ -34,7 +38,7 @@ class ConfigPage extends Component {
         <h2>
           {config.name}
         </h2>
-        <AutoForm schema={SystemConfigSchema} onSubmit={doc => this.save(doc)} model={config}>
+        <AutoForm className={this.configFormClassName(config)} schema={SystemConfigSchema} onSubmit={doc => this.save(doc)} model={config}>
           <AutoFields omitFields={['_id', 'updated_at']} />
           <ErrorsField />
           <SubmitField />

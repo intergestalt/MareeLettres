@@ -13,8 +13,8 @@ const runRegenerateTrending = function () {
     2,
     -config.trending_regeneration_interval / config.trend_damping_halflife_time,
   ); // 2 ^ -(dt / t1/2); 2 means half
+  let bulkOps = 0;
   challenges.forEach((challenge) => {
-    console.log(`Processing trends for challenge: ${challenge._id}`);
     let snapshot = TrendSnapshots.findOne(challenge._id);
     if (!snapshot) snapshot = {};
     if (!snapshot.proposals) snapshot.proposals = {};
@@ -23,6 +23,7 @@ const runRegenerateTrending = function () {
       { fields: { score: 1, score_trending: 1, _id: 1 } },
     );
     const bulk = Proposals.rawCollection().initializeUnorderedBulkOp();
+    bulkOps = 0;
     proposals.forEach((proposal) => {
       if (!snapshot.proposals[proposal._id]) snapshot.proposals[proposal._id] = {};
       if (!snapshot.proposals[proposal._id].score) {
@@ -36,13 +37,19 @@ const runRegenerateTrending = function () {
       const new_trend = proposal.score - previous_score + damping_factor * previous_trend;
       snapshot.proposals[proposal._id].score = proposal.score;
       snapshot.proposals[proposal._id].score_trending = new_trend;
-      bulk.find({ _id: proposal._id }).updateOne({
-        $set: { score_trending: new_trend },
+      if (proposal.score_trending !== new_trend) {
+        bulkOps += 1;
+        bulk.find({ _id: proposal._id }).updateOne({
+          $set: { score_trending: new_trend },
+        });
+      }
+    });
+    if (bulkOps > 0) {
+      bulk.execute(function (err, r) {
+        if (err) console.log('Trend regenerate bulk error', err);
       });
-    });
-    bulk.execute(function (err, r) {
-      if (err) console.log('Trend regenerate bulk error', err);
-    });
+    }
+    console.log(`Processed trends for challenge: ${challenge._id}, ${bulkOps} proposals changed`);
     snapshot.updated_at = new Date();
     TrendSnapshots.upsert(challenge._id, { $set: snapshot });
   });

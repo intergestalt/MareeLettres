@@ -75,15 +75,11 @@ export default {
     voteTutorialStatus: {},
     hasStoragePermissionAndroid: false,
     coordinates: {
-      latitude: 48.8566,
-      longitude: 2.3522,
       latitudeDelta: 0.0004,
       longitudeDelta: 0.0004,
     },
     map: {
       coordinates: {
-        latitude: 48.8566,
-        longitude: 2.3522,
         latitudeDelta: 0.0004,
         longitudeDelta: 0.0004,
       },
