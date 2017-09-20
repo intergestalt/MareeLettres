@@ -4,7 +4,7 @@ import InfoColumn from '../../info/InfoColumn';
 import LanguageSelector from '../LanguageSelector/LanguageSelector';
 import ChallengeContainer from '../../vote/ChallengeContainer';
 import NewsFeed from '../../news/NewsFeed';
-import FluxMap from '../../map/Map.js';
+import FluxMap from '../../Map/Map.js';
 import './App.css';
 
 class App extends React.Component {
