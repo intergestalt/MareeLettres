@@ -6,7 +6,7 @@ import './style.css';
 import { serverUri } from '../../config/config.js';
 const axios = require('axios');
 
-class Letter extends React.Component {
+const class Letter extends React.Component {
   render() {
     return <div style={{opacity:this.props.opacity, fontSize: this.props.size}} className="letter">{this.props.character}</div>
   }
