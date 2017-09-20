@@ -88,10 +88,7 @@ class Map extends Component {
     const centerLat = this.with3Decimals(this.props.map.coordinates.latitude);
     const centerLng = this.with3Decimals(this.props.map.coordinates.longitude);
     // console.log(this.props.map.coordinates.latitudeDelta);
-    let delta = this.props.map.coordinates.longitudeDelta;
-    if (this.props.map.coordinates.latitudeDelta > delta) {
-      delta = this.props.map.coordinates.latitudeDelta;
-    }
+    let delta = this.props.map.coordinates.latitudeDelta;
     let radius = 1;
     if (delta >= 0.002 && delta < 0.003) {
       radius = 2;
@@ -157,6 +154,9 @@ class Map extends Component {
     this.setState({ region });
     changeMapRegionProxy(region);
     this.setMapLetterSize(region);
+
+    loadLettersServiceProxy(this.calculateMapLetterRequest());
+    this.setState({ pollingCounter: 0 });
 
     /*if (JSON.stringify(region) !== JSON.stringify(this.props.map.coordinates)) {
       // console.log("region changed");
