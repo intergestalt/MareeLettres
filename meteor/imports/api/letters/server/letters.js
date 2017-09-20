@@ -17,27 +17,18 @@ Meteor.publish('get.letters', function getLetters() {
 
 JsonRoutes.add('get', `${Meteor.settings.public.api_prefix}letters`, function (req, res, next) {
 
-  const interval = req.query.interval || 0; // ?interval=
+  const interval = parseInt(req.query.interval) || 0; // ?interval=
+  const lat = parseFloat(req.query.lat);         // ?lat=
+  const lng = parseFloat(req.query.lng);         // ?lng=
+  const radius = parseFloat(req.query.radius);      // ?radius=
 
   const config = currentSystemConfig.getConfig();
 
-  // BEGIN TODO let client decide until when it makes sense to request seqments
+  let query = {};
 
-  const max_interval_segments = 6; // maximum amount of distinct inveral values
-  const max_interval = (config.map_letter_decay_time / config.map_update_interval) / 4 // or: amount of time relative to decay in which it still makes sense to deliver partial results
+  // process interval constraints
 
-  let interval_segments = [1] // at least one element
-  for (let i = 1; i < max_interval_segments; i++) {
-    let interval_segment = Math.pow(2, i); // 1,2,4,8,16,...
-    if (interval_segment > max_interval) break;
-    interval_segments.push(interval_segment)
-  }
-
-  // END TODO let client decide until when it makes sense to request seqments
-
-  let query = {}
-
-  if (interval > 0) { // TODO: use LettersRecent Collection
+  if (interval > 0) {
 
     // distance to the previous possible interval, e.g. 4-2 = 2 = 4/2, 8-4 = 4 = 8/2
     const last_interval_segment = Math.ceil(interval / 2);
@@ -52,13 +43,20 @@ JsonRoutes.add('get', `${Meteor.settings.public.api_prefix}letters`, function (r
     const now = new Date();
     const absDate = new Date(now.setSeconds(now.getSeconds() - deltaSeconds));
 
-    console.log(absDate)
-
     query.created_at = { $gte: absDate }
   }
 
-  //const letters = Letters.find(query).fetch(); // disable during appstore review
-  const letters = Letters.find({}).fetch();
+  // process geospacial constraints
+
+  if (lat && lng && radius) {
+    query.coords = { $near: { lat, lng }, $maxDistance: radius };
+  }
+
+  const letters_cursor = Letters.find(query);
+
+  console.log("delivered letters: " + letters_cursor.count());
+
+  const letters = letters_cursor.fetch();
 
   const options = {
     data: { letters, ...currentSystemConfig.responseDataProperties() },
