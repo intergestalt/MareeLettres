@@ -102,6 +102,8 @@ class Map extends Component {
     if (delta >= 0.004) {
       radius = 4;
     }
+    const radiusMeters = Math.floor((radius * 0.001) * 40008000 / 360); // rough estimation
+
     let interval = Math.floor(Math.sqrt(this.state.pollingCounter));
     if (interval > 10) {
       interval = 10;
@@ -110,7 +112,7 @@ class Map extends Component {
     const o = {
       centerLng,
       centerLat,
-      radius,
+      radius: radiusMeters,
       interval: Math.pow(interval + 1, 2),
     };
     // console.log(o);
