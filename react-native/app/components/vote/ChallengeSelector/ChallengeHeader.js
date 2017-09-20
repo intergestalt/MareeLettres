@@ -1,10 +1,10 @@
 import React, { Component, PropTypes } from 'react';
-import { View, TouchableOpacity, Text } from 'react-native';
+import { View, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 
 import { ChallengeHeadActive, ChallengeHeadInactive } from './../ChallengesList';
 
-import styles from './styles';
+import { SwipeButton, styles } from './';
 import { CHALLENGE_VIEWS } from '../../../consts';
 
 class ChallengeHeader extends Component {
@@ -14,8 +14,6 @@ class ChallengeHeader extends Component {
     challengesTicker: PropTypes.object,
     selectedChallengeIndex: PropTypes.number,
     onHeaderPress: PropTypes.func,
-    onUpPress: PropTypes.func,
-    onDownPress: PropTypes.func,
     panResponder: PropTypes.object,
     viewMode: PropTypes.string,
     callerViewMode: PropTypes.string,
@@ -50,42 +48,6 @@ class ChallengeHeader extends Component {
     return null;
   }
   render() {
-    let buttonUp = null;
-    if (this.getChallengeIndex() < this.props.challenges.length - 1) {
-      buttonUp = (
-        <TouchableOpacity onPress={this.props.onUpPress} style={{ flex: 1 }} activeOpacity={0.5}>
-          <View style={styles.headerNavContainer}>
-            <Text style={styles.headerNav}>
-              &gt;
-            </Text>
-          </View>
-        </TouchableOpacity>
-      );
-    }
-
-    let buttonDown = null;
-    if (this.getChallengeIndex() > 0) {
-      buttonDown = (
-        <TouchableOpacity onPress={this.props.onDownPress} style={{ flex: 1 }} activeOpacity={0.5}>
-          <View style={styles.headerNavContainer}>
-            <Text style={styles.headerNav}>
-              &lt;
-            </Text>
-          </View>
-        </TouchableOpacity>
-      );
-    }
-
-    const contentDown = (
-      <View style={styles.headerDownContainer}>
-        {buttonDown}
-      </View>
-    );
-    const contentUp = (
-      <View style={styles.headerUpContainer}>
-        {buttonUp}
-      </View>
-    );
     const challengeTickerData = this.getChallengeTickerData();
     const challenge = this.getChallenge();
 
@@ -93,20 +55,38 @@ class ChallengeHeader extends Component {
       title: challenge.title[this.props.language],
       id: this.getChallenge()._id,
     };
+    const contentDown = (
+      <SwipeButton
+        styleAbsolute={false}
+        up={false}
+        challengeOffset={this.props.challengeOffset}
+        opacity={1}
+      />
+    );
+    const contentUp = (
+      <SwipeButton
+        styleAbsolute={false}
+        up
+        challengeOffset={this.props.challengeOffset}
+        opacity={1}
+      />
+    );
 
     const contentMiddle = (
       <View style={styles.headerTextContainer}>
         <TouchableOpacity delayPressIn={50} onPress={this.props.onHeaderPress} activeOpacity={0.5}>
-          {!challengeTickerData.finished
-            ? <ChallengeHeadActive
+          {!challengeTickerData.finished ? (
+            <ChallengeHeadActive
               callerViewMode={CHALLENGE_VIEWS.DETAIL}
               data={standardizedChallenge}
             />
-            : <ChallengeHeadInactive
+          ) : (
+            <ChallengeHeadInactive
               callerViewMode={CHALLENGE_VIEWS.DETAIL}
               data={standardizedChallenge}
               hideTicker
-            />}
+            />
+          )}
         </TouchableOpacity>
       </View>
     );

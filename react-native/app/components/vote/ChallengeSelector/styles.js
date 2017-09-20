@@ -42,16 +42,37 @@ const styles = EStyleSheet.create({
 
   // Header
 
-  headerDownContainer: {
-    marginHorizontal: '1.25rem',
-  },
   headerTextContainer: {
     alignItems: 'center',
     justifyContent: 'center',
     flex: 1,
   },
+  headerDownContainer: {
+    borderRightWidth: 1,
+    borderStyle: 'solid',
+    borderColor: '#000',
+    backgroundColor: '$backgroundColor',
+  },
+  headerDownAbsolute: {
+    minHeight: '6rem',
+    position: 'absolute',
+    borderBottomWidth: 1,
+    left: 0,
+    top: 0,
+  },
+
   headerUpContainer: {
-    marginHorizontal: '1.25rem',
+    borderLeftWidth: 1,
+    borderStyle: 'solid',
+    borderColor: '#000',
+    backgroundColor: '$backgroundColor',
+  },
+  headerUpAbsolute: {
+    minHeight: '6rem',
+    position: 'absolute',
+    borderBottomWidth: 1,
+    right: 0,
+    top: 0,
   },
   headerNavContainer: {
     flex: 1,
@@ -67,6 +88,7 @@ const styles = EStyleSheet.create({
     fontFamily: 'normal',
   },
   headerNav: {
+    marginHorizontal: '1.25rem',
     color: 'black',
     textAlign: 'center',
     fontSize: '2rem',

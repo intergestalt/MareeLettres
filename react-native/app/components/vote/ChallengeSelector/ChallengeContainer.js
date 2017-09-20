@@ -2,8 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { Text, View, Animated, PanResponder, Image, ActivityIndicator } from 'react-native';
 import { connect } from 'react-redux';
 
-import styles from './styles';
-import { ChallengeDetail } from './';
+import { SwipeButton, styles, ChallengeDetail } from './';
 import { screenWidth } from '../../../helper/screen';
 import { popChallengeSelector, navigateToSubmit } from '../../../helper/navigationProxy';
 import { handleChallengeIsNotExisting } from '../../../helper/challengesHelper';
@@ -63,6 +62,8 @@ class ChallengeContainer extends Component {
 
     this.state = {
       challengeContainerOffsetX: new Animated.Value(-screenWidth),
+      opacityLeft: new Animated.Value(1),
+      opacityRight: new Animated.Value(1),
     };
 
     this.navigationEnabled = true;
@@ -249,6 +250,20 @@ class ChallengeContainer extends Component {
             myDx = gesture.dx / 3;
           }
         }
+        if (this.props.selectedChallengeIndex === 1) {
+          if (myDx > 0) {
+            this.state.opacityLeft.setValue(0);
+          } else {
+            this.state.opacityLeft.setValue(1);
+          }
+        }
+        if (this.props.selectedChallengeIndex === this.props.challenges.length - 2) {
+          if (myDx < 0) {
+            this.state.opacityRight.setValue(0);
+          } else {
+            this.state.opacityRight.setValue(1);
+          }
+        }
         this.state.challengeContainerOffsetX.setValue(myDx - screenWidth);
       },
 
@@ -321,6 +336,10 @@ class ChallengeContainer extends Component {
     if (!this.navigationEnabled) {
       return;
     }
+    if (this.props.selectedChallengeIndex === 1) {
+      this.state.opacityLeft.setValue(0);
+    }
+
     this.navigationEnabled = false;
     Animated.timing(this.state.challengeContainerOffsetX, {
       toValue: 0,
@@ -331,6 +350,9 @@ class ChallengeContainer extends Component {
   navigateUpPress() {
     if (!this.navigationEnabled) {
       return;
+    }
+    if (this.props.selectedChallengeIndex === this.props.challenges.length - 2) {
+      this.state.opacityRight.setValue(0);
     }
     this.navigationEnabled = false;
     Animated.timing(this.state.challengeContainerOffsetX, {
@@ -388,6 +410,8 @@ class ChallengeContainer extends Component {
       this.navigationEnabled = true;
 
       this.checkForTutorial();
+      this.state.opacityRight.setValue(1);
+      this.state.opacityLeft.setValue(1);
     }, 1);
   }
 
@@ -446,35 +470,49 @@ class ChallengeContainer extends Component {
       },
     ];
     return (
-      <Animated.View style={myStyle}>
-        <ChallengeDetail
-          listEnabled={false}
-          challengeOffset={-1}
-          setFlatlistRef={this.setFlatlistRefLeft}
-        />
-        <ChallengeDetail
+      <View style={{ flex: 1 }}>
+        <Animated.View style={myStyle}>
+          <ChallengeDetail
+            listEnabled={false}
+            challengeOffset={-1}
+            setFlatlistRef={this.setFlatlistRefLeft}
+          />
+          <ChallengeDetail
+            challengeOffset={0}
+            listEnabled={listEnabled}
+            onHeaderPress={this.handleHeaderPressed}
+            handleSharePress={this.handleSharePress}
+            handleTinderPress={this.handleTinderPress}
+            handleListPress={this.handleListPress}
+            handleCommitPress={this.handleCommitPress}
+            handleStatusPress={this.handleStatusPress}
+            onMostPress={this.onMostPress}
+            onTrendingPress={this.onTrendingPress}
+            onNewestPress={this.onNewestPress}
+            panResponderHeader={this.panResponderHeader}
+            setFlatlistRef={this.setFlatlistRefCenter}
+          />
+          <ChallengeDetail
+            listEnabled={false}
+            challengeOffset={1}
+            setFlatlistRef={this.setFlatlistRefRight}
+          />
+        </Animated.View>
+        <SwipeButton
+          styleAbsolute
+          up
+          onPress={this.navigateUpPress}
           challengeOffset={0}
-          listEnabled={listEnabled}
-          onHeaderPress={this.handleHeaderPressed}
-          onDownPress={this.navigateDownPress}
-          onUpPress={this.navigateUpPress}
-          handleSharePress={this.handleSharePress}
-          handleTinderPress={this.handleTinderPress}
-          handleListPress={this.handleListPress}
-          handleCommitPress={this.handleCommitPress}
-          handleStatusPress={this.handleStatusPress}
-          onMostPress={this.onMostPress}
-          onTrendingPress={this.onTrendingPress}
-          onNewestPress={this.onNewestPress}
-          panResponderHeader={this.panResponderHeader}
-          setFlatlistRef={this.setFlatlistRefCenter}
+          opacity={this.state.opacityRight}
         />
-        <ChallengeDetail
-          listEnabled={false}
-          challengeOffset={1}
-          setFlatlistRef={this.setFlatlistRefRight}
+        <SwipeButton
+          styleAbsolute
+          up={false}
+          onPress={this.navigateDownPress}
+          challengeOffset={0}
+          opacity={this.state.opacityLeft}
         />
-      </Animated.View>
+      </View>
     );
   }
 }

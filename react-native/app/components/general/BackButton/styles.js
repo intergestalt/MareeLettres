@@ -11,7 +11,7 @@ const styles = EStyleSheet.create({
     borderBottomWidth: '$strokeWidth',
     borderRightWidth: '$strokeWidth',
     borderTopWidth: '$strokeWidth',
-    borderBottomWidth: '$strokeWidth',
+    borderLeftWidth: '$strokeWidth',
     backgroundColor: '$backgroundColorMenuItem',
   },
   text: {
