@@ -98,6 +98,7 @@ JsonRoutes.add('post', `${Meteor.settings.public.api_prefix}letters`, function (
     letter.created_at = new Date();
     letter._id = new Mongo.ObjectID()._str;
     letter.loc = { type: "Point", coordinates: [letter.coords.lat, letter.coords.lng] };
+    letter.decay_time = currentSystemConfig.getConfig().map_letter_decay_time;
     bulk.insert(letter);
   }, this);
 

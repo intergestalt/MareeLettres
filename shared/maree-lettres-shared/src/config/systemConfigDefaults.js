@@ -23,6 +23,10 @@ const systemConfigDefaults = {
         defaultValue: 120,
         title: 'Damping of trend changes: time in seconds after which half of the impact of a change will be gone'
     },
+    archive_letters_interval: {
+        defaultValue: 60,
+        title: 'Interval at which Letters are archived (seconds)'
+    },
     map_update_interval: {
         defaultValue: 10,
         title: 'Map: Update interval when map screen is open'
@@ -107,7 +111,7 @@ const systemConfigDefaults = {
     map_seeding_lpm:
     {
         defaultValue: 10,
-        title: 'Letter seeding - letters per minute.',
+        title: 'Letter seeding - letters per minute.'
     },
     stream_twitter_handle: {
         defaultValue: 'http://sebquack.perseus.uberspace.de/maree/TwitterWebView.html',
