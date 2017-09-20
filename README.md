@@ -1,9 +1,14 @@
 # MareeLettres
 
-## Live Preview
+## Dev Version
 https://expo.io/@retani/mareelettres
 
 http://maree.herokuapp.com
+
+## Live Version
+https://expo.io/@mareedeslettres/mareelettres
+
+http://mareedeslettres.herokuapp.com
 
 ## get started
 
