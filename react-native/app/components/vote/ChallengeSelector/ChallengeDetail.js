@@ -12,8 +12,6 @@ class ChallengeDetail extends Component {
     challenges: PropTypes.array,
     selectedChallengeIndex: PropTypes.number,
     onHeaderPress: PropTypes.func,
-    onUpPress: PropTypes.func,
-    onDownPress: PropTypes.func,
     panResponderHeader: PropTypes.object,
     handleSharePress: PropTypes.func,
     handleTinderPress: PropTypes.func,
@@ -49,8 +47,6 @@ class ChallengeDetail extends Component {
           challengeOffset={this.props.challengeOffset}
           panResponder={this.props.panResponderHeader}
           onHeaderPress={this.props.onHeaderPress}
-          onDownPress={this.props.onDownPress}
-          onUpPress={this.props.onUpPress}
         />
         <ChallengeContent
           onMostPress={this.props.onMostPress}

@@ -85,7 +85,7 @@ class ChallengeContent extends Component {
     const myChallenge = this.getChallenge();
     let url = null;
     if (myChallenge) {
-      url = myChallenge.winningProposalDetailImageUrl;
+      url = myChallenge.winningProposalImageUrl;
       if (!url || url.trim() === '') {
         url = null;
       }
@@ -223,7 +223,7 @@ class ChallengeContent extends Component {
       this.props.dispatch(deleteProposalFromTinderList(this.getChallenge()._id));
       this.checkToLoadMoreProposals();
 
-      if(this.props.voteTutorialStatus) {
+      if (this.props.voteTutorialStatus) {
         if (!this.props.voteTutorialStatus.tinder2) {
           this.props.alertWithType(
             'info',
@@ -295,8 +295,6 @@ class ChallengeContent extends Component {
         extrapolate: 'clamp',
       });
 
-      console.log(`tinderBackgroundColor ${tinderBackgroundColor.toValue}`);
-      console.log(`this.state.tinderBackground  ${this.state.tinderBackground}`);
       frontTinder = (
         <ProposalTinder
           panResponderContent={this.panResponderContent}
