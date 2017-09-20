@@ -15,7 +15,7 @@ const runSeedLetters = function () {
 
   if (map_seeding_interval == 0 || map_seeding_lpm == 0) return;
 
-  const amount = Math.floor(map_seeding_lpm / map_seeding_interval);
+  const amount = Math.floor(map_seeding_lpm / (map_seeding_interval * 60));
   console.log(`seeding ${amount} letters`);
 
   for (let i = 0; i < amount; i++) {
