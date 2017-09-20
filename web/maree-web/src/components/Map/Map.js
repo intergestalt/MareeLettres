@@ -8,8 +8,25 @@ const axios = require('axios');
 
 class Letter extends React.Component {
   render() {
-    return <div style={{opacity:this.props.opacity}} className="letter">{this.props.character}</div>
+    return <div style={{opacity:this.props.opacity, fontSize: this.props.size}} className="letter">{this.props.character}</div>
   }
+}
+
+const map_letter_decay_time = 5000;
+
+const calculateRadius = function(latitudeDelta) {
+  let radius = 1;
+  if (latitudeDelta >= 0.002 && latitudeDelta < 0.003) {
+    radius = 2;
+  }
+  if (latitudeDelta >= 0.003 && latitudeDelta < 0.004) {
+    radius = 3;
+  }
+  if (latitudeDelta >= 0.004) {
+    radius = 4;
+  }
+  const radiusMeters = Math.floor((radius * 0.001) * 40008000 / 360); // rough estimation
+  return radiusMeters;
 }
 
 const defaultProps = {
@@ -28,11 +45,14 @@ export default class FluxMap extends Component {
   }
 
   onChange(params) {
-    let requestUri = serverUri + '/api/letters?centerLat=' + params.center.lat + '&centerLng=' + params.center.lng + '&radius=500';
+    let latitudeDelta = params.bounds.ne.lat - params.bounds.se.lat;
+    let radius = calculateRadius(latitudeDelta);
+    let requestUri = serverUri + '/api/letters?centerLat=' + params.center.lat + '&centerLng=' + params.center.lng + '&radius=' + radius;
     console.log(requestUri);
     axios.get(requestUri)
-      .then(response=>{
-        this.setState({letters: response.data.letters});
+      .then(response=>{  
+        let size = 1 / (10 * latitudeDelta);
+        this.setState({letters: response.data.letters, letterSize: size});
       })
       .catch(error=>{
         console.log(error);
@@ -40,13 +60,17 @@ export default class FluxMap extends Component {
   }
 
   renderMarker(l) {
+    const t = new Date().getTime() - new Date(l.created_at).getTime();
+    const opacity = Math.max(0, 1 - t / (1000 * map_letter_decay_time));
+
     return(
       <Letter
         key={l._id}
         lat={l.coords.lat}
         lng={l.coords.lng}
         character={l.character}
-        opacity={0.5} // todo calculate from date like in app
+        opacity={opacity} // todo calculate from date like in app
+        size={this.state.letterSize}
       />
     );
   }
