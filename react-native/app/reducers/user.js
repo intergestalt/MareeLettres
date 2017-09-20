@@ -345,7 +345,7 @@ export default (state = initialState.user, action) => {
             tutorialStatus: action.status,
           },
         };
-        console.log(result);
+        //console.log(result);
         saveUserToStorage(result);
         return result;
       }
