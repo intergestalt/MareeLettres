@@ -31,8 +31,8 @@ const styles = EStyleSheet.create({
   challengeHeader: {
     flexDirection: 'row',
     position: 'relative',
-    borderBottomWidth: 1,
-    minHeight: '6rem',
+    borderColor: '#000',
+    minHeight: '7rem',
   },
 
   challengeFooter: {
@@ -48,31 +48,27 @@ const styles = EStyleSheet.create({
     flex: 1,
   },
   headerDownContainer: {
-    borderRightWidth: 1,
     borderStyle: 'solid',
     borderColor: '#000',
     backgroundColor: '$backgroundColor',
   },
   headerDownAbsolute: {
-    minHeight: '6rem',
+    minHeight: '7rem',
     position: 'absolute',
-    borderBottomWidth: 1,
     left: 0,
-    top: 0,
   },
 
   headerUpContainer: {
-    borderLeftWidth: 1,
+    // borderLeftWidth: 1,
     borderStyle: 'solid',
     borderColor: '#000',
     backgroundColor: '$backgroundColor',
   },
   headerUpAbsolute: {
-    minHeight: '6rem',
+    minHeight: '7rem',
     position: 'absolute',
-    borderBottomWidth: 1,
+    // borderBottomWidth: 1,
     right: 0,
-    top: 0,
   },
   headerNavContainer: {
     flex: 1,
@@ -118,6 +114,7 @@ const styles = EStyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+    borderTopWidth: 1,
   },
   challengeInnerContainer: {
     backgroundColor: 'transparent',
@@ -201,15 +198,15 @@ const styles = EStyleSheet.create({
     top: 0,
     left: 0,
     backgroundColor: '#000000',
-    height: '100%',
+    bottom: 0,
   },
   lineRight: {
     position: 'absolute',
     width: 1,
     top: 0,
+    bottom: 0,
     right: 0,
     backgroundColor: '#000000',
-    height: '100%',
   },
 });
 

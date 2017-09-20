@@ -3,7 +3,7 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 
 export default EStyleSheet.create({
   containerStyle: {
-    paddingTop: Platform.OS === 'android' ? 0 : 20,
+    paddingTop: 25, // Platform.OS === 'android' ? 0 : 20,
     paddingHorizontal: '2rem',
     flexDirection: 'column',
     justifyContent: 'center',

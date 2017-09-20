@@ -1007,7 +1007,7 @@ class ProposalSubmitter extends Component {
   }
   submitPressed() {
     console.log("Submit Answer Pressed")
-    if (isFinishedSuggest(this.props.challenge)) {
+    if (isFinishedSuggest(this.props.challenge, true)) {
       this.props.alertWithType(
         'info',
         I18n.t('suggestion_too_late_title'),
@@ -1063,7 +1063,7 @@ class ProposalSubmitter extends Component {
       this.props.alertWithType('info', I18n.t('suggestion_wrong'), message);
       return;
     }
-    if (isFinishedSuggest(this.props.challenge)) {
+    if (isFinishedSuggest(this.props.challenge, true)) {
       this.props.alertWithType(
         'info',
         I18n.t('suggestion_too_late_title'),

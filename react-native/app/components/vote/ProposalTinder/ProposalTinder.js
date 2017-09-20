@@ -47,12 +47,12 @@ class ProposalTinder extends Component {
       </View>
     );
   }
-  renderNoTinder(myStyle) {
-    return (
-      <View style={myStyle}>
-        <ReloadButton textKey="reload_proposals_tinder" onReload={null} />
-      </View>
-    );
+  renderNoTinder(myStyle, animated = false) {
+    const button = <ReloadButton textKey="reload_proposals_tinder" onReload={null} />;
+    if (animated) {
+      return <Animated.View style={myStyle}>{button}</Animated.View>;
+    }
+    return <View style={myStyle}>{button}</View>;
   }
 
   render() {
@@ -170,8 +170,13 @@ class ProposalTinder extends Component {
           </Animated.View>
         );
       }
+    } else if (foreground) {
+      tinder = this.renderNoTinder(myStyle, false);
     } else {
-      tinder = this.renderNoTinder(myStyle);
+      tinder = this.renderNoTinder(
+        [styles.containerBackground, { backgroundColor: this.props.tinderBackgroundColor }],
+        true,
+      );
     }
 
     if (foreground && proposalExists && center) {

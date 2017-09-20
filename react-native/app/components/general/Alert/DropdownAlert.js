@@ -89,7 +89,7 @@ export default class DropdownAlert extends Component {
     onCancel: null,
     closeInterval: 4000,
     startDelta: -100,
-    endDelta: 20,
+    endDelta: 0,
     titleNumOfLines: 1,
     messageNumOfLines: 5,
     infoColor: '#2B73B6',

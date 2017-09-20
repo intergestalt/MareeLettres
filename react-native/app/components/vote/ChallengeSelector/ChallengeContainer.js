@@ -79,7 +79,7 @@ class ChallengeContainer extends Component {
   }
   handleCommitPress() {
     const challenge = this.props.challenges[this.props.selectedChallengeIndex];
-    if (isFinishedSuggest(challenge)) {
+    if (isFinishedSuggest(challenge, false)) {
       this.props.alertWithType(
         'info',
         I18n.t('suggestion_too_late_title'),
@@ -100,7 +100,6 @@ class ChallengeContainer extends Component {
   handleHeaderPressed() {
     popChallengeSelector(this.props);
   }
-
   loadProposals(index, view, listmode) {
     if (index < 0 || index > this.props.challenges.length - 1) return;
     const challenge = this.props.challenges[index];

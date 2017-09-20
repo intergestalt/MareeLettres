@@ -23,7 +23,6 @@ class SwipeButton extends Component {
     let renderUp = false;
     let myOpacityDown = 0;
     let myOpacityUp = 0;
-
     // ABSOLUTE
     if (this.props.styleAbsolute) {
       if (this.props.challengeOffset === 0) {
