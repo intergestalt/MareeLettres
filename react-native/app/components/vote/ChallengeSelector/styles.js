@@ -97,6 +97,7 @@ const styles = EStyleSheet.create({
     flexDirection: 'row',
 
     flex: 1,
+    width: '100%',
     overflow: 'hidden',
     alignItems: 'center',
     justifyContent: 'center',

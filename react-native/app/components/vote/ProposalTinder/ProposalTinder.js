@@ -3,7 +3,7 @@ import { Animated, View, Text, TouchableOpacity, ActivityIndicator } from 'react
 import { connect } from 'react-redux';
 
 import styles from './styles';
-import { VoteMark } from '../VoteMark/';
+import { VoteMark, VoteMarkPanel } from '../VoteMark/';
 import { getProposalList } from '../../../helper/proposalsHelper';
 import { ReloadButton } from '../../../components/general/ReloadButton';
 
@@ -25,6 +25,7 @@ class ProposalTinder extends Component {
     challengeOffset: PropTypes.number,
     textColor: PropTypes.object,
     tinderBackgroundColor: PropTypes.object,
+    tinderBackgroundOpacity: PropTypes.object,
   };
 
   componentWillMount() {
@@ -94,24 +95,28 @@ class ProposalTinder extends Component {
       );
       noContainer = (
         <View style={styles.markContainer1}>
+          <VoteMark size="l" active={false} value={0} type="no" />
           <View style={styles.markContainer2}>
-            <VoteMark size="l" active={false} value={0} type="no" />
-          </View>
-          <View style={styles.markContainer2}>
-            <Animated.View style={{ opacity: this.props.noOpacity }}>
-              <VoteMark size="l" active2 value={1} type="no" />
+            <Animated.View
+              style={{
+                opacity: this.props.noOpacity,
+              }}
+            >
+              <VoteMark size="l" active={false} active2 value={1} type="no" />
             </Animated.View>
           </View>
         </View>
       );
       yesContainer = (
         <View style={styles.markContainer1}>
+          <VoteMark size="l" active={false} value={0} type="yes" />
           <View style={styles.markContainer2}>
-            <VoteMark size="l" active={false} value={0} type="yes" />
-          </View>
-          <View style={styles.markContainer2}>
-            <Animated.View style={{ opacity: this.props.yesOpacity }}>
-              <VoteMark size="l" active2 value={1} type="yes" />
+            <Animated.View
+              style={{
+                opacity: this.props.yesOpacity,
+              }}
+            >
+              <VoteMark size="l" active={false} active2 value={1} type="yes" />
             </Animated.View>
           </View>
         </View>
@@ -123,19 +128,18 @@ class ProposalTinder extends Component {
       noContainer = (
         <View style={styles.markContainer1}>
           <View style={styles.markContainer2}>
-            <VoteMark size="l" active value={0} type="no" />
+            <VoteMark size="l" active={false} value={0} type="no" />
           </View>
         </View>
       );
       yesContainer = (
         <View style={styles.markContainer1}>
           <View style={styles.markContainer2}>
-            <VoteMark size="l" active value={0} type="yes" />
+            <VoteMark size="l" active={false} value={0} type="yes" />
           </View>
         </View>
       );
     }
-
     let tinder = null;
     if (proposalExists) {
       if (!this.props.tinderBackgroundColor || !center) {
@@ -143,7 +147,7 @@ class ProposalTinder extends Component {
           <View style={myStyle}>
             <View style={styles.topContainer}>
               {textContainer}
-              {/* <VoteMarkPanel style={styles.voteMark} yes_amount={this.props.proposal.yes_votes} no_amount={this.props.proposal.no_votes} /> */}
+              <VoteMarkPanel style={styles.voteMarkPanel} yes_amount={20} no_amount={666} />
             </View>
             <View style={styles.bottomContainer}>
               <TouchableOpacity onPress={this.props.noPress}>{noContainer}</TouchableOpacity>
@@ -156,12 +160,19 @@ class ProposalTinder extends Component {
           <Animated.View
             style={[
               styles.containerBackground,
-              { backgroundColor: this.props.tinderBackgroundColor },
+              {
+                backgroundColor: this.props.tinderBackgroundColor,
+                opacity: this.props.tinderBackgroundOpacity,
+              },
             ]}
           >
             <View style={styles.topContainer}>
               {textContainer}
-              {/* <VoteMarkPanel style={styles.voteMark} yes_amount={this.props.proposal.yes_votes} no_amount={this.props.proposal.no_votes} /> */}
+              <VoteMarkPanel
+                style={styles.voteMarkPanel}
+                yes_amount={this.props.proposal.yes_votes}
+                no_amount={this.props.proposal.no_votes}
+              />
             </View>
             <View style={styles.bottomContainer}>
               {noContainer}
@@ -174,7 +185,13 @@ class ProposalTinder extends Component {
       tinder = this.renderNoTinder(myStyle, false);
     } else {
       tinder = this.renderNoTinder(
-        [styles.containerBackground, { backgroundColor: this.props.tinderBackgroundColor }],
+        [
+          styles.containerBackground,
+          {
+            backgroundColor: this.props.tinderBackgroundColor,
+            opacity: this.props.tinderBackgroundOpacity,
+          },
+        ],
         true,
       );
     }
