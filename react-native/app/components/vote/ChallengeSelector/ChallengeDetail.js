@@ -48,24 +48,26 @@ class ChallengeDetail extends Component {
           panResponder={this.props.panResponderHeader}
           onHeaderPress={this.props.onHeaderPress}
         />
-        <ChallengeContent
-          onMostPress={this.props.onMostPress}
-          onTrendingPress={this.props.onTrendingPress}
-          onNewestPress={this.props.onNewestPress}
-          challengeOffset={this.props.challengeOffset}
-          listEnabled={this.props.listEnabled}
-          setFlatlistRef={this.props.setFlatlistRef}
-        />
-        <ChallengeFooter
-          challengeOffset={this.props.challengeOffset}
-          handleSharePress={this.props.handleSharePress}
-          handleTinderPress={this.props.handleTinderPress}
-          handleListPress={this.props.handleListPress}
-          handleCommitPress={this.props.handleCommitPress}
-          handleStatusPress={this.props.handleStatusPress}
-        />
-        {lineLeft}
-        {lineRight}
+        <View style={{ flex: 1 }}>
+          <ChallengeContent
+            onMostPress={this.props.onMostPress}
+            onTrendingPress={this.props.onTrendingPress}
+            onNewestPress={this.props.onNewestPress}
+            challengeOffset={this.props.challengeOffset}
+            listEnabled={this.props.listEnabled}
+            setFlatlistRef={this.props.setFlatlistRef}
+          />
+          <ChallengeFooter
+            challengeOffset={this.props.challengeOffset}
+            handleSharePress={this.props.handleSharePress}
+            handleTinderPress={this.props.handleTinderPress}
+            handleListPress={this.props.handleListPress}
+            handleCommitPress={this.props.handleCommitPress}
+            handleStatusPress={this.props.handleStatusPress}
+          />
+          {lineLeft}
+          {lineRight}
+        </View>
       </View>
     );
   }

@@ -18,13 +18,11 @@ class VoteMarkPanel extends Component {
   render() {
     return (
       <View style={styles.panel}>
-        <Text style={styles.panelText1}>
+        <Text textAlignVertical="top" textAnchor="middle" style={styles.panelText1}>
           {this.props.no_amount}
         </Text>
         <VoteMark type="no" size="s" />
-        <Text style={styles.panelText2}>
-          {this.props.yes_amount}
-        </Text>
+        <Text style={styles.panelText2}>{this.props.yes_amount}</Text>
         <VoteMark type="yes" size="s" />
       </View>
     );

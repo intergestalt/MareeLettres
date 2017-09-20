@@ -239,13 +239,18 @@ export function isFinished(challenge) {
   if (diff <= 0) finished = true;
   return finished;
 }
-export function isFinishedSuggest(challenge) {
+export function isFinishedSuggest(challenge, submit = false) {
   const endDate = new Date(challenge.end_date);
   const nowUTC = new Date(); // Now in what time zone ever
   const mNowUTC = nowUTC.getTime();
 
   let mEndUTC = endDate.getTime();
-  mEndUTC -= DYNAMIC_CONFIG.SUGGESTIONS_CLOSE_EARLIER;
+  let earlier = DYNAMIC_CONFIG.SUGGESTIONS_CLOSE_EARLIER;
+  if (submit) {
+    earlier *= 2;
+    earlier /= 3;
+  }
+  mEndUTC -= earlier;
 
   const diff = mEndUTC - mNowUTC;
 

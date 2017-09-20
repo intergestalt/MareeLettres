@@ -16,7 +16,7 @@ const styles = EStyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center',
-    height: "2rem",
+    height: '2rem',
   },
   listContainer: {
     flexDirection: 'row',

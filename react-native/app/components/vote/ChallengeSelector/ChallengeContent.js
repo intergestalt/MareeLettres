@@ -51,6 +51,7 @@ class ChallengeContent extends Component {
     this.state = {
       tinderContainerOffset: new Animated.ValueXY({ x: 0, y: 0 }),
       tinderBackground: new Animated.Value(0),
+      tinderBackgroundOpacity: new Animated.Value(0),
     };
     if (this.props.challengeOffset === 0) {
       this.panResponderContent = this.createPanResponderContent();
@@ -100,11 +101,18 @@ class ChallengeContent extends Component {
 
   createPanResponderContent() {
     return PanResponder.create({
-      onStartShouldSetPanResponder: () => true,
-      onMoveShouldSetPanResponder: () => true,
+      onStartShouldSetPanResponder: () => false,
+      onMoveShouldSetPanResponder: (e, gesture) => {
+        if (Math.abs(gesture.dx) > 3) {
+          return true;
+        }
+        return false;
+      },
       onPanResponderGrant: () => {
         const d = new Date();
         this.startGestureContent = d.getTime();
+        this.state.tinderBackgroundOpacity.setValue(1);
+        console.log('GRANT');
       },
       onPanResponderMove: (e, gesture) => {
         const myDx = gesture.dx;
@@ -311,6 +319,7 @@ class ChallengeContent extends Component {
       backTinder = (
         <ProposalTinder
           tinderBackgroundColor={tinderBackgroundColor}
+          tinderBackgroundOpacity={this.state.tinderBackgroundOpacity}
           challengeOffset={this.props.challengeOffset}
           proposalIndex={1}
         />

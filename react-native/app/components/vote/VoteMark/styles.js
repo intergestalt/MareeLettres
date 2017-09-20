@@ -8,11 +8,17 @@ const styles = EStyleSheet.create({
     flexDirection: 'row',
   },
   panelText1: {
+    '@media android': {
+      top: '-0.33rem',
+    },
     marginRight: 5,
     fontFamily: 'normal',
     fontSize: '1rem',
   },
   panelText2: {
+    '@media android': {
+      top: '-0.33rem',
+    },
     marginLeft: 10,
     marginRight: 5,
     fontFamily: 'normal',
