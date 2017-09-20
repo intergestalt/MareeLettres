@@ -51,9 +51,9 @@ class ConfigPage extends Component {
         <AutoForm ref={ref => formRef[config._id] = ref} className={this.configFormClassName(config)} schema={SystemConfigSchema} onSubmit={doc => this.save(doc)} model={config}>
           <AutoFields omitFields={['_id', 'updated_at']} />
           <ErrorsField />
+          <SubmitField />
           <span className="button" onClick={() => this.setCoordinatesFromDevice(formRef[config._id])}>Set coordinates from Device</span>
           <span className="button" onClick={() => formRef[config._id].reset()}>Reset </span>
-          <SubmitField />
         </AutoForm>
       </li>,
     );

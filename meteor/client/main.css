@@ -68,13 +68,17 @@ form > div > div:not(:first-of-type) {
   margin-top: 1rem;
 }
 
-input:not([type="checkbox"]) {
+input {
+  font-size: 1rem;
+}
+
+input:not([type="checkbox"]):not([type="submit"]) {
   width: 100%;
   padding:0.25rem;
   box-sizing: border-box;
 }
 
-input:not([type="checkbox"]), textarea {
+input:not([type="checkbox"]):not([type="submit"]), textarea {
   background-color: lightgrey;
 }
 
@@ -84,12 +88,14 @@ input[type="submit"], .button {
   padding: 0.5rem;
   margin-top:2rem;
   display: inline-block;
+  cursor: pointer;
+  background-color: transparent;
 }
 
 input[type="submit"] {
-  padding: 1rem;
   font-size: 1rem;
-  cursor: pointer;
+  border-color: darkred;
+  border-width:2px;
 }
 
 input[type="submit"]:hover {
@@ -100,8 +106,10 @@ input[type="submit"]:hover {
 .button {
 }
 
-.button + .button {
-  margin-left: 1rem;
+form button,
+form .button,
+form [type="submit"] {
+  margin-right: 1rem;
 }
 
 .button:hover {
