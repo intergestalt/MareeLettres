@@ -23303,8 +23303,16 @@ var systemConfigDefaults = {
         title: 'Center of the game. Used when no GPS available, for seeding and more.'
     },
     map_seeding_radius: {
-        defaultValue: 99,
+        defaultValue: 100,
         title: 'Letter seeding radius in meters. 0 to disable'
+    },
+    map_seeding_interval: {
+        defaultValue: 10,
+        title: 'Letter seeding interval in seconds.'
+    },
+    map_seeding_lpm: {
+        defaultValue: 10,
+        title: 'Letter seeding - letters per minute.'
     },
     stream_twitter_handle: {
         defaultValue: 'http://sebquack.perseus.uberspace.de/maree/TwitterWebView.html',

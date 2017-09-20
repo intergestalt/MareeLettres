@@ -123,6 +123,14 @@ const SystemConfigSchema = new SimpleSchema(
             type: Number,
             ...systemConfigDefaults.map_seeding_radius,
         },
+        map_seeding_interval: {
+            type: SimpleSchema.Integer,
+            ...systemConfigDefaults.map_seeding_interval,
+        },
+        map_seeding_lpm: {
+            type: SimpleSchema.Integer,
+            ...systemConfigDefaults.map_seeding_lpm,
+        },
         stream_twitter_handle: {
             type: String,
             ...systemConfigDefaults.stream_twitter_handle,

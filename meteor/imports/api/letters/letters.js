@@ -2,7 +2,9 @@ import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
 import { LettersSchema } from './schema';
 
-const Letters = new Mongo.Collection('letters');
+const Letters = new Mongo.Collection('letters', {
+  transform: doc => ({ coords: { lat: doc.loc.coordinates[0], lng: doc.loc.coordinates[1] }, ...doc }), // transform legacy coord pairs to coords onbject
+});
 
 Letters.allow({
   insert: () => false,
@@ -10,4 +12,7 @@ Letters.allow({
   remove: () => false,
 });
 
+if (Meteor.isServer) {
+  Letters.rawCollection().createIndex({ loc: '2dsphere' });
+}
 export { Letters, LettersSchema };
