@@ -46,14 +46,14 @@ export function navigateToRoot(props) {
 export function navigateToInfo(props) {
   stopChallengeTicker();
   loadContentServiceProxy(false, true);
-  sendInternalVotesServiceProxy(true);
+  sendInternalVotesServiceProxy(false);
   store.dispatch(setScreen(SCREENS.INFO));
   props.navigation.navigate('Info');
 }
 
 export function navigateToBecome(props) {
   stopChallengeTicker();
-  sendInternalVotesServiceProxy(true);
+  sendInternalVotesServiceProxy(false);
   store.dispatch(setScreen(SCREENS.MAP));
   store.dispatch(setMapView(MAP_VIEWS.OVERVIEW));
   props.navigation.navigate('Become');
@@ -61,7 +61,7 @@ export function navigateToBecome(props) {
 
 export function navigateToStream(props) {
   stopChallengeTicker();
-  sendInternalVotesServiceProxy(true);
+  sendInternalVotesServiceProxy(false);
   store.dispatch(setScreen(SCREENS.NEWS));
   props.navigation.navigate('Stream');
 }
@@ -70,7 +70,7 @@ function preNavigateToVote(props) {
   manageChallenges(props);
   manageProposals();
   startChallengeTicker(props);
-  sendInternalVotesServiceProxy(true);
+  sendInternalVotesServiceProxy(false);
 }
 
 export function navigateToVote(props) {
@@ -151,7 +151,7 @@ export function navigateToChallengeSelector(props, id) {
   manageChallenges(props);
   manageProposals();
   startChallengeTicker(props);
-  sendInternalVotesServiceProxy(true);
+  sendInternalVotesServiceProxy(false);
   props.navigation.navigate('ChallengeSelector');
 }
 export function popChallengeSelector(props, withDispatch = true) {
@@ -162,7 +162,7 @@ export function popChallengeSelector(props, withDispatch = true) {
   if (withDispatch) {
     store.dispatch(setChallengeView(CHALLENGE_VIEWS.LIST));
     manageChallenges(props);
-    sendInternalVotesServiceProxy(true);
+    sendInternalVotesServiceProxy(false);
   }
   if (!props.navigation.goBack()) {
     // Should not happen

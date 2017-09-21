@@ -2,7 +2,6 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 import { StatusBar } from 'react-native';
 
 const styles = EStyleSheet.create({
-
   container: {
     width: '100%',
     alignItems: 'center',

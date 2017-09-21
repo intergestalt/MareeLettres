@@ -137,6 +137,8 @@ const styles = EStyleSheet.create({
     flex: 1,
   },
   statusTopTop: {
+    justifyContent: 'center',
+    alignItems: 'center',
     flex: 0.5,
   },
   statusTopBottom: {

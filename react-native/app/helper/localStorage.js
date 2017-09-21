@@ -488,8 +488,12 @@ export async function loadMyLettersFromStorage() {
   }
 }
 
-export async function deleteAllFromStorage() {
+export async function deleteUserFromStorage() {
   await AsyncStorage.setItem('user', '');
+}
+
+export async function deleteAllFromStorage() {
+  deleteUserFromStorage();
   await AsyncStorage.setItem('globals', '');
   await AsyncStorage.setItem('config', '');
   await AsyncStorage.setItem('content', '');

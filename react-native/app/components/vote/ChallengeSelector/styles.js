@@ -32,7 +32,7 @@ const styles = EStyleSheet.create({
     flexDirection: 'row',
     position: 'relative',
     borderColor: '#000',
-    minHeight: '7rem',
+    minHeight: '$challengeSelectorHeaderHeight',
   },
 
   challengeFooter: {
@@ -48,24 +48,24 @@ const styles = EStyleSheet.create({
     flex: 1,
   },
   headerDownContainer: {
+    height: '$challengeSelectorHeaderHeight',
     borderStyle: 'solid',
     borderColor: '#000',
     backgroundColor: '$backgroundColor',
   },
   headerDownAbsolute: {
-    minHeight: '7rem',
     position: 'absolute',
     left: 0,
   },
 
   headerUpContainer: {
     // borderLeftWidth: 1,
+    height: '$challengeSelectorHeaderHeight',
     borderStyle: 'solid',
     borderColor: '#000',
     backgroundColor: '$backgroundColor',
   },
   headerUpAbsolute: {
-    minHeight: '7rem',
     position: 'absolute',
     // borderBottomWidth: 1,
     right: 0,

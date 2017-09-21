@@ -26,7 +26,8 @@ export default {
 
       // Not sent by API, but they are not overwrittem
       request_timeout: 10000,
-      delay_config_call: 5000, // random interval in which a new config is loaded
+      delay_db_call: 5000, // random interval in which a new config is loaded
+      delay_db_call_offset: 5000, // random interval in which a new config is loaded
 
       default_proposal_list_limit: 10, //
       default_proposal_new_batch: 30, // For List reload, if scrolling reached ends
@@ -66,7 +67,7 @@ export default {
   },
 
   user: {
-    isDefaultUser: true,
+    isInitialUser: true,
     userIsLoadingFromStorage: false,
     userLoadedFromStorage: false,
     origin_id: originId,

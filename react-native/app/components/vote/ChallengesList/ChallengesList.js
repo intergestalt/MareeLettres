@@ -20,7 +20,7 @@ class ChallengesList extends PureComponent {
     language: PropTypes.string,
     challenges: PropTypes.array,
     dispatch: PropTypes.func,
-    isDefaultUser: PropTypes.bool,
+    isInitialUser: PropTypes.bool,
     showAllFinishedChallenges: PropTypes.bool,
   };
   constructor(props) {
@@ -105,14 +105,13 @@ class ChallengesList extends PureComponent {
     if (isLoading) {
       return this.renderIsLoading();
     }
-    if (this.props.isDefaultUser) {
+    if (this.props.isInitialUser) {
       return this.renderNoUser();
     }
 
     if (listIsEmpty(this.props.challenges)) {
       return this.renderIsEmpty();
     }
-
     const language = this.props.language;
     const listData = [];
     let countFinished = 0;
@@ -129,7 +128,6 @@ class ChallengesList extends PureComponent {
         countFinished += 1;
       }
     }
-
     const takeLast = true;
 
     for (let i = 0; i < this.props.challenges.length; i += 1) {
@@ -203,12 +201,12 @@ const mapStateToProps = (state) => {
     const isLoading = state.challenges.isLoading || state.user.isLoading;
     const language = state.globals.language;
     const showAllFinishedChallenges = state.globals.showAllFinishedChallenges;
-    const isDefaultUser = state.user.isDefaultUser;
+    const isInitialUser = state.user.isInitialUser;
     return {
       challenges,
       isLoading,
       language,
-      isDefaultUser,
+      isInitialUser,
       showAllFinishedChallenges,
     };
   } catch (e) {

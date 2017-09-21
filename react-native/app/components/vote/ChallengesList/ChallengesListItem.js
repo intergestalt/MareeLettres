@@ -9,6 +9,7 @@ import styles from './styles';
 import { gradient2 } from '../../../config/gradients';
 import { CHALLENGE_VIEWS } from '../../../consts';
 import I18n from '../../../i18n/i18n';
+import { isEmpty } from '../../../helper/helper';
 
 class ChallengesListItem extends Component {
   static propTypes = {
@@ -42,6 +43,7 @@ class ChallengesListItem extends Component {
       </View>
     );
   }
+
   renderFinished() {
     I18n.locale = this.props.language;
     let url = null;
@@ -51,9 +53,7 @@ class ChallengesListItem extends Component {
         <View style={styles.showAllButtonContainer}>
           <TouchableOpacity onPress={this.props.onShowAllPress} activeOpacity={0.5}>
             <View style={styles.showAllButton}>
-              <Text style={styles.showAllButtonText}>
-                {I18n.t('see_all_votes').toUpperCase()}
-              </Text>
+              <Text style={styles.showAllButtonText}>{I18n.t('see_all_votes').toUpperCase()}</Text>
             </View>
           </TouchableOpacity>
         </View>
@@ -65,13 +65,15 @@ class ChallengesListItem extends Component {
         <View style={styles.showAllButtonContainer}>
           <TouchableOpacity onPress={this.props.onHideAllPress} activeOpacity={0.5}>
             <View style={styles.showAllButton}>
-              <Text style={styles.showAllButtonText}>
-                {I18n.t('hide_all_votes').toUpperCase()}
-              </Text>
+              <Text style={styles.showAllButtonText}>{I18n.t('hide_all_votes').toUpperCase()}</Text>
             </View>
           </TouchableOpacity>
         </View>
       );
+    }
+    let answer = this.props.data.answer;
+    if (isEmpty(answer)) {
+      answer = I18n.t('waiting_for_answer');
     }
     if (this.props.data.url) {
       url = (
@@ -92,9 +94,7 @@ class ChallengesListItem extends Component {
             style={{ flex: 1, opacity: 1 }}
           >
             <View style={styles.winningInnerContainer}>
-              <Text style={styles.winningText}>
-                {this.props.data.answer}
-              </Text>
+              <Text style={styles.winningText}>{answer}</Text>
             </View>
           </LinearGradient>
         </View>
@@ -122,7 +122,11 @@ class ChallengesListItem extends Component {
     return (
       <View style={styles.itemContainer}>
         <TouchableOpacity onPress={this.props.onPress} activeOpacity={0.5}>
-          <ChallengeHeadActive callerViewMode={CHALLENGE_VIEWS.LIST} data={this.props.data} style={styles._challengeHeaderPadding} />
+          <ChallengeHeadActive
+            callerViewMode={CHALLENGE_VIEWS.LIST}
+            data={this.props.data}
+            style={styles._challengeHeaderPadding}
+          />
         </TouchableOpacity>
       </View>
     );

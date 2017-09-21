@@ -22,20 +22,21 @@ export function isEmptyContent(about, language) {
     if (isEmpty(about.fr)) {
       return true;
     }
-  } else {
-    if (isEmpty(about.en)) {
-      return true;
-    }
+  } else if (isEmpty(about.en)) {
+    return true;
   }
   return false;
 }
 
-export function getZuffiDelayForApi() {
-  let res = Math.random() * DYNAMIC_CONFIG.DELAY_CONFIG_CALL;
+export function getZuffiDelayForApi(offset = false) {
+  let res = Math.random() * DYNAMIC_CONFIG.DELAY_DB_CALL;
   res = Math.round(res);
   if (res < 0) res = 0;
-  if (res > DYNAMIC_CONFIG.DELAY_CONFIG_CALL) {
-    res = DYNAMIC_CONFIG.DELAY_CONFIG_CALL;
+  if (res > DYNAMIC_CONFIG.DELAY_DB_CALL) {
+    res = DYNAMIC_CONFIG.DELAY_DB_CALL;
+  }
+  if (offset) {
+    res += DYNAMIC_CONFIG.DELAY_DB_CALL;
   }
   return res;
 }

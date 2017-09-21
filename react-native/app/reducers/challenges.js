@@ -11,6 +11,7 @@ import {
   SET_PROPOSAL_LIST_MODE,
   SET_CHALLENGES_IS_LOADING_FROM_STORAGE,
   SET_CHALLENGES,
+  RENDER_CHALLENGES_LIST,
 } from '../actions/challenges';
 import { DEV_CONFIG } from '../config/config';
 import { saveChallengesToStorage } from '../helper/localStorage';
@@ -94,6 +95,7 @@ export default (state = initialState.challenges, action) => {
         };
       }
       case LOAD_CHALLENGE: {
+        console.log('LOAD_CHALLENGE');
         for (let i = 0; i < state.challenges.length; i += 1) {
           const myChallenge = state.challenges[i];
           if (myChallenge._id === action.challengeId) {
@@ -115,6 +117,7 @@ export default (state = initialState.challenges, action) => {
         return state;
       }
       case CHALLENGE_LOADED: {
+        console.log('CHALLENGE_LOADED');
         let challengeId = null;
         let challengeIndex = -1;
         let challengeView = state.challengeView;
@@ -187,7 +190,33 @@ export default (state = initialState.challenges, action) => {
         return state;
       }
       case NETWORK_ERROR_LOAD_CHALLENGE: {
+        for (let i = 0; i < state.challenges.length; i += 1) {
+          const myChallenge = state.challenges[i];
+          // If Challenge is in already in list (reload)
+          if (myChallenge._id === action.action.challengeId) {
+            const myChallenges = Array.from(state.challenges);
+            const newChallenge = {
+              ...myChallenge,
+              isLoading: false,
+              isInternalLoading: false,
+            };
+            myChallenges[i] = newChallenge;
+            const newState = {
+              ...state,
+              challenges: myChallenges,
+            };
+            return newState;
+          }
+        }
         return state;
+      }
+      case RENDER_CHALLENGES_LIST: {
+        const myChallenges = Array.from(state.challenges);
+        const newState = {
+          ...state,
+          challenges: myChallenges,
+        };
+        return newState;
       }
       case SET_CHALLENGE_VIEW: {
         const result = {
@@ -208,7 +237,6 @@ export default (state = initialState.challenges, action) => {
 
         if (challengeIndex === -1 && challengeView === CHALLENGE_VIEWS.DETAIL) {
           challengeView = CHALLENGE_VIEWS.LIST;
-          console.log('HERE 2');
           popChallengeSelector(action.props, false);
         }
         const newState = {

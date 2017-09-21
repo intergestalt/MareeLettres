@@ -29,12 +29,15 @@ class ProposalListItem extends PureComponent {
   } */
 
   render() {
+    let voteMarkPanel = false;
     let yesNum = 0;
     if (this.props.yes) {
+      voteMarkPanel = true;
       yesNum = 1;
     }
     let noNum = 0;
     if (this.props.no) {
+      voteMarkPanel = true;
       noNum = 1;
     }
     return (
@@ -56,11 +59,13 @@ class ProposalListItem extends PureComponent {
         </View>
         <View style={styles.itemCenter}>
           <Text style={styles.text}>{this.props.proposal.text}</Text>
-          <VoteMarkPanel
-            style={styles.voteMarkPanel}
-            yes_amount={this.props.proposal.yes_votes + this.props.votesYesOffset}
-            no_amount={this.props.proposal.no_votes + this.props.votesNoOffset}
-          />
+          {voteMarkPanel ? (
+            <VoteMarkPanel
+              style={styles.voteMarkPanel}
+              yes_amount={this.props.proposal.yes_votes + this.props.votesYesOffset}
+              no_amount={this.props.proposal.no_votes + this.props.votesNoOffset}
+            />
+          ) : null}
         </View>
         <View style={styles.itemRight}>
           {/*   <TouchableOpacity onPress={this.props.onYesPress}>

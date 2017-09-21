@@ -16,7 +16,6 @@ import { setUserMapTutorialStatusProxy } from '../../helper/userHelper';
 
 class MapOverview extends Component {
   static propTypes = {
-    isDefaultUser: PropTypes.bool,
     navigation: PropTypes.object,
     interval: PropTypes.number,
   };
@@ -25,7 +24,7 @@ class MapOverview extends Component {
     I18n.locale = this.props.language;
     const user = this.props.user;
     if (user.map.tutorialStatus == 'welcome') {
-      setTimeout(()=>{
+      setTimeout(() => {
         this.props.alertWithType(
           'info',
           I18n.t('map_tutorial_1_title'),

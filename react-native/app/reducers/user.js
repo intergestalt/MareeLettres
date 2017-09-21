@@ -33,7 +33,7 @@ import {
 import { CHANGE_MAP_REGION, CHANGE_MAP_LAYOUT, USER_SET_COORDINATES } from '../actions/map';
 
 import initialState from '../config/initialState';
-import { saveUserToStorage } from '../helper/localStorage';
+import { saveUserToStorage, deleteUserFromStorage } from '../helper/localStorage';
 import { isEmpty } from '../helper/helper';
 
 // const selectMenuItem = (state, index) => {};
@@ -56,7 +56,6 @@ export default (state = initialState.user, action) => {
         console.log('USER_LOADED');
         const newVotes = {};
         const proposalIds = Object.keys(action.result.votes);
-        console.log(action.result);
 
         for (let i = 0; i < proposalIds.length; i += 1) {
           const proposalId = proposalIds[i];
@@ -71,29 +70,32 @@ export default (state = initialState.user, action) => {
             newChallenges[proposal.challenge_id] = userProposal;
           }
         }
+        const initState = initialState.user;
         const result = {
-          ...state,
-          isDefaultUser: false,
+          ...initState,
+          isInitialUser: false,
           votes: newVotes,
           challenges: newChallenges,
           isLoading: false,
           isInternalLoading: false,
         };
-        console.log(result);
+        saveUserToStorage(result);
         return result;
       }
       case LOAD_USER_ERROR: {
         console.log('LOAD_USER_ERROR');
+        deleteUserFromStorage();
         return {
           ...state,
           isLoading: false,
           isInternalLoading: false,
+          isInitialUser: true,
         };
       }
       case SET_USER: {
         console.log('REDUCER: SET_USER');
         const user = action.user;
-        user.isDefaultUser = false;
+        user.isInitialUser = false;
         return user;
       }
       // Redux local storage
@@ -345,7 +347,6 @@ export default (state = initialState.user, action) => {
             tutorialStatus: action.status,
           },
         };
-        //console.log(result);
         saveUserToStorage(result);
         return result;
       }
@@ -360,7 +361,7 @@ export default (state = initialState.user, action) => {
       case USER_SET_VOTE_TUTORIAL_STATUS: {
         console.log('USER_SET_VOTE_TUTORIAL_STATUS');
         console.log(action.status);
-        let tutorialStatus = state.voteTutorialStatus;
+        const tutorialStatus = state.voteTutorialStatus;
         tutorialStatus[action.status] = true;
         const result = {
           ...state,

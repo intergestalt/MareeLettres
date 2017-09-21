@@ -16,7 +16,7 @@ import { getProposalList } from '../../../helper/proposalsHelper';
 import { loadProposalsServiceProxy } from '../../../helper/apiProxy';
 import { DYNAMIC_CONFIG } from '../../../config/config';
 import { gradient0 } from '../../../config/gradients';
-import { listIsEmpty } from '../../../helper/helper';
+import { listIsEmpty, isEmpty } from '../../../helper/helper';
 import { ReloadButton } from '../../../components/general/ReloadButton';
 
 import I18n from '../../../i18n/i18n';
@@ -112,7 +112,6 @@ class ChallengeContent extends Component {
         const d = new Date();
         this.startGestureContent = d.getTime();
         this.state.tinderBackgroundOpacity.setValue(1);
-        console.log('GRANT');
       },
       onPanResponderMove: (e, gesture) => {
         const myDx = gesture.dx;
@@ -375,6 +374,10 @@ class ChallengeContent extends Component {
         </View>
       );
     }
+    let answer = this.getAnswer();
+    if (isEmpty(answer)) {
+      answer = I18n.t('waiting_for_answer');
+    }
     return (
       <View style={styles.challengeContent}>
         <LinearGradient
@@ -383,7 +386,7 @@ class ChallengeContent extends Component {
           style={{ flex: 1, opacity: 1 }}
         >
           <View style={styles.challengeInnerContainer}>
-            <Text style={styles.contentText}>{this.getAnswer()}</Text>
+            <Text style={styles.contentText}>{answer}</Text>
           </View>
         </LinearGradient>
       </View>

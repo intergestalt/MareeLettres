@@ -27,7 +27,9 @@ if (Expo.Constants.manifest.extra && Expo.Constants.manifest.extra.server) {
     server = s;
   } else {
     if (!servers[server]) server = 'dev'; // fallback
-    console.log(`WARNIING - server config in app.json is incorrect. using ${server} server as set in config.js .`)
+    console.log(
+      `WARNIING - server config in app.json is incorrect. using ${server} server as set in config.js .`,
+    );
   }
 }
 
@@ -86,6 +88,9 @@ export const DYNAMIC_CONFIG = {
   SEND_INTERNAL_VOTES_AFTER: null,
   DISPLAY_NEXT_NETWORK_ERROR_AFTER: null,
   SUGGESTIONS_CLOSE_EARLIER: null,
+
+  DELAY_DB_CALL: null, // random interval in which a new config is loaded
+  DELAY_DB_CALL_OFFSET: null, // random interval in which a new config is loaded};
 };
 
 export const DEV_CONFIG = {
