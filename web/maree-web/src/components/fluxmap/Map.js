@@ -118,7 +118,17 @@ export default class FluxMap extends Component {
         </GoogleMapReact>
         <img id="zoom_in" className="mapButton" src="assets/zoom_in.svg" alt="zoom in control" onClick={this.zoomIn}/>
         <img id="zoom_out" className="mapButton" src="assets/zoom_out.svg" alt="zoom out control" onClick={this.zoomOut}/>
-        <img id="fullscreen" className="mapButton" src="assets/fullscreen.svg" alt="fullscreen control" onClick={this.props.expandMap}/>
+        <img 
+          id="fullscreen" 
+          className="mapButton" 
+          src={this.props.mapExpansion < 2 ? "assets/fullscreen.svg" : "assets/minimize.svg"}
+          alt="fullscreen control" 
+          onClick={this.props.expandMap}
+        />
+
+
+
+
       </div>
     );
   }

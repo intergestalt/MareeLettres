@@ -63,6 +63,7 @@ class App extends React.Component {
           <section className={this.state.mapExpansionClassname}>
             <FluxMap
               expandMap={this.expandMap}
+              mapExpansion={this.state.mapExpansion}
             />
           </section>
         </div>
