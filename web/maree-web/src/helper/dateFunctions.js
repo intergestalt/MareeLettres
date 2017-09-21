@@ -1,3 +1,13 @@
+const DEV_CONFIG = {
+  USE_CUSTOM_END_DATE: false,
+  CUSTOM_END_DATE_ID: null,
+  CUSTOM_END_DATE: null
+};
+
+const DYNAMIC_CONFIG = {
+  SUGGESTIONS_CLOSE_EARLIER: 1000
+};
+
 const monthNamesEn = [
   'Jan',
   'Feb',
@@ -10,7 +20,7 @@ const monthNamesEn = [
   'Sep',
   'Oct',
   'Nov',
-  'Dec',
+  'Dec'
 ];
 
 const monthNamesFr = [
@@ -25,7 +35,7 @@ const monthNamesFr = [
   'Sep',
   'Oct',
   'Nov',
-  'Déc',
+  'Déc'
 ];
 
 export const TICKER_END = '(00:00:00)';
@@ -307,7 +317,7 @@ export function getTickerDataChallenge(endUTC, oldEntry) {
     lastFinished: finished,
     lastSameYear: sameYear,
     lastSameDay: sameDay,
-    entryChanged,
+    entryChanged
   };
   if (entryChanged) {
     // console.log('CALCULATE');
@@ -334,7 +344,7 @@ export function getTickerDataChallenges(challengeState, oldData) {
     newTimeLeftForChallenge = getTickerDataChallenge(endDate, oldEntry);
     if (newTimeLeftForChallenge.entryChanged) {
       newChallengesTickerData[myChallenge._id] = newTimeLeftForChallenge;
-     } else {
+    } else {
       newChallengesTickerData[myChallenge._id] = oldEntry;
     }
   }
