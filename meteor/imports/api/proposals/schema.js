@@ -51,6 +51,24 @@ const ProposalsSchemaObject = {
     }
 }
 
+const TinderProposalsSchemaObject = {
+    origin_ids: {
+        type: Array,
+        index: 1,
+    },
+    challenge_id: {
+        type: String,
+        index: 1,
+    },
+    text: {
+        type: String,
+    },
+    tinderscore: {
+        type: SimpleSchema.Integer,
+        index: 1, // TODO: check direction
+    },
+}
+
 const ProposalsSchema = new SimpleSchema(
     ProposalsSchemaObject,
     {
@@ -58,4 +76,9 @@ const ProposalsSchema = new SimpleSchema(
     }
 );
 
-export { ProposalsSchema };
+const TinderProposalsSchema = new SimpleSchema(
+    TinderProposalsSchemaObject,
+    {}
+);
+
+export { ProposalsSchema, TinderProposalsSchema };

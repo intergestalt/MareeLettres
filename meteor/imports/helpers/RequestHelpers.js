@@ -11,12 +11,14 @@ const RequestHelpers = {
 
         if (!origin_id) {
             this.JsonRoutesError(res, 400, 'id-required');
+            return false;
         }
 
         // console.log(OriginId.verify(origin_id));
 
         if (!OriginId.verify(origin_id)) {
             this.JsonRoutesError(res, 401, 'id-invalid');
+            return false;
         }
 
         return origin_id;
