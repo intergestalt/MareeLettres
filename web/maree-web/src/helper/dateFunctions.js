@@ -1,13 +1,3 @@
-const DEV_CONFIG = {
-  USE_CUSTOM_END_DATE: false,
-  CUSTOM_END_DATE_ID: null,
-  CUSTOM_END_DATE: null
-};
-
-const DYNAMIC_CONFIG = {
-  SUGGESTIONS_CLOSE_EARLIER: 1000
-};
-
 const monthNamesEn = [
   'Jan',
   'Feb',
