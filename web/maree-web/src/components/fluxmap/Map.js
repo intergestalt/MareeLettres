@@ -51,7 +51,7 @@ export default class FluxMap extends Component {
     console.log(requestUri);
     axios.get(requestUri)
       .then(response=>{  
-        let size = 1 / (10 * latitudeDelta);
+        let size = Math.pow(2, params.zoom) / 10000;
         this.setState({letters: response.data.letters, letterSize: size});
       })
       .catch(error=>{
