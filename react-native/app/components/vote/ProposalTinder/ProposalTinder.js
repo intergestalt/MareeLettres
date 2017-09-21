@@ -127,16 +127,12 @@ class ProposalTinder extends Component {
       textContainer = <Text style={styles.text}>{this.props.proposal.text}</Text>;
       noContainer = (
         <View style={styles.markContainer1}>
-          <View style={styles.markContainer2}>
-            <VoteMark size="l" active={false} value={0} type="no" />
-          </View>
+          <VoteMark size="l" active={false} value={0} type="no" />
         </View>
       );
       yesContainer = (
         <View style={styles.markContainer1}>
-          <View style={styles.markContainer2}>
-            <VoteMark size="l" active={false} value={0} type="yes" />
-          </View>
+          <VoteMark size="l" active={false} value={0} type="yes" />
         </View>
       );
     }
@@ -147,7 +143,7 @@ class ProposalTinder extends Component {
           <View style={myStyle}>
             <View style={styles.topContainer}>
               {textContainer}
-              <VoteMarkPanel style={styles.voteMarkPanel} yes_amount={20} no_amount={666} />
+              {/* <VoteMarkPanel style={styles.voteMarkPanel} /> */}
             </View>
             <View style={styles.bottomContainer}>
               <TouchableOpacity onPress={this.props.noPress}>{noContainer}</TouchableOpacity>
@@ -168,11 +164,11 @@ class ProposalTinder extends Component {
           >
             <View style={styles.topContainer}>
               {textContainer}
-              <VoteMarkPanel
+              {/* <VoteMarkPanel
                 style={styles.voteMarkPanel}
                 yes_amount={this.props.proposal.yes_votes}
                 no_amount={this.props.proposal.no_votes}
-              />
+              /> */}
             </View>
             <View style={styles.bottomContainer}>
               {noContainer}

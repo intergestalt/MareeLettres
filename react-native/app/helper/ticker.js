@@ -1,6 +1,10 @@
 import { InteractionManager } from 'react-native';
 import { setChallengesDateData } from '../actions/challengesTicker';
-import { loadChallengeServiceProxy, sendInternalVotesServiceProxy } from '../helper/apiProxy';
+import {
+  loadChallengeServiceProxy,
+  sendInternalVotesServiceProxy,
+  loadChallengesServiceProxy,
+} from '../helper/apiProxy';
 import store from '../config/store';
 
 import { isFinished } from '../helper/dateFunctions';
@@ -37,7 +41,7 @@ function tickerData(props) {
         store.dispatch(renderChallengesList());
         setTimeout(() => {
           loadChallengeServiceProxy(myChallenge._id, props);
-        }, getZuffiDelayForApi());
+        }, getZuffiDelayForApi(true));
       }
     }
   }
@@ -47,13 +51,19 @@ function sendInternalVotes() {
   sendInternalVotesServiceProxy(false);
 }
 
+function reloadChallenges() {
+  loadChallengesServiceProxy(false, true);
+}
+
 function tick(props) {
   if (DEV_CONFIG.TICKER_ENABELD) {
     tickerData(props);
   }
 
   sendInternalVotes();
+  reloadChallenges();
 }
+
 export function stopChallengeTicker() {
   if (tickerStarted) {
     clearInterval(timerId);

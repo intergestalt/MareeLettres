@@ -27,7 +27,7 @@ class Map extends Component {
   static propTypes = {
     navigation: PropTypes.object,
     user: PropTypes.object,
-    isDefaultUser: PropTypes.bool,
+    isInitialUser: PropTypes.bool,
     map: PropTypes.object,
     config: PropTypes.object,
     letters: PropTypes.object,
@@ -88,7 +88,7 @@ class Map extends Component {
     const centerLat = this.with3Decimals(this.props.map.coordinates.latitude);
     const centerLng = this.with3Decimals(this.props.map.coordinates.longitude);
     // console.log(this.props.map.coordinates.latitudeDelta);
-    let delta = this.props.map.coordinates.latitudeDelta;
+    const delta = this.props.map.coordinates.latitudeDelta;
     let radius = 1;
     if (delta >= 0.002 && delta < 0.003) {
       radius = 2;
@@ -99,7 +99,7 @@ class Map extends Component {
     if (delta >= 0.004) {
       radius = 4;
     }
-    const radiusMeters = Math.floor((radius * 0.001) * 40008000 / 360); // rough estimation
+    const radiusMeters = Math.floor(radius * 0.001 * 40008000 / 360); // rough estimation
 
     let interval = Math.floor(Math.sqrt(this.state.pollingCounter));
     if (interval > 10) {
@@ -158,20 +158,19 @@ class Map extends Component {
     loadLettersServiceProxy(this.calculateMapLetterRequest());
     this.setState({ pollingCounter: 0 });
 
-    /*if (JSON.stringify(region) !== JSON.stringify(this.props.map.coordinates)) {
+    /* if (JSON.stringify(region) !== JSON.stringify(this.props.map.coordinates)) {
       // console.log("region changed");
       // console.log(this.props.map.coordinates)
       // console.log(region);
       changeMapRegionProxy(region);
       // recalculate the letter size
       this.setMapLetterSize(region);
-    }*/
-
+    } */
   };
 
   onRegionChange = (region) => {
     this.setState({ region });
-    //this.setMapLetterSize(region);
+    // this.setMapLetterSize(region);
   };
 
   setMapLetterSize = (region) => {
@@ -193,17 +192,16 @@ class Map extends Component {
         longitude: this.props.user.coordinates.longitude,
         latitudeDelta: this.state.delta_initial,
         longitudeDelta: this.state.delta_initial,
-      }
-    }
-    );
-    /*this._map._component.animateToRegion(
+      },
+    });
+    /* this._map._component.animateToRegion(
       {
         ...this.props.user.coordinates,
         latitudeDelta: this.state.delta_initial,
         longitudeDelta: this.state.delta_initial,
       },
       300,
-    );*/
+    ); */
   };
 
   onCentreMapButton = () => {
@@ -243,7 +241,7 @@ class Map extends Component {
     return (
       <Letter
         character={item.character}
-        position={{ x: x, y: 0 }}
+        position={{ x, y: 0 }}
         key={index}
         index={index}
         navigation={this.props.navigation}
@@ -280,7 +278,7 @@ class Map extends Component {
     if (this.props.isUserLoading) {
       return this.renderIsLoading();
     }
-    if (this.props.isDefaultUser) {
+    if (this.props.isInitialUser) {
       return this.renderNoUser();
     }
     console.log('RENDER MAP');
@@ -326,15 +324,12 @@ class Map extends Component {
           ref={(input) => {
             this._map = input;
           }}
-
           onRegionChangeComplete={this.onRegionChangeComplete}
           onRegionChange={this.onRegionChange}
           provider={MapView.PROVIDER_GOOGLE}
           style={styles.container}
-
           initialRegion={this.state.initialRegion}
           region={this.state.region}
-
           minZoomLevel={this.props.config.map_min_zoom_level}
           maxZoomLevel={this.props.config.map_max_zoom_level}
           customMapStyle={mapstyles}
@@ -361,7 +356,11 @@ class Map extends Component {
           style={[styles.button, styles.buttonCentreMap]}
           onPress={this.onCentreMapButton}
         >
-          <Image style={styles.buttonCentreMapImage} source={require('./assets/center.png')} resizeMode="contain" />
+          <Image
+            style={styles.buttonCentreMapImage}
+            source={require('./assets/center.png')}
+            resizeMode="contain"
+          />
         </TouchableOpacity>
         <LettersMenu navigation={this.props.navigation} />
 
@@ -380,7 +379,7 @@ const mapStateToProps = (state) => {
     const config = state.config.config;
     const letters = state.letters;
     const my_letters = state.myLetters;
-    const isDefaultUser = state.user.isDefaultUser;
+    const isInitialUser = state.user.isInitialUser;
 
     if (!map.coordinates.latitude) map.coordinates.latitude = config.map_default_center_lat;
     if (!map.coordinates.longitude) map.coordinates.longitude = config.map_default_center_lng;
@@ -397,7 +396,7 @@ const mapStateToProps = (state) => {
       my_letters,
       language: state.globals.language,
       screen: state.globals.screen,
-      isDefaultUser,
+      isInitialUser,
       isUserLoading,
     };
   } catch (e) {

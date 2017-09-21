@@ -126,8 +126,8 @@ export const setUserVoteTutorialStatus = status => ({
 
 export const setUserHasStoragePermissionAndroid = status => ({
   type: USER_STORAGE_PERMISSION_ANDROID,
-  errorEvent: USER_UPDATE_ERROR
-})
+  errorEvent: USER_UPDATE_ERROR,
+});
 
 export const binLetter = menuIndex => ({
   type: USER_BIN_LETTER,

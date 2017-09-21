@@ -14,7 +14,7 @@ import {
 } from '../actions/stream';
 import { getZuffiDelayForApi } from '../helper/helper';
 import store from '../config/store';
-import { loadConfigServiceProxy } from '../helper/apiProxy';
+import { loadConfigServiceProxy, loadUserServiceProxy } from '../helper/apiProxy';
 import { clearMyLettersProxy } from '../helper/mapHelper';
 
 const loadData = function* loadData(action) {
@@ -47,15 +47,25 @@ const loadData = function* loadData(action) {
           if (!currentConfig || currentConfig !== result.current_config) {
             yield setTimeout(() => {
               loadConfigServiceProxy(result.current_config);
-            }, getZuffiDelayForApi());
+            }, getZuffiDelayForApi(false));
           }
         }
       }
 
+      // Eventually load user...
+      if (action.type !== LOAD_USER) {
+        // only if there is a current_config in answer
+        if (result.loadUser) {
+          yield setTimeout(() => {
+            loadUserServiceProxy(true);
+          }, getZuffiDelayForApi(false));
+        }
+      }
+      // 3. Clear Letters
       if (action.type === LOAD_LETTERS_INTERVAL || action.type === LOAD_LETTERS) {
         clearMyLettersProxy();
       }
-      // If loading Challanges: Set also the date data with new times...
+      // 4. If loading Challanges: Set also the date data with new times...
       if (action.type === LOAD_CHALLENGES) yield put({ type: SET_CHALLENGES_TIME_LEFT, result });
 
       yield put({ type: action.successEvent, result, action });
@@ -63,17 +73,16 @@ const loadData = function* loadData(action) {
   } catch (error) {
     console.log('ERROR 2');
     console.log(error);
-    
+
     let errorObj = null;
     let blockedUser = false;
     try {
-      errorObj = JSON.parse(error);  
-      blockedUser = (errorObj.error == 'blocked-user');
+      errorObj = JSON.parse(error);
+      blockedUser = errorObj.error == 'blocked-user';
+    } catch (jsonError) {
+      console.log('no json error object found');
     }
-    catch(jsonError) {
-      console.log("no json error object found");
-    }
-    
+
     yield put({ type: action.errorEvent, action, error });
     yield put({
       type: SET_NET_WORK_ERROR,

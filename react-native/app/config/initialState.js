@@ -67,7 +67,7 @@ export default {
   },
 
   user: {
-    isDefaultUser: true,
+    isInitialUser: true,
     userIsLoadingFromStorage: false,
     userLoadedFromStorage: false,
     origin_id: originId,

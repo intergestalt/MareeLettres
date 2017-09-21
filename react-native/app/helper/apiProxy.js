@@ -232,7 +232,7 @@ export function sendInternalVotesServiceProxy(force) {
     return;
   }
   // force oder timout
-  let doit = checkReload(force, internalVotes, DYNAMIC_CONFIG.SEND_INTERNAL_VOTES_AFTER);
+  const doit = checkReload(force, internalVotes, DYNAMIC_CONFIG.SEND_INTERNAL_VOTES_AFTER);
 
   // Do not send if there is nothing to sent
   if (emptyOrNull(internalVotes)) {
@@ -241,9 +241,9 @@ export function sendInternalVotesServiceProxy(force) {
     return;
   }
   // if there are more then n internal vots doit
-  if (Object.keys(internalVotes.internalVotes).length >= DYNAMIC_CONFIG.INTERNAL_VOTES_OFFSET) {
+  /* if (Object.keys(internalVotes.internalVotes).length >= DYNAMIC_CONFIG.INTERNAL_VOTES_OFFSET) {
     doit = true;
-  }
+  } */
   if (doit) {
     store.dispatch(userSendInternalVotes(user.origin_id, internalVotes));
   }
