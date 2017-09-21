@@ -25,15 +25,15 @@ class ProposalStatus extends Component {
   };
 
   componentWillUnmount() {
-    console.log("unmount");
-    if(this.props.voteTutorialStatus) {
-      if(!this.props.voteTutorialStatus.status && this.props.voteTutorialStatus.back) {
+    console.log('unmount');
+    if (this.props.voteTutorialStatus) {
+      if (!this.props.voteTutorialStatus.status && this.props.voteTutorialStatus.back) {
         this.props.alertWithType(
-            'info',
-            I18n.t('vote_tutorial_status_title'),
-            I18n.t('vote_tutorial_status_text')
-          );
-        setUserVoteTutorialStatusProxy("status");
+          'info',
+          I18n.t('vote_tutorial_status_title'),
+          I18n.t('vote_tutorial_status_text'),
+        );
+        setUserVoteTutorialStatusProxy('status');
       }
     }
   }
@@ -54,8 +54,24 @@ class ProposalStatus extends Component {
     let rank = null;
     let passed = null;
     if (!this.props.userChallenge.isLoading) {
-      proposalBlocked = this.props.userChallenge.ownProposalBlocked.bool;
-      proposalInReview = this.props.userChallenge.ownProposalInReview.bool;
+      if (this.props.userChallenge.ownProposalBlocked) {
+        if (this.props.userChallenge.ownProposalBlocked.bool) {
+          proposalBlocked = this.props.userChallenge.ownProposalBlocked.bool;
+        } else {
+          proposalBlocked = false;
+        }
+      } else {
+        proposalBlocked = false;
+      }
+      if (this.props.userChallenge.ownProposalInReview) {
+        if (this.props.userChallenge.ownProposalInReview.bool) {
+          proposalInReview = this.props.userChallenge.ownProposalInReview.bool;
+        } else {
+          proposalInReview = true;
+        }
+      } else {
+        proposalInReview = true;
+      }
       proposalPassed = !proposalBlocked && !proposalInReview;
 
       I18n.locale = this.props.language;
@@ -187,7 +203,7 @@ const mapStateToProps = (state, props) => {
       challenge,
       userChallenge,
       voteMap,
-      voteTutorialStatus: state.user.voteTutorialStatus
+      voteTutorialStatus: state.user.voteTutorialStatus,
     };
   } catch (e) {
     console.log('ProposalStatus');
