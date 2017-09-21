@@ -23,6 +23,15 @@ html, body, #root {
 	font-family: Impact;
 }
 
+.headers div.flux_expanded_1 {
+  flex: 0.5;
+}
+
+.headers div.flux_expanded_2 {
+  flex: 1;
+}
+
+
 .borderRight {
   border-right: 1px solid #000;
 }
@@ -58,3 +67,14 @@ section.news {
 section.flux {
   overflow: hidden;
 }
+
+section.flux_expanded_1 {
+  overflow: hidden;
+  flex: 0.5;
+}
+
+section.flux_expanded_2 {
+  overflow: hidden;
+  flex: 1;
+}
+

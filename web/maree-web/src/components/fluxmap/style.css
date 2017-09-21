@@ -6,3 +6,30 @@
   	-ms-user-select: none;      
   	user-select: none;
 }
+
+.mapContainer {
+	height: 100%;
+}
+
+.mapButton {
+	width: 1.5rem;
+	height: 1.5rem;
+	position: absolute;
+	right: 1.5rem;
+}
+
+.mapButton:hover {
+	cursor: pointer;
+}
+
+#fullscreen {
+	bottom: 1.5rem;
+}
+
+#zoom_out {
+	bottom: 4rem;
+}
+
+#zoom_in {
+	bottom: 6.5rem;
+}
