@@ -22,10 +22,8 @@ export function isEmptyContent(about, language) {
     if (isEmpty(about.fr)) {
       return true;
     }
-  } else {
-    if (isEmpty(about.en)) {
-      return true;
-    }
+  } else if (isEmpty(about.en)) {
+    return true;
   }
   return false;
 }

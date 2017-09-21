@@ -234,7 +234,6 @@ export function isFinished(challenge) {
 
   const mEndUTC = endDate.getTime();
   const diff = mEndUTC - mNowUTC;
-
   let finished = false;
   if (diff <= 0) finished = true;
   return finished;

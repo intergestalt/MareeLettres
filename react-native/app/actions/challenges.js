@@ -7,6 +7,7 @@ export const CHALLENGES_LOADED = 'CHALLENGES_LOADED';
 export const LOAD_CHALLENGE = 'LOAD_CHALLENGE';
 export const CHALLENGE_LOADED = 'CHALLENGE_LOADED';
 export const NETWORK_ERROR_LOAD_CHALLENGE = 'NETWORK_ERROR_LOAD_CHALLENGE';
+export const RENDER_CHALLENGES_LIST = 'RENDER_CHALLENGES_LIST';
 
 export const SET_CHALLENGE_ID = 'SET_CHALLENGE_ID';
 export const SET_CHALLENGE_VIEW = 'SET_CHALLENGE_VIEW';
@@ -32,7 +33,9 @@ export const loadChallenge = (challengeId, props) => ({
   challengeId,
   props,
 });
-
+export const renderChallengesList = () => ({
+  type: RENDER_CHALLENGES_LIST,
+});
 export const setChallengeId = (id, props) => ({
   type: SET_CHALLENGE_ID,
   challengeId: id,

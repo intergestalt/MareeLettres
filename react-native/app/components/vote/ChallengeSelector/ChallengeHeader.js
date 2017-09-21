@@ -71,11 +71,11 @@ class ChallengeHeader extends Component {
         opacity={1}
       />
     );
-
+    const finished = challengeTickerData.finished;
     const contentMiddle = (
       <View style={styles.headerTextContainer}>
         <TouchableOpacity delayPressIn={50} onPress={this.props.onHeaderPress} activeOpacity={0.5}>
-          {!challengeTickerData.finished ? (
+          {!finished ? (
             <ChallengeHeadActive
               callerViewMode={CHALLENGE_VIEWS.DETAIL}
               data={standardizedChallenge}

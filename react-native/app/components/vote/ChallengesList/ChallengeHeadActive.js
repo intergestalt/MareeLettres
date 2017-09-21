@@ -27,19 +27,17 @@ class ChallengeHeadActive extends Component {
   }
   render() {
     I18n.locale = this.props.language;
+    let ticker = null;
+    ticker = (
+      <View style={styles.tickerContainer}>
+        <Text style={styles.liveSpacer}>{I18n.t('live_indicator')}</Text>
+        <Text style={styles.ticker}>{getTickerString(this.props.timeLeft)}</Text>
+        <Text style={styles.live}>{I18n.t('live_indicator')}</Text>
+      </View>
+    );
     return (
       <View style={[styles.row, this.props.style]}>
-        <View style={styles.tickerContainer}>
-          <Text style={styles.liveSpacer}>
-            {I18n.t('live_indicator')}
-          </Text>
-          <Text style={styles.ticker}>
-            {getTickerString(this.props.timeLeft)}
-          </Text>
-          <Text style={styles.live}>
-            {I18n.t('live_indicator')}
-          </Text>
-        </View>
+        {ticker}
         <Text style={styles.title}>
           {this.props.data.title ? this.props.data.title.toUpperCase() : '-'}
         </Text>

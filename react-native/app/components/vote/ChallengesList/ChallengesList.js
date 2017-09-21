@@ -112,7 +112,6 @@ class ChallengesList extends PureComponent {
     if (listIsEmpty(this.props.challenges)) {
       return this.renderIsEmpty();
     }
-
     const language = this.props.language;
     const listData = [];
     let countFinished = 0;
@@ -129,7 +128,6 @@ class ChallengesList extends PureComponent {
         countFinished += 1;
       }
     }
-
     const takeLast = true;
 
     for (let i = 0; i < this.props.challenges.length; i += 1) {
