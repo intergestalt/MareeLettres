@@ -80,7 +80,8 @@ JsonRoutes.add('post', `${Meteor.settings.public.api_prefix}players/:origin_id/v
   const pastVotesResult = Players.findOne({ origin_id }, getQueryParams); // TODO possibly save this query and get old values from set query?
 
   if (!pastVotesResult) {
-    JsonRoutesError(res, 404, 'player-not-found');
+    //JsonRoutesError(res, 404, 'player-not-found', { loadUser: true });
+    JsonRoutes.sendResult(res, { data: { loadUser: true } });
     return;
   }
 

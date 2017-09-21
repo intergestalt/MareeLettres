@@ -100,7 +100,16 @@ JsonRoutes.add(
 
     // check if user is blocked
 
-    if (RequestHelpers.check_blocked_user(res, origin_id)) return;
+    const player = Players.findOne({ origin_id }, { fields: { _id: 1, blocked: 1 } });
+
+
+    if (!player) {
+      JsonRoutes.sendResult(res, { data: { loadUser: true } });
+      return;
+    } else if (player.blocked) {
+      RequestHelpers.check_blocked_user(res, origin_id);
+      return;
+    }
 
 
     const challenge_id = proposal.challenge_id;
@@ -172,7 +181,6 @@ JsonRoutes.add(
         }
       }
     })
-    console.log(result)
 
     const options = {
       data,
