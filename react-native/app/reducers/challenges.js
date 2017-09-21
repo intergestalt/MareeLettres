@@ -190,7 +190,6 @@ export default (state = initialState.challenges, action) => {
         return state;
       }
       case NETWORK_ERROR_LOAD_CHALLENGE: {
-        console.log('NETWORK ERROR');
         for (let i = 0; i < state.challenges.length; i += 1) {
           const myChallenge = state.challenges[i];
           // If Challenge is in already in list (reload)
