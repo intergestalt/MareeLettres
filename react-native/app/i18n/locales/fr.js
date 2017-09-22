@@ -104,4 +104,8 @@ export default {
   blocked_user:
     "Les soumissions de votre appareil ont été bloquées. Contactez-nous via la section info de l'application",
   waiting_for_answer: 'FR Waiting for winning answer...',
+  proposal_booster_title: 'Yippi FR',
+  proposal_booster_text:
+    'Great minds think alike! You have made a suggestion that has already been made by someone else. Your suggestions have been combined and received and extra [X] votes! FR',
+  reload_proposal_status: 'gThe status of your proposal could not be loaded. Press to Reload FR',
 };

@@ -104,4 +104,8 @@ export default {
   blocked_user:
     'Submissions from your device have been blocked. Contact us through the info section of the app.',
   waiting_for_answer: 'EN Waiting for winning answer...',
+  proposal_booster_title: 'Yippi EN',
+  proposal_booster_text:
+    'Great minds think alike! You have made a suggestion that has already been made by someone else. Your suggestions have been combined and received and extra [X] votes! EN',
+  reload_proposal_status: 'ÄThe status of your proposal could not be loaded. Press to Reloady EN',
 };

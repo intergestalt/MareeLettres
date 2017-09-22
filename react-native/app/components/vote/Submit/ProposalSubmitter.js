@@ -1028,7 +1028,10 @@ class ProposalSubmitter extends Component {
   }
   tryAgainPressed() {
     this.props.dispatch(deleteOwnProposal(this.props.selectedChallengeId));
-    popProposalSubmitter(this.props);
+    this.setState(this.setInitialLetters());
+    this.resetEverything(false);
+    this.setState({ submitView: false });
+    // popProposalSubmitter(this.props);
   }
   handleBackPress(submitView) {
     if (this.showStatusPage()) {

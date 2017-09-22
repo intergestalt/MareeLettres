@@ -92,7 +92,7 @@ class ChallengeContainer extends Component {
   handleStatusPress() {
     loadProposalServiceProxy(
       this.props.challenges[this.props.selectedChallengeIndex]._id,
-      DYNAMIC_CONFIG.LOAD_QUIET_PROPOSAL,
+      DYNAMIC_CONFIG.LOAD_QUIET_PROPOSAL.bool,
     );
     navigateToSubmit(this.props, this.props.challenges[this.props.selectedChallengeIndex]);
   }

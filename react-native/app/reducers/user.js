@@ -418,13 +418,13 @@ export default (state = initialState.user, action) => {
         console.log('Reducer: POST_PROPOSAL');
         let myChallenges = state.challenges; // this is the challenges object in user
         if (!myChallenges) myChallenges = {};
-        let myChallenge = myChallenges[action.challengeId];
+        let myChallenge = myChallenges[action.body.challenge_id];
         if (!myChallenge) {
           myChallenge = {};
         }
         myChallenge.isLoading = true;
         myChallenge.isInternalLoading = true;
-        myChallenges[action.challengeId] = myChallenge;
+        myChallenges[action.body.challenge_id] = myChallenge;
         const result = {
           ...state,
           challenges: myChallenges,
@@ -433,7 +433,6 @@ export default (state = initialState.user, action) => {
       }
       case SUCCESS_POST_PROPOSAL: {
         console.log('user reducer: SUCESS_POST_PROPOSAL');
-
         let myChallenges = state.challenges;
         if (!myChallenges) myChallenges = {};
         let myChallenge = state.challenges[action.action.body.challenge_id];
@@ -443,9 +442,12 @@ export default (state = initialState.user, action) => {
         myChallenge.ownProposalId = action.result.proposal._id;
         myChallenge.isLoading = false;
         myChallenge.isInternalLoading = false;
-        myChallenge.ownProposalInReview = { bool: true };
-        myChallenge.ownProposalBlocked = { bool: false };
+        myChallenge.ownProposalInReview = { bool: action.result.proposal.in_review };
+        myChallenge.ownProposalBlocked = { bool: action.result.proposal.blocked };
         myChallenge.ownProposal = action.result.proposal.text;
+        myChallenge.no = action.result.proposal.no_votes;
+        myChallenge.yes = action.result.proposal.yes_votes;
+        myChallenge.rank = action.result.proposal.rank;
         myChallenges[action.action.body.challenge_id] = myChallenge;
 
         const result = {
@@ -490,7 +492,6 @@ export default (state = initialState.user, action) => {
         myChallenge.isInternalLoading = true;
 
         myChallenges[action.challengeId] = myChallenge;
-
         const result = {
           ...state,
           challenges: { ...myChallenges },
@@ -522,7 +523,6 @@ export default (state = initialState.user, action) => {
         myChallenge.yes = myProposal.yes_votes + offsetYes;
         myChallenge.no = myProposal.no_votes + offsetNo;
         myChallenges[action.action.challengeId] = myChallenge;
-
         const result = {
           ...state,
           challenges: { ...myChallenges },
