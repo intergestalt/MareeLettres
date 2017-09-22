@@ -37,9 +37,12 @@ class ChallengesListItem extends Component {
   renderLoading() {
     return (
       <View style={styles.itemContainer}>
-        <View style={styles.row}>
-          <Text style={styles.title}>Loading...</Text>
+        <View style={styles.listDummyContainer}>
+          <View style={styles.row}>
+            <Text style={styles.title}>Loading...</Text>
+          </View>
         </View>
+        <View style={styles.separator} />
       </View>
     );
   }
@@ -102,17 +105,20 @@ class ChallengesListItem extends Component {
     }
     return (
       <View style={styles.itemContainer}>
-        <TouchableOpacity onPress={this.props.onPress} activeOpacity={0.5}>
-          <ChallengeHeadInactive
-            onPress={this.props.onShowAllPress}
-            callerViewMode={CHALLENGE_VIEWS.LIST}
-            data={this.props.data}
-            style={styles._challengeHeaderPadding}
-          />
-          {url}
-        </TouchableOpacity>
-        {showAll}
-        {hideAll}
+        <View style={styles.listDummyContainer}>
+          <TouchableOpacity onPress={this.props.onPress} activeOpacity={0.5}>
+            <ChallengeHeadInactive
+              onPress={this.props.onShowAllPress}
+              callerViewMode={CHALLENGE_VIEWS.LIST}
+              data={this.props.data}
+              style={styles._challengeHeaderPadding}
+            />
+            {url}
+          </TouchableOpacity>
+          {showAll}
+          {hideAll}
+        </View>
+        <View style={styles.separator} />
       </View>
     );
   }
@@ -121,13 +127,16 @@ class ChallengesListItem extends Component {
     if (this.props.tickerEntry.finished) return this.renderFinished();
     return (
       <View style={styles.itemContainer}>
-        <TouchableOpacity onPress={this.props.onPress} activeOpacity={0.5}>
-          <ChallengeHeadActive
-            callerViewMode={CHALLENGE_VIEWS.LIST}
-            data={this.props.data}
-            style={styles._challengeHeaderPadding}
-          />
-        </TouchableOpacity>
+        <View style={styles.listDummyContainer}>
+          <TouchableOpacity onPress={this.props.onPress} activeOpacity={0.5}>
+            <ChallengeHeadActive
+              callerViewMode={CHALLENGE_VIEWS.LIST}
+              data={this.props.data}
+              style={styles._challengeHeaderPadding}
+            />
+          </TouchableOpacity>
+        </View>
+        <View style={styles.separator} />
       </View>
     );
   }

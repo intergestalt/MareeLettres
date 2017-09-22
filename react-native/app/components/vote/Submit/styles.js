@@ -192,6 +192,7 @@ const styles = EStyleSheet.create({
   statusBottomBottomRight: {
     width: '10%', // correct value would be the width of the actual VoteMark. But doesn't matter
     justifyContent: 'center',
+    fontFamily: 'bold',
     alignItems: 'center',
   },
   textPanel: {
@@ -215,7 +216,7 @@ const styles = EStyleSheet.create({
     backgroundColor: 'transparent',
     color: 'black',
     justifyContent: 'center',
-    fontFamily: 'normal',
+    fontFamily: 'bold',
     fontSize: '1rem',
     textAlign: 'center',
     fontWeight: 'bold',

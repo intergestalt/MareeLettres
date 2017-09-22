@@ -66,8 +66,7 @@ export default (state = initialState.user, action) => {
         if (action.result.proposals) {
           for (let i = 0; i < action.result.proposals.length; i += 1) {
             const proposal = action.result.proposals[i];
-            const userProposal = { ownProposalId: proposal._id };
-            newChallenges[proposal.challenge_id] = userProposal;
+            newChallenges[proposal.challenge_id] = proposal;
           }
         }
         const initState = initialState.user;
@@ -76,6 +75,7 @@ export default (state = initialState.user, action) => {
           isInitialUser: false,
           votes: newVotes,
           challenges: newChallenges,
+          blocked: action.result.blocked,
           isLoading: false,
           isInternalLoading: false,
         };
