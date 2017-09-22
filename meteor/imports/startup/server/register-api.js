@@ -9,6 +9,7 @@ import '../../api/proposals/server/rest';
 import '../../api/proposals/hooks';
 
 import '../../api/status/server/status';
+import '../../api/status/methods';
 
 import '../../api/content/server/content';
 

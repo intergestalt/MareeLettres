@@ -5,7 +5,6 @@ import { Link } from 'react-router';
 import Moment from 'react-moment';
 
 import AdminWrapper from '../components/AdminWrapper';
-import Menu from '../components/menu';
 
 import { Status } from '../../api/status/status';
 
@@ -38,7 +37,6 @@ class StatusPage extends Component {
   render() {
     return (
       <AdminWrapper>
-        <Menu />
         <ul>
           {this.renderStatus()}
         </ul>

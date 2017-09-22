@@ -12,34 +12,37 @@ class Menu extends Component {
 
   render() {
     return (
-      <div>
+      <div className="mainMenu">
         <h1>
-          <Link to="/admin">Maree des Lettres</Link>
+          <Link to="/admin" >Maree des Lettres</Link>
         </h1>
         <ul>
           <li>
             <Link to="/admin/review">Review Console</Link>
           </li>
+          <br />
           <li>
             <Link to="/admin/challenges">Challenges</Link>
-          </li>
-          <li>
-            <Link to="/admin/proposals">Proposals</Link>
-          </li>
-          <li>
-            <Link to="/admin/players">Players</Link>
-          </li>
-          <li>
-            <Link to="/admin/letters">Letters</Link>
           </li>
           <li>
             <Link to="/admin/content">Content</Link>
           </li>
           <li>
-            <Link to="/admin/status">Status</Link>
+            <Link to="/admin/feed">Feed</Link>
+          </li>
+          <br />
+          <li>
+            <Link to="/admin/players">Players</Link>
           </li>
           <li>
-            <Link to="/admin/feed">Feed</Link>
+            <Link to="/admin/proposals">Proposals</Link>
+          </li>
+          <li>
+            <Link to="/admin/letters">Letters</Link>
+          </li>
+          <br />
+          <li>
+            <Link to="/admin/status">Status</Link>
           </li>
           <li>
             <Link to="/admin/config">Config</Link>

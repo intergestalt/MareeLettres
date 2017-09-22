@@ -4,9 +4,11 @@ import currentSystemConfig from './system-config';
 import { TrendSnapshots } from '../../api/trendSnapshots/trendSnapshots';
 import { Challenges } from '../../api/challenges/challenges';
 import { Proposals } from '../../api/proposals/proposals';
+import { setSystemStatus } from './status';
 
 const runRegenerateTrending = function () {
   console.log('run trend regeneration');
+  const t00 = Date.now();
   const config = currentSystemConfig.getConfig();
   const challenges = Challenges.find({ end_date: { $gt: new Date() } }, { fields: { _id: 1 } });
   const damping_factor = Math.pow(
@@ -15,6 +17,7 @@ const runRegenerateTrending = function () {
   ); // 2 ^ -(dt / t1/2); 2 means half
   let bulkOps = 0;
   challenges.forEach((challenge) => {
+    const t0 = Date.now();
     let snapshot = TrendSnapshots.findOne(challenge._id);
     if (!snapshot) snapshot = {};
     if (!snapshot.proposals) snapshot.proposals = {};
@@ -45,14 +48,22 @@ const runRegenerateTrending = function () {
       }
     });
     if (bulkOps > 0) {
+      const t0_db = Date.now();
       bulk.execute(function (err, r) {
         if (err) console.log('Trend regenerate bulk error', err);
+        else {
+          const dt = Date.now() - t0;
+          const dt_db = Date.now() - t0_db;
+          console.log(`Processed trends for challenge: ${challenge._id}, ${bulkOps} proposals changed. ${dt}ms (db: ${dt_db}ms).`);
+        }
       });
     }
-    console.log(`Processed trends for challenge: ${challenge._id}, ${bulkOps} proposals changed`);
     snapshot.updated_at = new Date();
     TrendSnapshots.upsert(challenge._id, { $set: snapshot });
   });
+  const dt = Date.now() - t00;
+  console.log(`Trend regeneration total time: ${dt}ms.`);
+  setSystemStatus('trend_regeneration_time', dt);
 };
 
 const continuouslyRegenerateTrending = () => {

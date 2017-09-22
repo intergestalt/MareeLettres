@@ -4,8 +4,6 @@ import { Meteor } from 'meteor/meteor';
 import { Tracker } from 'meteor/tracker';
 import { Map, Marker, Popup, TileLayer } from 'react-leaflet';
 
-import Menu from '../components/menu';
-
 import AdminWrapper from '../components/AdminWrapper';
 import { Letters } from '../../api/letters/letters';
 import { SystemConfig } from '../../api/systemConfig/systemConfig';
@@ -70,7 +68,6 @@ class LettersPage extends Component {
   render() {
     return (
       <AdminWrapper>
-        <Menu />
         <div className="map-container">
           <link
             rel="stylesheet"

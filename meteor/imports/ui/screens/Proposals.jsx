@@ -14,7 +14,6 @@ import { Proposals, ProposalsSchema } from '../../api/proposals/proposals';
 import ProposalEntry from '../components/ProposalEntry';
 
 import AdminWrapper from '../components/AdminWrapper';
-import Menu from '../components/menu';
 import Filter from '../components/Filter';
 
 
@@ -60,7 +59,6 @@ class ProposalsPage extends Component {
     console.log(Object.keys(buildConfig.queries.proposals.sort))
     return (
       <AdminWrapper>
-        <Menu />
         <Filter
           sessionVarName="proposalsListFilter"
           schema={ProposalsSchema}
@@ -96,7 +94,7 @@ export default createContainer((props) => {
   if (buildConfig.queries.proposals.sort[session.sortField]) {
     sort = buildConfig.queries.proposals.sort[session.sortField];
     if (session.sortOrder == "desc") {
-      sort = Object.keys(sort).reduce(function(previous, current) {
+      sort = Object.keys(sort).reduce(function (previous, current) {
         previous[current] = sort[current] * -1;
         return previous;
       }, {});

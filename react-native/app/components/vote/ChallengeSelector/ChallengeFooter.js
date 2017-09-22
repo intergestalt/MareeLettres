@@ -62,7 +62,9 @@ class ChallengeFooter extends Component {
               style={[styles.footerButton, styles.footerButtonRight]}
               onPress={this.props.handleStatusPress}
             >
-              <Text style={[styles.challengeFooterText, styles.challengeFooterTextRight]}>{I18n.t('status_button')}</Text>
+              <Text style={[styles.challengeFooterText, styles.challengeFooterTextRight]}>
+                {I18n.t('status_button')}
+              </Text>
             </TouchableOpacity>
           ) : null}
         </View>
@@ -75,10 +77,10 @@ class ChallengeFooter extends Component {
         <Text style={styles.challengeFooterText}>{I18n.t('overview_button')}</Text>
       </TouchableOpacity>
     ) : (
-        <TouchableOpacity style={buttonStyle} onPress={this.props.handleTinderPress}>
-          <Text style={styles.challengeFooterText}>{I18n.t('winner_button')}</Text>
-        </TouchableOpacity>
-      );
+      <TouchableOpacity style={buttonStyle} onPress={this.props.handleTinderPress}>
+        <Text style={styles.challengeFooterText}>{I18n.t('winner_button')}</Text>
+      </TouchableOpacity>
+    );
   }
 
   renderTinderButton() {
@@ -87,10 +89,10 @@ class ChallengeFooter extends Component {
         <Text style={styles.challengeFooterText}>{I18n.t('overview_button')}</Text>
       </TouchableOpacity>
     ) : (
-        <TouchableOpacity style={styles.footerButton} onPress={this.props.handleTinderPress}>
-          <Text style={styles.challengeFooterText}>{I18n.t('tinder_button')}</Text>
-        </TouchableOpacity>
-      );
+      <TouchableOpacity style={styles.footerButton} onPress={this.props.handleTinderPress}>
+        <Text style={styles.challengeFooterText}>{I18n.t('tinder_button')}</Text>
+      </TouchableOpacity>
+    );
   }
 
   renderUnfinished() {
@@ -105,16 +107,16 @@ class ChallengeFooter extends Component {
               !this.getUserChallenge().ownProposalId ? (
                 this.props.handleCommitPress
               ) : (
-                  this.props.handleStatusPress
-                )
+                this.props.handleStatusPress
+              )
             }
           >
             <Text style={[styles.challengeFooterText, styles.challengeFooterTextRight]}>
               {!this.getUserChallenge().ownProposalId ? (
                 I18n.t('suggest_button')
               ) : (
-                  I18n.t('status_button')
-                )}
+                I18n.t('status_button')
+              )}
             </Text>
           </TouchableOpacity>
         </View>

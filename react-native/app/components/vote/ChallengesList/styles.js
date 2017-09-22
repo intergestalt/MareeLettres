@@ -5,7 +5,6 @@ const styles = EStyleSheet.create({
   $textColor: 'black',
   $tickerColor: '#3F3C6A',
   $challengeListItemHorizontalPadding: 32,
-  $lineTopOffset: '0.4rem', // compensate visual difference due to vertical placement of text inside line. see also: https://facebook.github.io/react-native/docs/textstyleproptypes.html#includefontpadding
 
   container: {
     position: 'absolute',
@@ -16,14 +15,16 @@ const styles = EStyleSheet.create({
     bottom: 0,
   },
   separator: {
+    width: '100%',
     backgroundColor: '$textColor',
     height: '$strokeWidth',
     flex: 1,
   },
+  listDummyContainer: { flex: 1, width: '100%', backgroundColor: 'white' },
   row: {
     marginHorizontal: 0,
     paddingBottom: '1rem',
-    paddingTop: '1rem + $lineTopOffset',
+    paddingTop: '1rem',
     justifyContent: 'space-around',
     alignItems: 'center',
     flexDirection: 'column',
