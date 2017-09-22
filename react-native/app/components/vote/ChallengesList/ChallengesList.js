@@ -188,7 +188,6 @@ class ChallengesList extends PureComponent {
             />
           )}
           keyExtractor={item => item.id}
-          ItemSeparatorComponent={Separator}
         />
       </View>
     );
