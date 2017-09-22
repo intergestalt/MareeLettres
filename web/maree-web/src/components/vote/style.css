@@ -1,0 +1,171 @@
+@font-face {
+    font-family: Impact;
+    src: url(../../assets/fonts/impact.ttf);
+}
+
+@font-face {
+    font-family: ArialBold;
+    src: url(../../assets/fonts/ArialMonospacedMTPro-Bld.ttf);
+}
+
+@font-face {
+    font-family: ArialNormal;
+    src: url(../../assets/fonts/ArialMonospacedMTPro.ttf);
+}
+
+.height100 {
+	height: 100%;
+}
+
+/* challenge header general */
+
+.challenge-title {
+	font-family: ArialBold;
+}
+
+.ticker {
+	color: #4D4D7B;
+	font-family: ArialNormal;
+}
+
+.live-indicator {
+	color: red;
+	font-size: 0.6rem;
+	vertical-align: super;
+}
+
+/* challenge list */
+
+.challenge-list {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	overflow-y: scroll;
+	height: 110%; /* give some space at the bottom */
+}
+
+.challenge-list li {
+	border-bottom: 1px solid black;
+	padding-top: 2rem;
+	padding-bottom: 2rem;
+	padding-left: 0.8rem;
+	padding-right: 0.8rem;
+	text-align: center;
+}
+
+.challenge-list li:hover {
+	cursor: pointer;
+}
+
+/* challenge with proposal list */
+
+.challenge-proposal-list-container {
+	height: 100%;
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+}
+
+.chalenge-proposal-list-header {
+	background-color: #EBEBEB;	
+	border-bottom: 1px solid black;
+	text-align: center;
+	display: flex;
+	align-items: center;
+}
+
+.challenge-header-content:hover {
+	cursor: pointer;
+}
+
+.chalenge-proposal-list-header .challenge-header-content {
+	flex: 0.8;
+	padding-top: 2rem;
+	padding-left: 1rem;
+	padding-right: 1rem;
+	padding-bottom: 2rem;
+	width: 0px;
+}
+
+.challenge-left, .challenge-right {
+	flex: 0.1;
+	font-family: ArialBold;
+	font-size: 1.2rem;
+}
+
+.challenge-left {
+	padding-left: 1rem;
+}
+
+.challenge-right {
+	padding-right: 1rem;
+}
+
+.challenge-left:hover, .challenge-right:hover {
+	cursor: pointer;
+}
+
+.proposal-list-header {
+	padding-top: 1rem;
+	color: #808080;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding-bottom: 0.25rem;
+}
+
+.proposal-list-header span {
+	font-family: ArialNormal;
+	font-size: 0.8rem;
+}
+
+.proposal-list-header span:hover {
+	cursor: pointer;
+}
+
+.proposal-list-header span.active {
+	color: black;
+}
+
+.proposal-list-container {
+	overflow-y: scroll;
+	height: 0px;
+	flex-grow: 1;
+	padding-bottom: 3rem;
+}
+
+.proposal-list {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+.proposal-list-entry {
+	text-align: center;
+	padding-left: 0.5rem;
+	padding-right: 0.5rem;
+}
+
+.proposal-list-title {
+	padding-top: 2rem;
+	font-family: Impact;
+	font-size: 2rem;
+	padding-bottom: 0.25rem;
+}
+
+.vote-num {
+	color: #666666;
+}
+
+.load-more, .loading {
+	padding-top: 2rem;
+	padding-bottom: 1rem;
+	text-align: center;
+	font-family: ArialNormal;
+	font-size: 0.8rem;
+}
+
+.load-more:hover {
+	cursor: pointer;
+}
+

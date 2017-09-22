@@ -1,3 +1,18 @@
+@font-face {
+    font-family: Impact;
+    src: url(../../../assets/fonts/impact.ttf);
+}
+
+@font-face {
+    font-family: ArialBold;
+    src: url(../../../assets/fonts/ArialMonospacedMTPro-Bld.ttf);
+}
+
+@font-face {
+    font-family: ArialNormal;
+    src: url(../../../assets/fonts/ArialMonospacedMTPro.ttf);
+}
+
 html, body, #root {
   height: 100%;
   font-size: 16px;
@@ -53,8 +68,27 @@ section img {
 	width: 100%;
 }
 
+.store-icons {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+img.apple {
+  width: 6.6rem;
+  position: relative;
+  left: 7px;
+  margin-right: 1em;
+}
+img.google {
+  width: 7.5rem;
+}
+
 section.info {
   border-right: 1px solid #000;
+  display: flex;
+  flex-direction: column;
 }
 
 section.vote {

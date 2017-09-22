@@ -1,0 +1,23 @@
+.laguage-selector {
+	width: 100%;
+	text-align: center;
+	color: black;
+	font-family: ArialNormal;
+	padding-top: 1.6rem;
+	padding-bottom: 0.8rem;
+	box-sizing: border-box;
+	vertical-align: bottom;
+}
+
+span {
+	text-transform: uppercase;
+}
+
+span:hover {
+	cursor: pointer;
+}
+
+span.active {
+	color: rgb(245,132,102);
+	cursor: default;
+}

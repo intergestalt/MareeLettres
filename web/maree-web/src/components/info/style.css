@@ -1,0 +1,23 @@
+.info-container {
+	padding-left: 1rem;
+	padding-right: 1rem;
+	overflow-y: scroll;
+	flex-grow: 1;
+	height: 0px;
+	padding-bottom: 2rem;
+}
+
+h1, h2 {
+	font-family: Impact;
+	font-size: 1.8rem;
+	margin-top: 0;
+	padding-top: 0.8rem;
+	text-transform: uppercase;
+	text-align: center;
+}
+
+p {
+	font-family: ArialNormal;
+	font-size: 0.9rem;
+	line-height: 1.1rem;
+}
