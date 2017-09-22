@@ -7,6 +7,7 @@ const styles = EStyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     paddingHorizontal: '1rem',
+    width: '100%',
   },
   text: {
     color: 'black',

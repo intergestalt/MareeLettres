@@ -1,5 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import hash from 'object-hash';
+import { systemConfigDefaults } from 'maree-lettres-shared';
 
 import buildConfig from '../both/build-config';
 import { SystemConfig, SystemConfigSchema } from '../../api/systemConfig/systemConfig';
@@ -99,7 +100,24 @@ class SysConf {
       current_config: digest,
     };
   }
+
 }
+
+// check integrity
+
+console.log('Checking integrity of system config definitions');
+
+const default_keys = new Set(Object.keys(SystemConfigSchema.clean({})));
+const shared_keys = new Set(Object.keys(systemConfigDefaults).concat(['name', 'active']));
+const not_in_shared = new Set([...default_keys].filter(x => !shared_keys.has(x)));
+const not_in_schema = new Set([...shared_keys].filter(x => !default_keys.has(x)));
+not_in_schema.forEach((item) => {
+  console.log('SystemConfig WARN: ' + item + ' is not in schama');
+})
+not_in_shared.forEach((item) => {
+  console.log('SystemConfig WARN: ' + item + ' is not in shared module');
+})
+
 
 const currentSystemConfig = new SysConf();
 

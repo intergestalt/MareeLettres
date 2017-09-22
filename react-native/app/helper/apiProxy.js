@@ -232,7 +232,7 @@ export function sendInternalVotesServiceProxy(force) {
     return;
   }
   // force oder timout
-  const doit = checkReload(force, internalVotes, DYNAMIC_CONFIG.SEND_INTERNAL_VOTES_AFTER);
+  const doit = checkReload(force, internalVotes, DYNAMIC_CONFIG.SEND_INTERNAL_VOTES_AFTER * 1000); // map seconds to milliseconds
 
   // Do not send if there is nothing to sent
   if (emptyOrNull(internalVotes)) {

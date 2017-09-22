@@ -66,7 +66,8 @@ export default (state = initialState.user, action) => {
         if (action.result.proposals) {
           for (let i = 0; i < action.result.proposals.length; i += 1) {
             const proposal = action.result.proposals[i];
-            newChallenges[proposal.challenge_id] = proposal;
+            const userProposal = { ownProposalId: proposal._id };
+            newChallenges[proposal.challenge_id] = userProposal;
           }
         }
         const initState = initialState.user;
@@ -478,7 +479,6 @@ export default (state = initialState.user, action) => {
       }
       case LOAD_PROPOSAL: {
         console.log('LOAD_PROPOSAL');
-
         const myChallenges = state.challenges;
         const myChallenge = state.challenges[action.challengeId];
         myChallenge.isLoading = true;
