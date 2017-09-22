@@ -78,7 +78,7 @@ const loadData = function* loadData(action) {
     let blockedUser = false;
     try {
       errorObj = JSON.parse(error);
-      blockedUser = errorObj.error == 'blocked-user';
+      blockedUser = errorObj.error === 'blocked-user';
     } catch (jsonError) {
       console.log('no json error object found');
     }

@@ -75,6 +75,7 @@ export default (state = initialState.user, action) => {
           isInitialUser: false,
           votes: newVotes,
           challenges: newChallenges,
+          blocked: action.result.blocked,
           isLoading: false,
           isInternalLoading: false,
         };
