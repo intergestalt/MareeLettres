@@ -3,7 +3,7 @@ import { Mongo } from 'meteor/mongo';
 import { LettersSchema } from './schema';
 
 const Letters = new Mongo.Collection('letters', {
-  transform: doc => ({ coords: { lat: doc.loc.coordinates[0], lng: doc.loc.coordinates[1] }, ...doc }), // transform legacy coord pairs to coords onbject
+  transform: doc => ({ coords: { lat: doc.loc.coordinates[0], lng: doc.loc.coordinates[1] }, ...doc, loc: undefined }), // transform legacy coord pairs to coords onbject
 });
 
 Letters.allow({
