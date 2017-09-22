@@ -35,7 +35,7 @@ JsonRoutes.add('get', `${Meteor.settings.public.api_prefix}letters`, function (r
 
     const overhead = interval * (config.map_cache_update_interval / last_interval_segment);
 
-    const deltaSeconds = overhead + interval * config.map_update_interval + config.map_update_latency + config.map_query_update_latency; // TODO: manage fastly and use map_cache_update_interval
+    const deltaSeconds = overhead + interval * config.map_update_interval + config.network_latency + config.map_query_update_latency; // TODO: manage fastly and use map_cache_update_interval
 
     // console.log(req.query);
     // console.log("requested seconds: " + config.map_update_interval * interval);
