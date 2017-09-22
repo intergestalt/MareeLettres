@@ -13,7 +13,9 @@ i18n
           "sort_top": "Top",
           "sort_new": "Newest",
           "sort_trend": "Trending",
-          "load_more": "Load more"
+          "load_more": "Load more",
+          "open_past_challenges": "Show past topics",
+          "close_past_challenges": "Hide past topics"
         }
       },
       fr: {
@@ -23,7 +25,9 @@ i18n
           "sort_top": "Top",
           "sort_new": "Plus récents",
           "sort_trend": "Tendances",
-          "load_more": "Load more fr"
+          "load_more": "Load more fr",
+          "open_past_challenges": "Show past topics fr",
+          "close_past_challenges": "Hide past topics fr"
         }
       }
     },

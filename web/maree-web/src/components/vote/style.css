@@ -46,15 +46,48 @@
 
 .challenge-list li {
 	border-bottom: 1px solid black;
-	padding-top: 2rem;
-	padding-bottom: 2rem;
+	padding-top: 1.8rem;
+	text-align: center;
+	padding-bottom: 1.8rem;
+	margin: 0;
+	display: flex;
+	flex-direction: column;
+}
+
+.challenge-list.hide-finished li.hideFinished {
+	display: none;
+}
+
+li.finished + li.toggle-past {
+	display: block;
+}
+
+.challenge-list li div {
 	padding-left: 0.8rem;
 	padding-right: 0.8rem;
-	text-align: center;
 }
 
 .challenge-list li:hover {
 	cursor: pointer;
+}
+
+.challenge-list li.withImage {
+	padding-bottom: 0rem;
+}
+
+.winning-image {
+	margin-top: 1.4rem;
+	width: 100%;
+}
+
+.challenge-list li.toggle-past {
+	text-transform: uppercase;
+	background-color: #5A5870;
+	color: white;
+	font-family: ArialNormal;
+	font-weight: normal;
+	padding-top: 1.2rem;
+	padding-bottom: 0.9rem;
 }
 
 /* challenge with proposal list */
