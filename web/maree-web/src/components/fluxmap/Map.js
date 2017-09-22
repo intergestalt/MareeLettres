@@ -125,10 +125,6 @@ export default class FluxMap extends Component {
           alt="fullscreen control" 
           onClick={this.props.expandMap}
         />
-
-
-
-
       </div>
     );
   }

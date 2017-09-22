@@ -42,6 +42,28 @@ Get "player object" of a player by :origin_id
 NOTE: If no entry exists, player object will be created on the fly!
 NOTE2: Create a valid origin_id with OriginId.generateFromPhoneId() or OriginId.generateFromString()
 
+##### Response Body
+```
+{
+  "_id": "fixture_2",
+  "origin_id": "572d7dc1c2cd3b6105a388f27b3d2656d45eff318f3fae",
+  "created_at": "2017-09-07T15:48:51.932Z",
+  "blocked": false,
+  "votes": {
+    proposal_id1: true,
+    proposal_id2: false,
+    ...
+  },
+  "proposals": [
+    {
+      "_id": "E0A6E5631B7E98D9",
+      "challenge_id": "fixture_11"
+    },
+    ...
+  ]
+}
+```
+
 #### POST players/:origin_id/votes 
 Post a bunch of votes of a player
 

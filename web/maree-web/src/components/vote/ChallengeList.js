@@ -1,7 +1,7 @@
 import React from 'react';
 import { translate } from 'react-i18next';
-
 import ChallengeHeaderContent from './ChallengeHeaderContent';
+import './style.css';
 
 class ChallengeList extends React.Component {
 	
@@ -16,17 +16,17 @@ class ChallengeList extends React.Component {
 			</li>
 		)});
 		return (
-			<ul>{challenges}</ul>
+			<ul className="challenge-list">{challenges}</ul>
 		);
 	}
 
 	render() {
 	    return (
-	       <div>
+	       <div className="height100">
 	       	{this.props.loading ? (
-	       		<div>{this.props.i18n.t("loading")}</div>
+	       		<div className="height100">{this.props.i18n.t("loading")}</div>
 	       	) : (
-	       		<div>{this.renderChallenges()}</div>
+	       		<div className="height100">{this.renderChallenges()}</div>
 	       	)}
 	       </div>
 	    );
