@@ -37,7 +37,7 @@ class StatusPage extends Component {
   render() {
     return (
       <AdminWrapper>
-        <ul>
+        <ul className="StatusPage">
           {this.renderStatus()}
         </ul>
       </AdminWrapper>

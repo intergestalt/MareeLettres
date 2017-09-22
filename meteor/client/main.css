@@ -277,6 +277,17 @@ body {
   text-align: center;
 }
 
+/*** status page ***/
+
+.StatusPage > li {
+  font-weight: bold;
+}
+
+.StatusPage > li ul {
+  margin: 1rem 1rem 2rem 1rem;
+  font-weight: normal;
+}
+
 /*** content page ***/
 
 .content_editor {
