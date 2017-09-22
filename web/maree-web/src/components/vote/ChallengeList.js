@@ -6,18 +6,6 @@ import { isFinished } from '../../helper/dateFunctions.js'
 
 class ChallengeList extends React.Component {
 
-	constructor() {
-		super();
-		this.state = {
-			showFinished: false
-		}
-		this.toggleFinished = this.toggleFinished.bind(this);
-	}
-
-	toggleFinished() {
-		this.setState({showFinished: !this.state.showFinished});
-	}
-	
 	renderChallenges() {
 		let challenges = [];
 		let lastFinished = false;
@@ -27,7 +15,7 @@ class ChallengeList extends React.Component {
 			let onlyFinishedToShow = false;
 			if(finished && !lastFinished) {
 				challenges.push(
-					<li onClick={this.toggleFinished} className="toggle-past">{this.state.showFinished ? 
+					<li onClick={this.props.toggleFinished} className="toggle-past">{this.props.showFinished ? 
 						this.props.i18n.t('close_past_challenges') : this.props.i18n.t('open_past_challenges')}
 					</li>
 				);
@@ -52,7 +40,7 @@ class ChallengeList extends React.Component {
 		}
 		challenges.reverse();
 		return (
-			<ul className={"challenge-list" + (this.state.showFinished ? "" : " hide-finished")}>{challenges}</ul>
+			<ul className={"challenge-list" + (this.props.showFinished ? "" : " hide-finished")}>{challenges}</ul>
 		);
 	}
 

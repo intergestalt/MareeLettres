@@ -22,11 +22,12 @@ class ChallengeProposalList extends React.Component {
 	render() {
 		return (
 	       <div className="challenge-proposal-list-container">
-	       		<div className="chalenge-proposal-list-header" onClick={this.props.onReset}>
+	       		<div className="chalenge-proposal-list-header">
 	       			{this.props.showPrev ? (
 	       				<div className="challenge-left" onClick={this.props.onPrev}>{'<'}</div>
 	       			) : (<div className="challenge-left"></div>)}
 		       		<ChallengeHeaderContent
+		       			onClick={this.props.onReset}
 		       			challenge={this.props.challenge}
 		       			tickerData={this.props.tickerData}
 		       		/>

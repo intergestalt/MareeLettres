@@ -19,7 +19,7 @@ class ChallengeHeaderContent extends React.Component {
 
 	render() {
 	    return (
-	    	<div className="challenge-header-content">
+	    	<div className="challenge-header-content" onClick={this.props.onClick ? this.props.onClick : null}>
 	       		<div>{this.renderTickerData(this.props.tickerData)}</div>
 	       		<div className="challenge-title">{this.props.challenge.title[this.props.i18n.language]}</div>
 			</div>
