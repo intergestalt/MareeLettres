@@ -88,6 +88,7 @@ li.finished + li.toggle-past {
 	font-weight: normal;
 	padding-top: 1.2rem;
 	padding-bottom: 0.9rem;
+	font-size: 0.9rem;
 }
 
 /* challenge with proposal list */
