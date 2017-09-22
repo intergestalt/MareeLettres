@@ -6,6 +6,7 @@ import AutoFields from 'uniforms-unstyled/AutoFields';
 import AutoForm from 'uniforms-unstyled/AutoForm';
 import SubmitField from 'uniforms-unstyled/SubmitField';
 import ErrorsField from 'uniforms-unstyled/ErrorsField';
+import Alert from 'react-s-alert';
 
 import AdminWrapper from '../components/AdminWrapper';
 import Menu from '../components/menu';
@@ -24,7 +25,22 @@ class ConfigPage extends Component {
     const { _id, ...rest } = doc
     SystemConfig.update(doc._id, {
       $set: rest,
+    }, (error, data) => {
+      if (error) { alert("ERROR - NOT SAVED"); }
+      else { Alert.success("saved"); }
     });
+  }
+
+  handleDelete(doc) {
+    if (doc.name === "default") { Alert.error("cannot delete default"); }
+    else { SystemConfig.remove(doc._id); }
+  }
+
+  handleInsert() {
+    const doc = SystemConfigSchema.clean({});
+    console.log(doc, "X")
+    doc.name = "new"
+    SystemConfig.insert(doc);
   }
 
   setCoordinatesFromDevice(ref) {
@@ -39,7 +55,7 @@ class ConfigPage extends Component {
     return "configForm" + (config.active ? " active" : "") + (config.name == "default" ? " default" : "");
   }
 
-  renderConfig() {
+  renderConfigs() {
     const configs = this.props.configs;
     const formRef = {};
 
@@ -54,6 +70,7 @@ class ConfigPage extends Component {
           <SubmitField />
           <span className="button" onClick={() => this.setCoordinatesFromDevice(formRef[config._id])}>Set coordinates from Device</span>
           <span className="button" onClick={() => formRef[config._id].reset()}>Reset </span>
+          <span className="button delete" onClick={() => this.handleDelete(config)}>Delete</span>
         </AutoForm>
       </li>,
     );
@@ -64,8 +81,9 @@ class ConfigPage extends Component {
       <AdminWrapper>
         <Menu />
         <ul>
-          {this.renderConfig()}
+          {this.renderConfigs()}
         </ul>
+        <span className="button add" onClick={this.handleInsert}>Add</span>
         <ApiInfo path="config" />
       </AdminWrapper>
     );

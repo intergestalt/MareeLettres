@@ -4,9 +4,9 @@ import { SystemConfigSchema } from './schema';
 const SystemConfig = new Mongo.Collection('system_config');
 
 SystemConfig.allow({
-  insert: () => false,
+  insert: () => (userId) => (userId || false),
   update: () => (userId) => (userId || false),
-  remove: () => false,
+  remove: () => (userId) => (userId || false),
 });
 
 export { SystemConfig, SystemConfigSchema };

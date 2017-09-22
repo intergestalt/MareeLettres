@@ -90,6 +90,18 @@ input[type="submit"], .button {
   display: inline-block;
   cursor: pointer;
   background-color: transparent;
+  user-select: none;  
+}
+
+.button:hover {
+  cursor: pointer;
+  background-color: lightgrey;
+}
+
+.button:active,
+input[type="submit"]:active {
+  background-color: grey;
+  outline: none;
 }
 
 input[type="submit"] {
@@ -103,7 +115,12 @@ input[type="submit"]:hover {
   color:black;
 }
 
-.button {
+input[type="submit"]:active {
+  background-color: darkred;
+}
+
+.button.delete:hover {
+  background-color: red;
 }
 
 form button,
@@ -112,10 +129,6 @@ form [type="submit"] {
   margin-right: 1rem;
 }
 
-.button:hover {
-  cursor: pointer;
-  background-color: lightgrey;
-}
 
 /*** special forms ***/
 
