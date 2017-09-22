@@ -47,7 +47,6 @@ class QRCodeScanScreen extends Component {
 
     // prevent multiple scans
     if (char !== this.state.lastScanned) {
-      // navigateToMapOverview(this.props);
       dispatchBackActionToMapOverview(this.props, MAP_VIEWS.OVERVIEW);
       addFriendLetterProxy(char);
       this.setState({ lastScanned: char });
@@ -56,7 +55,6 @@ class QRCodeScanScreen extends Component {
 
   handleBackPress() {
     this.setState({ disabled: true });
-    // navigateToMapOverview(this.props);
     dispatchBackActionToMapOverview(this.props, MAP_VIEWS.OVERVIEW);
   }
 
@@ -70,19 +68,19 @@ class QRCodeScanScreen extends Component {
       <View style={styles.container}>
         <BackSimple colour="white" onPress={() => this.handleBackPress()} />
 
-        {this.state.hasCameraPermission === null || this.state.disabled
-          ? <Text>Waiting for permission</Text>
-          : this.state.hasCameraPermission === false
-            ? <Text />
-            : <BarCodeScanner
-              onBarCodeRead={this.handleQRCode}
-              style={styles.QRReader}
-              barCodeTypes={[BarCodeScanner.Constants.BarCodeType.qr]}
-            />}
+        {this.state.hasCameraPermission === null || this.state.disabled ? (
+          <Text>Waiting for permission</Text>
+        ) : this.state.hasCameraPermission === false ? (
+          <Text />
+        ) : (
+          <BarCodeScanner
+            onBarCodeRead={this.handleQRCode}
+            style={styles.QRReader}
+            barCodeTypes={[BarCodeScanner.Constants.BarCodeType.qr]}
+          />
+        )}
 
-        <Text style={styles.textWhite}>
-          {I18n.t('map_scan_qr_instruction')}
-        </Text>
+        <Text style={styles.textWhite}>{I18n.t('map_scan_qr_instruction')}</Text>
       </View>
     );
   }

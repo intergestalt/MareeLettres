@@ -101,30 +101,30 @@ class ProposalSubmitter extends Component {
   }
 
   componentWillMount() {
-    if(this.props.voteTutorialStatus) {
-      if(!this.props.voteTutorialStatus.submit) {
-        setTimeout(()=>{
+    if (this.props.voteTutorialStatus) {
+      if (!this.props.voteTutorialStatus.submit) {
+        setTimeout(() => {
           this.props.alertWithType(
             'info',
             I18n.t('vote_tutorial_6_title'),
-            I18n.t('vote_tutorial_6_text')
+            I18n.t('vote_tutorial_6_text'),
           );
-          setUserVoteTutorialStatusProxy('submit');  
+          setUserVoteTutorialStatusProxy('submit');
         }, 1000);
       }
     }
   }
 
   componentWillUnmount() {
-    if(this.props.voteTutorialStatus) {
-      if(!this.props.voteTutorialStatus.back) {
-        setTimeout(()=>{
+    if (this.props.voteTutorialStatus) {
+      if (!this.props.voteTutorialStatus.back) {
+        setTimeout(() => {
           this.props.alertWithType(
             'info',
             I18n.t('vote_tutorial_7_title'),
-            I18n.t('vote_tutorial_7_text')
+            I18n.t('vote_tutorial_7_text'),
           );
-          setUserVoteTutorialStatusProxy('back');  
+          setUserVoteTutorialStatusProxy('back');
         }, 500);
       }
     }
@@ -1006,7 +1006,7 @@ class ProposalSubmitter extends Component {
     return null;
   }
   submitPressed() {
-    console.log("Submit Answer Pressed")
+    console.log('Submit Answer Pressed');
     if (isFinishedSuggest(this.props.challenge, true)) {
       this.props.alertWithType(
         'info',
@@ -1049,7 +1049,7 @@ class ProposalSubmitter extends Component {
     }
   }
   handleSubmitConfirmedPress() {
-    console.log("Submit Confirmed Pressed")
+    console.log('Submit Confirmed Pressed');
     let answer = '';
     for (let i = 0; i < this.state.lettersWritingArea.length; i += 1) {
       answer += this.state.lettersWritingArea[i].character;
@@ -1132,7 +1132,9 @@ class ProposalSubmitter extends Component {
             style={styles.yesButton}
             onPress={() => this.handleSubmitConfirmedPress(this.state.submitView)}
           >
-            <Text style={[styles.submitButtonText, styles.blackTextColor]}>{I18n.t('submit_yes').toUpperCase()}</Text>
+            <Text style={[styles.submitButtonText, styles.blackTextColor]}>
+              {I18n.t('submit_yes').toUpperCase()}
+            </Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.noButton}
@@ -1195,7 +1197,9 @@ const mapStateToProps = (state) => {
     if (challenges) {
       const challenge = challenges[selectedChallengeId];
       if (challenge) {
-        ownProposal = challenge.ownProposal;
+        if (challenge.ownProposal) {
+          ownProposal = challenge.ownProposal;
+        }
         ownProposalId = challenge.ownProposalId;
         isStatusLoading = challenge.isLoading;
       }
@@ -1206,7 +1210,7 @@ const mapStateToProps = (state) => {
       ownProposal,
       ownProposalId,
       isStatusLoading,
-      voteTutorialStatus: state.user.voteTutorialStatus
+      voteTutorialStatus: state.user.voteTutorialStatus,
     };
   } catch (e) {
     console.log('ProposalSubmitter');

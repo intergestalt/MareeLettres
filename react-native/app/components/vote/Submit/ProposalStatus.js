@@ -42,147 +42,151 @@ class ProposalStatus extends Component {
     loadProposalServiceProxy(this.props.challenge._id, false);
   };
   render() {
-    let noContent = false;
-    if (!this.props.userChallenge.ownProposal) {
-      noContent = true;
-    }
-    let proposalBlocked = null;
-    let proposalInReview = null;
-    let proposalPassed = null;
-    let blocked = null;
-    let review = null;
-    let rank = null;
-    let passed = null;
-    if (!this.props.userChallenge.isLoading) {
-      if (this.props.userChallenge.ownProposalBlocked) {
-        if (this.props.userChallenge.ownProposalBlocked.bool) {
-          proposalBlocked = this.props.userChallenge.ownProposalBlocked.bool;
+    try {
+      let noContent = false;
+      if (!this.props.userChallenge.ownProposal) {
+        noContent = true;
+      }
+      let proposalBlocked = null;
+      let proposalInReview = null;
+      let proposalPassed = null;
+      let blocked = null;
+      let review = null;
+      let rank = null;
+      let passed = null;
+      if (!this.props.userChallenge.isLoading) {
+        if (this.props.userChallenge.ownProposalBlocked) {
+          if (this.props.userChallenge.ownProposalBlocked.bool) {
+            proposalBlocked = this.props.userChallenge.ownProposalBlocked.bool;
+          } else {
+            proposalBlocked = false;
+          }
         } else {
           proposalBlocked = false;
         }
-      } else {
-        proposalBlocked = false;
-      }
-      if (this.props.userChallenge.ownProposalInReview) {
-        if (this.props.userChallenge.ownProposalInReview.bool) {
-          proposalInReview = this.props.userChallenge.ownProposalInReview.bool;
+        if (this.props.userChallenge.ownProposalInReview) {
+          if (this.props.userChallenge.ownProposalInReview.bool) {
+            proposalInReview = this.props.userChallenge.ownProposalInReview.bool;
+          } else {
+            proposalInReview = true;
+          }
         } else {
           proposalInReview = true;
         }
-      } else {
-        proposalInReview = true;
+        proposalPassed = !proposalBlocked && !proposalInReview;
+
+        I18n.locale = this.props.language;
+        blocked = I18n.t('proposal_blocked');
+        blocked = blocked.replace('{NUM}', this.props.challenge.voteNum);
+        review = I18n.t('proposal_in_review1');
+        review = review.replace('{NUM}', this.props.challenge.voteNum);
+        passed = I18n.t('proposal_passed');
+        passed = passed.replace('{NUM}', this.props.challenge.voteNum);
+        rank = I18n.t('proposal_rank');
       }
-      proposalPassed = !proposalBlocked && !proposalInReview;
+      let panel = null;
 
-      I18n.locale = this.props.language;
-      blocked = I18n.t('proposal_blocked');
-      blocked = blocked.replace('{NUM}', this.props.challenge.voteNum);
-      review = I18n.t('proposal_in_review1');
-      review = review.replace('{NUM}', this.props.challenge.voteNum);
-      passed = I18n.t('proposal_passed');
-      passed = passed.replace('{NUM}', this.props.challenge.voteNum);
-      rank = I18n.t('proposal_rank');
-    }
-    let panel = null;
-
-    if (this.props.userChallenge.isLoading) {
-      panel = <ActivityIndicator />;
-    } else if (proposalPassed) {
-      panel = (
-        <View style={styles.statusBottomContainer}>
-          <View style={styles.statusBottomTop}>
-            <Text style={styles.statusBottomText1}>{passed}</Text>
-            <Text style={styles.statusBottomText2}>
-              {rank} {this.props.userChallenge.rank}
-            </Text>
-          </View>
-          <View style={styles.statusBottomBottom}>
-            <View style={styles.statusBottomBottomLeft}>
-              <VoteMark size="l" active value={0} type="no" />
-              <Text style={styles.textPanel}>
-                {this.props.userChallenge.no + this.props.voteMap.votesNoOffset}
+      if (this.props.userChallenge.isLoading) {
+        panel = <ActivityIndicator />;
+      } else if (proposalPassed) {
+        panel = (
+          <View style={styles.statusBottomContainer}>
+            <View style={styles.statusBottomTop}>
+              <Text style={styles.statusBottomText1}>{passed}</Text>
+              <Text style={styles.statusBottomText2}>
+                {rank} {this.props.userChallenge.rank}
               </Text>
             </View>
-            <View style={styles.statusBottomBottomRight}>
-              <VoteMark size="l" active value={0} type="yes" />
-              <Text style={styles.textPanel}>
-                {this.props.userChallenge.yes + this.props.voteMap.votesYesOffset}
-              </Text>
-            </View>
-          </View>
-        </View>
-      );
-    } else {
-      panel = (
-        <View style={styles.statusBottomContainer}>
-          <View style={styles.statusBottomTop}>
-            <Text style={styles.statusBottomText1}>{proposalBlocked ? blocked : review}</Text>
-          </View>
-          <View style={styles.statusBottomBottom}>
-            <Text style={styles.statusBottomText2}>
-              {this.props.userChallenge.ownProposalBlocked.bool ? null : (
-                I18n.t('proposal_in_review2').toUpperCase()
-              )}
-            </Text>
-          </View>
-        </View>
-      );
-    }
-
-    return (
-      <View>
-        <View style={styles.statusContainer}>
-          <View style={styles.statusTop}>
-            <LinearGradient
-              colors={gradient0.colors}
-              locations={gradient0.stops}
-              style={{ flex: 1, opacity: 1 }}
-            >
-              <View style={styles.statusTopContainer}>
-                <View style={styles.statusTopTop}>
-                  <Text style={styles.statusTopText1}>
-                    {this.props.challenge.title[this.props.language].toUpperCase()}
-                  </Text>
-                </View>
-                <View style={styles.statusTopBottom}>
-                  {!(this.props.userChallenge.isLoading || noContent) ? (
-                    <Text style={styles.statusTopText2}>
-                      {this.props.userChallenge.ownProposal}
-                    </Text>
-                  ) : (
-                    <ActivityIndicator />
-                  )}
-                </View>
-              </View>
-            </LinearGradient>
-          </View>
-          {!noContent ? (
-            <View style={styles.statusBottom}>{panel}</View>
-          ) : (
-            <View style={styles.statusBottom}>
-              <ReloadButton textKey="reload_challenges" onReload={this.handleReloadPressPress} />
-            </View>
-          )}
-        </View>
-        <View style={styles.submitContainer}>
-          {noContent || !proposalBlocked ? (
-            <TouchableOpacity onPress={this.props.onBackPressed}>
-              <View style={styles.submitButton}>
-                <Text style={styles.submitButtonText}>{I18n.t('back_button').toUpperCase()}</Text>
-              </View>
-            </TouchableOpacity>
-          ) : (
-            <TouchableOpacity onPress={this.props.onTryAgainPressed}>
-              <View style={styles.submitButton}>
-                <Text style={styles.submitButtonText}>
-                  {I18n.t('try_again_button').toUpperCase()}
+            <View style={styles.statusBottomBottom}>
+              <View style={styles.statusBottomBottomLeft}>
+                <VoteMark size="l" active value={0} type="no" />
+                <Text style={styles.textPanel}>
+                  {this.props.userChallenge.no + this.props.voteMap.votesNoOffset}
                 </Text>
               </View>
-            </TouchableOpacity>
-          )}
+              <View style={styles.statusBottomBottomRight}>
+                <VoteMark size="l" active value={0} type="yes" />
+                <Text style={styles.textPanel}>
+                  {this.props.userChallenge.yes + this.props.voteMap.votesYesOffset}
+                </Text>
+              </View>
+            </View>
+          </View>
+        );
+      } else {
+        panel = (
+          <View style={styles.statusBottomContainer}>
+            <View style={styles.statusBottomTop}>
+              <Text style={styles.statusBottomText1}>{proposalBlocked ? blocked : review}</Text>
+            </View>
+            <View style={styles.statusBottomBottom}>
+              <Text style={styles.statusBottomText2}>
+                {proposalBlocked ? null : I18n.t('proposal_in_review2').toUpperCase()}
+              </Text>
+            </View>
+          </View>
+        );
+      }
+
+      return (
+        <View>
+          <View style={styles.statusContainer}>
+            <View style={styles.statusTop}>
+              <LinearGradient
+                colors={gradient0.colors}
+                locations={gradient0.stops}
+                style={{ flex: 1, opacity: 1 }}
+              >
+                <View style={styles.statusTopContainer}>
+                  <View style={styles.statusTopTop}>
+                    <Text style={styles.statusTopText1}>
+                      {this.props.challenge.title[this.props.language].toUpperCase()}
+                    </Text>
+                  </View>
+                  <View style={styles.statusTopBottom}>
+                    {!(this.props.userChallenge.isLoading || noContent) ? (
+                      <Text style={styles.statusTopText2}>
+                        {this.props.userChallenge.ownProposal}
+                      </Text>
+                    ) : (
+                      <ActivityIndicator />
+                    )}
+                  </View>
+                </View>
+              </LinearGradient>
+            </View>
+            {!noContent ? (
+              <View style={styles.statusBottom}>{panel}</View>
+            ) : (
+              <View style={styles.statusBottom}>
+                <ReloadButton textKey="reload_challenges" onReload={this.handleReloadPressPress} />
+              </View>
+            )}
+          </View>
+          <View style={styles.submitContainer}>
+            {noContent || !proposalBlocked ? (
+              <TouchableOpacity onPress={this.props.onBackPressed}>
+                <View style={styles.submitButton}>
+                  <Text style={styles.submitButtonText}>{I18n.t('back_button').toUpperCase()}</Text>
+                </View>
+              </TouchableOpacity>
+            ) : (
+              <TouchableOpacity onPress={this.props.onTryAgainPressed}>
+                <View style={styles.submitButton}>
+                  <Text style={styles.submitButtonText}>
+                    {I18n.t('try_again_button').toUpperCase()}
+                  </Text>
+                </View>
+              </TouchableOpacity>
+            )}
+          </View>
         </View>
-      </View>
-    );
+      );
+    } catch (e) {
+      console.log('Render ProposalStatus');
+      console.log(e);
+      throw e;
+    }
   }
 }
 

@@ -73,11 +73,6 @@ function preNavigateToVote(props) {
   sendInternalVotesServiceProxy(false);
 }
 
-export function navigateToVote(props) {
-  preNavigateToVote(props);
-  store.dispatch(setScreen(SCREENS.VOTE));
-  props.navigation.navigate('Vote');
-}
 export function popLanguageSelector(props) {
   preNavigateToVote(props);
   props.navigation.goBack();
@@ -85,15 +80,6 @@ export function popLanguageSelector(props) {
 
 // SubPages
 // Map Stack SubPages
-
-export function navigateToMapOverview(props) {
-  const mode = store.getState().globals.mapView;
-  if (mode === MAP_VIEWS.OVERVIEW) {
-    return;
-  }
-  store.dispatch(setMapView(MAP_VIEWS.OVERVIEW));
-  props.navigation.navigate('MapOverview');
-}
 
 export function navigateToMapCamera(props) {
   const mode = store.getState().globals.mapView;
@@ -164,14 +150,14 @@ export function popChallengeSelector(props, withDispatch = true) {
     manageChallenges(props);
     sendInternalVotesServiceProxy(false);
   }
-  if (!props.navigation.goBack()) {
-    // Should not happen
-    props.navigation.navigate('Challenges');
-  }
+  const backAction = NavigationActions.back({
+    key: null,
+  });
+  props.navigation.dispatch(backAction);
 }
 export function popProposalSubmitter(props, withDispatch = true) {
   const mode = store.getState().challenges.challengeView;
-  if (mode === CHALLENGE_VIEWS.DETAIL) {
+  if (mode === CHALLENGE_VIEWS.DETAIL || mode === CHALLENGE_VIEWS.LIST) {
     return;
   }
   if (withDispatch) {
@@ -184,6 +170,26 @@ export function popProposalSubmitter(props, withDispatch = true) {
     props.navigation.navigate('ChallengeSelector');
   }
 }
+
+export function navigateToVote(props) {
+  const screen = store.getState().globals.screen;
+  if (screen === SCREENS.VOTE) {
+    popProposalSubmitter(props, false);
+    popChallengeSelector(props, true);
+  } else {
+    store.dispatch(setScreen(SCREENS.VOTE));
+    store.dispatch(setChallengeView(CHALLENGE_VIEWS.LIST));
+    preNavigateToVote(props);
+
+    const navAction = NavigationActions.reset({
+      index: 0,
+      key: 'Vote',
+      actions: [NavigationActions.navigate({ routeName: 'Challenges' })],
+    });
+    props.navigation.dispatch(navAction);
+  }
+}
+
 export function navigateToSubmit(props, challenge) {
   const mode = store.getState().challenges.challengeView;
   if (mode === CHALLENGE_VIEWS.SUGGEST) {
