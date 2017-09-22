@@ -53,8 +53,6 @@ const loadData = function* loadData(action) {
         }
       }
       if (action.type === POST_PROPOSAL) {
-        console.log('POST PROPOSAL');
-        console.log(action);
         if (result.boost) {
           I18n.locale = action.props.language;
           const count = result.boost;
