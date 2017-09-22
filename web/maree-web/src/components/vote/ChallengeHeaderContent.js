@@ -1,15 +1,16 @@
 import React from 'react';
 import { translate } from 'react-i18next';
 import { getTickerString } from '../../helper/dateFunctions.js';
+import './style.css';
 
 class ChallengeHeaderContent extends React.Component {
 	
 	renderTickerData(tickerData) {
 		if(tickerData) {
 			if(tickerData.finished) {
-				return <div>{this.props.i18n.language === "en" ? tickerData.endStringEn : tickerData.endStringFr}</div>;
+				return <div className="ticker">{this.props.i18n.language === "en" ? tickerData.endStringEn : tickerData.endStringFr}</div>;
 			} else {
-				return <div>{getTickerString(tickerData.timeLeft)}<span>{this.props.i18n.t("live")}</span></div>;	
+				return <div className="ticker">{getTickerString(tickerData.timeLeft)}<span className="live-indicator">{this.props.i18n.t("live")}</span></div>;	
 			}
 			
 		}
@@ -18,9 +19,9 @@ class ChallengeHeaderContent extends React.Component {
 
 	render() {
 	    return (
-	    	<div>
-	       		<div onClick={()=>{this.props.onClick(this.props.challenge)}}>{this.props.challenge.title[this.props.i18n.language]}</div>
-				<div>{this.renderTickerData(this.props.tickerData)}</div>
+	    	<div className="challenge-header-content" onClick={()=>{this.props.onClick(this.props.challenge)}}>
+	       		<div>{this.renderTickerData(this.props.tickerData)}</div>
+	       		<div className="challenge-title">{this.props.challenge.title[this.props.i18n.language]}</div>
 			</div>
 	    );
 	}

@@ -133,7 +133,7 @@ class ChallengeContainer extends React.Component {
 
 	render() {
 	    return (
-	    	<div>
+	    	<div className="height100">
 			{!this.state.selectedChallenge ? (
             	<ChallengeList 
             		loading={this.state.loadingChallenges} 

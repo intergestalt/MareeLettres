@@ -39,7 +39,7 @@ class TabBar extends Component {
     navigateToInfo(this.props);
   };
 
-  tab = (selected, text, onPress, first = false) => {
+  tab = (selected, text, onPress, first = false, always = false) => {
     const tabStyle = first ? [styles.tab, styles.tabFirst] : styles.tab;
     return !selected ? (
       <TouchableHighlight
@@ -49,6 +49,17 @@ class TabBar extends Component {
         onPress={onPress}
       >
         <Text style={styles.text}>{text}</Text>
+      </TouchableHighlight>
+    ) : always ? (
+      <TouchableHighlight
+        underlayColor={styles._tab.backgroundColor}
+        activeOpacity={0.5}
+        style={tabStyle}
+        onPress={onPress}
+      >
+        <View style={tabStyle}>
+          <Text style={styles.textHigh}>{text}</Text>
+        </View>
       </TouchableHighlight>
     ) : (
       <View style={tabStyle}>
@@ -75,9 +86,13 @@ class TabBar extends Component {
     } else if (tabIndex === 3) {
       infoSelected = true;
     }
+    let voteActive = true;
     if (this.props.screen === SCREENS.VOTE) {
       if (this.props.challengesView === CHALLENGE_VIEWS.SUGGEST) {
         showTabBar = false;
+      }
+      if (this.props.challengesView === CHALLENGE_VIEWS.LIST) {
+        voteActive = false;
       }
     }
     if (this.props.screen === SCREENS.MAP) {
@@ -93,10 +108,28 @@ class TabBar extends Component {
     if (showTabBar) {
       return (
         <View style={styles.container}>
-          {this.tab(voteSelected, I18n.t('top_menu_option_1'), this.handleVotePress, true)}
-          {this.tab(becomeSelected, I18n.t('top_menu_option_2'), this.handleBecomePress)}
-          {this.tab(streamSelected, I18n.t('top_menu_option_3'), this.handleStreamPress)}
-          {this.tab(infoSelected, I18n.t('top_menu_option_4'), this.handleInfoPress)}
+          {this.tab(
+            voteSelected,
+            I18n.t('top_menu_option_1'),
+            this.handleVotePress,
+            true,
+            voteActive,
+          )}
+          {this.tab(
+            becomeSelected,
+            I18n.t('top_menu_option_2'),
+            this.handleBecomePress,
+            false,
+            false,
+          )}
+          {this.tab(
+            streamSelected,
+            I18n.t('top_menu_option_3'),
+            this.handleStreamPress,
+            false,
+            false,
+          )}
+          {this.tab(infoSelected, I18n.t('top_menu_option_4'), this.handleInfoPress, false, false)}
         </View>
       );
     }
