@@ -32,7 +32,6 @@ const OwnedLetterSchema = new SimpleSchema({
 const PlayersSchema = new SimpleSchema({
   origin_id: {
     type: String,
-    index: 1,
   },
   primary_letter: {
     type: OwnedLetterSchema,

@@ -39,9 +39,12 @@ export default class FluxMap extends Component {
   constructor() {
     super();
     this.state = {
-      letters: []
+      letters: [],
+      zoom: defaultProps.zoom
     }
     this.onChange = this.onChange.bind(this);
+    this.zoomIn = this.zoomIn.bind(this);
+    this.zoomOut = this.zoomOut.bind(this);
   }
 
   onChange(params) {
@@ -57,6 +60,19 @@ export default class FluxMap extends Component {
       .catch(error=>{
         console.log(error);
       });
+  }
+
+  zoomIn() {
+    if(this.state.zoom < 20) {
+      this.setState({zoom: this.state.zoom + 1});  
+
+    }
+  }
+
+  zoomOut() {
+    if(this.state.zoom > 5) {
+      this.setState({zoom: this.state.zoom - 1});  
+    }
   }
 
   renderMarker(l) {
@@ -87,15 +103,33 @@ export default class FluxMap extends Component {
 
   render() {
     return (
-      <GoogleMapReact
-        defaultCenter={defaultProps.center}
-        defaultZoom={defaultProps.zoom}
-        bootstrapURLKeys={{ key: "AIzaSyCfyWQ_dsbZvIyYUVMwPAuXTuM5wwJprXg" }}
-        options={{ styles: mapStyles, mapTypeControl: false, zoomControl: false, fullscreenControl: false, streetViewControl: false }}
-        onChange={this.onChange}
-      >
-       {this.renderMarkers()}
-      </GoogleMapReact>
+      <div className="mapContainer">
+        <GoogleMapReact
+          id="map"
+          defaultCenter={defaultProps.center}
+          defaultZoom={defaultProps.zoom}
+          zoom={this.state.zoom}
+          bootstrapURLKeys={{ key: "AIzaSyCfyWQ_dsbZvIyYUVMwPAuXTuM5wwJprXg" }}
+          options={{ styles: mapStyles, mapTypeControl: false, zoomControl: false, fullscreenControl: false, streetViewControl: false }}
+          onChange={this.onChange}
+          resetBoundsOnResize={true}
+        >
+         {this.renderMarkers()}
+        </GoogleMapReact>
+        <img id="zoom_in" className="mapButton" src="assets/zoom_in.svg" alt="zoom in control" onClick={this.zoomIn}/>
+        <img id="zoom_out" className="mapButton" src="assets/zoom_out.svg" alt="zoom out control" onClick={this.zoomOut}/>
+        <img 
+          id="fullscreen" 
+          className="mapButton" 
+          src={this.props.mapExpansion < 2 ? "assets/fullscreen.svg" : "assets/minimize.svg"}
+          alt="fullscreen control" 
+          onClick={this.props.expandMap}
+        />
+
+
+
+
+      </div>
     );
   }
 }

@@ -6,7 +6,6 @@ import { Timeline } from 'react-twitter-widgets'
 import { SystemConfig } from '../../api/systemConfig/systemConfig';
 
 import AdminWrapper from '../components/AdminWrapper';
-import Menu from '../components/menu';
 
 class FeedPage extends Component {
   constructor(props) {
@@ -32,7 +31,6 @@ class FeedPage extends Component {
     console.log(this.props.config)
     return (
       <AdminWrapper>
-        <Menu />
         {feed}
       </AdminWrapper>
     );

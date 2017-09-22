@@ -10,7 +10,6 @@ import { Challenges } from '../../api/challenges/challenges';
 import { Proposals } from '../../api/proposals/proposals';
 
 import AdminWrapper from '../components/AdminWrapper';
-import Menu from '../components/menu';
 import ApiInfo from '../components/ApiInfo';
 
 class ChallengesIndex extends Component {
@@ -112,7 +111,6 @@ class ChallengesIndex extends Component {
   render() {
     return (
       <AdminWrapper>
-        <Menu />
         <table className="tableFullBorder">
           <thead>
             <tr>

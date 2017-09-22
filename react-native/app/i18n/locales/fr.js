@@ -31,7 +31,7 @@ export default {
   hide_all_votes: 'Masquer les sujets précédents.',
 
   submit_alert:
-    "Tu ne peux faire qu'une seule proposition par suget. Es-tu sûr de vouloir proposer celle-ci ?",
+    "Tu ne peux faire qu'une seule proposition par sujet. Es-tu sûr de vouloir proposer celle-ci ?",
   submit_yes: 'Oui',
   submit_no: 'Non',
 

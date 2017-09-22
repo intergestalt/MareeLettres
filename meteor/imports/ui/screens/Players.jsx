@@ -17,7 +17,6 @@ import ProposalEntry from '../components/ProposalEntry';
 import PlayerCell from '../components/PlayerCell'
 
 import AdminWrapper from '../components/AdminWrapper';
-import Menu from '../components/menu';
 
 Session.setDefault('playersListLimit', 10);
 Session.setDefault('playersListSort', { last_seen: -1 });
@@ -67,7 +66,6 @@ class PlayersPage extends Component {
 
     return (
       <AdminWrapper>
-        <Menu />
         <h1>Players</h1>
         <ReactTable
           data={this.props.players}
