@@ -5,7 +5,6 @@ import { Link } from 'react-router';
 import Moment from 'react-moment';
 
 import AdminWrapper from '../components/AdminWrapper';
-import Menu from '../components/menu';
 
 import ReviewPanel from '../components/review/Panel';
 
@@ -36,7 +35,6 @@ class ReviewPage extends Component {
   render() {
     return (
       <AdminWrapper>
-        <Menu />
         <ReviewPanel name="Unreviewed (max:50)" challenges={this.props.challenges} proposals={this.props.in_review} onAccept={this.handleAcception} onReject={this.handleRejection} />
         <ReviewPanel name="Accepted (max:5)" challenges={this.props.challenges} proposals={this.props.accepted} onAccept={this.handleAcception} onReject={this.handleRejection} />
         <ReviewPanel name="Rejected (max:5)" challenges={this.props.challenges} proposals={this.props.rejected} onAccept={this.handleAcception} onReject={this.handleRejection} />

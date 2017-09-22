@@ -11,7 +11,6 @@ import { Challenges, ChallengesSchema } from '../../api/challenges/challenges';
 import { Proposals } from '../../api/proposals/proposals';
 
 import AdminWrapper from '../components/AdminWrapper';
-import Menu from '../components/menu';
 
 class Challenge extends Component {
   constructor(props) {
@@ -101,7 +100,6 @@ class Challenge extends Component {
   render() {
     return (
       <AdminWrapper>
-        <Menu />
         <h2>Edit Challenge</h2>
         {this.renderEditForm()}
         {/* <ul>

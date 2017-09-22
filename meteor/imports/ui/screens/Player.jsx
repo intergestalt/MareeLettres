@@ -14,7 +14,6 @@ import { Proposals } from '../../api/proposals/proposals';
 import { Players, PlayersSchema } from '../../api/players/players';
 
 import AdminWrapper from '../components/AdminWrapper';
-import Menu from '../components/menu';
 
 class PlayerPage extends Component {
   constructor(props) {
@@ -104,7 +103,6 @@ class PlayerPage extends Component {
   render() {
     return (
       <AdminWrapper>
-        <Menu />
         <h2>Edit Player</h2>
         {this.renderEditForm()}
         {this.renderDetails()}

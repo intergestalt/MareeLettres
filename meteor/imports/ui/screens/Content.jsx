@@ -7,7 +7,6 @@ import { Content, ContentSchema } from '../../api/content/content';
 
 import ApiInfo from '../components/ApiInfo';
 import AdminWrapper from '../components/AdminWrapper';
-import Menu from '../components/menu';
 
 class ContentPage extends Component {
   constructor(props) {
@@ -55,7 +54,6 @@ class ContentPage extends Component {
   render() {
     return (
       <AdminWrapper>
-        <Menu />
         <ul className="content_editor">
           {this.renderContents()}
         </ul>

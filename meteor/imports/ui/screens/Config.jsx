@@ -9,7 +9,6 @@ import ErrorsField from 'uniforms-unstyled/ErrorsField';
 import Alert from 'react-s-alert';
 
 import AdminWrapper from '../components/AdminWrapper';
-import Menu from '../components/menu';
 import ApiInfo from '../components/ApiInfo';
 
 import { SystemConfig, SystemConfigSchema } from '../../api/systemConfig/systemConfig';
@@ -79,8 +78,7 @@ class ConfigPage extends Component {
   render() {
     return (
       <AdminWrapper>
-        <Menu />
-        <ul>
+        <ul className="configPage">
           {this.renderConfigs()}
         </ul>
         <span className="button add" onClick={this.handleInsert}>Add</span>

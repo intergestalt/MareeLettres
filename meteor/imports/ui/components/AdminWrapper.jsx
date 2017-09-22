@@ -6,6 +6,7 @@ import 'react-s-alert/dist/s-alert-default.css';
 import 'react-s-alert/dist/s-alert-css-effects/slide.css';
 
 import AccountsUIWrapper from '../components/AccountsUIWrapper';
+import Menu from '../components/menu';
 
 class AdminWrapper extends Component {
   constructor(props) {
@@ -14,14 +15,20 @@ class AdminWrapper extends Component {
   }
 
   render() {
+    console.log(this.props.router)
     return (
-      <div>
-        <AccountsUIWrapper />
-        {Meteor.userId() != null ? this.props.children : ""}
-        <Alert position='top-left'
-          effect='slide'
-          timeout={1500}
-        />
+      <div className="AdminWrapper">
+        <nav>
+          <AccountsUIWrapper />
+          <Menu router={this.props.router} />
+        </nav>
+        <div className="main">
+          {Meteor.userId() != null ? this.props.children : ""}
+          <Alert position='top-left'
+            effect='slide'
+            timeout={1500}
+          />
+        </div>
       </div>
     );
   }
