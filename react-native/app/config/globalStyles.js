@@ -17,25 +17,25 @@ const globalStyles = {
   rem: screenHeight > 800 ? 24 : screenHeight > 600 ? 20 : 16, // dividable by 4 -> 0.25rem, 0.5rem, 0.75rem
   $textOffset1Rem:
     Platform.OS === 'ios'
-      ? screenHeight > 800 ? 6 : screenHeight > 600 ? 5 : 4
-      : screenHeight > 800 ? -2 : screenHeight > 600 ? -1 : 0,
+      ? screenHeight > 800 ? 5 : screenHeight > 600 ? 3.5 : 3
+      : screenHeight > 800 ? -1.5 : screenHeight > 600 ? -1 : -1,
   $textOffset1_25Rem:
     Platform.OS === 'ios'
-      ? screenHeight > 800 ? 7 : screenHeight > 600 ? 5.5 : 4.5
-      : screenHeight > 800 ? -2.5 : screenHeight > 600 ? -1 : 0.5,
+      ? screenHeight > 800 ? 6 : screenHeight > 600 ? 4.5 : 3.5
+      : screenHeight > 800 ? -1.5 : screenHeight > 600 ? -2 : -1,
   $textOffset1_25Rem_impact:
     Platform.OS === 'ios'
-      ? screenHeight > 800 ? 0 : screenHeight > 600 ? -0.5 : -0.5
-      : screenHeight > 800 ? -1 : screenHeight > 600 ? -1 : -0.5,
+      ? screenHeight > 800 ? -0.5 : screenHeight > 600 ? -0.5 : -0.5
+      : screenHeight > 800 ? -1 : screenHeight > 600 ? -1 : -1,
 
   $textOffset1_5Rem:
     Platform.OS === 'ios'
-      ? screenHeight > 800 ? 8 : screenHeight > 600 ? 6.5 : 5.5
-      : screenHeight > 800 ? -2.5 : screenHeight > 600 ? -1.5 : -0.5,
+      ? screenHeight > 800 ? 7.5 : screenHeight > 600 ? 6 : 5
+      : screenHeight > 800 ? -2 : screenHeight > 600 ? -1.5 : -1.5,
   $textOffset2Rem:
     Platform.OS === 'ios'
-      ? screenHeight > 800 ? 10 : screenHeight > 600 ? 8 : 6.5
-      : screenHeight > 800 ? -3 : screenHeight > 600 ? -2 : -1,
+      ? screenHeight > 800 ? 11 : screenHeight > 600 ? 8.5 : 6.5
+      : screenHeight > 800 ? -2.5 : screenHeight > 600 ? -2 : -1.5,
 };
 
 export default globalStyles;

@@ -51,6 +51,7 @@ const styles = EStyleSheet.create({
   text: {
     color: 'black',
     fontSize: '1.25rem',
+    backgroundColor: 'transparent',
     top: '$textOffset1_25Rem_impact',
     textAlign: 'center',
     fontFamily: 'impact',
@@ -58,6 +59,7 @@ const styles = EStyleSheet.create({
   textHigh: {
     color: 'white',
     fontSize: '1.25rem',
+    backgroundColor: 'transparent',
     top: '$textOffset1_25Rem_impact',
     textAlign: 'center',
     fontFamily: 'impact',

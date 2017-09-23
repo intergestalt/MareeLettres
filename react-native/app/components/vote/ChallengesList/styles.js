@@ -35,6 +35,8 @@ const styles = EStyleSheet.create({
   title: {
     color: '$textColor',
     fontSize: '1rem',
+    backgroundColor: 'transparent',
+    top: '$textOffset1Rem',
     textAlign: 'center',
     fontFamily: 'bold',
   },
@@ -52,17 +54,23 @@ const styles = EStyleSheet.create({
     color: '$tickerColor',
     fontSize: '1rem',
     fontFamily: 'normal',
+    backgroundColor: 'transparent',
+    top: '$textOffset1Rem',
   },
   live: {
     color: 'red',
     fontSize: '0.5rem',
     fontFamily: 'normal',
     paddingBottom: '0.5rem',
+    backgroundColor: 'transparent',
+    top: '$textOffset1Rem',
   },
   liveSpacer: {
     color: 'transparent',
     fontSize: '0.5rem',
     fontFamily: 'normal',
+    backgroundColor: 'transparent',
+    top: '$textOffset1Rem',
   },
   itemContainer: {},
   challengeHeaderPadding: {
@@ -97,6 +105,7 @@ const styles = EStyleSheet.create({
     fontFamily: 'normal',
     textAlign: 'center',
     color: 'white',
+    backgroundColor: 'transparent',
     top: '$textOffset1_25Rem',
   },
   winningInnerContainer: {
