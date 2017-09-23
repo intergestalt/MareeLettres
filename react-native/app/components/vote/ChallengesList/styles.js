@@ -15,8 +15,10 @@ const styles = EStyleSheet.create({
     bottom: 0,
   },
   separator: {
+    position: 'absolute',
     width: '100%',
     backgroundColor: '$textColor',
+    bottom: 0,
     height: '$strokeWidth',
     flex: 1,
   },
