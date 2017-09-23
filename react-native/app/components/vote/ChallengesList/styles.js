@@ -86,15 +86,16 @@ const styles = EStyleSheet.create({
 
   showAllButtonContainer: { backgroundColor: '$seePastTopicsButtonColor', width: '100%' },
   showAllButton: {
-    height: '3.5rem',
+    height: '2rem',
     justifyContent: 'center',
     alignItems: 'center',
   },
   showAllButtonText: {
-    fontSize: '1rem',
+    fontSize: '1.25rem',
     fontFamily: 'normal',
     textAlign: 'center',
     color: 'white',
+    top: '$textOffset1_25Rem',
   },
   winningInnerContainer: {
     backgroundColor: 'transparent',

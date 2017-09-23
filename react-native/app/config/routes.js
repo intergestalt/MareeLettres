@@ -133,6 +133,7 @@ const rootNavigator = StackNavigator(
 const defaultGetStateForAction = rootNavigator.router.getStateForAction;
 rootNavigator.router.getStateForAction = (action, state) => {
   const result = defaultGetStateForAction(action, state);
+  console.log(result);
   return result;
 };
 export default rootNavigator;
