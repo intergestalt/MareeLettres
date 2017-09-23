@@ -23,7 +23,9 @@ class ChallengeContainer extends React.Component {
 			proposals: [],
 			proposalSortMode: 0,
       proposalsLimit: proposalsBatchSize, // get from server config
-		  showLoadMore: true
+		  showLoadMore: true,
+      showChallengeList: true,
+      showFinished: false,
     };
 
 		this.selectChallenge = this.selectChallenge.bind(this);
@@ -32,6 +34,7 @@ class ChallengeContainer extends React.Component {
 		this.nextChallenge = this.nextChallenge.bind(this);
 		this.changeProposalSortMode = this.changeProposalSortMode.bind(this);
     this.loadMoreProposals = this.loadMoreProposals.bind(this);
+    this.toggleFinished = this.toggleFinished.bind(this);
 	}
 
 	selectChallenge(challenge) {
@@ -53,9 +56,13 @@ class ChallengeContainer extends React.Component {
   	}
 
   	resetChallengeList() {
-    	this.setState({selectedChallenge: null, selectedChallengeIndex: -1, reloadProposals: true});
+    	this.setState({showChallengeList: true, selectedChallenge: null, selectedChallengeIndex: -1, reloadProposals: true});
   	}
 
+    toggleFinished() {
+      this.setState({showFinished: !this.state.showFinished});
+    }
+  
 	componentWillMount() {
 		let requestUri = serverUri + '/api/challenges';
 		console.log(requestUri);
@@ -93,6 +100,7 @@ class ChallengeContainer extends React.Component {
   			try {
   				let index = this.state.challengeIds.indexOf(challenge._id);
     			this.setState({
+            showChallengeList: false,
     				selectedChallenge: challenge, 
     				selectedChallengeIndex: index,
     				loadingProposals: false,
@@ -134,14 +142,17 @@ class ChallengeContainer extends React.Component {
 	render() {
 	    return (
 	    	<div className="height100">
-			{!this.state.selectedChallenge ? (
+			{this.state.showChallengeList ? (
             	<ChallengeList 
             		loading={this.state.loadingChallenges} 
             		challenges={this.state.challenges} 
             		tickerData={this.state.tickerData}
             		onSelectChallenge={this.selectChallenge}
+                toggleFinished={this.toggleFinished}
+                showFinished={this.state.showFinished}
             	/>
-          	) : (
+          	) : null}
+      {this.state.selectedChallenge ? (
             	<ChallengeProposalList
             		challenge={this.state.selectedChallenge} 
             		tickerData={this.state.tickerData[this.state.selectedChallenge._id]}
@@ -157,8 +168,8 @@ class ChallengeContainer extends React.Component {
                 changeProposalSortMode={this.changeProposalSortMode}
                 loadMore={this.loadMoreProposals}
             	/>
-          	)}
-          	</div>
+            ) : null}
+          </div>
 	    );
 	}
 }

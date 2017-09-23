@@ -74,6 +74,7 @@ JsonRoutes.add(
     } else {
       options.data = {
         proposals,
+        ...currentSystemConfig.responseDataProperties(),
       };
     }
 
@@ -214,6 +215,7 @@ JsonRoutes.add(
     const options = {
       data: {
         proposals: tinderProposals.fetch(),
+        ...currentSystemConfig.responseDataProperties(),
       }
     };
 

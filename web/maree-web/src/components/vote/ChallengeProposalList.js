@@ -27,9 +27,9 @@ class ChallengeProposalList extends React.Component {
 	       				<div className="challenge-left" onClick={this.props.onPrev}>{'<'}</div>
 	       			) : (<div className="challenge-left"></div>)}
 		       		<ChallengeHeaderContent
+		       			onClick={this.props.onReset}
 		       			challenge={this.props.challenge}
 		       			tickerData={this.props.tickerData}
-		       			onClick={this.props.onReset}
 		       		/>
 		       		{this.props.showNext ? (
 		       			<div className="challenge-right" onClick={this.props.onNext}>{'>'}</div>

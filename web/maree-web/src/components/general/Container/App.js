@@ -46,6 +46,10 @@ class App extends React.Component {
           {this.state.mapExpansion < 1 ? (
             <section className="info">
               <img src="assets/title.png" alt="title"/>
+              <div className="store-icons">
+                <a href="#foo"><img className="apple" src="assets/store_icons/apple_en.svg" alt="apple appstore icon"/></a>
+                <a href="#foo"><img className="google" src="assets/store_icons/google-play-badge_en.png" alt="google play store icon"/></a>
+              </div>
               <LanguageSelector/>
               <InfoColumn/>
             </section>

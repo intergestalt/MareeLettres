@@ -14,12 +14,12 @@ class ChallengeHeaderContent extends React.Component {
 			}
 			
 		}
-		return "no data";
+		return "loading...";
 	}
 
 	render() {
 	    return (
-	    	<div className="challenge-header-content" onClick={()=>{this.props.onClick(this.props.challenge)}}>
+	    	<div className="challenge-header-content" onClick={this.props.onClick ? this.props.onClick : null}>
 	       		<div>{this.renderTickerData(this.props.tickerData)}</div>
 	       		<div className="challenge-title">{this.props.challenge.title[this.props.i18n.language]}</div>
 			</div>

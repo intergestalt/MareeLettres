@@ -4,9 +4,12 @@ import { createContainer } from 'react-meteor-data';
 import Alert from 'react-s-alert';
 import 'react-s-alert/dist/s-alert-default.css';
 import 'react-s-alert/dist/s-alert-css-effects/slide.css';
+import filterDOMProps from 'uniforms/filterDOMProps';
 
 import AccountsUIWrapper from '../components/AccountsUIWrapper';
 import Menu from '../components/menu';
+
+filterDOMProps.register('systems');
 
 class AdminWrapper extends Component {
   constructor(props) {

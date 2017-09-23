@@ -33,7 +33,7 @@ Meteor.startup(() => {
 
   // Always update default SystemConfig
   console.log('resetting default config in db');
-  // TODO: just upsert the values!!
+  // TODO: just upsert the values?!
   const defaultSystemConfig = SystemConfigSchema.clean({});
   const previous = SystemConfig.findOne({ name: 'default' }, { fields: { active: 1 } });
   const active = previous ? previous.active : true;

@@ -244,7 +244,7 @@ export function isFinishedSuggest(challenge, submit = false) {
   const mNowUTC = nowUTC.getTime();
 
   let mEndUTC = endDate.getTime();
-  let earlier = DYNAMIC_CONFIG.SUGGESTIONS_CLOSE_EARLIER;
+  let earlier = DYNAMIC_CONFIG.SUGGESTIONS_CLOSE_EARLIER * 1000; // map seconds to milliseconds
   if (submit) {
     earlier *= 2;
     earlier /= 3;

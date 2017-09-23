@@ -1,9 +1,8 @@
 import React from 'react';
 import ReactMarkdown from 'react-markdown';
-
 import { serverUri } from '../../config/config.js'
-
 import { translate } from 'react-i18next';
+import './style.css';
 
 const axios = require('axios');
 
@@ -37,7 +36,7 @@ class InfoColumn extends React.Component {
 
 	render() {
 	    return (
-	       <div>
+	       <div className="info-container">
 	       	{this.state.loading ? (
 	       		<div>{this.props.i18n.t("loading")}</div>
 	       	) : (
