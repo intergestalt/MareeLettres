@@ -23368,7 +23368,7 @@ var systemConfigDefaults = {
     },
     map_seeding_radius: {
         defaultValue: 100,
-        type: Number,
+        type: Integer,
         title: 'Letter seeding radius in meters. 0 to disable',
         systems: ['server']
     },
