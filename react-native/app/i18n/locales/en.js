@@ -107,5 +107,6 @@ export default {
   proposal_booster_title: 'Yippi EN',
   proposal_booster_text:
     'Great minds think alike! You have made a suggestion that has already been made by someone else. Your suggestions have been combined and received and extra [X] votes! EN',
-  reload_proposal_status: 'ÄThe status of your proposal could not be loaded. Press to Reloady EN',
+  reload_proposal_status: 'The status of your proposal could not be loaded. Press to Reloady EN',
+  server_error: 'Internal Server Error: [ERROR_CODE] EN',
 };

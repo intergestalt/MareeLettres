@@ -31,7 +31,15 @@ class AppContainer extends Component {
       const now = new Date().getTime();
       if (now - this.props.lastNetworkError > DYNAMIC_CONFIG.DISPLAY_NEXT_NETWORK_ERROR_AFTER) {
         this.props.dispatch(setLastNetworkError());
-        this.props.alertWithType('custom', I18n.t('error'), I18n.t(nextProps.networkErrorMessageKey));
+        const key = nextProps.networkErrorMessageKey;
+        let message = null;
+        if (key === 'network_error' || key === 'blocked_user') {
+          message = I18n.t(key);
+        } else {
+          message = I18n.t('server_error');
+          message = message.replace('[ERROR_CODE]', key);
+        }
+        this.props.alertWithType('custom', I18n.t('error'), message);
       } else {
         this.props.dispatch(setNetworkError(false, null));
       }
@@ -50,11 +58,7 @@ class AppContainer extends Component {
   };
 
   render() {
-    return (
-      <View style={{ flex: 1 }}>
-        {this.props.children}
-      </View>
-    );
+    return <View style={{ flex: 1 }}>{this.props.children}</View>;
   }
 }
 
