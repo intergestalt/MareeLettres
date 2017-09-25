@@ -9,17 +9,23 @@ if (Object.keys(Meteor.settings).length <= 1 && Object.keys(Meteor.settings.publ
 import './register-api';
 import './status';
 import './system-config';
+import '../both/build-config';
+import './register-rest';
+import './fixtures';
 
 // web (admin)
-import './fixtures';
 import '../both/accounts';
 
 // web (api)
-import './register-rest';
+//   admin includes API (doesn't have to. just does.)
+//   the reason is partially that rest and publish api are not separeted well (yet)
 
 // worker
-import './elect-winner';
-import './tinder-regenerate';
-import './trending-regenerate';
-import './seed-letters';
-import './archive-letters';
+if (!process.env.MAREE_STARTUP_WORKER || process.env.MAREE_STARTUP_WORKER && process.env.MAREE_STARTUP_WORKER !== 'false') {
+  console.log('STARTING WORKER');
+  import './elect-winner';
+  import './tinder-regenerate';
+  import './trending-regenerate';
+  import './seed-letters';
+  import './archive-letters';
+}
