@@ -95,6 +95,7 @@ export default {
 
   error: 'Error',
   network_error: 'Please check your internet connection.',
+  server_error: 'Server error ;( Please try again later. ([ERROR])',
   suggestion_too_late_title: 'Too late!',
   suggestion_too_late_text: 'Submission has closed already. Sorry <3',
   suggestion_empty_title: '!',
@@ -108,5 +109,4 @@ export default {
   proposal_booster_text:
     'Great minds think alike! You have made a suggestion that has already been made by someone else. Your suggestions have been combined and received and extra [X] votes! EN',
   reload_proposal_status: 'The status of your proposal could not be loaded. Press to Reloady EN',
-  server_error: 'Internal Server Error: [ERROR_CODE] EN',
 };
