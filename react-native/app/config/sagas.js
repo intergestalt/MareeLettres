@@ -16,6 +16,7 @@ import { getZuffiDelayForApi } from '../helper/helper';
 import store from '../config/store';
 import { loadConfigServiceProxy, loadUserServiceProxy } from '../helper/apiProxy';
 import { clearMyLettersProxy } from '../helper/mapHelper';
+import I18n from '../i18n/i18n';
 
 const loadData = function* loadData(action) {
   try {
@@ -51,7 +52,14 @@ const loadData = function* loadData(action) {
           }
         }
       }
-
+      if (action.type === POST_PROPOSAL) {
+        if (result.boost) {
+          I18n.locale = action.props.language;
+          const count = result.boost;
+          const text = I18n.t('proposal_booster_text').replace('[X]', count);
+          action.props.alertWithType('info', I18n.t('proposal_booster_title'), text);
+        }
+      }
       // Eventually load user...
       if (action.type !== LOAD_USER) {
         // only if there is a current_config in answer

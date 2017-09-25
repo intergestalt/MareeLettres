@@ -12,7 +12,7 @@ const styles = EStyleSheet.create({
   text: {
     color: 'black',
     fontSize: '1rem',
-    lineHeight: '1rem',
+    lineHeight: '1.25rem',
     textAlign: 'center',
     fontFamily: 'normal',
   },

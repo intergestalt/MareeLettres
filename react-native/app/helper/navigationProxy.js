@@ -180,11 +180,10 @@ export function navigateToVote(props) {
     store.dispatch(setScreen(SCREENS.VOTE));
     store.dispatch(setChallengeView(CHALLENGE_VIEWS.LIST));
     preNavigateToVote(props);
-
     const navAction = NavigationActions.reset({
       index: 0,
-      key: 'Vote',
-      actions: [NavigationActions.navigate({ routeName: 'Challenges' })],
+      key: null,
+      actions: [NavigationActions.navigate({ routeName: 'Root' })],
     });
     props.navigation.dispatch(navAction);
   }

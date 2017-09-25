@@ -15,8 +15,10 @@ const styles = EStyleSheet.create({
     bottom: 0,
   },
   separator: {
+    position: 'absolute',
     width: '100%',
     backgroundColor: '$textColor',
+    bottom: 0,
     height: '$strokeWidth',
     flex: 1,
   },
@@ -33,6 +35,8 @@ const styles = EStyleSheet.create({
   title: {
     color: '$textColor',
     fontSize: '1rem',
+    backgroundColor: 'transparent',
+    top: '$textOffset1Rem',
     textAlign: 'center',
     fontFamily: 'bold',
   },
@@ -50,17 +54,23 @@ const styles = EStyleSheet.create({
     color: '$tickerColor',
     fontSize: '1rem',
     fontFamily: 'normal',
+    backgroundColor: 'transparent',
+    top: '$textOffset1Rem',
   },
   live: {
     color: 'red',
     fontSize: '0.5rem',
     fontFamily: 'normal',
     paddingBottom: '0.5rem',
+    backgroundColor: 'transparent',
+    top: '$textOffset1Rem',
   },
   liveSpacer: {
     color: 'transparent',
     fontSize: '0.5rem',
     fontFamily: 'normal',
+    backgroundColor: 'transparent',
+    top: '$textOffset1Rem',
   },
   itemContainer: {},
   challengeHeaderPadding: {
@@ -86,16 +96,17 @@ const styles = EStyleSheet.create({
 
   showAllButtonContainer: { backgroundColor: '$seePastTopicsButtonColor', width: '100%' },
   showAllButton: {
-    height: '3.5rem',
-    paddingTop: '0.4rem',
+    height: '2rem',
     justifyContent: 'center',
     alignItems: 'center',
   },
   showAllButtonText: {
-    fontSize: '1rem',
+    fontSize: '1.25rem',
     fontFamily: 'normal',
     textAlign: 'center',
     color: 'white',
+    backgroundColor: 'transparent',
+    top: '$textOffset1_25Rem',
   },
   winningInnerContainer: {
     backgroundColor: 'transparent',

@@ -40,7 +40,18 @@ class TabBar extends Component {
   };
 
   tab = (selected, text, onPress, first = false, always = false) => {
-    const tabStyle = first ? [styles.tab, styles.tabFirst] : styles.tab;
+    let tabStyle = null;
+    if (first) {
+      if (selected) {
+        tabStyle = [styles.tab, styles.tabSelected, styles.tabFirst];
+      } else {
+        tabStyle = [styles.tab, styles.tabFirst];
+      }
+    } else if (selected) {
+      tabStyle = [styles.tab, styles.tabSelected];
+    } else {
+      tabStyle = styles.tab;
+    }
     return !selected ? (
       <TouchableHighlight
         underlayColor={styles._tab.backgroundColor}

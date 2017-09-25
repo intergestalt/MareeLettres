@@ -177,7 +177,8 @@ const styles = EStyleSheet.create({
 
   challengeFooterText: {
     position: 'relative',
-    top: '0.15rem',
+    backgroundColor: 'transparent',
+    top: '$textOffset1Rem',
     color: '#000',
     fontFamily: 'normal',
     fontSize: '1rem',

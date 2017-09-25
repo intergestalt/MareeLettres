@@ -44,7 +44,7 @@ class ProposalStatus extends Component {
   render() {
     try {
       let noContent = false;
-      if (!this.props.userChallenge.ownProposal) {
+      if (!this.props.userChallenge.ownProposal && !this.props.userChallenge.isLoading) {
         noContent = true;
       }
       let proposalBlocked = null;
@@ -65,11 +65,7 @@ class ProposalStatus extends Component {
           proposalBlocked = false;
         }
         if (this.props.userChallenge.ownProposalInReview) {
-          if (this.props.userChallenge.ownProposalInReview.bool) {
-            proposalInReview = this.props.userChallenge.ownProposalInReview.bool;
-          } else {
-            proposalInReview = true;
-          }
+          proposalInReview = this.props.userChallenge.ownProposalInReview.bool;
         } else {
           proposalInReview = true;
         }
@@ -159,7 +155,10 @@ class ProposalStatus extends Component {
               <View style={styles.statusBottom}>{panel}</View>
             ) : (
               <View style={styles.statusBottom}>
-                <ReloadButton textKey="reload_challenges" onReload={this.handleReloadPressPress} />
+                <ReloadButton
+                  textKey="reload_proposal_status"
+                  onReload={this.handleReloadPressPress}
+                />
               </View>
             )}
           </View>

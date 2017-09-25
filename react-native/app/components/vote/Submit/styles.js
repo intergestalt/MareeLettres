@@ -124,6 +124,7 @@ const styles = EStyleSheet.create({
     color: 'black',
   },
   statusContainer: {
+    width: '100%',
     flex: 1,
   },
   statusTop: { flex: 0.5 },
