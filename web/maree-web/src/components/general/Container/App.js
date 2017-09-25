@@ -13,9 +13,11 @@ class App extends React.Component {
     super();
     this.state = {
       mapExpansion: 0,
-      mapExpansionClassname: "flux"
+      mapExpansionClassname: "flux",
+      activeMenu: 0
     }
     this.expandMap = this.expandMap.bind(this);
+    this.menuClick = this.menuClick.bind(this);
   }
 
   expandMap() {
@@ -27,24 +29,29 @@ class App extends React.Component {
     }
   }
   
+  menuClick(item) {
+    console.log(item);
+    this.setState({activeMenu: item});
+  }
+
   render() {
     return (
       <div className="App">
         <div className="headers">
           {this.state.mapExpansion < 1 ? (
-            <div className="borderRight">INFO</div>
+            <div className={"borderRight" + (this.state.activeMenu === 0 ? " active" : "")} onClick={()=>this.menuClick(0)}>INFO</div>
           ) : null}
           {this.state.mapExpansion < 2 ? (
-            <div className="borderRight">VOTE</div>
+            <div className={"borderRight" + (this.state.activeMenu === 1 ? " active" : "")} onClick={()=>this.menuClick(1)}>VOTE</div>
           ) : null}
           {this.state.mapExpansion < 2 ? (
-            <div className="borderRight">NEWS</div>
+            <div className={"borderRight" + (this.state.activeMenu === 2 ? " active" : "")} onClick={()=>this.menuClick(2)}>NEWS</div>
           ) : null}  
-          <div className={this.state.mapExpansionClassname}>FLUX</div>
+          <div className={this.state.mapExpansionClassname + (this.state.activeMenu === 3 ? " active" : "")} onClick={()=>this.menuClick(3)}>FLUX</div>
         </div>
         <div className="mainContent">
           {this.state.mapExpansion < 1 ? (
-            <section className="info">
+            <section className={"info" + (this.state.activeMenu === 0 ? " active" : "")}>
               <img src="assets/title.png" alt="title"/>
               <div className="store-icons">
                 <a href="#foo"><img className="apple" src="assets/store_icons/apple_en.svg" alt="apple appstore icon"/></a>
@@ -55,16 +62,16 @@ class App extends React.Component {
             </section>
           ) : null}
           {this.state.mapExpansion < 2 ? (
-            <section className="vote">
+            <section className={"vote" + (this.state.activeMenu === 1 ? " active" : "")}>
               <ChallengeContainer/>
             </section>
           ) : null}  
           {this.state.mapExpansion < 2 ? (
-            <section className="news">
+            <section className={"news" + (this.state.activeMenu === 2 ? " active" : "")}>
               <NewsFeed/>
             </section>
           ) : null}  
-          <section className={this.state.mapExpansionClassname}>
+          <section className={this.state.mapExpansionClassname + (this.state.activeMenu === 3 ? " active" : "")}>
             <FluxMap
               expandMap={this.expandMap}
               mapExpansion={this.state.mapExpansion}

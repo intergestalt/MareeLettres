@@ -81,8 +81,8 @@ class SplashScreenB extends Component {
     loadChallengesServiceProxy(true, true);
     loadContentServiceProxy(true, true);
     await Font.loadAsync({
-      normal: require('../../assets/fonts/ArialMonospacedMTPro.ttf'),
-      bold: require('../../assets/fonts/ArialMonospacedMTPro-Bld.ttf'),
+      arial_normal: require('../../assets/fonts/ArialMonospacedMTPro.ttf'),
+      arial_bold: require('../../assets/fonts/ArialMonospacedMTPro-Bld.ttf'),
       impact: require('../../assets/fonts/impact.ttf'),
     });
     this.setState({ isFontsReady: true });

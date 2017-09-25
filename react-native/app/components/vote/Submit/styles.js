@@ -27,7 +27,7 @@ const styles = EStyleSheet.create({
   },
   title: {
     flex: 1,
-    fontFamily: 'normal',
+    fontFamily: 'arial_normal',
     fontSize: '1rem',
     color: 'white',
     textAlign: 'center',
@@ -92,7 +92,7 @@ const styles = EStyleSheet.create({
   submitButtonText: {
     fontSize: '1rem',
     top: '$textOffset1Rem',
-    fontFamily: 'normal',
+    fontFamily: 'arial_normal',
     textAlign: 'center',
     color: 'white',
   },
@@ -154,7 +154,7 @@ const styles = EStyleSheet.create({
     backgroundColor: 'transparent',
     color: 'white',
     justifyContent: 'center',
-    fontFamily: 'normal',
+    fontFamily: 'arial_normal',
     fontSize: '1rem',
     textAlign: 'center',
     bottom: 0,
@@ -194,12 +194,12 @@ const styles = EStyleSheet.create({
   statusBottomBottomRight: {
     width: '10%', // correct value would be the width of the actual VoteMark. But doesn't matter
     justifyContent: 'center',
-    fontFamily: 'bold',
+    fontFamily: 'arial_bold',
     alignItems: 'center',
   },
   textPanel: {
     color: 'black',
-    fontFamily: 'normal',
+    fontFamily: 'arial_normal',
     paddingTop: '1rem',
     fontSize: '1rem',
     textAlign: 'center',
@@ -207,7 +207,7 @@ const styles = EStyleSheet.create({
   statusBottomText1: {
     backgroundColor: 'transparent',
     color: 'black',
-    fontFamily: 'normal',
+    fontFamily: 'arial_normal',
     fontSize: '1rem',
     textAlign: 'center',
     justifyContent: 'center',
@@ -218,10 +218,9 @@ const styles = EStyleSheet.create({
     backgroundColor: 'transparent',
     color: 'black',
     justifyContent: 'center',
-    fontFamily: 'bold',
+    fontFamily: 'arial_bold',
     fontSize: '1rem',
     textAlign: 'center',
-    fontWeight: 'bold',
     alignItems: 'center',
     alignSelf: 'center',
   },
