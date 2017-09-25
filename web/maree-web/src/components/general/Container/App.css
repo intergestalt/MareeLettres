@@ -78,6 +78,7 @@ section img {
   flex-direction: row;
   align-items: center;
   justify-content: center;
+  flex-wrap: wrap;
 }
 
 img.apple {
@@ -85,9 +86,11 @@ img.apple {
   position: relative;
   left: 7px;
   margin-right: 1em;
+  margin-top: 0.5rem;
 }
 img.google {
   width: 7.5rem;
+  margin-top: 0.5rem;
 }
 
 section.info {
@@ -118,5 +121,36 @@ section.flux_expanded_1 {
 section.flux_expanded_2 {
   overflow: hidden;
   flex: 1;
+}
+
+@media (max-width: 800px) {
+  .headers div:hover {
+    cursor: pointer;
+  }
+  .headers div.active {
+    background-color: #000;
+    color: #fff;
+  }
+  .mainContent {
+    display: block;
+    overflow-y: hidden;
+    height: 100%;
+  }
+  section {
+    width: 100%;
+    height: 100%;
+  }
+  section:not(.active) {
+    display: none;
+  }
+  section.vote {
+    overflow-y: scroll;
+  }
+  .challenge-list {
+    height: auto;
+  }
+  .mapContainer {
+    height: 100%;
+  }
 }
 
