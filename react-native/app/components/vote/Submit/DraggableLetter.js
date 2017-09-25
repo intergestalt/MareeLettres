@@ -105,9 +105,7 @@ class DraggableLetter extends Component {
         onLayout={event => this.props.layoutCallback(event, this.props.mykey)}
         style={myViewStyle}
       >
-        <Animated.Text style={myLetterStyle}>
-          {myCharacter}
-        </Animated.Text>
+        <Animated.Text style={myLetterStyle}>{myCharacter}</Animated.Text>
       </Animated.View>
     );
   }
