@@ -92,11 +92,12 @@ const styles = EStyleSheet.create({
     paddingTop: 0,
     paddingBottom: 0,
     height: '10rem',
+    backgroundColor: '$backgroundColor',
   },
 
   showAllButtonContainer: { backgroundColor: '$seePastTopicsButtonColor', width: '100%' },
   showAllButton: {
-    height: '2rem',
+    height: '3rem',
     justifyContent: 'center',
     alignItems: 'center',
   },
