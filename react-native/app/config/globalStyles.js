@@ -5,7 +5,8 @@ console.log(`SCREENHEIGHT ${screenHeight}`);
 const globalStyles = {
   $challengeSelectorHeaderHeight: '6rem',
   $screenLoadingBackgroundColor: 'rgb(90, 88, 112)',
-  $backgroundColor: '#DDDDDD',
+  $textGrey: 'rgb(120,120,120)',
+  $backgroundColor: 'rgb(230, 230, 230)',
   $backgroundColorMenuItem: 'rgb(245,132,102)',
   $highlightDraggingLetterColor: 'rgb(245,132,102)',
   $draggingLetterCursorColor: 'rgb(90, 88, 112)',

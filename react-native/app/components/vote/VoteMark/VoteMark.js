@@ -31,7 +31,7 @@ class VoteMark extends Component {
     yes: 'rgb(0,200,0)',
     no: 'red',
     neutral: 'black',
-    inactive: '#535353',
+    inactive: 'rgb(120,120,120)',
   };
 
   renderCross(height, color) {
