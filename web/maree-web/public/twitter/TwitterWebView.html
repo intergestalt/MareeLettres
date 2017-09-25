@@ -6,16 +6,23 @@
     <style type='text/css'>
       @font-face {
         font-family: fontNormal;
-        src: url(/twitter/fonts/ArialMonospacedMTPro.ttf);
+        font-weight:normal;
+        font-style:normal;
+        font-variant:normal;
+        src: url(https://s3.eu-central-1.amazonaws.com/mareedeslettres/ArialMonospacedMTPro.ttf);
       }
       @font-face {
         font-family: fontBold;
-        src: url(/twitter/fonts/ArialMonospacedMTPro-Bld.ttf);
+        src: url(https://s3.eu-central-1.amazonaws.com/mareedeslettres/ArialMonospacedMTPro-Bld.ttf);
       }
       body, html {
         margin: 0;
         padding: 0;
         font-family: fontNormal;
+      }
+      .timeline-Widget {
+        width: 100% !important;
+        max-width: 100% !important;
       }
       .hidden {
         opacity: 0;
@@ -32,37 +39,60 @@
         border-bottom: none;
       }
       .timeline-Tweetlist-tweet {
-        padding: 16px 32px 5px 20px;
-        /*border-bottom: 1px solid black;*/
+        padding: 10px 15px 5px 15px;
+        border-bottom: 1px solid black;
       }
       .timeline-Tweet {
         padding: 0;
+        /*position: relative;*/
       }
       .timeline-Tweet:hover {
         background-color: transparent;
       }
       .timeline-Tweet-text {
         float: left;
+        width: 100%;
+      }
+      .timeline-Tweet-metadata {
+        position: relative;
+        top: 3px; 
+      }
+      abbr, abbr[title] {
+        text-decoration: none;
       }
       .timeline-Tweetlist-name {
         font-family: fontBold;
       }
       .timeline-LoadMore-prompt {
         border: none;
-        font-family: fontBold;
+        font-family: fontNormal;
         text-transform: uppercase;
         border-radius: 0;
-        padding: 8px;
       }
       .timeline-Tweet-actions {
         display: none;
       }
       .timeline-ShowMoreButton--edge {
         color: #8899A6;
+        width: 100% !important;
+        padding: 20px;
+        margin-bottom: 30px;
       }
       .timeline-ShowMoreButton--edge:focus, .timeline-ShowMoreButton--edge:hover {
         background-color: transparent;
         color: #8899A6
+      }
+      a {
+        color: #4D4D7B;
+      }
+      a:hover {
+        color: rgb(245,132,102);
+      }
+      .Icon--retweetBadge {
+        display: none;
+      }
+      .NaturalImage--rounded .NaturalImage-image, .NaturalImage--roundedTop .NaturalImage-image {
+        border-radius: 0px;
       }
     </style>
   </head>
@@ -90,13 +120,12 @@
       var parseTweets = function(iframe) {
         // reformat and inject stuff
         var $doc = $(iframe.contentDocument),
-          tweets = iframe.contentDocument.getElementsByClassName('timeline-Tweetlist-tweet'),
           styles = document.getElementsByTagName('style'),
-          head = iframe.contentDocument.getElementsByTagName('head')[0],
-          dataToSend = {tweets:[]};
-
+          head = iframe.contentDocument.getElementsByTagName('head')[0];
+          
         // inherit styles from document (allow custom styles)
         for (var i = 0; i < styles.length; i++) {
+            console.log(styles[i]);
             head.appendChild(styles[i].cloneNode(true));
         }
 
