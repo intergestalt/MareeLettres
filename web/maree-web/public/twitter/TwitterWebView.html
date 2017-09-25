@@ -1,0 +1,147 @@
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <script type='text/javascript' src='widgets.js'></script>
+    <script type='text/javascript' src='jquery-3.2.1.min.js'></script>
+    <style type='text/css'>
+      @font-face {
+        font-family: fontNormal;
+        font-weight:normal;
+        font-style:normal;
+        font-variant:normal;
+        src: url(https://s3.eu-central-1.amazonaws.com/mareedeslettres/ArialMonospacedMTPro.ttf);
+      }
+      @font-face {
+        font-family: fontBold;
+        src: url(https://s3.eu-central-1.amazonaws.com/mareedeslettres/ArialMonospacedMTPro-Bld.ttf);
+      }
+      body, html {
+        margin: 0;
+        padding: 0;
+        font-family: fontNormal;
+      }
+      .timeline-Widget {
+        width: 100% !important;
+        max-width: 100% !important;
+      }
+      .hidden {
+        opacity: 0;
+      }
+      #timeline {
+        padding-top: 1vh;
+        height: 100vh;
+      }
+      .timeline-Widget {
+        width: 100%;
+      }
+      .timeline-Body {
+        border-top: none;
+        border-bottom: none;
+      }
+      .timeline-Tweetlist-tweet {
+        padding: 10px 15px 5px 15px;
+        border-bottom: 1px solid black;
+      }
+      .timeline-Tweet {
+        padding: 0;
+        /*position: relative;*/
+      }
+      .timeline-Tweet:hover {
+        background-color: transparent;
+      }
+      .timeline-Tweet-text {
+        padding-top: 10px;
+        font-size: 14px !important;
+        width: 100%;
+      }
+      .timeline-Tweet-metadata {
+        position: relative;
+        top: 3px; 
+      }
+      abbr, abbr[title] {
+        text-decoration: none;
+      }
+      .timeline-Tweetlist-name {
+        font-family: fontBold;
+      }
+      .timeline-LoadMore-prompt {
+        border: none;
+        font-family: fontNormal;
+        text-transform: uppercase;
+        border-radius: 0;
+      }
+      .timeline-Tweet-actions {
+        display: none;
+      }
+      .timeline-ShowMoreButton--edge {
+        color: #8899A6;
+        width: 100% !important;
+        padding: 20px;
+        margin-bottom: 30px;
+      }
+      .timeline-ShowMoreButton--edge:focus, .timeline-ShowMoreButton--edge:hover {
+        background-color: transparent;
+        color: #8899A6;
+      }
+      a {
+        color: #4D4D7B;
+      }
+      a:hover {
+        color: rgb(245,132,102);
+      }
+      .Icon--retweetBadge {
+        background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='60' height='72' viewBox='0 0 60 72'><path class='icon' fill='#8899A6' d='M49 9H11c-4.418 0-8 3.582-8 8v38c0 4.418 3.582 8 8 8h38c4.418 0 8-3.582 8-8V17c0-4.418-3.582-8-8-8zM21 44h10c1.657 0 3 1.343 3 3s-1.343 3-3 3H17c-1.657 0-3-1.343-3-3V36H9c-.77 0-1.47-.44-1.803-1.134-.333-.692-.24-1.516.24-2.115l8-10c.76-.947 2.365-.947 3.124 0l8 10c.48.6.576 1.425.243 2.117C26.47 35.56 25.77 36 25 36h-5v7c0 .553.448 1 1 1zm31.562-4.75l-8 10c-.38.474-.954.75-1.562.75s-1.182-.276-1.562-.75l-8-10c-.48-.6-.574-1.424-.24-2.116C33.53 36.44 34.23 36 35 36h5v-7c0-.553-.447-1-1-1H29c-1.657 0-3-1.343-3-3s1.343-3 3-3h14c1.657 0 3 1.343 3 3v11h5c.77 0 1.47.44 1.803 1.134.333.692.24 1.515-.24 2.115z'/></svg>");
+      }
+      .NaturalImage--rounded .NaturalImage-image, .NaturalImage--roundedTop .NaturalImage-image {
+        border-radius: 0px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id='timeline' class='hidden'></div>
+
+    <script type='text/javascript'>
+      
+      var TWITTER_HANDLE = "mareedeslettres";
+      
+      var getTimeline = function() {
+          // pull timeline from twitter
+          twttr.widgets.createTimeline(
+            {
+              sourceType: 'profile',
+              screenName: TWITTER_HANDLE
+            },
+            document.getElementById('timeline'),
+            {}
+          ).then(function(el){
+            parseTweets(el);
+          });
+      };
+
+      var parseTweets = function(iframe) {
+        // reformat and inject stuff
+        var $doc = $(iframe.contentDocument),
+          styles = document.getElementsByTagName('style'),
+          head = iframe.contentDocument.getElementsByTagName('head')[0];
+          
+        // inherit styles from document (allow custom styles)
+        for (var i = 0; i < styles.length; i++) {
+            console.log(styles[i]);
+            head.appendChild(styles[i].cloneNode(true));
+        }
+
+        $doc.find('.timeline-Footer').remove();
+        $doc.find('.timeline-Header').remove();
+
+        // swap tweets to #timeline, reveal
+        $(iframe.contentDocument.body).find('.timeline-Tweetlist').html($('#content').html());
+        $('#timeline').removeClass('hidden');
+
+      }
+
+      window.onload = function() {
+        getTimeline();
+      };
+    </script>
+  </body>
+</html>

@@ -15,7 +15,7 @@ class ChallengeList extends React.Component {
 			let onlyFinishedToShow = false;
 			if(finished && !lastFinished) {
 				challenges.push(
-					<li onClick={this.props.toggleFinished} className="toggle-past">{this.props.showFinished ? 
+					<li key={"toggle-button"} onClick={this.props.toggleFinished} className="toggle-past">{this.props.showFinished ? 
 						this.props.i18n.t('close_past_challenges') : this.props.i18n.t('open_past_challenges')}
 					</li>
 				);
@@ -25,12 +25,15 @@ class ChallengeList extends React.Component {
 				<li 
 					onClick={()=>{this.props.onSelectChallenge(c)}} 
 					key={c._id} 
-					className={(c.winningProposalDetailImageUrl ? "withImage" : "") + (finished && !onlyFinishedToShow ? " hideFinished" : "")}
+					className={(c.winningProposal || c.winningProposalDetailImageUrl ? "withImage" : "") + (finished && !onlyFinishedToShow ? " hideFinished" : "")}
 				>
 					<ChallengeHeaderContent
 						challenge={c}
 						tickerData={this.props.tickerData[c._id]}
 					/>
+					{c.winningProposal && !c.winningProposalDetailImageUrl? (
+					<div className="winningProposalMockup">{c.winningProposal.text}</div>
+					) : null}
 					{c.winningProposalDetailImageUrl ? (
 						<img className="winning-image" src={c.winningProposalDetailImageUrl} alt="winning image"/>
 					) : null}
