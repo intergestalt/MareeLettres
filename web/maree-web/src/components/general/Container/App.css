@@ -154,11 +154,17 @@ section.flux_expanded_2 {
   .challenge-list {
     height: auto;
   }
-  .mapContainer {
-    height: 100%;
-  }
   section:not(.active) {
     display: none;
+  }
+  #fullscreen {
+    display: none;
+  }
+  #zoom_out {
+    bottom: 2rem;
+  }
+  #zoom_in {
+    bottom: 4.5rem;
   }
   
 }
