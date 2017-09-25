@@ -91,6 +91,7 @@ const styles = EStyleSheet.create({
   },
   submitButtonText: {
     fontSize: '1rem',
+    top: '$textOffset1Rem',
     fontFamily: 'normal',
     textAlign: 'center',
     color: 'white',
