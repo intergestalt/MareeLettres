@@ -40,19 +40,19 @@ export default EStylesheet.create({
   },
 
   tweetName: {
-    fontFamily: 'bold',
+    fontFamily: 'arial_bold',
     fontSize: '$sizeName',
   },
 
   tweetDate: {
-    fontFamily: 'normal',
+    fontFamily: 'arial_normal',
     fontSize: '$sizeDate',
     textAlign: 'right',
-    lineHeight: '$sizeName'
+    lineHeight: '$sizeName',
   },
 
   tweetHandle: {
-    fontFamily: 'normal',
+    fontFamily: 'arial_normal',
     fontSize: '$sizeHandle',
     color: '$secondaryColour',
   },
@@ -64,17 +64,15 @@ export default EStylesheet.create({
 
   tweetContent: {
     fontSize: '$sizeContent',
-    fontFamily: 'normal',
+    fontFamily: 'arial_normal',
   },
 
-  tweetImage: {
-
-  },
+  tweetImage: {},
 
   tweetUrl: {
     textDecorationLine: 'underline',
     color: '$secondaryColour',
-    fontFamily: 'normal',
+    fontFamily: 'arial_normal',
     fontSize: '$sizeUrl',
   },
 
@@ -90,8 +88,8 @@ export default EStylesheet.create({
   loadingBarText: {
     fontSize: '$sizeLoading',
     color: '$backgroundColourAlt',
-    fontFamily: 'normal',
+    fontFamily: 'arial_normal',
     textAlign: 'center',
-    paddingTop: '$paddingSmall'
-  }
+    paddingTop: '$paddingSmall',
+  },
 });

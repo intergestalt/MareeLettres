@@ -14,7 +14,7 @@ const styles = EStyleSheet.create({
     fontSize: '1rem',
     lineHeight: '1.25rem',
     textAlign: 'center',
-    fontFamily: 'normal',
+    fontFamily: 'arial_normal',
   },
 });
 

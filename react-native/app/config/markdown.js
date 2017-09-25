@@ -18,20 +18,19 @@ export default EStyleSheet.create({
     marginBottom: '1rem',
   },
   link: {
-    textDecorationLine: 'underline'
+    textDecorationLine: 'underline',
   },
   mailTo: {
-    textDecorationLine: 'underline'
+    textDecorationLine: 'underline',
   },
   paragraph: {
     color: '#000',
-    fontFamily: 'normal',
     textAlign: 'center',
     paddingHorizontal: '1rem',
     fontSize: '1rem',
     padding: 0,
-    marginBottom: '2rem'
+    fontFamily: 'arial_normal',
+    marginBottom: '2rem',
   },
   text: {},
 });
-

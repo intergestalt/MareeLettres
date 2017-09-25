@@ -81,7 +81,7 @@ const styles = EStyleSheet.create({
     color: 'black',
     textAlign: 'center',
     fontSize: '2rem',
-    fontFamily: 'normal',
+    fontFamily: 'arial_normal',
     paddingHorizontal: '0.25rem',
   },
   headerNav: {
@@ -89,7 +89,7 @@ const styles = EStyleSheet.create({
     color: 'black',
     textAlign: 'center',
     fontSize: '2rem',
-    fontFamily: 'normal',
+    fontFamily: 'arial_normal',
     top: '0.5rem', // center the character inside the line
   },
   // Content
@@ -180,7 +180,7 @@ const styles = EStyleSheet.create({
     backgroundColor: 'transparent',
     top: '$textOffset1Rem',
     color: '#000',
-    fontFamily: 'normal',
+    fontFamily: 'arial_normal',
     fontSize: '1rem',
   },
 
@@ -191,7 +191,7 @@ const styles = EStyleSheet.create({
   challengeFooterTextHigh: {
     color: '#000',
     fontSize: 24,
-    fontFamily: 'normal',
+    fontFamily: 'arial_normal',
   },
 
   lineLeft: {

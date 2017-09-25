@@ -17,7 +17,7 @@ export default EStyleSheet.create({
   text: {
     color: 'black',
     fontSize: '1rem',
-    fontFamily: 'normal',
+    fontFamily: 'arial_normal',
     textAlign: 'center',
     alignSelf: 'center',
     lineHeight: '1rem',

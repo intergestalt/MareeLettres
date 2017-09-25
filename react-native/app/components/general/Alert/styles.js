@@ -16,10 +16,10 @@ export default EStyleSheet.create({
     fontSize: '1rem',
     textAlign: 'center',
     color: '#ffffff',
-    fontFamily: 'normal',
+    fontFamily: 'arial_normal',
   },
   messageStyle: {
-    fontFamily: 'normal',
+    fontFamily: 'arial_normal',
     fontSize: '1rem',
     textAlign: 'center',
     color: '#ffffff',

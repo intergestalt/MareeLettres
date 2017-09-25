@@ -30,7 +30,7 @@ const styles = EStyleSheet.create({
     color: 'white',
     opacity: 1, // animate this
     fontSize: '1rem',
-    fontFamily: 'normal',
+    fontFamily: 'arial_normal',
     backgroundColor: 'transparent',
     textAlign: 'center',
   },
@@ -55,8 +55,6 @@ const styles = EStyleSheet.create({
     transform: [{ scale: 1.2 }], // animate this
   },
 });
-
-
 
 class LanguageSelector extends Component {
   static propTypes = {
@@ -216,15 +214,14 @@ class LanguageSelector extends Component {
               setTimeout(() => {
                 popLanguageSelector(this.props);
 
-                setTimeout(()=>{
+                setTimeout(() => {
                   this.props.alertWithType(
                     'info',
                     I18n.t('vote_tutorial_1_title'),
-                    I18n.t('vote_tutorial_1_text')
+                    I18n.t('vote_tutorial_1_text'),
                   );
                   setUserVoteTutorialStatusProxy('step2');
                 }, 500);
-
               }, 500);
             } else {
               const sel = this.state.selected;

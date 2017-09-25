@@ -107,14 +107,14 @@ export default class DropdownAlert extends Component {
     titleStyle: {
       fontSize: 16,
       textAlign: 'left',
-      fontWeight: 'bold',
+      fontFamily: 'arial_bold',
       color: 'white',
       backgroundColor: 'transparent',
     },
     messageStyle: {
       fontSize: 14,
       textAlign: 'left',
-      fontWeight: 'normal',
+      fontFamily: 'arial_normal',
       color: 'white',
       backgroundColor: 'transparent',
     },
