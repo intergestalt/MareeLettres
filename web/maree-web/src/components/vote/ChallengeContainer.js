@@ -70,6 +70,7 @@ class ChallengeContainer extends React.Component {
   		.then(response=>{
   			try {
   				let challenges = response.data.challenges;
+          console.log(challenges);
   				let challengeIds = challenges.map(c=>c._id); 
 	  			this.setState({challenges: challenges, challengeIds: challengeIds, loadingChallenges: false});
 	  		}

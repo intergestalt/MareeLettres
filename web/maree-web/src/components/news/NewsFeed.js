@@ -6,8 +6,8 @@ class NewsFeed extends React.Component {
 	
 	render() {
 	    return (
-          <TwitterTimeline user="mareedeslettres" chrome="nofooter noheader"/>
-	       //<iframe src="http://sebquack.perseus.uberspace.de/maree/TwitterWebView.html"/>
+          //<TwitterTimeline user="mareedeslettres" chrome="nofooter noheader"/>
+	       <iframe src="/twitter/TwitterWebView.html"/>
 	    );
 	}
 }

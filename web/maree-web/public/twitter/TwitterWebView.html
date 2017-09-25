@@ -1,0 +1,117 @@
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <script type='text/javascript' src='widgets.js'></script>
+    <script type='text/javascript' src='jquery-3.2.1.min.js'></script>
+    <style type='text/css'>
+      @font-face {
+        font-family: fontNormal;
+        src: url(/twitter/fonts/ArialMonospacedMTPro.ttf);
+      }
+      @font-face {
+        font-family: fontBold;
+        src: url(/twitter/fonts/ArialMonospacedMTPro-Bld.ttf);
+      }
+      body, html {
+        margin: 0;
+        padding: 0;
+        font-family: fontNormal;
+      }
+      .hidden {
+        opacity: 0;
+      }
+      #timeline {
+        padding-top: 1vh;
+        height: 100vh;
+      }
+      .timeline-Widget {
+        width: 100%;
+      }
+      .timeline-Body {
+        border-top: none;
+        border-bottom: none;
+      }
+      .timeline-Tweetlist-tweet {
+        padding: 16px 32px 5px 20px;
+        /*border-bottom: 1px solid black;*/
+      }
+      .timeline-Tweet {
+        padding: 0;
+      }
+      .timeline-Tweet:hover {
+        background-color: transparent;
+      }
+      .timeline-Tweet-text {
+        float: left;
+      }
+      .timeline-Tweetlist-name {
+        font-family: fontBold;
+      }
+      .timeline-LoadMore-prompt {
+        border: none;
+        font-family: fontBold;
+        text-transform: uppercase;
+        border-radius: 0;
+        padding: 8px;
+      }
+      .timeline-Tweet-actions {
+        display: none;
+      }
+      .timeline-ShowMoreButton--edge {
+        color: #8899A6;
+      }
+      .timeline-ShowMoreButton--edge:focus, .timeline-ShowMoreButton--edge:hover {
+        background-color: transparent;
+        color: #8899A6
+      }
+    </style>
+  </head>
+  <body>
+    <div id='timeline' class='hidden'></div>
+
+    <script type='text/javascript'>
+      
+      var TWITTER_HANDLE = "mareedeslettres";
+      
+      var getTimeline = function() {
+          // pull timeline from twitter
+          twttr.widgets.createTimeline(
+            {
+              sourceType: 'profile',
+              screenName: TWITTER_HANDLE
+            },
+            document.getElementById('timeline'),
+            {}
+          ).then(function(el){
+            parseTweets(el);
+          });
+      };
+
+      var parseTweets = function(iframe) {
+        // reformat and inject stuff
+        var $doc = $(iframe.contentDocument),
+          tweets = iframe.contentDocument.getElementsByClassName('timeline-Tweetlist-tweet'),
+          styles = document.getElementsByTagName('style'),
+          head = iframe.contentDocument.getElementsByTagName('head')[0],
+          dataToSend = {tweets:[]};
+
+        // inherit styles from document (allow custom styles)
+        for (var i = 0; i < styles.length; i++) {
+            head.appendChild(styles[i].cloneNode(true));
+        }
+
+        $doc.find('.timeline-Footer').remove();
+        $doc.find('.timeline-Header').remove();
+
+        // swap tweets to #timeline, reveal
+        $(iframe.contentDocument.body).find('.timeline-Tweetlist').html($('#content').html());
+        $('#timeline').removeClass('hidden');
+
+      }
+
+      window.onload = function() {
+        getTimeline();
+      };
+    </script>
+  </body>
+</html>
