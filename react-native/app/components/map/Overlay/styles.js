@@ -69,7 +69,7 @@ export default EStyleSheet.create({
     paddingTop: 8,
     paddingBottom: 8,
     textAlign: 'center',
-    fontFamily: 'normal',
+    fontFamily: 'arial_normal',
   },
 
   letters__label__friends: {
@@ -77,7 +77,7 @@ export default EStyleSheet.create({
     paddingTop: 8,
     paddingBottom: 8,
     textAlign: 'center',
-    fontFamily: 'normal',
+    fontFamily: 'arial_normal',
   },
 
   letters__item__you: {

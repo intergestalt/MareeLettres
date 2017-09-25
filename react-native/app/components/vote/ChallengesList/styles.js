@@ -38,7 +38,7 @@ const styles = EStyleSheet.create({
     backgroundColor: 'transparent',
     top: '$textOffset1Rem-1',
     textAlign: 'center',
-    fontFamily: 'bold',
+    fontFamily: 'arial_bold',
   },
   answer: {
     color: '$textColor',
@@ -53,14 +53,14 @@ const styles = EStyleSheet.create({
   ticker: {
     color: '$tickerColor',
     fontSize: '1rem',
-    fontFamily: 'normal',
+    fontFamily: 'arial_normal',
     backgroundColor: 'transparent',
     top: '$textOffset1Rem-1',
   },
   live: {
     color: 'red',
     fontSize: '0.5rem',
-    fontFamily: 'normal',
+    fontFamily: 'arial_normal',
     paddingBottom: '0.5rem',
     backgroundColor: 'transparent',
     top: '$textOffset1Rem-1',
@@ -68,7 +68,7 @@ const styles = EStyleSheet.create({
   liveSpacer: {
     color: 'transparent',
     fontSize: '0.5rem',
-    fontFamily: 'normal',
+    fontFamily: 'arial_normal',
     backgroundColor: 'transparent',
     top: '$textOffset1Rem',
   },
@@ -92,17 +92,18 @@ const styles = EStyleSheet.create({
     paddingTop: 0,
     paddingBottom: 0,
     height: '10rem',
+    backgroundColor: '$backgroundColor',
   },
 
   showAllButtonContainer: { backgroundColor: '$seePastTopicsButtonColor', width: '100%' },
   showAllButton: {
-    height: '2rem',
+    height: '3rem',
     justifyContent: 'center',
     alignItems: 'center',
   },
   showAllButtonText: {
     fontSize: '1rem',
-    fontFamily: 'normal',
+    fontFamily: 'arial_normal',
     textAlign: 'center',
     color: 'white',
     backgroundColor: 'transparent',

@@ -2,10 +2,9 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 import { Dimensions } from 'react-native';
 
 export default EStyleSheet.create({
-
   mainView: {
     flex: 1,
-    backgroundColor: 'gray'
+    backgroundColor: 'gray',
   },
   cameraContainer: {
     position: 'absolute',
@@ -13,7 +12,7 @@ export default EStyleSheet.create({
     height: '100%',
     width: '100%',
     backgroundColor: 'transparent',
-    zIndex: 1
+    zIndex: 1,
   },
   photoContainer: {
     position: 'absolute',
@@ -21,7 +20,7 @@ export default EStyleSheet.create({
     height: '100%',
     width: '100%',
     backgroundColor: 'transparent',
-    zIndex: 2
+    zIndex: 2,
   },
   photo: {
     position: 'absolute',
@@ -29,7 +28,7 @@ export default EStyleSheet.create({
     width: '100%',
     height: '100%',
     backgroundColor: 'transparent',
-    zIndex: 2
+    zIndex: 2,
   },
   controls: {
     position: 'absolute',
@@ -39,15 +38,13 @@ export default EStyleSheet.create({
     zIndex: 3,
     alignItems: 'center',
     justifyContent: 'center',
-    width: '100%'
+    width: '100%',
   },
   centerButton: {
     alignItems: 'center',
-    padding: 15
+    padding: 15,
   },
-  buttomSnapImage: {
-
-  },
+  buttomSnapImage: {},
   panelButton: {
     borderTopWidth: 1,
     flex: 1,
@@ -62,7 +59,7 @@ export default EStyleSheet.create({
     top: '0.25rem',
     fontSize: 18,
     color: 'black',
-    fontFamily: 'normal',
+    fontFamily: 'arial_normal',
     lineHeight: '3rem',
   },
   buttonTextLast: {
@@ -78,19 +75,19 @@ export default EStyleSheet.create({
   },
   letter: {
     fontFamily: 'impact',
-    color: "#fff",
-    zIndex: 5
+    color: '#fff',
+    zIndex: 5,
   },
   backButton: {
     position: 'absolute',
     top: 5,
     left: 10,
     zIndex: 5,
-    backgroundColor: 'transparent'
+    backgroundColor: 'transparent',
   },
   backButtonText: {
     fontFamily: 'impact',
     color: '#fff',
-    fontSize: 30
-  }
+    fontSize: 30,
+  },
 });

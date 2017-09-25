@@ -16,7 +16,6 @@ const styles = EStyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center',
-    height: '2rem',
   },
   listContainer: {
     flexDirection: 'row',
@@ -59,7 +58,7 @@ const styles = EStyleSheet.create({
     fontSize: '2rem',
     textAlign: 'center',
     fontFamily: 'impact',
-    marginBottom: '0.5rem',
+    marginBottom: '0.25rem',
   },
   listHeader: {
     flexDirection: 'row',
@@ -69,16 +68,20 @@ const styles = EStyleSheet.create({
     paddingHorizontal: '10%',
   },
   listHeaderLink: {
-    fontSize: '0.85rem',
-    color: 'rgb(120,120,120)',
-    fontFamily: 'normal',
+    fontSize: '1rem',
+    top: '$textOffset1Rem',
+    color: '$textGrey',
+    fontFamily: 'arial_normal',
     paddingTop: '0.5rem',
+    paddingBottom: '0.5rem',
   },
   listHeaderText: {
-    fontSize: '0.85rem',
+    fontSize: '1rem',
+    top: '$textOffset1Rem',
     color: 'black',
-    fontFamily: 'normal',
+    fontFamily: 'arial_normal',
     paddingTop: '0.5rem',
+    paddingBottom: '0.5rem',
   },
   listFooter: {
     justifyContent: 'center',

@@ -20,38 +20,24 @@ class ProposalListHeader extends PureComponent {
     I18n.locale = this.props.language;
     let most = (
       <TouchableOpacity onPress={this.props.onMostPress}>
-        <Text style={styles.listHeaderLink}>
-          {I18n.t('proposal_list_header_most')}
-        </Text>
+        <Text style={styles.listHeaderLink}>{I18n.t('proposal_list_header_most')}</Text>
       </TouchableOpacity>
     );
     let newest = (
       <TouchableOpacity onPress={this.props.onNewestPress}>
-        <Text style={styles.listHeaderLink}>
-          {I18n.t('proposal_list_header_newest')}
-        </Text>
+        <Text style={styles.listHeaderLink}>{I18n.t('proposal_list_header_newest')}</Text>
       </TouchableOpacity>
     );
     let trending = (
       <TouchableOpacity onPress={this.props.onTrendingPress}>
-        <Text style={styles.listHeaderLink}>
-          {I18n.t('proposal_list_header_trending')}
-        </Text>
+        <Text style={styles.listHeaderLink}>{I18n.t('proposal_list_header_trending')}</Text>
       </TouchableOpacity>
     );
 
     if (this.props.proposalListMode === PROPOSAL_LIST_MODES.MOST) {
-      most = (
-        <Text style={styles.listHeaderText}>
-          {I18n.t('proposal_list_header_most')}
-        </Text>
-      );
+      most = <Text style={styles.listHeaderText}>{I18n.t('proposal_list_header_most')}</Text>;
     } else if (this.props.proposalListMode === PROPOSAL_LIST_MODES.NEWEST) {
-      newest = (
-        <Text style={styles.listHeaderText}>
-          {I18n.t('proposal_list_header_newest')}
-        </Text>
-      );
+      newest = <Text style={styles.listHeaderText}>{I18n.t('proposal_list_header_newest')}</Text>;
     } else if (this.props.proposalListMode === PROPOSAL_LIST_MODES.TRENDING) {
       trending = (
         <Text style={styles.listHeaderText} t>
@@ -63,9 +49,9 @@ class ProposalListHeader extends PureComponent {
     return (
       <View style={styles.listHeader}>
         {most}
-        <Text>|</Text>
+        <Text style={styles.listHeaderText}>|</Text>
         {newest}
-        <Text>|</Text>
+        <Text style={styles.listHeaderText}>|</Text>
         {trending}
       </View>
     );

@@ -23,17 +23,21 @@ class LanguageSelector extends Component {
     }
     return (
       <View style={styles.container}>
-        {isEng
-          ? <TouchableOpacity onPress={this.handleSwapLanguagePress}>
+        {isEng ? (
+          <TouchableOpacity onPress={this.handleSwapLanguagePress}>
             <Text style={styles.paragraph}>FR</Text>
           </TouchableOpacity>
-          : <Text style={styles.paragraphHigh}>FR</Text>}
+        ) : (
+          <Text style={styles.paragraphHigh}>FRest</Text>
+        )}
         <Text style={[styles.paragraphHigh, styles.divider]}> / </Text>
-        {!isEng
-          ? <TouchableOpacity onPress={this.handleSwapLanguagePress}>
+        {!isEng ? (
+          <TouchableOpacity onPress={this.handleSwapLanguagePress}>
             <Text style={styles.paragraph}>EN</Text>
           </TouchableOpacity>
-          : <Text style={styles.paragraphHigh}>EN</Text>}
+        ) : (
+          <Text style={styles.paragraphHigh}>EN</Text>
+        )}
       </View>
     );
   }
@@ -47,7 +51,8 @@ const mapStateToProps = (state) => {
     };
   } catch (e) {
     console.log('LanguageSelector');
-    console.log(e); throw e;
+    console.log(e);
+    throw e;
   }
 };
 export default connect(mapStateToProps)(LanguageSelector);
