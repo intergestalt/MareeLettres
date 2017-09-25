@@ -36,7 +36,7 @@ const styles = EStyleSheet.create({
     color: '$textColor',
     fontSize: '1rem',
     backgroundColor: 'transparent',
-    top: '$textOffset1Rem',
+    top: '$textOffset1Rem-1',
     textAlign: 'center',
     fontFamily: 'bold',
   },
@@ -55,7 +55,7 @@ const styles = EStyleSheet.create({
     fontSize: '1rem',
     fontFamily: 'normal',
     backgroundColor: 'transparent',
-    top: '$textOffset1Rem',
+    top: '$textOffset1Rem-1',
   },
   live: {
     color: 'red',
@@ -63,7 +63,7 @@ const styles = EStyleSheet.create({
     fontFamily: 'normal',
     paddingBottom: '0.5rem',
     backgroundColor: 'transparent',
-    top: '$textOffset1Rem',
+    top: '$textOffset1Rem-1',
   },
   liveSpacer: {
     color: 'transparent',
@@ -101,12 +101,12 @@ const styles = EStyleSheet.create({
     alignItems: 'center',
   },
   showAllButtonText: {
-    fontSize: '1.25rem',
+    fontSize: '1rem',
     fontFamily: 'normal',
     textAlign: 'center',
     color: 'white',
     backgroundColor: 'transparent',
-    top: '$textOffset1_25Rem',
+    top: '$textOffset1Rem',
   },
   winningInnerContainer: {
     backgroundColor: 'transparent',

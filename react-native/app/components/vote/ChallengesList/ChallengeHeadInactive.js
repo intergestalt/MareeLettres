@@ -35,7 +35,7 @@ class ChallengeHeadInactive extends Component {
     let containerStyle = styles._row;
 
     if (this.props.data.url) {
-      containerStyle = { ...styles._row, paddingBottom: 0 };
+      containerStyle = { ...styles._row };
     }
     return (
       <View style={[containerStyle, this.props.style]}>
