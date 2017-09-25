@@ -8,7 +8,7 @@
 }
 
 .mapContainer {
-	height: 100%;
+	flex: 1;
 }
 
 .mapButton {

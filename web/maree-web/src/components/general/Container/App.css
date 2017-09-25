@@ -23,8 +23,10 @@ html, body, #root {
 }
 
 .App {
-  height: 100%;
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 
 .headers {
@@ -52,7 +54,6 @@ html, body, #root {
   flex: 1;
 }
 
-
 .borderRight {
   border-right: 1px solid #000;
 }
@@ -60,7 +61,7 @@ html, body, #root {
 .mainContent {
   display: flex;
   flex-direction: row;
-  height: 100%;
+  flex: 1;
 }
 
 section {
@@ -105,6 +106,8 @@ section.news {
 
 section.flux {
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
 }
 
 section.flux_expanded_1 {
