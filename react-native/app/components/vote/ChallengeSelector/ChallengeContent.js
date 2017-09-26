@@ -368,36 +368,42 @@ class ChallengeContent extends Component {
     if (url) {
       return (
         <View style={styles.challengeContent}>
-          <View style={{ backgroundColor: 'transparent', flex: 1, opacity: 1 }}>
-            <Image style={styles.imageStye} resizeMode="cover" source={{ uri: url }} />
+          <View style={styles.imageView}>
+            <Image
+              key={this.getChallenge()._id}
+              style={styles.imageStye}
+              resizeMode="cover"
+              source={{ uri: url, cache: 'force-cache' }}
+            />
           </View>
         </View>
       );
     }
-    let answer = this.getAnswer();
+    const answer = this.getAnswer();
     if (isEmpty(answer)) {
       return (
         <View style={styles.challengeContent}>
           <View style={styles.challengeInnerContainer}>
-            <Text style={[styles.contentText, styles.contentTextWaiting]}>{I18n.t('waiting_for_answer')}</Text>
+            <Text style={[styles.contentText, styles.contentTextWaiting]}>
+              {I18n.t('waiting_for_answer')}
+            </Text>
           </View>
         </View>
       );
-    } else {
-      return (
-        <View style={styles.challengeContent}>
-          <LinearGradient
-            colors={gradient0.colors}
-            locations={gradient0.stops}
-            style={{ flex: 1, opacity: 1 }}
-          >
-            <View style={styles.challengeInnerContainer}>
-              <Text style={styles.contentText}>{answer}</Text>
-            </View>
-          </LinearGradient>
-        </View>
-      );
     }
+    return (
+      <View style={styles.challengeContent}>
+        <LinearGradient
+          colors={gradient0.colors}
+          locations={gradient0.stops}
+          style={{ flex: 1, opacity: 1 }}
+        >
+          <View style={styles.challengeInnerContainer}>
+            <Text style={styles.contentText}>{answer}</Text>
+          </View>
+        </LinearGradient>
+      </View>
+    );
   }
   renderEmptyList() {
     return (
@@ -405,8 +411,8 @@ class ChallengeContent extends Component {
         {this.props.proposalView === PROPOSAL_VIEWS.TINDER ? (
           <ReloadButton textKey="reload_proposals_tinder" onReload={this.handleReloadPressPress} />
         ) : (
-            <ReloadButton textKey="reload_proposals" onReload={this.handleReloadPressPress} />
-          )}
+          <ReloadButton textKey="reload_proposals" onReload={this.handleReloadPressPress} />
+        )}
       </View>
     );
   }

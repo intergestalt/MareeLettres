@@ -142,6 +142,11 @@ const styles = EStyleSheet.create({
     color: 'black',
     fontSize: '1rem',
   },
+  imageView: {
+    backgroundColor: '$screenLoadingBackgroundColor',
+    flex: 1,
+    opacity: 1,
+  },
   imageStye: {
     width: '$swipeWidth',
     flex: 1,

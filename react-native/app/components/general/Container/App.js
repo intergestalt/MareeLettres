@@ -37,7 +37,7 @@ class AppContainer extends Component {
           message = I18n.t(key);
         } else {
           message = I18n.t('server_error');
-          message = message.replace('[ERROR_CODE]', key);
+          message = message.replace('[ERROR]', key);
         }
         this.props.alertWithType('custom', I18n.t('error'), message);
       } else {
