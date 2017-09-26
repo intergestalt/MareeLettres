@@ -72,7 +72,6 @@ class Letter extends Component {
           },
           onPanResponderMove: (e, gesture) => {
             if(this.props.character !== '+') {
-              // simplify - just use gesture difference for pan directly
               this.animateTranslate(gesture.dx, gesture.dy + this.state.letter_offset.y);
             }
           },
@@ -111,9 +110,6 @@ class Letter extends Component {
                   if (!this.props.disabled) {
                     // try to place letter on map
                     if (this.onDrop(x, y)) {
-
-
-
                       this.animateSnapToStart();
                     } else {
                       this.animateSpringToStart();
@@ -122,7 +118,6 @@ class Letter extends Component {
                       this.animateSpringToStart();
                       this.props.alertWithType('info', 'Not so fast!', "Please wait before using that letter again.");
                   }
-
                 }
               
             } else {
@@ -140,8 +135,6 @@ class Letter extends Component {
                       this.navigateQRCodeGet();
                     }
                     this.animateSpringToStart();  
-                
-
             }
           }  
       });
@@ -166,8 +159,6 @@ class Letter extends Component {
       this.props.alertWithType('info', I18n.t('map_too_crowded_title'), I18n.t('map_too_crowded_text'));
       return false;
     }
-
-    //console.log("onDrop");
 
     // convert native screen to normalised screen
     const screen = this.nativeScreenToXY(x, y);
@@ -221,7 +212,6 @@ class Letter extends Component {
 
   // MATHS
 
-
   // convert native screen space to normalised screen space
   // result will be in the range [-0.5, 0.5]
   // changed to take in XY coordinates from top left corner of map
@@ -260,25 +250,6 @@ class Letter extends Component {
 
   animateSelectedFont() {
     // change colour & size when letter dragged
-    /*Animated.timing(
-      this.state.font.size, {
-        toValue: 100,
-        duration: 1
-      }
-    ).start();
-    Animated.timing(
-      this.state.font.colour, {
-        toValue: 100,
-        duration: 1
-      }
-    ).start();
-    Animated.timing(
-      this.state.font.letter_offset, {
-        toValue: 100,
-        duration: 1
-      }
-    ).start();*/
-
     let newFont = {
       size: 1,
       letter_offset: 100,
@@ -289,24 +260,6 @@ class Letter extends Component {
 
   animateResetFont() {
     // reset to default font colour/ size
-    /*Animated.timing(
-      this.state.font.size, {
-        toValue: 0,
-        duration: 1
-      },
-    ).start();
-    Animated.timing(
-      this.state.font.colour, {
-        toValue: 0,
-        duration: 1
-      },
-    ).start();
-    Animated.timing(
-      this.state.font.letter_offset, {
-        toValue: 0,
-        duration: 1
-      },
-    ).start();*/
     let newFont = {
       size: 0,
       letter_offset: 0,
@@ -364,22 +317,16 @@ class Letter extends Component {
   render() {
     I18n.locale = this.props.language;
 
-    const max_letter_size = parseFloat((this.props.letter_base_size * 5 / (1200 * this.props.map_delta)).toFixed(1));
+    if(!this.props.user.map.layout) {
+      return null;
+    }
 
-    // colour animation
-    /*let size = this.state.font.size.interpolate({
-      inputRange: [0, 25, 100],
-      outputRange: [this.state.letter_size, this.state.animated_letter_size, max_letter_size]
-    });*/
+    const zoomFactor = (this.props.user.map.layout.height / this.props.map_delta) / 100000; 
+    const max_letter_size = this.props.letter_base_size * zoomFactor;
+
     let size = this.state.font.size == 1 ? max_letter_size : this.state.letter_size;
-    /*let colour = this.state.font.colour.interpolate({
-      inputRange: [0, 100],
-      outputRange: ['rgb(0,0,0)', 'rgb(255,255,255)']
-    });*/
     let colour = this.state.font.colour == 100 ? '#fff' : '#000';
-    
     let pan = this.state.pan.getLayout();
-
     let expired = this.primaryLetterExpired();
 
     return (

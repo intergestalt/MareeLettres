@@ -39,6 +39,7 @@ class Map extends Component {
   constructor(props) {
     super(props);
     this.handleReloadUserPressPress = this.handleReloadUserPressPress.bind(this);
+    this.setMapLetterSize = this.setMapLetterSize.bind(this);
 
     this.state = {
       lat: this.props.user.coordinates.latitude,
@@ -182,14 +183,12 @@ class Map extends Component {
   };
 
   setMapLetterSize = (region) => {
-    // rough font size corresponding to world metres
-    const size = parseFloat(
-      (this.props.config.map_letter_base_size * 5 / (1200 * region.latitudeDelta)).toFixed(1),
-    );
+    const zoomFactor = (this.props.user.map.layout.height / region.latitudeDelta) / 100000; 
+    console.log(zoomFactor);
+    const size = this.props.config.map_letter_base_size * zoomFactor;
 
-    if (size != this.state.letter_size) {
-      this.setState({ letter_size: size });
-    }
+    console.log("setting size of draggable letter to: " + size);
+    this.setState({ letter_size: size });
   };
 
   centreZoomMap = () => {
