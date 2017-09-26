@@ -117,6 +117,8 @@ class Map extends Component {
   }
 
   componentWillMount() {
+    console.log("mounting map...");
+
     // get the player GPS
     this._getPlayerCoords();
 
@@ -126,6 +128,12 @@ class Map extends Component {
     this.setMapLetterSize(this.state.initialRegion);
   }
 
+  componentWillUnmount() {
+    console.log("unmounting map..."); // find out why this happens?
+    clearTimeout(this.timerID);
+  }
+
+  // warning: this doesn't work if component is unmounted
   pollLetters() {
     console.ignoredYellowBox = ['Setting a timer'];
     this.timerID = setTimeout(() => {

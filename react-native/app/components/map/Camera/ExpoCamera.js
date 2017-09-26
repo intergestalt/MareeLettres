@@ -32,16 +32,16 @@ class ExpoCamera extends React.Component {
     this._shareSnapshot = this._shareSnapshot.bind(this);
     this._resetPhoto = this._resetPhoto.bind(this);
 
-    this.simulator = false;
-    /* this.state = {
-      pathPhoto: "https://cdn.pixabay.com/photo/2017/01/06/19/15/soap-bubble-1958650_960_720.jpg"
-    } */
 
     this.state = {
       hasCameraPermission: null,
       type: Camera.Constants.Type.back,
       pathPhoto: null
     };
+
+    //this.simulator = true;
+    //this.state.pathPhoto = "https://cdn.pixabay.com/photo/2017/01/06/19/15/soap-bubble-1958650_960_720.jpg";
+    
   }
 
   async componentWillMount() {
