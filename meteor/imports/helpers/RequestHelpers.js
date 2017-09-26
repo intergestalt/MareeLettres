@@ -74,7 +74,7 @@ const RequestHelpers = {
     return hval >>> 0;
   },
 
-  generateProposalId: function (seed1, seed2) {
+  generateProposalId: function (seed1, seed2) { // not used anymore
     return this.hashFnv32a(seed1) + "_" + this.hashFnv32a(seed2);
   }
 }

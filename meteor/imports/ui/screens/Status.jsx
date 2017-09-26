@@ -48,7 +48,7 @@ class StatusPage extends Component {
 
 export default createContainer(() => {
   Meteor.subscribe('get.status');
-  const status = Status.find().fetch();
+  const status = Status.find({}, { sort: { machineKey: 1 } }).fetch();
 
   console.log(status)
 
