@@ -60,7 +60,7 @@ class LettersPage extends Component {
 
     return (
       <div>
-        <tt>Default Center: {this.props.config.map_default_center_lat}, {this.props.config.map_default_center_lng}</tt>
+        <tt>Default Center (lng, lat): {this.props.config.map_default_center_lng}, {this.props.config.map_default_center_lat}</tt>
       </div>
     )
   }

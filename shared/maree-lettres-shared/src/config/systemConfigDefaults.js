@@ -147,14 +147,14 @@ const systemConfigDefaults = {
         title: 'Map: time after which primary letter can be reset (in minutes)',
         systems: ['app']
     },
-    map_default_center_lat: {
-        defaultValue: 48.858141,
+    map_default_center_lng: {
+        defaultValue: 2.343254,
         type: Number,
         title: 'Center of the game. Used when no GPS available, for seeding and more.',
         systems: ['app', 'server', 'web']
     },
-    map_default_center_lng: {
-        defaultValue: 2.343254,
+    map_default_center_lat: {
+        defaultValue: 48.858141,
         type: Number,
         title: 'Center of the game. Used when no GPS available, for seeding and more.',
         systems: ['app', 'server', 'web']
