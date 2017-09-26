@@ -28,4 +28,5 @@ if (!process.env.MAREE_STARTUP_WORKER || process.env.MAREE_STARTUP_WORKER && pro
   import './trending-regenerate';
   import './seed-letters';
   import './archive-letters';
+  import './status-cleanup';
 }

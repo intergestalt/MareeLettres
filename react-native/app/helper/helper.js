@@ -36,7 +36,7 @@ export function getZuffiDelayForApi(offset = false) {
     res = DYNAMIC_CONFIG.DELAY_DB_CALL;
   }
   if (offset) {
-    res += DYNAMIC_CONFIG.DELAY_DB_CALL;
+    res += offset;
   }
   return res;
 }

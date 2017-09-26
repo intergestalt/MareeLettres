@@ -81,6 +81,7 @@ JsonRoutes.add('post', `${Meteor.settings.public.api_prefix}letters`, function (
 
   if (!Array.isArray(letters) || letters.length === 0) {
     JsonRoutesError(res, 400, 'missing-letters');
+    return;
   }
 
   // TODO validate input with LettersSchema

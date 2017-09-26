@@ -1,15 +1,23 @@
 import { Meteor } from 'meteor/meteor';
 import hash from 'object-hash';
+import _ from 'underscore';
 import { systemConfigDefaults } from 'maree-lettres-shared';
 
 import buildConfig from '../both/build-config';
 import { SystemConfig, SystemConfigSchema } from '../../api/systemConfig/systemConfig';
 
 const interval = 5;
+
+// the digest for the app only includes values relevant for the app
+const app_digest = conf => hash.sha1(_.pick(conf, (item, key) => {
+  const s = SystemConfigSchema._schema;
+  return s[key] && s[key].systems && s[key].systems.indexOf('app') > -1;
+}));
+
 let updated_at = new Date();
 let cached_at = new Date();
 let current = SystemConfigSchema.clean({});
-let digest = hash.sha1(current);
+let digest = app_digest(current);
 
 let db_digest = 0;
 
@@ -53,7 +61,7 @@ class SysConf {
       current = result;
       cached_at = new Date();
       updated_at = result.updated_at;
-      digest = hash.sha1(current);
+      digest = app_digest(current);
       db_digest = new_db_digest;
 
       console.log(`updated system config, name "${meta.name}", new digest: ${digest}`);

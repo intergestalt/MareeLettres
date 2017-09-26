@@ -136,6 +136,11 @@ const styles = EStyleSheet.create({
     textAlign: 'center',
     bottom: 0,
   },
+  contentTextWaiting: {
+    fontFamily: 'arial_normal',
+    color: 'black',
+    fontSize: '1rem',
+  },
   imageStye: {
     width: '$swipeWidth',
     flex: 1,

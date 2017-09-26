@@ -1,4 +1,5 @@
 import { Meteor } from 'meteor/meteor';
+import { Mongo } from 'meteor/mongo';
 import _ from 'underscore';
 
 import { Proposals, ProposalsSchema } from '../proposals';
@@ -8,6 +9,7 @@ import { Players } from '../../players/players';
 import RequestHelpers from '../../../helpers/RequestHelpers';
 import currentSystemConfig from '../../../startup/server/system-config';
 import buildConfig from '../../../startup/both/build-config';
+import { incSystemStatus } from '../../../startup/server/status';
 
 
 const JsonRoutesError = RequestHelpers.JsonRoutesError;
@@ -115,8 +117,6 @@ JsonRoutes.add(
 
     const challenge_id = proposal.challenge_id;
 
-    const proposal_id = RequestHelpers.generateProposalId(origin_id, challenge_id);
-
     // check if challenge_id is valid
 
     const challenge_exists = Challenges.find(challenge_id, { limit: 1 }).count() === 1
@@ -127,7 +127,7 @@ JsonRoutes.add(
     }
 
     // check if unblocked proposal already exists
-    const proposal_exists = Proposals.find({ _id: proposal_id, blocked: false }, { limit: 1 }).count() === 1
+    const proposal_exists = Proposals.find({ origin_id, challenge_id, blocked: false }, { limit: 1 }).count() === 1
 
     if (proposal_exists) {
       JsonRoutesError(res, 409, 'already-exists');
@@ -162,7 +162,7 @@ JsonRoutes.add(
 
       const p = ProposalsSchema.clean({})
       p.created_at = new Date();
-      p._id = proposal_id;
+      p._id = new Mongo.ObjectID()._str;
       p.origin_ids = [origin_id];
       p.challenge_id = proposal.challenge_id;
       p.in_review = !auto_accept;
@@ -208,13 +208,18 @@ JsonRoutes.add(
       selector._id = { $nin: Object.keys(player.votes) }
     }
 
-    const tinderProposals = TinderProposals.find(selector, { sort: { tinderscore: -1 }, limit });
+    const tinderProposals = TinderProposals.find(selector, { sort: { tinderscore: -1 }, limit }).fetch();
 
-    // TODO: if player cannot get sufficient proposals to vote on, trigger recalculation. or write a note to status object.
+    const count = tinderProposals.length;
+
+    if (count < limit) {
+      // console.log("challenge " + challenge_id + ": requested " + limit + " tinderProposals, delivered " + count);
+      // incSystemStatus('tinder_drainage', 1);
+    }
 
     const options = {
       data: {
-        proposals: tinderProposals.fetch(),
+        proposals: tinderProposals,
         ...currentSystemConfig.responseDataProperties(),
       }
     };
