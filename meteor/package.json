@@ -3,6 +3,7 @@
   "private": true,
   "scripts": {
     "start": "meteor --settings settings.json",
+    "start:no-worker": "MAREE_STARTUP_WORKER=false meteor --settings settings.json",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "postinstall": "# INFO: Don't worry about the graphql peer dependency. It's not required.",

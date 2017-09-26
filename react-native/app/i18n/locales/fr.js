@@ -20,10 +20,10 @@ export default {
   vote_tutorial_5_text: 'Et pourquoi tu ne ferais pas une suggestion ? Appuie sur PROPOSE!',
   vote_tutorial_6_title: "À toi d'écrire !",
   vote_tutorial_6_text:
-    'Fais glisser les lettres vers le haut pour composer ton message... et vers le bas pour les effacer.',
+  'Fais glisser les lettres vers le haut pour composer ton message... et vers le bas pour les effacer.',
   vote_tutorial_7_title: 'Au fait...',
   vote_tutorial_7_text:
-    'Tu peux toujours revenir au menu principal en appuyant sur la barre grise tout en haut.',
+  'Tu peux toujours revenir au menu principal en appuyant sur la barre grise tout en haut.',
   vote_tutorial_status_title: "C'est bon à savoir.",
   vote_tutorial_status_text: "Tu peux vérifier l'état de ta proposition en appuyant sur ÉTAT.",
 
@@ -31,7 +31,7 @@ export default {
   hide_all_votes: 'Masquer les sujets précédents.',
 
   submit_alert:
-    "Tu ne peux faire qu'une seule proposition par sujet. Es-tu sûr de vouloir proposer celle-ci ?",
+  "Tu ne peux faire qu'une seule proposition par sujet. Es-tu sûr de vouloir proposer celle-ci ?",
   submit_yes: 'Oui',
   submit_no: 'Non',
 
@@ -53,7 +53,7 @@ export default {
   reload_challenges: 'Aucun résultat. Appuie pour rafraîchir.',
   reload_proposals: 'Aucune proposition trouvée. Appuie pour rafraîchir.',
   reload_proposals_tinder:
-    'Tu as fait le tour ! Rafraîchis la page ou retourne à la liste pour voir toutes les propositions.',
+  'Tu as fait le tour ! Rafraîchis la page ou retourne à la liste pour voir toutes les propositions.',
   reload_content: 'Contenu non téléchargé. Appuie pour rafraîchir. ',
   reload_user: "Erreur dans le chargement de l'utilisateur. Verifie l'état de ta connexion.",
   reload_proposal: "Ta proposition n'a pas pu être chargée. Appuie pour rafraîchir.",
@@ -74,7 +74,7 @@ export default {
   camera_button: 'Camera',
 
   proposal_blocked:
-    "Désolé mais cette proposition n'est pas vraiment dans l'esprit du jeu. Merci d'en proposer une autre.",
+  "Désolé mais cette proposition n'est pas vraiment dans l'esprit du jeu. Merci d'en proposer une autre.",
   proposal_in_review1: 'Merci de ta proposition !',
   proposal_in_review2: 'En cours de validation.',
   proposal_passed: 'Votre proposition est actuellement en ',
@@ -82,12 +82,12 @@ export default {
   try_again_button: 'Essaie encore',
 
   choose_your_letter:
-    'Quelle lettre souhaites-tu être? Choisis bien, tu ne pourras pas changer pendant les [HOURS] prochaines heures.',
+  'Quelle lettre souhaites-tu être? Choisis bien, tu ne pourras pas changer pendant les [HOURS] prochaines heures.',
   map_too_zoom_title: 'Zoome sur la carte.',
   map_too_zoom_text: 'Zoome sur le cercle pour placer les lettres.',
   map_too_crowded_title: 'Trop de lettres',
   map_too_crowded_text:
-    "Il y a trop de lettres dans cette zone. Merci d'écrire ailleurs ou d'attendre.",
+  "Il y a trop de lettres dans cette zone. Merci d'écrire ailleurs ou d'attendre.",
   map_too_far_title: 'Trop loin',
   map_too_far_text: 'Vous ne pouvez pas écrire en dehors du cercle.',
   map_photo_save_title: 'Sauvegardé',
@@ -95,6 +95,7 @@ export default {
 
   error: 'Erreur',
   network_error: 'Vérifie ta connexion Internet.',
+  server_error: 'Server error ;( Please try again later. ([ERROR])',
   suggestion_too_late_title: 'Trop tard !',
   suggestion_too_late_text: 'Il est trop tard pour faire une proposition. Désolé <3',
   suggestion_empty_title: '!',
@@ -102,10 +103,10 @@ export default {
   suggestion_wrong: 'Oups. Une erreur est survenue. Désolé !',
 
   blocked_user:
-    "Les soumissions de votre appareil ont été bloquées. Contactez-nous via la section info de l'application",
+  "Les soumissions de votre appareil ont été bloquées. Contactez-nous via la section info de l'application",
   waiting_for_answer: 'FR Waiting for winning answer...',
   proposal_booster_title: 'Yippi FR',
   proposal_booster_text:
-    'Great minds think alike! You have made a suggestion that has already been made by someone else. Your suggestions have been combined and received and extra [X] votes! FR',
+  'Great minds think alike! You have made a suggestion that has already been made by someone else. Your suggestions have been combined and received and extra [X] votes! FR',
   reload_proposal_status: 'gThe status of your proposal could not be loaded. Press to Reload FR',
 };
