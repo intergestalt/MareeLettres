@@ -9,6 +9,7 @@ import { Players } from '../../players/players';
 import RequestHelpers from '../../../helpers/RequestHelpers';
 import currentSystemConfig from '../../../startup/server/system-config';
 import buildConfig from '../../../startup/both/build-config';
+import { incSystemStatus } from '../../../startup/server/status';
 
 
 const JsonRoutesError = RequestHelpers.JsonRoutesError;
@@ -207,13 +208,20 @@ JsonRoutes.add(
       selector._id = { $nin: Object.keys(player.votes) }
     }
 
-    const tinderProposals = TinderProposals.find(selector, { sort: { tinderscore: -1 }, limit });
+    const tinderProposals = TinderProposals.find(selector, { sort: { tinderscore: -1 }, limit }).fetch();
 
-    // TODO: if player cannot get sufficient proposals to vote on, trigger recalculation. or write a note to status object.
+    const count = tinderProposals.length;
+
+    console.log(selector);
+
+    if (count < limit) {
+      // console.log("challenge " + challenge_id + ": requested " + limit + " tinderProposals, delivered " + count);
+      // incSystemStatus('tinder_drainage', 1);
+    }
 
     const options = {
       data: {
-        proposals: tinderProposals.fetch(),
+        proposals: tinderProposals,
         ...currentSystemConfig.responseDataProperties(),
       }
     };

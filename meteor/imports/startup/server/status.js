@@ -35,4 +35,18 @@ const setSystemStatus = (key, value) => {
   );
 };
 
-export { setSystemStatus };
+const incSystemStatus = (key, value) => {
+  console.log("SystemStatus: inc " + key + " by " + value);
+  const $inc = {};
+  $inc['items.' + key] = value;
+  Status.update(
+    {
+      machine_key: global.machineKey,
+    },
+    {
+      $inc,
+    },
+  );
+};
+
+export { setSystemStatus, incSystemStatus };
