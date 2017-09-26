@@ -25,7 +25,7 @@ export default EStyleSheet.create({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: "5 + $textOffset1Rem",
+    marginBottom: 5,
     marginLeft: 12
   },
   letter_view_dragged: {
