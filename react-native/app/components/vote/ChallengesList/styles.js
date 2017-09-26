@@ -115,6 +115,9 @@ const styles = EStyleSheet.create({
     alignItems: 'center',
     flex: 1,
   },
+  winningInnerContainerWaiting: {
+    backgroundColor: 'white',
+  },
   winningText: {
     paddingLeft: '1rem',
     paddingRight: '1rem',
@@ -128,6 +131,11 @@ const styles = EStyleSheet.create({
     textAlign: 'center',
     bottom: 0,
   },
+  winningTextWaiting: {
+    fontSize: '1rem',
+    fontFamily: 'arial_normal',
+    color: 'black',
+  }
 });
 
 export default styles;
