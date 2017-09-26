@@ -212,8 +212,6 @@ JsonRoutes.add(
 
     const count = tinderProposals.length;
 
-    console.log(selector);
-
     if (count < limit) {
       // console.log("challenge " + challenge_id + ": requested " + limit + " tinderProposals, delivered " + count);
       // incSystemStatus('tinder_drainage', 1);

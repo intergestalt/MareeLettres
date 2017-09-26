@@ -8,7 +8,7 @@ import {
 import store from '../config/store';
 
 import { isFinished } from '../helper/dateFunctions';
-import { DEV_CONFIG } from '../config/config';
+import { DEV_CONFIG, DYNAMIC_CONFIG } from '../config/config';
 import { getZuffiDelayForApi } from '../helper/helper';
 import { renderChallengesList } from '../actions/challenges';
 
@@ -39,9 +39,11 @@ function tickerData(props) {
     if (!myChallenge.isInternalLoading) {
       if (!wasFinished[i] && isFinished(myChallenge)) {
         store.dispatch(renderChallengesList());
+        const getChallengesDelay = (DYNAMIC_CONFIG.NETWORK_LATENCY * 1000) + (DYNAMIC_CONFIG.WINNER_ELECTION_INTERVAL * 1000) + (DYNAMIC_CONFIG.SEND_INTERNAL_VOTES_AFTER * 1000) + DYNAMIC_CONFIG.DELAY_DB_CALL_OFFSET;
+        console.log("offsetting call to finished challenge by " + getChallengesDelay + "ms");
         setTimeout(() => {
           loadChallengeServiceProxy(myChallenge._id, props);
-        }, getZuffiDelayForApi(true));
+        }, getZuffiDelayForApi(getChallengesDelay));
       }
     }
   }

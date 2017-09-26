@@ -74,14 +74,14 @@ Meteor.startup(() => {
           winningProposalImageUrl: (i == 1 ? 'http://maree.herokuapp.com/img/winningProposalImageUrl.jpg' : undefined),
           winningProposalDetailImageUrl: (i == 1 ? 'http://maree.herokuapp.com/img/winningProposalDetailImageUrl.jpg' : undefined),
           start_date: moment()
-            .add(i - 11, 'days')
+            .add(i - 2, 'minutes')
             .toDate(),
           end_date: moment()
-            .add(i - 10, 'days')
+            .add(i - 1, 'minutes')
             .toDate(),
           proposals_end_date: moment()
-            .add(i - 10, 'days')
-            .add(-10, 'minutes')
+            .add(i - 1, 'minutes')
+            .add(-10, 'seconds')
             .toDate(),
           ...SeedChallenges[i - 1],
         },
