@@ -27,6 +27,7 @@ class StatusPage extends Component {
     return status.map(s =>
       <li key={s._id}>
         {s.machine_key}
+        <Moment className="status_heartbeat" to={s.heartbeat_at} />
         <ul>
           {this.renderItems(s.items)}
         </ul>
@@ -47,8 +48,11 @@ class StatusPage extends Component {
 
 export default createContainer(() => {
   Meteor.subscribe('get.status');
+  const status = Status.find().fetch();
+
+  console.log(status)
 
   return {
-    status: Status.find().fetch(),
+    status,
   };
 }, StatusPage);

@@ -12,7 +12,8 @@ Meteor.setInterval(() => {
     },
     {
       $set: {
-        'items.number_of_connections': Object.keys(Meteor.server.sessions).length,
+        'items.number_of_ddp_connections': Object.keys(Meteor.server.sessions).length,
+        heartbeat_at: new Date(),
       },
     },
     {
