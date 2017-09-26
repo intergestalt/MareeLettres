@@ -8,7 +8,7 @@ i18n
     resources: {
       en: {
         translations: {
-          "loading": "loading en",
+          "loading": "loading...",
           "live": "live",
           "sort_top": "Top",
           "sort_new": "Newest",

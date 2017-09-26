@@ -55,7 +55,7 @@ export default {
   reload_proposals_tinder:
   'Tu as fait le tour ! Rafraîchis la page ou retourne à la liste pour voir toutes les propositions.',
   reload_content: 'Contenu non téléchargé. Appuie pour rafraîchir. ',
-  reload_user: "Erreur dans le chargement de l'utilisateur. Verifie l'état de ta connexion.",
+  reload_user: "Erreur de synchronisation. Verifie l'état de ta connexion.",
   reload_proposal: "Ta proposition n'a pas pu être chargée. Appuie pour rafraîchir.",
 
   map_you_label: 'Toi',
@@ -102,11 +102,9 @@ export default {
   suggestion_empty_text: 'Tu dois faire glisser au moins une lettre.',
   suggestion_wrong: 'Oups. Une erreur est survenue. Désolé !',
 
-  blocked_user:
-  "Les soumissions de votre appareil ont été bloquées. Contactez-nous via la section info de l'application",
-  waiting_for_answer: 'FR Waiting for winning answer...',
-  proposal_booster_title: 'Yippi FR',
-  proposal_booster_text:
-  'Great minds think alike! You have made a suggestion that has already been made by someone else. Your suggestions have been combined and received and extra [X] votes! FR',
-  reload_proposal_status: 'gThe status of your proposal could not be loaded. Press to Reload FR',
+  blocked_user: "Les soumissions de votre appareil ont été bloquées. Contactez-nous via la section info de l'application",
+  waiting_for_answer: 'Counting votes... fr',
+  proposal_booster_title: 'Great minds think alike! fr',
+  proposal_booster_text: 'Your suggestion has also been made by someone else. Your suggestions have been combined and get an extra [X] votes!fr',
+  reload_proposal_status: 'The status of your suggestion could not be loaded. Press to Reload FR',
 };

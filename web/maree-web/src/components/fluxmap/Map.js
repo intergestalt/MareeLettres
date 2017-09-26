@@ -8,7 +8,7 @@ const axios = require('axios');
 
 class Letter extends React.Component {
   render() {
-    return <div style={{opacity:this.props.opacity, fontSize: this.props.size}} className="letter">{this.props.character}</div>
+    return <div style={this.props.style} className="letter">{this.props.character}</div>
   }
 }
 
@@ -24,6 +24,9 @@ const calculateRadius = function(latitudeDelta) {
   }
   if (latitudeDelta >= 0.004) {
     radius = 4;
+  }
+  if (latitudeDelta >= 0.005) {
+    radius = 5;
   }
   const radiusMeters = Math.floor((radius * 0.001) * 40008000 / 360); // rough estimation
   return radiusMeters;
@@ -47,14 +50,19 @@ export default class FluxMap extends Component {
     this.zoomOut = this.zoomOut.bind(this);
   }
 
+  with3Decimals(num) {
+    return num.toString().match(/^-?\d+(?:\.\d{0,3})?/)[0];
+  }
+
   onChange(params) {
     let latitudeDelta = params.bounds.ne.lat - params.bounds.se.lat;
     let radius = calculateRadius(latitudeDelta);
-    let requestUri = serverUri + '/api/letters?centerLat=' + params.center.lat + '&centerLng=' + params.center.lng + '&radius=' + radius;
+    let requestUri = serverUri + '/api/letters?centerLat=' + this.with3Decimals(params.center.lat) + '&centerLng=' + this.with3Decimals(params.center.lng) + '&radius=' + radius;
+    let zoomFactor = (params.size.height / latitudeDelta) / 100000; 
+    let size = zoomFactor * 10 * 0.8; // todo get dynamik letter config, 0.8 is weird offset for browser sizing
     console.log(requestUri);
     axios.get(requestUri)
-      .then(response=>{  
-        let size = Math.pow(2, params.zoom) / 10000;
+      .then(response=>{ 
         this.setState({letters: response.data.letters, letterSize: size});
       })
       .catch(error=>{
@@ -79,14 +87,23 @@ export default class FluxMap extends Component {
     const t = new Date().getTime() - new Date(l.created_at).getTime();
     const opacity = Math.max(0, 1 - t / (1000 * map_letter_decay_time));
 
+    const markerStyle = {
+      position: 'absolute',
+      width: this.state.letterSize,
+      height: this.state.letterSize,
+      left: -this.state.letterSize / 2,
+      top: -this.state.letterSize / 2,
+      opacity: opacity, 
+      fontSize: this.state.letterSize
+    }
+
     return(
       <Letter
+        style={markerStyle}
         key={l._id}
         lat={l.coords.lat}
         lng={l.coords.lng}
         character={l.character}
-        opacity={opacity} // todo calculate from date like in app
-        size={this.state.letterSize}
       />
     );
   }

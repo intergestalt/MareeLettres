@@ -502,14 +502,14 @@ class ChallengeContainer extends Component {
           up
           onPress={this.navigateUpPress}
           challengeOffset={0}
-          opacity={this.state.opacityRight}
+          opacity={this.state.opacityRight.Value}
         />
         <SwipeButton
           styleAbsolute
           up={false}
           onPress={this.navigateDownPress}
           challengeOffset={0}
-          opacity={this.state.opacityLeft}
+          opacity={this.state.opacityLeft.Value}
         />
       </View>
     );

@@ -48,19 +48,21 @@ export default EStyleSheet.create({
   panelButton: {
     borderTopWidth: 1,
     flex: 1,
-    alignItems: 'center',
     backgroundColor: 'rgba(255,255,255,0.8)',
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: '3rem'
   },
   panelButtonLast: {
     backgroundColor: 'black',
     borderLeftWidth: 1,
   },
   buttonText: {
-    top: '0.25rem',
+    top: '$textOffset1Rem',
+    position: 'relative',
     fontSize: 18,
     color: 'black',
     fontFamily: 'arial_normal',
-    lineHeight: '3rem',
   },
   buttonTextLast: {
     color: 'white',
