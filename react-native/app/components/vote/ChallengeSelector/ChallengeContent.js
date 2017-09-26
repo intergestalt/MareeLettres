@@ -197,9 +197,8 @@ class ChallengeContent extends Component {
   checkToLoadMoreProposals() {
     const id = this.props.challenges[this.props.selectedChallengeIndex]._id;
     const length = this.props.proposals.length;
-    if (length > DYNAMIC_CONFIG.PROPOSAL_RELOAD_TINDER_OFFSET) return;
     const limit = DYNAMIC_CONFIG.DEFAULT_PROPOSAL_TINDER_LIMIT;
-
+    if (limit - length < DYNAMIC_CONFIG.PROPOSAL_RELOAD_TINDER_OFFSET) return;
     let force = false;
     let lastNotLoad = true;
     if (this.props.lastLoaded > 0) {
