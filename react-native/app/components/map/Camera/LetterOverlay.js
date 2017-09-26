@@ -34,7 +34,7 @@ class LetterOverlay extends React.Component {
   }
 
   render() {
-    
+    console.log("render letter overlay");
     const mapLetters = [];
     if(this.props.map.coordinates.longitudeDelta <= this.state.delta_max) { // only add markers at all if we are low enough
       Object.keys(this.props.letters.content).forEach((key)=>{

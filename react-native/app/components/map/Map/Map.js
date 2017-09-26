@@ -40,11 +40,13 @@ class Map extends Component {
     super(props);
     this.handleReloadUserPressPress = this.handleReloadUserPressPress.bind(this);
     this.setMapLetterSize = this.setMapLetterSize.bind(this);
+    this.hideMap = this.hideMap.bind(this);
+    this.showMap = this.showMap.bind(this);
 
     this.state = {
       lat: this.props.user.coordinates.latitude,
       lng: this.props.user.coordinates.longitude,
-      letter_size: 12,
+      letter_size: 0,
       delta_initial: metresToDelta(
         this.props.config.map_drop_zone_radius * this.props.config.map_delta_initial,
         this.props.map.coordinates.latitude,
@@ -61,6 +63,7 @@ class Map extends Component {
         longitudeDelta: this.props.user.map.coordinates.longitudeDelta,
       },
       pollingCounter: 0,
+      showMap: 1
     };
     this.state.region = this.state.initialRegion;
   }
@@ -85,35 +88,32 @@ class Map extends Component {
   }
 
   calculateMapLetterRequest() {
-    console.log(this.props.map.coordinates);
-    const centerLat = this.with3Decimals(this.props.map.coordinates.latitude);
-    const centerLng = this.with3Decimals(this.props.map.coordinates.longitude);
-    // console.log(this.props.map.coordinates.latitudeDelta);
-    const delta = this.props.map.coordinates.latitudeDelta;
-    let radius = 1;
-    if (delta >= 0.002 && delta < 0.003) {
-      radius = 2;
+    console.log(this.state.region);
+    let centerLat = this.state.region.latitude.toFixed(3);
+    let centerLng = this.state.region.longitude.toFixed(3);
+    let radiusMeters = getDistanceBetweenCoordinates(
+        this.state.region.latitude, 
+        this.state.region.longitude, 
+        this.state.region.latitude + this.state.region.latitudeDelta, 
+        this.state.region.longitude + this.state.region.longitudeDelta);
+    radiusMeters = Math.floor(radiusMeters);
+    radiusMeters = Math.floor(radiusMeters / 100) * 100;
+    if(radiusMeters > 500) {
+      radiusMeters = 500;
     }
-    if (delta >= 0.003 && delta < 0.004) {
-      radius = 3;
-    }
-    if (delta >= 0.004) {
-      radius = 4;
-    }
-    const radiusMeters = Math.floor(radius * 0.001 * 40008000 / 360); // rough estimation
-
+    console.log(radiusMeters);
+    
     let interval = Math.floor(Math.sqrt(this.state.pollingCounter));
     if (interval > 10) {
       interval = 10;
     }
 
     const o = {
-      centerLng,
-      centerLat,
+      centerLng: centerLng,
+      centerLat: centerLat,
       radius: radiusMeters,
       interval: Math.pow(interval + 1, 2),
     };
-    // console.log(o);
     return o;
   }
 
@@ -121,8 +121,9 @@ class Map extends Component {
     console.log("mounting map...");
 
     // get the player GPS
-    this._getPlayerCoords();
+    //this._getPlayerCoords();
 
+    this.setState({lastLoad: new Date().getTime() });
     loadLettersServiceProxy(this.calculateMapLetterRequest());
     this.pollLetters();
 
@@ -138,7 +139,7 @@ class Map extends Component {
   pollLetters() {
     console.ignoredYellowBox = ['Setting a timer'];
     this.timerID = setTimeout(() => {
-      if (this.props.screen === 'map') {
+      if (this.props.screen === 'map' && this.props.mode === 'overview') {
         // only call when map is current screen
         loadLettersIntervalServiceProxy(this.calculateMapLetterRequest());
         this.setState({ pollingCounter: 0 });
@@ -151,26 +152,30 @@ class Map extends Component {
 
   onLayout = (event) => {
     const layout = event.nativeEvent.layout;
-    if (this.refs.mapContainer) {
+    if (this.refs.mapContainer && this.props.mode === 'overview') { // only do this when not in camera mode
       this.refs.mapContainer.measure((fx, fy, width, height, px, py) => {
         layout.yOffset = py;
-        //changeMapLayoutProxy(layout);
         this.setState({mapLayout: layout});
+        changeMapLayoutProxy(layout);
       });
     }
   };
 
-  onRegionChangeComplete = (region) => {
-    this.setState({ region });
-    changeMapRegionProxy(region);
-    this.setMapLetterSize(region);
-
-    loadLettersServiceProxy(this.calculateMapLetterRequest());
-    this.setState({ pollingCounter: 0 });
+  onRegionChange = ()=> {
+    this.setState({dragging: true});
   };
 
-  onRegionChange = (region) => {
-    this.setState({ region });
+  onRegionChangeComplete = (region) => {
+    changeMapRegionProxy(region); // for use in reducer when new letters arrive
+    this.setState({region: region, pollingCounter: 0, dragging: false});
+    this.setMapLetterSize(region);
+
+    let timeSinceLastLoad = (new Date().getTime() - this.state.lastLoad);
+    console.log("time since last region change: " + timeSinceLastLoad);
+    if(timeSinceLastLoad > 2000) {
+      loadLettersServiceProxy(this.calculateMapLetterRequest());
+      this.setState({lastLoad: new Date().getTime()});
+    }  
   };
 
   setMapLetterSize = (region) => {
@@ -207,7 +212,7 @@ class Map extends Component {
     const t = new Date().getTime() - new Date(item.created_at).getTime();
     const opacity = Math.max(0, 1 - t / (1000 * this.props.config.map_letter_decay_time));
 
-    return opacity != 0 ? (
+    return opacity != 0 && this.state.letter_size != 0 ? (
       <MapView.Marker
         key={index}
         anchor={{ x: 0.5, y: 0.5 }}
@@ -250,9 +255,15 @@ class Map extends Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    // todo: only update map when it needs to be updated
-    return true;
+    return !nextState.dragging && nextProps.mode === 'overview';
   }
+  hideMap() {
+    this.setState({showMap: false});
+  }
+  showMap() {
+    this.setState({showMap: true}); 
+  }
+
   handleReloadUserPressPress = () => {
     loadUserServiceProxy(true);
   };
@@ -315,14 +326,15 @@ class Map extends Component {
 
     return (
       <View style={styles.container} ref="mapContainer">
+        {!this.state.showMap ? (<View style={styles.mapCurtain}/>):null}
         <MapView
           ref="map"
           onLayout={this.onLayout}
           ref={(input) => {
             this._map = input;
           }}
-          onRegionChangeComplete={this.onRegionChangeComplete}
           onRegionChange={this.onRegionChange}
+          onRegionChangeComplete={this.onRegionChangeComplete}
           provider={MapView.PROVIDER_GOOGLE}
           style={styles.container}
           initialRegion={this.state.initialRegion}
@@ -333,6 +345,7 @@ class Map extends Component {
           showsIndoorLevelPicker={false}
           showsIndoors={false}
           rotateEnabled={false}
+          loadingEnabled={true}
         >
           {myLetters}
           {mapLetters}
@@ -347,7 +360,7 @@ class Map extends Component {
           />
         </MapView>
 
-        <CameraButton navigation={this.props.navigation} />
+        <CameraButton navigation={this.props.navigation} hideMap={this.hideMap} showMap={this.showMap}/>
 
         <TouchableOpacity
           style={[styles.button, styles.buttonCentreMap]}
@@ -377,6 +390,7 @@ const mapStateToProps = (state) => {
     const letters = state.letters;
     const my_letters = state.myLetters;
     const isInitialUser = state.user.isInitialUser;
+    const mode = state.globals.mapView;
 
     if (!map.coordinates.latitude) map.coordinates.latitude = config.map_default_center_lat;
     if (!map.coordinates.longitude) map.coordinates.longitude = config.map_default_center_lng;
@@ -395,6 +409,7 @@ const mapStateToProps = (state) => {
       screen: state.globals.screen,
       isInitialUser,
       isUserLoading,
+      mode
     };
   } catch (e) {
     console.log('Map Error', e);

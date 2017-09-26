@@ -39,7 +39,7 @@ class ExpoCamera extends React.Component {
       pathPhoto: null
     };
 
-    //this.simulator = true;
+    this.simulator = false;
     //this.state.pathPhoto = "https://cdn.pixabay.com/photo/2017/01/06/19/15/soap-bubble-1958650_960_720.jpg";
     
   }
@@ -97,7 +97,6 @@ class ExpoCamera extends React.Component {
 
   render() {
     I18n.locale = this.props.language;
-    console.log('render');
     const { hasCameraPermission } = this.state;
     if (hasCameraPermission === null) {
       return <View />;

@@ -43,6 +43,8 @@ const letters = (state = initialState.letters, action) => {
         const maxTime = 1000 * store.getState().config.config.map_letter_decay_time;
         let letters = {...state.content};
 
+        console.log("received " + action.result.letters.length + " letters");
+
         // replace new letters from server
         for (let i=0; i<action.result.letters.length; i+=1) {
           const letter = action.result.letters[i];
@@ -51,11 +53,15 @@ const letters = (state = initialState.letters, action) => {
 
         const currentRegion = store.getState().user.map.coordinates;
         const markerLimit = store.getState().config.config.map_max_markers; // hard limit on markers from server
-        console.log("received " + Object.keys(letters).length + " letters");
         console.log("map_max_markers: " + markerLimit);
         let counter = 0;
         let droppedMarkers = 0;
-        
+
+        let minLat = currentRegion.latitude - currentRegion.latitudeDelta / 2;
+        let maxLat = currentRegion.latitude + currentRegion.latitudeDelta / 2;
+        let minLng = currentRegion.longitude - currentRegion.longitudeDelta / 2;
+        let maxLng = currentRegion.longitude + currentRegion.longitudeDelta / 2;
+
         // iterate over all letters and mark those that should be drawn on the map as markers
         Object.keys(letters).forEach((key)=>{
 
@@ -68,8 +74,8 @@ const letters = (state = initialState.letters, action) => {
           }
 
           letters[key].showAsMarker = false;
-          const distance = getDistanceBetweenCoordinates(currentRegion.latitude, currentRegion.longitude, letters[key].coords.lat, letters[key].coords.lng);
-          if(metresToDelta(distance, currentRegion.latitude) < currentRegion.latitudeDelta) { // letter is on screen
+          if(letters[key].coords.lat > minLat && letters[key].coords.lat < maxLat &&
+            letters[key].coords.lng > minLng && letters[key].coords.lng < maxLng) { // letter is on screen
             if(counter < markerLimit) { // we can still show markers
               letters[key].showAsMarker = true;
               counter++;  

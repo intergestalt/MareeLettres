@@ -11,6 +11,12 @@ const styles = EStyleSheet.create({
     width: '100%',
     zIndex: -1,
   },
+  mapCurtain: {
+    width: '100%',
+    height: '100%',
+    backgroundColor: '#000',
+    zIndex: 10
+  },
   letter: {
     // fontWeight: 'bold',
     color: 'white',
@@ -36,8 +42,9 @@ const styles = EStyleSheet.create({
     top: 0,
   },
   buttonCentreMap: {
-    bottom: '102 + 1rem',
+    bottom: '95 + 1rem',
     right: '0.5rem',
+    zIndex: 5
   },
   buttonCentreMapImage: {
     height: '1.7rem',

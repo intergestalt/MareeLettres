@@ -20,16 +20,18 @@ export default EStyleSheet.create({
   },
   letter_view: {
     backgroundColor: 'transparent',
-    width: '$letterWidth',
-    height: '$letterHeight',
+    //width: '$letterWidth',
+    //height: '$letterHeight',
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    marginBottom: "5 + $textOffset1Rem",
+    marginLeft: 12
   },
   letter_view_dragged: {
     backgroundColor: 'transparent',
-    width: '$letterDraggedWidth',
-    height: '$letterDraggedHeight',
+    //width: '$letterDraggedWidth',
+    //height: '$letterDraggedHeight',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center'
@@ -43,6 +45,7 @@ export default EStyleSheet.create({
     margin: '$margin',
     marginTop: 0,
     marginBottom: 0,
+    zIndex: 2
   },
   container_secondary: {
     flex: 1,
