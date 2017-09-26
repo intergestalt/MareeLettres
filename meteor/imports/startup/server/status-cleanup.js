@@ -6,7 +6,7 @@ import { Status } from '../../api/status/status';
 Meteor.setInterval(() => {
   Status.remove({
     heartbeat_at: {
-      $lt: moment().add(-30, 'seconds').toDate(),
+      $lt: moment().add(-20, 'minutes').toDate(),
     },
   });
-}, 20000);
+}, 60000);
