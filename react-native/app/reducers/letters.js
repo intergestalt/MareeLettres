@@ -51,6 +51,7 @@ const letters = (state = initialState.letters, action) => {
 
         const currentRegion = store.getState().user.map.coordinates;
         const markerLimit = store.getState().config.config.map_max_markers; // hard limit on markers from server
+        console.log("received " + Object.keys(letters).length + " letters");
         console.log("map_max_markers: " + markerLimit);
         let counter = 0;
         let droppedMarkers = 0;

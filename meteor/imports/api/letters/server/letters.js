@@ -54,7 +54,7 @@ JsonRoutes.add('get', `${Meteor.settings.public.api_prefix}letters`, function (r
       $near: {
         $geometry: {
           type: "Point",
-          coordinates: [lat, lng],
+          coordinates: [lng, lat],
         },
         $maxDistance: radius,
       },
@@ -81,6 +81,7 @@ JsonRoutes.add('post', `${Meteor.settings.public.api_prefix}letters`, function (
 
   if (!Array.isArray(letters) || letters.length === 0) {
     JsonRoutesError(res, 400, 'missing-letters');
+    return;
   }
 
   // TODO validate input with LettersSchema
@@ -97,7 +98,7 @@ JsonRoutes.add('post', `${Meteor.settings.public.api_prefix}letters`, function (
   letters.forEach(function (letter) {
     letter.created_at = new Date();
     letter._id = new Mongo.ObjectID()._str;
-    letter.loc = { type: "Point", coordinates: [letter.coords.lat, letter.coords.lng] };
+    letter.loc = { type: "Point", coordinates: [letter.coords.lng, letter.coords.lat] };
     letter.decay_time = currentSystemConfig.getConfig().map_letter_decay_time;
     bulk.insert(letter);
   }, this);

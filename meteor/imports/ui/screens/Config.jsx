@@ -111,7 +111,7 @@ class ConfigPage extends Component {
           {fields}
           <ErrorsField />
           <SubmitField />
-          <span className="button" onClick={() => this.setCoordinatesFromDevice(formRef[config._id])}>Set coordinates from Device</span>
+          <span className="button" onClick={() => this.setCoordinatesFromDevice(formRef[config._id])}>Set coordinates from Browser</span>
           <span className="button" onClick={() => formRef[config._id].reset()}>Reset </span>
           <span className="button delete" onClick={() => this.handleDelete(config)}>Delete</span>
         </AutoForm>

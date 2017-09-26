@@ -135,3 +135,4 @@ const continuouslyRegenerateTinder = () => {
 
 console.log('starting regular tinder regeneration.');
 continuouslyRegenerateTinder();
+runRegenerateTinder(); // start now

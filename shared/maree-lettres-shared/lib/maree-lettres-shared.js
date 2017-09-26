@@ -23354,14 +23354,14 @@ var systemConfigDefaults = {
         title: 'Map: time after which primary letter can be reset (in minutes)',
         systems: ['app']
     },
-    map_default_center_lat: {
-        defaultValue: 48.858141,
+    map_default_center_lng: {
+        defaultValue: 2.343254,
         type: Number,
         title: 'Center of the game. Used when no GPS available, for seeding and more.',
         systems: ['app', 'server', 'web']
     },
-    map_default_center_lng: {
-        defaultValue: 2.343254,
+    map_default_center_lat: {
+        defaultValue: 48.858141,
         type: Number,
         title: 'Center of the game. Used when no GPS available, for seeding and more.',
         systems: ['app', 'server', 'web']
@@ -23391,7 +23391,7 @@ var systemConfigDefaults = {
         systems: ['app', 'server']
     },
     send_internal_votes_after: {
-        defaultValue: 10,
+        defaultValue: 5,
         type: Integer,
         title: 'Interval in which votes are (re-)sent (seconds)',
         systems: ['app', 'server']
@@ -23409,9 +23409,9 @@ var systemConfigDefaults = {
         systems: ['app']
     },
     delay_db_call_offset: {
-        defaultValue: 25000,
+        defaultValue: 1000,
         type: Integer,
-        title: 'Time to wait when challenge finished before reload = network_latency*1000 + send_internal_votes_after*1000 + <time for db write> + <time to clear the cache> + <interval to check if a challenge has finished> (milliseconds)',
+        title: 'Additional time to wait when challenge finished before reload = <time for db write> + <time to clear the cache> (milliseconds)',
         systems: ['app']
     },
     update_challenges_after: {

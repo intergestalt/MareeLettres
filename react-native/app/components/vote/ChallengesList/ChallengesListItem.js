@@ -87,19 +87,29 @@ class ChallengesListItem extends Component {
         </View>
       );
     } else {
-      url = (
-        <View style={styles.imageListContainer}>
-          <LinearGradient
-            colors={gradient2.colors}
-            locations={gradient2.stops}
-            style={{ flex: 1, opacity: 1 }}
-          >
-            <View style={styles.winningInnerContainer}>
-              <Text style={styles.winningText}>{answer}</Text>
+      if (isEmpty(this.props.data.answer)) {
+        url = (
+          <View style={styles.imageListContainer}>
+            <View style={[styles.winningInnerContainer, styles.winningInnerContainerWaiting]}>
+              <Text style={[styles.winningText, styles.winningTextWaiting]}>{answer}</Text>
             </View>
-          </LinearGradient>
-        </View>
-      );
+          </View>
+        );
+      } else {
+        url = (
+          <View style={styles.imageListContainer}>
+            <LinearGradient
+              colors={gradient2.colors}
+              locations={gradient2.stops}
+              style={{ flex: 1, opacity: 1 }}
+            >
+              <View style={styles.winningInnerContainer}>
+                <Text style={styles.winningText}>{answer}</Text>
+              </View>
+            </LinearGradient>
+          </View>
+        );
+      }
     }
     return (
       <View style={styles.itemContainer}>

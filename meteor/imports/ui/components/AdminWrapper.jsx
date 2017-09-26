@@ -17,8 +17,7 @@ class AdminWrapper extends Component {
     this.state = {};
   }
 
-  render() {
-    console.log(this.props.router)
+  authorizedContent() {
     return (
       <div className="AdminWrapper">
         <nav>
@@ -26,7 +25,7 @@ class AdminWrapper extends Component {
           <Menu router={this.props.router} />
         </nav>
         <div className="main">
-          {Meteor.userId() != null ? this.props.children : ""}
+          {this.props.children}
           <Alert position='top-left'
             effect='slide'
             timeout={1500}
@@ -35,10 +34,25 @@ class AdminWrapper extends Component {
       </div>
     );
   }
+
+  unauthorizedContent() {
+    return (
+      <div className="AdminWrapper">
+        <nav>
+          <AccountsUIWrapper />
+        </nav>
+      </div>
+    );
+  }
+
+  render() {
+    console.log(this.props.router)
+    return Meteor.userId() != null ? this.authorizedContent() : this.unauthorizedContent();
+  }
 }
 
 export default createContainer(() => {
   return {
-    currentUser: Meteor.user()
+    currentUser: Meteor.user(),
   };
 }, AdminWrapper);

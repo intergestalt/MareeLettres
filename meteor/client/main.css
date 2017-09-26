@@ -310,6 +310,16 @@ body {
   font-weight: normal;
 }
 
+.status_heartbeat {
+  font-weight: normal;
+  opacity: 0.4;
+}
+
+.status_heartbeat:before {
+  content: "—";
+  padding: 0 1ex;
+}
+
 /*** content page ***/
 
 .content_editor {

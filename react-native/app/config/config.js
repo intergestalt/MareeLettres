@@ -81,6 +81,9 @@ export const DYNAMIC_CONFIG = {
   LOAD_QUIET_PROPOSAL: null,
   LOAD_QUIET_CHALLENGES_LIST: null,
 
+  NETWORK_LATENCY: null,
+  WINNER_ELECTION_INTERVAL: null,
+
   UPDATE_CHALLENGES_AFTER: null,
   UPDATE_PROPOSALS_AFTER: null,
   UPDATE_CONTENT_AFTER: null,
@@ -89,7 +92,7 @@ export const DYNAMIC_CONFIG = {
   SUGGESTIONS_CLOSE_EARLIER: null,
 
   DELAY_DB_CALL: null, // random interval in which a new config is loaded
-  DELAY_DB_CALL_OFFSET: null, // random interval in which a new config is loaded};
+  DELAY_DB_CALL_OFFSET: null, // additional delay to load finished challenge
 };
 
 export const DEV_CONFIG = {

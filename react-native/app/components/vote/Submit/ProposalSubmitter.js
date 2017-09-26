@@ -103,8 +103,6 @@ class ProposalSubmitter extends Component {
   }
 
   componentWillMount() {
-    if (this.props.voteTutorialStatus) {
-      if (!this.props.voteTutorialStatus.submit) {
         setTimeout(() => {
           this.props.alertWithType(
             'info',
@@ -113,8 +111,6 @@ class ProposalSubmitter extends Component {
           );
           setUserVoteTutorialStatusProxy('submit');
         }, 1000);
-      }
-    }
   }
 
   componentWillUnmount() {

@@ -39,6 +39,7 @@ class Map extends Component {
   constructor(props) {
     super(props);
     this.handleReloadUserPressPress = this.handleReloadUserPressPress.bind(this);
+    this.setMapLetterSize = this.setMapLetterSize.bind(this);
 
     this.state = {
       lat: this.props.user.coordinates.latitude,
@@ -117,6 +118,8 @@ class Map extends Component {
   }
 
   componentWillMount() {
+    console.log("mounting map...");
+
     // get the player GPS
     this._getPlayerCoords();
 
@@ -126,6 +129,12 @@ class Map extends Component {
     this.setMapLetterSize(this.state.initialRegion);
   }
 
+  componentWillUnmount() {
+    console.log("unmounting map..."); // find out why this happens?
+    clearTimeout(this.timerID);
+  }
+
+  // warning: this doesn't work if component is unmounted
   pollLetters() {
     console.ignoredYellowBox = ['Setting a timer'];
     this.timerID = setTimeout(() => {
@@ -145,7 +154,8 @@ class Map extends Component {
     if (this.refs.mapContainer) {
       this.refs.mapContainer.measure((fx, fy, width, height, px, py) => {
         layout.yOffset = py;
-        changeMapLayoutProxy(layout);
+        //changeMapLayoutProxy(layout);
+        this.setState({mapLayout: layout});
       });
     }
   };
@@ -157,31 +167,22 @@ class Map extends Component {
 
     loadLettersServiceProxy(this.calculateMapLetterRequest());
     this.setState({ pollingCounter: 0 });
-
-    /* if (JSON.stringify(region) !== JSON.stringify(this.props.map.coordinates)) {
-      // console.log("region changed");
-      // console.log(this.props.map.coordinates)
-      // console.log(region);
-      changeMapRegionProxy(region);
-      // recalculate the letter size
-      this.setMapLetterSize(region);
-    } */
   };
 
   onRegionChange = (region) => {
     this.setState({ region });
-    // this.setMapLetterSize(region);
   };
 
   setMapLetterSize = (region) => {
-    // rough font size corresponding to world metres
-    const size = parseFloat(
-      (this.props.config.map_letter_base_size * 5 / (1200 * region.latitudeDelta)).toFixed(1),
-    );
-
-    if (size != this.state.letter_size) {
-      this.setState({ letter_size: size });
+    if(!this.state.mapLayout) {
+      return;
     }
+    const zoomFactor = (this.state.mapLayout.height / region.latitudeDelta) / 100000; 
+    console.log(zoomFactor);
+    const size = this.props.config.map_letter_base_size * zoomFactor;
+
+    console.log("setting size of draggable letter to: " + size);
+    this.setState({ letter_size: size });
   };
 
   centreZoomMap = () => {
@@ -194,14 +195,6 @@ class Map extends Component {
         longitudeDelta: this.state.delta_initial,
       },
     });
-    /* this._map._component.animateToRegion(
-      {
-        ...this.props.user.coordinates,
-        latitudeDelta: this.state.delta_initial,
-        longitudeDelta: this.state.delta_initial,
-      },
-      300,
-    ); */
   };
 
   onCentreMapButton = () => {
@@ -209,6 +202,7 @@ class Map extends Component {
     this._getPlayerCoords();
   };
 
+  // these are the letters placed on the map from server or local storage
   mapLettersToMarkers(item, index, blinking) {
     const t = new Date().getTime() - new Date(item.created_at).getTime();
     const opacity = Math.max(0, 1 - t / (1000 * this.props.config.map_letter_decay_time));
@@ -228,7 +222,8 @@ class Map extends Component {
     ) : null;
   }
 
-  mapMenuLetters(item, index) {
+  // these are the letters dragged onto the map
+  initMenuLetter(item, index) {
     const win = Dimensions.get('window');
     const step = (win.width - 1) / 6;
 
@@ -248,6 +243,8 @@ class Map extends Component {
         disabled={item.disabled}
         primary={index === 0}
         secondary={index !== 0}
+        max_letter_size={this.state.letter_size}
+        mapLayout={this.state.mapLayout}
       />
     );
   }
@@ -314,7 +311,7 @@ class Map extends Component {
       this.props.user.secondary_letter_2,
       this.props.user.secondary_letter_3,
       this.props.user.secondary_letter_4,
-    ].map((item, index) => this.mapMenuLetters(item, index));
+    ].map((item, index) => this.initMenuLetter(item, index));
 
     return (
       <View style={styles.container} ref="mapContainer">

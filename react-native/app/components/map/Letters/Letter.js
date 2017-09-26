@@ -39,122 +39,87 @@ class Letter extends Component {
   }
 
   constructor(props){
-      super(props);
+    super(props);
 
-      this.state = {
-        panning: false,
-        layout: null,
-        position: {x: this.props.position.x, y: this.props.position.y},
-        pan: new Animated.ValueXY({x:0, y:0}),
-        letter_size: 26,
-        offset_bottom: 38,
-        animated_letter_size: this.props.letter_base_size * 5,
-        delta_max: metresToDelta(this.props.dropzone_radius * this.props.map_delta_max, this.props.mapLat),
-        letter_offset: {
-          x: 0,
-          y: -50, // to have letter dragged above finger
-        },
-        font: {
-          size: new Animated.Value(0),
-          colour: new Animated.Value(0),
-          letter_offset: new Animated.Value(0),
+    this.state = {
+      panning: false,
+      layout: null,
+      position: {x: this.props.position.x, y: this.props.position.y},
+      pan: new Animated.ValueXY({x:0, y:0}),
+      letter_size: 26,
+      offset_bottom: 38,
+      animated_letter_size: this.props.letter_base_size * 5,
+      delta_max: metresToDelta(this.props.dropzone_radius * this.props.map_delta_max, this.props.mapLat),
+      letter_offset: {
+        x: 0,
+        y: -50, // to have letter dragged above finger
+      },
+      font: {
+        size: new Animated.Value(0),
+        colour: new Animated.Value(0),
+        letter_offset: new Animated.Value(0),
+      }
+    };
+
+    this.panResponder = PanResponder.create({
+      onStartShouldSetPanResponder: () => true,
+      onMoveShouldSetPanResponder: () => true,
+      onPanResponderStart: (e) => {
+        if(this.props.character !== '+') {
+          this.setState({panning: true});
+          this.animateSelectedFont();  
         }
-      };
+      },
+      onPanResponderMove: (e, gesture) => {
+        if(this.props.character !== '+') {
+          this.animateTranslate(gesture.dx, gesture.dy + this.state.letter_offset.y);
+        }
+      },
+      onPanResponderRelease: (e, gesture) => {
+        // convert to top/left coordinates relative to map and centered in letter
+        const win = Dimensions.get('window');
+        let x = gesture.dx + this.props.position.x + (this.state.layout.width / 2);
+        let y = gesture.dy + this.state.letter_offset.y + (win.height - this.state.offset_bottom - this.state.layout.height / 2) - this.props.mapLayout.yOffset;
 
-      this.panResponder = PanResponder.create({
-          onStartShouldSetPanResponder: () => true,
-          onMoveShouldSetPanResponder: () => true,
-          onPanResponderStart: (e) => {
-            if(this.props.character !== '+') {
-              this.setState({panning: true});
-              this.animateSelectedFont();  
-            }
-          },
-          onPanResponderMove: (e, gesture) => {
-            if(this.props.character !== '+') {
-              // simplify - just use gesture difference for pan directly
-              this.animateTranslate(gesture.dx, gesture.dy + this.state.letter_offset.y);
-            }
-          },
-          onPanResponderRelease: (e, gesture) => {
-            /*console.log("RELEASE after pan:");
-            console.log(gesture.dx);
-            console.log(gesture.dy);
+        this.setState({panning: false});
+        this.animateResetFont();
 
-            // convert to top/left coordinates relative to map and centered in letter
-            console.log("this letters layout:");
-            console.log(this.state.layout);
-            console.log("the maps layout:");
-            console.log(this.props.user.map.layout);
-            console.log("window:")*/
-            const win = Dimensions.get('window');
-            //console.log(win);
-
-            let x = gesture.dx + this.props.position.x + this.state.layout.width / 2;
-            let y = gesture.dy + this.state.letter_offset.y + (win.height - this.state.offset_bottom - this.state.layout.height / 2) - this.props.user.map.layout.yOffset;
-
-            this.setState({panning: false});
-            this.animateResetFont();
-
-            /*console.log(y);
-            console.log(this.props.user.map.layout.height);
-            console.log(gesture.y0);
-            console.log(gesture.dx);
-            console.log(gesture.dy);*/
-
-            // check if letter is dropped on map area
-            if (Math.abs(gesture.dy) > 10) {
-                
-                if(this.props.character !== '+') {
-                
-                  // check if letter is disabled
-                  if (!this.props.disabled) {
-                    // try to place letter on map
-                    if (this.onDrop(x, y)) {
-
-
-
-                      this.animateSnapToStart();
-                    } else {
-                      this.animateSpringToStart();
-                    }
-                  } else {
-                      this.animateSpringToStart();
-                      this.props.alertWithType('info', 'Not so fast!', "Please wait before using that letter again.");
-                  }
-
-                }
-              
+        // check if letter is dropped on map area
+        if (Math.abs(gesture.dy) > 10) {
+          if (this.props.character !== '+') {
+            // check if letter is disabled
+            if (!this.props.disabled) {
+              // try to place letter on map
+              if (this.onDrop(x, y)) {
+                this.animateSnapToStart();
+              } else {
+                this.animateSpringToStart();
+              }
             } else {
-                  
-                    // open the relevant screen
-                    if (this.props.primary) {
-                      
-                      if (this.props.character === '+' || this.primaryLetterExpired()) {
-                        this.navigateLetterSelector();
-                      } else {
-
-                        this.navigateQRCodeSend();
-                      }
-                    } else {
-                      this.navigateQRCodeGet();
-                    }
-                    this.animateSpringToStart();  
-                
-
+                this.animateSpringToStart();
+                this.props.alertWithType('info', 'Not so fast!', "Please wait before using that letter again.");
+                return;
             }
-          }  
-      });
+          }
+        } else {
+          // open the relevant screen
+          if (this.props.primary) {
+            if (this.props.character === '+' || this.primaryLetterExpired()) {
+              this.navigateLetterSelector();
+            } else {
+              this.navigateQRCodeSend();
+            }
+          } else {
+            this.navigateQRCodeGet();
+          }
+          this.animateSpringToStart();  
+        }
+      }  
+    });
   }
 
-  // DROP HANDLERS
-  onLayout = (event) => {
-    //console.log("Letter onLayout");
-    //console.log(event.nativeEvent.layout);
-    this.setState({layout: event.nativeEvent.layout});
-  }
-
-  onDrop(x, y) {
+  // DROP HANDLER
+  onDrop(mapX, mapY) {
     // letter on-release event
     // check if user has zoomed out too far
     if (this.props.map_delta > this.state.delta_max) {
@@ -167,14 +132,18 @@ class Letter extends Component {
       return false;
     }
 
-    //console.log("onDrop");
-
     // convert native screen to normalised screen
-    const screen = this.nativeScreenToXY(x, y);
+    console.log("nativeScreenToXY");
+    let normalX = (mapX / this.props.mapLayout.width) - 0.5;
+    let normalY = (mapY / this.props.mapLayout.height) - 0.5;
+    console.log(mapX + ", " + mapY + " -> " + normalX + ", " + normalY);
 
-    // convert screen to world coordinates
-    const coords = this.xyToLatLng(screen.x, screen.y);
-
+    // convert normalised screen to world coordinates
+    const c = this.props.user.map.coordinates;
+    const lng = c.longitude + (normalX * c.longitudeDelta);
+    const lat = c.latitude - (normalY * c.latitudeDelta);
+    const coords = {lat: lat, lng: lng};
+  
     // get ~ distance from centre of drop zone
     const distance = getDistanceBetweenCoordinates(coords.lat, coords.lng, this.props.user.coordinates.latitude, this.props.user.coordinates.longitude);
 
@@ -193,6 +162,12 @@ class Letter extends Component {
     }
 
     return true;
+  }
+
+  onLayout = (event) => {
+    //console.log("Letter onLayout");
+    //console.log(event.nativeEvent.layout);
+    this.setState({layout: event.nativeEvent.layout});
   }
 
   // API CALLS & INTERFACE
@@ -219,35 +194,6 @@ class Letter extends Component {
     binLetterProxy(this.props.index);
   }
 
-  // MATHS
-
-
-  // convert native screen space to normalised screen space
-  // result will be in the range [-0.5, 0.5]
-  // changed to take in XY coordinates from top left corner of map
-  nativeScreenToXY(mapX, mapY) {
-
-    // new version using layout of map view
-    // console.log("nativeScreenToXY");
-    let x = (mapX / this.props.user.map.layout.width) - 0.5;
-    let y = (mapY / this.props.user.map.layout.height) - 0.5;
-    // console.log(mapX + ", " + mapY + " -> " + x + ", " + y);
-
-    return {x: x, y: y};
-  }
-
-  xyToLatLng(x, y) {
-    // console.log("region");
-    // console.log(this.props.user.map.coordinates);
-    // convert screen space to world coordinates
-    // to be on screen, input x, y should be in the range [-0.5, 0.5]
-    const c = this.props.user.map.coordinates;
-    const lng = c.longitude + (x * c.longitudeDelta);
-    const lat = c.latitude - (y * c.latitudeDelta);
-
-    return {lat: lat, lng: lng};
-  }
-
   // ANIMATIONS
 
   animateTranslate(x, y) {
@@ -260,25 +206,6 @@ class Letter extends Component {
 
   animateSelectedFont() {
     // change colour & size when letter dragged
-    /*Animated.timing(
-      this.state.font.size, {
-        toValue: 100,
-        duration: 1
-      }
-    ).start();
-    Animated.timing(
-      this.state.font.colour, {
-        toValue: 100,
-        duration: 1
-      }
-    ).start();
-    Animated.timing(
-      this.state.font.letter_offset, {
-        toValue: 100,
-        duration: 1
-      }
-    ).start();*/
-
     let newFont = {
       size: 1,
       letter_offset: 100,
@@ -289,24 +216,6 @@ class Letter extends Component {
 
   animateResetFont() {
     // reset to default font colour/ size
-    /*Animated.timing(
-      this.state.font.size, {
-        toValue: 0,
-        duration: 1
-      },
-    ).start();
-    Animated.timing(
-      this.state.font.colour, {
-        toValue: 0,
-        duration: 1
-      },
-    ).start();
-    Animated.timing(
-      this.state.font.letter_offset, {
-        toValue: 0,
-        duration: 1
-      },
-    ).start();*/
     let newFont = {
       size: 0,
       letter_offset: 0,
@@ -363,23 +272,9 @@ class Letter extends Component {
 
   render() {
     I18n.locale = this.props.language;
-
-    const max_letter_size = parseFloat((this.props.letter_base_size * 5 / (1200 * this.props.map_delta)).toFixed(1));
-
-    // colour animation
-    /*let size = this.state.font.size.interpolate({
-      inputRange: [0, 25, 100],
-      outputRange: [this.state.letter_size, this.state.animated_letter_size, max_letter_size]
-    });*/
-    let size = this.state.font.size == 1 ? max_letter_size : this.state.letter_size;
-    /*let colour = this.state.font.colour.interpolate({
-      inputRange: [0, 100],
-      outputRange: ['rgb(0,0,0)', 'rgb(255,255,255)']
-    });*/
+    let size = this.state.font.size == 1 ? this.props.max_letter_size : this.state.letter_size;
     let colour = this.state.font.colour == 100 ? '#fff' : '#000';
-    
     let pan = this.state.pan.getLayout();
-
     let expired = this.primaryLetterExpired();
 
     return (

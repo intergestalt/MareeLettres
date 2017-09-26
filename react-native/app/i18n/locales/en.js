@@ -55,7 +55,7 @@ export default {
   reload_proposals_tinder:
     'No more new suggestions to swipe. Press to reload or go to LIST to see all.',
   reload_content: 'Content not loaded yet. Press to Reload',
-  reload_user: 'User could not be loaded or created. Check your network connection.',
+  reload_user: 'Could not connect you to our systems. Please check your internet connection.',
   reload_proposal: 'Your proposal could not be loaded. Press to Reload',
 
   map_you_label: 'You',
@@ -104,9 +104,9 @@ export default {
 
   blocked_user:
     'Submissions from your device have been blocked. Contact us through the info section of the app.',
-  waiting_for_answer: 'EN Waiting for winning answer...',
-  proposal_booster_title: 'Yippi EN',
+  waiting_for_answer: 'Counting votes...',
+  proposal_booster_title: 'Great minds think alike!',
   proposal_booster_text:
-    'Great minds think alike! You have made a suggestion that has already been made by someone else. Your suggestions have been combined and received and extra [X] votes! EN',
-  reload_proposal_status: 'The status of your proposal could not be loaded. Press to Reloady EN',
+    'Your suggestion has also been made by someone else. Your suggestions have been combined and get an extra [X] votes!',
+  reload_proposal_status: 'The status of your suggestion could not be loaded. Press to Reload FR',
 };

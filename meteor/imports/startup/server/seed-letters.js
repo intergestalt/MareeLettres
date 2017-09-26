@@ -24,7 +24,7 @@ const runSeedLetters = function () {
       created_at: new Date(),
       character: "X",
       origin_id: OriginId.generateFromString('auto'),
-      loc: { type: "Point", coordinates: [randomCoords.lat, randomCoords.lng] },
+      loc: { type: "Point", coordinates: [randomCoords.lng, randomCoords.lat] },
     });
   }
 };

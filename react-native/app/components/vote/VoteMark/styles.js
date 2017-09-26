@@ -15,7 +15,7 @@ const styles = EStyleSheet.create({
     marginRight: 5,
     fontFamily: 'arial_normal',
     fontSize: '1rem',
-    fontColor: '$textGrey',
+    color: '$textGrey',
   },
   panelText2: {
     top: '$textOffset1Rem',
@@ -23,7 +23,7 @@ const styles = EStyleSheet.create({
     marginRight: 5,
     fontFamily: 'arial_normal',
     fontSize: '1rem',
-    fontColor: '$textGrey',
+    color: '$textGrey',
   },
   l: { height: '2rem' },
   m: { height: '1.25rem' },
