@@ -90,7 +90,7 @@ export default {
       disabled: false,
     },
     secondary_letter_1: {
-      character: '+',
+      character: 'A',
       disabled: false,
       overwrite: false,
     },
