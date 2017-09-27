@@ -52,6 +52,7 @@ export default (state = initialState.globals, action) => {
       }
 
       case SET_NET_WORK_ERROR: {
+        console.log(`SET_NET_WORK_ERROR: ${action.yes} ${action.messageKey}`);
         return { ...state, isNetworkError: action.yes, networkErrorMessageKey: action.messageKey };
       }
       case SET_SCREEN: {

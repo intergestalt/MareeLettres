@@ -29,7 +29,9 @@ class AppContainer extends Component {
   componentWillReceiveProps(nextProps) {
     if (nextProps.isNetworkError && !this.props.isNetworkError) {
       const now = new Date().getTime();
+      console.log('SHOW ERROR!');
       if (now - this.props.lastNetworkError > DYNAMIC_CONFIG.DISPLAY_NEXT_NETWORK_ERROR_AFTER) {
+        console.log('YES');
         this.props.dispatch(setLastNetworkError());
         const key = nextProps.networkErrorMessageKey;
         let message = null;
@@ -39,6 +41,7 @@ class AppContainer extends Component {
           message = I18n.t('server_error');
           message = message.replace('[ERROR]', key);
         }
+        console.log(`Message ${message}`);
         this.props.alertWithType('custom', I18n.t('error'), message);
       } else {
         this.props.dispatch(setNetworkError(false, null));
