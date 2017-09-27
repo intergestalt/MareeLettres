@@ -405,3 +405,13 @@ body {
 .reviewPanel__proposalInfo {
   margin-bottom: 1ex;
 }
+
+/*** playerCell ***/
+
+.playerCell {
+  display: block;
+}
+
+.playerCell small {
+  font-size: 0.5em;
+}
