@@ -102,11 +102,9 @@ export default {
   suggestion_empty_text: 'Tu dois faire glisser au moins une lettre.',
   suggestion_wrong: 'Oups. Une erreur est survenue. Désolé !',
 
-  blocked_user:
-    "Les soumissions de votre appareil ont été bloquées. Contactez-nous via la section info de l'application",
-  waiting_for_answer: 'Counting votes... fr',
-  proposal_booster_title: 'Great minds think alike! fr',
-  proposal_booster_text:
-    'Your suggestion has also been made by someone else. Your suggestions have been combined and get an extra [X] votes!fr',
-  reload_proposal_status: 'The status of your suggestion could not be loaded. Press to Reload FR',
+  blocked_user: "Les soumissions de votre appareil ont été bloquées. Contactez-nous via la section info de l'application",
+  waiting_for_answer: 'On compte les votes...',
+  proposal_booster_title: 'Les grands esprits se rencontrent !',
+  proposal_booster_text: 'Ta proposition a déjà été suggerée par quelqu\'un d\'autre. Vos phrases ont été associées et remportent [X] points en plus !',
+  reload_proposal_status: 'L\'état de ta proposition n\'a pas pu être chargé. Appuie pour rafraîchir.',
 };
