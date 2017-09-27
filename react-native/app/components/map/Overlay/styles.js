@@ -7,7 +7,7 @@ export default EStyleSheet.create({
   $white: '#ffffff',
   $black: '#000000',
   $lettersHeight: 100,
-  $menuHeight: 40,
+  $menuHeight: 35,
   $padding: 8,
 
   // bottom tab menu

@@ -12,7 +12,13 @@ class CameraButton extends Component {
   };
 
   handlePress = () => {
-    navigateToMapCamera(this.props);
+    this.props.hideMap(); // put black curtain over map to hide weird morph effect
+    setTimeout(()=>{
+      navigateToMapCamera(this.props);
+      setTimeout(()=>{
+        this.props.showMap(); // take it away when the camera is loaded
+      }, 200);  
+    }, 100);
   };
 
   render() {

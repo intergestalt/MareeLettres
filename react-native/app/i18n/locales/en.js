@@ -19,7 +19,7 @@ export default {
   vote_tutorial_4_title: 'The List!',
   vote_tutorial_4_text: 'You can always change your mind about everything.',
   vote_tutorial_5_title: 'Vote changed.',
-  vote_tutorial_5_text: 'Now how about making a suggestion yourself? Tap on SUGGEST!',
+  vote_tutorial_5_text: 'Have you tried making a suggestion yourself? Tap on SUGGEST!',
   vote_tutorial_6_title: 'Your turn to write!',
   vote_tutorial_6_text: 'Drag the letters onto the writing area. You can also drag them back.',
   vote_tutorial_7_title: 'By the way...',

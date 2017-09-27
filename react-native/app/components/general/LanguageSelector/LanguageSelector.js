@@ -28,7 +28,7 @@ class LanguageSelector extends Component {
             <Text style={styles.paragraph}>FR</Text>
           </TouchableOpacity>
         ) : (
-          <Text style={styles.paragraphHigh}>FRest</Text>
+          <Text style={styles.paragraphHigh}>FR</Text>
         )}
         <Text style={[styles.paragraphHigh, styles.divider]}> / </Text>
         {!isEng ? (

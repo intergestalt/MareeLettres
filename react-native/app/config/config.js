@@ -7,11 +7,11 @@ const servers = {
     protocol: 'http',
   },
   dev: {
-    uri: 'maree.herokuapp.com',
+    uri: 'maree-dev.herokuapp.com',
     protocol: 'https',
   },
   staging: {
-    uri: 'serene-everglades-41181.herokuapp.com',
+    uri: 'maree-staging.herokuapp.com',
     protocol: 'https',
   },
   production: {
