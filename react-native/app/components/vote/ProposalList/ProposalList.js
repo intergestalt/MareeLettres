@@ -40,7 +40,7 @@ class ProposalList extends PureComponent {
 
   componentWillMount() {
     if (this.props.voteTutorialStatus) {
-      if (!this.props.voteTutorialStatus.list1 && this.props.challengeOffset == 0) {
+      if (!this.props.voteTutorialStatus.list1 && this.props.challengeOffset == 0 && !this.props.isFinished) {
         this.props.alertWithType(
           'info',
           I18n.t('vote_tutorial_4_title'),

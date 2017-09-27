@@ -194,7 +194,7 @@ const styles = EStyleSheet.create({
   statusBottomBottomRight: {
     width: '10%', // correct value would be the width of the actual VoteMark. But doesn't matter
     justifyContent: 'center',
-    fontFamily: 'arial_bold',
+    //fontFamily: 'arial_bold', // cannot be applied to View
     alignItems: 'center',
   },
   textPanel: {

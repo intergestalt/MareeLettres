@@ -17,7 +17,7 @@ export default {
   vote_tutorial_4_title: 'La liste !',
   vote_tutorial_4_text: "C'est normal de changer d'avis.",
   vote_tutorial_5_title: 'Pris en compte.',
-  vote_tutorial_5_text: 'Et pourquoi tu ne ferais pas une suggestion ? Appuie sur PROPOSE!',
+  vote_tutorial_5_text: 'A-tu essayé faire une proposition ? Appuie sur PROPOSE!',
   vote_tutorial_6_title: "À toi d'écrire !",
   vote_tutorial_6_text:
     'Fais glisser les lettres vers le haut pour composer ton message... et vers le bas pour les effacer.',
