@@ -6,6 +6,7 @@
 heroku buildpacks:set https://github.com/AdmitHub/meteor-buildpack-horse.git
 heroku config:set ROOT_URL=http://maree.herokuapp.com
 heroku config:set METEOR_APP_DIR=meteor/
+heroku config:set METEOR_SETTINGS={\"public\":{\"api_prefix\":\"api/\"}} --app maree-staging
 heroku addons:create mongolab
 heroku labs:enable http-session-affinity
 ```
