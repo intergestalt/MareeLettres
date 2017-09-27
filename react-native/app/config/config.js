@@ -1,17 +1,17 @@
 import Expo from 'expo';
 
-let server = 'dev'; // set server type here ( local | dev | staging | production)  [ can be overwritten by app.json ]
+let server = 'staging'; // set server type here ( local | dev | staging | production)  [ can be overwritten by app.json ]
 
 const servers = {
   local: {
     protocol: 'http',
   },
   dev: {
-    uri: 'maree.herokuapp.com',
+    uri: 'maree-dev.herokuapp.com',
     protocol: 'https',
   },
   staging: {
-    uri: 'serene-everglades-41181.herokuapp.com',
+    uri: 'maree-staging.herokuapp.com',
     protocol: 'https',
   },
   production: {
