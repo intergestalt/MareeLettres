@@ -178,14 +178,12 @@ export function navigateToVote(props) {
     popChallengeSelector(props, true);
   } else {
     store.dispatch(setScreen(SCREENS.VOTE));
-    store.dispatch(setChallengeView(CHALLENGE_VIEWS.LIST));
     preNavigateToVote(props);
-    const navAction = NavigationActions.reset({
-      index: 0,
-      key: null,
-      actions: [NavigationActions.navigate({ routeName: 'Root' })],
-    });
-    props.navigation.dispatch(navAction);
+    props.navigation.navigate('Vote');
+    setTimeout(() => {
+      popProposalSubmitter(props, false);
+      popChallengeSelector(props, true);
+    }, 1);
   }
 }
 

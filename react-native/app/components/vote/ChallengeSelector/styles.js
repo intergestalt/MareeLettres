@@ -81,6 +81,7 @@ const styles = EStyleSheet.create({
     color: 'black',
     textAlign: 'center',
     fontSize: '2rem',
+    top: '$textOffset2Rem',
     fontFamily: 'arial_normal',
     paddingHorizontal: '0.25rem',
   },
@@ -89,8 +90,8 @@ const styles = EStyleSheet.create({
     color: 'black',
     textAlign: 'center',
     fontSize: '2rem',
+    top: '$textOffset2Rem',
     fontFamily: 'arial_normal',
-    top: '0.5rem', // center the character inside the line
   },
   // Content
   tinderContainer: {
@@ -140,6 +141,11 @@ const styles = EStyleSheet.create({
     fontFamily: 'arial_normal',
     color: 'black',
     fontSize: '1rem',
+  },
+  imageView: {
+    backgroundColor: '$screenLoadingBackgroundColor',
+    flex: 1,
+    opacity: 1,
   },
   imageStye: {
     width: '$swipeWidth',

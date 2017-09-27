@@ -12,7 +12,7 @@ import {
   STREAM_GET_TWEETS,
   STREAM_GET_TWEETS_HTML,
 } from '../actions/stream';
-import { getZuffiDelayForApi } from '../helper/helper';
+import { getZuffiDelayForApi, isEmpty } from '../helper/helper';
 import store from '../config/store';
 import { loadConfigServiceProxy, loadUserServiceProxy } from '../helper/apiProxy';
 import { clearMyLettersProxy } from '../helper/mapHelper';
@@ -25,15 +25,26 @@ const loadData = function* loadData(action) {
     // const result = yield JSON.parse(response);
 
     const result = JSON.parse(response);
-
     if (result.error) {
       console.log('ERROR 1');
       console.log(result.error);
+      let messageKey = 'network_error';
+      try {
+        if (result.error === 'blocked-user') {
+          messageKey = 'blocked_user';
+        } else if (!isEmpty(result.error)) {
+          messageKey = result.error;
+        }
+      } catch (jsonError) {
+        console.log('no json error object found');
+        messageKey = 'network_error';
+      }
+
       yield put({ type: action.errorEvent, action, error: result.error.message });
       yield put({
         type: SET_NET_WORK_ERROR,
         yes: true,
-        messageKey: 'network_error', // here we can use a different message key for blocked user depending on result.error
+        messageKey,
       });
     } else {
       // Eventually other actions
@@ -80,22 +91,26 @@ const loadData = function* loadData(action) {
     }
   } catch (error) {
     console.log('ERROR 2');
-    console.log(error);
 
     let errorObj = null;
-    let blockedUser = false;
+    let messageKey = 'network_error';
     try {
       errorObj = JSON.parse(error);
-      blockedUser = errorObj.error === 'blocked-user';
+      if (errorObj.error === 'blocked-user') {
+        messageKey = 'blocked_user';
+      } else if (!isEmpty(errorObj.error)) {
+        messageKey = errorObj.error;
+      }
     } catch (jsonError) {
       console.log('no json error object found');
+      messageKey = 'network_error';
     }
 
     yield put({ type: action.errorEvent, action, error });
     yield put({
       type: SET_NET_WORK_ERROR,
       yes: true,
-      messageKey: blockedUser ? 'blocked_user' : 'network_error',
+      messageKey,
     });
   }
 };

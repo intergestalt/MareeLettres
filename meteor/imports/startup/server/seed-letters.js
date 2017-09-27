@@ -1,5 +1,5 @@
 import { Meteor } from 'meteor/meteor';
-import { OriginId } from 'maree-lettres-shared';
+import { OriginId, AvailableLetters } from 'maree-lettres-shared';
 
 import currentSystemConfig from './system-config';
 
@@ -22,7 +22,7 @@ const runSeedLetters = function () {
     const randomCoords = randomGeo({ latitude: map_default_center_lat, longitude: map_default_center_lng }, map_seeding_radius);
     Letters.insert({
       created_at: new Date(),
-      character: "X",
+      character: AvailableLetters.map[Math.floor(Math.random()*AvailableLetters.map.length)],
       origin_id: OriginId.generateFromString('auto'),
       loc: { type: "Point", coordinates: [randomCoords.lng, randomCoords.lat] },
     });

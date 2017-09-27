@@ -85,6 +85,8 @@ class ProposalSubmitter extends Component {
     this.tickerId = null;
     this.oldCurserIndex = -1;
     this.cursorTime = 0;
+    this.letterOffset = null;
+
     this.state = {
       ...this.setInitialLetters(this.props.ownProposal),
       // Type of the dragged Queen. 0: writing area, 1: Keyboard
@@ -215,7 +217,7 @@ class ProposalSubmitter extends Component {
         colorFrom: colour,
       });
       this.state.dragQueenPos.setValue({ x: letterPos.x, y: letterPos.y });
-      this.state.dragQueenOffset.setValue({ x: 0, y: 0 });
+      this.state.dragQueenOffset.setValue({ x: 0, y: -this.letterOffset });
 
       this.dragQueenType = type;
       this.dragQueenIndex = index;
@@ -268,6 +270,10 @@ class ProposalSubmitter extends Component {
     }
 
     this.layoutLetters[key] = event.nativeEvent.layout;
+    if (!this.letterOffset) {
+      this.letterOffset = event.nativeEvent.layout.height / 2;
+      console.log(`offset ${this.letterOffset}`);
+    }
   }
   onQueensLayoutCallback(event) {
     this.queensLayout = event.nativeEvent.layout;
@@ -684,6 +690,7 @@ class ProposalSubmitter extends Component {
             //     console.log('NO MOVE YET');
             return;
           }
+
           this.oldDx = gesture.dx;
           this.oldDy = gesture.dy;
           if (this.dragReleasedButNotFinishedAnimation) {
@@ -701,7 +708,7 @@ class ProposalSubmitter extends Component {
           // absolute Pos.
           // console.log(`${gesture.dx} ${gesture.dy}`);
           const posX = this.touchStartX + gesture.dx;
-          const posY = this.touchStartY + gesture.dy;
+          const posY = this.touchStartY + gesture.dy - this.letterOffset - this.letterOffset;
           const touchZone = this.getTouchZone(posY);
           // Check if zone changed
           let newCursorIndex = null;
@@ -718,7 +725,7 @@ class ProposalSubmitter extends Component {
           // set State
           const myDx = gesture.dx / 2;
           const myDy = gesture.dy / 2;
-          this.state.dragQueenOffset.setValue({ x: myDx, y: myDy });
+          this.state.dragQueenOffset.setValue({ x: myDx, y: myDy - this.letterOffset });
         } catch (err) {
           console.log('ERROR onPanResponderMove');
           console.log(err);

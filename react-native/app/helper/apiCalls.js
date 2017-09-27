@@ -117,7 +117,6 @@ function locationUrlParams(c, action) {
 export const callLetters = (action) => {
   const url = `${config.API_PREFIX}letters/${locationUrlParams('?', action)}`;
   console.log('API CALL: callLetters');
-  console.log(url);
   return getPromiseGET(url);
 };
 
@@ -127,7 +126,6 @@ export const callLettersInterval = (action) => {
     action,
   )}`;
   console.log('API CALL: callLettersInterval');
-  console.log(url);
   return getPromiseGET(url);
 };
 

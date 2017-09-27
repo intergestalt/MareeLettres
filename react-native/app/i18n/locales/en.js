@@ -10,12 +10,12 @@ export default {
 
   vote_tutorial_1_title: 'Welcome!',
   vote_tutorial_1_text:
-  'Below is a list of topics that you can vote on. Find an interesting topic and tap on it!',
+    'Below is a list of topics that you can vote on. Find an interesting topic and tap on it!',
   vote_tutorial_2_title: 'Time to swipe!',
   vote_tutorial_2_text: 'Swipe left or right to vote on suggestions made by other people.',
   vote_tutorial_3_title: 'Good swiping!',
   vote_tutorial_3_text:
-  'If you are an organized person, tap on LIST to see all suggestions for this topic.',
+    'If you are an organized person, tap on LIST to see all suggestions for this topic.',
   vote_tutorial_4_title: 'The List!',
   vote_tutorial_4_text: 'You can always change your mind about everything.',
   vote_tutorial_5_title: 'Vote changed.',
@@ -24,7 +24,7 @@ export default {
   vote_tutorial_6_text: 'Drag the letters onto the writing area. You can also drag them back.',
   vote_tutorial_7_title: 'By the way...',
   vote_tutorial_7_text:
-  'You can always get back to the overview by tapping on the gray bar at the top.',
+    'You can always get back to the overview by tapping on the gray bar at the top.',
   vote_tutorial_status_title: 'Good to know',
   vote_tutorial_status_text: 'You can always check on your suggestion by tapping STATUS',
 
@@ -53,7 +53,7 @@ export default {
   reload_challenges: 'No topics found. Press to Reload',
   reload_proposals: 'No suggestions found. Press to Reload',
   reload_proposals_tinder:
-  'No more new suggestions to swipe. Press to reload or go to LIST to see all.',
+    'No more new suggestions to swipe. Press to reload or go to LIST to see all.',
   reload_content: 'Content not loaded yet. Press to Reload',
   reload_user: 'Could not connect you to our systems. Please check your internet connection.',
   reload_proposal: 'Your proposal could not be loaded. Press to Reload',
@@ -74,7 +74,7 @@ export default {
   camera_button: 'Camera',
 
   proposal_blocked:
-  'We are sorry, but your suggestion does not comply with our community guidelines. Please try again.',
+    'We are sorry, but your suggestion does not comply with our community guidelines. Please try again.',
   proposal_in_review1: 'Thank you for your suggestion!',
   proposal_in_review2: 'Status: In Review',
   proposal_passed: 'Your suggestion is currently at',
@@ -82,12 +82,12 @@ export default {
   try_again_button: 'Try Again',
 
   choose_your_letter:
-  'Which letter do you want to be? Choose wisely, you cannot change this for the next [HOURS] hours.',
+    'Which letter do you want to be? Choose wisely, you cannot change this for the next [HOURS] hours.',
   map_too_zoom_title: 'Too high in the sky',
   map_too_zoom_text: 'Zoom in to the circle to place letters!',
   map_too_crowded_title: 'Too crowded',
   map_too_crowded_text:
-  'There are too many letters in this area. Please write somewhere else or wait.',
+    'There are too many letters in this area. Please write somewhere else or wait.',
   map_too_far_title: 'Too far away',
   map_too_far_text: 'You cannot write outside the circle around you.',
   map_photo_save_title: 'Saved',
@@ -102,9 +102,11 @@ export default {
   suggestion_empty_text: 'You must at least drag one letter.',
   suggestion_wrong: 'Oups. Something did not work. Sorry!',
 
-  blocked_user: 'Submissions from your device have been blocked. Contact us through the info section of the app.',
+  blocked_user:
+    'Submissions from your device have been blocked. Contact us through the info section of the app.',
   waiting_for_answer: 'Counting votes...',
   proposal_booster_title: 'Great minds think alike!',
-  proposal_booster_text: 'Your suggestion has also been made by someone else. Your suggestions have been combined and get an extra [X] votes!',
+  proposal_booster_text:
+    'Your suggestion has also been made by someone else. Your suggestions have been combined and get an extra [X] votes!',
   reload_proposal_status: 'The status of your suggestion could not be loaded. Press to Reload FR',
 };

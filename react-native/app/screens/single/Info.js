@@ -22,11 +22,11 @@ class Info extends Component {
     return (
       <Screen navigation={this.props.navigation}>
         <StatusBar />
+        <InfoBox />
         {Expo.Constants.appOwnership === 'expo' && <Button
           onPress={this.handleDeleteStorage}
           title={`Reset App and delete all personal data (${config.SERVER_NAME}\u00a0${config.SERVER_ADDRESS})`}
         />}
-        <InfoBox />
       </Screen>
     );
   }
