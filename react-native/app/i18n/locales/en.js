@@ -87,7 +87,7 @@ export default {
   map_too_zoom_text: 'Zoom in to the circle to place letters!',
   map_too_crowded_title: 'Too crowded',
   map_too_crowded_text:
-    'There are too many letters in this area. Please write somewhere else or wait.',
+    'There are too many letters in this area. Please write somewhere else, zoom in or wait.',
   map_too_far_title: 'Too far away',
   map_too_far_text: 'You cannot write outside the circle around you.',
   map_photo_save_title: 'Saved',

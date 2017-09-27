@@ -23,7 +23,7 @@ class MapOverview extends Component {
   componentDidMount() {
     I18n.locale = this.props.language;
     const user = this.props.user;
-    if (user.map.tutorialStatus == 'welcome') {
+    if (user.map.tutorialStatus == 'welcome' || user.map.tutorialStatus == 'step2') {
       setTimeout(() => {
         this.props.alertWithType(
           'info',
