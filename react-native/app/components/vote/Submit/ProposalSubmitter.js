@@ -103,14 +103,16 @@ class ProposalSubmitter extends Component {
   }
 
   componentWillMount() {
-        setTimeout(() => {
-          this.props.alertWithType(
-            'info',
-            I18n.t('vote_tutorial_6_title'),
-            I18n.t('vote_tutorial_6_text'),
-          );
-          setUserVoteTutorialStatusProxy('submit');
-        }, 1000);
+    setTimeout(() => {
+      if(!this.props.ownProposalId) {
+        this.props.alertWithType(
+          'info',
+          I18n.t('vote_tutorial_6_title'),
+          I18n.t('vote_tutorial_6_text'),
+        );
+        setUserVoteTutorialStatusProxy('submit');
+      }
+    }, 1000);
   }
 
   componentWillUnmount() {
