@@ -13,7 +13,7 @@
     },
     "android": {
       "package": "fr.paris.mareedeslettres",
-      "icon": "./assets/maree_512x512_round.png",
+      "icon": "./assets/maree_512x512.png",
       "versionCode": 1,
       "permissions": [
         "CAMERA",
