@@ -7,9 +7,9 @@ export default EStyleSheet.create({
   $padding: 20,
   $indexLetter: 1000,
 //  $outline: true,
-  $letterWidth: 40,
+  $letterWidth: 80,
   $letterHeight: 50,
-  $letterDraggedHeight: 80,
+  $letterDraggedHeight: 120,
   $letterDraggedWidth: 80,
 
   letter: {
@@ -20,21 +20,19 @@ export default EStyleSheet.create({
   },
   letter_view: {
     backgroundColor: 'transparent',
-    //width: '$letterWidth',
-    //height: '$letterHeight',
+    width: '$letterWidth',
+    height: '$letterHeight',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: 5,
-    marginLeft: 12
   },
   letter_view_dragged: {
     backgroundColor: 'transparent',
-    //width: '$letterDraggedWidth',
-    //height: '$letterDraggedHeight',
+    width: '$letterDraggedWidth',
+    height: '$letterDraggedHeight',
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
   container_main: {
     flex: 1,

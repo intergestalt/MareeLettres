@@ -43,12 +43,23 @@ const letters = (state = initialState.letters, action) => {
         const maxTime = 1000 * store.getState().config.config.map_letter_decay_time;
         let letters = {...state.content};
 
+        // these arrive sorted by created_at
         console.log("received " + action.result.letters.length + " letters");
 
         // replace new letters from server
         for (let i=0; i<action.result.letters.length; i+=1) {
           const letter = action.result.letters[i];
-          letters[letter._id] = letter;
+          const t = (new Date()).getTime() - (new Date(letter.created_at)).getTime();
+          if (t > maxTime) {
+            // remove letter if expired
+            if(letters[letter._id]) {
+              delete letters[letter._id];  
+            }
+          } else {
+            // replace with new version if still active
+            letters[letter._id] = letter;  
+            letters[letter._id].age = t;
+          }
         }
 
         const currentRegion = store.getState().user.map.coordinates;
@@ -57,42 +68,45 @@ const letters = (state = initialState.letters, action) => {
         let counter = 0;
         let droppedMarkers = 0;
 
-        let minLat = currentRegion.latitude - currentRegion.latitudeDelta / 2;
-        let maxLat = currentRegion.latitude + currentRegion.latitudeDelta / 2;
-        let minLng = currentRegion.longitude - currentRegion.longitudeDelta / 2;
-        let maxLng = currentRegion.longitude + currentRegion.longitudeDelta / 2;
+        let minLat = currentRegion.latitude - currentRegion.latitudeDelta; // get double screen size
+        let maxLat = currentRegion.latitude + currentRegion.latitudeDelta;
+        let minLng = currentRegion.longitude - currentRegion.longitudeDelta;
+        let maxLng = currentRegion.longitude + currentRegion.longitudeDelta;
+
+        let lettersOnScreen = {};
+        let lettersOnScreenKeys = [];
 
         // iterate over all letters and mark those that should be drawn on the map as markers
         Object.keys(letters).forEach((key)=>{
-
-          // check if letter has expired
-          const t = (new Date()).getTime() - (new Date(letters[key].created_at)).getTime();
-          if (t > maxTime) {
-            // remove letter
-            delete letters[key];
-            return; 
-          }
-
-          letters[key].showAsMarker = false;
           if(letters[key].coords.lat > minLat && letters[key].coords.lat < maxLat &&
             letters[key].coords.lng > minLng && letters[key].coords.lng < maxLng) { // letter is on screen
-            if(counter < markerLimit) { // we can still show markers
-              letters[key].showAsMarker = true;
-              counter++;  
-            } else {
-              droppedMarkers++;
-            }
+              lettersOnScreenKeys.push(key);
+              lettersOnScreen[key] = letters[key];
           }
         });
 
-        console.log(counter + " / " + Object.keys(letters).length + " (dropped: " + droppedMarkers + ")");
+        let lettersOnScreenSelection = {};
+        if(lettersOnScreenKeys.length > markerLimit) {
+          // sort letters on screen by age       
+          lettersOnScreenKeys.sort((a,b)=> {return (letters[a].age > letters[b].age) ? 1 : ((letters[b].age > letters[a].age) ? -1 : 0);} ); 
+          // cut off at limit
+          lettersOnScreenKeys = lettersOnScreenKeys.slice(0, markerLimit);
+          lettersOnScreenKeys.forEach((key)=>{
+            lettersOnScreenSelection[key] = letters[key];
+          })
+          droppedMarkers = lettersOnScreenKeys.length - markerLimit;
+        } else {
+          lettersOnScreenSelection = lettersOnScreen;
+        }
+        
+        console.log(Object.keys(lettersOnScreenSelection).length + " / " + Object.keys(letters).length + " (dropped: " + droppedMarkers + ")");
         
         const result = {
           ...state,
           blockWriting: droppedMarkers > 0,
           isLoading: false,
           isInternalLoading: false,
-          content: letters,
+          content: lettersOnScreenSelection,
         };
         saveLettersToStorage(result);
         return result;

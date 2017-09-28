@@ -15,9 +15,7 @@ class CameraButton extends Component {
     this.props.hideMap(); // put black curtain over map to hide weird morph effect
     setTimeout(()=>{
       navigateToMapCamera(this.props);
-      setTimeout(()=>{
-        this.props.showMap(); // take it away when the camera is loaded
-      }, 200);  
+      this.props.showMap(); // take it away when the camera is loaded
     }, 100);
   };
 

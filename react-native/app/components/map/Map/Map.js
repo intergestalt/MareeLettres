@@ -63,23 +63,40 @@ class Map extends Component {
         longitudeDelta: this.props.user.map.coordinates.longitudeDelta,
       },
       pollingCounter: 0,
-      showMap: 1
+      showMap: 1,
+      gpsChecked: false,
     };
     this.state.region = this.state.initialRegion;
   }
 
-  async _getPlayerCoords() {
+  componentWillMount() {
+    console.log("mounting map...");
+
+    // get the player GPS
+    this._getPlayerCoords(()=>{
+      this.setState({gpsChecked: true});
+      this.pollLetters(true);
+    });
+  }
+
+  async _getPlayerCoords(callback) {
     const { Location, Permissions } = Exponent;
     const { status } = await Permissions.askAsync(Permissions.LOCATION);
 
     if (status === 'granted') {
       Location.getCurrentPositionAsync({ enableHighAccuracy: true }).then((res) => {
+        console.log("received player position via GPS");
         setUserCoordinatesProxy(res.coords.latitude, res.coords.longitude);
         this.setState({ lng: res.coords.longitude, lat: res.coords.latitude });
-        this.centreZoomMap();
+        this.centreZoomMap(); // this sets region
+        if(callback) { callback(); }
+      }).catch((err)=>{
+        console.log(err);
+        if(callback) { callback(); }
       });
     } else {
       throw new Error('Location permission not granted');
+      if(callback) { callback(); }
     }
   }
 
@@ -88,7 +105,6 @@ class Map extends Component {
   }
 
   calculateMapLetterRequest() {
-    console.log(this.state.region);
     let centerLat = this.state.region.latitude.toFixed(3);
     let centerLng = this.state.region.longitude.toFixed(3);
     let radiusMeters = getDistanceBetweenCoordinates(
@@ -101,7 +117,6 @@ class Map extends Component {
     if(radiusMeters > 500) {
       radiusMeters = 500;
     }
-    console.log(radiusMeters);
     
     let interval = Math.floor(Math.sqrt(this.state.pollingCounter));
     if (interval > 10) {
@@ -112,42 +127,29 @@ class Map extends Component {
       centerLng: centerLng,
       centerLat: centerLat,
       radius: radiusMeters,
-      interval: Math.pow(interval + 1, 2),
+      interval: Math.pow(interval, 2),
     };
     return o;
   }
 
-  componentWillMount() {
-    console.log("mounting map...");
-
-    // get the player GPS
-    //this._getPlayerCoords();
-
-    this.setState({lastLoad: new Date().getTime() });
-    loadLettersServiceProxy(this.calculateMapLetterRequest());
-    this.pollLetters();
-
-    this.setMapLetterSize(this.state.initialRegion);
-  }
-
-  componentWillUnmount() {
-    console.log("unmounting map..."); // find out why this happens?
-    clearTimeout(this.timerID);
-  }
-
-  // warning: this doesn't work if component is unmounted
-  pollLetters() {
+  pollLetters(first = false) {
     console.ignoredYellowBox = ['Setting a timer'];
     this.timerID = setTimeout(() => {
       if (this.props.screen === 'map' && this.props.mode === 'overview') {
         // only call when map is current screen
+        console.log("loadLettersIntervalServiceProxy");
         loadLettersIntervalServiceProxy(this.calculateMapLetterRequest());
-        this.setState({ pollingCounter: 0 });
+        this.setState({ pollingCounter: 1 });
       } else {
         this.setState({ pollingCounter: this.state.pollingCounter + 1 }); // this counts missed intervals
       }
       this.pollLetters();
-    }, this.props.interval);
+    }, (first ? 0 : this.props.interval));
+  }
+
+  componentWillUnmount() {
+    console.log("unmounting map...");
+    clearTimeout(this.timerID);
   }
 
   onLayout = (event) => {
@@ -162,20 +164,28 @@ class Map extends Component {
   };
 
   onRegionChange = ()=> {
-    this.setState({dragging: true});
+    // this somehow causes the map to snap back and be slow
+    /*if(!this.state.dragging) {
+      this.setState({dragging: true});
+    }*/ 
   };
 
   onRegionChangeComplete = (region) => {
-    changeMapRegionProxy(region); // for use in reducer when new letters arrive
-    this.setState({region: region, pollingCounter: 0, dragging: false});
-    this.setMapLetterSize(region);
+    console.log("region change complete");
+    if(this.state.gpsChecked) {
+      changeMapRegionProxy(region); // for use in reducer when new letters arrive
+      this.setState({region: region, pollingCounter: 0});
+      this.setMapLetterSize(region);
 
-    let timeSinceLastLoad = (new Date().getTime() - this.state.lastLoad);
-    console.log("time since last region change: " + timeSinceLastLoad);
-    if(timeSinceLastLoad > 2000) {
-      loadLettersServiceProxy(this.calculateMapLetterRequest());
-      this.setState({lastLoad: new Date().getTime()});
-    }  
+      // poll in a regular rythm, looks better
+      /*let timeSinceLastLoad = (new Date().getTime() - this.state.lastLoad);
+      if(!this.state.lastLoad || timeSinceLastLoad > 2000) {
+        loadLettersServiceProxy(this.calculateMapLetterRequest());
+        this.setState({lastLoad: new Date().getTime()});
+      }*/   
+    } else {
+      console.log("rengion changed - ignoring before initial gps check");
+    }
   };
 
   setMapLetterSize = (region) => {
@@ -233,9 +243,9 @@ class Map extends Component {
     const step = (win.width - 1) / 6;
 
     if (index == 0) {
-      x = step - 18;
+      x = step - 18 - 20;
     } else {
-      x = step * (index + 1.5) - 24;
+      x = step * (index + 1.5) - 24 - 20;
     }
 
     return (
@@ -253,9 +263,9 @@ class Map extends Component {
       />
     );
   }
-
+  
   shouldComponentUpdate(nextProps, nextState) {
-    return !nextState.dragging && nextProps.mode === 'overview';
+    return nextProps.mode === 'overview';
   }
   hideMap() {
     this.setState({showMap: false});
@@ -289,7 +299,7 @@ class Map extends Component {
     if (this.props.isInitialUser) {
       return this.renderNoUser();
     }
-    console.log('RENDER MAP');
+    console.log('RENDER MAP with letter size ' + this.state.letter_size);
 
     // convert letter objects into component arrays
 
@@ -299,22 +309,15 @@ class Map extends Component {
       this.mapLettersToMarkers(this.props.my_letters.content[key], index, true),
     );
 
-    const mapLetters = [];
-    if (this.props.map.coordinates.longitudeDelta <= this.state.delta_max) {
-      // only add markers at all if we are low enough
-      Object.keys(this.props.letters.content).forEach((key) => {
-        if (this.props.letters.content[key].showAsMarker) {
-          // this is set in letters reducer!
-          mapLetters.push(
-            this.mapLettersToMarkers(
+    // only add markers at all if we are low enough
+    const mapLetters = (this.props.map.coordinates.longitudeDelta <= this.state.delta_max) ? 
+      Object.keys(this.props.letters.content).map((key) =>
+        this.mapLettersToMarkers(
               this.props.letters.content[key],
               this.props.letters.content[key]._id,
-              false,
-            ),
-          );
-        }
-      });
-    }
+              false
+        )
+      ) : [];
 
     const menuLetters = [
       this.props.user.primary_letter,

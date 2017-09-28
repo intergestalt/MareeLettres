@@ -78,8 +78,8 @@ class Letter extends Component {
       onPanResponderRelease: (e, gesture) => {
         // convert to top/left coordinates relative to map and centered in letter
         const win = Dimensions.get('window');
-        let x = gesture.dx + this.props.position.x + (this.state.layout.width / 2) + 12; // add margin from letter style
-        let y = gesture.dy + this.state.letter_offset.y + (win.height - this.state.offset_bottom - this.state.layout.height / 2) - this.props.mapLayout.yOffset - 5; // margin
+        let x = gesture.dx + this.props.position.x + (this.state.layout.width / 2);
+        let y = gesture.dy + this.state.letter_offset.y + (win.height - this.state.offset_bottom - this.state.layout.height / 2) - this.props.mapLayout.yOffset;
 
         this.setState({panning: false});
         this.animateResetFont();
@@ -281,7 +281,7 @@ class Letter extends Component {
       <Animated.View onLayout={this.onLayout}
         {...this.panResponder.panHandlers}
         style={[
-          styles.letter_view, {
+          this.state.panning ? styles.letter_view_dragged : styles.letter_view, {
           position: 'absolute',
           left: this.props.position.x,
           bottom: this.state.offset_bottom,

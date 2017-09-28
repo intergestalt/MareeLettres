@@ -19,7 +19,7 @@ class LetterOverlay extends React.Component {
     const opacity = Math.max(0, 1 - t / (1000 * this.props.config.map_letter_decay_time));
     const screenCoords = latLngToScreen(letter.coords.lat, letter.coords.lng, this.props.map.coordinates, this.props.user.map.layout.width, this.props.user.map.layout.height);
     const size = scaleLetterSize(this.props.config.map_letter_base_size * 5, this.props.map.coordinates.latitudeDelta);
-    
+
     return (
       opacity != 0
         ? <Text key={key} style={[styles.letter, {
@@ -38,9 +38,7 @@ class LetterOverlay extends React.Component {
     const mapLetters = [];
     if(this.props.map.coordinates.longitudeDelta <= this.state.delta_max) { // only add markers at all if we are low enough
       Object.keys(this.props.letters.content).forEach((key)=>{
-        if(this.props.letters.content[key].showAsMarker) {
-          mapLetters.push(this.letterToText(this.props.letters.content[key], key));  
-        }
+        mapLetters.push(this.letterToText(this.props.letters.content[key], key));  
       });
     }
     
