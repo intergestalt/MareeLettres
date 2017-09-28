@@ -105,7 +105,6 @@ const loadData = function* loadData(action) {
       console.log('no json error object found');
       messageKey = 'network_error';
     }
-    console.log(`messageKey ${messageKey}`);
     yield put({ type: action.errorEvent, action, error });
     yield put({
       type: SET_NET_WORK_ERROR,

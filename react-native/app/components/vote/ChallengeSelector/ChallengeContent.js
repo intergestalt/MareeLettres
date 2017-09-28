@@ -73,10 +73,14 @@ class ChallengeContent extends Component {
   }
   getAnswer() {
     const myChallenge = this.getChallenge();
-    let answer = '';
+    let answer = null;
     if (myChallenge) {
       const winning = myChallenge.winningProposal;
-      if (winning) {
+      if (winning === undefined) {
+        answer = null;
+      } else if (winning === null) {
+        answer = '';
+      } else {
         answer = winning.text;
       }
     }
@@ -379,7 +383,7 @@ class ChallengeContent extends Component {
       );
     }
     const answer = this.getAnswer();
-    if (isEmpty(answer)) {
+    if (answer === null) {
       return (
         <View style={styles.challengeContent}>
           <View style={styles.challengeInnerContainer}>

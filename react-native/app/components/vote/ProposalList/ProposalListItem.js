@@ -16,6 +16,7 @@ class ProposalListItem extends PureComponent {
     onYesPress: PropTypes.func,
     onNoPress: PropTypes.func,
     listEnabled: PropTypes.bool,
+    isFinished: PropTypes.bool,
   };
   /* getAnswer() {
     let answer = '';
@@ -39,6 +40,9 @@ class ProposalListItem extends PureComponent {
     if (this.props.no) {
       voteMarkPanel = true;
       noNum = 1;
+    }
+    if (this.props.isFinished) {
+      voteMarkPanel = true;
     }
     return (
       <View style={styles.itemContainer}>

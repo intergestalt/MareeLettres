@@ -8,7 +8,7 @@ import { ReloadButton } from '../../../components/general/ReloadButton';
 import { styles, ChallengesListHeaderImg } from './';
 import { navigateToChallengeSelector } from '../../../helper/navigationProxy';
 import { startChallengeTicker } from '../../../helper/ticker';
-import { listIsEmpty } from '../../../helper/helper';
+import { listIsEmpty, isEmpty } from '../../../helper/helper';
 import { loadChallengesServiceProxy, loadUserServiceProxy } from '../../../helper/apiProxy';
 import { CHALLENGE_VIEWS } from '../../../consts';
 import { setShowAllFinishedChallenges } from '../../../actions/general';
@@ -35,9 +35,14 @@ class ChallengesList extends PureComponent {
   }
 
   getAnswer(challenge) {
-    let answer = '';
+    let answer = null;
+    if (isEmpty(challenge)) return null;
     const winning = challenge.winningProposal;
-    if (winning) {
+    if (winning === undefined) {
+      answer = null;
+    } else if (winning === null) {
+      answer = '';
+    } else {
       answer = winning.text;
     }
     return answer;
