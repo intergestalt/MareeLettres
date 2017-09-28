@@ -61,7 +61,7 @@ JsonRoutes.add('get', `${Meteor.settings.public.api_prefix}letters`, function (r
     };
   }
 
-  const letters_cursor = Letters.find(query);
+  const letters_cursor = Letters.find(query, { sort: { created_at: -1 }, fields: { origin_id: 0 } });
 
   // console.log(lat, lng, radius);
   // console.log(query);
