@@ -1,4 +1,4 @@
-const serverUri = "https://maree-staging.herokuapp.com"
+const serverUri = "https://mareedeslettres.herokuapp.com"
 
 export { serverUri };
 
