@@ -126,7 +126,7 @@ export default class FluxMap extends Component {
           defaultCenter={defaultProps.center}
           defaultZoom={defaultProps.zoom}
           zoom={this.state.zoom}
-          bootstrapURLKeys={{ key: "AIzaSyCfyWQ_dsbZvIyYUVMwPAuXTuM5wwJprXg" }}
+          bootstrapURLKeys={{ key: "AIzaSyA5D5Qxs0fDKabuxgLp_1tuFt1_eECJDR0" }}
           options={{ styles: mapStyles, mapTypeControl: false, zoomControl: false, fullscreenControl: false, streetViewControl: false }}
           onChange={this.onChange}
           resetBoundsOnResize={true}
