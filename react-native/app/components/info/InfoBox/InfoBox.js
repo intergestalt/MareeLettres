@@ -1,7 +1,8 @@
 import React, { Component, PropTypes } from 'react';
-import { ActivityIndicator, ScrollView, View } from 'react-native';
+import { ActivityIndicator, ScrollView, View, Text } from 'react-native';
 import { connect } from 'react-redux';
 import Markdown from 'react-native-simple-markdown';
+import Expo from 'expo';
 
 import { LanguageSelector } from '../../general/LanguageSelector';
 import styles from './styles';
@@ -21,6 +22,15 @@ class InfoBox extends Component {
   handleReloadPressPress = () => {
     loadContentServiceProxy(true, false);
   };
+
+  renderDebugInfo() {
+    const infos = Expo.Constants.manifest.version + (Expo.Constants.expoVersion ? ` (${Expo.Constants.expoVersion})` : '');
+    return (
+      <View>
+        <Text style={styles.debugInfoText}>App Version: {infos}</Text>
+      </View>
+    );
+  }
 
   renderEmpty() {
     return (
@@ -44,6 +54,7 @@ class InfoBox extends Component {
               {this.props.language === 'fr' ? this.props.about.fr : this.props.about.en}
             </Markdown>
             : <ActivityIndicator />}
+          {this.renderDebugInfo()}
         </ScrollView>
       </View>
     );

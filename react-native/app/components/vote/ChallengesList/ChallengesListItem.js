@@ -73,8 +73,10 @@ class ChallengesListItem extends Component {
       );
     }
     let answer = this.props.data.answer;
-    if (isEmpty(answer)) {
+    let emptyAnswer = false;
+    if (answer === null) {
       answer = I18n.t('waiting_for_answer');
+      emptyAnswer = true;
     }
     if (this.props.data.url) {
       url = (
@@ -86,30 +88,28 @@ class ChallengesListItem extends Component {
           />
         </View>
       );
+    } else if (emptyAnswer) {
+      url = (
+        <View style={styles.imageListContainer}>
+          <View style={[styles.winningInnerContainer, styles.winningInnerContainerWaiting]}>
+            <Text style={[styles.winningText, styles.winningTextWaiting]}>{answer}</Text>
+          </View>
+        </View>
+      );
     } else {
-      if (isEmpty(this.props.data.answer)) {
-        url = (
-          <View style={styles.imageListContainer}>
-            <View style={[styles.winningInnerContainer, styles.winningInnerContainerWaiting]}>
-              <Text style={[styles.winningText, styles.winningTextWaiting]}>{answer}</Text>
+      url = (
+        <View style={styles.imageListContainer}>
+          <LinearGradient
+            colors={gradient2.colors}
+            locations={gradient2.stops}
+            style={{ flex: 1, opacity: 1 }}
+          >
+            <View style={styles.winningInnerContainer}>
+              <Text style={styles.winningText}>{answer}</Text>
             </View>
-          </View>
-        );
-      } else {
-        url = (
-          <View style={styles.imageListContainer}>
-            <LinearGradient
-              colors={gradient2.colors}
-              locations={gradient2.stops}
-              style={{ flex: 1, opacity: 1 }}
-            >
-              <View style={styles.winningInnerContainer}>
-                <Text style={styles.winningText}>{answer}</Text>
-              </View>
-            </LinearGradient>
-          </View>
-        );
-      }
+          </LinearGradient>
+        </View>
+      );
     }
     return (
       <View style={styles.itemContainer}>

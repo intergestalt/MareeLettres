@@ -40,7 +40,11 @@ class ProposalList extends PureComponent {
 
   componentWillMount() {
     if (this.props.voteTutorialStatus) {
-      if (!this.props.voteTutorialStatus.list1 && this.props.challengeOffset == 0 && !this.props.isFinished) {
+      if (
+        !this.props.voteTutorialStatus.list1 &&
+        this.props.challengeOffset == 0 &&
+        !this.props.isFinished
+      ) {
         this.props.alertWithType(
           'info',
           I18n.t('vote_tutorial_4_title'),
@@ -168,6 +172,7 @@ class ProposalList extends PureComponent {
                 onYesPress={() => this.onYesPress(item)}
                 proposal={item}
                 listEnabled={this.props.listEnabled}
+                isFinished={this.props.isFinished}
               />
             )}
             keyExtractor={item => item._id}
