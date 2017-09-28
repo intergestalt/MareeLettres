@@ -73,10 +73,18 @@ class Map extends Component {
     console.log("mounting map...");
 
     // get the player GPS
-    this._getPlayerCoords(()=>{
-      this.setState({gpsChecked: true});
+    this._getPlayerCoords(() => {
+      this.setState({ gpsChecked: true });
       this.pollLetters(true);
     });
+
+    // failover: run if _getPlayerCoords doesn't return
+    setTimeout(() => {
+      this.setState({ gpsChecked: true });
+      this.pollLetters(true);
+    }, 2000);
+
+
   }
 
   async _getPlayerCoords(callback) {
@@ -89,14 +97,14 @@ class Map extends Component {
         setUserCoordinatesProxy(res.coords.latitude, res.coords.longitude);
         this.setState({ lng: res.coords.longitude, lat: res.coords.latitude });
         this.centreZoomMap(); // this sets region
-        if(callback) { callback(); }
-      }).catch((err)=>{
+        if (callback) { callback(); }
+      }).catch((err) => {
         console.log(err);
-        if(callback) { callback(); }
+        if (callback) { callback(); }
       });
     } else {
       throw new Error('Location permission not granted');
-      if(callback) { callback(); }
+      if (callback) { callback(); }
     }
   }
 
@@ -108,16 +116,16 @@ class Map extends Component {
     let centerLat = this.state.region.latitude.toFixed(3);
     let centerLng = this.state.region.longitude.toFixed(3);
     let radiusMeters = getDistanceBetweenCoordinates(
-        this.state.region.latitude, 
-        this.state.region.longitude, 
-        this.state.region.latitude + this.state.region.latitudeDelta, 
-        this.state.region.longitude + this.state.region.longitudeDelta);
+      this.state.region.latitude,
+      this.state.region.longitude,
+      this.state.region.latitude + this.state.region.latitudeDelta,
+      this.state.region.longitude + this.state.region.longitudeDelta);
     radiusMeters = Math.floor(radiusMeters);
     radiusMeters = Math.floor(radiusMeters / 100) * 100;
-    if(radiusMeters > 500) {
+    if (radiusMeters > 500) {
       radiusMeters = 500;
     }
-    
+
     let interval = Math.floor(Math.sqrt(this.state.pollingCounter));
     if (interval > 10) {
       interval = 10;
@@ -157,24 +165,24 @@ class Map extends Component {
     if (this.refs.mapContainer && this.props.mode === 'overview') { // only do this when not in camera mode
       this.refs.mapContainer.measure((fx, fy, width, height, px, py) => {
         layout.yOffset = py;
-        this.setState({mapLayout: layout});
+        this.setState({ mapLayout: layout });
         changeMapLayoutProxy(layout);
       });
     }
   };
 
-  onRegionChange = ()=> {
+  onRegionChange = () => {
     // this somehow causes the map to snap back and be slow
     /*if(!this.state.dragging) {
       this.setState({dragging: true});
-    }*/ 
+    }*/
   };
 
   onRegionChangeComplete = (region) => {
     console.log("region change complete");
-    if(this.state.gpsChecked) {
+    if (this.state.gpsChecked) {
       changeMapRegionProxy(region); // for use in reducer when new letters arrive
-      this.setState({region: region, pollingCounter: 0});
+      this.setState({ region: region, pollingCounter: 0 });
       this.setMapLetterSize(region);
 
       // poll in a regular rythm, looks better
@@ -182,17 +190,17 @@ class Map extends Component {
       if(!this.state.lastLoad || timeSinceLastLoad > 2000) {
         loadLettersServiceProxy(this.calculateMapLetterRequest());
         this.setState({lastLoad: new Date().getTime()});
-      }*/   
+      }*/
     } else {
       console.log("rengion changed - ignoring before initial gps check");
     }
   };
 
   setMapLetterSize = (region) => {
-    if(!this.state.mapLayout) {
+    if (!this.state.mapLayout) {
       return;
     }
-    const zoomFactor = (this.state.mapLayout.height / region.latitudeDelta) / 100000; 
+    const zoomFactor = (this.state.mapLayout.height / region.latitudeDelta) / 100000;
     console.log(zoomFactor);
     const size = this.props.config.map_letter_base_size * zoomFactor;
 
@@ -263,15 +271,15 @@ class Map extends Component {
       />
     );
   }
-  
+
   shouldComponentUpdate(nextProps, nextState) {
     return nextProps.mode === 'overview';
   }
   hideMap() {
-    this.setState({showMap: false});
+    this.setState({ showMap: false });
   }
   showMap() {
-    this.setState({showMap: true}); 
+    this.setState({ showMap: true });
   }
 
   handleReloadUserPressPress = () => {
@@ -310,12 +318,12 @@ class Map extends Component {
     );
 
     // only add markers at all if we are low enough
-    const mapLetters = (this.props.map.coordinates.longitudeDelta <= this.state.delta_max) ? 
+    const mapLetters = (this.props.map.coordinates.longitudeDelta <= this.state.delta_max) ?
       Object.keys(this.props.letters.content).map((key) =>
         this.mapLettersToMarkers(
-              this.props.letters.content[key],
-              this.props.letters.content[key]._id,
-              false
+          this.props.letters.content[key],
+          this.props.letters.content[key]._id,
+          false
         )
       ) : [];
 
@@ -329,7 +337,7 @@ class Map extends Component {
 
     return (
       <View style={styles.container} ref="mapContainer">
-        {!this.state.showMap ? (<View style={styles.mapCurtain}/>):null}
+        {!this.state.showMap ? (<View style={styles.mapCurtain} />) : null}
         <MapView
           ref="map"
           onLayout={this.onLayout}
@@ -363,7 +371,7 @@ class Map extends Component {
           />
         </MapView>
 
-        <CameraButton navigation={this.props.navigation} hideMap={this.hideMap} showMap={this.showMap}/>
+        <CameraButton navigation={this.props.navigation} hideMap={this.hideMap} showMap={this.showMap} />
 
         <TouchableOpacity
           style={[styles.button, styles.buttonCentreMap]}
