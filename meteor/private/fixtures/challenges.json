@@ -2,26 +2,26 @@
   "challenges": [
     {
       "title": {
-        "en": "Write a few words to get started!",
-        "fr": "Ecrire quelques mots pour commencer!"
+        "en": "Describe the smell of Paris!",
+        "fr": "Describe the smell of Paris! FR"
       }
     },
     {
       "title": {
-        "en": "What is the most annoying thing about Paris?",
-        "fr": "Quelle est la chose la plus ennuyeuse de Paris?"
+        "en": "Give a name to the site of the big letters (between pont neuf and pont au change)!",
+        "fr": "Give a name to the site of the big letters (between pont neuf and pont au change)! FR"
       }
     },
     {
       "title": {
-        "en": "Decide on a definition of love!",
-        "fr": "Decider sur une définition de l'amour!"
+        "en": "Write a love letter!",
+        "fr": "Write a love letter! FR"
       }
     },
     {
       "title": {
-        "en": "Formulate a message to aliens!",
-        "fr": "Formuler un message pour les extraterrestres!"
+        "en": "Communicate with aliens!",
+        "fr": "Communicate with aliens! FR"
       }
     }
     ],
