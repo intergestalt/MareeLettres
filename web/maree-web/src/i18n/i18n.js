@@ -20,7 +20,7 @@ i18n
       },
       fr: {
         translations: {
-          "loading": "loading fr",
+          "loading": "chargement...",
           "live": "en direct",
           "sort_top": "Top",
           "sort_new": "Plus récents",
