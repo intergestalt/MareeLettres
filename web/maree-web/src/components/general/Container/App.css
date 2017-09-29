@@ -104,7 +104,9 @@ section.vote {
 }
 
 section.news {
+  margin-left: 1px;
   border-right: 1px solid #000;
+  position: relative;
 }
 
 section.flux {

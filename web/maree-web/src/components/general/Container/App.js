@@ -71,12 +71,12 @@ class App extends React.Component {
               <NewsFeed/>
             </section>
           ) : null}  
-          <section className={this.state.mapExpansionClassname + (this.state.activeMenu === 3 ? " active" : "")}>
+          {<section className={this.state.mapExpansionClassname + (this.state.activeMenu === 3 ? " active" : "")}>
             <FluxMap
               expandMap={this.expandMap}
               mapExpansion={this.state.mapExpansion}
             />
-          </section>
+          </section>}
         </div>
       </div>
     );
