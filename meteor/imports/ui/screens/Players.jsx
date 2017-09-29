@@ -66,14 +66,16 @@ class PlayersPage extends Component {
 
     return (
       <AdminWrapper>
-        <h1>Players</h1>
-        <ReactTable
-          data={this.props.players}
-          columns={columns}
-          manual
-          onFetchData={this.fetchData}
-          defaultPageSize={Session.get('playersListLimit')}
-        />
+        <div className="playersPage">
+          <h2>Players</h2>
+          <ReactTable
+            data={this.props.players}
+            columns={columns}
+            manual
+            onFetchData={this.fetchData}
+            defaultPageSize={Session.get('playersListLimit')}
+          />
+        </div>
       </AdminWrapper>
     );
   }

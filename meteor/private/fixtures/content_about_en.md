@@ -1,4 +1,4 @@
-# MAREE DES LETTRES
+# MARÉE DES LETTRES
 
 Welcome to Marée Des Lettres, a playful art installation along the Seine. Starting at Nuit Blanche 2017, letters will appear along the river. In a space once dedicated to cars going from A to B, let's play with vehicles of meaning from A to Z! Read on to find out about the different ways to play. Enjoy!
 
@@ -24,7 +24,11 @@ All around the democratic arrangement of the big letters there is also the const
 
 ## COMMUNITY GUIDELINES
 
-By using this app, you agree to abide by these simple guidelines when creating content with this app: You are welcome to be creative, funny, weird... but please no advertisements, no attacks on individuals or groups, no personal data, no messages supporting racist, sexist, homophic or otherwise hateful agendas. A representative of the municipality of Paris has the last word on what is accepted for voting or removed from the map.
+By using this app, you agree to abide by these simple guidelines when creating content with this app: you are welcome to be creative, funny, weird... but please no advertisements, no attacks on individuals or groups, no personal data, no messages supporting homophobic, racist, sexist or otherwise hateful agendas.
+
+## CONTACT
+
+If you have questions or concerns about the app, please email us directly at info@lettres.paris 
 
 ## TEAM
 
@@ -34,8 +38,4 @@ Graphic Design: Manuel Bürger, Seb Holl-Trieu, Simon Schindele
 Programming: Holger Heissmeyer, Per Violet, Xavier Burrow, Sebastian Quack
 Production: Agence Eva Albarran
 
-## CONTACT
-
-If you have questions or concerns about problematic content in the app, please email us directly at info@lettres.paris or contact Agence Eva Albarran, 13 rue de Béarn, 75003 Paris, Telefone +33 (0)1 42 77 05 45
-
-You can find our privacy policy at http://privacy.lettres.paris
+Our privacy policy can be found at http://privacy.lettres.paris
