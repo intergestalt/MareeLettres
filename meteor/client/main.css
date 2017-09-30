@@ -303,6 +303,7 @@ body {
   display:flex;
   flex-direction: row;
   width:80%;
+  max-width: 28rem;
 }
 
 .statistics li {
