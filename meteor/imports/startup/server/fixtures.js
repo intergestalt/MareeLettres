@@ -60,7 +60,8 @@ Meteor.startup(() => {
 
   if (Challenges.find().count() === 0) {
     console.log('Seeding Challenges');
-    for (let i = 1; i <= 40; i++) {
+    const amount_challenges = seed_proposals_and_players ? 40 : SeedChallenges.length;
+    for (let i = 1; i <= amount_challenges; i++) {
       Challenges.insert(
         {
           _id: `fixture_${i}`,

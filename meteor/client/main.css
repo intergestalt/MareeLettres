@@ -299,6 +299,23 @@ body {
   text-align: center;
 }
 
+.statistics {
+  display:flex;
+  flex-direction: row;
+  width:80%;
+  max-width: 28rem;
+}
+
+.statistics li {
+  flex:1;
+  padding: 1rem;
+}
+
+.statistics b {
+  display:block;
+  font-size: 2rem;
+}
+
 /*** status page ***/
 
 .StatusPage > li {
