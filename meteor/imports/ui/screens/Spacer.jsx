@@ -4,7 +4,7 @@ import { Meteor } from 'meteor/meteor';
 import { Link } from 'react-router';
 import Moment from 'react-moment';
 
-const defaultArrangements = ["custom", "votre tex*e ici", "pause"];
+const defaultArrangements = ["custom", "AAABDEFGHJKLLMNN   VOTRE TEX*E ICI   OPPQQRSSSUUWYZ?:", "pause"];
 
 // height of all letters
 const letterHeight = 2.4;
