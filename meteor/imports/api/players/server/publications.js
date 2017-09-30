@@ -26,11 +26,3 @@ Meteor.publish(
     return Players.find({ origin_id: origin_id });
   },
 );
-
-Meteor.publish('get.players.amount',
-  function getPlayers() {
-    if (!this.userId) return;
-
-    return Players.find().count();
-  },
-);

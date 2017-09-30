@@ -11,12 +11,17 @@ class Home extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      generalInfo: {}
+      generalInfo: {},
+      players: '...',
     };
   }
 
   componentDidMount() {
     this.getGeneralInfo();
+  }
+
+  componentWillUnmount() {
+    Meteor.subscribe('counts', []);
   }
 
   getGeneralInfo() {
@@ -36,11 +41,33 @@ class Home extends Component {
           <h3>Welcome to Maree des Lettres Admin Area</h3>
           <br />
           <div>Server: <b>{this.state.generalInfo.server}</b></div>
+          <br />
+          <ul className="statistics">
+            <li>
+              <b>{this.props.counts.players}</b> Players
+            </li>
+            <li>
+              <b>{this.props.counts.proposals}</b> Proposals
+            </li>
+            <li>
+              <b>{this.props.counts.letters}</b> Active Letters
+            </li>
+          </ul>
         </div>
       </AdminWrapper>
     );
   }
 }
 
-export default Home;
 
+export default createContainer(() => {
+  Meteor.subscribe('counts', ['players', 'proposals', 'letters']);
+
+  return {
+    counts: {
+      players: Counts.get('players'),
+      proposals: Counts.get('proposals'),
+      letters: Counts.get('letters'),
+    }
+  };
+}, Home);
