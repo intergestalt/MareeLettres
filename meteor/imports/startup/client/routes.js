@@ -14,6 +14,7 @@ import PlayersPage from '../../ui/screens/Players.jsx';
 import PlayerPage from '../../ui/screens/Player.jsx';
 import FeedPage from '../../ui/screens/Feed.jsx';
 import ReviewPage from '../../ui/screens/Review.jsx';
+import SpacerPage from '../../ui/screens/Spacer.jsx';
 
 const renderRoutes = () =>
   <Router history={browserHistory}>
@@ -31,6 +32,7 @@ const renderRoutes = () =>
       <Route name="config" path="config" component={ConfigPage} />
       <Route name="feed" path="feed" component={FeedPage} />
       <Route name="review" path="review" component={ReviewPage} />
+      <Route name="spacer" path="spacer" component={SpacerPage} />
     </Route>
   </Router>;
 
