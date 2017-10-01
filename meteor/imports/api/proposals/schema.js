@@ -34,6 +34,10 @@ const ProposalsSchemaObject = {
         type: Boolean,
         defaultValue: false,
     },
+    in_review_recheck: {
+        type: Boolean,
+        defaultValue: false,
+    },
     blocked: {
         type: Boolean,
         defaultValue: false,

@@ -65,8 +65,9 @@ JsonRoutes.add(
     if (Object.keys(sort_modes).indexOf(sort_param) < 0) sort_mode = 'popular';
 
     const sort = sort_modes[sort_param];
+    const fields = { in_review_recheck: 0, origin_id: 0 };
 
-    const proposals = Proposals.find({ challenge_id, in_review: false, blocked: false }, { sort, limit }).fetch();
+    const proposals = Proposals.find({ challenge_id, in_review: false, blocked: false }, { sort, limit, fields }).fetch();
 
     const options = {};
 

@@ -66,7 +66,12 @@ const runRegenerateTrending = function () {
   setSystemStatus('trend_regeneration_time', dt);
   const active_challenges = Object.keys(challenges.fetch()).map(c => challenges.fetch()[c]._id);
   TrendSnapshots.remove({ _id: { $nin: active_challenges } }, function (err, result) {
-    console.log(`Trend regeneration cleanup: Removed ${result} TrendSnapshots`);
+    if (err) {
+      console.log('Trend regeneration cleanup error', err);
+    }
+    else if (result > 0){
+      console.log(`Trend regeneration cleanup: Removed ${result} TrendSnapshots`);
+    }
   });
 };
 
