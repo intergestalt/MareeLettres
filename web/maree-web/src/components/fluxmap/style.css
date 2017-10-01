@@ -12,6 +12,10 @@
 	height: 100%;
 }
 
+.mapContainer div {
+	position: absolute !important;
+}
+
 .mapButton {
 	width: 1.5rem;
 	height: 1.5rem;

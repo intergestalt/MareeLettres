@@ -54,8 +54,8 @@ class App extends React.Component {
             <section className={"info" + (this.state.activeMenu === 0 ? " active" : "")}>
               <img src="assets/title.png" alt="title"/>
               <div className="store-icons">
-                <a href="#foo"><img className="apple" src="assets/store_icons/apple_en.svg" alt="apple appstore icon"/></a>
-                <a href="#foo"><img className="google" src="assets/store_icons/google-play-badge_en.png" alt="google play store icon"/></a>
+                <a href="https://itunes.apple.com/fr/app/mar%C3%A9e-des-lettres/id1286369338"><img className="apple" src="assets/store_icons/apple_en.svg" alt="apple appstore icon"/></a>
+                <a href="https://play.google.com/store/apps/details?id=fr.paris.mareedeslettres"><img className="google" src="assets/store_icons/google-play-badge_en.png" alt="google play store icon"/></a>
               </div>
               <LanguageSelector/>
               <InfoColumn/>
@@ -71,12 +71,12 @@ class App extends React.Component {
               <NewsFeed/>
             </section>
           ) : null}  
-          <section className={this.state.mapExpansionClassname + (this.state.activeMenu === 3 ? " active" : "")}>
+          {<section className={this.state.mapExpansionClassname + (this.state.activeMenu === 3 ? " active" : "")}>
             <FluxMap
               expandMap={this.expandMap}
               mapExpansion={this.state.mapExpansion}
             />
-          </section>
+          </section>}
         </div>
       </div>
     );

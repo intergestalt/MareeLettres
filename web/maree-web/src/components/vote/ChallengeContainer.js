@@ -17,9 +17,9 @@ class ChallengeContainer extends React.Component {
 		super();
 		this.state = {
 			loadingChallenges: true,
+      loadingProposals: false,
 			challenges: [],
 			tickerData: {},
-			loadingProposals: true,
 			proposals: [],
 			proposalSortMode: 0,
       proposalsLimit: proposalsBatchSize, // get from server config
@@ -145,6 +145,7 @@ class ChallengeContainer extends React.Component {
 			{this.state.showChallengeList ? (
             	<ChallengeList 
             		loading={this.state.loadingChallenges} 
+                loadingProposals={this.state.loadingProposals}
             		challenges={this.state.challenges} 
             		tickerData={this.state.tickerData}
             		onSelectChallenge={this.selectChallenge}

@@ -1,10 +1,9 @@
 import i18n from 'i18next';
-import LanguageDetector from 'i18next-browser-languagedetector';
 
 i18n
-  .use(LanguageDetector)
   .init({
     // we init with resources
+    lng: "fr",
     resources: {
       en: {
         translations: {
@@ -21,7 +20,7 @@ i18n
       },
       fr: {
         translations: {
-          "loading": "loading fr",
+          "loading": "chargement...",
           "live": "en direct",
           "sort_top": "Top",
           "sort_new": "Plus récents",

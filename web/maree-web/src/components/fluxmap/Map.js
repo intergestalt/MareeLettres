@@ -12,7 +12,7 @@ class Letter extends React.Component {
   }
 }
 
-const map_letter_decay_time = 5000;
+const map_letter_decay_time = 172800;
 
 const calculateRadius = function(latitudeDelta) {
   let radius = 1;

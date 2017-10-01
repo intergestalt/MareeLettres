@@ -40,7 +40,7 @@ class InfoColumn extends React.Component {
 	       	{this.state.loading ? (
 	       		<div>{this.props.i18n.t("loading")}</div>
 	       	) : (
-	       		<ReactMarkdown source={this.state.content[this.props.i18n.language]}/>
+	       		<ReactMarkdown source={this.state.content[this.props.i18n.language] ? this.state.content[this.props.i18n.language] : ""}/>
 	       	)}
 	       </div>
 	    );
