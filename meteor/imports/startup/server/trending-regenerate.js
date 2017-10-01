@@ -22,7 +22,7 @@ const runRegenerateTrending = function () {
     if (!snapshot) snapshot = {};
     if (!snapshot.proposals) snapshot.proposals = {};
     const proposals = Proposals.find(
-      { blocked: false, in_review: false },
+      { blocked: false, in_review: false, challenge_id: challenge._id },
       { fields: { score: 1, score_trending: 1, _id: 1 } },
     );
     const bulk = Proposals.rawCollection().initializeUnorderedBulkOp();
