@@ -64,6 +64,10 @@ const runRegenerateTrending = function () {
   const dt = Date.now() - t00;
   console.log(`Trend regeneration total time: ${dt}ms.`);
   setSystemStatus('trend_regeneration_time', dt);
+  const active_challenges = Object.keys(challenges.fetch()).map(c => challenges.fetch()[c]._id);
+  TrendSnapshots.remove({ _id: { $nin: active_challenges } }, function (err, result) {
+    console.log(`Trend regeneration cleanup: Removed ${result} TrendSnapshots`);
+  });
 };
 
 const continuouslyRegenerateTrending = () => {
