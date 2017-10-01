@@ -1,0 +1,39 @@
+#!/usr/bin/env node
+
+console.log("Outputs mongodump and mongorestore commands based on the MONGODB_URI on heroku")
+
+var mongodbUri = require('mongodb-uri');
+
+const util = require('util');
+const exec = util.promisify(require('child_process').exec);
+
+const app = process.argv[2] || 'maree-dev'
+
+async function getUri(callback) {
+  const { stdout, stderr } = await exec('heroku config:get MONGODB_URI --app ' + app);
+  console.log('stdout:', stdout);
+  console.log('stderr:', stderr);
+  callback(stdout);
+}
+
+getUri(function (uri) {
+  var o = mongodbUri.parse(uri);
+  console.log(JSON.stringify(o, null, 2));
+
+  var host = ''
+  o.hosts.forEach(function (host) {
+    host += host.host + ':' + host.port
+  })
+
+
+  const date = Date.now()
+
+  const dump = `mongodump -h ${o.hosts[0].host}:${o.hosts[0].port} -d ${o.database} -u ${o.username} -p ${o.password} -o ${app}_${date}`;
+  const restore = `mongorestore -h ${o.hosts[0].host}:${o.hosts[0].port} -d ${o.database} -u ${o.username} -p ${o.password} ${app}_TIMESTAMP/${o.database}`;
+
+  console.log(dump)
+  console.log(restore)
+  // mongodump - h ds029007.mlab.com:29007 - d heroku_12345678 - u heroku_12345678 - p random_password - o dump- dir
+
+});
+
