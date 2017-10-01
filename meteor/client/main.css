@@ -413,6 +413,7 @@ body {
   border: solid 1px black;
   border-width: 0 0 1px 0;
   padding:1ex;
+  background-color: white;
 }
 
 .reviewPanel__entry:last-child {
