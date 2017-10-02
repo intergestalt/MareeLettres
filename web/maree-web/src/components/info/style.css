@@ -25,3 +25,16 @@ p {
 iframe {
 	position: absolute;
 }
+
+div.partner-logos {
+	height: 120px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	flex-wrap: wrap;
+}
+
+img.partner-logo {
+	width: 150px;
+}

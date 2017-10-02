@@ -40,7 +40,13 @@ class InfoColumn extends React.Component {
 	       	{this.state.loading ? (
 	       		<div>{this.props.i18n.t("loading")}</div>
 	       	) : (
-	       		<ReactMarkdown source={this.state.content[this.props.i18n.language] ? this.state.content[this.props.i18n.language] : ""}/>
+	       		<div>
+	       			<ReactMarkdown source={this.state.content[this.props.i18n.language] ? this.state.content[this.props.i18n.language] : ""}/>
+	       			<div className="partner-logos">
+	       				<img className="partner-logo" src="assets/logos/NB-2017-noir.png" alt="nuit blanche logo"/>
+	       				<img className="partner-logo" src="assets/logos/Mairie-Paris-black.png" alt="mairie de paris logo"/>
+	       			</div>
+	       		</div>
 	       	)}
 	       </div>
 	    );
