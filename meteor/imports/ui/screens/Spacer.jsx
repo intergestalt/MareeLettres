@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { createContainer } from 'react-meteor-data';
 import { Meteor } from 'meteor/meteor';
+import { Challenges } from '../../api/challenges/challenges';
 import { Link } from 'react-router';
 import Moment from 'react-moment';
 
@@ -12,12 +13,14 @@ const letterHeight = 2.4;
 // leave extra space for errors
 const defaultErrorMargin = 0.1;
 
+// default width for space character
+const defaultSpaceWidth = 0.7;
+
 // meters to pixels
 const visualisationScale = 10;
 
 // width 
-const letterWidth = {
-  " ": 1.0,
+let letterWidth = {
   "A": 1.485,
   "B": 1.485,
   "C": 1.485,
@@ -30,7 +33,7 @@ const letterWidth = {
   "J": 1.485,
   "K": 1.485,
   "L": 1.485,
-  "M": 1.885,
+  "M": 1.8,
   "N": 1.485,
   "O": 1.485,
   "P": 1.485,
@@ -39,8 +42,8 @@ const letterWidth = {
   "S": 1.485,
   "T": 1.485,
   "U": 1.485,
-  "V": 1.885,
-  "W": 1.685,
+  "V": 1.485,
+  "W": 1.8,
   "X": 1.485,
   "Y": 1.485,
   "Z": 1.485,
@@ -51,36 +54,36 @@ const letterWidth = {
 
 // additional spacing left and right
 const letterSpacing = {
-  " ": -0.07, // here we give negative spacing to remove space given from the other letters
-  "A": 0.07,
-  "B": 0.07,
-  "C": 0.07,
-  "D": 0.07,
-  "E": 0.07,
-  "F": 0.07,
-  "G": 0.07,
-  "H": 0.07,
-  "I": -0.07, // here we give negative spacing to remove space given from the other letters
-  "J": 0.07,
-  "K": 0.07,
-  "L": 0.07,
-  "M": 0.07,
-  "N": 0.07,
-  "O": 0.07,
-  "P": 0.07,
-  "Q": 0.07,
-  "R": 0.07,
-  "S": 0.07,
-  "T": 0.07,
-  "U": 0.07,
-  "V": -0.07, // here we give negative spacing to remove space given from the other letters
-  "W": 0.07,
-  "X": 0.07,
-  "Y": 0.07,
-  "Z": 0.07,
-  "?": 0.07,
-  ":": -0.07, // here we give negative spacing to remove space given from the other letters
-  "*": -0.07, // here we give negative spacing to remove space given from the other letters
+  " ": -0.08, // here we give negative spacing to remove space given from the other letters
+  "A": 0.035,
+  "B": 0.035,
+  "C": 0.035,
+  "D": 0.035,
+  "E": -0.08,
+  "F": -0.08,
+  "G": 0.035,
+  "H": 0.035,
+  "I": -0.08, // here we give negative spacing to remove space given from the other letters
+  "J": -0.08,
+  "K": 0.035,
+  "L": -0.08,
+  "M": 0.035,
+  "N": 0.035,
+  "O": 0.035,
+  "P": 0.035,
+  "Q": 0.035,
+  "R": 0.035,
+  "S": 0.035,
+  "T": -0.08,
+  "U": 0.035,
+  "V": -0.08, // here we give negative spacing to remove space given from the other letters
+  "W": 0.035,
+  "X": 0.035,
+  "Y": -0.08,
+  "Z": 0.035,
+  "?": 0.035,
+  ":": -0.08, // here we give negative spacing to remove space given from the other letters
+  "*": -0.08, // here we give negative spacing to remove space given from the other letters
 }
 
 class SpacerPage extends Component {
@@ -90,7 +93,8 @@ class SpacerPage extends Component {
       fromText: "",
       toText: "",
       width: 0,
-      errorMargin: defaultErrorMargin
+      errorMargin: defaultErrorMargin,
+      spaceWidth: defaultSpaceWidth
     }
     this.handleSelectChange = this.handleSelectChange.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
@@ -100,6 +104,7 @@ class SpacerPage extends Component {
     this.getWidth = this.getWidth.bind(this);
     this.renderVisualisation = this.renderVisualisation.bind(this);
     this.handleErrorChange = this.handleErrorChange.bind(this);
+    this.handleSpaceChange = this.handleSpaceChange.bind(this);
   }
 
   handleInputChange(event) {
@@ -116,6 +121,7 @@ class SpacerPage extends Component {
     if(text == "custom") {
       text = "";
     }
+    console.log(text);
     if(event.target.name == "from") {
       this.setState({fromText: text});  
     } else {
@@ -125,13 +131,39 @@ class SpacerPage extends Component {
   }
 
   assembleToArray(text) {
-    return text.split("").map((l)=>{return {letter: l.toUpperCase(), resolved: false}});
+    let array = text.split("");
+    let toArray = [];
+    let letterCounter = 1;
+    for(let i = 0; i < array.length; i++) {
+      toArray.push({
+        letter: array[i].toUpperCase(),
+        resolved: false,
+        letterIndex: letterCounter
+      });
+      if(array[i] != " ") {
+        letterCounter++;
+      }
+    }
+    return toArray;
+  }
+
+  getLetterWidth(letter) {
+    return letter == " " ? this.state.spaceWidth : letterWidth[letter];
   }
 
   // todo: update using calculate position!
   getWidth(text) {
     let toArray = this.assembleToArray(text);
-    return this.calculatePosition(toArray, toArray.length - 1) + letterWidth[toArray[toArray.length - 1].letter] / 2
+    if(toArray.length == 0) {
+      return 0;
+    }
+    return this.calculatePosition(toArray, toArray.length - 1) + this.getLetterWidth(toArray[toArray.length - 1].letter);
+  }
+
+  handleSpaceChange(event) {
+    event.preventDefault();
+    console.log(this.spaceInput.value);
+    this.setState({spaceWidth: parseFloat(this.spaceInput.value)});
   }
 
   handleErrorChange(event) {
@@ -142,9 +174,9 @@ class SpacerPage extends Component {
 
   // give an array of letters, calculates the position of index
   calculatePosition(toArray, index) {
-
     let pos = 0;
     let lastSpacingRight = 0;
+    let width = 0;
 
     for(let i = 0; i <= index; i++) {
       let spacing = letterSpacing[toArray[i].letter];
@@ -158,11 +190,14 @@ class SpacerPage extends Component {
       if(i == 0) {
         spacingLeft = 0; // ignore first left spacing
       }
-      pos += lastSpacingRight + spacingLeft + letterWidth[toArray[i].letter]
+
+      width = this.getLetterWidth(toArray[i].letter);
+
+      pos += lastSpacingRight + spacingLeft + width; 
       lastSpacingRight = spacingRight + this.state.errorMargin; // save this for next iteration (only relevant if there is a next letter)
     }
 
-    return pos - (letterWidth[toArray[index].letter] / 2) // give back center of letter base    
+    return pos - width; // give back left side of letter base    
   }
 
   renderInstructions() {
@@ -189,7 +224,7 @@ class SpacerPage extends Component {
       if(letter != " ") {
         let index = getUnresolvedIndex(toArray, letter);
         if(index > -1) {
-          keep.push({letter: letter, index: index});
+          keep.push({letter: letter, index: index, letterIndex: toArray[index].letterIndex});
           toArray[index].resolved = true; // mark as used
         } else {
           remove.push(letter);
@@ -200,7 +235,7 @@ class SpacerPage extends Component {
     // go over remaining toArray and get the rest of the letters
     toArray.forEach((item, index) => {
       if(item.letter != " " && !item.resolved) {        
-        bring.push({letter: item.letter, index: index});
+        bring.push({letter: item.letter, index: index, letterIndex: item.letterIndex});
       }
     });
 
@@ -211,9 +246,9 @@ class SpacerPage extends Component {
         <h3>REMOVE</h3>
         <ul>{remove.map((l, i)=><li key={i}>{l}</li>)}</ul>
         <h3>KEEP</h3>
-        <ul>{keep.map((l, i)=><li key={i}>{l.letter} {l.index + 1} {(this.calculatePosition(toArray, l.index) - offset).toFixed(2)}</li>)}</ul>
+        <ul>{keep.map((l, i)=><li key={i}><b>{l.letter}</b> ({l.letterIndex}) align at <b>{(this.calculatePosition(toArray, l.index) - offset).toFixed(2)}</b></li>)}</ul>
         <h3>BRING</h3>
-        <ul>{bring.map((l, i)=><li key={i}>{l.letter} {l.index + 1} {(this.calculatePosition(toArray, l.index) - offset).toFixed(2)}</li>)}</ul>
+        <ul>{bring.map((l, i)=><li key={i}><b>{l.letter}</b> ({l.letterIndex}) align at <b>{(this.calculatePosition(toArray, l.index) - offset).toFixed(2)}</b></li>)}</ul>
       </div>
     );
   }
@@ -225,8 +260,8 @@ class SpacerPage extends Component {
       <span key={i} style={{
         position: "absolute", 
         border: l.letter == " " ? "" : "1px solid #ddd", 
-        width: visualisationScale * letterWidth[toArray[i].letter],
-        left: visualisationScale * this.calculatePosition(toArray, i) - (visualisationScale * letterWidth[toArray[i].letter] / 2),
+        width: visualisationScale * this.getLetterWidth(l.letter),
+        left: visualisationScale * this.calculatePosition(toArray, i),
         height: visualisationScale * letterHeight,
         textAlign: "center",
         lineHeight: (visualisationScale * letterHeight) + "px",
@@ -240,22 +275,35 @@ class SpacerPage extends Component {
   }
 
   render() {
-    const defaultArrangementOptions = defaultArrangements.map((arrangement, index)=><option key={index}>{arrangement}</option>);
+    let arrangements = [];
+    defaultArrangements.forEach((d)=>{
+      arrangements.push({label: "sepcial: " + d, content: d});
+    });
+    console.log(arrangements);
+    console.log(this.props.challenges);
+    this.props.challenges.forEach((c)=>{
+      if(c.winningProposal) {
+        arrangements.push({label: "winner " + c.title.fr + ": " + c.winningProposal.text, content: c.winningProposal.text});
+      }
+    });
+    console.log(arrangements);
+    const arrangementOptions = arrangements.map((arrangement, index)=><option label={arrangement.label} key={index}>{arrangement.content}</option>);
     const instructions = this.renderInstructions();
     const visualisation = this.renderVisualisation();
     return (
       <form autoComplete="off">
         <h1>SPACER</h1>
         <h2>FROM</h2>
-        <select name="from" onChange={this.handleSelectChange}>{defaultArrangementOptions}</select>
+        <select name="from" onChange={this.handleSelectChange}>{arrangementOptions}</select>
         <input name="from" type="text" onChange={this.handleInputChange} value={this.state.fromText}/>
         <h2>TO</h2>
-        <select name="to" onChange={this.handleSelectChange}>{defaultArrangementOptions}</select>
+        <select name="to" onChange={this.handleSelectChange}>{arrangementOptions}</select>
         <input name="to" type="text" onChange={this.handleInputChange} value={this.state.toText}/>
         {visualisation}
         <h3>WIDTH: {this.state.width.toFixed(2)} M</h3>
         {instructions}
         <div>Margin of error: <input ref={(input) => { this.errorInput = input; }} name="error" type="text" defaultValue={defaultErrorMargin}/><button onClick={this.handleErrorChange}>Update</button></div>
+        <div>Space width: <input ref={(input) => { this.spaceInput = input; }} name="space" type="text" defaultValue={defaultSpaceWidth}/><button onClick={this.handleSpaceChange}>Update</button></div>
 
       </form>
     );
@@ -263,7 +311,8 @@ class SpacerPage extends Component {
 }
 
 export default createContainer(() => {
+  Meteor.subscribe('get.challenges');
   return {
-    
+    challenges: Challenges.find({}, { sort: { start_date: 1 } }).fetch(),
   };
 }, SpacerPage);
