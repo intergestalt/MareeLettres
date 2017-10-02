@@ -22,7 +22,7 @@ const runRegenerateTrending = function () {
     if (!snapshot) snapshot = {};
     if (!snapshot.proposals) snapshot.proposals = {};
     const proposals = Proposals.find(
-      { blocked: false, in_review: false },
+      { blocked: false, in_review: false, challenge_id: challenge._id },
       { fields: { score: 1, score_trending: 1, _id: 1 } },
     );
     const bulk = Proposals.rawCollection().initializeUnorderedBulkOp();
@@ -64,6 +64,15 @@ const runRegenerateTrending = function () {
   const dt = Date.now() - t00;
   console.log(`Trend regeneration total time: ${dt}ms.`);
   setSystemStatus('trend_regeneration_time', dt);
+  const active_challenges = Object.keys(challenges.fetch()).map(c => challenges.fetch()[c]._id);
+  TrendSnapshots.remove({ _id: { $nin: active_challenges } }, function (err, result) {
+    if (err) {
+      console.log('Trend regeneration cleanup error', err);
+    }
+    else if (result > 0){
+      console.log(`Trend regeneration cleanup: Removed ${result} TrendSnapshots`);
+    }
+  });
 };
 
 const continuouslyRegenerateTrending = () => {

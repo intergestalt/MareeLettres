@@ -8,3 +8,4 @@ fi
 cd shared/maree-lettres-shared
 yarn run install-app
 yarn run install-server
+yarn run install-simulator

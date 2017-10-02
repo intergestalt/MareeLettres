@@ -9,6 +9,7 @@
     "dev": "webpack --progress --colors --watch --env dev",
     "install-server": "cd ../../meteor; npm run install-shared",
     "install-app": "cd ../../react-native; yarn run install-shared",
+    "install-simulator": "cd ../../simulator; yarn run install-shared",
     "test": "mocha --compilers js:babel-core/register --colors ./test/*.spec.js",
     "test:watch": "mocha --compilers js:babel-core/register --colors -w ./test/*.spec.js"
   },

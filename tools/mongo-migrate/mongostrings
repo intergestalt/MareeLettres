@@ -1,0 +1,54 @@
+#!/usr/bin/env node
+
+console.log("Outputs mongodump and mongorestore commands based on the MONGODB_URI on heroku")
+
+var mongodbUri = require('mongodb-uri');
+
+const util = require('util');
+const exec = util.promisify(require('child_process').exec);
+
+const app = process.argv[2] || 'maree-dev'
+
+async function getUri(callback) {
+  const { stdout, stderr } = await exec('heroku config:get MONGODB_URI --app ' + app);
+  console.log('stdout:', stdout);
+  console.log('stderr:', stderr);
+  callback(stdout);
+}
+
+getUri(function (uri) {
+  var o = mongodbUri.parse(uri);
+  //console.log(JSON.stringify(o, null, 2));
+
+  var host = ''
+  o.hosts.forEach(function (host) {
+    host += host.host + ':' + host.port
+  })
+
+
+  const date = Date.now()
+
+  const dump = `mongodump -h ${o.hosts[0].host}:${o.hosts[0].port} -d ${o.database} -u ${o.username} -p ${o.password} -o ${app}_${date}`;
+  const restore = `mongorestore -h ${o.hosts[0].host}:${o.hosts[0].port} -d ${o.database} -u ${o.username} -p ${o.password} ${app}_TIMESTAMP/OLD_DB`;
+
+  console.log(dump)
+  console.log(restore)
+
+  console.log('')
+  console.log(`heroku maintenance:on --app ${app}`);
+  console.log(`heroku ps:scale web=0 worker=0 --app ${app}`);
+  console.log('-- wait...');
+  console.log('-- mongodump');
+  console.log(`heroku addons:destroy mongolab --app ${app}`);
+  console.log(`heroku addons:create mongolab:shared-cluster-1 --app ${app}`);
+  console.log('-- wait...');
+  console.log('-- check if heroku gave a new color, then copy the colored uri to MONGODB_URI');
+  console.log('-- get restore command by running this script again');
+  console.log('-- mongorestore with new credentials and directory from mongodump');
+  console.log(`heroku ps:scale web=2 worker=1 --app ${app}`);
+  console.log(`heroku maintenance:off --app ${app}`);
+
+  // mongodump - h ds029007.mlab.com:29007 - d heroku_12345678 - u heroku_12345678 - p random_password - o dump- dir
+
+});
+

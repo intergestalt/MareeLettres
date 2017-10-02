@@ -11,7 +11,7 @@ class ReviewPanel extends Component {
 
   listItems(proposals) {
     return proposals.map((proposal) => {
-      const accepted = (!proposal.blocked && !proposal.in_review);
+      const accepted = (!proposal.blocked && !proposal.in_review && !proposal.in_review_recheck);
       const rejected = (proposal.blocked);
       console.log(proposal.challenge_id, _.findWhere(this.props.challenges, { _id: proposal.challenge_id }))
       const challenge = _.findWhere(this.props.challenges, { _id: proposal.challenge_id })
@@ -28,6 +28,7 @@ class ReviewPanel extends Component {
             <label>
               <input type="checkbox" className="accepted" checked={accepted} onChange={this.props.onAccept} name={proposal._id} /> Accept
             </label>
+            {this.props.onRecheck && <button name={proposal._id} className="button button-inline" onClick={this.props.onRecheck}>Recheck</button>}
             <label>
               <input type="checkbox" className="rejected" checked={rejected} onChange={this.props.onReject} name={proposal._id} /> Reject
             </label>

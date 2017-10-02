@@ -1,0 +1,20 @@
+{
+  "name": "maree-user-simulator",
+  "version": "0.0.1",
+  "private": true,
+  "description": "load testing and usage simulation",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node main.js",
+    "install-shared": "yarn upgrade maree-lettres-shared@../shared/maree-lettres-shared"
+  },
+  "dependencies": {
+    "maree-lettres-shared": "../shared/maree-lettres-shared",
+    "random-js": "^1.0.8",
+    "request": "^2.83.0",
+    "request-promise": "^4.2.2"
+  },
+  "author": "",
+  "license": "ISC"
+}

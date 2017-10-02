@@ -147,6 +147,12 @@ input[type="submit"]:active {
   outline: none;
 }
 
+.button-inline {
+  padding: 0.5ex 1ex;
+  margin: 0 1ex;
+  height: 1.3rem;
+}
+
 input[type="submit"] {
   font-size: 1rem;
   border-color: darkred;
@@ -393,8 +399,8 @@ body {
 /*** review panel ***/
 
 .reviewPanel {
-  width: 33%;
-  min-width: 250px;
+  width: 25%;
+  min-width: 200px;
   float: left;
 }
 
@@ -412,7 +418,28 @@ body {
 .reviewPanel__entry {
   border: solid 1px black;
   border-width: 0 0 1px 0;
-  padding:1ex;
+  padding:1ex 1em;
+  background-color: white;
+}
+
+.reviewPanel__proposalDecision {
+  display:flex;
+  justify-content: space-between;
+  padding:0.6ex 0 0.2ex 0;
+}
+
+.reviewPanel__proposalDecision > *:first-child * {
+  float: left;
+  margin:0 1ex 0 0;
+}
+
+.reviewPanel__proposalDecision > button {
+  margin-bottom: 0.5ex;
+}
+
+.reviewPanel__proposalDecision > *:last-child * {
+  float: right;
+  margin:0 0 0 1ex;
 }
 
 .reviewPanel__entry:last-child {

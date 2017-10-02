@@ -31,8 +31,17 @@ Meteor.publish('get.proposals.in_review', function getProposals(data) {
 
   const limit = data.limit || 5;
 
-  return Proposals.find({ in_review: true }, { sort: { created_at: 1 }, limit });
+  return Proposals.find({ in_review: true, in_review_recheck: false }, { sort: { created_at: 1 }, limit });
 });
+
+Meteor.publish('get.proposals.in_review_recheck', function getProposals(data) {
+  if (!this.userId) return;
+
+  const limit = data.limit || 5;
+
+  return Proposals.find({ in_review: true, in_review_recheck: true }, { sort: { created_at: 1 }, limit });
+});
+
 
 Meteor.publish('get.proposals.recently_accepted', function getProposals(data) {
   if (!this.userId) return;
