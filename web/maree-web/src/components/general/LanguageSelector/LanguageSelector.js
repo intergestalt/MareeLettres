@@ -9,9 +9,9 @@ class LanguageSelector extends React.Component {
   render() {
     return (
       <div className="laguage-selector">
-         <span className={i18n.language == 'fr' ? "active" : ""} onClick={() => this.changeLanguage('fr')}>fr</span>
+         <span className={i18n.language === 'fr' ? "active" : ""} onClick={() => this.changeLanguage('fr')}>fr</span>
          &nbsp;{'/'}&nbsp;
-         <span className={i18n.language == 'en' ? "active" : ""} onClick={() => this.changeLanguage('en')}>en</span>
+         <span className={i18n.language === 'en' ? "active" : ""} onClick={() => this.changeLanguage('en')}>en</span>
       </div>
     );
   }

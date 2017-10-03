@@ -1,13 +1,13 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 
 import styles from './styles';
 
 class VoteMark extends Component {
-  static propTypes = {
+  /*static propTypes = {
     size: PropTypes.string,
     value: PropTypes.any,
     type: PropTypes.string,
-  };
+  };*/
 
   constructor() {
     super();

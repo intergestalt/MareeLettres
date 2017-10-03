@@ -18,10 +18,14 @@ class ChallengeHeaderContent extends React.Component {
 	}
 
 	render() {
+		let title = this.props.challenge.title[this.props.i18n.language];
+		if(title) {
+			title = title.toUpperCase();
+		}
 	    return (
 	    	<div className="challenge-header-content" onClick={this.props.onClick ? this.props.onClick : null}>
 	       		<div>{this.renderTickerData(this.props.tickerData)}</div>
-	       		<div className="challenge-title">{this.props.challenge.title[this.props.i18n.language]}</div>
+	       		<div className="challenge-title">{title}</div>
 			</div>
 	    );
 	}

@@ -23,7 +23,7 @@ class ChallengeProposalList extends React.Component {
 		return (
 	       <div className="challenge-proposal-list-container">
 	       		<div className="chalenge-proposal-list-header">
-	       			{this.props.showPrev ? (
+	       			{this.props.showPrev && !this.props.screenMode ? (
 	       				<div className="challenge-left" onClick={this.props.onPrev}>{'<'}</div>
 	       			) : (<div className="challenge-left"></div>)}
 		       		<ChallengeHeaderContent
@@ -31,16 +31,18 @@ class ChallengeProposalList extends React.Component {
 		       			challenge={this.props.challenge}
 		       			tickerData={this.props.tickerData}
 		       		/>
-		       		{this.props.showNext ? (
+		       		{this.props.showNext && !this.props.screenMode ? (
 		       			<div className="challenge-right" onClick={this.props.onNext}>{'>'}</div>
 		       		) : (<div className="challenge-right"></div>)}
 	       		</div>
 	       		
+	       		{!this.props.screenMode ? (
        			<div className="proposal-list-header">
-       				<span className={this.props.proposalSortMode == 0 ? "active" : ""} onClick={()=>{this.props.changeProposalSortMode(0)}}>{this.props.i18n.t("sort_top")}</span>
-       				&nbsp;&nbsp;|&nbsp;&nbsp;<span className={this.props.proposalSortMode == 1 ? "active" : ""} onClick={()=>{this.props.changeProposalSortMode(1)}}>{this.props.i18n.t("sort_new")}</span>
-       				&nbsp;&nbsp;|&nbsp;&nbsp;<span className={this.props.proposalSortMode == 2 ? "active" : ""} onClick={()=>{this.props.changeProposalSortMode(2)}}>{this.props.i18n.t("sort_trend")}</span>
+       				<span className={this.props.proposalSortMode === 0 ? "active" : ""} onClick={()=>{this.props.changeProposalSortMode(0)}}>{this.props.i18n.t("sort_top")}</span>
+       				&nbsp;&nbsp;|&nbsp;&nbsp;<span className={this.props.proposalSortMode === 1 ? "active" : ""} onClick={()=>{this.props.changeProposalSortMode(1)}}>{this.props.i18n.t("sort_new")}</span>
+       				&nbsp;&nbsp;|&nbsp;&nbsp;<span className={this.props.proposalSortMode === 2 ? "active" : ""} onClick={()=>{this.props.changeProposalSortMode(2)}}>{this.props.i18n.t("sort_trend")}</span>
        			</div>
+       			) : null}
 
        			{this.props.loadingProposals ? (
 	       			<div className="loading">{this.props.i18n.t("loading")}</div>

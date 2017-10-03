@@ -1,13 +1,13 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import VoteMark from './VoteMark';
 
 import styles from './styles';
 
 class VoteMarkPanel extends Component {
-  static propTypes = {
+  /*static propTypes = {
     yes_amount: PropTypes.number,
     no_amount: PropTypes.number,
-  };
+  };*/
 
   constructor() {
     super();
