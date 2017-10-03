@@ -266,13 +266,13 @@ const systemConfigDefaults = {
     screen_1_lng: {
         defaultValue: 2.343254,
         type: Number,
-        title: 'Latitude of screen 1',
+        title: 'Longitude of screen 1',
         systems: ['screen']
     },
     screen_1_lat: {
         defaultValue: 48.858141,
         type: Number,
-        title: 'Longitude of screen 1',
+        title: 'Latitude of screen 1',
         systems: ['screen']
     },
     screen_1_zoom: {
@@ -290,13 +290,13 @@ const systemConfigDefaults = {
     screen_2_lng: {
         defaultValue: 2.343254,
         type: Number,
-        title: 'Latitude of screen 2',
+        title: 'Longitude of screen 2',
         systems: ['screen']
     },
     screen_2_lat: {
         defaultValue: 48.858141,
         type: Number,
-        title: 'Longitude of screen 2',
+        title: 'Latitude of screen 2',
         systems: ['screen']
     },
     screen_2_zoom: {
@@ -314,13 +314,13 @@ const systemConfigDefaults = {
     screen_3_lng: {
         defaultValue: 2.343254,
         type: Number,
-        title: 'Latitude of screen 3',
+        title: 'Longitude of screen 3',
         systems: ['screen']
     },
     screen_3_lat: {
         defaultValue: 48.858141,
         type: Number,
-        title: 'Longitude of screen 3',
+        title: 'Latitude of screen 3',
         systems: ['screen']
     },
     screen_3_zoom: {
