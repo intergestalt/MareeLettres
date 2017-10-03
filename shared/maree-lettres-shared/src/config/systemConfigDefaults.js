@@ -263,13 +263,13 @@ const systemConfigDefaults = {
         title: 'Custom message for screen 1',
         systems: ['screen']
     },
-    screen_1_lat: {
+    screen_1_lng: {
         defaultValue: 2.343254,
         type: Number,
         title: 'Latitude of screen 1',
         systems: ['screen']
     },
-    screen_1_lon: {
+    screen_1_lat: {
         defaultValue: 48.858141,
         type: Number,
         title: 'Longitude of screen 1',
@@ -287,13 +287,13 @@ const systemConfigDefaults = {
         title: 'Custom message for screen 2',
         systems: ['screen']
     },
-    screen_2_lat: {
+    screen_2_lng: {
         defaultValue: 2.343254,
         type: Number,
         title: 'Latitude of screen 2',
         systems: ['screen']
     },
-    screen_2_lon: {
+    screen_2_lat: {
         defaultValue: 48.858141,
         type: Number,
         title: 'Longitude of screen 2',
@@ -311,13 +311,13 @@ const systemConfigDefaults = {
         title: 'Custom message for screen 3',
         systems: ['screen']
     },
-    screen_3_lat: {
+    screen_3_lng: {
         defaultValue: 2.343254,
         type: Number,
         title: 'Latitude of screen 3',
         systems: ['screen']
     },
-    screen_3_lon: {
+    screen_3_lat: {
         defaultValue: 48.858141,
         type: Number,
         title: 'Longitude of screen 3',
