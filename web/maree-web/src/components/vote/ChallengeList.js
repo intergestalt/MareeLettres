@@ -35,7 +35,7 @@ class ChallengeList extends React.Component {
 					<div className="winningProposalMockup">{c.winningProposal.text}</div>
 					) : null}
 					{c.winningProposalDetailImageUrl ? (
-						<img className="winning-image" src={c.winningProposalDetailImageUrl} alt="winning image"/>
+						<img className="winning-image" src={c.winningProposalDetailImageUrl} alt="winner"/>
 					) : null}
 				</li>
 			);
@@ -53,7 +53,7 @@ class ChallengeList extends React.Component {
 	       	{this.props.loading || this.props.loadingProposals ? (
 	       		<div className="height100 challenge-list-loading">{this.props.i18n.t("loading")}</div>
 	       	) : (
-	       		<div className="height100">{this.renderChallenges()}</div>
+	       		<div className="height100" style={{display: "flex", flexDirection: "column"}}>{this.renderChallenges()}</div>
 	       	)}
 	       </div>
 	    );

@@ -33,6 +33,7 @@ div.partner-logos {
 	justify-content: center;
 	width: 100%;
 	flex-wrap: wrap;
+	margin-bottom: 2em;
 }
 
 img.partner-logo {

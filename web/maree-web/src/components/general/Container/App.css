@@ -16,6 +16,7 @@
 html, body, #root {
   height: 100%;
   font-size: 16px;
+  overflow: hidden;
 }
 
 * {
@@ -42,9 +43,12 @@ html, body, #root {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 120px;
+  font-size: 100px;
   -webkit-text-stroke: 3px black;
   letter-spacing: 3px;
+  padding: 10px;
+  overflow: hidden;
+  text-align: center;
 }
 
 .headers {
@@ -99,8 +103,10 @@ section {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 30px;
+  font-size: 25px;
   letter-spacing: 1px;
+  padding: 10px;
+  box-sizing: border-box;
 }
 
 .store-icons {
@@ -158,6 +164,16 @@ section.flux_expanded_2 {
   display: flex;
   flex-direction: column;
   flex: 1;
+}
+
+@media (max-aspect-ratio: 1/1) and (min-height: 1024px) {
+  html, body, #root {
+    font-size: 5vw;   
+  }
+
+  .splash {
+    font-size: 150px;
+  }
 }
 
 @media (max-width: 800px) {

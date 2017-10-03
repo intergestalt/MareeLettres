@@ -30,7 +30,9 @@
 	margin: 0;
 	padding: 0;
 	overflow-y: scroll;
-	height: 110%; /* give some space at the bottom */
+	height: 100%;
+	padding-bottom: 2rem;
+
 }
 
 .challenge-list li {

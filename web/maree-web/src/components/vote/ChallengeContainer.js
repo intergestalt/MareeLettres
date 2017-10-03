@@ -5,7 +5,7 @@ import { serverUri } from '../../config/config.js';
 import ChallengeList from './ChallengeList';
 import ChallengeProposalList from './ChallengeProposalList';
 
-import { getTickerDataChallenges } from '../../helper/dateFunctions.js';
+import { getTickerDataChallenges, isFinished } from '../../helper/dateFunctions.js';
 
 const axios = require('axios');
 
@@ -28,64 +28,108 @@ class ChallengeContainer extends React.Component {
       showFinished: false,
     };
 
-		this.selectChallenge = this.selectChallenge.bind(this);
+		this.loadChallenges = this.loadChallenges.bind(this);
+    this.selectChallenge = this.selectChallenge.bind(this);
 		this.resetChallengeList = this.resetChallengeList.bind(this);
 		this.previousChallenge = this.previousChallenge.bind(this);
 		this.nextChallenge = this.nextChallenge.bind(this);
 		this.changeProposalSortMode = this.changeProposalSortMode.bind(this);
     this.loadMoreProposals = this.loadMoreProposals.bind(this);
     this.toggleFinished = this.toggleFinished.bind(this);
+    this.pollProposals = this.pollProposals.bind(this);
 	}
 
 	selectChallenge(challenge) {
 		this.loadProposals(challenge);
-  	}
+	}
 
-  	previousChallenge() {
-  		if(this.state.selectedChallengeIndex > 0) {
-  			let newIndex = this.state.selectedChallengeIndex - 1;
-  			this.loadProposals(this.state.challenges[newIndex]);
-  		}
-  	}
+	previousChallenge() {
+		if(this.state.selectedChallengeIndex > 0) {
+			let newIndex = this.state.selectedChallengeIndex - 1;
+			this.loadProposals(this.state.challenges[newIndex]);
+		}
+	}
 
-  	nextChallenge() {
-  		if(this.state.selectedChallengeIndex < this.state.challenges.length - 1) {
-  			let newIndex = this.state.selectedChallengeIndex + 1;  			
-  			this.loadProposals(this.state.challenges[newIndex]);
-  		}
-  	}
+	nextChallenge() {
+		if(this.state.selectedChallengeIndex < this.state.challenges.length - 1) {
+			let newIndex = this.state.selectedChallengeIndex + 1;  			
+			this.loadProposals(this.state.challenges[newIndex]);
+		}
+	}
 
-  	resetChallengeList() {
-    	this.setState({showChallengeList: true, selectedChallenge: null, selectedChallengeIndex: -1, reloadProposals: true});
-  	}
+	resetChallengeList() {
+  	this.setState({showChallengeList: true, selectedChallenge: null, selectedChallengeIndex: -1, reloadProposals: true});
+	}
 
-    toggleFinished() {
-      this.setState({showFinished: !this.state.showFinished});
-    }
-  
+  toggleFinished() {
+    this.setState({showFinished: !this.state.showFinished});
+  }
+
+  loadChallenges() {
+    let requestUri = serverUri + '/api/challenges';
+    console.log(requestUri);
+    axios.get(requestUri)
+      .then(response=>{
+        try {
+          let challenges = response.data.challenges;
+          let challengeIds = challenges.map(c=>c._id); 
+          this.setState({challenges: challenges, challengeIds: challengeIds, loadingChallenges: false});
+
+          if(this.props.screenMode) {
+            console.log("autoselect challenge in screen mode:");
+            
+            // go over challenges 
+            let lastFinished = null;
+            let firstActive = null;
+            for(let i = 0; i < challenges.length; i++) {
+              if(isFinished(challenges[i])) {
+                lastFinished = challenges[i];
+              } else {
+                firstActive = challenges[i];
+                break;
+              }
+            }
+            let selectedChallenge = null;
+            if(!lastFinished) {
+              selectedChallenge = firstActive;
+            } else {
+              if(!firstActive) {
+                selectedChallenge = lastFinished;
+              } else {
+                // decide which to show based on time  
+                let now = new Date().getTime();
+                let lastVoteEnded = new Date(lastFinished.end_date).getTime();
+                if(((now - lastVoteEnded) / 1000) > 1800) {
+                  selectedChallenge = firstActive;
+                } else {
+                  selectedChallenge = lastFinished;
+                }
+              }
+            }
+            console.log(selectedChallenge);
+            this.selectChallenge(selectedChallenge);
+          }
+
+        }
+        catch(err) {
+          console.log(err);
+        }
+        
+      })
+      .catch(error=>{
+        console.log(error);
+      }); 
+  }
+ 
 	componentWillMount() {
-		let requestUri = serverUri + '/api/challenges';
-		console.log(requestUri);
-		axios.get(requestUri)
-  		.then(response=>{
-  			try {
-  				let challenges = response.data.challenges;
-  				let challengeIds = challenges.map(c=>c._id); 
-	  			this.setState({challenges: challenges, challengeIds: challengeIds, loadingChallenges: false});
-	  		}
-	  		catch(err) {
-	  			console.log(err);
-	  		}
-    		
-  		})
-  		.catch(error=>{
-    		console.log(error);
-  		});
+	  this.loadChallenges();
 
-  		this.timerID = setInterval(() => {
-	      this.updateTickerData();
-	    }, 
-	    1000);    
+		this.timerID = setInterval(() => {
+      this.updateTickerData();
+    }, 
+    1000);
+
+    this.pollProposals();    
 	}
 
 	loadProposals(challenge, sortMode=0, limit=0) {
@@ -120,6 +164,28 @@ class ChallengeContainer extends React.Component {
   		});
 	}
 
+  pollProposals() {
+    let timeout = 10000;
+    if(this.props.config) {
+      if(this.props.config.proposal_list_polling_interval) {
+        timeout = this.props.config.proposal_list_polling_interval * 1000
+      }
+    }
+    setTimeout(()=>{
+      if(this.state.selectedChallenge) {
+        if(!isFinished(this.state.selectedChallenge)) {
+          console.log("polling proposals");
+          this.loadProposals(this.state.selectedChallenge, this.state.proposalSortMode);      
+        } else {
+          //if(typeof this.state.selectedChallenge.winningProposal === "undefined") {
+            this.loadChallenges();
+          //}
+        }
+      }
+      this.pollProposals();
+    }, timeout);
+  }
+
 	changeProposalSortMode(mode) {
 		this.loadProposals(this.state.selectedChallenge, mode);
 	}
@@ -141,7 +207,9 @@ class ChallengeContainer extends React.Component {
 
 	render() {
 	    return (
-	    	<div className="height100">
+	    	<div 
+          style={this.props.display ? {display: this.props.display} : null}
+          className="height100">
 			{this.state.showChallengeList ? (
             	<ChallengeList 
             		loading={this.state.loadingChallenges} 
@@ -168,6 +236,7 @@ class ChallengeContainer extends React.Component {
             		proposalsLimit={this.state.proposalsLimit}
                 changeProposalSortMode={this.changeProposalSortMode}
                 loadMore={this.loadMoreProposals}
+                screenMode={this.props.screenMode}
             	/>
             ) : null}
           </div>

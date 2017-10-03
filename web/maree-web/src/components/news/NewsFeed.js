@@ -1,13 +1,13 @@
 import React from 'react';
 import './style.css';
-import TwitterTimeline from 'react-twitter-embedded-timeline';
+//import TwitterTimeline from 'react-twitter-embedded-timeline';
 
 class NewsFeed extends React.Component {
 	
 	render() {
 	    return (
           //<TwitterTimeline user="mareedeslettres" chrome="nofooter noheader"/>
-	       <iframe src="/twitter/TwitterWebView.html"/>
+	       <iframe title="News" src="/twitter/TwitterWebView.html"/>
 	    );
 	}
 }

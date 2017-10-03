@@ -12,24 +12,23 @@ class Letter extends React.Component {
   }
 }
 
-const map_letter_decay_time = 172800;
+const default_map_letter_decay_time = 172800;
 
 const calculateRadius = function(latitudeDelta) {
-  let radius = 1;
+  let radius = 100;
   if (latitudeDelta >= 0.002 && latitudeDelta < 0.003) {
-    radius = 2;
+    radius = 200;
   }
   if (latitudeDelta >= 0.003 && latitudeDelta < 0.004) {
-    radius = 3;
+    radius = 300;
   }
   if (latitudeDelta >= 0.004) {
-    radius = 4;
+    radius = 400;
   }
   if (latitudeDelta >= 0.005) {
-    radius = 5;
+    radius = 500;
   }
-  const radiusMeters = Math.floor((radius * 0.001) * 40008000 / 360); // rough estimation
-  return radiusMeters;
+  return radius;
 }
 
 const defaultProps = {
@@ -43,18 +42,25 @@ export default class FluxMap extends Component {
     super();
     this.state = {
       letters: [],
-      zoom: defaultProps.zoom
+      zoom: defaultProps.zoom,
+      mapParams: null
     }
     this.onChange = this.onChange.bind(this);
     this.zoomIn = this.zoomIn.bind(this);
     this.zoomOut = this.zoomOut.bind(this);
+    this.renderMarker = this.renderMarker.bind(this);
+    this.pollLetters = this.pollLetters.bind(this);
+    this.updateLetters = this.updateLetters.bind(this);
   }
 
   with3Decimals(num) {
     return num.toString().match(/^-?\d+(?:\.\d{0,3})?/)[0];
   }
 
-  onChange(params) {
+  updateLetters(params = null) {
+    if(!params) {
+      params = this.state.mapParams;
+    }
     let latitudeDelta = params.bounds.ne.lat - params.bounds.se.lat;
     let radius = calculateRadius(latitudeDelta);
     let requestUri = serverUri + '/api/letters?centerLat=' + this.with3Decimals(params.center.lat) + '&centerLng=' + this.with3Decimals(params.center.lng) + '&radius=' + radius;
@@ -68,6 +74,31 @@ export default class FluxMap extends Component {
       .catch(error=>{
         console.log(error);
       });
+  }
+
+  onChange(params) {
+    console.log("on change");
+    this.setState({mapParams: params});
+    this.updateLetters();
+  }
+
+  pollLetters() {
+    let timeout = 10000;
+    if(this.props.config) {
+      if(this.props.config.map_update_interval) {
+        timeout = this.props.config.map_update_interval * 1000
+      }
+    }
+   
+    setTimeout(()=>{
+      console.log("polling map letters");
+      this.updateLetters();
+      this.pollLetters();
+    }, timeout);
+  }
+
+  componentDidMount() {
+    this.pollLetters();
   }
 
   zoomIn() {
@@ -85,7 +116,7 @@ export default class FluxMap extends Component {
 
   renderMarker(l) {
     const t = new Date().getTime() - new Date(l.created_at).getTime();
-    const opacity = Math.max(0, 1 - t / (1000 * map_letter_decay_time));
+    const opacity = Math.max(0, 1 - t / (1000 * (this.props.config ? this.props.config.map_letter_decay_time : default_map_letter_decay_time)));
 
     const markerStyle = {
       position: 'absolute',
@@ -115,17 +146,22 @@ export default class FluxMap extends Component {
     } else {
       return [];
     }
-    
   }
 
   render() {
+    let center = this.props.screenId && this.props.config ? 
+        {lat: this.props.config["screen_" + this.props.screenId + "_lat"], lng: this.props.config["screen_" + this.props.screenId + "_lng"]}
+        : defaultProps.center;
+    let zoom = this.props.screenId && this.props.config ? this.props.config["screen_" + this.props.screenId + "_zoom"] : defaultProps.zoom;
     return (
-      <div className="mapContainer">
+      <div 
+        style={this.props.display ? {display: this.props.display} : null}
+        className="mapContainer"
+      >
         <GoogleMapReact
           id="map"
-          defaultCenter={defaultProps.center}
-          defaultZoom={defaultProps.zoom}
-          zoom={this.state.zoom}
+          center={center}
+          zoom={zoom}
           bootstrapURLKeys={{ key: "AIzaSyA5D5Qxs0fDKabuxgLp_1tuFt1_eECJDR0" }}
           options={{ styles: mapStyles, mapTypeControl: false, zoomControl: false, fullscreenControl: false, streetViewControl: false }}
           onChange={this.onChange}
@@ -133,15 +169,17 @@ export default class FluxMap extends Component {
         >
          {this.renderMarkers()}
         </GoogleMapReact>
-        <img id="zoom_in" className="mapButton" src="assets/zoom_in.svg" alt="zoom in control" onClick={this.zoomIn}/>
-        <img id="zoom_out" className="mapButton" src="assets/zoom_out.svg" alt="zoom out control" onClick={this.zoomOut}/>
-        <img 
-          id="fullscreen" 
-          className="mapButton" 
-          src={this.props.mapExpansion < 2 ? "assets/fullscreen.svg" : "assets/minimize.svg"}
-          alt="fullscreen control" 
-          onClick={this.props.expandMap}
-        />
+        
+        {!this.props.screenId ? (<img id="zoom_in" className="mapButton" src="assets/zoom_in.svg" alt="zoom in control" onClick={this.zoomIn}/>):null}
+        {!this.props.screenId ? (<img id="zoom_out" className="mapButton" src="assets/zoom_out.svg" alt="zoom out control" onClick={this.zoomOut}/>):null}
+        {!this.props.screenId ? (<img 
+            id="fullscreen" 
+            className="mapButton" 
+            src={this.props.mapExpansion < 2 ? "assets/fullscreen.svg" : "assets/minimize.svg"}
+            alt="fullscreen control" 
+            onClick={this.props.expandMap}
+          />
+        ) : null}
       </div>
     );
   }
