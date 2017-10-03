@@ -10,6 +10,7 @@
     "install-shared": "yarn upgrade maree-lettres-shared@../shared/maree-lettres-shared"
   },
   "dependencies": {
+    "bluebird": "^3.5.0",
     "maree-lettres-shared": "../shared/maree-lettres-shared",
     "random-js": "^1.0.8",
     "request": "^2.83.0",
