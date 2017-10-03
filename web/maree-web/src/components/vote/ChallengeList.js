@@ -51,7 +51,7 @@ class ChallengeList extends React.Component {
 	    return (
 	       <div className="height100">
 	       	{this.props.loading || this.props.loadingProposals ? (
-	       		<div className="height100">{this.props.i18n.t("loading")}</div>
+	       		<div className="height100 challenge-list-loading">{this.props.i18n.t("loading")}</div>
 	       	) : (
 	       		<div className="height100">{this.renderChallenges()}</div>
 	       	)}

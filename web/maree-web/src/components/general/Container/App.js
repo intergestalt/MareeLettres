@@ -7,6 +7,15 @@ import NewsFeed from '../../news/NewsFeed';
 import FluxMap from '../../fluxmap/Map.js';
 import './App.css';
 
+let shuffleString = function (str) {
+  return str
+    .split('')
+    .sort(function () {
+      return 0.5 - Math.random();
+    })
+    .join('');
+};
+
 class App extends React.Component {
 
   constructor() {
@@ -14,10 +23,13 @@ class App extends React.Component {
     this.state = {
       mapExpansion: 0,
       mapExpansionClassname: "flux",
-      activeMenu: 0
+      activeMenu: 0,
+      splash: true,
+      splashText: "M" + shuffleString("ARÉE") + " D" + shuffleString("ES") + " L" + shuffleString("ETTRES")
     }
     this.expandMap = this.expandMap.bind(this);
     this.menuClick = this.menuClick.bind(this);
+    this.removeSplash = this.removeSplash.bind(this);
   }
 
   expandMap() {
@@ -34,9 +46,18 @@ class App extends React.Component {
     this.setState({activeMenu: item});
   }
 
+  removeSplash() {
+    this.setState({splash: false});
+  }
+
+  componentDidMount() {
+    setTimeout(this.removeSplash, 10000);
+  }
+
   render() {
     return (
       <div className="App">
+        {this.state.splash ? (<div onClick={this.removeSplash} className="splash">{this.state.splashText}</div>) : null}
         <div className="headers">
           {this.state.mapExpansion < 1 ? (
             <div className={"borderRight" + (this.state.activeMenu === 0 ? " active" : "")} onClick={()=>this.menuClick(0)}>INFO</div>
@@ -52,7 +73,7 @@ class App extends React.Component {
         <div className="mainContent">
           {this.state.mapExpansion < 1 ? (
             <section className={"info" + (this.state.activeMenu === 0 ? " active" : "")}>
-              <img src="assets/title.png" alt="title"/>
+              <div className="titleImage">{this.state.splashText}</div>
               <div className="store-icons">
                 <a href="https://itunes.apple.com/fr/app/mar%C3%A9e-des-lettres/id1286369338"><img className="apple" src="assets/store_icons/apple_en.svg" alt="apple appstore icon"/></a>
                 <a href="https://play.google.com/store/apps/details?id=fr.paris.mareedeslettres"><img className="google" src="assets/store_icons/google-play-badge_en.png" alt="google play store icon"/></a>

@@ -238,6 +238,96 @@ const systemConfigDefaults = {
         type: String,
         title: 'Image for topic list',
         systems: ['app', 'web']
+    },
+    screens_show_flux: {
+        defaultValue: true,
+        type: Boolean,
+        title: 'Should all screens show flux page?',
+        systems: ['screen']
+    },
+    screens_show_vote: {
+        defaultValue: true,
+        type: Boolean,
+        title: 'Should all screens show vote page?',
+        systems: ['screen']
+    },
+    screens_show_message: {
+        defaultValue: true,
+        type: Boolean,
+        title: 'Should all screens show message page?',
+        systems: ['screen']
+    },
+    screen_1_message: {
+        defaultValue: 'Bienvenue',
+        type: String,
+        title: 'Custom message for screen 1',
+        systems: ['screen']
+    },
+    screen_1_lng: {
+        defaultValue: 2.343254,
+        type: Number,
+        title: 'Longitude of screen 1',
+        systems: ['screen']
+    },
+    screen_1_lat: {
+        defaultValue: 48.858141,
+        type: Number,
+        title: 'Latitude of screen 1',
+        systems: ['screen']
+    },
+    screen_1_zoom: {
+        defaultValue: 16,
+        type: Integer,
+        title: 'Zoom level of screen 1',
+        systems: ['screen']
+    },
+    screen_2_message: {
+        defaultValue: 'Bienvenue',
+        type: String,
+        title: 'Custom message for screen 2',
+        systems: ['screen']
+    },
+    screen_2_lng: {
+        defaultValue: 2.343254,
+        type: Number,
+        title: 'Longitude of screen 2',
+        systems: ['screen']
+    },
+    screen_2_lat: {
+        defaultValue: 48.858141,
+        type: Number,
+        title: 'Latitude of screen 2',
+        systems: ['screen']
+    },
+    screen_2_zoom: {
+        defaultValue: 16,
+        type: Integer,
+        title: 'Zoom level of screen 2',
+        systems: ['screen']
+    },
+    screen_3_message: {
+        defaultValue: 'Bienvenue',
+        type: String,
+        title: 'Custom message for screen 3',
+        systems: ['screen']
+    },
+    screen_3_lng: {
+        defaultValue: 2.343254,
+        type: Number,
+        title: 'Longitude of screen 3',
+        systems: ['screen']
+    },
+    screen_3_lat: {
+        defaultValue: 48.858141,
+        type: Number,
+        title: 'Latitude of screen 3',
+        systems: ['screen']
+    },
+    screen_3_zoom: {
+        defaultValue: 16,
+        type: Integer,
+        title: 'Zoom level of screen 3',
+        systems: ['screen']
     }
 };
 
