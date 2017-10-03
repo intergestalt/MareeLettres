@@ -182,12 +182,13 @@ Meteor.startup(() => {
     const spread_lat = 0.012;
     const spread_lng = 0.02;
     for (let i = 1; i <= 2500; i++) {
+      const coords = {
+        lat: location.lat - spread_lat / 2 + Math.random() * spread_lat,
+        lng: location.lng - spread_lng / 2 + Math.random() * spread_lng,
+      };
       Letters.insert({
         character: shuffleString(AvailableLetters.map).charAt(0),
-        coords: {
-          lat: location.lat - spread_lat / 2 + Math.random() * spread_lat,
-          lng: location.lng - spread_lng / 2 + Math.random() * spread_lng,
-        },
+        loc: { type: "Point", coordinates: [coords.lng, coords.lat] },
         created_at: new Date(),
       });
     }
