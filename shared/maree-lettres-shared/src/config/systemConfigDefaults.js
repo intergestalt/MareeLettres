@@ -334,7 +334,7 @@ const systemConfigDefaults = {
         type: Integer,
         title: 'Polling interval in seconds to reload proposal list',
         systems: ['screen', 'web']
-    },
+    }
 };
 
 export default systemConfigDefaults;
