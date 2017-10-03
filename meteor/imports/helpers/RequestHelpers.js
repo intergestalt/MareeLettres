@@ -83,6 +83,7 @@ const RequestHelpers = {
     if (err) {
       console.log("Fastly ERROR ", err);
     } else if (Meteor.settings.log_api_errors) {
+      console.log("purged ");
       console.log(res);
     }
   },

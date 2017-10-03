@@ -1,3 +1,4 @@
+import { Meteor } from 'meteor/meteor';
 import Fastly from 'fastly';
 import RequestHelpers from '../../helpers/RequestHelpers';
 import { Challenges } from './challenges';

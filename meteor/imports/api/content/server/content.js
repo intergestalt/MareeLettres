@@ -17,5 +17,6 @@ Meteor.publish(
 JsonRoutes.add('get', `${Meteor.settings.public.api_prefix}content`, function (req, res, next) {
   JsonRoutes.sendResult(res, {
     data: { content: Content.find().fetch() },
+    headers: { 'Surrogate-Key': 'content' },
   });
 });

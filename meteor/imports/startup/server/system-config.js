@@ -88,6 +88,16 @@ class SysConf {
       options.data = {};
     }
 
+    if (!options.headers) {
+      options.headers = {};
+    }
+
+    if (!options.headers['Surrogate-Key']) {
+      options.headers['Surrogate-Key'] = "";
+    }
+
+    options.headers['Surrogate-Key'] = [options.headers['Surrogate-Key'], 'config'].join(" ");
+
     options.data.config = current;
 
     return options;
@@ -97,6 +107,16 @@ class SysConf {
     if (!options.data) {
       options.data = {};
     }
+
+    if (!options.headers) {
+      options.headers = {};
+    }
+
+    if (!options.headers['Surrogate-Key']) {
+      options.headers['Surrogate-Key'] = "";
+    }
+
+    options.headers['Surrogate-Key'] = [options.headers['Surrogate-Key'], 'config'].join(" ");
 
     options.data.current_config = digest;
 

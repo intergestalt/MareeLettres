@@ -14,12 +14,18 @@ import { incSystemStatus } from '../../../startup/server/status';
 
 const JsonRoutesError = RequestHelpers.JsonRoutesError;
 
+// get all proposals - this is not really used, just for reference
 JsonRoutes.add('get', `${Meteor.settings.public.api_prefix}proposals`, function (req, res, next) {
   JsonRoutes.sendResult(res, {
     data: { proposals: Proposals.find().fetch() },
+    headers: {
+      'Surrogate-Key': 'proposals',
+      'Surrogate-Control': 'max-age=' + currentSystemConfig.getConfig().network_latency,
+    },
   });
 });
 
+// get single proposal
 JsonRoutes.add('get', `${Meteor.settings.public.api_prefix}proposals/:proposal_id`, function (req, res, next) {
   const proposal_id = req.params.proposal_id;
 
@@ -48,10 +54,13 @@ JsonRoutes.add('get', `${Meteor.settings.public.api_prefix}proposals/:proposal_i
 
   JsonRoutes.sendResult(res, {
     data: { proposals: [proposal] },
+    headers: {
+      'Surrogate-Control': 'max-age=' + currentSystemConfig.getConfig().network_latency,
+    },
   });
 });
 
-
+// get proposals for challenge
 JsonRoutes.add(
   'get',
   `${Meteor.settings.public.api_prefix}challenges/:challenge_id/proposals`,
@@ -65,11 +74,11 @@ JsonRoutes.add(
     if (Object.keys(sort_modes).indexOf(sort_param) < 0) sort_mode = 'popular';
 
     const sort = sort_modes[sort_param];
-    const fields = { in_review_recheck: 0, origin_id: 0 };
+    const fields = { in_review_recheck: 0, origin_ids: 0 };
 
     const proposals = Proposals.find({ challenge_id, in_review: false, blocked: false }, { sort, limit, fields }).fetch();
 
-    const options = {};
+    let options = {};
 
     if (proposals.length === 0 && Challenges.find({ _id: challenge_id }).count() === 0) {
       JsonRoutesError(res, 404, 'challenge-not-found');
@@ -77,14 +86,19 @@ JsonRoutes.add(
     } else {
       options.data = {
         proposals,
-        ...currentSystemConfig.responseDataProperties(),
+        headers: {
+          'Surrogate-Key': 'proposals proposals-for-challenge-' + challenge_id,
+        },
       };
+
+      options = currentSystemConfig.addUpdatedAtToResponseOptions(options);
     }
 
     JsonRoutes.sendResult(res, options);
   },
 );
 
+// POST proposal
 JsonRoutes.add(
   'post',
   `${Meteor.settings.public.api_prefix}proposals`, function (req, res, next) {
@@ -191,6 +205,7 @@ JsonRoutes.add(
     JsonRoutes.sendResult(res, options);
   });
 
+// tinder!
 JsonRoutes.add(
   'get',
   `${Meteor.settings.public.api_prefix}tinder/:challenge_id/:origin_id/`, // TODO: use TinderProposals collection
@@ -222,7 +237,11 @@ JsonRoutes.add(
       data: {
         proposals: tinderProposals,
         ...currentSystemConfig.responseDataProperties(),
-      }
+      },
+      headers: {
+        'Surrogate-Key': 'proposals tinder-proposals', // could be proposals-for-user, but a tindring user oughta vote
+        'Surrogate-Control': 'max-age=0',
+      },
     };
 
     JsonRoutes.sendResult(res, options);
