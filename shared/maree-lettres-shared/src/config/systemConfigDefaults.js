@@ -328,7 +328,13 @@ const systemConfigDefaults = {
         type: Integer,
         title: 'Zoom level of screen 3',
         systems: ['screen']
-    }
+    },
+    proposal_list_polling_interval: {
+        defaultValue: 30,
+        type: Integer,
+        title: 'Polling interval in seconds to reload proposal list',
+        systems: ['screen', 'web']
+    },
 };
 
 export default systemConfigDefaults;
