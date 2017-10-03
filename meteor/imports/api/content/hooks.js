@@ -1,6 +1,5 @@
 import { Meteor } from 'meteor/meteor';
-import Fastly from 'fastly';
-import RequestHelpers from '../../helpers/RequestHelpers';
+import FastlyHelpers from '../../helpers/FastlyHelpers';
 import { Content } from './content';
 
 console.log('attach content hooks');
@@ -9,18 +8,16 @@ console.log('attach content hooks');
 
 if (Meteor.settings.use_fastly) {
 
-  const fastly = Fastly(process.env.FASTLY_API_KEY);
-
   Content.after.insert(function () {
-    fastly.purgeKey(process.env.FASTLY_SERVICE_ID, 'content', RequestHelpers.logPurge);
+    FastlyHelpers.fastlyPurge('content');
   });
 
   Content.after.update(function () {
-    fastly.purgeKey(process.env.FASTLY_SERVICE_ID, 'content', RequestHelpers.logPurge);
+    FastlyHelpers.fastlyPurge('content');
   });
 
   Content.after.remove(function () {
-    fastly.purgeKey(process.env.FASTLY_SERVICE_ID, 'content', RequestHelpers.logPurge);
+    FastlyHelpers.fastlyPurge('content');
   });
 
 };

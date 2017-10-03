@@ -1,6 +1,5 @@
 import { Meteor } from 'meteor/meteor';
-import Fastly from 'fastly';
-import RequestHelpers from '../../helpers/RequestHelpers';
+import FastlyHelpers from '../../helpers/FastlyHelpers';
 import { SystemConfig } from './systemConfig';
 import buildConfig from '../../startup/both/build-config';
 
@@ -75,18 +74,16 @@ makeSomethingActive = function () {
 
 if (Meteor.settings.use_fastly) {
 
-  const fastly = Fastly(process.env.FASTLY_API_KEY);
-
   SystemConfig.after.insert(function () {
-    fastly.purgeKey(process.env.FASTLY_SERVICE_ID, 'config', RequestHelpers.logPurge);
+    FastlyHelpers.fastlyPurge('config');
   });
 
   SystemConfig.after.update(function () {
-    fastly.purgeKey(process.env.FASTLY_SERVICE_ID, 'config', RequestHelpers.logPurge);
+    FastlyHelpers.fastlyPurge('config');
   });
 
   SystemConfig.after.remove(function () {
-    fastly.purgeKey(process.env.FASTLY_SERVICE_ID, 'config', RequestHelpers.logPurge);
+    FastlyHelpers.fastlyPurge('config');
   });
 
 };

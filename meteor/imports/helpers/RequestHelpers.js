@@ -77,16 +77,8 @@ const RequestHelpers = {
 
   generateProposalId: function (seed1, seed2) { // not used anymore
     return this.hashFnv32a(seed1) + "_" + this.hashFnv32a(seed2);
-  },
+  }
 
-  logPurge: function (err, res) {
-    if (err) {
-      console.log("Fastly ERROR ", err);
-    } else if (Meteor.settings.log_api_errors) {
-      console.log("purged ");
-      console.log(res);
-    }
-  },
 };
 
 export default RequestHelpers;

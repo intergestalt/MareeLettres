@@ -1,6 +1,5 @@
 import { Meteor } from 'meteor/meteor';
-import Fastly from 'fastly';
-import RequestHelpers from '../../helpers/RequestHelpers';
+import FastlyHelpers from '../../helpers/FastlyHelpers';
 import { Challenges } from '../challenges/challenges';
 import { Proposals } from './proposals';
 
@@ -40,22 +39,20 @@ Proposals.before.update(function (userId, doc, fieldNames, modifier, options) {
 
 if (Meteor.settings.use_fastly) {
 
-  const fastly = Fastly(process.env.FASTLY_API_KEY);
-
   Proposals.after.insert(function (userId, doc) {
     if (doc.in_review) return; // don not refresh for proposals going to review
     const challenge_id = doc.challenge_id;
-    fastly.purgeKey(process.env.FASTLY_SERVICE_ID, 'proposals-for-challenge-' + challenge_id, RequestHelpers.logPurge);
+    FastlyHelpers.fastlyPurge('proposals-for-challenge-' + challenge_id);
   });
 
   Proposals.after.update(function (userId, doc) {
     const challenge_id = doc.challenge_id;
-    fastly.purgeKey(process.env.FASTLY_SERVICE_ID, 'proposals-for-challenge-' + challenge_id, RequestHelpers.logPurge);
+    FastlyHelpers.fastlyPurge('proposals-for-challenge-' + challenge_id);
   });
 
   Proposals.after.remove(function (userId, doc) {
     const challenge_id = doc.challenge_id;
-    fastly.purgeKey(process.env.FASTLY_SERVICE_ID, 'proposals-for-challenge-' + challenge_id, RequestHelpers.logPurge);
+    FastlyHelpers.fastlyPurge('proposals-for-challenge-' + challenge_id);
   });
 
 };
