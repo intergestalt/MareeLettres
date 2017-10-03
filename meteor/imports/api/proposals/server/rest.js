@@ -86,11 +86,10 @@ JsonRoutes.add(
     } else {
       options.data = {
         proposals,
-        headers: {
-          'Surrogate-Key': 'proposals proposals-for-challenge-' + challenge_id,
-        },
       };
-
+      options.headers = {
+        'Surrogate-Key': 'proposals proposals-for-challenge-' + challenge_id,
+      }
       options = currentSystemConfig.addUpdatedAtToResponseOptions(options);
     }
 
@@ -233,16 +232,17 @@ JsonRoutes.add(
       // incSystemStatus('tinder_drainage', 1);
     }
 
-    const options = {
+    let options = {
       data: {
         proposals: tinderProposals,
-        ...currentSystemConfig.responseDataProperties(),
       },
       headers: {
         'Surrogate-Key': 'proposals tinder-proposals', // could be proposals-for-user, but a tindring user oughta vote
         'Surrogate-Control': 'max-age=0',
       },
     };
+
+    options = currentSystemConfig.addUpdatedAtToResponseOptions(options);
 
     JsonRoutes.sendResult(res, options);
   },
