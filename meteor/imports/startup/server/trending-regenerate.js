@@ -1,5 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import currentSystemConfig from './system-config';
+import FastlyHelpers from '../../helpers/FastlyHelpers';
 
 import { TrendSnapshots } from '../../api/trendSnapshots/trendSnapshots';
 import { Challenges } from '../../api/challenges/challenges';
@@ -60,6 +61,9 @@ const runRegenerateTrending = function () {
     }
     snapshot.updated_at = new Date();
     TrendSnapshots.upsert(challenge._id, { $set: snapshot });
+    if (Meteor.settings.use_fastly && config.proposals_cache_update_interval == 0) {
+      FastlyHelpers.fastlyPurge('proposals-for-challenge-' + challenge._id);
+    }
   });
   const dt = Date.now() - t00;
   console.log(`Trend regeneration total time: ${dt}ms.`);
@@ -69,7 +73,7 @@ const runRegenerateTrending = function () {
     if (err) {
       console.log('Trend regeneration cleanup error', err);
     }
-    else if (result > 0){
+    else if (result > 0) {
       console.log(`Trend regeneration cleanup: Removed ${result} TrendSnapshots`);
     }
   });

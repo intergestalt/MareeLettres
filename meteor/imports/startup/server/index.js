@@ -12,6 +12,7 @@ import './system-config';
 import '../both/build-config';
 import './register-rest';
 import './fixtures';
+import './db_indexes';
 
 // web (admin)
 import '../both/accounts';

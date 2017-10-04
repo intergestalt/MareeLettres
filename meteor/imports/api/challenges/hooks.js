@@ -1,5 +1,5 @@
-import Fastly from 'fastly';
-import RequestHelpers from '../../helpers/RequestHelpers';
+import { Meteor } from 'meteor/meteor';
+import FastlyHelpers from '../../helpers/FastlyHelpers';
 import { Challenges } from './challenges';
 import { Proposals } from '../proposals/proposals';
 
@@ -13,18 +13,16 @@ Challenges.before.insert(function (userId, doc) {
 
 if (Meteor.settings.use_fastly) {
 
-  const fastly = Fastly(process.env.FASTLY_API_KEY);
-
   Challenges.after.insert(function () {
-    fastly.purgeKey(process.env.FASTLY_SERVICE_ID, 'challenges', RequestHelpers.logPurge);
+    FastlyHelpers.fastlyPurge('challenges');
   });
 
   Challenges.after.update(function () {
-    fastly.purgeKey(process.env.FASTLY_SERVICE_ID, 'challenges', RequestHelpers.logPurge);
+    FastlyHelpers.fastlyPurge('challenges');
   });
 
   Challenges.after.remove(function () {
-    fastly.purgeKey(process.env.FASTLY_SERVICE_ID, 'challenges', RequestHelpers.logPurge);
+    FastlyHelpers.fastlyPurge('challenges');
   });
 
 };

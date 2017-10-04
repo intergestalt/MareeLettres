@@ -69,9 +69,15 @@ JsonRoutes.add('get', `${Meteor.settings.public.api_prefix}letters`, function (r
 
   const letters = letters_cursor.fetch();
 
-  const options = {
-    data: { letters, ...currentSystemConfig.responseDataProperties() },
+  let options = {
+    data: { letters },
+    headers: {
+      'Surrogate-Key': 'letters',
+      'Surrogate-Control': 'max-age=' + currentSystemConfig.getConfig().map_cache_update_interval,
+    },
   };
+
+  options = currentSystemConfig.addUpdatedAtToResponseOptions(options);
 
   JsonRoutes.sendResult(res, options);
 });

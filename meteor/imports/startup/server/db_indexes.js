@@ -14,8 +14,11 @@ Proposals score_trending: -1
 Letters created_at: -1
 */
 
-import { Proposals, TinderProposals } from '../../api/proposals/proposals';
-import { Letters, LettersArchive } from '../../api/letters/letters';
+import { Proposals } from '../../api/proposals/proposals';
+import { TinderProposals } from '../../api/proposals/tinderProposals';
+import { Letters } from '../../api/letters/letters';
+import { LettersArchive } from '../../api/letters/lettersArchive';
+import { Players } from '../../api/players/players';
 
 import buildConfig from '../both/build-config';
 
@@ -23,9 +26,12 @@ import buildConfig from '../both/build-config';
 //Proposals.rawCollection().createIndex(buildConfig.queries.proposals.sort.popular);
 //Proposals.rawCollection().createIndex(buildConfig.queries.proposals.sort.newest);
 //Proposals.rawCollection().createIndex(buildConfig.queries.proposals.sort.trending);
+
 TinderProposals.rawCollection().createIndex({ tinderscore: -1 });
-TinderProposals.rawCollection().createIndex({ challlenge_id: 1 });
+TinderProposals.rawCollection().createIndex({ challenge_id: 1 });
 TinderProposals.rawCollection().createIndex({ origin_id: 1 });
 
 Letters.rawCollection().createIndex({ created_at: -1 });
 LettersArchive.rawCollection().createIndex({ created_at: -1 });
+
+Players.rawCollection().createIndex({ origin_id: 1 });

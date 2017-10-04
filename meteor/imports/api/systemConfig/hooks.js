@@ -1,3 +1,5 @@
+import { Meteor } from 'meteor/meteor';
+import FastlyHelpers from '../../helpers/FastlyHelpers';
 import { SystemConfig } from './systemConfig';
 import buildConfig from '../../startup/both/build-config';
 
@@ -67,3 +69,21 @@ makeSomethingActive = function () {
   const id = docs.fetch()[0]._id
   SystemConfig.update(id, { $set: { active: true } })
 }
+
+// fastly
+
+if (Meteor.settings.use_fastly) {
+
+  SystemConfig.after.insert(function () {
+    FastlyHelpers.fastlyPurge('config');
+  });
+
+  SystemConfig.after.update(function () {
+    FastlyHelpers.fastlyPurge('config');
+  });
+
+  SystemConfig.after.remove(function () {
+    FastlyHelpers.fastlyPurge('config');
+  });
+
+};

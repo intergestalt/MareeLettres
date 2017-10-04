@@ -41,7 +41,11 @@ JsonRoutes.add('get', `${Meteor.settings.public.api_prefix}players/:origin_id`, 
   } */
 
   let options = {
-    data: { ...player }
+    data: { ...player },
+    headers: {
+      'Surrogate-Key': 'players',
+      'Surrogate-Control': 'max-age=0',
+    },
   };
 
   //if (player.new) {
