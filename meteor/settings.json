@@ -2,7 +2,7 @@
   "public": {
     "api_prefix": "api/"
   },
-  "use_fastly": true,
+  "use_fastly": false,
   "log_api_errors": true,
   "log_fastly": true
 }
