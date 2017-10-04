@@ -234,13 +234,13 @@ const systemConfigDefaults = {
         systems: ['app']
     },
     stream_twitter_handle: {
-        defaultValue: 'http://sebquack.perseus.uberspace.de/maree/TwitterWebView.html',
+        defaultValue: 'http://maree-web.herokuapp.com/twitter/TwitterWebView.html',
         type: String,
         title: 'Stream: The twitter handle',
         systems: ['app', 'server', 'web']
     },
     challenge_list_image_url: {
-        defaultValue: 'http://sebquack.perseus.uberspace.de/maree/title.jpg',
+        defaultValue: 'http://api.lettres.paris/img/challenges_start.jpg',
         type: String,
         title: 'Image for topic list',
         systems: ['app', 'web']
