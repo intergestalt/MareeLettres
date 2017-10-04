@@ -47,21 +47,7 @@ class ChallengesIndex extends Component {
           </Link>
         </td>
         <td>
-          <Moment format="DD.MM.YY HH:MM" tz="Europe/Paris">
-            {challenge.start_date}
-          </Moment>
-          {challenge.start_date > Date.now() &&
-            <span>
-              <br />
-              <small>
-                <Moment fromNow element="small" tz="Europe/Paris">
-                  {challenge.start_date}
-                </Moment>
-              </small>
-            </span>}
-        </td>
-        <td>
-          <Moment format="DD.MM.YY HH:MM" tz="Europe/Paris">
+          <Moment format="DD.MM.YY HH:mm" tz="Europe/Paris">
             {challenge.end_date}
           </Moment>
           {challenge.end_date > Date.now() &&
@@ -70,20 +56,6 @@ class ChallengesIndex extends Component {
               <small>
                 <Moment fromNow element="small" tz="Europe/Paris">
                   {challenge.end_date}
-                </Moment>
-              </small>
-            </span>}
-        </td>
-        <td>
-          <Moment format="DD.MM.YY HH:MM" tz="Europe/Paris">
-            {challenge.proposals_end_date}
-          </Moment>
-          {challenge.proposals_end_date > Date.now() &&
-            <span>
-              <br />
-              <small>
-                <Moment fromNow element="small" tz="Europe/Paris">
-                  {challenge.proposals_end_date}
                 </Moment>
               </small>
             </span>}
@@ -116,9 +88,7 @@ class ChallengesIndex extends Component {
             <tr>
               <th>text</th>
               <th>proposals</th>
-              <th>voting starts</th>
-              <th>voting ends</th>
-              <th>submission ends</th>
+              <th>end date</th>
               <th>winningProposal</th>
               <th>image</th>
               <th>detail image</th>
@@ -145,6 +115,6 @@ export default createContainer(() => {
   Meteor.subscribe('get.challenges');
 
   return {
-    challenges: Challenges.find({}, { sort: { start_date: 1 } }).fetch(),
+    challenges: Challenges.find({}, { sort: { end_date: 1 } }).fetch(),
   };
 }, ChallengesIndex);

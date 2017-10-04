@@ -1,28 +1,37 @@
-const { OriginId } = require('maree-lettres-shared');
+const { OriginId, systemConfigInitial } = require('maree-lettres-shared');
 const request = require('request-promise');
 const Random = require('random-js');
 var Promise = require('bluebird');
 
 //const api_prefix = "http://localhost:3333/api/";
-const api_prefix = "https://maree-dev.herokuapp.com/api/";
-const parallel = 5;
+//const api_prefix = "https://maree-dev.herokuapp.com/api/";
+const api_prefix = "https://maree-dev-herokuapp-com.global.ssl.fastly.net/api/";
+const parallel = 10;
 const continuous = true;
-const proposal_probability = 0.01;
+
+const proposal_probability = 0.1;
+const map_coords_variation_probability = 0.5;
+const map_interval_variation_probability = 0.5;
+
+const log_actions = false;
+const log_structure = true
+const statistics = {}
 
 const r = Random();
+const r_votes = Random(Random.engines.browserCrypto);
 let counter = 0;
 
 const run_test = function (callback) {
   const device_string = "Simulator_" + Date.now() + "_" + r.hex(5, true);
   const origin_id = OriginId.generateFromString(device_string);
-  console.log("Simulating player " + device_string + ": " + origin_id)
+  if (log_structure) console.log("Simulating player " + device_string + ": " + origin_id)
 
   // get player
   request(api_prefix + 'players/' + origin_id)
     .then(function (data) {
       // console.log(data);
       // get challenges 
-      return request(api_prefix + 'challenges')
+      return request(log(api_prefix + 'challenges'))
     })
     .then(function (data) {
       // console.log(data);
@@ -31,13 +40,13 @@ const run_test = function (callback) {
       challenge = r.sample(challenges, 1)[0]
       //console.log(challenge._id)
       // GET proposals
-      request(api_prefix + 'challenges/' + challenge._id + "/proposals?sort=popular&limit=40").then(function (proposals) {
+      request(log(api_prefix + 'challenges/' + challenge._id + "/proposals?sort=popular&limit=40", "get")).then(function (proposals) {
         //console.log(JSON.parse(proposals))
       })
-      request(api_prefix + 'challenges/' + challenge._id + "/proposals?sort=newest&limit=40").then(function (proposals) {
+      request(log(api_prefix + 'challenges/' + challenge._id + "/proposals?sort=newest&limit=40", "get")).then(function (proposals) {
         //console.log(JSON.parse(proposals))
       })
-      request(api_prefix + 'challenges/' + challenge._id + "/proposals?sort=trending&limit=40").then(function (proposals) {
+      request(log(api_prefix + 'challenges/' + challenge._id + "/proposals?sort=trending&limit=40", "get")).then(function (proposals) {
         //console.log(JSON.parse(proposals))
       })
       return data
@@ -49,16 +58,17 @@ const run_test = function (callback) {
       challenge = r.sample(challenges, 1)[0]
       //console.log(challenge._id)
       // GET tinder proposals
-      request(api_prefix + 'tinder/' + challenge._id + "/" + origin_id + "?limit=100").then(function (proposals_res) {
+      request(log(api_prefix + 'tinder/' + challenge._id + "/" + origin_id + "?limit=100", "get_tinder")).then(function (proposals_res) {
         //console.log(JSON.parse(proposals))
         const proposals = JSON.parse(proposals_res).proposals;
-        console.log("got " + proposals.length + " tinder proposals")
+        if (log_structure) console.log("got " + proposals.length + " tinder proposals")
         Promise.each(proposals, function (proposal) {
           const body = { votes: {} }
-          body.votes[proposal._id] = r.bool(0.6);
-          request.post(api_prefix + 'players/' + origin_id + '/votes').form(body)
+          body.votes[proposal._id] = r_votes.bool(0.6);
+          // console.log(body);
+          return request.post(log(api_prefix + 'players/' + origin_id + '/votes', "post_votes")).form(body)
             .then(function (vote_res) {
-              console.log('Voted', vote_res);
+              //console.log('Voted', vote_res);
             })
             .catch(function (e) {
               console.log(e.message)
@@ -79,7 +89,7 @@ const run_test = function (callback) {
       }
       // console.log(body)
       if (r.bool(proposal_probability)) {
-        request.post(api_prefix + 'proposals').form(body)
+        request.post(log(api_prefix + 'proposals', "post_proposal")).form(body)
           .then(function (data) {
             console.log("proposed " + JSON.parse(data).proposal._id)
             // console.log(JSON.parse(data))
@@ -87,11 +97,29 @@ const run_test = function (callback) {
       }
       return data
     })
+    .then(function (data) {
+      // GET letters
+      let lat = systemConfigInitial.map_default_center_lat;
+      let lng = systemConfigInitial.map_default_center_lng;
+      let interval = null;
+      if (r.bool(map_coords_variation_probability)) {
+        lat += r.real(0.001, -0.001);
+        lng += r.real(0.001, -0.001);
+      }
+      if (r.bool(map_interval_variation_probability)) {
+        interval = Math.pow(r.integer(1, 8), 2);
+      }
+      return request(log(api_prefix + `letters?centerLat=${lat}&centerLng=${lng}&interval=${interval}`, "get_letters"))
+        .then(function (letters) {
+          //console.log(letters)
+          if (log_structure) console.log("got " + JSON.parse(letters).letters.length + " letters")
+        })
+    })
     .catch(function (e) {
       console.log(e.message)
     })
     .finally(function (data) {
-      console.log("done " + device_string)
+      if (log_structure) console.log("done " + device_string)
       if (callback) callback(callback)
     })
 }
@@ -114,3 +142,23 @@ function delay(t) {
     setTimeout(resolve, t)
   });
 }
+
+function log(string, type) {
+  if (log_actions) {
+    console.log(string)
+  }
+  if (string && type) {
+    statistics[type] = 1 + statistics[type] || 0
+  }
+  return string
+}
+
+setInterval(() => {
+  if (typeof pastStatistics === "object") {
+    for (let i in statistics) {
+      console.log(i + " per sec = " + (statistics[i] - pastStatistics[i]))
+    }
+  }
+  console.log(statistics)
+  pastStatistics = Object.assign({}, statistics);
+}, 1000)

@@ -9,7 +9,9 @@
     "postinstall": "# INFO: Don't worry about the graphql peer dependency. It's not required.",
     "reset": "meteor reset",
     "reset:seed": "meteor reset && MAREE_SEED_VOTES=true meteor --settings settings.json",
-    "install-shared": "npm install maree-lettres-shared"
+    "install-shared": "npm install maree-lettres-shared",
+    "heroku-set-settings-dev": "heroku config:add METEOR_SETTINGS=\"$(cat settings-dev.json)\"",
+    "heroku-set-settings-live": "heroku config:add METEOR_SETTINGS=\"$(cat settings-live.json)\""
   },
   "dependencies": {
     "babel-runtime": "^6.18.0",
