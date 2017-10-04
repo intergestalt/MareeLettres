@@ -244,6 +244,8 @@ export async function loadUserFromStorage() {
     store.dispatch(setUserIsLoadingFromStorage(false));
     store.dispatch(setUserLoadedFromStorage(false));
   } catch (error) {
+    store.dispatch(setUserIsLoadingFromStorage(false));
+    store.dispatch(setUserLoadedFromStorage(false));
     console.log(error);
   }
 }
@@ -279,6 +281,7 @@ export async function loadGlobalsFromStorage() {
     }
     store.dispatch(setGlobalsIsLoadingFromStorage(false));
   } catch (error) {
+    store.dispatch(setGlobalsIsLoadingFromStorage(false));
     console.log(error);
   }
 }
@@ -313,6 +316,7 @@ export async function loadContentFromStorage() {
     }
     store.dispatch(setContentIsLoadingFromStorage(false));
   } catch (error) {
+    store.dispatch(setContentIsLoadingFromStorage(false));
     console.log(error);
   }
 }
@@ -346,6 +350,7 @@ export async function loadConfigFromStorage() {
     }
     store.dispatch(setConfigIsLoadingFromStorage(false));
   } catch (error) {
+    store.dispatch(setConfigIsLoadingFromStorage(false));
     console.log(error);
   }
 }
@@ -382,6 +387,7 @@ export async function loadChallengesFromStorage(props) {
     store.dispatch(setChallengesDateData());
     store.dispatch(setChallengesIsLoadingFromStorage(false));
   } catch (error) {
+    store.dispatch(setChallengesIsLoadingFromStorage(false));
     console.log(error);
   }
 }
@@ -417,6 +423,7 @@ export async function loadProposalsFromStorage() {
     }
     store.dispatch(setProposalsIsLoadingFromStorage(false));
   } catch (error) {
+    store.dispatch(setProposalsIsLoadingFromStorage(false));
     console.log(error);
   }
 }
@@ -451,6 +458,7 @@ export async function loadLettersFromStorage() {
     }
     store.dispatch(setLettersIsLoadingFromStorage(false));
   } catch (error) {
+    store.dispatch(setLettersIsLoadingFromStorage(false));
     console.log(error);
   }
 }
@@ -484,6 +492,7 @@ export async function loadMyLettersFromStorage() {
     }
     store.dispatch(setMyLettersIsLoadingFromStorage(false));
   } catch (error) {
+    store.dispatch(setMyLettersIsLoadingFromStorage(false));
     console.log(error);
   }
 }
