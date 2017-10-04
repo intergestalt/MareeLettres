@@ -185,6 +185,12 @@ const systemConfigDefaults = {
         title: 'Extra time to compensate network latency in delays and calculations (seconds)',
         systems: ['app', 'server']
     },
+    proposals_cache_update_interval: {
+        defaultValue: 5,
+        type: Integer,
+        title: 'Interval to purge cache of requests for proposals. 0 to always purge on changes',
+        systems: ['server']
+    },
     send_internal_votes_after: {
         defaultValue: 5,
         type: Integer,

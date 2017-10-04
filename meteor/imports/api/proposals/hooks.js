@@ -1,5 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import FastlyHelpers from '../../helpers/FastlyHelpers';
+import currentSystemConfig from '../../startup/server/system-config';
 import { Challenges } from '../challenges/challenges';
 import { Proposals } from './proposals';
 
@@ -37,10 +38,10 @@ Proposals.before.update(function (userId, doc, fieldNames, modifier, options) {
 
 // fastly
 
-if (Meteor.settings.use_fastly) {
+if (Meteor.settings.use_fastly && currentSystemConfig.getConfig().proposals_cache_update_interval == 0) {
 
   Proposals.after.insert(function (userId, doc) {
-    if (doc.in_review) return; // don not refresh for proposals going to review
+    if (doc.in_review) return; // do not refresh for proposals going to review
     const challenge_id = doc.challenge_id;
     FastlyHelpers.fastlyPurge('proposals-for-challenge-' + challenge_id);
   });

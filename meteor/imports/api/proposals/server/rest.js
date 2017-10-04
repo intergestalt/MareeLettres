@@ -90,6 +90,11 @@ JsonRoutes.add(
       options.headers = {
         'Surrogate-Key': 'proposals proposals-for-challenge-' + challenge_id,
       }
+
+      if (currentSystemConfig.getConfig().proposals_cache_update_interval > 0) {
+        options.headers['Surrogate-Control'] = 'max-age=' + currentSystemConfig.getConfig().proposals_cache_update_interval
+      }
+
       options = currentSystemConfig.addUpdatedAtToResponseOptions(options);
     }
 
@@ -238,7 +243,7 @@ JsonRoutes.add(
       },
       headers: {
         'Surrogate-Key': 'proposals tinder-proposals', // could be proposals-for-user, but a tindring user oughta vote
-        'Surrogate-Control': 'max-age=0',
+        'Surrogate-Control': 'max-age=1',
       },
     };
 
