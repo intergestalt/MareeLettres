@@ -47,7 +47,7 @@ class ChallengesIndex extends Component {
           </Link>
         </td>
         <td>
-          <Moment format="DD.MM.YY HH:MM" tz="Europe/Paris">
+          <Moment format="DD.MM.YY HH:mm" tz="Europe/Paris">
             {challenge.start_date}
           </Moment>
           {challenge.start_date > Date.now() &&
@@ -61,7 +61,7 @@ class ChallengesIndex extends Component {
             </span>}
         </td>
         <td>
-          <Moment format="DD.MM.YY HH:MM" tz="Europe/Paris">
+          <Moment format="DD.MM.YY HH:mm" tz="Europe/Paris">
             {challenge.end_date}
           </Moment>
           {challenge.end_date > Date.now() &&
@@ -75,7 +75,7 @@ class ChallengesIndex extends Component {
             </span>}
         </td>
         <td>
-          <Moment format="DD.MM.YY HH:MM" tz="Europe/Paris">
+          <Moment format="DD.MM.YY HH:mm" tz="Europe/Paris">
             {challenge.proposals_end_date}
           </Moment>
           {challenge.proposals_end_date > Date.now() &&
