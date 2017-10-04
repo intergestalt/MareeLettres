@@ -8,7 +8,8 @@ const servers = {
   },
   dev: {
     // uri: 'maree-dev.herokuapp.com',
-    uri: 'api-dev.lettres.paris',
+    // uri: 'api-dev.lettres.paris',
+    uri: 'maree-dev-herokuapp-com.global.ssl.fastly.net',
     protocol: 'https',
   },
   staging: {
