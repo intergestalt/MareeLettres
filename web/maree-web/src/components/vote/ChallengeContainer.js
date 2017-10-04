@@ -18,6 +18,7 @@ class ChallengeContainer extends React.Component {
 		this.state = {
 			loadingChallenges: true,
       loadingProposals: false,
+      pollingProposals: false,
 			challenges: [],
 			tickerData: {},
 			proposals: [],
@@ -175,6 +176,7 @@ class ChallengeContainer extends React.Component {
       if(this.state.selectedChallenge) {
         if(!isFinished(this.state.selectedChallenge)) {
           console.log("polling proposals");
+          this.setState({pollingProposals: true});
           this.loadProposals(this.state.selectedChallenge, this.state.proposalSortMode);      
         } else {
           //if(typeof this.state.selectedChallenge.winningProposal === "undefined") {
@@ -231,6 +233,7 @@ class ChallengeContainer extends React.Component {
             		showNext={this.state.showNext}
             		onNext={this.nextChallenge}
             		loadingProposals={this.state.loadingProposals}
+                pollingProposals={this.state.pollingProposals}
             		proposals={this.state.proposals}
             		proposalSortMode={this.state.proposalSortMode}
             		proposalsLimit={this.state.proposalsLimit}

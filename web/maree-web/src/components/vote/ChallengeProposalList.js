@@ -5,7 +5,7 @@ import './style.css';
 import { VoteMarkPanel } from './VoteMark';
 
 class ChallengeProposalList extends React.Component {
-	
+
 	renderProposals() {
 		let proposals = this.props.proposals.map(p => {return ( 
 			<li className="proposal-list-entry" key={p._id}>
@@ -44,7 +44,7 @@ class ChallengeProposalList extends React.Component {
        			</div>
        			) : null}
 
-       			{this.props.loadingProposals ? (
+       			{this.props.loadingProposals && !this.props.pollingProposals ? (
 	       			<div className="loading">{this.props.i18n.t("loading")}</div>
 	       		) : (
 	       			<div className="proposal-list-container">
