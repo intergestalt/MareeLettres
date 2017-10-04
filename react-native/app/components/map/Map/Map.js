@@ -23,6 +23,8 @@ import { BlinkText } from './BlinkText';
 import I18n from '../../../i18n/i18n';
 import { ReloadButton } from '../../../components/general/ReloadButton';
 
+dragging = false;
+
 class Map extends Component {
   static propTypes = {
     navigation: PropTypes.object,
@@ -64,7 +66,6 @@ class Map extends Component {
       },
       pollingCounter: 0,
       showMap: 1,
-      gpsChecked: false,
     };
     this.state.region = this.state.initialRegion;
   }
@@ -74,13 +75,11 @@ class Map extends Component {
 
     // get the player GPS
     this._getPlayerCoords(() => {
-      this.setState({ gpsChecked: true });
-      this.pollLetters(true);
+      
     });
 
-    // failover: run if _getPlayerCoords doesn't return
+    // failover: run in case _getPlayerCoords doesn't return
     setTimeout(() => {
-      this.setState({ gpsChecked: true });
       this.pollLetters(true);
     }, 2000);
 
@@ -135,7 +134,7 @@ class Map extends Component {
       centerLng: centerLng,
       centerLat: centerLat,
       radius: radiusMeters,
-      interval: Math.pow(interval, 2),
+      interval: this.state.pollingCounter > 0 ? Math.pow(2, interval) : 0,
     };
     return o;
   }
@@ -145,9 +144,11 @@ class Map extends Component {
     this.timerID = setTimeout(() => {
       if (this.props.screen === 'map' && this.props.mode === 'overview') {
         // only call when map is current screen
-        console.log("loadLettersIntervalServiceProxy");
-        loadLettersIntervalServiceProxy(this.calculateMapLetterRequest());
-        this.setState({ pollingCounter: 1 });
+        if(!dragging) {
+          console.log("loadLettersIntervalServiceProxy with polling counter " + this.state.pollingCounter);
+          loadLettersIntervalServiceProxy(this.calculateMapLetterRequest());  
+          this.setState({ pollingCounter: 2 });
+        }
       } else {
         this.setState({ pollingCounter: this.state.pollingCounter + 1 }); // this counts missed intervals
       }
@@ -176,11 +177,13 @@ class Map extends Component {
     /*if(!this.state.dragging) {
       this.setState({dragging: true});
     }*/
+    dragging = true;
   };
 
   onRegionChangeComplete = (region) => {
+    dragging = false;
     console.log("region change complete");
-    if (this.state.gpsChecked) {
+    
       changeMapRegionProxy(region); // for use in reducer when new letters arrive
       this.setState({ region: region, pollingCounter: 0 });
       this.setMapLetterSize(region);
@@ -191,9 +194,6 @@ class Map extends Component {
         loadLettersServiceProxy(this.calculateMapLetterRequest());
         this.setState({lastLoad: new Date().getTime()});
       }*/
-    } else {
-      console.log("rengion changed - ignoring before initial gps check");
-    }
   };
 
   setMapLetterSize = (region) => {
