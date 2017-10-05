@@ -43,18 +43,22 @@ const ChallengesSchema = new SimpleSchema({
       }
     },
   },
+  /*
   start_date: {
     type: Date,
     label: 'The date at which voting starts',
   },
+  */
   end_date: {
     type: Date,
-    label: 'The date at which voting ends',
+    label: 'The date at which challenge ends - voting ends, but proposing may end earlier',
   },
+  /*
   proposals_end_date: {
     type: Date,
     label: 'The date at which submission of proposals ends',
   },
+  */
   proposals_amount: {
     type: Number,
     optional: true,

@@ -6,6 +6,7 @@ import AutoForm from 'uniforms-unstyled/AutoForm';
 import SubmitField from 'uniforms-unstyled/SubmitField';
 import ErrorsField from 'uniforms-unstyled/ErrorsField';
 import { OriginId, AvailableLetters } from 'maree-lettres-shared';
+import moment from 'moment';
 
 import { Challenges, ChallengesSchema } from '../../api/challenges/challenges';
 import { Proposals } from '../../api/proposals/proposals';
@@ -21,7 +22,9 @@ class Challenge extends Component {
   }
 
   save(doc) {
-    console.log(doc);
+    console.log(doc.end_date)
+    doc.end_date = moment.tz(doc.end_date, "Europe/Paris").toDate();
+    console.log(doc.end_date)
     if (!doc._id) {
       Challenges.insert(doc, this.saveCallback)
     }
@@ -31,9 +34,7 @@ class Challenge extends Component {
           'title.en': doc.title.en,
           'title.fr': doc.title.fr,
           letters: doc.letters,
-          start_date: doc.start_date,
           end_date: doc.end_date,
-          proposals_end_date: doc.proposals_end_date,
           'winningProposalImageUrl': doc.winningProposalImageUrl,
           'winningProposalDetailImageUrl': doc.winningProposalDetailImageUrl,
         },
@@ -63,9 +64,8 @@ class Challenge extends Component {
         <small>
           All available letters: <span className="impact">{AvailableLetters.proposal}</span>
         </small>
-        <AutoField name="start_date" />
         <AutoField name="end_date" />
-        <AutoField name="proposals_end_date" />
+        ATTENTION: This is UTC time. Paris time is {moment().tz("Europe/Paris").format('Z')}
         <AutoField name="winningProposalImageUrl" />
         <AutoField name="winningProposalDetailImageUrl" />
         <ErrorsField />
