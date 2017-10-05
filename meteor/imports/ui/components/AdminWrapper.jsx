@@ -22,7 +22,7 @@ class AdminWrapper extends Component {
       <div className="AdminWrapper">
         <nav>
           <AccountsUIWrapper />
-          <Menu router={this.props.router} />
+          {!this.props.hideMenu && <Menu router={this.props.router} />}
         </nav>
         <div className="main">
           {this.props.children}

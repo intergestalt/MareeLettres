@@ -75,6 +75,7 @@ class ProposalsPage extends Component {
               <th>&#128077;</th>
               <th>&#128078;</th>
               <th>∑</th>
+              <th>Trend</th>
               <th>text</th>
               <th>Challenge</th>
               <th><small>Actions</small></th>

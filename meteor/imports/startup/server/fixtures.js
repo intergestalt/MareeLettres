@@ -31,6 +31,14 @@ Meteor.startup(() => {
     });
   }
 
+  if (Meteor.users.find({ username: 'review' }).count() == 0) {
+    console.log('seeding review user');
+    Accounts.createUser({
+      username: 'review',
+      password: 'password',
+    });
+  }
+
   // Always update default SystemConfig
   console.log('resetting default config in db');
   // TODO: just upsert the values?!

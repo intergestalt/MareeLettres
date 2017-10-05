@@ -41,13 +41,18 @@ class ProposalEntry extends Component {
           </tt>
         </td>
         <td>
+          <tt>
+            {proposal.score_trending}
+          </tt>
+        </td>
+        <td>
           <span className="impact">
             {proposal.text}
           </span>
         </td>
         <td>
           <tt>
-            {proposal.challenge_id}
+            <Link to={'proposals?challenge_id=' + proposal.challenge_id}>{proposal.challenge_id}</Link>
           </tt>
         </td>
         <td style={{ whiteSpace: "nowrap" }}>
