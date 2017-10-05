@@ -76,7 +76,7 @@ class Map extends Component {
     // get the player GPS
     setTimeout(() => {
       this._getPlayerCoords();
-    }, 1000);
+    }, 8000);
     
     // start polling 
     setTimeout(() => {
@@ -85,7 +85,7 @@ class Map extends Component {
 
   }
 
-  async _getPlayerCoords(callback) {
+  async _getPlayerCoords() {
     const { Location, Permissions } = Exponent;
     const { status } = await Permissions.askAsync(Permissions.LOCATION);
 
@@ -95,7 +95,6 @@ class Map extends Component {
         setUserCoordinatesProxy(res.coords.latitude, res.coords.longitude);
         this.setState({ lng: res.coords.longitude, lat: res.coords.latitude });
         this.centreZoomMap(); // this sets region
-        if (callback) { callback(); }
       }).catch((err) => {
         console.log(err);
       });
