@@ -49,6 +49,12 @@ const systemConfigDefaults = {
         title: 'Interval at which Letters are archived (seconds)',
         systems: ['server']
     },
+    map_ios_use_apple_maps: {
+        defaultValue: false,
+        type: Boolean,
+        title: 'Fallback if google maps doesnt work on ios',
+        systems: ['app']
+    },
     map_update_interval: {
         defaultValue: 10,
         type: Integer,

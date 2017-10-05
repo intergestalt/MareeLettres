@@ -75,7 +75,7 @@ class Map extends Component {
 
     // get the player GPS
     this._getPlayerCoords(() => {
-      
+
     });
 
     // failover: run in case _getPlayerCoords doesn't return
@@ -144,9 +144,9 @@ class Map extends Component {
     this.timerID = setTimeout(() => {
       if (this.props.screen === 'map' && this.props.mode === 'overview') {
         // only call when map is current screen
-        if(!dragging) {
+        if (!dragging) {
           console.log("loadLettersIntervalServiceProxy with polling counter " + this.state.pollingCounter);
-          loadLettersIntervalServiceProxy(this.calculateMapLetterRequest());  
+          loadLettersIntervalServiceProxy(this.calculateMapLetterRequest());
           this.setState({ pollingCounter: 2 });
         }
       } else {
@@ -183,17 +183,17 @@ class Map extends Component {
   onRegionChangeComplete = (region) => {
     dragging = false;
     console.log("region change complete");
-    
-      changeMapRegionProxy(region); // for use in reducer when new letters arrive
-      this.setState({ region: region, pollingCounter: 0 });
-      this.setMapLetterSize(region);
 
-      // poll in a regular rythm, looks better
-      /*let timeSinceLastLoad = (new Date().getTime() - this.state.lastLoad);
-      if(!this.state.lastLoad || timeSinceLastLoad > 2000) {
-        loadLettersServiceProxy(this.calculateMapLetterRequest());
-        this.setState({lastLoad: new Date().getTime()});
-      }*/
+    changeMapRegionProxy(region); // for use in reducer when new letters arrive
+    this.setState({ region: region, pollingCounter: 0 });
+    this.setMapLetterSize(region);
+
+    // poll in a regular rythm, looks better
+    /*let timeSinceLastLoad = (new Date().getTime() - this.state.lastLoad);
+    if(!this.state.lastLoad || timeSinceLastLoad > 2000) {
+      loadLettersServiceProxy(this.calculateMapLetterRequest());
+      this.setState({lastLoad: new Date().getTime()});
+    }*/
   };
 
   setMapLetterSize = (region) => {
@@ -346,7 +346,7 @@ class Map extends Component {
           }}
           onRegionChange={this.onRegionChange}
           onRegionChangeComplete={this.onRegionChangeComplete}
-          provider={MapView.PROVIDER_GOOGLE}
+          provider={this.props.config.map_ios_use_apple_maps ? null : MapView.PROVIDER_GOOGLE}
           style={styles.container}
           initialRegion={this.state.initialRegion}
           region={this.state.region}

@@ -1,6 +1,6 @@
 import Expo from 'expo';
 
-let server = 'dev'; // set server type here ( local | dev | staging | production)  [ can be overwritten by app.json ]
+let server = 'local'; // set server type here ( local | dev | staging | production)  [ can be overwritten by app.json ]
 
 const servers = {
   local: {
