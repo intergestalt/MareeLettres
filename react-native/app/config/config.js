@@ -17,7 +17,8 @@ const servers = {
     protocol: 'https',
   },
   production: {
-    uri: 'mareedeslettres.herokuapp.com',
+    uri: 'api.lettres.paris',
+    // uri: 'mareedeslettres.herokuapp.com',
     protocol: 'https',
   },
 };
