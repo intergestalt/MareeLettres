@@ -125,16 +125,17 @@ class Map extends Component {
       radiusMeters = 500;
     }
 
-    let interval = Math.floor(Math.sqrt(this.state.pollingCounter));
-    if (interval > 10) {
-      interval = 10;
+    let interval = 0;
+    if (this.state.pollingCounter > 0) {
+      interval = Math.pow(2, Math.ceil(Math.sqrt(this.state.pollingCounter)));
     }
+    console.log("interval: " + interval);
 
     const o = {
       centerLng: centerLng,
       centerLat: centerLat,
       radius: radiusMeters,
-      interval: this.state.pollingCounter > 0 ? Math.pow(2, interval) : 0,
+      interval: interval
     };
     return o;
   }
@@ -147,9 +148,16 @@ class Map extends Component {
         if (!dragging) {
           console.log("loadLettersIntervalServiceProxy with polling counter " + this.state.pollingCounter);
           loadLettersIntervalServiceProxy(this.calculateMapLetterRequest());
-          this.setState({ pollingCounter: 2 });
+          // reset polling counter
+          if (this.state.pollingCounter >= 64) {
+            this.setState({ pollingCounter: 0 });
+          } else {
+            this.setState({ pollingCounter: 1 });
+          }
+
         }
       } else {
+        console.log("map polling counter set to " + (this.state.pollingCounter + 1));
         this.setState({ pollingCounter: this.state.pollingCounter + 1 }); // this counts missed intervals
       }
       this.pollLetters();
@@ -273,7 +281,7 @@ class Map extends Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    return nextProps.mode === 'overview';
+    return nextProps.mode === 'overview' && nextProps.screen === 'map';
   }
   hideMap() {
     this.setState({ showMap: false });
