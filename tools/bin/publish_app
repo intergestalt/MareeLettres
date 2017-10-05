@@ -3,19 +3,23 @@ set -e
 SAY="Production version published"
 URL="https://github.com/intergestalt/MareeLettres.git"
 PROJECT_NAME="MareeLettres"
-EXPO_ACCOUNT="mareedeslettres"
 command=`basename "$0"`
 command_path_full=`realpath "$0"`
 command_dir=`dirname "$command_path_full"`
 
-if [ $# -eq 0 ]
+if [ $# -ne 2 ]
   then
-    echo "Usage: $command <Git Version Hash (sha1) or Tag>"
+    echo "Usage: $command <Git Version Hash (sha1) or Tag> <expo account name>"
     exit
 fi
 
 SHA1=$1
 echo "Version: $SHA1"
+
+EXPO_ACCOUNT=$2
+echo "Expo Account: $EXPO_ACCOUNT"
+
+exit;
 
 # clean
 cd $TMPDIR
@@ -40,7 +44,7 @@ cat app.json
 
 # publish
 exp logout
-exp login -u mareedeslettres
+exp login -u $EXPO_ACCOUNT
 exp publish
 exp logout
 
