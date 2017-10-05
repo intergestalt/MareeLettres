@@ -105,7 +105,7 @@ export default class FluxMap extends Component {
     this.resizeLetters(params);
     setTimeout(()=>{
       this.updateLetters(params);  
-    }, 200);
+    }, 300);
   }
 
   pollLetters() {
