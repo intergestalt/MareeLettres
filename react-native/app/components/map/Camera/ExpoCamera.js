@@ -60,14 +60,19 @@ class ExpoCamera extends React.Component {
     
     if(!this.props.user.hasStoragePermissionAndroid && Platform.OS === 'android') {
       console.log("going into android camera fallback");
-      const resultCamera = await Expo.ImagePicker.launchCameraAsync({}); 
-      console.log(resultCamera);
+      try {
+        const resultCamera = await Expo.ImagePicker.launchCameraAsync({}); 
+        console.log(resultCamera);
+        if(!resultCamera.cancelled) {
+          console.log(resultCamera.uri);
+          this.setState({ pathPhoto: resultCamera.uri })  
+        }
+      } 
+      catch(e) {
+        console.log(e);
+      }
       console.log("setting hasStoragePermissionAndroid");
       setUserHasStoragePermissionAndroidProxy();
-      if(!resultCamera.cancelled) {
-        console.log(resultCamera.uri);
-        this.setState({ pathPhoto: resultCamera.uri })  
-      }
       const { status } = await Permissions.askAsync(Permissions.CAMERA);
       this.setState({ hasCameraPermission: status === 'granted' });
     }
