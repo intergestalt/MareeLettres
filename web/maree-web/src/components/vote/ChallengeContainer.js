@@ -100,7 +100,7 @@ class ChallengeContainer extends React.Component {
                 // decide which to show based on time  
                 let now = new Date().getTime();
                 let lastVoteEnded = new Date(lastFinished.end_date).getTime();
-                if(((now - lastVoteEnded) / 1000) > 1800) {
+                if(((now - lastVoteEnded) / 1000) > 600) {
                   selectedChallenge = firstActive;
                 } else {
                   selectedChallenge = lastFinished;

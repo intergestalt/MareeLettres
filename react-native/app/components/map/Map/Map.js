@@ -74,15 +74,14 @@ class Map extends Component {
     console.log("mounting map...");
 
     // get the player GPS
-    this._getPlayerCoords(() => {
-
-    });
-
-    // failover: run in case _getPlayerCoords doesn't return
+    setTimeout(() => {
+      this._getPlayerCoords();
+    }, 1000);
+    
+    // start polling 
     setTimeout(() => {
       this.pollLetters(true);
     }, 2000);
-
 
   }
 
@@ -99,11 +98,9 @@ class Map extends Component {
         if (callback) { callback(); }
       }).catch((err) => {
         console.log(err);
-        if (callback) { callback(); }
       });
     } else {
       throw new Error('Location permission not granted');
-      if (callback) { callback(); }
     }
   }
 

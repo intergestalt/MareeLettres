@@ -28,6 +28,9 @@ const calculateRadius = function(latitudeDelta) {
   if (latitudeDelta >= 0.005) {
     radius = 500;
   }
+  if (latitudeDelta >= 0.006) {
+    radius = 1000;
+  }  
   return radius;
 }
 
