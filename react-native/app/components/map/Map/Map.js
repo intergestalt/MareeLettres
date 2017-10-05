@@ -76,7 +76,7 @@ class Map extends Component {
     // get the player GPS
     setTimeout(() => {
       this._getPlayerCoords();
-    }, 8000);
+    }, 7000);
     
     // start polling 
     setTimeout(() => {
