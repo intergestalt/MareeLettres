@@ -19,8 +19,6 @@ echo "Version: $SHA1"
 EXPO_ACCOUNT=$2
 echo "Expo Account: $EXPO_ACCOUNT"
 
-exit;
-
 # clean
 cd $TMPDIR
 rm -rf $PROJECT_NAME
