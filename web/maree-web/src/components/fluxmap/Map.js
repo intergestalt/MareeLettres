@@ -15,18 +15,18 @@ class Letter extends React.Component {
 const default_map_letter_decay_time = 172800;
 
 const calculateRadius = function(latitudeDelta) {
-  let radius = 100;
-  if (latitudeDelta >= 0.002 && latitudeDelta < 0.003) {
-    radius = 200;
-  }
-  if (latitudeDelta >= 0.003 && latitudeDelta < 0.004) {
+  let radius = 200;
+  if (latitudeDelta >= 0.002) {
     radius = 300;
   }
-  if (latitudeDelta >= 0.004) {
+  if (latitudeDelta >= 0.003) {
     radius = 400;
   }
-  if (latitudeDelta >= 0.005) {
+  if (latitudeDelta >= 0.004) {
     radius = 500;
+  }
+  if (latitudeDelta >= 0.005) {
+    radius = 600;
   }
   if (latitudeDelta >= 0.006) {
     radius = 1000;
@@ -60,19 +60,39 @@ export default class FluxMap extends Component {
     return num.toString().match(/^-?\d+(?:\.\d{0,3})?/)[0];
   }
 
-  updateLetters(params = null) {
+  resizeLetters(params = null) {
+    if(!this.props.config) {
+      console.log("no config found, aborting letter update on map");
+      return;
+    }
     if(!params) {
       params = this.state.mapParams;
     }
     let latitudeDelta = params.bounds.ne.lat - params.bounds.se.lat;
-    let radius = calculateRadius(latitudeDelta);
-    let requestUri = serverUri + '/api/letters?centerLat=' + this.with3Decimals(params.center.lat) + '&centerLng=' + this.with3Decimals(params.center.lng) + '&radius=' + radius;
     let zoomFactor = (params.size.height / latitudeDelta) / 100000; 
-    let size = zoomFactor * 10 * 0.8; // todo get dynamik letter config, 0.8 is weird offset for browser sizing
+    let size = zoomFactor * this.props.config.map_letter_base_size * 0.8; // 0.8 is weird offset for browser sizing
+    this.setState({letterSize: size});
+  }
+
+  updateLetters(params = null) {
+    if(!this.props.config) {
+      console.log("no config found, aborting letter update on map");
+      return;
+    }
+    if(!params) {
+      params = this.state.mapParams;
+    }
+    let latitudeDelta = params.bounds.ne.lat - params.bounds.se.lat;
+    let limit = 500;
+    let radius = calculateRadius(latitudeDelta);
+    let requestUri = serverUri + '/api/letters?limit='+limit+'&centerLat=' + this.with3Decimals(params.center.lat) + '&centerLng=' + this.with3Decimals(params.center.lng) + '&radius=' + radius;
     console.log(requestUri);
     axios.get(requestUri)
-      .then(response=>{ 
-        this.setState({letters: response.data.letters, letterSize: size});
+      .then(response=>{
+        console.log("number of letters received from server: " + response.data.letters.length);
+        let lettersForMap = response.data.letters.slice(0, limit);
+        console.log("putting on map: " + lettersForMap.length);
+        this.setState({letters: lettersForMap});
       })
       .catch(error=>{
         console.log(error);
@@ -82,7 +102,10 @@ export default class FluxMap extends Component {
   onChange(params) {
     console.log("on change");
     this.setState({mapParams: params});
-    this.updateLetters();
+    this.resizeLetters(params);
+    setTimeout(()=>{
+      this.updateLetters(params);  
+    }, 200);
   }
 
   pollLetters() {
@@ -105,13 +128,14 @@ export default class FluxMap extends Component {
   }
 
   zoomIn() {
+    console.log("zoom in");
     if(this.state.zoom < 20) {
       this.setState({zoom: this.state.zoom + 1});  
-
     }
   }
 
   zoomOut() {
+    console.log("zoom out");
     if(this.state.zoom > 5) {
       this.setState({zoom: this.state.zoom - 1});  
     }
@@ -155,7 +179,8 @@ export default class FluxMap extends Component {
     let center = this.props.screenId && this.props.config ? 
         {lat: this.props.config["screen_" + this.props.screenId + "_lat"], lng: this.props.config["screen_" + this.props.screenId + "_lng"]}
         : defaultProps.center;
-    let zoom = this.props.screenId && this.props.config ? this.props.config["screen_" + this.props.screenId + "_zoom"] : defaultProps.zoom;
+    let zoom = this.props.screenId && this.props.config ? this.props.config["screen_" + this.props.screenId + "_zoom"] : this.state.zoom;
+    console.log("map render with zoom: " + zoom);
     return (
       <div 
         style={this.props.display ? {display: this.props.display} : null}
