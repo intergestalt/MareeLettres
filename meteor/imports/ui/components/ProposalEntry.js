@@ -42,7 +42,7 @@ class ProposalEntry extends Component {
         </td>
         <td>
           <tt>
-            {proposal.score_trending}
+            {proposal.score_trending.toString().substr(0, 5)}
           </tt>
         </td>
         <td>
@@ -56,7 +56,7 @@ class ProposalEntry extends Component {
           </tt>
         </td>
         <td style={{ whiteSpace: "nowrap" }}>
-          <button name={proposal._id} onClick={this.props.onDelete}>delete</button>&nbsp;
+          {/* <button name={proposal._id} onClick={this.props.onDelete}>delete</button>&nbsp; */}
           {!proposal.in_review && <button name={proposal._id} onClick={this.props.onReview}>review</button>}
         </td>
       </tr>

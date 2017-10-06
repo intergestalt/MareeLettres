@@ -8,9 +8,37 @@ import currentSystemConfig from '../../../startup/server/system-config';
 
 const JsonRoutesError = RequestHelpers.JsonRoutesError;
 
-Meteor.publish('get.letters', function getLetters() {
+Meteor.publish('get.letters', function getLetters(data) {
   if (!this.userId) return;
-  return Letters.find();
+
+  const config = currentSystemConfig.getConfig();
+
+  const lat = Number.parseFloat(data.centerLat || config.map_default_center_lat);
+  const lng = Number.parseFloat(data.centerLng || config.map_default_center_lng);
+  const radius = parseInt(data.radius || 100);
+  const limit = data.limit || 1000;
+
+  let query = {};
+
+  // process geospacial constraints
+
+  if (lat && lng && radius) {
+    query.loc = {
+      $near: {
+        $geometry: {
+          type: "Point",
+          coordinates: [lng, lat],
+        },
+        $maxDistance: radius,
+      },
+    };
+  }
+
+  console.log("letters publication request ", data, query)
+
+  const letters_cursor = Letters.find(query, { limit });
+
+  return letters_cursor;
 });
 
 // REST:
@@ -21,7 +49,7 @@ JsonRoutes.add('get', `${Meteor.settings.public.api_prefix}letters`, function (r
   const lat = Number.parseFloat(req.query.centerLat);         // ?centerLat=
   const lng = Number.parseFloat(req.query.centerLng);         // ?centerLng=
   const radius = Number.parseFloat(req.query.radius);      // ?radius=
-  const limit = Number.parseFloat(req.query.limit) || 1000;      // ?limit=
+  const limit = parseInt(req.query.limit) || 1000;      // ?limit=
 
   const config = currentSystemConfig.getConfig();
 

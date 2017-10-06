@@ -46,7 +46,7 @@ class AdminWrapper extends Component {
   }
 
   render() {
-    console.log(this.props.router)
+    // console.log(this.props.router)
     return Meteor.userId() != null ? this.authorizedContent() : this.unauthorizedContent();
   }
 }
