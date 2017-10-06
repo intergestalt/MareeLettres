@@ -12,4 +12,7 @@ Meteor.publish('counts', function (data) {
   if (data.indexOf("letters") >= 0) {
     Counts.publish(this, 'letters', Letters.find(), { noReady: false, fastCount: true });
   }
+  if (data.indexOf("votes") >= 0) {
+    Counts.publish(this, 'votes', Proposals.find(), { countFromField: 'votes_amount', noReady: false });
+  }
 });

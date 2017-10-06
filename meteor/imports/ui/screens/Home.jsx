@@ -52,6 +52,9 @@ class Home extends Component {
             <li>
               <b>{this.props.counts.letters}</b> Active Letters
             </li>
+            <li>
+              <b>{this.props.counts.votes}</b> Opinions
+            </li>
           </ul>
         </div>
       </AdminWrapper>
@@ -61,13 +64,14 @@ class Home extends Component {
 
 
 export default createContainer(() => {
-  Meteor.subscribe('counts', ['players', 'proposals', 'letters']);
+  Meteor.subscribe('counts', ['players', 'proposals', 'letters', 'votes']);
 
   return {
     counts: {
       players: Counts.get('players'),
       proposals: Counts.get('proposals'),
       letters: Counts.get('letters'),
+      votes: Counts.get('votes'),
     }
   };
 }, Home);
