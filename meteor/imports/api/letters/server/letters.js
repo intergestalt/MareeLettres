@@ -21,6 +21,7 @@ JsonRoutes.add('get', `${Meteor.settings.public.api_prefix}letters`, function (r
   const lat = Number.parseFloat(req.query.centerLat);         // ?centerLat=
   const lng = Number.parseFloat(req.query.centerLng);         // ?centerLng=
   const radius = Number.parseFloat(req.query.radius);      // ?radius=
+  const limit = Number.parseFloat(req.query.limit) || 1000;      // ?limit=
 
   const config = currentSystemConfig.getConfig();
 
@@ -61,7 +62,7 @@ JsonRoutes.add('get', `${Meteor.settings.public.api_prefix}letters`, function (r
     };
   }
 
-  const letters_cursor = Letters.find(query, { sort: { created_at: -1 }, fields: { origin_id: 0 } });
+  const letters_cursor = Letters.find(query, { sort: { created_at: -1 }, fields: { origin_id: 0 }, limit });
 
   // console.log(lat, lng, radius);
   // console.log(query);
