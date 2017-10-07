@@ -11,7 +11,7 @@ const defaultArrangements = ["custom", "AAABDEFGHJKLLMNN   VOTRE TEX*E ICI   OPP
 const letterHeight = 2.4;
 
 // leave extra space for errors
-const defaultErrorMargin = 0.1;
+const defaultErrorMargin = 0.15;
 
 // default width for space character
 const defaultSpaceWidth = 0.7;
@@ -59,8 +59,8 @@ const letterSpacing = {
   "B": 0.035,
   "C": 0.035,
   "D": 0.035,
-  "E": -0.08,
-  "F": -0.08,
+  "E": -0.08, // here we give negative spacing to remove space given from the other letters
+  "F": -0.08, // here we give negative spacing to remove space given from the other letters
   "G": 0.035,
   "H": 0.035,
   "I": -0.08, // here we give negative spacing to remove space given from the other letters
@@ -74,12 +74,12 @@ const letterSpacing = {
   "Q": 0.035,
   "R": 0.035,
   "S": 0.035,
-  "T": -0.08,
+  "T": -0.08, // here we give negative spacing to remove space given from the other letters
   "U": 0.035,
-  "V": -0.08, // here we give negative spacing to remove space given from the other letters
+  "V": 0.035,
   "W": 0.035,
   "X": 0.035,
-  "Y": -0.08,
+  "Y": -0.08, // here we give negative spacing to remove space given from the other letters
   "Z": 0.035,
   "?": 0.035,
   ":": -0.08, // here we give negative spacing to remove space given from the other letters
@@ -105,11 +105,13 @@ class SpacerPage extends Component {
     this.renderVisualisation = this.renderVisualisation.bind(this);
     this.handleErrorChange = this.handleErrorChange.bind(this);
     this.handleSpaceChange = this.handleSpaceChange.bind(this);
+    this.checkForCollision = this.checkForCollision.bind(this);
   }
 
   handleInputChange(event) {
     if(event.target.name == "from") {
       this.setState({fromText: event.target.value});  
+      this.setState({fromWidth: this.getWidth(event.target.value)});
     } else {
       this.setState({toText: event.target.value});  
       this.setState({width: this.getWidth(event.target.value)});
@@ -200,8 +202,32 @@ class SpacerPage extends Component {
     return pos - width; // give back left side of letter base    
   }
 
+  // warning: this assumes positions in fromArray have been calculated and state.fromWidth is set
+  checkForCollision(toArray, index, fromArray) {
+    let offset = this.getWidth(this.state.toText) / 2;
+    let fromOffset = this.getWidth(this.state.fromText) / 2;
+
+    // get position of index in toArray
+    let targetPosition = this.calculatePosition(toArray, index) - offset;
+    
+    // go over fromArray and see if something is there
+    let warningString = ""
+    fromArray.forEach((item)=>{
+      let comparePosition = item.position - fromOffset;
+      if(item.letter != " " && Math.abs(comparePosition - targetPosition) < 1.4 && item.letter != toArray[index].letter && !item.willBeRemoved) {
+        warningString += (warningString ? ", " : "") + "collision: " + item.letter;
+      }
+    });
+
+    if(warningString) {
+      warningString = "(" + warningString + ")";
+    }
+
+    return warningString;
+  }
+
   renderInstructions() {
-    let fromArray = this.state.fromText.split("").map((l)=>l.toUpperCase());
+    let fromArray = this.assembleToArray(this.state.fromText);
     let toArray = this.assembleToArray(this.state.toText);
 
     getUnresolvedIndex = function(array, letter) {
@@ -218,19 +244,21 @@ class SpacerPage extends Component {
     let bring = [];
     let remove = [];
 
-  
     // go over fromArray and see if letter should get removed or we can keep it
-    fromArray.forEach((letter) => {
-      if(letter != " ") {
-        let index = getUnresolvedIndex(toArray, letter);
+    for(let i = 0; i < fromArray.length; i++) {
+      let item = fromArray[i];
+      item.position = this.calculatePosition(fromArray, i);
+      if(item.letter != " ") {
+        let index = getUnresolvedIndex(toArray, item.letter);
         if(index > -1) {
-          keep.push({letter: letter, index: index, letterIndex: toArray[index].letterIndex});
+          keep.push({letter: item.letter, index: index, letterIndex: toArray[index].letterIndex});
           toArray[index].resolved = true; // mark as used
         } else {
-          remove.push(letter);
+          remove.push(item);
+          fromArray[i].willBeRemoved = true;
         }  
       }
-    }) 
+    } 
 
     // go over remaining toArray and get the rest of the letters
     toArray.forEach((item, index) => {
@@ -239,16 +267,19 @@ class SpacerPage extends Component {
       }
     });
 
-    let offset = this.state.width / 2
+    let offset = this.getWidth(this.state.toText) / 2;
+    let fromOffset = this.getWidth(this.state.fromText) / 2;
+    console.log(offset);
+    console.log(fromOffset);
 
     return (
       <div>
         <h3>REMOVE</h3>
-        <ul>{remove.map((l, i)=><li key={i}>{l}</li>)}</ul>
+        <ul>{remove.map((l, i)=><li key={i}>{l.letter} from {(l.position - fromOffset).toFixed(1)}</li>)}</ul>
         <h3>KEEP</h3>
-        <ul>{keep.map((l, i)=><li key={i}><b>{l.letter}</b> ({l.letterIndex}) align at <b>{(this.calculatePosition(toArray, l.index) - offset).toFixed(2)}</b></li>)}</ul>
+        <ul>{keep.map((l, i)=><li key={i}><b>{l.letter}</b> ({l.letterIndex}) align at <b>{(this.calculatePosition(toArray, l.index) - offset).toFixed(1)}</b> {this.checkForCollision(toArray, l.index, fromArray)}</li>)}</ul>
         <h3>BRING</h3>
-        <ul>{bring.map((l, i)=><li key={i}><b>{l.letter}</b> ({l.letterIndex}) align at <b>{(this.calculatePosition(toArray, l.index) - offset).toFixed(2)}</b></li>)}</ul>
+        <ul>{bring.map((l, i)=><li key={i}><b>{l.letter}</b> ({l.letterIndex}) align at <b>{(this.calculatePosition(toArray, l.index) - offset).toFixed(1)}</b></li>)}</ul>
       </div>
     );
   }
