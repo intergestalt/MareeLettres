@@ -18,6 +18,10 @@ const ProposalsSchemaObject = {
         type: SimpleSchema.Integer,
         defaultValue: 0,
     },
+    votes_changed: {
+        type: SimpleSchema.Integer,
+        defaultValue: 0,
+    },
     score_trending: {
         type: Number,
         defaultValue: 0,

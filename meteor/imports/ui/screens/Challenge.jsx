@@ -37,6 +37,7 @@ class Challenge extends Component {
           end_date: doc.end_date,
           'winningProposalImageUrl': doc.winningProposalImageUrl,
           'winningProposalDetailImageUrl': doc.winningProposalDetailImageUrl,
+          hidden: doc.hidden,
         },
       },
         this.saveCallback
@@ -68,6 +69,7 @@ class Challenge extends Component {
         ATTENTION: This is UTC time. Paris time is {moment().tz("Europe/Paris").format('Z')}
         <AutoField name="winningProposalImageUrl" />
         <AutoField name="winningProposalDetailImageUrl" />
+        <AutoField name="hidden" />
         <ErrorsField />
         <SubmitField />
       </AutoForm>

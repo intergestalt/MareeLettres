@@ -33,7 +33,7 @@ class ChallengesIndex extends Component {
   renderChallenges() {
     const challenges = this.props.challenges;
     return challenges.map(challenge =>
-      <tr key={challenge._id}>
+      <tr key={challenge._id} style={challenge.hidden ? { opacity: 0.4 } : {}} >
         <td>
           <Link to={`/admin/challenges/${challenge._id}`}>
             {challenge.title.en}
