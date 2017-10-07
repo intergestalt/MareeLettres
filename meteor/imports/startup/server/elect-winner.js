@@ -37,7 +37,7 @@ const runProcessWinner = () => {
 
       Meteor.setTimeout(() => {
         const winningProposal = Proposals.findOne(
-          { challenge_id: doc._id },
+          { challenge_id: doc._id, in_review: false, blocked: false },
           { sort: buildConfig.queries.proposals.sort.popular },
         );
         console.log('winning proposal: ', winningProposal);
