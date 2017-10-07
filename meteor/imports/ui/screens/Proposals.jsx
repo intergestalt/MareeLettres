@@ -40,7 +40,7 @@ class ProposalsPage extends Component {
     const proposals = this.props.proposals;
     return (
       <tbody>
-        {proposals.map(proposal => <ProposalEntry key={proposal._id} proposal={proposal} onDelete={this.handleDelete} onReview={this.handleReview} />)}
+        {proposals.map(proposal => <ProposalEntry key={proposal._id} proposal={proposal} onDelete={this.handleDelete} onReview={this.handleReview} challenge={this.props.challenges_by_id[proposal.challenge_id]} />)}
       </tbody>
     );
   }
@@ -75,9 +75,11 @@ class ProposalsPage extends Component {
               <th>&#128077;</th>
               <th>&#128078;</th>
               <th>∑</th>
+              <th>Swing ∑</th>
               <th>Trend</th>
               <th>text</th>
               <th>Challenge</th>
+              <th>Status</th>
               <th><small>Actions</small></th>
             </tr>
           </thead>
@@ -108,10 +110,16 @@ export default createContainer((props) => {
     limit: Session.get('proposalsListLimit'),
     sort,
   });
+  Meteor.subscribe('get.challenges');
 
   const proposals = Proposals.find({}, { sort }).fetch()
+  const challenges = Challenges.find({}).fetch()
+
+  const challenges_by_id = _.indexBy(challenges, '_id');
 
   return {
     proposals,
+    challenges,
+    challenges_by_id,
   };
 }, ProposalsPage);

@@ -26,6 +26,14 @@ Meteor.publish('get.proposals/challenge_id', function getProposals(challenge_id)
   return Proposals.find(query);
 });
 
+Meteor.publish('get.proposals/proposal_ids/text', function getProposals(proposal_ids) {
+  if (!this.userId) return;
+
+  if (!proposal_ids) proposal_ids = []
+  const query = { _id: { $in: proposal_ids } };
+  return Proposals.find(query, { fields: { text: 1 } });
+});
+
 Meteor.publish('get.proposals.in_review', function getProposals(data) {
   if (!this.userId) return;
 

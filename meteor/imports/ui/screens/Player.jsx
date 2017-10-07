@@ -8,6 +8,7 @@ import SubmitField from 'uniforms-unstyled/SubmitField';
 import ErrorsField from 'uniforms-unstyled/ErrorsField';
 import ReactTable from 'react-table';
 import { OriginId, AvailableLetters } from 'maree-lettres-shared';
+import _ from 'underscore';
 
 import { Challenges, ChallengesSchema } from '../../api/challenges/challenges';
 import { Proposals } from '../../api/proposals/proposals';
@@ -59,6 +60,7 @@ class PlayerPage extends Component {
           columns={[{
             Header: 'Proposals Id',
             accessor: '_id',
+            Cell: props => <span className="impact"> {this.props.proposals_by_id[props.row._id].text} </span>,
           },
           {
             Header: 'Challenge Id',
@@ -73,6 +75,7 @@ class PlayerPage extends Component {
             Header: 'Proposal Id',
             id: 'proposal_id',
             accessor: d => (d[0]),
+            Cell: props => <span className="impact"> {this.props.proposals_by_id[props.row.proposal_id].text} </span>,
           },
           {
             Header: 'Value',
@@ -116,8 +119,18 @@ export default createContainer((props) => {
   const player = Players.findOne({ origin_id: props.params.origin_id });
   const dataIsReady = dataHandle.ready();
 
+  console.log(player)
+  if (player) {
+    const player_vote_proposals = player.votes ? Object.keys(player.votes) : [];
+    const player_own_proposals = _.pluck(player.proposals, '_id')
+    Meteor.subscribe('get.proposals/proposal_ids/text', player_vote_proposals.concat(player_own_proposals))
+  }
+
+  const proposals_by_id = _.indexBy(Proposals.find().fetch(), '_id');
+
   return {
     player,
     dataIsReady,
+    proposals_by_id,
   };
 }, PlayerPage);

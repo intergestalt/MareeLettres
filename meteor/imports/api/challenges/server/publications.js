@@ -16,7 +16,7 @@ Meteor.publish('get.challenge', function getChallenges(id) {
 JsonRoutes.add('get', `${Meteor.settings.public.api_prefix}challenges`, function (req, res, next) {
 
   JsonRoutes.sendResult(res, {
-    data: { challenges: Challenges.find({}, { sort: { end_date: 1 } }).fetch() },
+    data: { challenges: Challenges.find({ hidden: { $ne: true } }, { sort: { end_date: 1 } }).fetch() },
     headers: { 'Surrogate-Key': 'challenges' },
   });
 });
