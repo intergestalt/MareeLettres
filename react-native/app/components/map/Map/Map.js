@@ -74,19 +74,18 @@ class Map extends Component {
     console.log("mounting map...");
 
     // get the player GPS
-    this._getPlayerCoords(() => {
-      
-    });
-
-    // failover: run in case _getPlayerCoords doesn't return
+    setTimeout(() => {
+      this._getPlayerCoords();
+    }, 7000);
+    
+    // start polling 
     setTimeout(() => {
       this.pollLetters(true);
     }, 2000);
 
-
   }
 
-  async _getPlayerCoords(callback) {
+  async _getPlayerCoords() {
     const { Location, Permissions } = Exponent;
     const { status } = await Permissions.askAsync(Permissions.LOCATION);
 
@@ -96,14 +95,11 @@ class Map extends Component {
         setUserCoordinatesProxy(res.coords.latitude, res.coords.longitude);
         this.setState({ lng: res.coords.longitude, lat: res.coords.latitude });
         this.centreZoomMap(); // this sets region
-        if (callback) { callback(); }
       }).catch((err) => {
         console.log(err);
-        if (callback) { callback(); }
       });
     } else {
       throw new Error('Location permission not granted');
-      if (callback) { callback(); }
     }
   }
 
@@ -125,16 +121,17 @@ class Map extends Component {
       radiusMeters = 500;
     }
 
-    let interval = Math.floor(Math.sqrt(this.state.pollingCounter));
-    if (interval > 10) {
-      interval = 10;
+    let interval = 0;
+    if (this.state.pollingCounter > 0) {
+      interval = Math.pow(2, Math.ceil(Math.sqrt(this.state.pollingCounter)));
     }
+    console.log("interval: " + interval);
 
     const o = {
       centerLng: centerLng,
       centerLat: centerLat,
       radius: radiusMeters,
-      interval: this.state.pollingCounter > 0 ? Math.pow(2, interval) : 0,
+      interval: interval
     };
     return o;
   }
@@ -144,12 +141,19 @@ class Map extends Component {
     this.timerID = setTimeout(() => {
       if (this.props.screen === 'map' && this.props.mode === 'overview') {
         // only call when map is current screen
-        if(!dragging) {
+        if (!dragging) {
           console.log("loadLettersIntervalServiceProxy with polling counter " + this.state.pollingCounter);
-          loadLettersIntervalServiceProxy(this.calculateMapLetterRequest());  
-          this.setState({ pollingCounter: 2 });
+          loadLettersIntervalServiceProxy(this.calculateMapLetterRequest());
+          // reset polling counter
+          if (this.state.pollingCounter >= 64) {
+            this.setState({ pollingCounter: 0 });
+          } else {
+            this.setState({ pollingCounter: 1 });
+          }
+
         }
       } else {
+        console.log("map polling counter set to " + (this.state.pollingCounter + 1));
         this.setState({ pollingCounter: this.state.pollingCounter + 1 }); // this counts missed intervals
       }
       this.pollLetters();
@@ -183,17 +187,17 @@ class Map extends Component {
   onRegionChangeComplete = (region) => {
     dragging = false;
     console.log("region change complete");
-    
-      changeMapRegionProxy(region); // for use in reducer when new letters arrive
-      this.setState({ region: region, pollingCounter: 0 });
-      this.setMapLetterSize(region);
 
-      // poll in a regular rythm, looks better
-      /*let timeSinceLastLoad = (new Date().getTime() - this.state.lastLoad);
-      if(!this.state.lastLoad || timeSinceLastLoad > 2000) {
-        loadLettersServiceProxy(this.calculateMapLetterRequest());
-        this.setState({lastLoad: new Date().getTime()});
-      }*/
+    changeMapRegionProxy(region); // for use in reducer when new letters arrive
+    this.setState({ region: region, pollingCounter: 0 });
+    this.setMapLetterSize(region);
+
+    // poll in a regular rythm, looks better
+    /*let timeSinceLastLoad = (new Date().getTime() - this.state.lastLoad);
+    if(!this.state.lastLoad || timeSinceLastLoad > 2000) {
+      loadLettersServiceProxy(this.calculateMapLetterRequest());
+      this.setState({lastLoad: new Date().getTime()});
+    }*/
   };
 
   setMapLetterSize = (region) => {
@@ -273,7 +277,7 @@ class Map extends Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    return nextProps.mode === 'overview';
+    return nextProps.mode === 'overview' && nextProps.screen === 'map';
   }
   hideMap() {
     this.setState({ showMap: false });
@@ -346,7 +350,7 @@ class Map extends Component {
           }}
           onRegionChange={this.onRegionChange}
           onRegionChangeComplete={this.onRegionChangeComplete}
-          provider={MapView.PROVIDER_GOOGLE}
+          provider={this.props.config.map_ios_use_apple_maps ? null : MapView.PROVIDER_GOOGLE}
           style={styles.container}
           initialRegion={this.state.initialRegion}
           region={this.state.region}

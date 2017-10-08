@@ -111,6 +111,7 @@ JsonRoutes.add('post', `${Meteor.settings.public.api_prefix}players/:origin_id/v
     ) {
       // changed vote (adjust)
       console.log(`changed vote on ${proposal_id}`);
+      incQuery.votes_changed = 1;
 
       incQuery.yes_votes = votes[proposal_id] ? 1 : -1;
       incQuery.no_votes = votes[proposal_id] ? -1 : 1;

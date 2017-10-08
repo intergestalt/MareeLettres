@@ -45,21 +45,39 @@ class ExpoCamera extends React.Component {
   }
 
   async componentWillMount() {
-    const { status } = await Permissions.askAsync(Permissions.CAMERA);
-    this.setState({ hasCameraPermission: status === 'granted' });
+    //const { status } = await Permissions.askAsync(Permissions.CAMERA);
+    //this.setState({ hasCameraPermission: status === 'granted' });
   }
 
   async componentDidMount() {
+    console.log("hasStoragePermissionAndroid: " + this.props.user.hasStoragePermissionAndroid);
     // this is done once to obtain write external storage permission on android - remove when there is a better way
-    if(!this.props.user.hasStoragePermissionAndroid && Platform.OS === 'android') {
-      const resultCamera = await Expo.ImagePicker.launchCameraAsync({}); 
-      console.log(resultCamera);
-      setUserHasStoragePermissionAndroidProxy();
-      if(!resultCamera.cancelled) {
-        console.log(resultCamera.uri);
-        this.setState({ pathPhoto: resultCamera.uri })  
-      }
+    
+    if(this.props.user.hasStoragePermissionAndroid || Platform.OS !== 'android') {
+      const { status } = await Permissions.askAsync(Permissions.CAMERA);
+      this.setState({ hasCameraPermission: status === 'granted' }); 
     }
+    
+    if(!this.props.user.hasStoragePermissionAndroid && Platform.OS === 'android') {
+      console.log("going into android camera fallback");
+      try {
+        const resultCamera = await Expo.ImagePicker.launchCameraAsync({}); 
+        console.log(resultCamera);
+        if(!resultCamera.cancelled) {
+          console.log(resultCamera.uri);
+          this.setState({ pathPhoto: resultCamera.uri })  
+        }
+      } 
+      catch(e) {
+        console.log(e);
+      }
+      console.log("setting hasStoragePermissionAndroid");
+      setUserHasStoragePermissionAndroidProxy();
+      const { status } = await Permissions.askAsync(Permissions.CAMERA);
+      this.setState({ hasCameraPermission: status === 'granted' });
+    }
+
+
   }
 
   _cancel() {
@@ -98,9 +116,7 @@ class ExpoCamera extends React.Component {
   render() {
     I18n.locale = this.props.language;
     const { hasCameraPermission } = this.state;
-    if (hasCameraPermission === null) {
-      return <View />;
-    } else if (hasCameraPermission === false) {
+    if (hasCameraPermission === false || hasCameraPermission === null) {
       return (
         <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
           <Text>No access to camera</Text>

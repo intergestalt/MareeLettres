@@ -31,6 +31,14 @@ Meteor.startup(() => {
     });
   }
 
+  if (Meteor.users.find({ username: 'review' }).count() == 0) {
+    console.log('seeding review user');
+    Accounts.createUser({
+      username: 'review',
+      password: 'password',
+    });
+  }
+
   // Always update default SystemConfig
   console.log('resetting default config in db');
   // TODO: just upsert the values?!
@@ -89,7 +97,7 @@ Meteor.startup(() => {
         (err, id) => {
           if (seed_proposals_and_players && id != undefined) {
             console.log('Seeding Proposals');
-            let amount = 100 * Math.floor(20 * Math.random());
+            let amount = 1 * Math.floor(20 * Math.random());
             let shuffle = AvailableLetters.proposal;
             if (amount % 3 == 0) amount = 0; // make some challenges without proposals
             for (let j = 1; j <= amount; j++) {

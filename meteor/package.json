@@ -17,6 +17,7 @@
     "babel-runtime": "^6.18.0",
     "bcrypt": "^1.0.2",
     "fastly": "^2.2.0",
+    "google-map-react": "^0.24.0",
     "history": "^3.3.0",
     "ip": "^1.1.5",
     "leaflet": "^1.2.0",

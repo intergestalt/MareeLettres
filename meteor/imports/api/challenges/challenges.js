@@ -63,6 +63,11 @@ const ChallengesSchema = new SimpleSchema({
     type: Number,
     optional: true,
   },
+  hidden: {
+    type: Boolean,
+    optional: true,
+    defaultValue: false,
+  },
   winningProposal: {
     type: Object, // TODO: Add ProposalsSchama here
     optional: true,

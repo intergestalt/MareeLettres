@@ -36,7 +36,7 @@ class PlayersPage extends Component {
   fetchData(state, instance) {
 
     Session.set('playersListLimit', state.pageSize);
-    Session.set('playersListSort', { [state.sorted[0].id]: (state.sorted[0].desc ? -1 : 1) });
+    if (state.sorted[0]) Session.set('playersListSort', { [state.sorted[0].id]: (state.sorted[0].desc ? -1 : 1) });
   }
 
   render() {
@@ -48,11 +48,11 @@ class PlayersPage extends Component {
     }, {
       Header: 'Last Seen',
       accessor: 'last_seen_at',
-      Cell: props => <Moment format="DD.MM.YY HH:MM" tz="Europe/Paris">{props.row.last_seen_at}</Moment>,
+      Cell: props => <Moment format="DD.MM.YY HH:mm" tz="Europe/Paris">{props.row.last_seen_at}</Moment>,
     }, {
       Header: 'Created At',
       accessor: 'created_at',
-      Cell: props => <Moment format="DD.MM.YY HH:MM" tz="Europe/Paris">{props.row.created_at}</Moment>,
+      Cell: props => <Moment format="DD.MM.YY HH:mm" tz="Europe/Paris">{props.row.created_at}</Moment>,
     }, {
       Header: 'Blocked',
       accessor: 'blocked',
