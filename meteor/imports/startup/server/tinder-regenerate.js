@@ -103,7 +103,7 @@ const runRegenerateTinder = function () {
 
     bulk.find({ challenge_id: challenge._id }).remove();
     proposals_list_by_tinderscore.forEach((doc) => {
-      const p = { ...doc, challenge_id: challenge._id };
+      const p = { ...doc, challenge_id: challenge._id, tinderscore: Math.round(100 * Math.random()) };
       bulk.insert(p);
     });
 
