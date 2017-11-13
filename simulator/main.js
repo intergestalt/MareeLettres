@@ -6,12 +6,13 @@ var Promise = require('bluebird');
 //const api_prefix = "http://localhost:3333/api/";
 //const api_prefix = "https://maree-dev.herokuapp.com/api/";
 const api_prefix = "https://maree-dev-herokuapp-com.global.ssl.fastly.net/api/";
-const parallel = 10;
+const parallel = 100;
 const continuous = true;
 
 const proposal_probability = 0.1;
 const map_coords_variation_probability = 0.5;
 const map_interval_variation_probability = 0.5;
+//const vote_probability = 0.1;
 
 const log_actions = false;
 const log_structure = true
@@ -25,7 +26,8 @@ const run_test = function (callback) {
   const device_string = "Simulator_" + Date.now() + "_" + r.hex(5, true);
   const origin_id = OriginId.generateFromString(device_string);
   if (log_structure) console.log("Simulating player " + device_string + ": " + origin_id)
-
+  
+  const t0 = Date.now();
   // get player
   request(api_prefix + 'players/' + origin_id)
     .then(function (data) {
@@ -64,7 +66,7 @@ const run_test = function (callback) {
         if (log_structure) console.log("got " + proposals.length + " tinder proposals")
         Promise.each(proposals, function (proposal) {
           const body = { votes: {} }
-          body.votes[proposal._id] = r_votes.bool(0.6);
+          body.votes[proposal._id] = r_votes.bool();
           // console.log(body);
           return request.post(log(api_prefix + 'players/' + origin_id + '/votes', "post_votes")).form(body)
             .then(function (vote_res) {
@@ -105,7 +107,7 @@ const run_test = function (callback) {
       if (r.bool(map_coords_variation_probability)) {
         lat += r.real(0.001, -0.001);
         lng += r.real(0.001, -0.001);
-      }
+    }
       if (r.bool(map_interval_variation_probability)) {
         interval = Math.pow(r.integer(1, 8), 2);
       }
@@ -119,7 +121,7 @@ const run_test = function (callback) {
       console.log(e.message)
     })
     .finally(function (data) {
-      if (log_structure) console.log("done " + device_string)
+      if (log_structure) console.log("done " + device_string + "in " + (Date.now()-t0) + "ms")
       if (callback) callback(callback)
     })
 }
