@@ -23451,7 +23451,7 @@ var systemConfigDefaults = {
         systems: ['app', 'server', 'web']
     },
     challenge_list_image_url: {
-        defaultValue: 'http://api.lettres.paris/img/challenges_start.jpg',
+        defaultValue: 'http://mareedeslettres.herokuapp.com/img/challenges_start.jpg',
         type: String,
         title: 'Image for topic list',
         systems: ['app', 'web']
