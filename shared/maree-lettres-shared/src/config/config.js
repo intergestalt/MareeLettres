@@ -6,7 +6,7 @@ const config = {
   available_characters_proposals: 'AAABCDEEEEFGHIIJKLLMNNOOPPQQRRSSSTTUUVWXYZ?*:', // all the physical letters
   available_letters_primary: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', // letter vailable for personal choice
   available_letters_map: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', // letters allowed on map
-  qr_code_prefix: 'http://lettres.paris/'
+  qr_code_prefix: 'http://maree-web.herokuapp.com/'
 };
 
 export default config;
